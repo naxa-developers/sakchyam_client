@@ -9,14 +9,14 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const Dotenv = require('dotenv-webpack');
 
 const APP_DIR = path.resolve(__dirname, '../src');
-
+const OUTPUT_DIR = path.resolve(__dirname, '../dist');
 module.exports = env => {
   const { PLATFORM, VERSION } = env;
   return merge([
     {
       entry: ['@babel/polyfill', APP_DIR],
       output: {
-        publicPath: PLATFORM === 'production' ? '/static/' : '/',
+        publicPath: PLATFORM === 'production' ? OUTPUT_DIR+'/' : '/',
       },
       module: {
         rules: [

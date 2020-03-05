@@ -24,5 +24,6 @@ $ npm start
 For production environments...
 
 ```sh
-% Coming Soon
+$ npm run build 
+it will create a minfied html,css and image files
 ```

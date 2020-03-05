@@ -1,34 +1,47 @@
-const merge = require('webpack-merge');
+const merge = require("webpack-merge");
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const Visualizer = require('webpack-visualizer-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
+const Visualizer = require("webpack-visualizer-plugin");
 
-const baseConfig = require('./webpack.dev.config');
+const baseConfig = require("./webpack.dev.config");
 
 const prodConfiguration = env => {
   return merge([
     {
       optimization: {
-        // runtimeChunk: 'single',
+        minimizer: [new UglifyJsPlugin()]
         // splitChunks: {
+        //   chunks: "all",
+        //   maxInitialRequests: Infinity,
+        //   minSize: 0,
         //   cacheGroups: {
-        //     vendor: {
-        //       test: /[\\/]node_modules[\\/]/,
-        //       name: 'vendors',
-        //       chunks: 'all'
+        //     leafletVendor: {
+        //       test: /[\\/]node_modules[\\/](leaflet|react-leaflet)[\\/]/,
+        //       name: "leaflet"
+        //     },
+        //     utilityVendor: {
+        //       test: /[\\/]node_modules[\\/](core-js|react-select)[\\/]/,
+        //       name: "utilityVendor"
         //     }
         //   }
-        // },
-        minimizer: [new UglifyJsPlugin()],
+        // }
       },
+
       plugins: [
         new MiniCssExtractPlugin(),
         new OptimizeCssAssetsPlugin(),
-        new Visualizer({ filename: './statistics.html' }),
-      ],
-    },
+        new Visualizer({ filename: "./statistics.html" }),
+        new CompressionPlugin({
+          algorithm: "gzip",
+          test: /\.js$|\.css$|\.html$/,
+          threshold: 10240,
+          minRatio: 0
+        })
+      ]
+    }
   ]);
 };
 
