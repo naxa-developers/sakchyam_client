@@ -5,8 +5,6 @@ jobs:
   build-and-test:
      environment:
         CC_TEST_REPORTER_ID: ba67d1d9833993df8a5ee8e34c219ebdbae3802fbe18c029ba989c6f9f83c6b2
-executor:
-      name: node/default
     steps:
       - checkout
       - node/with-cache:
