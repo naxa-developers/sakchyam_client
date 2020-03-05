@@ -6,7 +6,9 @@
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.dev.config.js --open --mode development --history-api-fallback --env.PLATFORM=local --env.VERSION=stag",
     "build": "npm run clean && webpack --mode production --config config/webpack.prod.config.js --env.PLATFORM=production --env.VERSION=stag --progress",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "test": "mocha",
+    "cover": "nyc --reporter=lcov --reporter=text mocha"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,7 @@
     "@babel/preset-react": "^7.8.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "enzyme": "^3.11.0",
@@ -44,7 +47,9 @@
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "mocha": "^7.1.0",
     "node-sass": "^4.13.1",
+    "nyc": "^15.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
