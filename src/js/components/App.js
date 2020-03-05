@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import logo from '../../images/saklogo.jpg';
+import TestComponent from './TestComponent';
 
 class App extends Component {
-  handleChange = event => {
-    const { value } = event.target;
-    this.setState(() => {
-      return {
-        value,
-      };
-    });
-  };
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   render() {
     return (
       <div>
+        <TestComponent data="Sackhyam" />
         <img alt="sakchyam" src={logo} />
       </div>
     );

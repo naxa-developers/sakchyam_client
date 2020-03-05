@@ -5,32 +5,25 @@ const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const DashboardPlugin = require('webpack-dashboard/plugin');
+// const Dotenv = require('dotenv-webpack');
 
 const APP_DIR = path.resolve(__dirname, '../src');
+
 module.exports = env => {
-  const { PLATFORM, VERSION, API_URL } = env;
-
-  // PLATFORM === "local"
-  // ? (PUBLIC_PATH = "http://localhost:8080/dist/")
-  // : (PUBLIC_PATH = "http://localhost:3000/dist/");
-
+  const { PLATFORM, VERSION } = env;
   return merge([
     {
       entry: ['@babel/polyfill', APP_DIR],
       output: {
-        path: path.join(__dirname, '..', 'dist'),
+        publicPath: PLATFORM === 'production' ? '/static/' : '/',
       },
-      // devServer: {
-      //   publicPath: PUBLIC_PATH
-      // },
       module: {
         rules: [
           {
             test: /\.js$/,
             exclude: /node_modules/,
-            use: {
-              loader: 'babel-loader',
-            },
+            use: ['babel-loader', 'eslint-loader'],
           },
           {
             test: /\.css$/,
@@ -60,22 +53,18 @@ module.exports = env => {
             use: ['url-loader?limit=10000'],
           },
           {
-            test: /\.svg(2)?(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
-            use: ['url-loader?limit=10000'],
-          },
-          {
             test: /\.(ttf|eot|svg)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
             use: ['file-loader'],
           },
-          // {
-          //   test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          //   use: ["file-loader"]
-          // }
         ],
       },
       plugins: [
+        // new webpack.IgnorePlugin({
+        //   resourceRegExp: /^\.\/locale$/,
+        //   contextRegExp: /moment$/
+        // }),
         new HtmlWebpackPlugin({
-          title: 'example',
+          title: 'Sakchyam',
           template: './src/index.html',
           filename: 'index.html',
           inject: true,
@@ -92,10 +81,12 @@ module.exports = env => {
         new webpack.DefinePlugin({
           'process.env.VERSION': JSON.stringify(VERSION),
           'process.env.PLATFORM': JSON.stringify(PLATFORM),
-          'process.env.API_URL': JSON.stringify(API_URL),
         }),
-        new CopyWebpackPlugin([{ from: 'src' }]),
+        new CopyWebpackPlugin([{ from: 'src/static/' }]),
+        // new DashboardPlugin(),
+        // new Dotenv(),
       ],
+      devtool: PLATFORM === 'production' ? '' : 'eval-source-map',
     },
   ]);
 };
