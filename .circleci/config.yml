@@ -22,8 +22,8 @@ jobs:
                   chmod +x ./cc-test-reporter
             - save_cache: # special step to save the dependency cache
               key: dependency-cache-{{ checksum "package.json" }}
-              paths:
-                - ./node_modules
+              # paths:
+              #   - ./node_modules
             - run: # run tests
                 name: Run Test and Coverage
                 command: |
