@@ -20,10 +20,10 @@ jobs:
                 command: |
                   curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
                   chmod +x ./cc-test-reporter
-                - save_cache: # special step to save the dependency cache
-                    key: dependency-cache-{{ checksum "package.json" }}
-                    paths:
-                      - ./node_modules
+            - save_cache: # special step to save the dependency cache
+              key: dependency-cache-{{ checksum "package.json" }}
+              paths:
+                - ./node_modules
             - run: # run tests
                 name: Run Test and Coverage
                 command: |
