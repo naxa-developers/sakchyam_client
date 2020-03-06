@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <TestComponent data="Sackhyam" />
+        <TestComponent data="Sakchyam" />
         <img alt="sakchyam" src={logo} />
       </div>
     );
