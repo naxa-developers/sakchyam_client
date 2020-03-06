@@ -16,8 +16,7 @@ module.exports = env => {
     {
       entry: ['@babel/polyfill', APP_DIR],
       output: {
-        publicPath:
-          PLATFORM === 'production' ? `${OUTPUT_DIR}/` : '/',
+        publicPath: '/',
       },
       module: {
         rules: [

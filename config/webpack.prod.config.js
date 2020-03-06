@@ -1,18 +1,18 @@
-const merge = require("webpack-merge");
+const merge = require('webpack-merge');
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
-const Visualizer = require("webpack-visualizer-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const Visualizer = require('webpack-visualizer-plugin');
 
-const baseConfig = require("./webpack.dev.config");
+const baseConfig = require('./webpack.dev.config');
 
 const prodConfiguration = env => {
   return merge([
     {
       optimization: {
-        minimizer: [new UglifyJsPlugin()]
+        minimizer: [new UglifyJsPlugin()],
         // splitChunks: {
         //   chunks: "all",
         //   maxInitialRequests: Infinity,
@@ -33,15 +33,15 @@ const prodConfiguration = env => {
       plugins: [
         new MiniCssExtractPlugin(),
         new OptimizeCssAssetsPlugin(),
-        new Visualizer({ filename: "./statistics.html" }),
+        new Visualizer({ filename: './statistics.html' }),
         new CompressionPlugin({
-          algorithm: "gzip",
+          algorithm: 'gzip',
           test: /\.js$|\.css$|\.html$/,
           threshold: 10240,
-          minRatio: 0
-        })
-      ]
-    }
+          minRatio: 0,
+        }),
+      ],
+    },
   ]);
 };
 
