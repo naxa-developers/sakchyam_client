@@ -1,0 +1,103 @@
+.main-header {
+    @include box-shadow(0 0 6px rgba($primary-color, .2));
+    @include transition(all 500ms ease);
+    background-color: $white-color;
+    padding: 1rem 0;
+        @media #{$breakpoint-lg}{
+            padding: .625rem 0;
+        }
+        .logo,img {
+            max-width: 150px;
+            @media #{$breakpoint-ls}{
+                max-width: 120px;
+            }
+            @media #{$breakpoint-lg} {
+                max-width: 110px;
+            }
+            @media #{$breakpoint-sm} {
+                max-width: 90px;
+            }
+            // @media #{$breakpoint-xs} {
+            //     max-width: 80px;
+            // }
+
+        }
+
+        ul {
+            @include display-flex(flex);
+            @include justify-content-between;
+            @include align-items-center;
+            li{
+                &:last-child{
+                    a{
+                        img{
+                            max-width: 60px;
+                        }
+                    }
+                }
+            }
+            @media #{$breakpoint-ls}{
+                li{
+                    &:last-child{
+                        a{
+                            img{
+                                max-width: 45px;
+                            }
+                        }
+                    }
+                }
+            }
+            @media #{$breakpoint-lg}{
+                li{
+                    &:last-child{
+                        a{
+                            img{
+                                max-width: 35px;
+                            }
+                        }
+                    }
+                }
+            }
+            @media #{$breakpoint-sm}{
+                li{
+                    &:last-child{
+                        a{
+                            img{
+                                max-width: 35px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    &.fixed-header {
+        position: sticky;
+        position: -webkit-sticky;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        z-index: 999;
+        background-color: $white-color;
+        -ms-animation-name: fadeInDown;
+        -moz-animation-name: fadeInDown;
+        -op-animation-name: fadeInDown;
+        -webkit-animation-name: fadeInDown;
+        animation-name: fadeInDown;
+        -ms-animation-duration: 500ms;
+        -moz-animation-duration: 500ms;
+        -op-animation-duration: 500ms;
+        -webkit-animation-duration: 500ms;
+        animation-duration: 500ms;
+        -ms-animation-timing-function: linear;
+        -moz-animation-timing-function: linear;
+        -op-animation-timing-function: linear;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -ms-animation-iteration-count: 1;
+        -moz-animation-iteration-count: 1;
+        -op-animation-iteration-count: 1;
+        -webkit-animation-iteration-count: 1;
+        animation-iteration-count: 1;
+    }
+}

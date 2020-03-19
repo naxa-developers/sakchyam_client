@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import logo from '../../static/images/saklogo.jpg';
-import TestComponent from './TestComponent';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom';
+import TestComponent from './MainComponent';
 
 class App extends Component {
   constructor(props) {
@@ -10,10 +14,19 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <TestComponent data="Sakchyam" />
-        <img alt="sakchyam" src={logo} />
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/">
+            <TestComponent />
+          </Route>
+          <Route path="/about">
+            <TestComponent />
+          </Route>
+          <Route path="/users">
+            <TestComponent />
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }

@@ -1,8 +1,2 @@
-div{
-    img{
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-    }
-}
+@import "config/config.scss";
+@import "local/local.scss";

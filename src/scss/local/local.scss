@@ -1,0 +1,15 @@
+@import "fonts.scss";
+@import "resets/reset.scss";
+@import "mixin/mixin.scss";
+@import "utilities.scss";
+@import "partials/elements/elements.scss";
+@import "partials/pages/pages";
+
+.content .info-content .info-slider .slider-container #chart .apexcharts-toolbar .apexcharts-pan-icon, .content .info-content .info-slider .slider-container #chart .apexcharts-toolbar .apexcharts-reset-icon, .content .info-content .info-slider .slider-container #chart .apexcharts-toolbar .apexcharts-menu-icon, .content .info-content .info-slider .slider-container #chart .apexcharts-toolbar .apexcharts-menu {
+    display: block;
+}
+
+.content .info-content .info-slider .slider-container #chart .apexcharts-toolbar {
+    display: flex;
+    right: 20px !important;
+}
