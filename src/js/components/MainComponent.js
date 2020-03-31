@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import ApexCharts from 'apexcharts';
+import Slider from 'react-slick';
 import Background from '../../img/banner.png';
-import Logo from '../../img/logo.png';
-import UkaidLogo from '../../img/ukaid.png';
 import SaveAlt from '../../img/save_alt.svg';
+import Header from './Header';
 
 class MainComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      activeIndicator: 'Output',
+    };
   }
 
   componentDidMount() {
@@ -108,27 +110,29 @@ class MainComponent extends Component {
       options,
     );
     chart.render();
+    const chart1 = new ApexCharts(
+      document.querySelector('#chartone'),
+      options,
+    );
+    chart1.render();
   }
 
+  handleIndicators = data => {
+    this.setState({ activeIndicator: data });
+  };
+
   render() {
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    };
+    const { activeIndicator } = this.state;
     return (
       <>
-        <header className="main-header">
-          <div className="container">
-            <ul>
-              <li>
-                <a href="index.html" className="logo">
-                  <img src={Logo} alt="sakchyam logo" />
-                </a>
-              </li>
-              <li>
-                <a href="index.html" className="logo">
-                  <img src={UkaidLogo} alt="ukaid" />
-                </a>
-              </li>
-            </ul>
-          </div>
-        </header>
+        <Header />
         <main className="main">
           <section
             className="banner"
@@ -140,8 +144,7 @@ class MainComponent extends Component {
             <div className="banner-content">
               <div className="banner-header">
                 <h1>
-                  Sakchyam Access
-                  <span>to</span>
+                  Sakchyam Access To
                   <br />
                   Finance Programme Logical Framework
                 </h1>
@@ -168,26 +171,153 @@ class MainComponent extends Component {
             <div className="sidebar">
               <ul className="sidebar-li">
                 <h2>Indicators</h2>
-                <li>Input</li>
-                <li className="li-dropdown">
-                  Output
-                  <ul className="sidebar-sublist">
+                <li
+                  role="tab"
+                  className="li-dropdown"
+                  value="Input"
+                  onClick={() => {
+                    this.handleIndicators('Input');
+                  }}
+                  onKeyDown={() => {
+                    this.handleIndicators('Input');
+                  }}
+                >
+                  Input
+                  <span className="tooltip-list">
+                    Sustainable improvements in the livelihoods of
+                    poor people
+                  </span>
+                  <ul
+                    className={`sidebar-sublist ${
+                      activeIndicator === 'Input'
+                        ? 'active-li'
+                        : 'false'
+                    }`}
+                  >
                     <li>
-                      <a href="foo">Output1</a>
+                      <a href="#foo">Input1</a>
                     </li>
                     <li>
-                      <a href="foo">Output2</a>
+                      <a href="#foo">Input2</a>
                     </li>
                     <li>
-                      <a href="foo">Output3</a>
+                      <a href="#foo">Input3</a>
                     </li>
                     <li>
-                      <a href="foo">Output4</a>
+                      <a href="#foo">Input4</a>
                     </li>
                   </ul>
                 </li>
-                <li>Outcome</li>
-                <li>Impact</li>
+                <li
+                  role="tab"
+                  className="li-dropdown"
+                  value="Output"
+                  onClick={() => {
+                    this.handleIndicators('Output');
+                  }}
+                  onKeyDown={() => {
+                    this.handleIndicators('Output');
+                  }}
+                >
+                  Output
+                  <span className="tooltip-list">
+                    Sustainable improvements in the livelihoods of
+                    poor people
+                  </span>
+                  <ul
+                    className={`sidebar-sublist ${
+                      activeIndicator === 'Output'
+                        ? 'active-li'
+                        : 'false'
+                    }`}
+                  >
+                    <li>
+                      <a href="#foo">Output1</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Output2</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Output3</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Output4</a>
+                    </li>
+                  </ul>
+                </li>
+                <li
+                  role="tab"
+                  className="li-dropdown"
+                  onClick={() => {
+                    this.handleIndicators('Outcome');
+                  }}
+                  onKeyDown={() => {
+                    this.handleIndicators('Outcome');
+                  }}
+                >
+                  Outcome
+                  <span className="tooltip-list">
+                    Sustainable improvements in the livelihoods of
+                    poor people
+                  </span>
+                  <ul
+                    className={`sidebar-sublist ${
+                      activeIndicator === 'Outcome'
+                        ? 'active-li'
+                        : 'false'
+                    }`}
+                  >
+                    <li>
+                      <a href="#foo">Outcome1</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Outcome2</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Outcome3</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Outcome4</a>
+                    </li>
+                  </ul>
+                </li>
+                <li
+                  role="tab"
+                  className="li-dropdown"
+                  value="Impact"
+                  onClick={() => {
+                    this.handleIndicators('Impact');
+                  }}
+                  onKeyDown={() => {
+                    this.handleIndicators('Impact');
+                  }}
+                >
+                  Impact
+                  <span className="tooltip-list">
+                    Sustainable improvements in the livelihoods of
+                    poor people
+                  </span>
+                  <ul
+                    className={`sidebar-sublist ${
+                      activeIndicator === 'Impact'
+                        ? 'active-li'
+                        : 'false'
+                    }`}
+                  >
+                    <li>
+                      <a href="#foo">Impact1</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Impact2</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Impact3</a>
+                    </li>
+                    <li>
+                      <a href="#foo">Impact4</a>
+                    </li>
+                  </ul>
+                </li>
               </ul>
 
               <ul className="date-list">
@@ -256,8 +386,14 @@ class MainComponent extends Component {
                   <img src={SaveAlt} alt="" />
                 </a>
                 <div className="slider-container">
-                  <div id="chart" />
-                  <div id="chartone" />
+                  <Slider {...settings}>
+                    <div>
+                      <div id="chart" />
+                    </div>
+                    <div>
+                      <div id="chartone" />
+                    </div>
+                  </Slider>
                 </div>
               </div>
               <div className="info-content-footer">
