@@ -3,6 +3,7 @@
     "extends": ["airbnb", "prettier"],
     "plugins": ["prettier"],
     "rules": {
+      "func-names":"off",
       "template-curly-spacing": "off",
       "indent": "off",
       "max-len": [

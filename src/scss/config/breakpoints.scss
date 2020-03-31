@@ -1,8 +1,13 @@
 // Breakpoints
+$breakpoint-extremely-lg: 'only screen and (min-width:1921px)';
 
-$breakpoint-xxl: 'only screen and (min-width: 1200px)';
+$breakpoint-xxl: 'only screen and (min-width: 1641px) and (max-width:1920px)';
 
-$breakpoint-xl: 'only screen and (max-width:1199px)';
+$breakpoint-xl-laptop: 'only screen and (min-width: 1441px) and (max-width:1640px)'; //exact .75 of real fonts//
+
+$breakpoint-lg-laptop: 'only screen and (max-width: 1440px)'; // around .75 of real fonts//
+
+$breakpoint-xl: 'only screen and (max-width:1200px)';   //h1,h2 ... headings are reduced slightly others same as in breakpoint-xl-laptop
 
 $breakpoint-ls: 'only screen and (max-width:1024px)';
 
@@ -25,3 +30,4 @@ $breakpoint-xs-landscape: 'only screen and (max-width:480px) and (max-width:767p
 // @media #{$breakpoint-xl}{
     
 // }
+// 1366 1440 154    0 1640 1920

@@ -3,19 +3,37 @@
     @include transition(all 500ms ease);
     background-color: $white-color;
     padding: .5rem 0;
+        @media #{$breakpoint-extremely-lg}{
+            padding: .75rem 0;
+        }
+        @media #{$breakpoint-xxl}{
+            padding: .75rem 0;
+        }
         @media #{$breakpoint-lg}{
             padding: .625rem 0;
         }
         .logo,img {
             max-width: 150px;
+            @media #{$breakpoint-extremely-lg}{
+                max-width: 300px;
+            }
+            @media #{$breakpoint-xxl}{
+                max-width: 200px;
+            }
+            @media #{$breakpoint-xl-laptop}{
+                max-width: 170px;
+            }
             @media #{$breakpoint-ls}{
                 max-width: 120px;
             }
             @media #{$breakpoint-lg} {
                 max-width: 110px;
             }
-            @media #{$breakpoint-sm} {
+            @media #{$breakpoint-pt} {
                 max-width: 90px;
+            }
+            @media #{$breakpoint-sm} {
+                max-width: 80px;
             }
             // @media #{$breakpoint-xs} {
             //     max-width: 80px;
@@ -32,6 +50,39 @@
                     a{
                         img{
                             max-width: 60px;
+                        }
+                    }
+                }
+            }
+            @media #{$breakpoint-extremely-lg}{
+                li{
+                    &:last-child{
+                        a{
+                            img{
+                                max-width: 90px;
+                            }
+                        }
+                    }
+                }
+            }
+            @media #{$breakpoint-xxl}{
+                li{
+                    &:last-child{
+                        a{
+                            img{
+                                max-width: 70px;
+                            }
+                        }
+                    }
+                }
+            }
+            @media #{$breakpoint-xl-laptop}{
+                li{
+                    &:last-child{
+                        a{
+                            img{
+                                max-width: 70px;
+                            }
                         }
                     }
                 }
@@ -58,12 +109,24 @@
                     }
                 }
             }
-            @media #{$breakpoint-sm}{
+            @media #{$breakpoint-pt}{
                 li{
                     &:last-child{
                         a{
                             img{
                                 max-width: 35px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @media #{$breakpoint-sm}{
+                li{
+                    &:last-child{
+                        a{
+                            img{
+                                max-width: 28px;
                             }
                         }
                     }

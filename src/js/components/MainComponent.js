@@ -10,10 +10,28 @@ class MainComponent extends Component {
     super(props);
     this.state = {
       activeIndicator: 'Output',
+      statsData: [],
     };
   }
 
   componentDidMount() {
+    const currentComponent = this;
+    fetch('https://sakchyam.naxa.com.np/api/v1/log_data ')
+      .then(function(response) {
+        if (response.status !== 200) {
+          console.log(
+            `Looks like there was a problem. Status Code: ${response.status}`,
+          );
+          return;
+        }
+        // Examine the text in the response
+        response.json().then(function(data) {
+          currentComponent.setState({ statsData: data });
+        });
+      })
+      .catch(function(err) {
+        console.log('Fetch Error :-S', err);
+      });
     const options = {
       series: [
         {
@@ -121,6 +139,11 @@ class MainComponent extends Component {
     this.setState({ activeIndicator: data });
   };
 
+  handleArrowClick = () => {
+    console.log('ss');
+    window.scrollTo(0, this.headRef.current);
+  };
+
   render() {
     const settings = {
       dots: true,
@@ -129,11 +152,16 @@ class MainComponent extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
     };
-    const { activeIndicator } = this.state;
+    const { activeIndicator, statsData } = this.state;
     return (
       <>
         <Header />
-        <main className="main">
+        <main
+          className="main"
+          ref={arg => {
+            this.headRef = arg;
+          }}
+        >
           <section
             className="banner"
             id="banner"
@@ -432,6 +460,7 @@ class MainComponent extends Component {
           type="button"
           className="scroll-top scroll-to-target open"
           data-target="html"
+          onClick={this.handleArrowClick}
         >
           <i className="material-icons">arrow_upward</i>
         </button>
