@@ -4,12 +4,12 @@ import Slider from 'react-slick';
 import Background from '../../img/banner.png';
 import SaveAlt from '../../img/save_alt.svg';
 import Header from './Header';
+import LeftSidebarMain from './LefSideBar/LeftSideBarMain';
 
 class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeIndicator: 'Output',
       statsData: [],
     };
   }
@@ -171,8 +171,9 @@ class MainComponent extends Component {
           >
             <div className="banner-content">
               <div className="banner-header">
-                <h1>
-                  Sakchyam Access To
+                <h1 style={{ fontFamily: 'initial' }}>
+                  Sakchyam Access
+                  <span> to</span>
                   <br />
                   Finance Programme Logical Framework
                 </h1>
@@ -196,182 +197,7 @@ class MainComponent extends Component {
           </section>
 
           <section className="content">
-            <div className="sidebar">
-              <ul className="sidebar-li">
-                <h2>Indicators</h2>
-                <li
-                  role="tab"
-                  className="li-dropdown"
-                  value="Input"
-                  onClick={() => {
-                    this.handleIndicators('Input');
-                  }}
-                  onKeyDown={() => {
-                    this.handleIndicators('Input');
-                  }}
-                >
-                  Input
-                  <span className="tooltip-list">
-                    Sustainable improvements in the livelihoods of
-                    poor people
-                  </span>
-                  <ul
-                    className={`sidebar-sublist ${
-                      activeIndicator === 'Input'
-                        ? 'active-li'
-                        : 'false'
-                    }`}
-                  >
-                    <li>
-                      <a href="#foo">Input1</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Input2</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Input3</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Input4</a>
-                    </li>
-                  </ul>
-                </li>
-                <li
-                  role="tab"
-                  className="li-dropdown"
-                  value="Output"
-                  onClick={() => {
-                    this.handleIndicators('Output');
-                  }}
-                  onKeyDown={() => {
-                    this.handleIndicators('Output');
-                  }}
-                >
-                  Output
-                  <span className="tooltip-list">
-                    Sustainable improvements in the livelihoods of
-                    poor people
-                  </span>
-                  <ul
-                    className={`sidebar-sublist ${
-                      activeIndicator === 'Output'
-                        ? 'active-li'
-                        : 'false'
-                    }`}
-                  >
-                    <li>
-                      <a href="#foo">Output1</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Output2</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Output3</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Output4</a>
-                    </li>
-                  </ul>
-                </li>
-                <li
-                  role="tab"
-                  className="li-dropdown"
-                  onClick={() => {
-                    this.handleIndicators('Outcome');
-                  }}
-                  onKeyDown={() => {
-                    this.handleIndicators('Outcome');
-                  }}
-                >
-                  Outcome
-                  <span className="tooltip-list">
-                    Sustainable improvements in the livelihoods of
-                    poor people
-                  </span>
-                  <ul
-                    className={`sidebar-sublist ${
-                      activeIndicator === 'Outcome'
-                        ? 'active-li'
-                        : 'false'
-                    }`}
-                  >
-                    <li>
-                      <a href="#foo">Outcome1</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Outcome2</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Outcome3</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Outcome4</a>
-                    </li>
-                  </ul>
-                </li>
-                <li
-                  role="tab"
-                  className="li-dropdown"
-                  value="Impact"
-                  onClick={() => {
-                    this.handleIndicators('Impact');
-                  }}
-                  onKeyDown={() => {
-                    this.handleIndicators('Impact');
-                  }}
-                >
-                  Impact
-                  <span className="tooltip-list">
-                    Sustainable improvements in the livelihoods of
-                    poor people
-                  </span>
-                  <ul
-                    className={`sidebar-sublist ${
-                      activeIndicator === 'Impact'
-                        ? 'active-li'
-                        : 'false'
-                    }`}
-                  >
-                    <li>
-                      <a href="#foo">Impact1</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Impact2</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Impact3</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Impact4</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-
-              <ul className="date-list">
-                <h2>Time period</h2>
-                <li>
-                  <span>Year 1</span>
-                  Dec 14 - Aug 15
-                </li>
-                <li>
-                  <span>Year 2</span>
-                  Dec 15- Aug 16
-                </li>
-                <li>
-                  <span>Year 3</span>
-                  Dec 16 - Aug 17
-                </li>
-                <li>
-                  <span>Year 4</span>
-                  Dec 17 - Aug 18
-                </li>
-                <li>
-                  <span>Year 5</span>
-                  Dec 18 - Aug 19
-                </li>
-              </ul>
-            </div>
+            <LeftSidebarMain />
             <div className="info-content">
               <div className="info-content-header">
                 <h1>
