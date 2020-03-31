@@ -4,7 +4,9 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import TestComponent from './MainComponent';
+// import TestComponent from './MainComponent';
+import TestChart from './TestChart';
+import MainComponent from './MainComponent';
 
 class App extends Component {
   constructor(props) {
@@ -17,14 +19,12 @@ class App extends Component {
       <Router>
         <Switch>
           <Route path="/">
-            <TestComponent />
+            <MainComponent />
+            {/* <TestComponent /> */}
+            {/* <TestChart /> */}
           </Route>
-          <Route path="/about">
-            <TestComponent />
-          </Route>
-          <Route path="/users">
-            <TestComponent />
-          </Route>
+          <Route path="/about">{/* <TestComponent /> */}</Route>
+          <Route path="/users">{/* <TestComponent /> */}</Route>
         </Switch>
       </Router>
     );
