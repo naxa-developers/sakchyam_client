@@ -5,6 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 import TestComponent from './MainComponent';
+import TestChart from './TestChart';
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class App extends Component {
       <Router>
         <Switch>
           <Route path="/">
-            <TestComponent />
+            {/* <TestComponent /> */}
+            <TestChart />
           </Route>
           <Route path="/about">
             <TestComponent />
