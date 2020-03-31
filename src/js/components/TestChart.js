@@ -31,8 +31,6 @@ class TestChart extends Component {
                 data: res.data
             })
         )
-
-        
     };
 
     fetchCategory = () => {
@@ -43,8 +41,8 @@ class TestChart extends Component {
 
     updateChart = () => {
         console.log("on switch", this.state.currentChart);
-        
-        switch(this.state.currentChart) {
+
+        switch (this.state.currentChart) {
             case 'impact':
                 this.filterData('IMPACT');
                 break;
@@ -56,48 +54,40 @@ class TestChart extends Component {
                 break;
             default:
                 console.log("no matches");
-                 
+
         }
 
     }
-    
+
     filterData = (str) => {
         console.log("filter from ", str);
-        
-       let selectedData= [];
-       let plannedData = [];
-       let achievedData = [];
-       this.state.data.map(data => {
- 
-            if(data.category==str){
-            
+
+        let selectedData = [];
+        let plannedData = [];
+        let achievedData = [];
+        this.state.data.map(data => {
+
+            if (data.category == str) {
+
                 selectedData.push(data)
                 plannedData.push(parseInt(data.planned_afp))
                 achievedData.push(parseInt(data.achieved))
-                
+
             }
-           
+
         })
-      
-        this.setState({selectedData: selectedData, plannedData: plannedData, achievedData: achievedData})
+
+        this.setState({ selectedData: selectedData, plannedData: plannedData, achievedData: achievedData })
     }
 
-    
+
     componentDidMount() {
         this.fetchData();
         this.fetchCategory()
-        
+
     }
 
     render() {
-
-        const sliderSettings = {
-            dots: true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 1,
-            slidesToScroll: 1
-        };
         return (
             <>
                 <header className="main-header">
@@ -127,7 +117,7 @@ class TestChart extends Component {
                         <div className="banner-content">
                             <div className="banner-header">
                                 <h1>
-                                    Sakchyam Access
+                                    Sakchyam Access gjgg
                   <span>to</span>
                                     <br />
                   Finance Programme Logical Framework
@@ -155,7 +145,7 @@ class TestChart extends Component {
                         <div className="sidebar">
                             <ul className="sidebar-li">
                                 <h2>Indicators</h2>
-                                <li onClick={() => this.setState({currentChart: 'input'}, () => this.updateChart())}>Input</li>
+                                <li onClick={() => this.setState({ currentChart: 'input' }, () => this.updateChart())}>Input</li>
                                 <li className="li-dropdown">
                                     Output
                   <ul className="sidebar-sublist">
@@ -173,8 +163,8 @@ class TestChart extends Component {
                                         </li>
                                     </ul>
                                 </li>
-                                <li onClick={() => this.setState({currentChart: 'outcome'}, () => this.updateChart())}>Outcome</li>
-                                <li onClick={() => this.setState({currentChart: 'impact'}, () => this.updateChart())}>Impact</li>
+                                <li onClick={() => this.setState({ currentChart: 'outcome' }, () => this.updateChart())}>Outcome</li>
+                                <li onClick={() => this.setState({ currentChart: 'impact' }, () => this.updateChart())}>Impact</li>
                             </ul>
 
                             <ul className="date-list">
@@ -202,10 +192,10 @@ class TestChart extends Component {
                             </ul>
                         </div>
                         <SingleChart
-                            currentChart = {this.state.currentChart}
-                            data = {this.state.selectedData&&this.state.selectedData}
-                            plannedData = {this.state.plannedData}
-                            achievedData = {this.state.achievedData}
+                            currentChart={this.state.currentChart}
+                            data={this.state.selectedData && this.state.selectedData}
+                            plannedData={this.state.plannedData}
+                            achievedData={this.state.achievedData}
                             categories={this.state.categories}
                         />
                     </section>

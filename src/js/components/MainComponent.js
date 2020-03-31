@@ -143,8 +143,9 @@ class MainComponent extends Component {
           >
             <div className="banner-content">
               <div className="banner-header">
-                <h1>
-                  Sakchyam Access To
+                <h1 style={{ fontFamily: 'initial' }}>
+                  Sakchyam Access
+                  <span> to</span>
                   <br />
                   Finance Programme Logical Framework
                 </h1>

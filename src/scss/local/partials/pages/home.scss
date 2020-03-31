@@ -18,7 +18,7 @@
         //     z-index: 2;
         // }
         .banner-content{
-            max-width:930px;
+            max-width:1000px;
             width:100%;
             margin:0 auto;
             @include display-flex(flex);
@@ -27,177 +27,186 @@
             @include flex-direction-column(column);
             // padding:0 2rem;
             color:$white-color;
+            @media #{$breakpoint-extremely-lg}{
+                max-width: 1150px;
+            }
+            @media #{$breakpoint-ls}{
+                max-width: 800px;
+            }
             .banner-header{
                 text-align: center;
-                h1 {
-                    font-size: 2.5rem;
-                    line-height: 1.2;
-                    font-weight: 900;
-                    span{
-                        font-family: $body-fonts;
-                    }
-                }
-        
-                p {
-                    line-height: 1.3;
-                    font-size: 1.25rem;
+                .h3-white{
                     margin: 1.5rem auto 0 auto;
                     max-width: 780px;
                 }
             }
             .dashed{
                 margin: 6.813rem auto 6rem;
-                width: 38px;
+                width: 100%;
+                max-width: 38px;
                 background-color: $white-color;
                 height: 3px;
             }
             .banner-footer{
                 text-align: center;
-                margin-bottom: 10px;
-                h4{
-                    line-height: 1rem;
+                p{
+                    line-height: .875rem;
                     time{
                         letter-spacing: 2px;
                         text-transform: uppercase;
-                        font-size: .703rem;
                         color: $yellow-color;
                     }
-                    span{
-                        font-size: .703rem;
-                        font-family: $body-fonts;
+                    .span_book_15{
                         color:$white-color;
-                        margin:0 .25rem;
-                        font-weight: 300;
                     }
                 }
-                p{
-                    margin: 1.063rem 0 0 0;
-                    font-size: .703rem;
-                    font-family: $body-fonts;
-                }
-                h5{
-                    font-weight: 600;
-                    text-transform: uppercase;
-                    font-size: .938rem;
+                .span_book_15{
+                    letter-spacing: 1.125px;
 
                 }
+                h4{
+                    text-transform: uppercase;
+                    margin-bottom: 18px;
+                }
             }
-            @media #{$breakpoint-ls}{
+            @media #{$breakpoint-xxl}{
                 .banner-header{
-                    h1{
-                        font-size: 2rem;
-                    }
-                    p{
-                        font-size: 1.125rem;
-                        max-width: 700px;
+                    .h3-white{
+                        margin: 2rem auto 0 auto;
+                        max-width: 950px;
                     }
                 }
-                .banner-footer {
-                    h5{
-                        font-size: 1rem;
+                .dashed{
+                    margin: 8.813rem auto 8rem;
+                    max-width: 50px;
+                }
+                .banner-footer{
+                    h4{
+                        margin-bottom: 25px;
                     }
                     p{
-                        font-size: .875rem;
-                    }
-                    h4{
-                        time{
-                            font-size: 1rem;
+                        line-height: .5rem;
+                        margin-top: 6px;
+                        time {
+                            letter-spacing: 3.125px;
                         }
-                        span{
-                            font-size: .875rem;
+                    }
+                }
+            }
+            @media #{$breakpoint-extremely-lg}{
+                .banner-header{
+                    .h3-white{
+                        margin: 2rem auto 0 auto;
+                        max-width: 1100px;
+                    }
+                }
+                .dashed{
+                    margin: 8.813rem auto 8rem;
+                    max-width: 50px;
+                }
+                .banner-footer{
+                    h4{
+                        margin-bottom: 30px;
+                    }
+                    p{
+                        line-height: .5rem;
+                        margin-top: 10px;
+                        time {
+                            letter-spacing: 3.425px;
+                        }
+                    }
+                }
+            }
+            @media #{$breakpoint-xl-laptop}{
+                .banner-header{
+                    .h3-white{
+                        margin: 1.5rem auto 0 auto;
+                        max-width: 810px;
+                    }
+                }
+                .dashed{
+                    margin: 7.813rem auto 7rem;
+                    max-width: 40px;
+                }
+                .banner-footer{
+                    h4{
+                        margin-bottom: 20px;
+                    }
+                    p{
+                        line-height: .5rem;
+                        time {
+                            letter-spacing: 2.875px;
+                        }
+                    }
+                }
+            }   
+            @media #{$breakpoint-ls}{
+                .banner-header{
+                    .h3-white{
+                        max-width: 550px;
+                    }
+                }
+                .dashed{
+                    margin: 5.813rem auto 5rem;
+                    max-width: 25px;
+                }
+                .banner-footer{
+                    h4{
+                        margin-bottom: 14px;
+                    }
+                    p{
+                        line-height: .5rem;
+                        time {
+                            letter-spacing: 2.25px;
                         }
                     }
                 }
             }
             @media #{$breakpoint-lg}{
                 .banner-header{
-                    h1{
-                        font-size: 1.75rem;
-                    }
-                    p{
-                        font-size: 1rem;
-                        max-width: 620px;
+                    .h3-white{
+                        max-width: 460px;
                     }
                 }
-                .banner-footer {
-                    h5{
-                        font-size: .938rem;
-                    }
-                    p{
-                        font-size: .75rem;
-                    }
-                    h4{
-                        font-size: .75rem;
-                        time{
-                            font-size: .75rem;
-                        }
-                        span{
-                            font-size: .75rem;
-                        }
-                    }
+                .dashed{
+                    max-width: 25px;
+                    height: 2px;
                 }
-            }
-            @media #{$breakpoint-pt}{
-                .banner-header{
-                    h1{
-                        font-size: 1.5rem;
-                    }
+                .banner-footer{
                     p{
-                        font-size: .875rem;
-                        max-width: 550px;
-                    }
-                }
-                .banner-footer {
-                    h5{
-                        font-size: .75rem;
-                    }
-                    p{
-                        font-size: .625rem;
-                    }
-                    h4{
-                        time{
-                            font-size: .625rem;
+                        line-height: .5rem;
+                        time {
+                            letter-spacing: 2.25px;
                         }
-                        font-size: .625rem;
-                        
                     }
                 }
             }
             @media #{$breakpoint-sm}{
                 .banner-header{
-                    h1{
-                        font-size: 1.25rem;
-                    }
-                    p{
-                        font-size: .75rem;
-                        max-width: 450px;
+                    .h3-white{
+                        max-width: 400px;
                     }
                 }
-                .banner-footer {
-                    h5{
-                        font-size: .688rem;
-                    }
+                .dashed{
+                    margin: 4.813rem auto 4rem;
+                }
+                .banner-footer{
                     p{
-                        font-size: .525rem;
-                    }
-                    h4{
-                        time{
-                            font-size: .575rem;
-                        }
-                        span{
-                            font-size: .525rem;
+                        line-height: .5rem;
+                        time {
+                            letter-spacing: 2.25px;
                         }
                     }
-                }   
+                }
             }
-            // @media #{$breakpoint-xxl}{
-            //     padding: 4rem 1rem 3rem;
-            // }
-            // @media #{$breakpoint-xl} {
-            //     padding: 3rem 1rem 2rem;
-            // }
+            @media #{$breakpoint-sm}{
+                .banner-header{
+                    .h3-white{
+                        max-width: 350px;
+                    }
+                }
+            }
         }
-       
 }
 
 /*===========================
@@ -234,99 +243,6 @@
 ===========================*/
 
 
-/*===========================
-    9.Testimonial 
-===========================*/
-.testimonial {
-    position: relative;
-    background-color: $primary-color;
-    padding:70px 0;
-    // margin:70px 0;
-    .title{
-        @media #{$breakpoint-md} {
-            position:initial;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        @media #{$breakpoint-xs} {
-            position:initial;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-    }
-
-    .testi-slider {
-        .slick-list {
-            margin: 0 -1rem;
-        }
-
-        .slick-slide {
-            margin: 0 1rem;
-        }
-
-        .testi-item {
-            
-            padding: 1rem;
-            @include radius(5px);
-            border:1px solid $secondary-color;
-            color:$white-color;
-
-            .testi-header {
-                @include display-flex(flex);
-                @include justify-content-start;
-                @include align-items-center;
-                margin-bottom: 1rem;
-
-                figure {
-                    @include flex(50px);
-                    @include radius(50%);
-                    @include box-shadow(0 1px 6px rgba($text-color, .16));
-                    max-width: 50px;
-                    margin-right: 1rem;
-
-                    img {
-                        @include radius(50%);
-                        width: 50px;
-                        height: 50px;
-
-                    }
-                }
-
-                .testi-header-content {
-                    h5 {
-                        font-size: .875rem;
-                        line-height: 1;
-                    }
-
-                    span {
-                        font-size: .75rem;
-                        font-weight: 500;
-                        color: $white-color;
-                    }
-                }
-
-                
-            }
-            .testi-body {
-                .rating{
-                    i{
-                        font-size: 1rem;
-                        &.star{
-                            color:$secondary-color;
-                            &.star-half{
-                                color:$bg-dark;
-                            }
-                        }
-                    }
-                }
-                p {
-                    font-style: .875rem;
-                    color: $primary-light;
-                }
-            }
-        }
-    }
-}
 
 .slick-prev, .slick-next {
     font-size: 0;

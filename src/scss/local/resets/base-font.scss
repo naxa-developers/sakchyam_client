@@ -1,0 +1,313 @@
+// banner
+h1 {
+    //60px
+    font-size: 4.5rem;
+    line-height: 1.2;
+    // font-family: "Avenir Book" !important;
+    span{
+        font-family: $body-fonts !important;
+    }
+}
+.h3-white{
+    //28px
+    font-family: $body-fonts;
+    line-height: 1.3;
+    font-size: 1.25rem;
+    color: $white-color;
+}
+
+//content
+h2{
+    //36px
+    font-family: $avenir-heavy;
+    font-size: 26px;
+    color: $text-color;
+    line-height: 1.75rem;
+}
+.h3-red{
+    //28px
+    font-family: $body-fonts !important;
+    font-size: 1.25rem;
+    color: $red-color;
+    line-height: 1.125rem;  
+}
+h4{
+    //20px
+    font-size: .938rem;
+}
+h5{
+    //17px
+    font-family: $avenir-heavy;
+    font-size: .797rem;
+}
+.span_book_15{
+    font-family: $body-fonts;
+    font-size: .703rem;
+}
+.span_heavy_15{
+    font-family: $avenir-heavy;
+    font-size: .703rem;
+}
+.span_black_15{
+    font-family: $heading-fonts;
+    font-size: .703rem;
+}
+.span_book_14{
+    font-family: $body-fonts;
+    font-size: .656rem;
+}
+@media #{$breakpoint-extremely-lg}{
+    h1 {
+        //60px
+        font-size: 2.825rem;
+        line-height: 1.2;
+    }
+    .h3-white{
+        //28px
+        line-height: 1.3;
+        font-size: 1.75rem;
+    }
+    
+    //content
+    h2{
+        //36px
+        font-size: 38px;
+        line-height: 1.75rem;
+    }
+    .h3-red{
+        //28px
+        font-size: 1.875rem;
+        line-height: 1.3;  
+    }
+    h4{
+        //20px
+        font-size: 1.425rem;
+    }
+    .span_book_15{
+        font-size: 1.125rem;
+    }
+    .span_black_15{
+        font-size: 1.125rem;
+    }
+    .span_book_14 {
+        font-size: 1.125rem;
+    }
+}
+@media #{$breakpoint-xxl}{
+    h1 {
+        //60px
+        font-size: 3.125rem;
+        line-height: 1.2;
+    }
+    .h3-white{
+        //28px
+        line-height: 1.3;
+        font-size: 1.563rem;
+    }
+    
+    //content
+    h2{
+        //36px
+        font-size: 2rem;
+        line-height: 1.75rem;
+    }
+    .h3-red{
+        //28px
+        font-size: 1.563rem;
+        line-height: 1.125rem;  
+    }
+    h4{
+        //20px
+        font-size: 1.25rem;
+    }
+    .span_book_15{
+        font-size: 1.12rem;
+    }
+    .span_black_15{
+        font-size: 1.12rem;
+    }
+    .span_book_14 {
+        font-size: 1.1rem;
+    }
+}
+
+@media #{$breakpoint-xl-laptop}{
+    h1 {
+        //60px
+        font-size: 2.75rem;
+        line-height: 1.2;
+    }
+    .h3-white{
+        //28px
+        line-height: 1.3;
+        font-size: 1.325rem;
+    }
+    
+    //content
+    h2{
+        //36px
+        font-size: 1.5rem;
+        line-height: 1.75rem;
+    }
+    .h3-red{
+        //28px
+        font-size: 1.35rem;
+        line-height: 1.25rem;  
+    }
+    h4{
+        //20px
+        font-size: 1.125rem;
+    }
+    .span_book_15{
+        font-size: .975rem;
+    }
+    .span_black_15{
+        font-size: .975rem;
+    }
+    .span_book_14 {
+        font-size: .925rem;
+    }
+}
+
+@media #{$breakpoint-ls}{
+    h1 {
+        //60px
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    .h3-white{
+        //28px
+        line-height: 1.4;
+        font-size: .9rem;
+    }
+    
+    //content
+    h2{
+        //36px
+        font-size: 18px;
+        line-height: 1.4;
+    }
+    .h3-red{
+        //28px
+        font-size: .9rem;
+        line-height: 1.33rem;  
+    }
+    h4{
+        //20px
+        font-size: .688rem;
+    }
+    .span_book_15{
+        font-size: .625rem;
+    }
+    .span_black_15{
+        font-size: .625rem;
+    }
+    .span_book_14{
+        font-size: .5rem;
+    }
+}
+
+@media #{$breakpoint-lg}{
+    h1 {
+        //60px
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+    .h3-white{
+        //28px
+        line-height: 1.3;
+        font-size: .75rem;
+    }
+    
+    //content
+    h2{
+        //36px
+        font-size: 16px;
+        line-height: 1rem;
+    }
+    .h3-red{
+        //28px
+        font-size: .8rem;
+        line-height: 1.125;  
+    }
+    h4{
+        //20px
+        font-size: .75rem;
+    }
+    .span_book_15{
+        font-size: .5rem;
+    }
+    .span_black_15{
+        font-size: .5rem;
+    }
+}
+
+@media #{$breakpoint-pt}{
+    h1 {
+        //60px
+        font-size: 1.25rem;
+        line-height: 1;
+    }
+    .h3-white{
+        //28px
+        line-height: 1.3;
+        font-size: .725rem;
+    }
+    
+    //content
+    h2{
+        //36px
+        font-size: 13px;
+        line-height: 1rem;
+    }
+    .h3-red{
+        //28px
+        font-size: .725rem;
+        line-height: 1.125;  
+    }
+    h4{
+        //20px
+        font-size: .625rem;
+    }
+    .span_book_15{
+        font-size: .5rem;
+    }
+    .span_black_15{
+        font-size: .5rem;
+    }
+}
+
+@media #{$breakpoint-xs}{
+    h1 {
+        //60px
+        font-size: 1.1rem;
+        line-height: 1;
+    }
+    .h3-white{
+        //28px
+        line-height: 1.3;
+        font-size: .688rem;
+    }
+    
+    //content
+    h2{
+        //36px
+        font-size: 13px;
+        line-height: 1rem;
+    }
+    .h3-red{
+        //28px
+        font-size: .688rem;
+        line-height: 1.125;  
+    }
+    h4{
+        //20px
+        font-size: .525rem;
+    }
+    .span_book_15{
+        font-size: .485rem;
+    }
+    .span_black_15{
+        font-size: .485rem;
+    }
+}

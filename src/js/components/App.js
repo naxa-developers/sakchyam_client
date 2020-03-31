@@ -5,7 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 // import TestComponent from './MainComponent';
-import TestChart from './TestChart';
+// import TestChart from './TestChart';
 import MainComponent from './MainComponent';
 
 class App extends Component {
