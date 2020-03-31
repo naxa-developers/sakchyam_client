@@ -171,7 +171,7 @@ class MainComponent extends Component {
           >
             <div className="banner-content">
               <div className="banner-header">
-                <h1 style={{ fontFamily: 'initial' }}>
+                <h1>
                   Sakchyam Access
                   <span> to</span>
                   <br />

@@ -1683,10 +1683,10 @@ footer {
     .banner .banner-content .banner-header {
       text-align: center; }
       .banner .banner-content .banner-header h1 {
-        font-family: "Titillium", sans-serif;
+        font-family: initial;
         font-size: 2.5rem;
         line-height: 1.2;
-        font-weight: 900; }
+        font-weight: 400; }
         .banner .banner-content .banner-header h1 span {
           font-weight: 300; }
       .banner .banner-content .banner-header p {
