@@ -5,6 +5,8 @@ class LeftSidebarMain extends Component {
     super(props);
     this.state = {
       activeIndicator: 'Output',
+      // activeLayer: 'Output',
+      listOfSubCategory: [],
     };
   }
 
@@ -12,48 +14,84 @@ class LeftSidebarMain extends Component {
     this.setState({ activeIndicator: data });
   };
 
+  componentDidMount() {
+    // sakchyam.naxa.com.np/api/v1/log_category
+    const that = this;
+    fetch('https://sakchyam.naxa.com.np/api/v1/log_category')
+      .then(function(response) {
+        if (response.status !== 200) {
+          console.log(
+            `Looks like there was a problem. Status Code: ${response.status}`,
+          );
+          return;
+        }
+        // Examine the text in the response
+        response.json().then(function(data) {
+          // console.log(data, 'data');
+          that.setState({ listOfSubCategory: data });
+        });
+      })
+      .catch(function(err) {
+        console.log('Fetch Error :-S', err);
+      });
+  }
+
   render() {
-    const { activeIndicator } = this.state;
+    const { activeIndicator, listOfSubCategory } = this.state;
+    const { handleActiveLayer } = this.props;
     return (
       <div className="sidebar">
         <ul className="sidebar-li">
           <h2>Indicators</h2>
-          <li
-            role="tab"
-            className="li-dropdown"
-            value="Input"
-            onClick={() => {
-              this.handleIndicators('Input');
-            }}
-            onKeyDown={() => {
-              this.handleIndicators('Input');
-            }}
-          >
-            Input
-            <span className="tooltip-list">
-              Sustainable improvements in the livelihoods of poor
-              people
-            </span>
-            <ul
-              className={`sidebar-sublist ${
-                activeIndicator === 'Input' ? 'active-li' : 'false'
-              }`}
-            >
-              <li>
-                <a href="#foo">Input1</a>
+          {listOfSubCategory.map(data => {
+            return (
+              <li
+                role="tab"
+                className="li-dropdown"
+                value={data.name}
+                onClick={() => {
+                  this.handleIndicators(data.name);
+                }}
+                onKeyDown={() => {
+                  this.handleIndicators(data.name);
+                }}
+              >
+                {data.name}
+                <span className="tooltip-list">
+                  Sustainable improvements in the livelihoods of poor
+                  people
+                </span>
+                <ul
+                  className={`sidebar-sublist ${
+                    activeIndicator === data.name
+                      ? 'active-li'
+                      : 'false'
+                  }`}
+                >
+                  {data.subcat.map(el => {
+                    return (
+                      <li>
+                        <a
+                          role="button"
+                          tabIndex="0"
+                          onClick={() => {
+                            handleActiveLayer(el.name);
+                          }}
+                          onKeyDown={() => {
+                            handleActiveLayer(el.name);
+                          }}
+                        >
+                          {el.name}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
               </li>
-              <li>
-                <a href="#foo">Input2</a>
-              </li>
-              <li>
-                <a href="#foo">Input3</a>
-              </li>
-              <li>
-                <a href="#foo">Input4</a>
-              </li>
-            </ul>
-          </li>
-          <li
+            );
+          })}
+
+          {/* <li
             role="tab"
             className="li-dropdown"
             value="Output"
@@ -156,7 +194,7 @@ class LeftSidebarMain extends Component {
                 <a href="#foo">Impact4</a>
               </li>
             </ul>
-          </li>
+          </li> */}
         </ul>
 
         <ul className="date-list">

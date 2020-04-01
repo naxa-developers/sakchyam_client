@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Logo from '../../img/logo.png';
 import UkaidLogo from '../../img/ukaid.png';
 
