@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ApexCharts from 'apexcharts';
 import Slider from 'react-slick';
+import ReactTooltip from 'react-tooltip';
 import Background from '../../img/banner.png';
 import SaveAlt from '../../img/save_alt.svg';
 import Header from './Header';
@@ -149,6 +150,7 @@ class MainComponent extends Component {
                   <br />
                   Finance Programme Logical Framework
                 </h1>
+                <ReactTooltip />
                 <p>
                   Revised Indicators as per the Budget Allocated to
                   the Access to Finance Programme, and Over Achieved
@@ -182,33 +184,27 @@ class MainComponent extends Component {
                   onKeyDown={() => {
                     this.handleIndicators('Input');
                   }}
+                  data-tip=" Sustainable improvements in the livelihoods of
+                  poor people"
+                  data-place="right"
+                  data-background-color="#F7F7F7"
+                  data-text-color="#757575"
                 >
                   Input
-                  <span className="tooltip-list">
+                  {/* <span className="tooltip-list">
                     Sustainable improvements in the livelihoods of
                     poor people
-                  </span>
-                  <ul
+                  </span> */}
+                </li>
+                {/* <ul
                     className={`sidebar-sublist ${
                       activeIndicator === 'Input'
                         ? 'active-li'
                         : 'false'
                     }`}
                   >
-                    <li>
-                      <a href="#foo">Input1</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Input2</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Input3</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Input4</a>
-                    </li>
-                  </ul>
-                </li>
+                   
+                  </ul> */}
                 <li
                   role="tab"
                   className="li-dropdown"
@@ -219,33 +215,39 @@ class MainComponent extends Component {
                   onKeyDown={() => {
                     this.handleIndicators('Output');
                   }}
+                  data-tip=" Sustainable improvements in the livelihoods of
+                  poor people"
+                  data-place="right"
+                  data-background-color="#F7F7F7"
+                  data-text-color="#757575"
                 >
                   Output
-                  <span className="tooltip-list">
+                  {/* <span className="tooltip-list">
                     Sustainable improvements in the livelihoods of
                     poor people
-                  </span>
-                  <ul
-                    className={`sidebar-sublist ${
-                      activeIndicator === 'Output'
-                        ? 'active-li'
-                        : 'false'
-                    }`}
-                  >
-                    <li>
-                      <a href="#foo">Output1</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Output2</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Output3</a>
-                    </li>
-                    <li>
-                      <a href="#foo">Output4</a>
-                    </li>
-                  </ul>
+                  </span> */}
                 </li>
+                <ul
+                  className={`sidebar-sublist ${
+                    activeIndicator === 'Output'
+                      ? 'active-li'
+                      : 'false'
+                  }`}
+                >
+                  <li>
+                    <a href="#foo">Output1</a>
+                  </li>
+                  <li>
+                    <a href="#foo">Output2</a>
+                  </li>
+                  <li>
+                    <a href="#foo">Output3</a>
+                  </li>
+                  <li>
+                    <a href="#foo">Output4</a>
+                  </li>
+                </ul>
+
                 <li
                   role="tab"
                   className="li-dropdown"
@@ -257,10 +259,10 @@ class MainComponent extends Component {
                   }}
                 >
                   Outcome
-                  <span className="tooltip-list">
+                  {/* <span className="tooltip-list">
                     Sustainable improvements in the livelihoods of
                     poor people
-                  </span>
+                  </span> */}
                   <ul
                     className={`sidebar-sublist ${
                       activeIndicator === 'Outcome'
@@ -294,10 +296,10 @@ class MainComponent extends Component {
                   }}
                 >
                   Impact
-                  <span className="tooltip-list">
+                  {/* <span className="tooltip-list">
                     Sustainable improvements in the livelihoods of
                     poor people
-                  </span>
+                  </span> */}
                   <ul
                     className={`sidebar-sublist ${
                       activeIndicator === 'Impact'
