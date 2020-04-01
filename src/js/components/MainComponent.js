@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ApexCharts from 'apexcharts';
 import Slider from 'react-slick';
+import ReactTooltip from 'react-tooltip';
 import Background from '../../img/banner.png';
 import SaveAlt from '../../img/save_alt.svg';
 import Header from './Header';
@@ -177,6 +178,7 @@ class MainComponent extends Component {
                   <br />
                   Finance Programme Logical Framework
                 </h1>
+                <ReactTooltip />
                 <p>
                   Revised Indicators as per the Budget Allocated to
                   the Access to Finance Programme, and Over Achieved
