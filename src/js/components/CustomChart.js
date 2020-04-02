@@ -194,8 +194,70 @@ export default class CustomChart extends Component {
     };
   }
 
+  filterDataWithDate = () => {
+    // eslint-disable-next-line react/destructuring-assignment
+    const d = this.props.activeDate;
+    const { statsData } = this.state;
+    const filtered = [];
+    // eslint-disable-next-line array-callback-return
+    d.map(date => {
+      // eslint-disable-next-line array-callback-return
+      statsData.map(data => {
+        if (data.year.range === date) {
+          filtered.push(data);
+        }
+      });
+    });
+
+    // const filtered = statsData.filter(result => {
+    //   return result.year.range === JSON.stringify(d);
+    // });
+    const planned = filtered.map(el => {
+      return el.planned_afp;
+    });
+    const achieved = filtered.map(el => {
+      return el.achieved;
+    });
+    const label = filtered.map(el => {
+      return el.year.name;
+    });
+    // const category = 'Test Year';
+    const category = filtered.map(el => {
+      return el.year.range;
+    });
+    const series = [
+      {
+        name: 'Planned As per AFP contract Budget',
+        type: 'column',
+        data: planned,
+      },
+      {
+        name: 'Achieved',
+        type: 'column',
+        data: achieved,
+      },
+      {
+        name: 'Planned As per AFP contract Budget',
+        type: 'line',
+        data: planned,
+      },
+      {
+        name: 'Achieved',
+        type: 'line',
+        data: achieved,
+      },
+    ];
+    this.setState(prevState => ({
+      series,
+      options: {
+        ...prevState.options,
+        labels: label,
+        xaxis: { ...prevState.options.xaxis, categories: category },
+      },
+    }));
+  };
+
   filterDataWithLayer = () => {
-    console.log(this.props.activeLayer, 'activelayer');
     const a = this.props.activeLayer;
     //   const that = this;
     //   fetch('https://sakchyam.naxa.com.np/api/v1/log_data_alt')
@@ -276,13 +338,17 @@ export default class CustomChart extends Component {
     if (prevProps.activeLayer !== this.props.activeLayer) {
       this.filterDataWithLayer();
     }
+
+    if (prevProps.updateChart !== this.props.updateChart) {
+      this.filterDataWithDate();
+    }
   }
 
   componentDidMount() {
     const that = this;
-    console.log(this.props.activeLayer, 'activeLayer');
+    console.log(this.props.activeDate, 'activeLayer');
     const a = this.props.activeLayer;
-    fetch('https://sakchyam.naxa.com.np/api/v1/log_data_alt')
+    fetch('https://sakchyam.naxa.com.np/api/v1/logFrame-data')
       .then(function(response) {
         if (response.status !== 200) {
           console.log(

@@ -17,7 +17,7 @@ class MiddleChartSection extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
     };
-    const { activeLayer } = this.props;
+    const { activeLayer, activeDate, updateChart } = this.props;
     return (
       <div className="info-content">
         <div className="info-content-header">
@@ -59,7 +59,11 @@ class MiddleChartSection extends Component {
           </a>
           <div className="slider-container">
             <Slider {...settings}>
-              <CustomChart activeLayer={activeLayer} />
+              <CustomChart
+                activeLayer={activeLayer}
+                activeDate={activeDate}
+                updateChart={updateChart}
+              />
             </Slider>
           </div>
         </div>

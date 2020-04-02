@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
 
+let dateArray = [];
+
 class LeftSidebarMain extends Component {
   constructor(props) {
     super(props);
@@ -8,6 +10,33 @@ class LeftSidebarMain extends Component {
       activeIndicator: 'Output',
       // activeLayer: 'Output',
       listOfSubCategory: [],
+      dateRange: [
+        {
+          title: 'Year 1',
+          range: 'Dec 14 - Aug 15',
+          value: '2015',
+        },
+        {
+          title: 'Year 2',
+          range: 'Dec 15 - Aug 16',
+          value: '2016',
+        },
+        {
+          title: 'Year 3',
+          range: 'Dec 16 - Aug 17',
+          value: '2017',
+        },
+        {
+          title: 'Year 4',
+          range: 'Dec 17 - Aug 18',
+          value: '2018',
+        },
+        {
+          title: 'Year 5',
+          range: 'Dec 18 - Aug 19',
+          value: '2019',
+        },
+      ],
     };
   }
 
@@ -15,10 +44,19 @@ class LeftSidebarMain extends Component {
     this.setState({ activeIndicator: data });
   };
 
+  handleYear = e => {
+    // push uniques
+    if (dateArray.indexOf(e) === -1) {
+      dateArray.push(e);
+    } else {
+      dateArray = dateArray.filter(f => f !== e);
+    }
+  };
+
   componentDidMount() {
     // sakchyam.naxa.com.np/api/v1/log_category
     const that = this;
-    fetch('https://sakchyam.naxa.com.np/api/v1/log_category')
+    fetch('https://sakchyam.naxa.com.np/api/v1/log-category')
       .then(function(response) {
         if (response.status !== 200) {
           console.log(
@@ -38,8 +76,12 @@ class LeftSidebarMain extends Component {
   }
 
   render() {
-    const { activeIndicator, listOfSubCategory } = this.state;
-    const { handleActiveLayer } = this.props;
+    const {
+      activeIndicator,
+      listOfSubCategory,
+      dateRange,
+    } = this.state;
+    const { handleActiveLayer, handleActiveDate } = this.props;
     return (
       <div className="sidebar">
         <ul className="sidebar-li">
@@ -58,20 +100,12 @@ class LeftSidebarMain extends Component {
                   this.handleIndicators(data.name);
                 }}
               >
-                <ReactTooltip />
-                <span
-                  data-tip=" Sustainable improvements in the livelihoods of
-                 poor people"
-                  data-place="right"
-                  data-background-color="#F7F7F7"
-                  data-text-color="#757575"
-                >
-                  {data.name}
-                </span>
-                {/* <span className="tooltip-list">
+                {/* <ReactTooltip /> */}
+                <span>{data.name}</span>
+                <span className="tooltip-list">
                   Sustainable improvements in the livelihoods of poor
                   people
-                </span> */}
+                </span>
                 <ul
                   className={`sidebar-sublist ${
                     activeIndicator === data.name
@@ -210,25 +244,26 @@ class LeftSidebarMain extends Component {
 
         <ul className="date-list">
           <h2>Time period</h2>
+          {dateRange.map(d => {
+            return (
+              <li
+                role="tab"
+                onClick={() => {
+                  handleActiveDate(d.value);
+                }}
+                onKeyDown={() => {
+                  handleActiveDate(d.value);
+                }}
+              >
+                <span>{d.title}</span>
+                {d.range}
+              </li>
+            );
+          })}
           <li>
-            <span>Year 1</span>
-            Dec 14 - Aug 15
-          </li>
-          <li>
-            <span>Year 2</span>
-            Dec 15- Aug 16
-          </li>
-          <li>
-            <span>Year 3</span>
-            Dec 16 - Aug 17
-          </li>
-          <li>
-            <span>Year 4</span>
-            Dec 17 - Aug 18
-          </li>
-          <li>
-            <span>Year 5</span>
-            Dec 18 - Aug 19
+            <a href="#" className="clear">
+              Clear
+            </a>
           </li>
         </ul>
       </div>
