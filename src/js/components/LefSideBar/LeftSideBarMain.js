@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactTooltip from 'react-tooltip';
 
 class LeftSidebarMain extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class LeftSidebarMain extends Component {
       <div className="sidebar">
         <ul className="sidebar-li">
           <h2>Indicators</h2>
+
           {listOfSubCategory.map(data => {
             return (
               <li
@@ -56,11 +58,20 @@ class LeftSidebarMain extends Component {
                   this.handleIndicators(data.name);
                 }}
               >
-                {data.name}
-                <span className="tooltip-list">
+                <ReactTooltip />
+                <span
+                  data-tip=" Sustainable improvements in the livelihoods of
+                 poor people"
+                  data-place="right"
+                  data-background-color="#F7F7F7"
+                  data-text-color="#757575"
+                >
+                  {data.name}
+                </span>
+                {/* <span className="tooltip-list">
                   Sustainable improvements in the livelihoods of poor
                   people
-                </span>
+                </span> */}
                 <ul
                   className={`sidebar-sublist ${
                     activeIndicator === data.name
