@@ -77,8 +77,10 @@
   "dependencies": {
     "apexcharts": "^3.17.0",
     "axios": "^0.19.2",
+    "core-js": "^2.5.7",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-full-page": "^0.1.8",
     "react-router-dom": "^5.1.2",
     "react-slick": "^0.25.2",
     "react-tooltip": "^4.1.3",

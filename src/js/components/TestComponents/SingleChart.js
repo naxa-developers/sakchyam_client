@@ -1,7 +1,7 @@
 /* eslint-disable */ 
 import React, { Component } from 'react'
 import ApexCharts from 'apexcharts';
-import SaveAlt from '../../img/save_alt.svg';
+import SaveAlt from '../../../img/save_alt.svg';
 export class SingleChart extends Component {
 
     // componentDidMount(){
@@ -106,7 +106,7 @@ export class SingleChart extends Component {
 
     
     componentDidUpdate(prevProps){
-        console.log("on chart", this.props.currentChart);
+        // console.log("on chart", this.props.currentChart);
    if(prevProps.currentChart!==this.props.currentChart){
       
     const options = {
@@ -213,10 +213,10 @@ export class SingleChart extends Component {
     }
    
     render() {
-        console.log("from", this.props.currentChart);
+        // console.log("from", this.props.currentChart);
         
-        console.log("planned",this.props.plannedData);
-        console.log("achived",this.props.achievedData);
+        // console.log("planned",this.props.plannedData);
+        // console.log("achived",this.props.achievedData);
         return (
             <div className="info-content">
             <div className="info-content-header">

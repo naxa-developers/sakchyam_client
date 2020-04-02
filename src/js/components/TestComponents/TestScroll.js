@@ -1,15 +1,16 @@
 /* eslint-disable */
-import React, { Component } from 'react';
-
+import React from 'react';
+import { FullPage, Slide } from 'react-full-page';
 import Axios from 'axios';
+import ReactTooltip from 'react-tooltip';
 
-import Background from '../../img/banner.png';
-import Logo from '../../img/logo.png';
-import UkaidLogo from '../../img/ukaid.png';
+import Background from '../../../img/banner.png';
+import Logo from '../../../img/logo.png';
+import UkaidLogo from '../../../img/ukaid.png';
 
 import SingleChart from './SingleChart';
 
-class TestChart extends Component {
+export default class FullPageExample extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,6 +23,22 @@ class TestChart extends Component {
             achievedData: null
         };
     }
+    fixHeight = () => {
+        const windowHeight = window.innerHeight;
+        const headHeight = document.getElementsByClassName(
+            'main-header',
+        )[0].clientHeight;
+        console.log("head", headHeight);
+
+
+        document.getElementsByClassName(
+            'banner',
+        )[0].style.height = `${windowHeight - headHeight}px`;
+
+        console.log(document.getElementsByClassName(
+            'banner',
+        )[0].clientHeight)
+    };
 
     fetchData = () => {
         Axios.get(
@@ -82,14 +99,14 @@ class TestChart extends Component {
 
 
     componentDidMount() {
+        // this.fixHeight();
         this.fetchData();
         this.fetchCategory()
 
     }
-
     render() {
         return (
-            <>
+            <FullPage>
                 <header className="main-header">
                     <div className="container">
                         <ul>
@@ -106,7 +123,7 @@ class TestChart extends Component {
                         </ul>
                     </div>
                 </header>
-                <main className="main">
+                <Slide>
                     <section
                         className="banner"
                         id="banner"
@@ -117,8 +134,8 @@ class TestChart extends Component {
                         <div className="banner-content">
                             <div className="banner-header">
                                 <h1>
-                                    Sakchyam Access gjgg
-                  <span>to</span>
+                                    Sakchyam Access
+                  <span> to</span>
                                     <br />
                   Finance Programme Logical Framework
                 </h1>
@@ -140,13 +157,27 @@ class TestChart extends Component {
                             </div>
                         </div>
                     </section>
-
+                </Slide>
+                <Slide>
                     <section className="content">
                         <div className="sidebar">
                             <ul className="sidebar-li">
                                 <h2>Indicators</h2>
-                                <li onClick={() => this.setState({ currentChart: 'input' }, () => this.updateChart())}>Input</li>
-                                <li className="li-dropdown">
+                                <ReactTooltip />
+                                <li onClick={() => this.setState({ currentChart: 'input' }, () => this.updateChart())}
+                                  data-tip=" Sustainable improvements in the livelihoods of
+                                  poor people"
+                                  data-place="right"
+                                  data-background-color="#F7F7F7"
+                                  data-text-color="#757575"
+                                >Input</li>
+                                <li className="li-dropdown"
+                                  data-tip=" Sustainable improvements in the livelihoods of
+                                  poor people"
+                                  data-place="right"
+                                  data-background-color="#F7F7F7"
+                                  data-text-color="#757575"
+                                >
                                     Output
                   <ul className="sidebar-sublist">
                                         <li>
@@ -170,9 +201,7 @@ class TestChart extends Component {
                             <ul className="date-list">
                                 <h2>Time period</h2>
                                 <li>
-                                    <span>Year 1</span>
-                  Dec 14 - Aug 15
-                </li>
+                                    <span>Year 1</span>Dec 14 - Aug 15</li>
                                 <li>
                                     <span>Year 2</span>
                   Dec 15- Aug 16
@@ -199,8 +228,7 @@ class TestChart extends Component {
                             categories={this.state.categories}
                         />
                     </section>
-                </main>
-
+                </Slide>
                 <button
                     type="button"
                     className="scroll-top scroll-to-target open"
@@ -208,9 +236,7 @@ class TestChart extends Component {
                 >
                     <i className="material-icons">arrow_upward</i>
                 </button>
-            </>
+            </FullPage>
         );
     }
 }
-
-export default TestChart;
