@@ -21,10 +21,10 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/">
-            {/* <MainComponent /> */}
+            <MainComponent />
             {/* <TestComponent /> */}
             {/* <TestChart /> */}
-            <Test />
+            {/* <Test /> */}
           </Route>
           <Route path="/about">{/* <TestComponent /> */}</Route>
           <Route path="/users">{/* <TestComponent /> */}</Route>

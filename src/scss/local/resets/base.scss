@@ -42,9 +42,54 @@ body {
     line-height: 1.125rem;
     text-transform: capitalize;
 }
-@media #{$breakpoint-lg}{
+
+@media #{$breakpoint-extremely-lg}{
     .sidebar-li{
-        font-size:.688rem;
+        font-size: 1.425rem;
+    }
+    .sidebar-sublist{
+        font-size: 1.125rem;
+    }
+    .date-list{
+        span{
+            font-size: 1.125rem;
+        }
+        font-size: 1rem;
+    }
+}
+@media #{$breakpoint-xxl}{
+    .sidebar-li{
+        font-size: 1.325rem;
+    }
+    .sidebar-sublist{
+        font-size: 1.125rem;
+    }
+    .date-list{
+        span{
+            font-size: 1.1rem;
+        }
+        font-size: .938rem;
+    }
+}
+
+@media #{$breakpoint-xl-laptop}{
+    .sidebar-li{
+        font-size: 1.125rem;
+    }
+    .sidebar-sublist{
+        font-size: 1rem;
+    }
+    .date-list{
+        span{
+            font-size: .9rem;
+        }
+        font-size: .825rem;
+    }
+}
+
+@media #{$breakpoint-ls}{
+    .sidebar-li{
+        font-size: .75rem;
     }
     .sidebar-sublist{
         li{
@@ -60,14 +105,15 @@ body {
         font-size: .588rem;
     }
 }
-@media #{$breakpoint-pt}{
+
+@media #{$breakpoint-lg}{
     .sidebar-li{
         font-size: .625rem;
     }
     .sidebar-sublist{
         li{
             a{
-                font-size: .688rem;
+                font-size: .525rem;
             }
         }
     }
@@ -75,9 +121,30 @@ body {
         span{
             font-size: .525rem;
         }
-        font-size: .425rem;
+        font-size: .45rem;
     }
 }
+
+@media #{$breakpoint-sm}{
+    .sidebar-li{
+        font-size: .525rem;
+    }
+    .sidebar-sublist{
+        li{
+            a{
+                font-size: .525rem;
+            }
+        }
+    }
+    .date-list{
+        span{
+            font-size: .425rem;
+        }
+        font-size: .4rem;
+    }
+}
+
+
 .mt-3 {
     margin-top: 2rem;
 }
