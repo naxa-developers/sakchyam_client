@@ -196,14 +196,17 @@ export default class CustomChart extends Component {
 
   filterDataWithDate = () => {
     // eslint-disable-next-line react/destructuring-assignment
-    const d = this.props.activeDate;
+    const { activeDate, activeLayer } = this.props;
     const { statsData } = this.state;
     const filtered = [];
     // eslint-disable-next-line array-callback-return
-    d.map(date => {
+    activeDate.map(date => {
       // eslint-disable-next-line array-callback-return
       statsData.map(data => {
-        if (data.year.range === date) {
+        if (
+          data.year.range === date &&
+          data.sub_category.name === activeLayer
+        ) {
           filtered.push(data);
         }
       });
