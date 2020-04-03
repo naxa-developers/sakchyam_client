@@ -1,0 +1,51 @@
+input,textarea {
+    font-size: .875rem;
+
+    &.form-control {
+        color:$text-color;
+        @include input-placeholder {
+            color: $bg-dark;
+            font-size: .875rem;
+            text-transform: capitalize;
+        }
+
+        &:focus {
+            box-shadow: none;
+            outline: none;
+            -webkit-outline: none;
+            border-color:$secondary-color;
+            background-color:#fffee8;
+        }
+    }
+
+}
+.form-group{
+    label{
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+    .custom-checkbox{
+        label{
+            font-weight: 400;
+        }
+    }
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: $secondary-color;
+    box-shadow: none;
+}
+.custom-control-label::before{
+    background-color: $bg-dark;
+}
+
+.fill-form{
+    padding:0 1rem;
+    &:not(:last-child){
+        margin-top:1rem;
+        padding-bottom: 1rem;
+        border-bottom:1px solid $bg-dark;
+    }
+}
+.contact-section{
+    margin-bottom: 2rem;
+}

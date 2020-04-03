@@ -5,7 +5,7 @@ import UkaidLogo from '../../img/ukaid.png';
 function Header() {
   return (
     <header className="main-header">
-      <div className="container">
+      <div className="container-fluid">
         <ul>
           <li>
             <a href="index.html" className="logo">

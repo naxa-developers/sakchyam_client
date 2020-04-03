@@ -16,7 +16,7 @@ module.exports = env => {
     {
       entry: ['@babel/polyfill', APP_DIR],
       output: {
-        publicPath: '/',
+        // publicPath: '/',
       },
       module: {
         rules: [
@@ -32,7 +32,6 @@ module.exports = env => {
                 ? MiniCssExtractPlugin.loader
                 : 'style-loader',
               'css-loader',
-              'sass-loader',
             ],
           },
           {
@@ -46,8 +45,12 @@ module.exports = env => {
             ],
           },
           {
-            test: /\.(png|svg|jpg|gif)$/,
-            use: ['file-loader'],
+            test: /\.(png|jpe?g|gif)$/i,
+            use: [
+              {
+                loader: 'file-loader',
+              },
+            ],
           },
           {
             test: /\.woff(2)?(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
@@ -65,7 +68,7 @@ module.exports = env => {
         //   contextRegExp: /moment$/
         // }),
         new HtmlWebpackPlugin({
-          title: 'Sakchyam',
+          title: 'CovidMap',
           template: './src/index.html',
           filename: 'index.html',
           inject: true,
@@ -82,6 +85,7 @@ module.exports = env => {
         new webpack.DefinePlugin({
           'process.env.VERSION': JSON.stringify(VERSION),
           'process.env.PLATFORM': JSON.stringify(PLATFORM),
+          // 'process.env.PUBLIC_URL': JSON.stringify(PUBLIC_URL),
         }),
         new CopyWebpackPlugin([{ from: 'src/static/' }]),
         // new DashboardPlugin(),

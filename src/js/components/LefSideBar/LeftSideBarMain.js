@@ -10,33 +10,6 @@ class LeftSidebarMain extends Component {
       activeIndicator: 'Output',
       // activeLayer: 'Output',
       listOfSubCategory: [],
-      dateRange: [
-        {
-          title: 'Year 1',
-          range: 'Dec 14 - Aug 15',
-          value: '2015',
-        },
-        {
-          title: 'Year 2',
-          range: 'Dec 15 - Aug 16',
-          value: '2016',
-        },
-        {
-          title: 'Year 3',
-          range: 'Dec 16 - Aug 17',
-          value: '2017',
-        },
-        {
-          title: 'Year 4',
-          range: 'Dec 17 - Aug 18',
-          value: '2018',
-        },
-        {
-          title: 'Year 5',
-          range: 'Dec 18 - Aug 19',
-          value: '2019',
-        },
-      ],
     };
   }
 
@@ -76,12 +49,13 @@ class LeftSidebarMain extends Component {
   }
 
   render() {
+    const { activeIndicator, listOfSubCategory } = this.state;
     const {
-      activeIndicator,
-      listOfSubCategory,
+      handleActiveLayer,
+      handleActiveDate,
       dateRange,
-    } = this.state;
-    const { handleActiveLayer, handleActiveDate } = this.props;
+      activeDate,
+    } = this.props;
     return (
       <div className="sidebar">
         <ul className="sidebar-li">
@@ -101,10 +75,12 @@ class LeftSidebarMain extends Component {
                 }}
               >
                 {/* <ReactTooltip /> */}
-                <span>{data.name}</span>
+                {data.name}
                 <span className="tooltip-list">
-                  Sustainable improvements in the livelihoods of poor
-                  people
+                  <span className="text">
+                    Sustainable improvements in the livelihoods of
+                    poor people
+                  </span>
                 </span>
                 <ul
                   className={`sidebar-sublist ${
@@ -245,18 +221,22 @@ class LeftSidebarMain extends Component {
         <ul className="date-list">
           <h2>Time period</h2>
           {dateRange.map(d => {
+            console.log(d);
             return (
               <li
                 role="tab"
+                className={
+                  activeDate.includes(d.range) ? 'active' : ''
+                }
                 onClick={() => {
-                  handleActiveDate(d.value);
+                  handleActiveDate(d.range);
                 }}
                 onKeyDown={() => {
-                  handleActiveDate(d.value);
+                  handleActiveDate(d.range);
                 }}
               >
-                <span>{d.title}</span>
-                {d.range}
+                <span>{d.name}</span>
+                {/* {d.range} */}
               </li>
             );
           })}

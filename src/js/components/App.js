@@ -5,9 +5,9 @@ import {
   Route,
 } from 'react-router-dom';
 // import TestComponent from './MainComponent';
-import TestChart from './TestComponents/TestChart';
+// import TestChart from './TestComponents/TestChart';
 import MainComponent from './MainComponent';
-import Test from './TestComponents/TestScroll';
+// import Test from './TestComponents/TestScroll';
 import OIndicator2 from './TestComponents/OIndicator2.3';
 
 class App extends Component {

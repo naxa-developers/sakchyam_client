@@ -353,10 +353,10 @@
                     #chart{
                         // height: 100%;
                         .apexcharts-toolbar{
-                            display: flex;
+                            display: none;
                             right: 20px !important;
                             .apexcharts-pan-icon, .apexcharts-reset-icon, .apexcharts-menu-icon, .apexcharts-menu{
-                                display: flex;
+                                display: none;
                             }
                         }
                     }
