@@ -76,8 +76,8 @@ footer {
 }
 
 .scroll-top {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     line-height: 40px;
     position: fixed;
     bottom: 105%;
@@ -88,16 +88,23 @@ footer {
     color: $white-color;
     text-align: center;
     cursor: pointer;
-    background: $secondary-color;
+    background: $red-color;
     @include transition(all .5s ease-in-out);
     border:0;
+    i{
+        font-size: 20px;
+    }
     &:focus{
         box-shadow: none;
         -webkit-outline:none;
         outline: none;
     }
+    &:hover{
+        @include box-shadow(1px 0px 4px 0px $text-color);
+        cursor: pointer;
+    }
 
-    &::after {
+   /*  &::after {
         position: absolute;
         z-index: -1;
         content: '';
@@ -109,7 +116,7 @@ footer {
         background: -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 80%);
         background: -webkit-radial-gradient(center ellipse, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 80%);
         background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 80%);
-    }
+    } */
 
     &.open {
         bottom: 2rem;

@@ -8,15 +8,14 @@ body {
 
 .sidebar-li{
     font-family: $heading-fonts;
-    font-size: .975rem;
+    font-size: .938rem;
     color: $primary-light;
     line-height: 1.125rem;
     text-transform: uppercase;
 }
-
 .sidebar-sublist{
     font-family: $avenir-heavy;
-    font-size: .75rem;
+    font-size: .797rem;
     line-height: 1.375rem;
     text-transform: capitalize;
     li{
@@ -30,54 +29,122 @@ body {
     }
 }
 .date-list{
-
     span{
-        font-size: .688rem;
+        font-size: .703rem;
         font-family: $avenir-heavy;
         color: $text-color;
         padding-right: 3px;
     }
     font-family: $body-fonts;
-    font-size: .625rem;
+    font-size: .656rem;
     line-height: 1.125rem;
     text-transform: capitalize;
 }
-@media #{$breakpoint-lg}{
+
+@media #{$breakpoint-lg-laptop}{
     .sidebar-li{
-        font-size:.688rem;
+        font-size: 1.1rem;
     }
     .sidebar-sublist{
-        li{
-            a{
-                font-size: .688rem;
-            }
+        font-size: .875rem;
+    }
+    .date-list{
+        span{
+            font-size: .9rem;
         }
+        font-size: .8rem;
+    }
+}
+
+@media #{$breakpoint-xxl}{
+    .sidebar-li{
+        font-size: 1.1rem;
+    }
+    .sidebar-sublist{
+        font-size: .938rem;
+    }
+    .date-list{
+        span{
+            font-size: .938rem;
+        }
+        font-size: .9rem;
+    }
+}
+@media #{$breakpoint-xl}{
+    .sidebar-li{
+        font-size: .85rem;
+    }
+    .sidebar-sublist{
+        font-size: .75rem;
+    }
+    .date-list{
+        span{
+            font-size: .65rem;
+        }
+        font-size: .6rem;
+    }
+}
+
+@media #{$breakpoint-ls}{
+    .sidebar-li{
+        font-size: .75rem;
+    }
+    .sidebar-sublist{
+        font-size: .688rem;
+    }
+    .date-list{
+        span{
+            font-size: .6rem;
+        }
+        font-size: .525rem;
+    }
+}
+
+@media #{$breakpoint-lg}{
+    .sidebar-li{
+        font-size: .75rem;
     }
     .date-list{
         span{
             font-size: .625rem;
         }
-        font-size: .588rem;
+        font-size: .563rem;
+    }
+    .sidebar-sublist{
+        font-size: .625rem;
     }
 }
 @media #{$breakpoint-pt}{
     .sidebar-li{
-        font-size: .625rem;
+        font-size: .688rem;
+    }
+    .date-list{
+        span{
+            font-size: .6rem;
+        }
+        font-size: .525rem;
     }
     .sidebar-sublist{
-        li{
-            a{
-                font-size: .688rem;
-            }
-        }
+        font-size: .625rem;
+    }
+}
+
+@media #{$breakpoint-sm}{
+    .sidebar-li{
+        font-size: .625rem;
     }
     .date-list{
         span{
             font-size: .525rem;
         }
-        font-size: .425rem;
+        font-size: .5rem;
+    }
+    .sidebar-sublist{
+        font-size: .593rem;
     }
 }
+
+
 .mt-3 {
     margin-top: 2rem;
 }

@@ -7,7 +7,7 @@ configure({adapter: new Adapter()});
 describe('First React component test with Enzyme', () => {
   it('renders without crashing', () => {
     const app = <App/>;
-    console.log(shallow(app).debug());
+    // console.log(shallow(app).debug());
     mount(app);
   });
 });
