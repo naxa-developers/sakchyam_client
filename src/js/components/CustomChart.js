@@ -17,6 +17,7 @@ export default class CustomChart extends Component {
     return (
       <div id="chart">
         <ReactApexChart
+          ref={this.props.chartRef}
           options={options}
           series={series}
           type="line"

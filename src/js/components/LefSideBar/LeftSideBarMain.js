@@ -49,6 +49,8 @@ class LeftSidebarMain extends Component {
   }
 
   render() {
+    const arraylist = [];
+
     const { activeIndicator, listOfSubCategory } = this.state;
     const {
       handleActiveLayer,
@@ -56,6 +58,14 @@ class LeftSidebarMain extends Component {
       dateRange,
       activeDate,
     } = this.props;
+    // const a =
+    //   listOfSubCategory &&
+    //   listOfSubCategory.map(data => {
+    //     data.subcat.map(subdata => {
+    //       return arraylist.push(subdata.name);
+    //     });
+    //   });
+    // console.log(arraylist, 'arrrrr');
     return (
       <div className="sidebar">
         <ul className="sidebar-li">
@@ -65,7 +75,9 @@ class LeftSidebarMain extends Component {
             return (
               <li
                 role="tab"
-                className="li-dropdown"
+                className={`li-dropdown ${
+                  activeIndicator === data.name ? 'active' : ''
+                }`}
                 value={data.name}
                 onClick={() => {
                   this.handleIndicators(data.name);
@@ -95,6 +107,7 @@ class LeftSidebarMain extends Component {
                         <a
                           role="button"
                           tabIndex="0"
+                          className={el.name.split(' ').join('')}
                           onClick={() => {
                             handleActiveLayer(el.name);
                           }}
@@ -240,11 +253,11 @@ class LeftSidebarMain extends Component {
               </li>
             );
           })}
-          <li>
+          {/* <li>
             <a href="#" className="clear">
               Clear
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
     );
