@@ -505,10 +505,10 @@ class MiddleChartSection extends Component {
                 <div className="data">
                   <span className="span-option">Data</span>
                   <div className="data-wrap">
-                    <span>Individual</span>
+                    <span>Cummulative</span>
                     <ul className="ul-dropdown">
-                      <li>Individual</li>
                       <li>Cummulative</li>
+                      <li>Individual</li>
                     </ul>
                   </div>
                 </div>
