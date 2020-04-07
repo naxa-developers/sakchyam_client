@@ -143,6 +143,13 @@ class MiddleChartSection extends Component {
         yaxis: {
           title: {
             text: 'Points',
+            style: {
+              color: undefined,
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 600,
+              cssClass: 'apexcharts-yaxis-title',
+            },
           },
           floating: false,
           labels: {
@@ -306,7 +313,11 @@ class MiddleChartSection extends Component {
       //   }
     });
     this.setState({ filteredDynamicData: filtered });
-    // console.log(filtered, 'filtered');
+    console.log(filtered, 'filtered');
+    // const { dataType } = filtered[0];
+    const dataType = filtered[0].data_type;
+    const dataUnit = filtered[0].unit;
+
     const planned = filtered.map(el => {
       return el.planned_afp;
     });
@@ -359,6 +370,12 @@ class MiddleChartSection extends Component {
         ...prevState.options,
         labels: label,
         xaxis: { ...prevState.options.xaxis, categories: category },
+        yaxis: {
+          ...prevState.options.yaxis,
+          title: {
+            text: `${dataType}  (${dataUnit})`,
+          },
+        },
       },
     }));
 
@@ -386,6 +403,10 @@ class MiddleChartSection extends Component {
   }
 
   componentDidMount() {
+    // const a = document
+    //   .getElementsByClassName('slick-next')[0]
+    //   .addEventListener('click', this.next);
+    // console.log(a);
     const that = this;
     // const { activeLayer } = this.props;
     // console.log(this.props.activeDate, 'activeLayer');
@@ -414,6 +435,27 @@ class MiddleChartSection extends Component {
       });
   }
 
+  handleBarClick = () => {
+    console.log('handleBarclick');
+    console.log(this.chartRef.chart, 'ref');
+    console.log(this.chartRef.chart.toggleSeries('Achieved'), 'ref');
+
+    // this.chartRef.chart.updateOptions({
+
+    // });
+  };
+
+  next = () => {
+    console.log('nextttttt');
+    const v = document.getElementsByClassName('')[0];
+    v.click();
+    // this.slider.slickNext();
+  };
+
+  previous = () => {
+    this.slider.slickPrev();
+  };
+
   render() {
     const {
       series,
@@ -427,6 +469,14 @@ class MiddleChartSection extends Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
+      afterChange(i) {
+        console.log(i, 'aft');
+        console.log('after change');
+      },
+      beforeChange(j) {
+        console.log(j, 'bef');
+        console.log('before change');
+      },
     };
     const { activeLayer, activeDate, updateChart } = this.props;
     return (
@@ -465,7 +515,14 @@ class MiddleChartSection extends Component {
                 <div className="chart">
                   <span className="span-option">Chart</span>
                   <div className="chart-wrap">
-                    <span>Bar</span>
+                    <span
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={this.handleBarClick}
+                      onClick={this.handleBarClick}
+                    >
+                      Bar
+                    </span>
                     <span>Time graph</span>
                   </div>
                 </div>
@@ -477,15 +534,28 @@ class MiddleChartSection extends Component {
               <img src={SaveAlt} alt="" />
             </a> */}
             <div className="slider-container">
-              <Slider {...settings}>
-                <CustomChart
+              {/* <Slider {...settings}> */}
+              <CustomChart
+                activeLayer={activeLayer}
+                activeDate={activeDate}
+                updateChart={updateChart}
+                series={series}
+                options={options}
+                chartRef={arg => {
+                  this.chartRef = arg;
+                }}
+              />
+              {/* <CustomChart
                   activeLayer={activeLayer}
                   activeDate={activeDate}
                   updateChart={updateChart}
                   series={series}
                   options={options}
-                />
-              </Slider>
+                  chartRef={arg => {
+                    this.chartRef = arg;
+                  }}
+                /> */}
+              {/* </Slider> */}
             </div>
           </div>
           <div className="info-content-footer">
