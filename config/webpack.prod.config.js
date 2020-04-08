@@ -2,7 +2,6 @@ const merge = require('webpack-merge');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const Visualizer = require('webpack-visualizer-plugin');
@@ -13,22 +12,7 @@ const prodConfiguration = env => {
   return merge([
     {
       optimization: {
-        minimizer: [new TerserPlugin(), new UglifyJsPlugin()],
-        // splitChunks: {
-        //   chunks: "all",
-        //   maxInitialRequests: Infinity,
-        //   minSize: 0,
-        //   cacheGroups: {
-        //     leafletVendor: {
-        //       test: /[\\/]node_modules[\\/](leaflet|react-leaflet)[\\/]/,
-        //       name: "leaflet"
-        //     },
-        //     utilityVendor: {
-        //       test: /[\\/]node_modules[\\/](core-js|react-select)[\\/]/,
-        //       name: "utilityVendor"
-        //     }
-        //   }
-        // }
+        minimizer: [new TerserPlugin()],
       },
 
       plugins: [

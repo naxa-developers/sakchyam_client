@@ -5,8 +5,6 @@ const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const DashboardPlugin = require('webpack-dashboard/plugin');
-// const Dotenv = require('dotenv-webpack');
 
 const APP_DIR = path.resolve(__dirname, '../src');
 const OUTPUT_DIR = path.resolve(__dirname, '../dist');
@@ -16,7 +14,8 @@ module.exports = env => {
     {
       entry: ['@babel/polyfill', APP_DIR],
       output: {
-        // publicPath: '/',
+        path: OUTPUT_DIR,
+        publicPath: '/',
       },
       module: {
         rules: [
@@ -36,6 +35,7 @@ module.exports = env => {
           },
           {
             test: /\.s(a|c)ss$/,
+
             use: [
               PLATFORM === 'production'
                 ? MiniCssExtractPlugin.loader
@@ -52,21 +52,21 @@ module.exports = env => {
               },
             ],
           },
+
           {
-            test: /\.woff(2)?(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
-            use: ['url-loader?limit=10000'],
-          },
-          {
-            test: /\.(ttf|eot|svg)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
-            use: ['file-loader'],
+            test: /\.(woff2?|ttf|otf|eot|svg)?(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
+            use: [
+              {
+                loader: 'file-loader',
+                options: {
+                  name: '[name].[ext]',
+                },
+              },
+            ],
           },
         ],
       },
       plugins: [
-        // new webpack.IgnorePlugin({
-        //   resourceRegExp: /^\.\/locale$/,
-        //   contextRegExp: /moment$/
-        // }),
         new HtmlWebpackPlugin({
           title: 'CovidMap',
           template: './src/index.html',
