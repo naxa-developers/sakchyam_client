@@ -1,5 +1,6 @@
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
+import './../src/js/components/setupTests';
 import { mount,shallow, configure } from 'enzyme';
 import App from '../src/js/components/App';
 
@@ -8,7 +9,7 @@ describe('First React component test with Enzyme', () => {
   it('renders without crashing', () => {
     const app = <App/>;
     // console.log(shallow(app).debug());
-    mount(app);
+    shallow(app);
   });
 });
 // describe('Second React component test with Enzyme', () => {

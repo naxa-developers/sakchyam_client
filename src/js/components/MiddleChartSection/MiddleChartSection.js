@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Slider from 'react-slick';
+// import Slider from 'react-slick';
 import CustomChart from '../CustomChart';
 import SaveAlt from '../../../img/save_alt.svg';
 
