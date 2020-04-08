@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { FullPage, Slide } from 'react-full-page';
 // import ReactTooltip from 'react-tooltip';
 import Background from '../../img/banner.png';
+
 import Header from './Header';
 import LeftSidebarMain from './LefSideBar/LeftSideBarMain';
 

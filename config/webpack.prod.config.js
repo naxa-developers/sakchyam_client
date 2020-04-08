@@ -1,9 +1,9 @@
 const merge = require('webpack-merge');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const Visualizer = require('webpack-visualizer-plugin');
 
 const baseConfig = require('./webpack.dev.config');
