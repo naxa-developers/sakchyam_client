@@ -5,8 +5,6 @@ const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const DashboardPlugin = require('webpack-dashboard/plugin');
-// const Dotenv = require('dotenv-webpack');
 
 const APP_DIR = path.resolve(__dirname, '../src');
 const OUTPUT_DIR = path.resolve(__dirname, '../dist');
