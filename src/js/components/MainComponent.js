@@ -3,10 +3,7 @@ import React, { Component } from 'react';
 import { FullPage, Slide } from 'react-full-page';
 // import ReactTooltip from 'react-tooltip';
 import Background from '../../img/banner.png';
-import '../../css/bootstrap.min.css';
-// import '../../css/slick-theme.css';
-import '../../css/slick.css';
-import '../../css/apexcharts.css';
+
 import Header from './Header';
 import LeftSidebarMain from './LefSideBar/LeftSideBarMain';
 
