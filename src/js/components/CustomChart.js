@@ -13,11 +13,11 @@ export default class CustomChart extends Component {
 
   render() {
     // const { activeLayer, statsData } = this.state;
-    const { options, series } = this.props;
+    const { options, series, chartRef } = this.props;
     return (
       <div id="chart">
         <ReactApexChart
-          ref={this.props.chartRef}
+          ref={chartRef}
           options={options}
           series={series}
           type="line"

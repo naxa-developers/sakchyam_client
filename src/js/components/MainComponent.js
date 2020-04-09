@@ -1,7 +1,5 @@
-/* eslint-disable react/no-access-state-in-setstate */
 import React, { Component } from 'react';
 import { FullPage, Slide } from 'react-full-page';
-// import ReactTooltip from 'react-tooltip';
 import Background from '../../img/banner.png';
 
 import Header from './Header';
@@ -29,6 +27,7 @@ class MainComponent extends Component {
   };
 
   handleIndicators = data => {
+    const { activeIndicator } = this.state;
     this.setState({ activeIndicator: data });
   };
 
@@ -42,7 +41,8 @@ class MainComponent extends Component {
 
   handleActiveDate = e => {
     // push uniques
-    this.setState({ updateChart: !this.state.updateChart });
+    const { updateChart } = this.state;
+    this.setState({ updateChart: !updateChart });
     if (dateArray.indexOf(e) === -1) {
       dateArray.push(e);
     } else {
@@ -107,7 +107,7 @@ class MainComponent extends Component {
 
   render() {
     const {
-      activeIndicator,
+      // activeIndicator,
       // statsData,
       // width,
       // height,

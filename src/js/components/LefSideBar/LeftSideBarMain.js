@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ReactTooltip from 'react-tooltip';
+import { connect } from 'react-redux';
+import { getIndicatorsCategory } from '../../actions/logFrame.actions';
 
 let dateArray = [];
 
@@ -9,7 +10,6 @@ class LeftSidebarMain extends Component {
     this.state = {
       activeIndicator: 'Output',
       // activeLayer: 'Output',
-      listOfSubCategory: [],
     };
   }
 
@@ -28,36 +28,43 @@ class LeftSidebarMain extends Component {
 
   componentDidMount() {
     // sakchyam.naxa.com.np/api/v1/log_category
-    const that = this;
-    fetch('https://sakchyam.naxa.com.np/api/v1/log-category')
-      .then(function(response) {
-        if (response.status !== 200) {
-          console.log(
-            `Looks like there was a problem. Status Code: ${response.status}`,
-          );
-          return;
-        }
-        // Examine the text in the response
-        response.json().then(function(data) {
-          // console.log(data, 'data');
-          that.setState({ listOfSubCategory: data });
-        });
-      })
-      .catch(function(err) {
-        console.log('Fetch Error :-S', err);
-      });
+    this.props.getIndicatorsCategory();
+    // const that = this;
+    // fetch('https://sakchyam.naxa.com.np/api/v1/log-category')
+    //   .then(function(response) {
+    //     if (response.status !== 200) {
+    //       // console.log(
+    //       //   `Looks like there was a problem. Status Code: ${response.status}`,
+    //       // );
+    //       return;
+    //     }
+    //     // Examine the text in the response
+    //     response.json().then(function(data) {
+    //       // console.log(data, 'data');
+    //       that.setState({ listOfSubCategory: data });
+    //     });
+    //   })
+    //   .catch(function(err) {
+    //     return err;
+    //     // console.error(err);
+    //     // console.log('Fetch Error :-S', err);
+    //   });
   }
 
   render() {
-    const arraylist = [];
+    // const arraylist = [];
 
-    const { activeIndicator, listOfSubCategory } = this.state;
+    const { activeIndicator } = this.state;
     const {
       handleActiveLayer,
       handleActiveDate,
       dateRange,
       activeDate,
     } = this.props;
+    const {
+      props: { logFrameReducer },
+    } = this;
+    // console.log(this.props, 'incid');
     // const a =
     //   listOfSubCategory &&
     //   listOfSubCategory.map(data => {
@@ -71,7 +78,7 @@ class LeftSidebarMain extends Component {
         <ul className="sidebar-li">
           <h2>Indicators</h2>
 
-          {listOfSubCategory.map(data => {
+          {logFrameReducer.indicatorCategory.map(data => {
             return (
               <li
                 role="tab"
@@ -234,7 +241,7 @@ class LeftSidebarMain extends Component {
         <ul className="date-list">
           <h2>Time period</h2>
           {dateRange.map(d => {
-            console.log(d);
+            // console.log(d);
             return (
               <li
                 role="tab"
@@ -263,5 +270,9 @@ class LeftSidebarMain extends Component {
     );
   }
 }
-
-export default LeftSidebarMain;
+const mapStateToProps = ({ logFrameReducer }) => ({
+  logFrameReducer,
+});
+export default connect(mapStateToProps, { getIndicatorsCategory })(
+  LeftSidebarMain,
+);

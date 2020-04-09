@@ -4,11 +4,8 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-// import TestComponent from './MainComponent';
-// import TestChart from './TestComponents/TestChart';
 import MainComponent from './MainComponent';
-// import Test from './TestComponents/TestScroll';
-import OIndicator2 from './TestComponents/OIndicator2.3';
+import Login from './Login';
 
 class App extends Component {
   constructor(props) {
@@ -22,14 +19,11 @@ class App extends Component {
         <Switch>
           <Route exact path="/">
             <MainComponent />
-            {/* <TestComponent /> */}
-            {/* <TestChart /> */}
-            {/* <Test /> */}
           </Route>
           <Route path="/about">{/* <TestComponent /> */}</Route>
           <Route path="/users">{/* <TestComponent /> */}</Route>
-          <Route exact path="/indicator">
-            <OIndicator2 />
+          <Route path="/login">
+            <Login />
           </Route>
         </Switch>
       </Router>

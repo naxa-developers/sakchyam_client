@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 // import Slider from 'react-slick';
 import CustomChart from '../CustomChart';
-import SaveAlt from '../../../img/save_alt.svg';
 
 function convert(x) {
   // eslint-disable-next-line no-restricted-globals
@@ -313,7 +312,7 @@ class MiddleChartSection extends Component {
       //   }
     });
     this.setState({ filteredDynamicData: filtered });
-    console.log(filtered, 'filtered');
+    // console.log(filtered, 'filtered');
     // const { dataType } = filtered[0];
     const dataType = filtered[0].data_type;
     const dataUnit = filtered[0].unit;
@@ -436,17 +435,15 @@ class MiddleChartSection extends Component {
   }
 
   handleBarClick = () => {
-    console.log('handleBarclick');
-    console.log(this.chartRef.chart, 'ref');
-    console.log(this.chartRef.chart.toggleSeries('Achieved'), 'ref');
-
+    // console.log('handleBarclick');
+    // console.log(this.chartRef.chart, 'ref');
+    // console.log(this.chartRef.chart.toggleSeries('Achieved'), 'ref');
     // this.chartRef.chart.updateOptions({
-
     // });
   };
 
   next = () => {
-    console.log('nextttttt');
+    // console.log('nextttttt');
     const v = document.getElementsByClassName('')[0];
     v.click();
     // this.slider.slickNext();
@@ -463,27 +460,27 @@ class MiddleChartSection extends Component {
       filteredDynamicData,
       // dateRange,
     } = this.state;
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      afterChange(i) {
-        console.log(i, 'aft');
-        console.log('after change');
-      },
-      beforeChange(j) {
-        console.log(j, 'bef');
-        console.log('before change');
-      },
-    };
+    // const settings = {
+    //   dots: true,
+    //   infinite: true,
+    //   speed: 500,
+    //   slidesToShow: 1,
+    //   slidesToScroll: 1,
+    //   afterChange(i) {
+    //     // console.log(i, 'aft');
+    //     // console.log('after change');
+    //   },
+    //   beforeChange(j) {
+    //     // console.log(j, 'bef');
+    //     // console.log('before change');
+    //   },
+    // };
     const { activeLayer, activeDate, updateChart } = this.props;
     return (
       <div className="info-content">
-        <a href="#" className="toggle_button">
+        {/* <a href="#" className="toggle_button">
           <i className="material-icons">keyboard_backspace</i>
-        </a>
+        </a> */}
         <div className="info-content-wrap">
           <div className="info-content-header">
             <h2>
