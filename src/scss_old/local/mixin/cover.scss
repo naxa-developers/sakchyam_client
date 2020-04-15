@@ -1,0 +1,6 @@
+@mixin cover ($value){
+    background-size:cover !important;
+    background-repeat: no-repeat !important;
+    background-position: $value !important;
+
+}

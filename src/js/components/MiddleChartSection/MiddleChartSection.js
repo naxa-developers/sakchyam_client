@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // import Slider from 'react-slick';
+
 import CustomChart from '../CustomChart';
+import {
+  getIndicatorsGraphData,
+  getIndicatorsGraphDataIndividual,
+} from '../../actions/logFrame.actions';
 
 function convert(x) {
   // eslint-disable-next-line no-restricted-globals
@@ -31,9 +37,12 @@ class MiddleChartSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      statsData: [],
+      // statsData: [],
       // dateRange: [],
       filteredDynamicData: [],
+      toggleTimePeriodDropdown: false,
+      toggleDataDropdown: false,
+      selectedDataType: 'Cummulative',
       series: [
         // {
         //   name: 'Planned As per AFP contract Budget',
@@ -58,23 +67,23 @@ class MiddleChartSection extends Component {
         {
           name: 'Achieved',
           type: 'column',
-          data: [33, 21, 32, 37, 23, 32, 27, 11, 34, 32, 40],
+          data: [],
         },
         {
           name: 'Planned As per AFP contract Budget',
           type: 'column',
-          data: [13, 5, 12, 17, 10, 12, 17, 11, 14, 12, 20],
+          data: [],
         },
         {
           name: 'Achieved',
           type: 'line',
-          data: [33, 21, 32, 37, 23, 32, 27, 11, 34, 32, 40],
+          data: [],
         },
         {
           // name: 'Planned',
           name: 'Planned As per AFP contract Budget',
           type: 'line',
-          data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+          data: [],
         },
       ],
       options: {
@@ -82,6 +91,20 @@ class MiddleChartSection extends Component {
           height: 350,
           type: 'line',
           stacked: false,
+        },
+        responsive: [
+          {
+            breakpoint: 992,
+            options: {
+              chart: {
+                height: 320,
+              },
+            },
+          },
+        ],
+        legend: {
+          position: 'top',
+          horizontalAlign: 'left',
         },
         stroke: {
           width: [0, 1, 1],
@@ -223,12 +246,15 @@ class MiddleChartSection extends Component {
   filterDataWithDate = () => {
     // eslint-disable-next-line react/destructuring-assignment
     const { activeDate, activeLayer } = this.props;
-    const { statsData } = this.state;
+    const {
+      logFrameReducer: { logDataGraph },
+    } = this.props;
+    // const { statsData } = this.state;
     const filtered = [];
     // eslint-disable-next-line array-callback-return
     activeDate.map(date => {
       // eslint-disable-next-line array-callback-return
-      statsData.map(data => {
+      logDataGraph.map(data => {
         if (
           data.year.range === date &&
           data.sub_category.name === activeLayer
@@ -303,9 +329,12 @@ class MiddleChartSection extends Component {
     //       response.json().then(function(data) {
     //         console.log(data, 'data');
     //         that.setState({ statsData: data }, () => {
-    const { statsData } = this.state;
-    // console.log(statsData);
-    const filtered = statsData.filter(result => {
+    // const { statsData } = this.state;
+    const {
+      logFrameReducer: { logDataGraph },
+    } = this.props;
+    console.log(logDataGraph, 'logdata');
+    const filtered = logDataGraph.filter(result => {
       //   if (result.category === 'IMPACT') {
       //   console.log(a);
       return result.sub_category.name === a;
@@ -384,8 +413,13 @@ class MiddleChartSection extends Component {
     // });
   };
 
-  componentDidUpdate(prevProps) {
+  handleSelectedDataType = option => {
+    this.setState({ selectedDataType: option });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
     // const that = this;
+    const { selectedDataType } = this.state;
     const { activeLayer } = this.props;
     if (prevProps.activeLayer !== activeLayer) {
       this.filterDataWithLayer();
@@ -399,39 +433,72 @@ class MiddleChartSection extends Component {
     if (prevProps.updateChart !== updateChart) {
       this.filterDataWithDate();
     }
+    if (
+      this.props.logFrameReducer.isDataFetched &&
+      this.props.logFrameReducer.isDataFetched !==
+        prevProps.logFrameReducer.isDataFetched
+    ) {
+      this.props.handleOneTimeLayerChange();
+      // selectActivelayer("activelayer1")
+    }
+    if (prevState.selectedDataType !== selectedDataType) {
+      console.log('selectedDataType');
+      if (selectedDataType === 'Individual') {
+        this.props.getIndicatorsGraphDataIndividual();
+        // this.props.handleOneTimeLayerChange();
+        this.filterDataWithLayer();
+      } else {
+        this.props.getIndicatorsGraphData();
+        // this.props.handleOneTimeLayerChange();
+        this.filterDataWithLayer();
+      }
+    }
   }
 
-  componentDidMount() {
-    // const a = document
-    //   .getElementsByClassName('slick-next')[0]
-    //   .addEventListener('click', this.next);
-    // console.log(a);
-    const that = this;
-    // const { activeLayer } = this.props;
-    // console.log(this.props.activeDate, 'activeLayer');
-    // const a = activeLayer;
-    fetch('https://sakchyam.naxa.com.np/api/v1/logFrame-data')
-      .then(function(response) {
-        if (response.status !== 200) {
-          // console.log(
-          //   `Looks like there was a problem. Status Code: ${response.status}`,
-          // );
-          return;
-        }
-        // Examine the text in the response
-        response.json().then(function(data) {
-          //   console.log(data, 'data');
-          that.setState({ statsData: data }, () => {
-            that.props.handleOneTimeLayerChange();
-          });
-        });
+  handleToggleTimePeriodDropdown = () => {
+    this.setState(prevState => ({
+      toggleTimePeriodDropdown: !prevState.toggleTimePeriodDropdown,
+    }));
+  };
 
-        // console.log(this.state.series, 'series');
-      })
-      .catch(function(err) {
-        return err;
-        // console.log('Fetch Error :-S', err);
-      });
+  handleToggleDataDropdown = () => {
+    this.setState(prevState => ({
+      toggleDataDropdown: !prevState.toggleDataDropdown,
+    }));
+  };
+
+  componentDidMount() {
+    this.props.getIndicatorsGraphData();
+
+    const timeDropdownEl = document.getElementById('duration_id');
+    const dataDropdownEl = document.getElementById('data_id');
+    // console.log(specifiedElement, 'ss');
+    document.addEventListener('click', async event => {
+      const isClickInside = timeDropdownEl.contains(event.target);
+
+      if (!isClickInside) {
+        this.setState({
+          toggleTimePeriodDropdown: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    document.addEventListener('click', async event => {
+      const isClickInside = dataDropdownEl.contains(event.target);
+
+      if (!isClickInside) {
+        this.setState({
+          toggleDataDropdown: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    // setTimeout(() => {
+    //   console.log('s');
+    //   this.props.handleOneTimeLayerChange();
+    // }, 1000);
   }
 
   handleBarClick = () => {
@@ -458,6 +525,9 @@ class MiddleChartSection extends Component {
       series,
       options,
       filteredDynamicData,
+      toggleTimePeriodDropdown,
+      toggleDataDropdown,
+      selectedDataType,
       // dateRange,
     } = this.state;
     // const settings = {
@@ -475,63 +545,215 @@ class MiddleChartSection extends Component {
     //     // console.log('before change');
     //   },
     // };
-    const { activeLayer, activeDate, updateChart } = this.props;
+    const {
+      activeLayer,
+      activeDate,
+      handleActiveDate,
+      updateChart,
+      dateRange,
+      handleModal,
+    } = this.props;
+    const {
+      props: { logFrameReducer },
+    } = this;
     return (
       <div className="info-content">
-        {/* <a href="#" className="toggle_button">
+        <a href="#sidebar-toggle" className="toggle_button">
           <i className="material-icons">keyboard_backspace</i>
-        </a> */}
+        </a>
         <div className="info-content-wrap">
           <div className="info-content-header">
+            <h5>Logical framework</h5>
             <h2>
               {filteredDynamicData &&
                 filteredDynamicData[0] &&
                 filteredDynamicData[0].category.title}
             </h2>
             <div className="info-header-top">
-              <h5 className="h3-red">
+              <h3 className="h3-red">
                 {filteredDynamicData &&
                   filteredDynamicData[0] &&
                   filteredDynamicData[0].sub_category.title}
-              </h5>
+              </h3>
               <span className="span_black_15">{activeLayer}</span>
             </div>
 
             <div className="info-header-bottom">
-              <div className="option-wrap">
-                <div className="data">
-                  <span className="span-option">Data</span>
-                  <div className="data-wrap">
-                    <span>Cummulative</span>
-                    <ul className="ul-dropdown">
-                      <li>Cummulative</li>
-                      <li>Individual</li>
+              <div className="bottom-wrapper">
+                <div className="duration-wrap">
+                  <span className="span-option">Time period</span>
+                  <div
+                    className="dropdown"
+                    id="duration_id"
+                    role="button"
+                    tabIndex="-1"
+                    onClick={this.handleToggleTimePeriodDropdown}
+                    onKeyDown={this.handleToggleTimePeriodDropdown}
+                  >
+                    <span
+                      className={`span-label span-dropdown ${
+                        toggleTimePeriodDropdown ? 'span-active' : ''
+                      }`}
+                    >
+                      All
+                    </span>
+                    <ul
+                      className={`ul-dropdown ${
+                        toggleTimePeriodDropdown ? 'active' : ''
+                      }`}
+                      id="dropdown-list"
+                    >
+                      {dateRange.map((d, key) => {
+                        return (
+                          <li className="checkbox">
+                            <input
+                              type="checkbox"
+                              id={`check_time${key}`}
+                              onClick={() => {
+                                handleActiveDate(d.range);
+                              }}
+                              onKeyDown={() => {
+                                handleActiveDate(d.range);
+                              }}
+                            />
+                            <label htmlFor={`check_time${key}`}>
+                              {d.name}
+                            </label>
+                          </li>
+                        );
+                      })}
+                      {/* <li className="checkbox">
+                        <input type="checkbox" id="check_time2" />
+                        <label htmlFor="check_time2">
+                          Milestone Year 2
+                        </label>
+                        Milestone Year 2
+                      </li>
+                      <li className="checkbox">
+                        <input type="checkbox" id="check_time3" />
+                        <label htmlFor="check_time3">
+                          Milestone Year 3
+                        </label>
+                      </li>
+                      <li className="checkbox">
+                        <input type="checkbox" id="check_time4" />
+                        <label htmlFor="check_time4">
+                          Milestone Year 4
+                        </label>
+                      </li>
+                      <li className="checkbox">
+                        <input type="checkbox" id="check_time5" />
+                        <label htmlFor="check_time5">
+                          Milestone Year 5
+                        </label>
+                        Milestone Year 5
+                      </li>
+                      <li className="checkbox">
+                        <input type="checkbox" id="check_time6" />
+                        <label htmlFor="check_time6">
+                          Milestone Year 6
+                        </label>
+                        Milestone Year 6
+                      </li> */}
                     </ul>
                   </div>
                 </div>
-                <div className="chart">
-                  <span className="span-option">Chart</span>
-                  <div className="chart-wrap">
-                    <span
+                <div className="option-wrap">
+                  <div className="data">
+                    <span className="span-option">Data</span>
+                    <div
                       role="button"
-                      tabIndex={0}
-                      onKeyDown={this.handleBarClick}
-                      onClick={this.handleBarClick}
+                      tabIndex="-1"
+                      onClick={this.handleToggleDataDropdown}
+                      onKeyDown={this.handleToggleDataDropdown}
+                      className="data-wrap"
+                      id="data_id"
                     >
-                      Bar
-                    </span>
-                    <span>Time graph</span>
+                      <span
+                        className={`span-label span-dropdown ${
+                          toggleDataDropdown ? 'span-active' : ''
+                        }`}
+                      >
+                        {selectedDataType}
+                      </span>
+                      <ul
+                        className={`ul-dropdown ${
+                          toggleDataDropdown ? 'active' : ''
+                        }`}
+                        id="data-list"
+                      >
+                        <li
+                          className={
+                            selectedDataType === 'Cummulative'
+                              ? 'li-active'
+                              : ''
+                          }
+                          role="tab"
+                          onClick={() => {
+                            this.handleSelectedDataType(
+                              'Cummulative',
+                            );
+                          }}
+                          onKeyDown={() => {
+                            this.handleSelectedDataType(
+                              'Cummulative',
+                            );
+                          }}
+                        >
+                          Cummulative
+                        </li>
+                        <li
+                          className={
+                            selectedDataType === 'Individual'
+                              ? 'li-active'
+                              : ''
+                          }
+                          role="tab"
+                          onClick={() => {
+                            this.handleSelectedDataType('Individual');
+                          }}
+                          onKeyDown={() => {
+                            this.handleSelectedDataType('Individual');
+                          }}
+                        >
+                          Individual
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="chart">
+                    <span className="span-option">Chart</span>
+                    <div className="chart-wrap">
+                      <span
+                        className="span-label"
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={this.handleBarClick}
+                        onClick={this.handleBarClick}
+                      >
+                        Bar
+                      </span>
+                      <span className="span-label">Time graph</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="info-slider">
-            {/* <a href="foo" className="download-icon-image">
-              <img src={SaveAlt} alt="" />
-            </a> */}
+            <a href="#/" className="download-icon-image">
+              <img src="./img/save_alt.svg" alt="" />
+            </a>
+            <ul className="download-dropdown">
+              <li>
+                <a>Download .PNG</a>
+              </li>
+              <li>
+                <a>Download .PDF</a>
+              </li>
+            </ul>
             <div className="slider-container">
-              {/* <Slider {...settings}> */}
+              {/* <div id="chart" /> */}
               <CustomChart
                 activeLayer={activeLayer}
                 activeDate={activeDate}
@@ -542,17 +764,7 @@ class MiddleChartSection extends Component {
                   this.chartRef = arg;
                 }}
               />
-              {/* <CustomChart
-                  activeLayer={activeLayer}
-                  activeDate={activeDate}
-                  updateChart={updateChart}
-                  series={series}
-                  options={options}
-                  chartRef={arg => {
-                    this.chartRef = arg;
-                  }}
-                /> */}
-              {/* </Slider> */}
+              <div id="chartone" />
             </div>
           </div>
           <div className="info-content-footer">
@@ -561,6 +773,15 @@ class MiddleChartSection extends Component {
                 filteredDynamicData[0] &&
                 filteredDynamicData[0].sub_category.description}
             </p>
+            <a
+              role="button"
+              tabIndex="0"
+              onClick={handleModal}
+              onKeyDown={handleModal}
+              className="more"
+            >
+              more
+            </a>
           </div>
         </div>
       </div>
@@ -568,4 +789,10 @@ class MiddleChartSection extends Component {
   }
 }
 
-export default MiddleChartSection;
+const mapStateToProps = ({ logFrameReducer }) => ({
+  logFrameReducer,
+});
+export default connect(mapStateToProps, {
+  getIndicatorsGraphData,
+  getIndicatorsGraphDataIndividual,
+})(MiddleChartSection);

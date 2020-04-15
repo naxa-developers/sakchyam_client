@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../../img/logo.png';
 import UkaidLogo from '../../img/ukaid.png';
 
@@ -8,9 +9,9 @@ function Header() {
       <div className="container-fluid">
         <ul>
           <li>
-            <a href="index.html" className="logo">
+            <Link to="/logframe" className="logo">
               <img src={Logo} alt="sakchyam logo" />
-            </a>
+            </Link>
           </li>
           <li>
             <a href="index.html" className="logo">

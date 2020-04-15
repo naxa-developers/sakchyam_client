@@ -4,8 +4,8 @@
   "description": "Sakchyam Frontend",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config config/webpack.dev.config.js --open --mode development --history-api-fallback --env.PLATFORM=local --env.VERSION=stag",
-    "prebuild": "npm run clean && webpack --mode production --config config/webpack.prod.config.js --env.PLATFORM=production --env.VERSION=stag --progress",
+    "start": "webpack-dev-server --config config/webpack.dev.config.js --open --mode development --history-api-fallback --env.PLATFORM=local --env.PUBLIC_URL=https://sakchyam.naxa.com.np --env.VERSION=stag",
+    "prebuild": "npm run clean && webpack --mode production --config config/webpack.prod.config.js --env.PLATFORM=production --env.PUBLIC_URL=https://sakchyam.naxa.com.np --env.VERSION=stag --progress",
     "build": "node server",
     "clean": "rm -rf dist",
     "test": "jest --coverage=true",

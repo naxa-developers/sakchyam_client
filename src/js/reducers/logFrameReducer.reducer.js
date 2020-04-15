@@ -1,6 +1,7 @@
 import {
   GET_INDICATORS_GRAPHDATA,
   GET_INDICATORS_CATEGORY,
+  GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
 } from '../actions/index.actions';
 
 // import copy from '../utils/cloneNestedObject';
@@ -10,6 +11,7 @@ import {
 /* eslint-disable no-param-reassign */
 
 const initialState = {
+  isDataFetched: false,
   indicatorCategory: [],
   logDataGraph: [],
 };
@@ -19,6 +21,13 @@ export default function(state = initialState, action) {
     case GET_INDICATORS_GRAPHDATA:
       return {
         ...state,
+        isDataFetched: true,
+        logDataGraph: action.payload,
+      };
+    case GET_INDICATORS_GRAPHDATA_INDIVIDUAL:
+      return {
+        ...state,
+        isDataFetched: true,
         logDataGraph: action.payload,
       };
     case GET_INDICATORS_CATEGORY:
