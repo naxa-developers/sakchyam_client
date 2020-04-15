@@ -3,34 +3,50 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
-// import TestComponent from './MainComponent';
-// import TestChart from './TestComponents/TestChart';
 import MainComponent from './MainComponent';
-// import Test from './TestComponents/TestScroll';
-import OIndicator2 from './TestComponents/OIndicator2.3';
+import Login from './Login';
+import PrivateRoute from '../Routes/PrivateRouter.routes';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    // if (localStorage.getItem('userToken')) {
+    //   localStorage.removeItem('userToken');
+    // }
   }
+
+  // handleLogOutClick = () => {
+  //   if (localStorage.getItem('userToken')) {
+  //     localStorage.removeItem('userToken');
+  //     return <Redirect to="/login" />;
+  //   }
+  // };
 
   render() {
     return (
       <Router>
+        {/* {localStorage.getItem('userToken') ? (
+          <button
+            style={{ zIndex: 999999999, position: 'fixed' }}
+            type="button"
+            onClick={this.handleLogOutClick}
+          >
+            Log Out
+          </button>
+        ) : null} */}
         <Switch>
-          <Route exact path="/">
-            <MainComponent />
-            {/* <TestComponent /> */}
-            {/* <TestChart /> */}
-            {/* <Test /> */}
-          </Route>
-          <Route path="/about">{/* <TestComponent /> */}</Route>
-          <Route path="/users">{/* <TestComponent /> */}</Route>
-          <Route exact path="/indicator">
-            <OIndicator2 />
-          </Route>
+          <Route path="/login" component={Login} />
+          {/* <Route
+            path="/change-password"
+            component={ChangePasswordByUser}
+          /> */}
+          {/* <Route path="/forgot-password" component={ForgotPassword} /> */}
+          {/* <Route path="/signup" component={SignUp} /> */}
+          <PrivateRoute path="/logframe" component={MainComponent} />
+          <PrivateRoute path="/" component={Login} />
         </Switch>
       </Router>
     );

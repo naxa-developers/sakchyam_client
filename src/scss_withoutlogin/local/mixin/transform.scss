@@ -1,0 +1,32 @@
+
+@mixin transform($value) {
+    -webkit-transform: $value;
+    -moz-transform: $value;
+    -ms-transform: $value;
+    -o-transform: $value;
+    transform: $value;
+    
+}
+@mixin transformRotate($value){
+    -webkit-transform: rotate($value);
+     -moz-transform: rotate($value);
+      -ms-transform: rotate($value); // IE9 only
+       -o-transform: rotate($value);
+          transform: rotate($value);
+}
+@mixin transformScale($value){
+    -webkit-transform: scale($value);
+     -moz-transform: scale($value);
+      -ms-transform: scale($value); // IE9 only
+       -o-transform: scale($value);
+          transform: scale($value);
+}
+@mixin transformY($value){
+    -webkit-transform: translateY($value);
+     -moz-transform: translateY($value);
+      -ms-transform: translateY($value); // IE9 only
+       -o-transform: translateY($value);
+          transform: translateY($value);
+}
+
+

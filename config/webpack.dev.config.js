@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const APP_DIR = path.resolve(__dirname, '../src');
 const OUTPUT_DIR = path.resolve(__dirname, '../dist');
 module.exports = env => {
-  const { PLATFORM, VERSION } = env;
+  const { PLATFORM, VERSION, PUBLIC_URL } = env;
   return merge([
     {
       entry: ['@babel/polyfill', APP_DIR],
@@ -68,7 +68,7 @@ module.exports = env => {
       },
       plugins: [
         new HtmlWebpackPlugin({
-          title: 'CovidMap',
+          title: 'Sakchyam',
           template: './src/index.html',
           filename: 'index.html',
           inject: true,
@@ -85,7 +85,7 @@ module.exports = env => {
         new webpack.DefinePlugin({
           'process.env.VERSION': JSON.stringify(VERSION),
           'process.env.PLATFORM': JSON.stringify(PLATFORM),
-          // 'process.env.PUBLIC_URL': JSON.stringify(PUBLIC_URL),
+          'process.env.PUBLIC_URL': JSON.stringify(PUBLIC_URL),
         }),
         new CopyWebpackPlugin([{ from: 'src/static/' }]),
         // new DashboardPlugin(),

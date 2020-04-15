@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ReactTooltip from 'react-tooltip';
+import { connect } from 'react-redux';
+import { getIndicatorsCategory } from '../../actions/logFrame.actions';
 
 let dateArray = [];
 
@@ -7,9 +8,8 @@ class LeftSidebarMain extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeIndicator: 'Output',
+      activeIndicator: 'IMPACT',
       // activeLayer: 'Output',
-      listOfSubCategory: [],
     };
   }
 
@@ -28,36 +28,44 @@ class LeftSidebarMain extends Component {
 
   componentDidMount() {
     // sakchyam.naxa.com.np/api/v1/log_category
-    const that = this;
-    fetch('https://sakchyam.naxa.com.np/api/v1/log-category')
-      .then(function(response) {
-        if (response.status !== 200) {
-          console.log(
-            `Looks like there was a problem. Status Code: ${response.status}`,
-          );
-          return;
-        }
-        // Examine the text in the response
-        response.json().then(function(data) {
-          // console.log(data, 'data');
-          that.setState({ listOfSubCategory: data });
-        });
-      })
-      .catch(function(err) {
-        console.log('Fetch Error :-S', err);
-      });
+    this.props.getIndicatorsCategory();
+    // const that = this;
+    // fetch('https://sakchyam.naxa.com.np/api/v1/log-category')
+    //   .then(function(response) {
+    //     if (response.status !== 200) {
+    //       // console.log(
+    //       //   `Looks like there was a problem. Status Code: ${response.status}`,
+    //       // );
+    //       return;
+    //     }
+    //     // Examine the text in the response
+    //     response.json().then(function(data) {
+    //       // console.log(data, 'data');
+    //       that.setState({ listOfSubCategory: data });
+    //     });
+    //   })
+    //   .catch(function(err) {
+    //     return err;
+    //     // console.error(err);
+    //     // console.log('Fetch Error :-S', err);
+    //   });
   }
 
   render() {
-    const arraylist = [];
+    // const arraylist = [];
 
-    const { activeIndicator, listOfSubCategory } = this.state;
+    const { activeIndicator } = this.state;
     const {
       handleActiveLayer,
       handleActiveDate,
+      activeLayer,
       dateRange,
       activeDate,
     } = this.props;
+    const {
+      props: { logFrameReducer },
+    } = this;
+    // console.log(this.props, 'incid');
     // const a =
     //   listOfSubCategory &&
     //   listOfSubCategory.map(data => {
@@ -67,15 +75,16 @@ class LeftSidebarMain extends Component {
     //   });
     // console.log(arraylist, 'arrrrr');
     return (
-      <div className="sidebar">
+      <div className="sidebar" id="sidebar-toggle">
         <ul className="sidebar-li">
           <h2>Indicators</h2>
 
-          {listOfSubCategory.map(data => {
+          {logFrameReducer.indicatorCategory.map(data => {
+            console.log(data, 'data');
             return (
               <li
                 role="tab"
-                className={`li-dropdown ${
+                className={`${
                   activeIndicator === data.name ? 'active' : ''
                 }`}
                 value={data.name}
@@ -86,14 +95,14 @@ class LeftSidebarMain extends Component {
                   this.handleIndicators(data.name);
                 }}
               >
-                {/* <ReactTooltip /> */}
-                {data.name}
-                <span className="tooltip-list">
-                  <span className="text">
+                <a href="#/">
+                  {/* <ReactTooltip /> */}
+                  {data.name}
+                  <span className="tooltip-list">
                     Sustainable improvements in the livelihoods of
                     poor people
                   </span>
-                </span>
+                </a>
                 <ul
                   className={`sidebar-sublist ${
                     activeIndicator === data.name
@@ -103,7 +112,13 @@ class LeftSidebarMain extends Component {
                 >
                   {data.subcat.map(el => {
                     return (
-                      <li>
+                      <li
+                        className={
+                          activeLayer === el.name
+                            ? 'active-sublist'
+                            : ''
+                        }
+                      >
                         <a
                           role="button"
                           tabIndex="0"
@@ -231,10 +246,9 @@ class LeftSidebarMain extends Component {
           </li> */}
         </ul>
 
-        <ul className="date-list">
+        {/* <ul className="date-list">
           <h2>Time period</h2>
           {dateRange.map(d => {
-            console.log(d);
             return (
               <li
                 role="tab"
@@ -249,19 +263,17 @@ class LeftSidebarMain extends Component {
                 }}
               >
                 <span>{d.name}</span>
-                {/* {d.range} */}
               </li>
             );
           })}
-          {/* <li>
-            <a href="#" className="clear">
-              Clear
-            </a>
-          </li> */}
-        </ul>
+        </ul> */}
       </div>
     );
   }
 }
-
-export default LeftSidebarMain;
+const mapStateToProps = ({ logFrameReducer }) => ({
+  logFrameReducer,
+});
+export default connect(mapStateToProps, { getIndicatorsCategory })(
+  LeftSidebarMain,
+);
