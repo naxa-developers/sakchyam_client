@@ -5,7 +5,10 @@ import LogoWhite from '../../img/logo-white.png';
 import LogoIllustration from '../../img/Login-illustration.png';
 import SakLogo from '../../img/saklogo.png';
 import UkAid from '../../img/ukaid.png';
-import { loginUser } from '../actions/authentication.actions';
+import {
+  loginUser,
+  getUserPermissions,
+} from '../actions/authentication.actions';
 
 class Login extends Component {
   constructor(props) {
@@ -19,6 +22,7 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.loginUser(this.state);
+    this.props.getUserPermissions();
   };
 
   handleChange = e => {
@@ -207,4 +211,7 @@ class Login extends Component {
 const mapStateToProps = ({ authenticationReducer }) => ({
   authenticationReducer,
 });
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, {
+  loginUser,
+  getUserPermissions,
+})(Login);

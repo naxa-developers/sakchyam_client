@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.PUBLIC_URL}`,
-  timeout: 5000,
+  timeout: 15000,
   headers: {
     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
     'Content-Type': 'application/json',

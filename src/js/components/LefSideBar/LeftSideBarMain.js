@@ -98,10 +98,7 @@ class LeftSidebarMain extends Component {
                 <a href="#/">
                   {/* <ReactTooltip /> */}
                   {data.name}
-                  <span className="tooltip-list">
-                    Sustainable improvements in the livelihoods of
-                    poor people
-                  </span>
+                  <span className="tooltip-list">{data.title}</span>
                 </a>
                 <ul
                   className={`sidebar-sublist ${

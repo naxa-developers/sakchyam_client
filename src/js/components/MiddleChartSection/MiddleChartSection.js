@@ -283,22 +283,22 @@ class MiddleChartSection extends Component {
 
     const series = [
       {
-        name: 'Planned As per AFP contract Budget',
+        name: 'Planned As per AFP contract Budget Bar',
         type: 'column',
         data: planned,
       },
       {
-        name: 'Achieved',
+        name: 'Achieved Bar',
         type: 'column',
         data: achieved,
       },
       {
-        name: 'Planned As per AFP contract Budget',
+        name: 'Planned As per AFP contract Budget Line',
         type: 'line',
         data: planned,
       },
       {
-        name: 'Achieved',
+        name: 'Achieved Line',
         type: 'line',
         data: achieved,
       },
@@ -369,22 +369,22 @@ class MiddleChartSection extends Component {
     // console.log(achieved, 'achieved');
     const series = [
       {
-        name: 'Planned As per AFP contract Budget',
+        name: 'Planned As per AFP contract Budget Bar',
         type: 'column',
         data: planned,
       },
       {
-        name: 'Achieved',
+        name: 'Achieved Bar',
         type: 'column',
         data: achieved,
       },
       {
-        name: 'Planned As per AFP contract Budget',
+        name: 'Planned As per AFP contract Budget Line',
         type: 'line',
         data: planned,
       },
       {
-        name: 'Achieved',
+        name: 'Achieved Line',
         type: 'line',
         data: achieved,
       },
@@ -446,7 +446,7 @@ class MiddleChartSection extends Component {
       if (selectedDataType === 'Individual') {
         this.props.getIndicatorsGraphDataIndividual();
         // this.props.handleOneTimeLayerChange();
-        this.filterDataWithLayer();
+        // this.filterDataWithLayer();
       } else {
         this.props.getIndicatorsGraphData();
         // this.props.handleOneTimeLayerChange();
@@ -502,11 +502,10 @@ class MiddleChartSection extends Component {
   }
 
   handleBarClick = () => {
-    // console.log('handleBarclick');
-    // console.log(this.chartRef.chart, 'ref');
-    // console.log(this.chartRef.chart.toggleSeries('Achieved'), 'ref');
-    // this.chartRef.chart.updateOptions({
-    // });
+    this.chartRef.chart.toggleSeries(
+      'Planned As per AFP contract Budget Bar',
+    );
+    this.chartRef.chart.toggleSeries('Achieved Bar');
   };
 
   next = () => {
