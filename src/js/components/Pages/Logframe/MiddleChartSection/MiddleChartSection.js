@@ -6,7 +6,9 @@ import CustomChart from '../CustomChart';
 import {
   getIndicatorsGraphData,
   getIndicatorsGraphDataIndividual,
-} from '../../actions/logFrame.actions';
+  filterIndicatorGraphData,
+  filterIndicatorGraphDataWithDate,
+} from '../../../../actions/logFrame.actions';
 
 function convert(x) {
   // eslint-disable-next-line no-restricted-globals
@@ -39,418 +41,263 @@ class MiddleChartSection extends Component {
     this.state = {
       // statsData: [],
       // dateRange: [],
-      filteredDynamicData: [],
+      activeTimeGraph: true,
+      activeBar: true,
       toggleTimePeriodDropdown: false,
       toggleDataDropdown: false,
-      selectedDataType: 'Cummulative',
-      series: [
-        // {
-        //   name: 'Planned As per AFP contract Budget',
-        //   type: 'column',
-        //   data: planned,
-        // },
-        // {
-        //   name: 'Achieved',
-        //   type: 'column',
-        //   data: achieved,
-        // },
-        // {
-        //   name: 'Planned As per AFP contract Budget',
-        //   type: 'line',
-        //   data: planned,
-        // },
-        // {
-        //   name: 'Achieved',
-        //   type: 'line',
-        //   data: achieved,
-        // },
-        {
-          name: 'Achieved',
-          type: 'column',
-          data: [],
-        },
-        {
-          name: 'Planned As per AFP contract Budget',
-          type: 'column',
-          data: [],
-        },
-        {
-          name: 'Achieved',
-          type: 'line',
-          data: [],
-        },
-        {
-          // name: 'Planned',
-          name: 'Planned As per AFP contract Budget',
-          type: 'line',
-          data: [],
-        },
-      ],
-      options: {
-        chart: {
-          height: 350,
-          type: 'line',
-          stacked: false,
-        },
-        responsive: [
-          {
-            breakpoint: 992,
-            options: {
-              chart: {
-                height: 320,
-              },
-            },
-          },
-        ],
-        legend: {
-          position: 'top',
-          horizontalAlign: 'left',
-        },
-        stroke: {
-          width: [0, 1, 1],
-          curve: 'straight',
-        },
-        plotOptions: {
-          bar: {
-            columnWidth: '20%',
-          },
-        },
-        colors: ['#b41833', '#287078'],
-        fill: {
-          opacity: [0.85, 1, 1],
-          gradient: {
-            inverseColors: false,
-            shade: 'light',
-            type: 'vertical',
-            opacityFrom: 0.85,
-            opacityTo: 0.55,
-            stops: [0, 100, 100, 100],
-          },
-        },
-        labels: [
-          '01/01/2003',
-          '02/01/2003',
-          '03/01/2003',
-          '04/01/2003',
-          '05/01/2003',
-          '06/01/2003',
-          '07/01/2003',
-          '08/01/2003',
-          '09/01/2003',
-          '10/01/2003',
-          '11/01/2003',
-          '12/01/2003',
-          '01/01/2004',
-          '02/01/2004',
-        ],
-        markers: {
-          size: 5,
-          offsetX: 0,
-          offsetY: 0,
-        },
-        xaxis: {
-          categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-          ],
-          type: 'category',
-        },
-        yaxis: {
-          title: {
-            text: 'Points',
-            style: {
-              color: undefined,
-              fontSize: '12px',
-              fontFamily: 'Helvetica, Arial, sans-serif',
-              fontWeight: 600,
-              cssClass: 'apexcharts-yaxis-title',
-            },
-          },
-          floating: false,
-          labels: {
-            show: true,
-            align: 'right',
-            minWidth: 0,
-            maxWidth: 160,
-            style: {
-              colors: [],
-              fontSize: '12px',
-              fontFamily: 'Helvetica, Arial, sans-serif',
-              fontWeight: 400,
-              cssClass: 'apexcharts-yaxis-label',
-            },
-            offsetX: 0,
-            offsetY: 0,
-            rotate: 0,
-            formatter: value => {
-              const roundNumber = Math.round(value);
-              //   console.log(roundNumber);
-              //   console.log(convert(roundNumber));
-              return convert(roundNumber);
-            },
-          },
-          min: 0,
-        },
-        title: {
-          text: undefined,
-          rotate: -90,
-          offsetX: 0,
-          offsetY: 0,
-          style: {
-            color: undefined,
-            fontSize: '12px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            fontWeight: 600,
-            cssClass: 'apexcharts-yaxis-title',
-          },
-        },
-        toolbar: {
-          show: true,
-          // offsetX: 0,
-          // offsetY: 0,
-          // tools: {
-          //   download: true,
-          //   selection: true,
-          //   zoom: true,
-          //   zoomin: true,
-          //   zoomout: true,
-          //   pan: true,
-          //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
-          //   // customIcons: []
-          // },
-          // autoSelected: 'zoom',
-        },
-        tooltip: {
-          shared: true,
-          intersect: false,
-          y: {
-            formatter(y) {
-              if (typeof y !== 'undefined') {
-                return `${y.toFixed(0)} £`;
-              }
-              return y;
-            },
-          },
-        },
-      },
+      // series: [
+      //   // {
+      //   //   name: 'Planned As per AFP contract Budget',
+      //   //   type: 'column',
+      //   //   data: planned,
+      //   // },
+      //   // {
+      //   //   name: 'Achieved',
+      //   //   type: 'column',
+      //   //   data: achieved,
+      //   // },
+      //   // {
+      //   //   name: 'Planned As per AFP contract Budget',
+      //   //   type: 'line',
+      //   //   data: planned,
+      //   // },
+      //   // {
+      //   //   name: 'Achieved',
+      //   //   type: 'line',
+      //   //   data: achieved,
+      //   // },
+      //   {
+      //     name: 'Achieved',
+      //     type: 'column',
+      //     data: [],
+      //   },
+      //   {
+      //     name: 'Planned As per AFP contract Budget',
+      //     type: 'column',
+      //     data: [],
+      //   },
+      //   {
+      //     name: 'Achieved',
+      //     type: 'line',
+      //     data: [],
+      //   },
+      //   {
+      //     // name: 'Planned',
+      //     name: 'Planned As per AFP contract Budget',
+      //     type: 'line',
+      //     data: [],
+      //   },
+      // ],
     };
   }
 
-  filterDataWithDate = () => {
-    // eslint-disable-next-line react/destructuring-assignment
-    const { activeDate, activeLayer } = this.props;
-    const {
-      logFrameReducer: { logDataGraph },
-    } = this.props;
-    // const { statsData } = this.state;
-    const filtered = [];
-    // eslint-disable-next-line array-callback-return
-    activeDate.map(date => {
-      // eslint-disable-next-line array-callback-return
-      logDataGraph.map(data => {
-        if (
-          data.year.range === date &&
-          data.sub_category.name === activeLayer
-        ) {
-          filtered.push(data);
-        }
-      });
-    });
+  // filterDataWithDate = () => {
+  //   // eslint-disable-next-line react/destructuring-assignment
+  //   const { activeDate, activeLayer } = this.props;
+  //   const {
+  //     logFrameReducer: { logDataGraph },
+  //   } = this.props;
+  //   // const { statsData } = this.state;
+  //   const filtered = [];
+  //   // eslint-disable-next-line array-callback-return
+  //   activeDate.map(date => {
+  //     // eslint-disable-next-line array-callback-return
+  //     logDataGraph.map(data => {
+  //       if (
+  //         data.year.range === date &&
+  //         data.sub_category.name === activeLayer
+  //       ) {
+  //         filtered.push(data);
+  //       }
+  //     });
+  //   });
 
-    // const filtered = statsData.filter(result => {
-    //   return result.year.range === JSON.stringify(d);
-    // });
-    const planned = filtered.map(el => {
-      return el.planned_afp;
-    });
-    const achieved = filtered.map(el => {
-      return el.achieved;
-    });
-    const label = filtered.map(el => {
-      return el.year.name;
-    });
-    // const category = 'Test Year';
-    const category = filtered.map(el => {
-      return el.year.name;
-    });
+  //   // const filtered = statsData.filter(result => {
+  //   //   return result.year.range === JSON.stringify(d);
+  //   // });
+  //   const planned = filtered.map(el => {
+  //     return el.planned_afp;
+  //   });
+  //   const achieved = filtered.map(el => {
+  //     return el.achieved;
+  //   });
+  //   const label = filtered.map(el => {
+  //     return el.year.name;
+  //   });
+  //   // const category = 'Test Year';
+  //   const category = filtered.map(el => {
+  //     return el.year.name;
+  //   });
 
-    const series = [
-      {
-        name: 'Planned As per AFP contract Budget',
-        type: 'column',
-        data: planned,
-      },
-      {
-        name: 'Achieved',
-        type: 'column',
-        data: achieved,
-      },
-      {
-        name: 'Planned As per AFP contract Budget',
-        type: 'line',
-        data: planned,
-      },
-      {
-        name: 'Achieved',
-        type: 'line',
-        data: achieved,
-      },
-    ];
-    this.setState(prevState => ({
-      series,
-      options: {
-        ...prevState.options,
-        labels: label,
-        xaxis: { ...prevState.options.xaxis, categories: category },
-      },
-    }));
-  };
+  //   const series = [
+  //     {
+  //       name: 'Planned As per AFP contract Budget Bar',
+  //       type: 'column',
+  //       data: planned,
+  //     },
+  //     {
+  //       name: 'Achieved Bar',
+  //       type: 'column',
+  //       data: achieved,
+  //     },
+  //     {
+  //       name: 'Planned As per AFP contract Budget Line',
+  //       type: 'line',
+  //       data: planned,
+  //     },
+  //     {
+  //       name: 'Achieved Line',
+  //       type: 'line',
+  //       data: achieved,
+  //     },
+  //   ];
+  //   this.setState(prevState => ({
+  //     series,
+  //     options: {
+  //       ...prevState.options,
+  //       labels: label,
+  //       xaxis: { ...prevState.options.xaxis, categories: category },
+  //     },
+  //   }));
+  // };
 
-  filterDataWithLayer = () => {
-    const { activeLayer } = this.props;
-    const a = activeLayer;
-    //   const that = this;
-    //   fetch('https://sakchyam.naxa.com.np/api/v1/log_data_alt')
-    //     .then(function(response) {
-    //       if (response.status !== 200) {
-    //         console.log(
-    //           `Looks like there was a problem. Status Code: ${response.status}`,
-    //         );
-    //         return;
-    //       }
-    //       // Examine the text in the response
-    //       response.json().then(function(data) {
-    //         console.log(data, 'data');
-    //         that.setState({ statsData: data }, () => {
-    // const { statsData } = this.state;
-    const {
-      logFrameReducer: { logDataGraph },
-    } = this.props;
-    console.log(logDataGraph, 'logdata');
-    const filtered = logDataGraph.filter(result => {
-      //   if (result.category === 'IMPACT') {
-      //   console.log(a);
-      return result.sub_category.name === a;
-      //   }
-    });
-    this.setState({ filteredDynamicData: filtered });
-    // console.log(filtered, 'filtered');
-    // const { dataType } = filtered[0];
-    const dataType = filtered[0].data_type;
-    const dataUnit = filtered[0].unit;
+  // filterDataWithLayer = () => {
+  //   const { activeLayer } = this.props;
+  //   const a = activeLayer;
+  //   //   const that = this;
+  //   //   fetch('https://sakchyam.naxa.com.np/api/v1/log_data_alt')
+  //   //     .then(function(response) {
+  //   //       if (response.status !== 200) {
+  //   //         console.log(
+  //   //           `Looks like there was a problem. Status Code: ${response.status}`,
+  //   //         );
+  //   //         return;
+  //   //       }
+  //   //       // Examine the text in the response
+  //   //       response.json().then(function(data) {
+  //   //         console.log(data, 'data');
+  //   //         that.setState({ statsData: data }, () => {
+  //   // const { statsData } = this.state;
+  //   const {
+  //     logFrameReducer: { logDataGraph },
+  //   } = this.props;
+  //   console.log(logDataGraph, 'logdata');
+  //   const filtered = logDataGraph.filter(result => {
+  //     //   if (result.category === 'IMPACT') {
+  //     //   console.log(a);
+  //     return result.sub_category.name === a;
+  //     //   }
+  //   });
+  //   this.setState({ filteredDynamicData: filtered });
+  //   // console.log(filtered, 'filtered');
+  //   // const { dataType } = filtered[0];
+  //   const dataType = filtered[0].data_type;
+  //   const dataUnit = filtered[0].unit;
 
-    const planned = filtered.map(el => {
-      return el.planned_afp;
-    });
-    const achieved = filtered.map(el => {
-      return el.achieved;
-    });
-    const label = filtered.map(el => {
-      //   console.log(el, 'elLabel');
-      return el.year.name;
-    });
-    const category = filtered.map(el => {
-      //   console.log(el, 'elLabel');
-      return el.year.name;
-    });
-    const totalDateList = filtered.map(el => {
-      // console.log(el, 'elLabel');
-      return el.year;
-    });
-    // console.log(category, 'cat');
-    // console.log(label, 'label');
-    // console.log(achieved, 'achieved');
-    const series = [
-      {
-        name: 'Planned As per AFP contract Budget',
-        type: 'column',
-        data: planned,
-      },
-      {
-        name: 'Achieved',
-        type: 'column',
-        data: achieved,
-      },
-      {
-        name: 'Planned As per AFP contract Budget',
-        type: 'line',
-        data: planned,
-      },
-      {
-        name: 'Achieved',
-        type: 'line',
-        data: achieved,
-      },
-    ];
-    // console.log(series, 'se');
-    const { getDateRange } = this.props;
-    getDateRange(totalDateList);
-    this.setState(prevState => ({
-      series,
-      options: {
-        ...prevState.options,
-        labels: label,
-        xaxis: { ...prevState.options.xaxis, categories: category },
-        yaxis: {
-          ...prevState.options.yaxis,
-          title: {
-            text: `${dataType}  (${dataUnit})`,
-          },
-        },
-      },
-    }));
+  //   const planned = filtered.map(el => {
+  //     return el.planned_afp;
+  //   });
+  //   const achieved = filtered.map(el => {
+  //     return el.achieved;
+  //   });
+  //   const label = filtered.map(el => {
+  //     //   console.log(el, 'elLabel');
+  //     return el.year.name;
+  //   });
+  //   const category = filtered.map(el => {
+  //     //   console.log(el, 'elLabel');
+  //     return el.year.name;
+  //   });
+  //   const totalDateList = filtered.map(el => {
+  //     // console.log(el, 'elLabel');
+  //     return el.year;
+  //   });
+  //   // console.log(category, 'cat');
+  //   // console.log(label, 'label');
+  //   // console.log(achieved, 'achieved');
+  //   const series = [
+  //     {
+  //       name: 'Planned As per AFP contract Budget Bar',
+  //       type: 'column',
+  //       data: planned,
+  //     },
+  //     {
+  //       name: 'Achieved Bar',
+  //       type: 'column',
+  //       data: achieved,
+  //     },
+  //     {
+  //       name: 'Planned As per AFP contract Budget Line',
+  //       type: 'line',
+  //       data: planned,
+  //     },
+  //     {
+  //       name: 'Achieved Line',
+  //       type: 'line',
+  //       data: achieved,
+  //     },
+  //   ];
+  //   // console.log(series, 'se');
+  //   const { getDateRange } = this.props;
+  //   getDateRange(totalDateList);
+  //   this.setState(prevState => ({
+  //     series,
+  //     options: {
+  //       ...prevState.options,
+  //       labels: label,
+  //       xaxis: { ...prevState.options.xaxis, categories: category },
+  //       yaxis: {
+  //         ...prevState.options.yaxis,
+  //         title: {
+  //           text: `${dataType}  (${dataUnit})`,
+  //         },
+  //       },
+  //     },
+  //   }));
 
-    // this.setState({
-    //   series,
-    //   options: { ...this.state.options, labels: label },
-    // });
-  };
-
-  handleSelectedDataType = option => {
-    this.setState({ selectedDataType: option });
-  };
+  //   // this.setState({
+  //   //   series,
+  //   //   options: { ...this.state.options, labels: label },
+  //   // });
+  // };
 
   componentDidUpdate(prevProps, prevState) {
     // const that = this;
-    const { selectedDataType } = this.state;
-    const { activeLayer } = this.props;
+    // const { selectedDataType } = this.state;
+    const { activeLayer, activeDate } = this.props;
     if (prevProps.activeLayer !== activeLayer) {
-      this.filterDataWithLayer();
+      // this.filterDataWithLayer();
+      this.props.filterIndicatorGraphData(activeLayer);
+
       // console.log('xxxss');
       // setTimeout(function() {
 
       //   console.log('setTimeout');
       // }, 3000);
     }
-    const { updateChart } = this.props;
+    const { updateChart, activeDataType } = this.props;
     if (prevProps.updateChart !== updateChart) {
-      this.filterDataWithDate();
+      this.props.filterIndicatorGraphDataWithDate(
+        activeLayer,
+        activeDate,
+      );
     }
-    if (
-      this.props.logFrameReducer.isDataFetched &&
-      this.props.logFrameReducer.isDataFetched !==
-        prevProps.logFrameReducer.isDataFetched
-    ) {
-      this.props.handleOneTimeLayerChange();
-      // selectActivelayer("activelayer1")
-    }
-    if (prevState.selectedDataType !== selectedDataType) {
-      console.log('selectedDataType');
-      if (selectedDataType === 'Individual') {
-        this.props.getIndicatorsGraphDataIndividual();
-        // this.props.handleOneTimeLayerChange();
-        this.filterDataWithLayer();
+    // if (
+    //   this.props.logFrameReducer.isDataFetched &&
+    //   this.props.logFrameReducer.isDataFetched !==
+    //     prevProps.logFrameReducer.isDataFetched
+    // ) {
+    //   this.props.handleOneTimeLayerChange();
+    //   // selectActivelayer("activelayer1")
+    // }
+    if (prevProps.activeDataType !== activeDataType) {
+      console.log(activeDataType, 'change datatype');
+      if (activeDataType === 'Individual') {
+        this.props.getIndicatorsGraphDataIndividual(activeLayer);
+        // this.filterDataWithLayer();
       } else {
-        this.props.getIndicatorsGraphData();
-        // this.props.handleOneTimeLayerChange();
-        this.filterDataWithLayer();
+        this.props.getIndicatorsGraphData(activeLayer);
+        // this.filterDataWithLayer();
       }
     }
   }
@@ -468,7 +315,9 @@ class MiddleChartSection extends Component {
   };
 
   componentDidMount() {
-    this.props.getIndicatorsGraphData();
+    const { activeLayer } = this.props;
+
+    this.props.getIndicatorsGraphData(activeLayer);
 
     const timeDropdownEl = document.getElementById('duration_id');
     const dataDropdownEl = document.getElementById('data_id');
@@ -502,11 +351,23 @@ class MiddleChartSection extends Component {
   }
 
   handleBarClick = () => {
-    // console.log('handleBarclick');
-    // console.log(this.chartRef.chart, 'ref');
-    // console.log(this.chartRef.chart.toggleSeries('Achieved'), 'ref');
-    // this.chartRef.chart.updateOptions({
-    // });
+    this.setState(prevState => ({
+      activeBar: !prevState.activeBar,
+    }));
+    this.chartRef.chart.toggleSeries(
+      'Planned As per AFP contract Budget Bar',
+    );
+    this.chartRef.chart.toggleSeries('Achieved Bar');
+  };
+
+  handleTimeGraphClick = () => {
+    this.setState(prevState => ({
+      activeTimeGraph: !prevState.activeTimeGraph,
+    }));
+    this.chartRef.chart.toggleSeries(
+      'Planned As per AFP contract Budget Line',
+    );
+    this.chartRef.chart.toggleSeries('Achieved Line');
   };
 
   next = () => {
@@ -522,11 +383,12 @@ class MiddleChartSection extends Component {
 
   render() {
     const {
-      series,
-      options,
-      filteredDynamicData,
+      // series,
+      // options,
       toggleTimePeriodDropdown,
       toggleDataDropdown,
+      activeBar,
+      activeTimeGraph,
       selectedDataType,
       // dateRange,
     } = this.state;
@@ -550,11 +412,19 @@ class MiddleChartSection extends Component {
       activeDate,
       handleActiveDate,
       updateChart,
-      dateRange,
       handleModal,
+      activeDataType,
+      handleSelectedDataType,
     } = this.props;
     const {
-      props: { logFrameReducer },
+      props: {
+        logFrameReducer: {
+          series,
+          options,
+          dateRange,
+          filteredDynamicData,
+        },
+      },
     } = this;
     return (
       <div className="info-content">
@@ -595,7 +465,9 @@ class MiddleChartSection extends Component {
                         toggleTimePeriodDropdown ? 'span-active' : ''
                       }`}
                     >
-                      All
+                      {activeDate.length === 0
+                        ? 'All'
+                        : `${activeDate},`}
                     </span>
                     <ul
                       className={`ul-dropdown ${
@@ -608,6 +480,11 @@ class MiddleChartSection extends Component {
                           <li className="checkbox">
                             <input
                               type="checkbox"
+                              checked={
+                                activeDate.includes(d.range) === true
+                                  ? true
+                                  : false
+                              }
                               id={`check_time${key}`}
                               onClick={() => {
                                 handleActiveDate(d.range);
@@ -674,7 +551,7 @@ class MiddleChartSection extends Component {
                           toggleDataDropdown ? 'span-active' : ''
                         }`}
                       >
-                        {selectedDataType}
+                        {activeDataType}
                       </span>
                       <ul
                         className={`ul-dropdown ${
@@ -684,36 +561,32 @@ class MiddleChartSection extends Component {
                       >
                         <li
                           className={
-                            selectedDataType === 'Cummulative'
+                            activeDataType === 'Cummulative'
                               ? 'li-active'
                               : ''
                           }
                           role="tab"
                           onClick={() => {
-                            this.handleSelectedDataType(
-                              'Cummulative',
-                            );
+                            handleSelectedDataType('Cummulative');
                           }}
                           onKeyDown={() => {
-                            this.handleSelectedDataType(
-                              'Cummulative',
-                            );
+                            handleSelectedDataType('Cummulative');
                           }}
                         >
                           Cummulative
                         </li>
                         <li
                           className={
-                            selectedDataType === 'Individual'
+                            activeDataType === 'Individual'
                               ? 'li-active'
                               : ''
                           }
                           role="tab"
                           onClick={() => {
-                            this.handleSelectedDataType('Individual');
+                            handleSelectedDataType('Individual');
                           }}
                           onKeyDown={() => {
-                            this.handleSelectedDataType('Individual');
+                            handleSelectedDataType('Individual');
                           }}
                         >
                           Individual
@@ -725,15 +598,27 @@ class MiddleChartSection extends Component {
                     <span className="span-option">Chart</span>
                     <div className="chart-wrap">
                       <span
-                        className="span-label"
+                        className={`span-label ${
+                          activeBar ? 'span-active' : ''
+                        }`}
                         role="button"
-                        tabIndex={0}
+                        tabIndex="-1"
                         onKeyDown={this.handleBarClick}
                         onClick={this.handleBarClick}
                       >
                         Bar
                       </span>
-                      <span className="span-label">Time graph</span>
+                      <span
+                        className={`span-label ${
+                          activeTimeGraph ? 'span-active' : ''
+                        }`}
+                        role="button"
+                        tabIndex="-1"
+                        onKeyDown={this.handleTimeGraphClick}
+                        onClick={this.handleTimeGraphClick}
+                      >
+                        Time graph
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -795,4 +680,6 @@ const mapStateToProps = ({ logFrameReducer }) => ({
 export default connect(mapStateToProps, {
   getIndicatorsGraphData,
   getIndicatorsGraphDataIndividual,
+  filterIndicatorGraphData,
+  filterIndicatorGraphDataWithDate,
 })(MiddleChartSection);

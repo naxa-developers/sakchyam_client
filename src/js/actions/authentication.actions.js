@@ -1,13 +1,11 @@
 import axios from 'axios';
-import { LOGIN_USER } from './index.actions';
+import { LOGIN_USER, USER_PERMISSIONS } from './index.actions';
 import axiosInstance from '../axiosApi';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
 
 // eslint-disable-next-line consistent-return
 export const loginUser = data => dispatch => {
-  console.log(data);
-  console.log(axiosInstance, 'axiosinstas');
   try {
     const response = axiosInstance
       .post('/api/v1/token/login/', data)
@@ -24,19 +22,6 @@ export const loginUser = data => dispatch => {
       .catch(() => {
         alert('login error');
       });
-    // console.log(Promise.resolve(response), 'res');
-    // response.then(function(result) {
-    //   console.log(result, 'result');
-    // });
-    // console.log(
-    //   response.then(result => result.data[['PromiseValue']], 'sd'),
-    //   're',
-    // );
-
-    // return dispatch({
-    //   type: LOGIN_USER,
-    //   payload: response.data,
-    // });
   } catch (err) {
     console.error(err);
   }
@@ -55,14 +40,17 @@ export const loginUser = data => dispatch => {
   //   })
   //   .catch(() => {});
 };
-export const getIndicatorsCategory = () => dispatch => {
+export const getUserPermissions = () => dispatch => {
+  const token = localStorage.getItem('userToken');
   axios
-    .get(`${process.env.PUBLIC_URL}/api/v1/logframe/log-category`, {
-      // headers: { 'Content-Type': 'multipart/form-data' },
+    .get(`${process.env.PUBLIC_URL}/api/v1/token/user-permission/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then(res => {
       dispatch({
-        // type: GET_INDICATORS_CATEGORY,
+        type: USER_PERMISSIONS,
         payload: res.data,
       });
     })
