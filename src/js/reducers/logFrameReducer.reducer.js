@@ -2,6 +2,8 @@ import {
   GET_INDICATORS_GRAPHDATA,
   GET_INDICATORS_CATEGORY,
   GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
+  FILTER_INDICATOR_GRAPH_DATA,
+  FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
 } from '../actions/index.actions';
 
 // import copy from '../utils/cloneNestedObject';
@@ -35,6 +37,8 @@ function convert(x) {
   return '1T+';
 }
 const initialState = {
+  dateRange: [],
+  filteredDynamicData: [],
   isDataFetched: false,
   indicatorCategory: [],
   logDataGraph: [],
@@ -236,33 +240,229 @@ const initialState = {
     },
   },
 };
-const getSearchPrimaryGeojson = (state, action) => {
-  const filteredData = state.primaryGeojson[0].features.filter(
-    data => {
-      const projectname = data.properties.name.toLowerCase();
-      const keyword = action.payload.keyword.toLowerCase();
-      return projectname.match(keyword);
+const filterIndicatorGraphData = (state, action) => {
+  console.log('gilterindicatorgraphdata ');
+  // console.log(action);
+  // const a = 'Output Indicator 2.5';
+  console.log(state.logDataGraph, 'red logdata');
+  const filtered = state.logDataGraph.filter(result => {
+    //   if (result.category === 'IMPACT') {
+    //   console.log(a);
+    return result.sub_category.name === action.payload;
+    //   }
+  });
+  // this.setState({ filteredDynamicData: filtered });
+  console.log(filtered, 'filtered');
+  // const { dataType } = filtered[0];
+  const dataType = filtered[0].data_type;
+  const dataUnit = filtered[0].unit;
+
+  const planned = filtered.map(el => {
+    return el.planned_afp;
+  });
+  const achieved = filtered.map(el => {
+    return el.achieved;
+  });
+  const label = filtered.map(el => {
+    //   console.log(el, 'elLabel');
+    return el.year.name;
+  });
+  const category = filtered.map(el => {
+    //   console.log(el, 'elLabel');
+    return el.year.name;
+  });
+  const totalDateList = filtered.map(el => {
+    // console.log(el, 'elLabel');
+    return el.year;
+  });
+  // console.log(category, 'cat');
+  // console.log(label, 'label');
+  // console.log(achieved, 'achieved');
+  const series = [
+    {
+      name: 'Planned As per AFP contract Budget Bar',
+      type: 'column',
+      data: planned,
     },
-  );
+    {
+      name: 'Achieved Bar',
+      type: 'column',
+      data: achieved,
+    },
+    {
+      name: 'Planned As per AFP contract Budget Line',
+      type: 'line',
+      data: planned,
+    },
+    {
+      name: 'Achieved Line',
+      type: 'line',
+      data: achieved,
+    },
+  ];
+  // console.log(series, 'se');
+  // const { getDateRange } = this.props;
+  // getDateRange(totalDateList);
+
   return {
     ...state,
-    ...(filteredData.length > 0
-      ? {
-          clonePrimaryGeojson: {
-            0: {
-              ...state.primaryGeojson[0],
-              features: filteredData,
-            },
-          },
-        }
-      : {
-          clonePrimaryGeojson: {
-            0: {
-              ...state.primaryGeojson[0],
-              features: [],
-            },
-          },
-        }),
+    series,
+    filteredDynamicData: filtered,
+    dateRange: totalDateList,
+    options: {
+      ...state.options,
+      filteredDynamicData: filtered,
+      labels: label,
+      xaxis: { ...state.options.xaxis, categories: category },
+      yaxis: {
+        ...state.options.yaxis,
+        title: {
+          text: `${dataType}  (${dataUnit})`,
+        },
+      },
+    },
+  };
+};
+
+// filterDataWithDate = () => {
+//   // eslint-disable-next-line react/destructuring-assignment
+//   const { activeDate, activeLayer } = this.props;
+//   const {
+//     logFrameReducer: { logDataGraph },
+//   } = this.props;
+//   // const { statsData } = this.state;
+//   const filtered = [];
+//   // eslint-disable-next-line array-callback-return
+//   activeDate.map(date => {
+//     // eslint-disable-next-line array-callback-return
+//     logDataGraph.map(data => {
+//       if (
+//         data.year.range === date &&
+//         data.sub_category.name === activeLayer
+//       ) {
+//         filtered.push(data);
+//       }
+//     });
+//   });
+
+//   // const filtered = statsData.filter(result => {
+//   //   return result.year.range === JSON.stringify(d);
+//   // });
+//   const planned = filtered.map(el => {
+//     return el.planned_afp;
+//   });
+//   const achieved = filtered.map(el => {
+//     return el.achieved;
+//   });
+//   const label = filtered.map(el => {
+//     return el.year.name;
+//   });
+//   // const category = 'Test Year';
+//   const category = filtered.map(el => {
+//     return el.year.name;
+//   });
+
+//   const series = [
+//     {
+//       name: 'Planned As per AFP contract Budget Bar',
+//       type: 'column',
+//       data: planned,
+//     },
+//     {
+//       name: 'Achieved Bar',
+//       type: 'column',
+//       data: achieved,
+//     },
+//     {
+//       name: 'Planned As per AFP contract Budget Line',
+//       type: 'line',
+//       data: planned,
+//     },
+//     {
+//       name: 'Achieved Line',
+//       type: 'line',
+//       data: achieved,
+//     },
+//   ];
+//   this.setState(prevState => ({
+//     series,
+//     options: {
+//       ...prevState.options,
+//       labels: label,
+//       xaxis: { ...prevState.options.xaxis, categories: category },
+//     },
+//   }));
+// };
+const filterIndicatorGraphDataWithDate = (state, action) => {
+  const { activeLayer, activeDate } = action.payload;
+  const filtered = [];
+  // eslint-disable-next-line array-callback-return
+  activeDate.map(date => {
+    // eslint-disable-next-line array-callback-return
+    state.logDataGraph.map(data => {
+      if (
+        data.year.range === date &&
+        data.sub_category.name === activeLayer
+      ) {
+        filtered.push(data);
+      }
+    });
+  });
+  // const { dataType } = filtered[0];
+
+  const planned = filtered.map(el => {
+    return el.planned_afp;
+  });
+  const achieved = filtered.map(el => {
+    return el.achieved;
+  });
+  const label = filtered.map(el => {
+    //   console.log(el, 'elLabel');
+    return el.year.name;
+  });
+  const category = filtered.map(el => {
+    //   console.log(el, 'elLabel');
+    return el.year.name;
+  });
+  // console.log(category, 'cat');
+  // console.log(label, 'label');
+  // console.log(achieved, 'achieved');
+  const series = [
+    {
+      name: 'Planned As per AFP contract Budget Bar',
+      type: 'column',
+      data: planned,
+    },
+    {
+      name: 'Achieved Bar',
+      type: 'column',
+      data: achieved,
+    },
+    {
+      name: 'Planned As per AFP contract Budget Line',
+      type: 'line',
+      data: planned,
+    },
+    {
+      name: 'Achieved Line',
+      type: 'line',
+      data: achieved,
+    },
+  ];
+  // console.log(series, 'se');
+  // const { getDateRange } = this.props;
+  // getDateRange(totalDateList);
+
+  return {
+    ...state,
+    filteredDynamicData: filtered,
+    series,
+    // dateRange: totalDateList,
+    options: {
+      ...state.options,
+      labels: label,
+      xaxis: { ...state.options.xaxis, categories: category },
+    },
   };
 };
 
@@ -274,6 +474,16 @@ export default function(state = initialState, action) {
         isDataFetched: true,
         logDataGraph: action.payload,
       };
+    case FILTER_INDICATOR_GRAPH_DATA:
+      if (action.payload !== '') {
+        return filterIndicatorGraphData(state, action);
+      }
+      return { ...state };
+    case FILTER_INDICATOR_GRAPH_DATA_WITH_DATE:
+      if (action.payload.activeDate !== '') {
+        return filterIndicatorGraphDataWithDate(state, action);
+      }
+      return { ...state };
     case GET_INDICATORS_GRAPHDATA_INDIVIDUAL:
       return {
         ...state,

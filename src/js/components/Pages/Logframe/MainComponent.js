@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FullPage, Slide } from 'react-full-page';
-import Background from '../../img/banner.png';
+import Background from '../../../../img/banner.png';
 
-import Header from './Header';
+import Header from '../../Header';
 import LeftSidebarMain from './LefSideBar/LeftSideBarMain';
 
 import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
@@ -12,7 +13,8 @@ class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeLayer: '',
+      activeLayer: 'Impact Indicator 1',
+      activeDataType: 'Cummulative',
       dateRange: [],
       activeModal: 'false',
       // width: '',
@@ -37,6 +39,10 @@ class MainComponent extends Component {
     this.setState({ activeLayer: clickedLayer });
   };
 
+  handleSelectedDataType = option => {
+    this.setState({ activeDataType: option });
+  };
+
   getDateRange = totalDateRange => {
     this.setState({ dateRange: totalDateRange });
   };
@@ -51,6 +57,14 @@ class MainComponent extends Component {
       dateArray = dateArray.filter(f => f !== e);
     }
     dateArray.sort();
+    if (dateArray.length === 0) {
+      const { dateRange } = this.props.logFrameReducer;
+      console.log(dateRange);
+      const allDateRange = dateRange.map(data => {
+        return dateArray.push(data.range);
+      });
+      console.log(allDateRange);
+    }
     this.setState({
       activeDate: dateArray,
     });
@@ -125,65 +139,17 @@ class MainComponent extends Component {
 
   render() {
     const {
-      // activeIndicator,
-      // statsData,
-      // width,
-      // height,
       activeLayer,
       dateRange,
       activeDate,
       activeModal,
       updateChart,
+      activeDataType,
     } = this.state;
     return (
       <>
         <Header />
-        {/* <main
-          className="main"
-          ref={arg => {
-            this.headRef = arg;
-          }}
-        > */}
         <main className="main">
-          {/* <section
-            ref={arg => {
-              this.headRef = arg;
-            }}
-            className="banner"
-            id="banner"
-            style={{
-              backgroundImage: `url(${Background})`,
-            }}
-          >
-            <div className="banner-content">
-              <div className="banner-header">
-                <h1>
-                  Sakchyam Access
-                  <span> to</span>
-                  <br />
-                  Finance Programme Logical Framework
-                </h1>
-                <h3 className="h3-white">
-                  Revised Indicators as per the Budget Allocated to
-                  the Access to Finance Programme, and Over Achieved
-                  Indicators
-                </h3>
-              </div>
-              <div className="dashed" />
-              <div className="banner-footer">
-                <h4>ACCESS TO FINANCE FOR POOR (AFP) PROGRAMME </h4>
-                <span className="span_book_15">
-                  Based on Results from Implementation Phase
-                </span>
-                <p className="span_black_15">
-                  <time>December 2014</time>
-                  <span className="span_book_15"> to </span>
-                  <time>December 2019</time>
-                </p>
-              </div>
-            </div>
-          </section> */}
-
           <section className="content content-mod">
             <div
               className={`modal fade modal-wrapper ${
@@ -263,6 +229,7 @@ class MainComponent extends Component {
             />
             <MiddleChartSection
               activeLayer={activeLayer}
+              activeDataType={activeDataType}
               activeDate={activeDate}
               updateChart={updateChart}
               handleOneTimeLayerChange={this.handleOneTimeLayerChange}
@@ -270,22 +237,16 @@ class MainComponent extends Component {
               handleActiveDate={this.handleActiveDate}
               dateRange={dateRange}
               handleModal={this.handleModal}
+              handleSelectedDataType={this.handleSelectedDataType}
             />
           </section>
         </main>
-        {/* </main> */}
-
-        {/* <button
-          type="button"
-          className="scroll-top scroll-to-target open"
-          data-target="html"
-          onClick={this.handleArrowClick}
-        >
-          <i className="material-icons">arrow_upward</i>
-        </button> */}
       </>
     );
   }
 }
 
-export default MainComponent;
+const mapStateToProps = ({ logFrameReducer }) => ({
+  logFrameReducer,
+});
+export default connect(mapStateToProps, {})(MainComponent);

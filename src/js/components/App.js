@@ -5,9 +5,10 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import MainComponent from './MainComponent';
+
 import Login from './Login';
 import PrivateRoute from '../Routes/PrivateRouter.routes';
+import MainComponent from './Pages/Logframe/MainComponent';
 
 class App extends Component {
   constructor(props) {
