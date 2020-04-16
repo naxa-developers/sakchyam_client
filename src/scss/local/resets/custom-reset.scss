@@ -28,6 +28,16 @@ body {
   text-align: left;
 }
 
+@media #{$breakpoint-xs}
+{
+  span{
+    &.span_book_15,
+    &.span_heavy_15{
+      display: inline-block;
+      line-height: 1.4 !important;
+    }
+  }
+}
 
 hr {
   box-sizing: content-box;

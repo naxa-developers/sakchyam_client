@@ -2,7 +2,7 @@
     max-width: 100%;
     @include display-flex(flex);
     &.content-mod{
-        padding-top: 65px;
+        padding-top: 60px;
     }
     .sidebar{
         width: 200px;
@@ -185,9 +185,8 @@
             right: 40px;
             top: 18px;
             visibility: hidden;
-            border: .8px solid $primary-xs-light;
             @include transition(all .4s ease-in-out);
-            padding: 12px;
+            padding: 10px;
             &:hover{
                 cursor: pointer;
                 background-color: $bg-dark;
@@ -200,7 +199,7 @@
             }
             i{
                 @include transition(all .4s ease-in-out);
-                font-size: 18px;
+                font-size: 16px;
                 color: darken($bg-dark, 25%);
             }
         }
@@ -538,11 +537,23 @@
             .info-content-footer{
                 background-color: $red-light;
                 @include radius(5px);
-                padding: 18px 30px;
+                padding: 14px 45px;
                 margin-left: 30px;
                 margin-top: 20px;
                 @include display-flex(flex);
                 align-items: center;
+                position: relative;
+                span.important{
+                    position: absolute;
+                    top: 10px;
+                    left: 24px;
+                    &::before{
+                        content: 'info';
+                        font-family: 'Material Icons';
+                        font-size: 1rem;
+                        color: #C2002F;
+                    }
+                }
                 p{
                     &.span_book_14{
                         color: $primary-light;
@@ -628,7 +639,7 @@
                                     margin-left: 8px;
                                 }
                                 font-size: .938rem;
-                                padding: 8px 15px 7px;
+                                padding: 8px 15px 7px 45px;
                             }
                             .span-dropdown{
                                 padding: 8px 45px 7px 15px !important;
@@ -644,9 +655,27 @@
                                 }
                             }
                             .duration-wrap {
+                                flex: 0 0 40%;
+                                max-width: 40%;
                                 .dropdown {
                                     max-width: 190px;
                                 }
+                            }
+                            .option-wrap{
+                                flex: 0 0 60%;
+                                max-width: 60%;
+                                .chart{
+                                    .chart-wrap {
+                                        span{
+                                           &:first-child,
+                                           &:last-child{
+                                               &::before{
+                                                   font-size: 1.525rem;
+                                               }
+                                           }
+                                        }
+                                    }
+                                } 
                             }
                         }
                     }
@@ -678,7 +707,15 @@
                 } 
                 .info-content-footer {
                     @include radius(8px);
-                    padding: 22px 40px;
+                    padding: 16px 50px;
+                    span.important {
+                        position: absolute;
+                        top: 14px;
+                        left: 26px;
+                        &::before{
+                            font-size: 1.125rem;
+                        }
+                    }
                 }
             }
         }
@@ -746,7 +783,7 @@
                                     margin-left: 8px;
                                 }
                                 font-size: 1rem;
-                                padding: 8px 26px 7px;
+                                padding: 8px 20px 7px 50px;
                             }
                             .span-dropdown{
                                 padding: 8px 63px 7px 20px !important;
@@ -765,6 +802,21 @@
                                     max-width: 190px;
                                 }
                             }
+                            .option-wrap{
+                                .chart{
+                                    .chart-wrap {
+                                        span{
+                                            &:first-child, 
+                                            &:last-child{
+                                               &::before{
+                                                    left: 16px;
+                                                    font-size: 1.6rem;
+                                               }
+                                            }
+                                        }
+                                    }
+                                }
+                            } 
                         }
                     }
                 } 
@@ -795,7 +847,14 @@
                 } 
                 .info-content-footer {
                     @include radius(10px);
-                    padding: 25px 40px;
+                    padding: 18px 60px;
+                    span.important {
+                        top: 14px;
+                        left: 34px;
+                        &::before{
+                            font-size: 1.25rem;
+                        }
+                    }
                 }
             }
         }
@@ -870,7 +929,14 @@
                     }
                 } 
                 .info-content-footer {
-                    padding: 12px 30px;
+                    padding: 12.5px 42px;
+                    span.important{
+                        &:before{
+                            font-size: .875rem;
+                        }
+                        top: 8px;
+                        left: 22px;
+                    }
                     .span_book_14 {
                         line-height: 1.3;
                     }
@@ -977,6 +1043,9 @@
 
 @media #{$breakpoint-lg}{
     .content{
+        &.content-mod {
+            padding-top: 52px;
+        }
         .sidebar{
             width: 150px;
         }
@@ -1103,9 +1172,12 @@
 
 @media #{$breakpoint-sm}{
     .content {
+        &.content-mod{
+            padding-top: 56px;
+        }
         .info-content {
             a.toggle_button i {
-                font-size: 15px;
+                font-size: 14px;
             }
             .info-content-wrap {
                 .info-content-header  {
