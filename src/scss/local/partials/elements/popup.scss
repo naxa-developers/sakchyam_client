@@ -1,7 +1,7 @@
 .content{
     &.content-mod{
         .modal{
-            background-color: rgba($black-color, .3);
+            background-color: rgba($black-color, .3) !important;
             .modal-dialog{
                 max-width: 600px;
                 .popup-block{

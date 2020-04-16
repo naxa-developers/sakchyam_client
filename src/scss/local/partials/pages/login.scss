@@ -1,7 +1,7 @@
 .login-page{
-    @include transition(all .4s linear);
+    @include transition(all .2s linear);
     .login-wrapper{
-        @include transition(all .4s linear);
+        @include transition(all .2s linear);
         aside.login-sidebar{
             width: 810px;
             max-width: 100%;
@@ -91,9 +91,33 @@
             float: right;
             background-color: $bg-color;
             height: 100%;
-            @include display-flex(flex);
-            @include align_items_center;
+            position: relative;
+            a.backward-login{
+                position: absolute;
+                top: 50px;
+                left: 30px;
+                display: inline;
+                cursor: pointer;
+                width: 18px;
+                height: 19px;
+                @include transition(all .3s linear);
+                @include flex_hr_center;
+                padding: 8px;
+                &::after{
+                    font-size: 18px;;
+                    color: $primary-light;
+                    content: 'keyboard_backspace';
+                    font-family: 'Material Icons';
+                }
+                &:hover{
+                    background: $red-light;
+                }
+            }
             .login-content{
+                @include display-flex(flex);
+                @include justify-content-center;
+                @include flex-direction-column(column);
+                height: calc(100% - 10%);
                 position: relative;
                 max-width: 420px;
                 width: 100%;
@@ -154,6 +178,9 @@
                                     height: 14.25px;
                                     left: 0;
                                     top: 3px;
+                                   @include display-flex(flex);
+                                   @include align-items-center;
+                                   @include justify-content-center;
                                 }
                                 &::before{
                                     border: 1px solid $primary-light;
@@ -185,34 +212,40 @@
                             display: block;
                             width: 100%;
                             text-align: center;
-                            color: $primary-light;
-                            
-                        }
-                    }
-                }
-                .login-footer{
-                    position: relative;
-                    top: 3rem;
-                    text-align: center;
-                    img{
-                        &:first-child{
-                            max-width: 94px;
-                            width: 100%;
-                            height: 50px;
-                            padding-right: 26px;
-                            border-right: 2px solid $primary-xs-light;
-                        }
-                        &:last-child{
-                            max-width: 74px;
-                            width: 100%;
-                            height: 56px;
-                            padding-left: 26px;
+                            a{
+                                display: inline;
+                                color: $primary-light;
+                                cursor: pointer;
+                                @include transition(all .3s ease-in-out);
+                                &:hover{
+                                    color: $primary-xs-light;
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
-           
+            .login-footer{
+                @include display-flex(flex);
+                @include justify-content-center;
+                @include align-items-center;
+                img{
+                    &:first-child{
+                        max-width: 80px;
+                        width: 100%;
+                        height: 40px;
+                        padding-right: 26px;
+                        border-right: 2px solid $primary-xs-light;
+                    }
+                    &:last-child{
+                        max-width: 60px;
+                        width: 100%;
+                        height: 40px;
+                        padding-left: 26px;
+                    }
+                }
+            }
+        }    
     }
 }
 
@@ -220,6 +253,7 @@
     .login-page{
         .login-wrapper {
             aside.login-sidebar {
+                width: 850px;
                 .login{
                      .login-header {
                         .logo {
@@ -245,6 +279,17 @@
                 }
             }
             main.main-section {
+                width: calc(100% - 850px);
+                a.backward-login{
+                    top: 60px;
+                    left: 40px;
+                    width: 24px;
+                    height: 25px;
+                    padding: 15px;
+                    &::after{
+                        font-size: 23px;
+                    }
+                }
                 .login-content{
                     max-width: 460px;
                     .login-header {
@@ -278,18 +323,17 @@
                             }
                         }
                     }
-                    .login-footer{
-                        top: 4rem;
-                        img{
-                            &:first-child{
-                                max-width: 100px;
-                                height: 60px;
+                }
+                .login-footer{
+                    img{
+                        &:first-child{
+                            max-width: 100px;
+                            height: 60px;
 
-                            }
-                            &:last-child{
-                                max-width: 80px;
-                                height: 60px;
-                            }
+                        }
+                        &:last-child{
+                            max-width: 80px;
+                            height: 60px;
                         }
                     }
                 }
@@ -301,7 +345,11 @@
 @media #{$breakpoint-xxl}{
     .login-page{
         .login-wrapper {
+            aside.login-sidebar {
+                width: 1080px;
+            }
             main.main-section {
+                width: calc(100% - 1080px);
                 .login-content{
                     max-width: 480px;
                 }            
@@ -360,14 +408,14 @@
                     .login-header{
                         margin-bottom: 46px;
                         h2{
-                            margin-bottom: 5px;
+                            margin-bottom: 10px;
                         }
                     }
                     .login-form{
                         width: 100%;
                         .form-group{
                             &:first-child{
-                                margin-bottom: 20px;
+                                margin-bottom: 30px;
                             }
                             label{
                                 margin-bottom: 8px;
@@ -401,24 +449,6 @@
                             }
                         }
                     }
-                    .login-footer{
-                        top: 5rem;
-                        img{
-                            &:first-child{
-                                max-width: 80px;
-                                height: 42px;
-                                padding-right: 24px;
-                                border-right: 1px solid $primary-xs-light;
-
-                            }
-                            &:last-child{
-                                max-width: 60px;
-                                height: 42px;
-                                padding-left: 24px;
-                            }
-                        }
-                    }
-
                 }
             }
         }
@@ -467,10 +497,6 @@
                             font-size: 1.4rem;
                         }
                     }
-                    .login-footer{
-                        top: 4rem;
-                    }
-
                 }
             }
         }
@@ -497,9 +523,6 @@
                 width: calc(100% - 620px);
                 .login-content{
                     padding: 0 20px;
-                    .login-footer {
-                        top: 5.5rem;
-                    }
                 } 
             }
         }
@@ -526,9 +549,6 @@
                 width: calc(100% - 550px);
                 .login-content{
                     padding: 0 20px;
-                    .login-footer{
-                        top: 5rem;
-                    }
                 }
             }
         }
@@ -553,6 +573,15 @@
 
 @media #{$breakpoint-pt}{
     .login-page{
+        &.login-reset-page{
+            .login-wrapper{
+                main.main-section{
+                    .reset-content{
+                        padding: 80px 20px 150px;
+                    }
+                }
+            }
+        }
         .login-wrapper{
             aside.login-sidebar{
                 width: 100%;
@@ -579,35 +608,36 @@
                 }
             }
             main.main-section{
+                a.backward-login {
+                    right: 35px;
+                    left: auto;
+                    top: 40px;
+                }
+
                 width: 100%;
                 height: auto;
                 .login-content{
                     padding: 50px 0px 80px;
                     .login-header{
-                        margin-bottom: 25px;
                         h2{
-                            margin-bottom: 0;
+                            font-size: 1.2rem;
+                            margin-bottom: 7px;
                         }
                     }
                     .login-form{
                         width: 100%;
                         .form-group{
                             &:first-child{
-                                margin-bottom: 16px;
+                                margin-bottom: 20px;
                             }
                             input.form-control{
                                 @include radius(16.5px);
                             }
                             &.checkbox{
-                                margin: 8px 0 22px;
                                 label{
                                     padding-left: 20px;
-                                    &::before, 
                                     &::after{  
-                                        width: 12px;
-                                        height: 12.5px;
-                                        left: 0;
-                                        top: 2px;
+                                       font-size: 10px;
                                     }
                                 }
                             }
@@ -622,23 +652,11 @@
                             }
                         }
                     }
-                    .login-footer{
-                        top: 3.5rem;
-                        img{
-                            &:first-child{
-                                max-width: 62px;
-                                height: 36px;
-                                padding-right: 18px;
-                            }
-                            &:last-child{
-                                max-width: 54px;
-                                height: 34px;
-                                padding-left: 18px;
-                            }
-                        }
-                    }
-
                 }
+            }
+            .login-footer{
+                padding-bottom: 30px;
+               
             }
         }
     }
@@ -646,21 +664,41 @@
 
 @media #{$breakpoint-xs}{
     .login-page{
+        &.login-reset-page{
+            .login-wrapper{
+                main.main-section{
+                    .reset-content{
+                        padding: 80px 40px 150px;
+                    }
+                }
+            }
+        }
         .login-wrapper{
             aside.login-sidebar{
                 .login{
                     .login-header {
-                        padding: 46px 15px 0px 40px;
+                        padding: 46px 15px 0px 30px;
                         .logo {
                             margin-bottom: 30px;
                         }
                         title{
                             margin-bottom: 6px;
+                            h2{
+                                font-size: 1.1rem;
+                            }
+                        }
+                    }
+                    .login-body{
+                        padding: 46px 30px 0px 30px;
+                        .image-content {
+                            img {
+                                max-width: 260px;
+                            }
                         }
                     }
                 }
                 .login-footer{
-                    padding: 0px 15px 26px 40px;
+                    padding: 0px 15px 26px 30px;
                     .image-content{
                         img{
                             max-width: 255px;
@@ -672,18 +710,52 @@
             main.main-section{
                 .login-content{
                     padding: 50px 25px 80px;
+                    .login-header {
+                        margin-bottom: 20px;
+                        h2 {
+                            font-size: 1.1rem;
+                        }
+                    }
                     .login-form{
-                        .btn-wrap{
-                            button{
-                                padding: 6px 0 4px;
-                                margin-bottom: 4px;
-                                a{
-                                    font-size: .525rem;
+                        .form-group {
+                            input.form-control {
+                                &::placeholder{
+                                    font-size: 10px;
+                                }
+                            }
+                            &.checkbox {
+                                label{
+                                    &::after,
+                                    &::before{
+                                        width: 11px;
+                                        height: 11.5px;
+                                    }
+                                    &::after {
+                                        font-size: 8px; 
+                                    }
                                 }
                             }
                         }
-                    }
+                        .btn-wrap{
+                            button {
+                                padding: 5px 0 4px;
+                            }
+                        }
+                    } 
                 }
+                .login-footer{
+                    img{
+                       &:first-child {
+                            max-width: 75px;
+                            height: 35px;
+                            border-right: 1px solid #e2e2e2;
+                       }
+                        &:last-child {
+                            max-width: 60px;
+                            height: 35px;
+                         }
+                    }
+                } 
             }
         }
     }
@@ -694,8 +766,6 @@
         .login-wrapper{
             aside.login-sidebar{
                 .login{
-                    .login-header {                 
-                    }
                     .login-body{
                         .image-content{
                             img{

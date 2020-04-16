@@ -256,6 +256,9 @@ h5{
         font-size: .825rem;
         line-height: 1.125;  
     }
+    .span_heavy_15, .span_book_15, .span_black_15 {
+        font-size: .75rem;
+    }
 }
    
  @media #{$breakpoint-sm}{
@@ -266,3 +269,9 @@ h5{
        font-size: .5rem;
    }
 } 
+
+@media #{$breakpoint-xs}{
+    .span_heavy_15, .span_book_15, .span_black_15 {
+        font-size: .65rem;
+    }
+}
