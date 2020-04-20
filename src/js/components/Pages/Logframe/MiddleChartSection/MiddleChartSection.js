@@ -17,7 +17,6 @@ class MiddleChartSection extends Component {
       // statsData: [],
       // dateRange: [],
       allIndicatorCategory: null,
-      allDate: true,
       selectedOption: null,
       activeTimeGraph: true,
       activeBar: true,
@@ -203,8 +202,6 @@ class MiddleChartSection extends Component {
     const {
       logFrameReducer: { indicatorCategory },
     } = this.props;
-    const { allDate } = this.state;
-
     if (
       prevProps.logFrameReducer.indicatorCategory !==
       indicatorCategory
@@ -224,26 +221,22 @@ class MiddleChartSection extends Component {
     // const that = this;
     // const { selectedDataType } = this.state;
     const { activeLayer, activeDate } = this.props;
-
     if (prevProps.activeLayer !== activeLayer) {
       // this.filterDataWithLayer();
+      this.props.filterIndicatorGraphData(activeLayer);
 
-      this.props.filterIndicatorGraphData(activeLayer, allDate);
       // console.log('xxxss');
       // setTimeout(function() {
+
       //   console.log('setTimeout');
       // }, 3000);
     }
     const { updateChart, activeDataType } = this.props;
     if (prevProps.updateChart !== updateChart) {
-      if (allDate === true) {
-        this.props.filterIndicatorGraphDataWithDate(
-          activeLayer,
-          allDate,
-        );
-      } else {
-        this.props.getIndicatorsGraphData(activeLayer, activeDate);
-      }
+      this.props.filterIndicatorGraphDataWithDate(
+        activeLayer,
+        activeDate,
+      );
     }
     // if (
     //   this.props.logFrameReducer.isDataFetched &&
@@ -256,13 +249,10 @@ class MiddleChartSection extends Component {
     if (prevProps.activeDataType !== activeDataType) {
       console.log(activeDataType, 'change datatype');
       if (activeDataType === 'Individual') {
-        this.props.getIndicatorsGraphDataIndividual(
-          activeLayer,
-          activeDate,
-        );
+        this.props.getIndicatorsGraphDataIndividual(activeLayer);
         // this.filterDataWithLayer();
       } else {
-        this.props.getIndicatorsGraphData(activeLayer, activeDate);
+        this.props.getIndicatorsGraphData(activeLayer);
         // this.filterDataWithLayer();
       }
     }
@@ -282,9 +272,7 @@ class MiddleChartSection extends Component {
 
   componentDidMount() {
     const { activeLayer } = this.props;
-    const { allDate } = this.state;
-    this.props.getIndicatorsGraphData(activeLayer, true);
-    this.setState({ allDate: false });
+    this.props.getIndicatorsGraphData(activeLayer);
 
     const timeDropdownEl = document.getElementById('duration_id');
     const dataDropdownEl = document.getElementById('data_id');

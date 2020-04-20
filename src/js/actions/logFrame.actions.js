@@ -26,12 +26,7 @@ export const getIndicatorsCategory = () => dispatch => {
     .catch(() => {});
 };
 
-export const getIndicatorsGraphData = (
-  activeLayer,
-  activeDate,
-) => dispatch => {
-  console.log(activeDate, 'activeDate1st');
-
+export const getIndicatorsGraphData = activeLayer => dispatch => {
   // const token = localStorage.getItem('userToken');
   try {
     const response = axiosInstance
@@ -39,26 +34,14 @@ export const getIndicatorsGraphData = (
       .then(function(result) {
         // console.log(result, 'result');
 
-        if (activeDate === true) {
-          return (
-            dispatch({
-              type: GET_INDICATORS_GRAPHDATA,
-              payload: result.data,
-            }),
-            dispatch({
-              type: FILTER_INDICATOR_GRAPH_DATA,
-              payload: activeLayer,
-            })
-          );
-        }
         return (
           dispatch({
             type: GET_INDICATORS_GRAPHDATA,
             payload: result.data,
           }),
           dispatch({
-            type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
-            payload: { activeLayer, activeDate },
+            type: FILTER_INDICATOR_GRAPH_DATA,
+            payload: activeLayer,
           })
         );
       });
@@ -67,11 +50,7 @@ export const getIndicatorsGraphData = (
   }
 };
 
-export const getIndicatorsGraphDataIndividual = (
-  activeLayer,
-  activeDate,
-) => dispatch => {
-  console.log(activeDate, 'activeDate2nd');
+export const getIndicatorsGraphDataIndividual = activeLayer => dispatch => {
   // const token = localStorage.getItem('userToken');
   try {
     const response = axiosInstance
@@ -79,26 +58,14 @@ export const getIndicatorsGraphDataIndividual = (
       .then(function(result) {
         // console.log(result, 'result individual');
 
-        if (activeDate === true) {
-          return (
-            dispatch({
-              type: GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
-              payload: result.data,
-            }),
-            dispatch({
-              type: FILTER_INDICATOR_GRAPH_DATA,
-              payload: activeLayer,
-            })
-          );
-        }
         return (
           dispatch({
             type: GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
             payload: result.data,
           }),
           dispatch({
-            type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
-            payload: { activeLayer, activeDate },
+            type: FILTER_INDICATOR_GRAPH_DATA,
+            payload: activeLayer,
           })
         );
       });
