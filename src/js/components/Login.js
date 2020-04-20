@@ -81,7 +81,7 @@ class Login extends Component {
     } = this.props;
 
     if (redirectToReferrer === true) {
-      return <Redirect to="/logframe" />;
+      return <Redirect to="/landing" />;
     }
     const { username, password } = this.state;
 
@@ -98,12 +98,12 @@ class Login extends Component {
                     </a>
                   </div>
                   <div className="title">
-                    <h2>
+                    <h3>
                       Welcome
                       <span> to</span>
                       <br />
                       Data Visualization Tool (DVT)
-                    </h2>
+                    </h3>
                     <span className="span_heavy_15">
                       A Small Leap towards Application of Open Data on
                       Aid and Budget in Nepal.

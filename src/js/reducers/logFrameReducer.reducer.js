@@ -43,26 +43,6 @@ const initialState = {
   indicatorCategory: [],
   logDataGraph: [],
   series: [
-    // {
-    //   name: 'Planned As per AFP contract Budget',
-    //   type: 'column',
-    //   data: planned,
-    // },
-    // {
-    //   name: 'Achieved',
-    //   type: 'column',
-    //   data: achieved,
-    // },
-    // {
-    //   name: 'Planned As per AFP contract Budget',
-    //   type: 'line',
-    //   data: planned,
-    // },
-    // {
-    //   name: 'Achieved',
-    //   type: 'line',
-    //   data: achieved,
-    // },
     {
       name: 'Achieved',
       type: 'column',
@@ -241,10 +221,10 @@ const initialState = {
   },
 };
 const filterIndicatorGraphData = (state, action) => {
-  console.log('gilterindicatorgraphdata ');
+  // console.log('gilterindicatorgraphdata ');
   // console.log(action);
   // const a = 'Output Indicator 2.5';
-  console.log(state.logDataGraph, 'red logdata');
+  // console.log(state.logDataGraph, 'red logdata');
   const filtered = state.logDataGraph.filter(result => {
     //   if (result.category === 'IMPACT') {
     //   console.log(a);
@@ -252,7 +232,7 @@ const filterIndicatorGraphData = (state, action) => {
     //   }
   });
   // this.setState({ filteredDynamicData: filtered });
-  console.log(filtered, 'filtered');
+  // console.log(filtered, 'filtered');
   // const { dataType } = filtered[0];
   const dataType = filtered[0].data_type;
   const dataUnit = filtered[0].unit;
@@ -317,7 +297,9 @@ const filterIndicatorGraphData = (state, action) => {
       yaxis: {
         ...state.options.yaxis,
         title: {
-          text: `${dataType}  (${dataUnit})`,
+          text: `${dataType}  ${
+            dataUnit !== null ? `(${dataUnit})` : ''
+          }`,
         },
       },
     },
@@ -395,6 +377,7 @@ const filterIndicatorGraphData = (state, action) => {
 // };
 const filterIndicatorGraphDataWithDate = (state, action) => {
   const { activeLayer, activeDate } = action.payload;
+  console.log(activeLayer, 'actttt');
   const filtered = [];
   // eslint-disable-next-line array-callback-return
   activeDate.map(date => {
