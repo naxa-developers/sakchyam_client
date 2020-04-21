@@ -7,14 +7,8 @@ let dateArray = [];
 class LeftSidebarMain extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeIndicator: 'IMPACT',
-    };
+    this.state = {};
   }
-
-  handleIndicators = data => {
-    this.setState({ activeIndicator: data });
-  };
 
   handleYear = e => {
     // push uniques
@@ -27,12 +21,24 @@ class LeftSidebarMain extends Component {
 
   componentDidMount() {
     this.props.getIndicatorsCategory();
+    const {
+      logFrameReducer: { indicatorCategory },
+    } = this.props;
+    const b = [];
+    const a = indicatorCategory.map(data => {
+      data.subcat.map(subdata => {
+        console.log(subdata.name);
+        return b.push(subdata.name);
+      });
+      return true;
+    });
+    console.log(b);
   }
 
   render() {
     // const arraylist = [];
 
-    const { activeIndicator } = this.state;
+    // const { activeIndicator } = this.state;
     const {
       handleActiveLayer,
       handleActiveDate,
@@ -41,7 +47,11 @@ class LeftSidebarMain extends Component {
       activeDate,
     } = this.props;
     const {
-      props: { logFrameReducer },
+      props: {
+        logFrameReducer,
+        handleActiveIndicator,
+        activeIndicator,
+      },
     } = this;
     // console.log(this.props, 'incid');
     // const a =
@@ -60,21 +70,22 @@ class LeftSidebarMain extends Component {
           {logFrameReducer.indicatorCategory.map(data => {
             return (
               <li
+                key={data.id}
                 role="tab"
                 className={`${
                   activeIndicator === data.name ? 'active' : ''
                 }`}
                 value={data.name}
                 onClick={() => {
-                  this.handleIndicators(data.name);
+                  handleActiveIndicator(data.name);
                 }}
                 onKeyDown={() => {
-                  this.handleIndicators(data.name);
+                  handleActiveIndicator(data.name);
                 }}
               >
                 <a href="#/">
                   {/* <ReactTooltip /> */}
-                  {data.name}
+                  {data.name.toLowerCase()}
                   <span className="tooltip-list">{data.title}</span>
                 </a>
                 <ul
@@ -87,6 +98,7 @@ class LeftSidebarMain extends Component {
                   {data.subcat.map(el => {
                     return (
                       <li
+                        key={el.id}
                         className={
                           activeLayer === el.name
                             ? 'active-sublist'
@@ -105,6 +117,9 @@ class LeftSidebarMain extends Component {
                           }}
                         >
                           {el.name}
+                          <span className="tooltip-list">
+                            {el.title}
+                          </span>
                         </a>
                       </li>
                     );

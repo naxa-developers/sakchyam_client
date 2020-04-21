@@ -1,17 +1,64 @@
 .main-header {
+    &.home-header{
+        position: fixed;
+        z-index: 111;
+        width: 100%;
+        background: transparent;
+        border: 0;
+        ul {
+            li{
+                &:last-child{
+                    .link-wrap{
+                        li {
+                            &:hover{
+                                a{
+                                    color: $text-color;
+                                }
+                                &:first-child {
+                                    a{
+                                        &::after {
+                                            color: $text-color;
+                                        }  
+                                    }
+                                }
+                            }
+                            &:first-child {
+                                a{
+                                    &::after {
+                                        color: $white-color;
+                                    }  
+                                }
+                            }
+                            a {
+                                color: $white-color;
+                                &::after{
+                                    color: $white-color;
+                                }
+                            }
+                        }
+                    }
+                    .profile-img {
+                        .log-out {
+                            img {
+                                border: 2px solid $white-color;
+                            }
+                        }
+                    }
+                } 
+            }
+        }
+    }
     // @include box-shadow(0 0 6px rgba($primary-color, .2));
     // @include transition(all 500ms ease);
     border-bottom: .5px solid $primary-xs-light;
     @include transition(all .5s linear);
     background-color: $white-color;
-    position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 11;
     padding: .5rem 1rem;
         .logo,img {
-            max-width: 150px;
+            max-width: 200px;
         }
         ul {
             @include display-flex(flex);
@@ -19,22 +66,138 @@
             @include align-items-center;
             li{
                 &:last-child{
-                    a.log-out{
-                        margin-right: 22.5px;
-                        display: inline-block;
-                        max-width: 100%;
-                        cursor: pointer;
-                        img{
-                            @include radius(50%);
+                    @include display-flex(flex);
+                    @include align-items-center;
+                    .profile-img{
+                        margin-right: 30px;
+                        .log-out{
+                            display: inline-block;
                             max-width: 100%;
-                            width: 38px;
-                            height: 38px;
-                            border: 2px solid $red-color;
+                            cursor: pointer;
+                            img{
+                                @include radius(50%);
+                                max-width: 100%;
+                                width: 50px;
+                                max-height: 50px;
+                                border: 2px solid $red-color;
+                            }
+                        }
+                        &.dropdown{
+                            position: relative;
+                            .dropdown_menu{
+                                @include flex-direction-column(column);
+                                @include align-items-start;
+                                position: absolute;
+                                visibility: hidden;
+                                background: white;
+                                width: 183px;
+                                left: -8rem;
+                                top: 9rem;
+                                box-shadow: 0 0 8px 0 $primary-xs-light;
+                                @include transition(all .5s ease-out);
+                                z-index: 11;
+                                opacity: 0;
+                                &.active{
+                                    visibility: visible;
+                                    top: 3.5rem;
+                                    opacity: 1;
+                                    @include transition(all .5s ease-in);
+                                }
+                                li{
+                                    @include transition(all .5s ease-in-out);
+                                    width: 100%;
+                                    cursor: pointer;
+                                    &.list-active{
+                                        background-color: $red-light;
+                                    }
+                                    &:last-child{
+                                        a{
+                                            color: $red-color;
+                                            &.logout{
+                                                &::before{
+                                                    color: $red-color;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    a{
+                                        @include transition(all .5s ease-in-out);
+                                        display: block;
+                                        padding: 10px 20px;
+                                        color : $text-color;
+                                        @include display-flex(flex);
+                                        @include align-items-center;
+                                        &.profile,
+                                        &.settings,
+                                        &.logout{
+                                            &::before{
+                                                font-family: 'Material Icons';
+                                                color: $primary-light;
+                                                @include transition(all .5s ease-in-out);
+                                                font-size: 24px;
+                                                padding-right: 8px;
+                                            }
+                                        }
+                                        &.profile{
+                                            &::before{
+                                                content: 'account_circle';
+                                            }
+                                        }
+                                        &.settings{
+                                            &::before{
+                                                content: 'settings';
+                                            }
+                                        }
+                                        &.logout{
+                                            &::before{
+                                                content: 'exit_to_app';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     a.logo{
                         img{
-                            max-width: 48px;
+                            max-width: 68px;
+                        }
+                    }
+                    .link-wrap{
+                        @include display-flex(flex);
+                        li{
+                            margin-right: 40px;
+                            &:first-child{
+                                margin-right: 56px;
+                                a{
+                                    &::after{
+                                        content: 'arrow_drop_down';
+                                        font-family: 'Material Icons';
+                                        font-size: 1.5rem;
+                                        line-height: 1.813rem;
+                                        color: $text-color;
+                                        position: absolute;
+                                        top: -3px;
+                                        @include transition(all .3s ease-in-out);
+                                    }
+                                }
+                            }
+                            a{
+                                @include transition(all .3s ease-in-out);
+                                cursor: pointer;
+                                display: block;
+                                position: relative;
+                                color: $text-color;
+                                font-family: $avenir-heavy;
+                            }
+                            &:hover{
+                                a{
+                                    color: $text-color-hover;
+                                    &::after{
+                                        color: $text-color-hover;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -42,11 +205,12 @@
         }
 
     &.fixed-header {
+        // background-color: #ffffff;
         // position: sticky;
         // position: -webkit-sticky;
         @include transition(all .5s linear);
         left: 0px;
-        top: -80px;
+        top: -100px;
         width: 100%;
         z-index: 1;
         background-color: $white-color;
@@ -73,96 +237,25 @@
     }
 }
 
-@media #{$breakpoint-lg-laptop}{
-    .main-header{
-        img{
-            max-width: 160px;
-        }
-        ul {
-            li{
-                &:last-child{
-                    a.logo{
-                       img {
-                           max-width: 55px;
-                       }
-                    } 
-                    a.log-out{
-                        img {
-                            width: 45px;
-                            height: 45px;
-                        }
-                    }
-                } 
-            }
-        }
-    }
-}
 
 @media #{$breakpoint-xxl}{
     .main-header{
-        img{
-            max-width: 180px;
-        }
-        ul {
-            li{
-                &:last-child{
-                    a.logo{
-                       img {
-                           max-width: 65px;
-                       }
-                    } 
-                    a.log-out{
-                        img {
-                            width: 52px;
-                            height: 52px;
-                        }
-                    }
-                } 
-            }
-        }
+        padding: 12px 50px 8px;
     }
 }
 
-@media #{$breakpoint-xl}{
+@media #{$breakpoint-normal-lp}{
     .main-header{
-        padding: .5rem 1.5rem;
-        .logo,img {
-            max-width: 120px;
+        padding: .5rem 2rem;
+        img {
+            max-width: 185px;
         }
-        ul {
+        ul{
             li{
                 &:last-child{
-                    a.log-out{
-                        margin-right: 20px;
+                    a.logo {
                         img{
-                            max-width: 100%;
-                            width: 34px;
-                            height: 34px;
-                        }
-                    }
-                    a.logo{
-                        img{
-                            max-width: 38px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@media #{$breakpoint-lg}{
-    .main-header{
-        padding: .3rem .5rem;
-        .logo,img {
-            max-width: 120px;
-        }
-        ul {
-            li{
-                &:last-child{
-                    a,logo{
-                        img{
-                            max-width: 40px;
+                            max-width: 58px;
                         }
                     }
                 }

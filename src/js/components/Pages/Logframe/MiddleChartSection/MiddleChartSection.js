@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import Slider from 'react-slick';
-
+import Loader from 'react-loader-spinner';
+import Slider from 'react-slick';
 import CustomChart from '../CustomChart';
 import {
   getIndicatorsGraphData,
@@ -10,84 +10,18 @@ import {
   filterIndicatorGraphDataWithDate,
 } from '../../../../actions/logFrame.actions';
 
-function convert(x) {
-  // eslint-disable-next-line no-restricted-globals
-  if (isNaN(x)) return x;
-
-  if (x < 9999) {
-    return x;
-  }
-
-  if (x < 1000000) {
-    return `${Math.round(x / 1000)}K`;
-  }
-  if (x < 10000000) {
-    return `${(x / 1000000).toFixed(2)}M`;
-  }
-
-  if (x < 1000000000) {
-    return `${Math.round(x / 1000000)}M`;
-  }
-
-  if (x < 1000000000000) {
-    return `${Math.round(x / 1000000000)}B`;
-  }
-
-  return '1T+';
-}
 class MiddleChartSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // statsData: [],
       // dateRange: [],
+      allIndicatorCategory: null,
+      selectedOption: null,
       activeTimeGraph: true,
       activeBar: true,
       toggleTimePeriodDropdown: false,
       toggleDataDropdown: false,
-      // series: [
-      //   // {
-      //   //   name: 'Planned As per AFP contract Budget',
-      //   //   type: 'column',
-      //   //   data: planned,
-      //   // },
-      //   // {
-      //   //   name: 'Achieved',
-      //   //   type: 'column',
-      //   //   data: achieved,
-      //   // },
-      //   // {
-      //   //   name: 'Planned As per AFP contract Budget',
-      //   //   type: 'line',
-      //   //   data: planned,
-      //   // },
-      //   // {
-      //   //   name: 'Achieved',
-      //   //   type: 'line',
-      //   //   data: achieved,
-      //   // },
-      //   {
-      //     name: 'Achieved',
-      //     type: 'column',
-      //     data: [],
-      //   },
-      //   {
-      //     name: 'Planned As per AFP contract Budget',
-      //     type: 'column',
-      //     data: [],
-      //   },
-      //   {
-      //     name: 'Achieved',
-      //     type: 'line',
-      //     data: [],
-      //   },
-      //   {
-      //     // name: 'Planned',
-      //     name: 'Planned As per AFP contract Budget',
-      //     type: 'line',
-      //     data: [],
-      //   },
-      // ],
     };
   }
 
@@ -260,14 +194,46 @@ class MiddleChartSection extends Component {
   //   //   options: { ...this.state.options, labels: label },
   //   // });
   // };
+  allIndicatorCategorySetState = array => {
+    this.setState({ allIndicatorCategory: array });
+  };
 
   componentDidUpdate(prevProps, prevState) {
+    const {
+      logFrameReducer: { indicatorCategory },
+    } = this.props;
+    if (
+      prevProps.logFrameReducer.indicatorCategory !==
+      indicatorCategory
+    ) {
+      // this.filterDataWithLayer();
+      const b = [];
+      const a = indicatorCategory.map(data => {
+        data.subcat.map(subdata => {
+          return b.push(subdata.name);
+        });
+        return true;
+      });
+      console.log(b);
+      this.allIndicatorCategorySetState(b);
+      // this.props.filterIndicatorGraphData(activeLayer);
+    }
     // const that = this;
     // const { selectedDataType } = this.state;
     const { activeLayer, activeDate } = this.props;
     if (prevProps.activeLayer !== activeLayer) {
       // this.filterDataWithLayer();
-      this.props.filterIndicatorGraphData(activeLayer);
+      if (activeDate.length === 0) {
+        console.log('if active layer changed');
+        this.props.filterIndicatorGraphData(activeLayer);
+      } else {
+        console.log('else active layer changed');
+
+        this.props.filterIndicatorGraphDataWithDate(
+          activeLayer,
+          activeDate,
+        );
+      }
 
       // console.log('xxxss');
       // setTimeout(function() {
@@ -293,10 +259,20 @@ class MiddleChartSection extends Component {
     if (prevProps.activeDataType !== activeDataType) {
       console.log(activeDataType, 'change datatype');
       if (activeDataType === 'Individual') {
-        this.props.getIndicatorsGraphDataIndividual(activeLayer);
+        if (activeDate.length === 0) {
+          this.props.getIndicatorsGraphDataIndividual(
+            activeLayer,
+            false,
+          );
+        } else {
+          this.props.getIndicatorsGraphDataIndividual(
+            activeLayer,
+            activeDate,
+          );
+        }
         // this.filterDataWithLayer();
       } else {
-        this.props.getIndicatorsGraphData(activeLayer);
+        this.props.getIndicatorsGraphData(activeLayer, activeDate);
         // this.filterDataWithLayer();
       }
     }
@@ -315,9 +291,8 @@ class MiddleChartSection extends Component {
   };
 
   componentDidMount() {
-    const { activeLayer } = this.props;
-
-    this.props.getIndicatorsGraphData(activeLayer);
+    const { activeLayer, activeDate } = this.props;
+    this.props.getIndicatorsGraphData(activeLayer, false);
 
     const timeDropdownEl = document.getElementById('duration_id');
     const dataDropdownEl = document.getElementById('data_id');
@@ -370,18 +345,110 @@ class MiddleChartSection extends Component {
     this.chartRef.chart.toggleSeries('Achieved Line');
   };
 
-  next = () => {
-    // console.log('nextttttt');
-    const v = document.getElementsByClassName('')[0];
-    v.click();
-    // this.slider.slickNext();
+  handleMainCategorySlide = selectedValue => {
+    this.props.logFrameReducer.indicatorCategory.map(a => {
+      a.subcat.filter(b => {
+        if (b.name === selectedValue) {
+          return this.props.handleActiveIndicator(a.name);
+        }
+        return true;
+      });
+      return true;
+    });
   };
 
-  previous = () => {
-    this.slider.slickPrev();
+  nextBtnClick = () => {
+    // console.log(
+    //   this.props.logFrameReducer.indicatorCategory.map(a => {
+    //     a.subcat.filter(data => data.name === 'Impact Indicator 2');
+    //   }),
+    //   'filtered data',
+    // );
+
+    const activeLayerIndex = this.state.allIndicatorCategory.indexOf(
+      this.props.activeLayer,
+    );
+    const totalNumberofIndex = this.state.allIndicatorCategory.length;
+    // console.log(totalNumberofIndex, 'totalnumberindex');
+    const addedNumberIndex = activeLayerIndex + 1;
+    if (addedNumberIndex < totalNumberofIndex) {
+      // console.log(totalNumberofIndex, 'totalNumber index if');
+      // console.log(addedNumberIndex, 'activeLayer + 1 index if');
+      // console.log('error');
+      this.props.handleActiveLayer(
+        this.state.allIndicatorCategory[addedNumberIndex],
+      );
+
+      this.handleMainCategorySlide(
+        this.state.allIndicatorCategory[addedNumberIndex],
+      );
+      // const b = this.props.logFrameReducer.indicatorCategory.map(
+      //   a => {
+      //     a.subcat.filter(b => {
+      //       if (b.name === this.props.activeLayer) {
+      //         return this.props.handleActiveIndicator(a.name);
+      //       }
+      //     });
+      //   },
+      // );
+      // console.log(b, 'bbbb');
+      // } else if (addedNumberIndex >= totalNumberofIndex) {
+    } else {
+      // console.log(totalNumberofIndex, 'totalNumber index else if');
+      // console.log(addedNumberIndex, 'activeLayer + 1 index else if');
+      this.props.handleActiveLayer(
+        this.state.allIndicatorCategory[0],
+      );
+      this.handleMainCategorySlide(
+        this.state.allIndicatorCategory[0],
+      );
+    }
+    // this.props.handleSelectAllDate(
+    //   this.props.logFrameReducer.totalRangeDate,
+    // );
+    // this.props.handleSelectAllDateName(
+    //   this.props.logFrameReducer.totalRangeDateName,
+    // );
+  };
+
+  prevBtnClick = () => {
+    const activeLayerIndex = this.state.allIndicatorCategory.indexOf(
+      this.props.activeLayer,
+    );
+    const totalNumberofIndex = this.state.allIndicatorCategory.length;
+    const subtractNumberIndex = activeLayerIndex - 1;
+    if (
+      subtractNumberIndex < totalNumberofIndex &&
+      subtractNumberIndex >= 0
+    ) {
+      this.props.handleActiveLayer(
+        this.state.allIndicatorCategory[subtractNumberIndex],
+      );
+      this.handleMainCategorySlide(
+        this.state.allIndicatorCategory[subtractNumberIndex],
+      );
+    } else {
+      this.props.handleActiveLayer(
+        this.state.allIndicatorCategory[totalNumberofIndex - 1],
+      );
+      this.handleMainCategorySlide(
+        this.state.allIndicatorCategory[totalNumberofIndex - 1],
+      );
+    }
+  };
+
+  handleChange = selectedOption => {
+    console.log('selectedOption', selectedOption);
+    this.setState({ selectedOption }, () =>
+      console.log(`Option selected:`, this.state.selectedOption),
+    );
   };
 
   render() {
+    const optionsd = [
+      { label: 'Thing 1', value: 1 },
+      { label: 'Thing 2', value: 2 },
+    ];
     const {
       // series,
       // options,
@@ -389,6 +456,8 @@ class MiddleChartSection extends Component {
       toggleDataDropdown,
       activeBar,
       activeTimeGraph,
+      allIndicatorCategory,
+      selectedOption,
       selectedDataType,
       // dateRange,
     } = this.state;
@@ -409,6 +478,7 @@ class MiddleChartSection extends Component {
     // };
     const {
       activeLayer,
+      activeDateValues,
       activeDate,
       handleActiveDate,
       updateChart,
@@ -423,9 +493,53 @@ class MiddleChartSection extends Component {
           options,
           dateRange,
           filteredDynamicData,
+          isDataFetched,
+          indicatorCategory,
         },
       },
     } = this;
+    const settings = {
+      // dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      // beforeChange: (current, next) => {
+      //   console.log('currentbefore', current);
+      //   console.log('nextbefore', current);
+      // },
+      // afterChange: (current, next) => {
+      //   console.log('currentafter', current);
+      //   console.log('nextafter', next);
+      // },
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            infinite: true,
+            dots: true,
+          },
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            initialSlide: 2,
+          },
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+      ],
+    };
     return (
       <div className="info-content">
         <a href="#sidebar-toggle" className="toggle_button">
@@ -433,12 +547,12 @@ class MiddleChartSection extends Component {
         </a>
         <div className="info-content-wrap">
           <div className="info-content-header">
-            <h5>Logical framework</h5>
-            <h2>
+            {/* <h5>Logical framework</h5> */}
+            <h3>
               {filteredDynamicData &&
                 filteredDynamicData[0] &&
                 filteredDynamicData[0].category.title}
-            </h2>
+            </h3>
             <div className="info-header-top">
               <h3 className="h3-red">
                 {filteredDynamicData &&
@@ -465,9 +579,9 @@ class MiddleChartSection extends Component {
                         toggleTimePeriodDropdown ? 'span-active' : ''
                       }`}
                     >
-                      {activeDate.length === 0
+                      {activeDateValues.length === 0
                         ? 'All'
-                        : `${activeDate},`}
+                        : `${activeDateValues},`}
                     </span>
                     <ul
                       className={`ul-dropdown ${
@@ -477,7 +591,7 @@ class MiddleChartSection extends Component {
                     >
                       {dateRange.map((d, key) => {
                         return (
-                          <li className="checkbox">
+                          <li key={d.id} className="checkbox">
                             <input
                               type="checkbox"
                               checked={
@@ -499,6 +613,7 @@ class MiddleChartSection extends Component {
                           </li>
                         );
                       })}
+
                       {/* <li className="checkbox">
                         <input type="checkbox" id="check_time2" />
                         <label htmlFor="check_time2">
@@ -533,6 +648,18 @@ class MiddleChartSection extends Component {
                         Milestone Year 6
                       </li> */}
                     </ul>
+                    {/* <select>
+                      {dateRange.map((d, key) => {
+                        return (
+                          <option value={d.name}>{d.name}</option>
+                        );
+                      })}
+                    </select> */}
+                    {/* <ReactMultiSelectCheckboxes
+                      // value={selectedOption}
+                      // onChange={this.handleChange}
+                      options={optionsd}
+                    /> */}
                   </div>
                 </div>
                 <div className="option-wrap">
@@ -639,6 +766,17 @@ class MiddleChartSection extends Component {
             </ul>
             <div className="slider-container">
               {/* <div id="chart" /> */}
+              {/* <Slider {...settings}> */}
+              <button
+                onClick={this.prevBtnClick}
+                type="button"
+                data-role="none"
+                className="slick-arrow slick-prev"
+                // style="display: block;"
+              >
+                {' '}
+                Previous
+              </button>
               <CustomChart
                 activeLayer={activeLayer}
                 activeDate={activeDate}
@@ -649,7 +787,44 @@ class MiddleChartSection extends Component {
                   this.chartRef = arg;
                 }}
               />
+              <button
+                onClick={this.nextBtnClick}
+                type="button"
+                data-role="none"
+                className="slick-arrow slick-next"
+                // style="display: block;"
+              >
+                {' '}
+                Next
+              </button>
+              {/* <CustomChart
+                  activeLayer={activeLayer}
+                  activeDate={activeDate}
+                  updateChart={updateChart}
+                  series={series}
+                  options={options}
+                  chartRef={arg => {
+                    this.chartRef2 = arg;
+                  }}
+                /> */}
+              {/* </Slider> */}
               <div id="chartone" />
+              <div
+                id="center_loader"
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                }}
+              >
+                <Loader
+                  type="Audio"
+                  color="#c21c2e"
+                  height={100}
+                  width={100}
+                  visible={!isDataFetched}
+                />
+              </div>
             </div>
           </div>
           <div className="info-content-footer">

@@ -38,31 +38,13 @@ function convert(x) {
 }
 const initialState = {
   dateRange: [],
+  totalRangeDate: null,
+  totalRangeDateName: null,
   filteredDynamicData: [],
   isDataFetched: false,
   indicatorCategory: [],
   logDataGraph: [],
   series: [
-    // {
-    //   name: 'Planned As per AFP contract Budget',
-    //   type: 'column',
-    //   data: planned,
-    // },
-    // {
-    //   name: 'Achieved',
-    //   type: 'column',
-    //   data: achieved,
-    // },
-    // {
-    //   name: 'Planned As per AFP contract Budget',
-    //   type: 'line',
-    //   data: planned,
-    // },
-    // {
-    //   name: 'Achieved',
-    //   type: 'line',
-    //   data: achieved,
-    // },
     {
       name: 'Achieved',
       type: 'column',
@@ -241,10 +223,10 @@ const initialState = {
   },
 };
 const filterIndicatorGraphData = (state, action) => {
-  console.log('gilterindicatorgraphdata ');
+  // console.log('gilterindicatorgraphdata ');
   // console.log(action);
   // const a = 'Output Indicator 2.5';
-  console.log(state.logDataGraph, 'red logdata');
+  // console.log(state.logDataGraph, 'red logdata');
   const filtered = state.logDataGraph.filter(result => {
     //   if (result.category === 'IMPACT') {
     //   console.log(a);
@@ -252,7 +234,7 @@ const filterIndicatorGraphData = (state, action) => {
     //   }
   });
   // this.setState({ filteredDynamicData: filtered });
-  console.log(filtered, 'filtered');
+  // console.log(filtered, 'filtered');
   // const { dataType } = filtered[0];
   const dataType = filtered[0].data_type;
   const dataUnit = filtered[0].unit;
@@ -275,6 +257,13 @@ const filterIndicatorGraphData = (state, action) => {
     // console.log(el, 'elLabel');
     return el.year;
   });
+  const totalRangeDate = totalDateList.map(data => {
+    return data.range;
+  });
+  const totalRangeDateName = totalDateList.map(data => {
+    return data.name;
+  });
+  console.log(totalRangeDate, 'rrrr');
   // console.log(category, 'cat');
   // console.log(label, 'label');
   // console.log(achieved, 'achieved');
@@ -306,6 +295,8 @@ const filterIndicatorGraphData = (state, action) => {
 
   return {
     ...state,
+    totalRangeDate,
+    totalRangeDateName,
     series,
     filteredDynamicData: filtered,
     dateRange: totalDateList,
@@ -317,7 +308,9 @@ const filterIndicatorGraphData = (state, action) => {
       yaxis: {
         ...state.options.yaxis,
         title: {
-          text: `${dataType}  (${dataUnit})`,
+          text: `${dataType}  ${
+            dataUnit !== null ? `(${dataUnit})` : ''
+          }`,
         },
       },
     },

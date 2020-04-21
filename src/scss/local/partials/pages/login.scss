@@ -11,24 +11,23 @@
             .login{
                 height: calc(100% - 5%);
                 .login-header{
-                    padding: 64px 30px 0px 67.5px;
+                    padding: 85px 30px 0px 90px;
                     // padding: 64px 30px 0px 67.5px;
                     .logo{
-                        margin-bottom: 67.5px;
+                        margin-bottom: 100px;
                         img{
-                            max-width: 152px;
+                            max-width: 200px;
                             width: 100%;
                         }
                     }
                     .title{
                         // margin-bottom: 75px;
-                        h2{
+                        h3{
                             color: $white-color;
-                            max-width: 365px;
+                            max-width: 500px;
                             width: 100%;
-                            margin-bottom:  18px;
+                            margin-bottom:  25px;
                             text-transform: capitalize;
-                            line-height: 1.1;
                             span{
                                 text-transform: lowercase;
                             }
@@ -43,7 +42,7 @@
                 }
                 .login-body{
                     height: calc(100% - 42%);
-                    padding: 0px 30px 0px 67.5px;
+                    padding: 0px 30px 0px 90px;
                     @include display-flex(flex);
                     @include flex-direction-column(column);
                     @include justify-content-center;
@@ -51,7 +50,7 @@
                     .image-content{
                         @include display-flex(flex);
                         img{
-                            max-width: 300px;
+                            max-width: 435px;
                             width: 100%;
                             margin: 0 auto;
                             position: relative;
@@ -61,13 +60,12 @@
                 }
             }
             .login-footer{
-                padding: 0px 30px 0px 67.5px;
+                padding: 0px 40px 0px 90px;
                 @include display-flex(flex);
                 @include justify-content-between;
                 /* position: relative;
                 top: 1rem; */
                 span{
-                    font-size: 10.5px;
                     display: block;
                     color: $primary-xs-light;
                     text-decoration: underline;
@@ -94,20 +92,21 @@
             position: relative;
             a.backward-login{
                 position: absolute;
-                top: 50px;
-                left: 30px;
+                top: 95px;
+                left: 35px;
                 display: inline;
                 cursor: pointer;
                 width: 18px;
                 height: 19px;
                 @include transition(all .3s linear);
                 @include flex_hr_center;
-                padding: 8px;
+                padding: 15px;
                 &::after{
-                    font-size: 18px;;
+                    font-size: 28px;
                     color: $primary-light;
-                    content: 'keyboard_backspace';
+                    content: 'arrow_back';
                     font-family: 'Material Icons';
+                    line-height: 2.125rem;
                 }
                 &:hover{
                     background: $red-light;
@@ -123,10 +122,10 @@
                 width: 100%;
                 margin: 0 auto;
                 .login-header{
-                    margin-bottom: 67.5px;
-                    h2{
+                    margin-bottom: 90px;
+                    h3{
                         text-transform: capitalize;
-                        margin-bottom: .938rem;
+                        margin-bottom: 20px;
                     }
                     span{
                         text-transform: capitalize;
@@ -137,29 +136,31 @@
                     .form-group{
                         margin-bottom: 0;
                         &:first-child{
-                            margin-bottom: 31.5px;
+                            margin-bottom: 42px;
                         }
                         label{
-                            margin-bottom: .703rem;
+                            margin-bottom: .938rem;
                             margin-left: 12px;
                         }
                         input.form-control{
                             width: 100%;
                             color: $primary-light;
-                            @include radius(18.5px);
-                            padding: .75rem 0 .656rem .938rem;
-                            border: .4px solid $primary-xs-light;
+                            @include radius(25px);
+                            padding: .75rem 0 .793rem 1.25rem;
+                            border: 1px solid $primary-xs-light;
                             &:focus{
-                                background: $white-color;
+                                background: $red-light;
                                 color: $text-color;
-                                @include box-shadow(0 0 5px 0 $primary-xs-light);
+                                border: 1px solid $red-color;
+                                // @include box-shadow(0 0 5px 0 $primary-xs-light);
                             }
                             &::placeholder{
-                                font-size: .703rem;
+                                font-size: .938rem;
+                                line-height: 1.25rem;
                             }
                         }
                         &.checkbox{
-                            margin: 15px 0 31.5px;
+                            margin: 20px 0 40px;
                             input[type="checkbox"]{
                                 &:checked{
                                     ~label{
@@ -171,13 +172,14 @@
                             label{
                                 margin-bottom: 0;
                                 color: $primary-light;
-                                padding-left: 20px;
+                                padding-left: 32px;
                                 &::before, 
                                 &::after{  
-                                    width: 13.5px;
-                                    height: 14.25px;
-                                    left: 0;
-                                    top: 3px;
+                                    width: 14.5px;
+                                    height: 15.25px;
+                                    top: 2px;
+                                    left: 4px;
+                                    font-size: 11px;;
                                    @include display-flex(flex);
                                    @include align-items-center;
                                    @include justify-content-center;
@@ -190,12 +192,12 @@
                     }
                     .btn-wrap{
                         button{
-                            padding: 12px 0 9.75px;
+                            padding: 14px 0 13px;
                             width: 100%;
                             background-color: $red-color;
                             @include transition(all .4s ease-in-out);
                             border: 0;
-                            margin-bottom: 12px;
+                            margin-bottom: 16px;
                             cursor: pointer;
                             &:hover{
                                 background: $red-bright;
@@ -218,7 +220,7 @@
                                 cursor: pointer;
                                 @include transition(all .3s ease-in-out);
                                 &:hover{
-                                    color: $primary-xs-light;
+                                    color: $red-hover;
                                 }
                             }
                         }
@@ -229,116 +231,26 @@
                 @include display-flex(flex);
                 @include justify-content-center;
                 @include align-items-center;
-                img{
-                    &:first-child{
-                        max-width: 80px;
+                .left-img{
+                    padding-right: 30px;
+                    border-right: 2px solid $primary-xs-light;
+                    img{
+                        max-width: 82px;
                         width: 100%;
-                        height: 40px;
-                        padding-right: 26px;
-                        border-right: 2px solid $primary-xs-light;
+                        height: 65px;
+                       
                     }
-                    &:last-child{
-                        max-width: 60px;
+                }
+                .right-img{
+                    padding-left: 30px;
+                    img{
+                        max-width: 57px;
                         width: 100%;
-                        height: 40px;
-                        padding-left: 26px;
+                        height: 63px;
                     }
                 }
             }
         }    
-    }
-}
-
-@media #{$breakpoint-lg-laptop}{
-    .login-page{
-        .login-wrapper {
-            aside.login-sidebar {
-                width: 850px;
-                .login{
-                     .login-header {
-                        .logo {
-                            img {
-                                max-width: 170px;
-                            }
-                        }
-                         .title{
-                             h2 {
-                                 max-width: 500px;
-                                 font-size: 1.8rem;
-                            } 
-                        }
-                    }
-                    .login-body{
-                        .image-content {
-                            img {
-                                max-width: 350px;
-                                top: 35px;
-                            }
-                        }
-                    }
-                }
-            }
-            main.main-section {
-                width: calc(100% - 850px);
-                a.backward-login{
-                    top: 60px;
-                    left: 40px;
-                    width: 24px;
-                    height: 25px;
-                    padding: 15px;
-                    &::after{
-                        font-size: 23px;
-                    }
-                }
-                .login-content{
-                    max-width: 460px;
-                    .login-header {
-                        h2 {    
-                            font-size: 1.8rem;
-                        }
-                    } 
-                    .login-form{
-                        .form-group{
-                            input.form-control{ 
-                                &::placeholder{
-                                    font-size: 1rem;
-                                }
-                            }
-                            &.checkbox{
-                                margin: 24px 0 36.5px;
-                                label {
-                                    margin-left: 16px;
-                                    padding-left: 26px;
-                                    &::before, 
-                                    &::after{
-                                        width: 17.5px;
-                                        height: 17.25px;
-                                        top: 4px;
-                                    }
-                                    &::after{
-                                        font-size: 14px;
-                                        @include flex-hr-center;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                .login-footer{
-                    img{
-                        &:first-child{
-                            max-width: 100px;
-                            height: 60px;
-
-                        }
-                        &:last-child{
-                            max-width: 80px;
-                            height: 60px;
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -358,150 +270,33 @@
     } 
 }
 
-@media #{$breakpoint-normal-lp}{
-    .login-page{
-        .login-wrapper{
-            aside.login-sidebar{
-                width: 720px;
-                .login{
-                    .login-header{
-                        padding: 50px 26px 0px 60px;
-                        .logo{
-                            margin-bottom: 50px;
-                            img{
-                                max-width: 135px;
-                                width: 100%;
-                            }
-                        }
-                        .title{
-                            // margin-bottom: 66px;
-                            h2{
-                                max-width: 400px;
-                                margin-bottom:  12px;
-                            }
-                            span{
-                                max-width: 362px;
-                            }
-                        }
-                    }
-                    .login-body{
-                        padding: 0px 26px 0px 60px;
-                        .image-content {
-                            img {
-                                max-width: 290px;
-                                top: 10px;
-                            }
-                        }
-                    }
-                }
-                .login-footer{
-                    padding: 0px 26px 0px 60px;
-                    span{
-                        font-size: 9px;
-                    }
-                }
-            }
-            main.main-section{
-                width: calc(100% - 720px);
-                .login-content{
-                    max-width: 372px;
-                    .login-header{
-                        margin-bottom: 46px;
-                        h2{
-                            margin-bottom: 10px;
-                        }
-                    }
-                    .login-form{
-                        width: 100%;
-                        .form-group{
-                            &:first-child{
-                                margin-bottom: 30px;
-                            }
-                            label{
-                                margin-bottom: 8px;
-                                margin-left: 12px;
-                            }
-                            input.form-control{
-                                @include radius(16.5px);
-                                padding: 7px 0 6px 13px;
-                            }
-                            &.checkbox{
-                                margin: 8px 0 22px;
-                                label{
-                                    padding-left: 20px;
-                                    &::before, 
-                                    &::after{  
-                                        width: 12px;
-                                        height: 12.5px;
-                                        left: 0;
-                                        top: 3px;
-                                    }
-                                }
-                            }
-                        }
-                        .btn-wrap{
-                            button{
-                                padding: 8px 0 6px;
-                                margin-bottom: 6px;
-                                a{
-                                    font-size: .625rem;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 @media #{$breakpoint-xl}{
     .login-page{
-        .login-wrapper{
+        .login-wrapper {
             aside.login-sidebar{
-                .login{
-                    .login-header{
+                width: 720px;
+                .login {
+                    .login-header {
+                        padding: 56px 20px 0px 60px;
                         .logo{
-                            margin-bottom: 50px;
-                            img{
-                                max-width: 135px;
-                                width: 100%;
-                            }
+                            margin-bottom: 60px;
                         }
-                        .title{
-                            h2{
-                                font-size: 1.4rem;
-                                max-width: 330px;
-                                margin-bottom:  10px;
-                            }
-                            span{
-                                max-width: 362px;
-                            }
-                        }
-                    }
+                    } 
                     .login-body{
-                        .image-content {
-                            img {
-                                max-width: 265px;
-                                top: 10px;
-                            }
-                        }
+                        padding: 0px 20px 0px 60px;
                     }
+                }
+                .login-footer {
+                    padding: 0px 26px 0px 60px;
                 }
             }
-            main.main-section{
-                .login-content{
-                    .login-header{
-                        margin-bottom: 40px;
-                        h2{
-                            font-size: 1.4rem;
-                        }
-                    }
-                }
+            main.main-section {
+                width: calc(100% - 720px);
             }
         }
-    }
+    } 
 }
+
 
 @media #{$breakpoint-tab}{
     .login-page{
@@ -524,48 +319,6 @@
                 .login-content{
                     padding: 0 20px;
                 } 
-            }
-        }
-    }
-}
-
-@media #{$breakpoint-ls}{
-    .login-page{
-        .login-wrapper{
-            aside.login-sidebar{
-                width: 550px;
-                .login{
-                    .login-body{
-                        .image-content{
-                            img{
-                                max-width: 285px;
-                                top: 20px;
-                            }
-                        }
-                    }
-                }
-            }
-            main.main-section{
-                width: calc(100% - 550px);
-                .login-content{
-                    padding: 0 20px;
-                }
-            }
-        }
-    }
-}
-
-@media #{$breakpoint-lg}{
-    .login-page{
-        .login-wrapper{
-            aside.login-sidebar{
-                width: 500px;
-            }
-            main.main-section{
-                width: calc(100% - 500px);
-                .login-content{
-                    padding: 0 15px;
-                }
             }
         }
     }
@@ -600,9 +353,7 @@
                     } 
                     .login-body{
                         .image-content{
-                            img{
-                                top: 0px;
-                            }
+                            
                         }
                     }
                 }
@@ -699,12 +450,6 @@
                 }
                 .login-footer{
                     padding: 0px 15px 26px 30px;
-                    .image-content{
-                        img{
-                            max-width: 255px;
-                            top: 14px;
-                        }
-                    }
                 }
             }
             main.main-section{

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FullPage, Slide } from 'react-full-page';
 import Background from '../../../../img/banner.png';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import Header from '../../Header';
 import LeftSidebarMain from './LefSideBar/LeftSideBarMain';
@@ -9,29 +10,35 @@ import LeftSidebarMain from './LefSideBar/LeftSideBarMain';
 import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
 
 let dateArray = [];
+let dateArrayValues = [];
 class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeIndicator: 'IMPACT',
       activeLayer: 'Impact Indicator 1',
       activeDataType: 'Cummulative',
       dateRange: [],
-      activeModal: 'false',
+      activeModal: false,
       // width: '',
       // height: '',
-      activeIndicator: [],
+      // activeIndicator: [],
       activeDate: [],
+      activeDateValues: [],
       updateChart: false,
     };
   }
 
   handleOneTimeLayerChange = () => {
-    console.log('clicked');
     this.setState({ activeLayer: 'Impact Indicator 1' });
   };
 
-  handleIndicators = data => {
-    const { activeIndicator } = this.state;
+  // handleIndicators = data => {
+  //   const { activeIndicator } = this.state;
+  //   this.setState({ activeIndicator: data });
+  // };
+
+  handleActiveIndicator = data => {
     this.setState({ activeIndicator: data });
   };
 
@@ -47,26 +54,55 @@ class MainComponent extends Component {
     this.setState({ dateRange: totalDateRange });
   };
 
+  handleSelectAllDate = alldate => {
+    this.setState({
+      activeDate: alldate,
+    });
+  };
+
+  handleSelectAllDateName = alldatename => {
+    this.setState({
+      activeDateValues: alldatename,
+    });
+  };
+
   handleActiveDate = e => {
     // push uniques
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: 'base',
+    });
+
+    const { dateRange } = this.props.logFrameReducer;
     const { updateChart } = this.state;
+    const dateFilteredObj = dateRange.filter(
+      filteredData => filteredData.range === e,
+    );
     this.setState({ updateChart: !updateChart });
     if (dateArray.indexOf(e) === -1) {
       dateArray.push(e);
+      dateArrayValues.push(dateFilteredObj[0].name);
     } else {
       dateArray = dateArray.filter(f => f !== e);
+      dateArrayValues = dateArrayValues.filter(
+        g => g !== dateFilteredObj[0].name,
+      );
     }
     dateArray.sort();
+    // dateArrayValues.sort();
+    dateArrayValues.sort(collator.compare);
     if (dateArray.length === 0) {
-      const { dateRange } = this.props.logFrameReducer;
-      console.log(dateRange);
-      const allDateRange = dateRange.map(data => {
-        return dateArray.push(data.range);
+      // console.log(dateRange);
+      dateRange.map(data => {
+        dateArray.push(data.range);
+        dateArrayValues.push(data.name);
+        return true;
       });
-      console.log(allDateRange);
+      // console.log(allDateRange);
     }
     this.setState({
       activeDate: dateArray,
+      activeDateValues: dateArrayValues,
     });
     // this.setState({ activeDate: e });
   };
@@ -142,13 +178,21 @@ class MainComponent extends Component {
       activeLayer,
       dateRange,
       activeDate,
+      activeDateValues,
       activeModal,
       updateChart,
       activeDataType,
+      activeIndicator,
     } = this.state;
+    const {
+      props: {
+        logFrameReducer: { filteredDynamicData },
+      },
+    } = this;
     return (
       <>
         <Header />
+
         <main className="main">
           <section className="content content-mod">
             <div
@@ -186,35 +230,10 @@ class MainComponent extends Component {
                         />
                         <span className="important" />
                         <p className="span_book_15">
-                          Income increase is derived from loan
-                          disbursed to beneficiaries by the partner
-                          BFIs considering that income increases by
-                          £0.24 per £1 loan borrowed by the
-                          beneficiaries (based on Sakchyam Mid-term
-                          Evaluation Survey 2019 findings).By
-                          investing the principal borrowed in
-                          agriculture and non-agricultural economic
-                          activities/MSMEs, beneficiaries realize a
-                          24% net increase in income. Loan fund
-                          disbursed by partner BFIs to target group is
-                          one of the key indicators for monitoring.
-                          Increased income at beneficiaries level is
-                          directly dependent on the loan disbursed to
-                          the beneficiaries for the productive
-                          investment. Sakchyam encourages partners to
-                          disburse more loans to productive sectors
-                          both in terms of number of beneficiaries,
-                          volume of loan including encouragment and
-                          support to design and implement appropriate
-                          loan product (s), promote financial literacy
-                          and provide enterprise related trainings to
-                          help increase demand for loan and
-                          investment. Saving generates some interest
-                          (different rate) as well as funds for
-                          investment that attribute to increase in
-                          income. Furthermore, the actual attribution
-                          measurement of income increased will be
-                          measured at the end-line surveys.
+                          {filteredDynamicData &&
+                            filteredDynamicData[0] &&
+                            filteredDynamicData[0].sub_category
+                              .description}
                         </p>
                       </div>
                     </div>
@@ -225,19 +244,26 @@ class MainComponent extends Component {
             <LeftSidebarMain
               activeDate={activeDate}
               activeLayer={activeLayer}
+              activeIndicator={activeIndicator}
               handleActiveLayer={this.handleActiveLayer}
+              handleActiveIndicator={this.handleActiveIndicator}
             />
             <MiddleChartSection
               activeLayer={activeLayer}
+              activeDateValues={activeDateValues}
               activeDataType={activeDataType}
               activeDate={activeDate}
               updateChart={updateChart}
+              dateRange={dateRange}
+              handleSelectAllDate={this.handleSelectAllDate}
+              handleSelectAllDateName={this.handleSelectAllDateName}
+              handleActiveLayer={this.handleActiveLayer}
               handleOneTimeLayerChange={this.handleOneTimeLayerChange}
               getDateRange={this.getDateRange}
               handleActiveDate={this.handleActiveDate}
-              dateRange={dateRange}
               handleModal={this.handleModal}
               handleSelectedDataType={this.handleSelectedDataType}
+              handleActiveIndicator={this.handleActiveIndicator}
             />
           </section>
         </main>

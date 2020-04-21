@@ -21,7 +21,7 @@ export default class CustomChart extends Component {
           options={options}
           series={series}
           type="line"
-          height={350}
+          height={500}
         />
       </div>
     );

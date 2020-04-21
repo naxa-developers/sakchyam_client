@@ -9,9 +9,9 @@ body {
 .sidebar-li{
     a{
         // font-family: $heading-fonts;
-        font-size: .938rem;
+        font-size: 1.25rem;
         color: $text-color;
-        line-height: 1.125rem;
+        line-height: 1.5rem;
         text-transform: capitalize;
     }
 }
@@ -19,8 +19,8 @@ body {
     li{
         a{
             font-family: $avenir-heavy;
-            font-size: .797rem;
-            line-height: 1.375rem;
+            font-size: .938rem;
+            line-height: 1.5rem;
             text-transform: capitalize;
             color: $text-color;
             &:hover{
@@ -29,59 +29,18 @@ body {
         }
     }
 }
-
-@media #{$breakpoint-lg-laptop}{
-    .sidebar-li{
-        a{font-size: 1.125rem;}
-            
-    }
-    .sidebar-sublist{
-        li{a{font-size: .938rem;}}
+@media #{$breakpoint-normal-lp}{
+    .sidebar-li a {
+        font-size: 1.125rem;
     }
 }
 
-@media #{$breakpoint-xxl}{
-    .sidebar-li{
-        a{font-size: 1.425rem;}
-            
-    }
-    .sidebar-sublist{
-        li{a{font-size: 1.125rem;}}
-    }
-}
-@media #{$breakpoint-xl}{
-    .sidebar-li{
-        a{
-            font-size: .875rem;
-        }
-    }
-    .sidebar-sublist{
-        li{a{font-size: .725rem;}}
-    }
-}
-
-@media #{$breakpoint-ls}{
-    .sidebar-li{
-        a{
-            font-size: .793rem;
-        }
-    }
-    .sidebar-sublist{
-        li{a{font-size: .683rem;}}
-    }
-}
-
-@media #{$breakpoint-lg}{
-    /* .sidebar-li{
-       a{ font-size: .75rem;}
-    } */
-}
 @media #{$breakpoint-pt}{
     .sidebar-li{
-        a{font-size: .683rem;}
+        a{font-size: 1rem;}
     }
     .sidebar-sublist{
-        li{a{font-size: .6rem;}}
+        li{a{font-size: .875rem;}}
     }
 }
 

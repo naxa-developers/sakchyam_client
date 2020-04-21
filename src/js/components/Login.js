@@ -48,7 +48,7 @@ class Login extends Component {
       const loginWrapper = document.getElementsByClassName(
         'login-wrapper',
       )[0];
-      loginWrapper.style.height = `${screen.height}px`;
+      loginWrapper.style.height = `${window.innerHeight}px`;
       console.log(loginWrapper, 'if loginwrapper');
 
       // $('.banner').css('height', y);
@@ -62,7 +62,7 @@ class Login extends Component {
       const loginWrapper = document.getElementsByClassName(
         'login-wrapper',
       )[0];
-      loginWrapper.style.height = `${window.innerHeight}px`;
+      loginWrapper.style.height = `${screen.height}px`;
       console.log('else loginwrapper');
 
       // $('.banner').css('height', x);
@@ -81,7 +81,7 @@ class Login extends Component {
     } = this.props;
 
     if (redirectToReferrer === true) {
-      return <Redirect to="/logframe" />;
+      return <Redirect to="/landing" />;
     }
     const { username, password } = this.state;
 
@@ -98,12 +98,12 @@ class Login extends Component {
                     </a>
                   </div>
                   <div className="title">
-                    <h2>
+                    <h3>
                       Welcome
                       <span> to</span>
                       <br />
                       Data Visualization Tool (DVT)
-                    </h2>
+                    </h3>
                     <span className="span_heavy_15">
                       A Small Leap towards Application of Open Data on
                       Aid and Budget in Nepal.
