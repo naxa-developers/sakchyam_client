@@ -47,29 +47,35 @@ class Header extends Component {
   // }
 
   componentDidMount() {
-    const profileDropdownEl = document.getElementById(
-      'profile_dropdown',
-    );
-    // console.log(specifiedElement, 'ss');
-    document.addEventListener('click', async event => {
-      const isClickInside = profileDropdownEl.contains(event.target);
+    if (this.props.disableScroll) {
+      // this.headerUpdate();
 
-      if (!isClickInside) {
-        console.log('clickoutside');
-        this.setState({
-          activeProfileDropdown: false,
-          // searchDropdown: false,
-        });
-        // the click was outside the specifiedElement, do something
-      }
-    });
-    // this.headerUpdate();
-
-    window.addEventListener('scroll', this.headerUpdate);
+      window.addEventListener('scroll', this.headerUpdate);
+    } else {
+      // const profileDropdownEl = document.getElementById(
+      //   'profile_dropdown',
+      // );
+      // // console.log(specifiedElement, 'ss');
+      // document.addEventListener('click', async event => {
+      //   const isClickInside = profileDropdownEl.contains(
+      //     event.target,
+      //   );
+      //   if (!isClickInside) {
+      //     console.log('clickoutside');
+      //     this.setState({
+      //       activeProfileDropdown: false,
+      //       // searchDropdown: false,
+      //     });
+      //     // the click was outside the specifiedElement, do something
+      //   }
+      // });
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.headerUpdate);
+    if (this.props.disableScroll) {
+      window.removeEventListener('scroll', this.headerUpdate);
+    }
   }
 
   headerUpdate = () => {

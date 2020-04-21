@@ -38,6 +38,8 @@ function convert(x) {
 }
 const initialState = {
   dateRange: [],
+  totalRangeDate: null,
+  totalRangeDateName: null,
   filteredDynamicData: [],
   isDataFetched: false,
   indicatorCategory: [],
@@ -255,6 +257,13 @@ const filterIndicatorGraphData = (state, action) => {
     // console.log(el, 'elLabel');
     return el.year;
   });
+  const totalRangeDate = totalDateList.map(data => {
+    return data.range;
+  });
+  const totalRangeDateName = totalDateList.map(data => {
+    return data.name;
+  });
+  console.log(totalRangeDate, 'rrrr');
   // console.log(category, 'cat');
   // console.log(label, 'label');
   // console.log(achieved, 'achieved');
@@ -286,6 +295,8 @@ const filterIndicatorGraphData = (state, action) => {
 
   return {
     ...state,
+    totalRangeDate,
+    totalRangeDateName,
     series,
     filteredDynamicData: filtered,
     dateRange: totalDateList,

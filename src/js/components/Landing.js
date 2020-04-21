@@ -51,7 +51,7 @@ class Landing extends Component {
   render() {
     return (
       <>
-        <Header headerTransparent />
+        <Header headerTransparent disableScroll />
         <section className="banner">
           <div className="banner_content" style={{ backgroundImage: `url(${BG})` }}> 
             <div className="banner-header">

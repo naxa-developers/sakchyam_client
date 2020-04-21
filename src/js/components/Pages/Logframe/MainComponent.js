@@ -54,6 +54,18 @@ class MainComponent extends Component {
     this.setState({ dateRange: totalDateRange });
   };
 
+  handleSelectAllDate = alldate => {
+    this.setState({
+      activeDate: alldate,
+    });
+  };
+
+  handleSelectAllDateName = alldatename => {
+    this.setState({
+      activeDateValues: alldatename,
+    });
+  };
+
   handleActiveDate = e => {
     // push uniques
     const collator = new Intl.Collator(undefined, {
@@ -243,6 +255,8 @@ class MainComponent extends Component {
               activeDate={activeDate}
               updateChart={updateChart}
               dateRange={dateRange}
+              handleSelectAllDate={this.handleSelectAllDate}
+              handleSelectAllDateName={this.handleSelectAllDateName}
               handleActiveLayer={this.handleActiveLayer}
               handleOneTimeLayerChange={this.handleOneTimeLayerChange}
               getDateRange={this.getDateRange}

@@ -10,38 +10,66 @@ import axiosInstance from '../axiosApi';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
 export const getIndicatorsCategory = () => dispatch => {
-  const token = localStorage.getItem('userToken');
-  axios
-    .get(`${process.env.PUBLIC_URL}/api/v1/logframe/log-category`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then(res => {
-      dispatch({
-        type: GET_INDICATORS_CATEGORY,
-        payload: res.data,
+  try {
+    const response = axiosInstance
+      .get('/api/v1/logframe/log-category')
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_INDICATORS_CATEGORY,
+          payload: result.data,
+        });
       });
-    })
-    .catch(() => {});
+  } catch (err) {
+    console.error(err);
+  }
+  // const token = localStorage.getItem('userToken');
+  // axios
+  //   .get(`${process.env.PUBLIC_URL}/api/v1/logframe/log-category`, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //   .then(res => {
+  //     dispatch({
+  //       type: GET_INDICATORS_CATEGORY,
+  //       payload: res.data,
+  //     });
+  //   })
+  //   .catch(() => {});
 };
 
-export const getIndicatorsGraphData = activeLayer => dispatch => {
+export const getIndicatorsGraphData = (
+  activeLayer,
+  activeDate,
+) => dispatch => {
   // const token = localStorage.getItem('userToken');
   try {
     const response = axiosInstance
       .get('/api/v1/logframe/logFrame-data')
       .then(function(result) {
         // console.log(result, 'result');
-
+        if (activeDate === false) {
+          return (
+            dispatch({
+              type: GET_INDICATORS_GRAPHDATA,
+              payload: result.data,
+            }),
+            dispatch({
+              type: FILTER_INDICATOR_GRAPH_DATA,
+              payload: activeLayer,
+            })
+          );
+        }
         return (
           dispatch({
             type: GET_INDICATORS_GRAPHDATA,
             payload: result.data,
           }),
           dispatch({
-            type: FILTER_INDICATOR_GRAPH_DATA,
-            payload: activeLayer,
+            type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
+            payload: { activeLayer, activeDate },
           })
         );
       });
@@ -50,22 +78,36 @@ export const getIndicatorsGraphData = activeLayer => dispatch => {
   }
 };
 
-export const getIndicatorsGraphDataIndividual = activeLayer => dispatch => {
+export const getIndicatorsGraphDataIndividual = (
+  activeLayer,
+  activeDate,
+) => dispatch => {
   // const token = localStorage.getItem('userToken');
   try {
     const response = axiosInstance
       .get('/api/v1/logframe/logFrameSingle-data')
       .then(function(result) {
         // console.log(result, 'result individual');
-
+        if (activeDate === false) {
+          return (
+            dispatch({
+              type: GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
+              payload: result.data,
+            }),
+            dispatch({
+              type: FILTER_INDICATOR_GRAPH_DATA,
+              payload: activeLayer,
+            })
+          );
+        }
         return (
           dispatch({
             type: GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
             payload: result.data,
           }),
           dispatch({
-            type: FILTER_INDICATOR_GRAPH_DATA,
-            payload: activeLayer,
+            type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
+            payload: { activeLayer, activeDate },
           })
         );
       });

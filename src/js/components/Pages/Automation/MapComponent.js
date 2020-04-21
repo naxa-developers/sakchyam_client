@@ -15,8 +15,8 @@ import Axios from 'axios';
 import 'react-leaflet-markercluster/dist/styles.min.css';
 // import MarkerClusterGroup from "react-leaflet-markercluster";
 // import 'leaflet.featuregroup.subgroup';
-// import VectorGridComponent from './vectortileComponent';
-// import BaseLayers from './BaselayersComponent';
+import VectorGridComponent from './VectortileComponent';
+import BaseLayers from './BaselayersComponent';
 // import MarkerClusterComponent from './MarkerClusterComponent';
 
 // let map = {};
@@ -67,12 +67,12 @@ class MapComponent extends Component {
         // zoomDelta = {0.5}
         zoomSnap={0.5}
       >
-        {/* <BaseLayers />
-        <VectorGridComponent
+        <BaseLayers />
+        {/* <VectorGridComponent
           mapRef={this.props.mapRef}
           provinceCounts={this.props.provinceCounts}
-        />
-        <MarkerClusterComponent
+        /> */}
+        {/* <MarkerClusterComponent
           mapRef={this.props.mapRef}
           innovationData={this.props.innovationData}
           viewDetailsClicked={this.handleViewDetailsClick}

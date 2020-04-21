@@ -223,7 +223,17 @@ class MiddleChartSection extends Component {
     const { activeLayer, activeDate } = this.props;
     if (prevProps.activeLayer !== activeLayer) {
       // this.filterDataWithLayer();
-      this.props.filterIndicatorGraphData(activeLayer);
+      if (activeDate.length === 0) {
+        console.log('if active layer changed');
+        this.props.filterIndicatorGraphData(activeLayer);
+      } else {
+        console.log('else active layer changed');
+
+        this.props.filterIndicatorGraphDataWithDate(
+          activeLayer,
+          activeDate,
+        );
+      }
 
       // console.log('xxxss');
       // setTimeout(function() {
@@ -249,10 +259,20 @@ class MiddleChartSection extends Component {
     if (prevProps.activeDataType !== activeDataType) {
       console.log(activeDataType, 'change datatype');
       if (activeDataType === 'Individual') {
-        this.props.getIndicatorsGraphDataIndividual(activeLayer);
+        if (activeDate.length === 0) {
+          this.props.getIndicatorsGraphDataIndividual(
+            activeLayer,
+            false,
+          );
+        } else {
+          this.props.getIndicatorsGraphDataIndividual(
+            activeLayer,
+            activeDate,
+          );
+        }
         // this.filterDataWithLayer();
       } else {
-        this.props.getIndicatorsGraphData(activeLayer);
+        this.props.getIndicatorsGraphData(activeLayer, activeDate);
         // this.filterDataWithLayer();
       }
     }
@@ -271,8 +291,8 @@ class MiddleChartSection extends Component {
   };
 
   componentDidMount() {
-    const { activeLayer } = this.props;
-    this.props.getIndicatorsGraphData(activeLayer);
+    const { activeLayer, activeDate } = this.props;
+    this.props.getIndicatorsGraphData(activeLayer, false);
 
     const timeDropdownEl = document.getElementById('duration_id');
     const dataDropdownEl = document.getElementById('data_id');
@@ -383,6 +403,12 @@ class MiddleChartSection extends Component {
         this.state.allIndicatorCategory[0],
       );
     }
+    // this.props.handleSelectAllDate(
+    //   this.props.logFrameReducer.totalRangeDate,
+    // );
+    // this.props.handleSelectAllDateName(
+    //   this.props.logFrameReducer.totalRangeDateName,
+    // );
   };
 
   prevBtnClick = () => {
