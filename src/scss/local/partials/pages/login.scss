@@ -6,7 +6,7 @@
             width: 810px;
             max-width: 100%;
             float: left;
-            background: $red-color;
+            background: linear-gradient(365deg,$red-color, $dark-red);
             height: 100%;
             .login{
                 height: calc(100% - 5%);
@@ -253,21 +253,12 @@
         }    
     }
 }
-
 @media #{$breakpoint-xxl}{
-    .login-page{
-        .login-wrapper {
-            aside.login-sidebar {
-                width: 1080px;
-            }
-            main.main-section {
-                width: calc(100% - 1080px);
-                .login-content{
-                    max-width: 480px;
-                }            
-            }
-        } 
-    } 
+    .login-page, .login-reset-page{
+        .login-wrapper{
+            height: 150vh !important;
+        }
+    }
 }
 
 @media #{$breakpoint-xl}{
@@ -297,7 +288,6 @@
     } 
 }
 
-
 @media #{$breakpoint-tab}{
     .login-page{
         .login-wrapper{
@@ -324,8 +314,40 @@
     }
 }
 
+@media #{$breakpoint-ls}{
+    .login-page{
+        .login-wrapper{
+            aside.login-sidebar{
+                width: 600px;
+            }
+            main.main-section {
+                width: calc(100% - 600px);
+                .login-content{
+                    padding: 0 30px;
+                }
+            }
+        }
+    }
+}
+
+@media #{$breakpoint-ls}{
+    .login-page{
+        .login-wrapper{
+            aside.login-sidebar{
+                width: 500px;
+            }
+            main.main-section {
+                width: calc(100% - 500px);
+            }
+        }
+    }
+}
+
 @media #{$breakpoint-pt}{
     .login-page{
+        .login-wrapper{
+            height: 100vh !important;
+        }
         &.login-reset-page{
             .login-wrapper{
                 main.main-section{
@@ -491,13 +513,11 @@
                 .login-footer{
                     img{
                        &:first-child {
-                            max-width: 75px;
-                            height: 35px;
                             border-right: 1px solid #e2e2e2;
                        }
                         &:last-child {
-                            max-width: 60px;
-                            height: 35px;
+                            // max-width: 55px;
+                            // height: 55px;
                          }
                     }
                 } 

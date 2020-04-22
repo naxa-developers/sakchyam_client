@@ -209,17 +209,19 @@ export const countEqual = (oo, pp, labelcount) => {
 } 
 
 export const handleMarkerZoom = (map, layers) => {
+    console.log(map,'map');
+    console.log(layers,'layers');
     var zoom = map.getZoom();
-    // console.log(zoom, "zoom")
+    console.log(zoom, "zoom")
     layers.length>0 ? layers.map(layer =>{
-        if((zoom<=5 || zoom >7) && window[layer]){
+        if((zoom<=5 || zoom > 7.5) && window[layer]){
             // console.log("zoom <=5 or zoom>7")
             map.addLayer(window[layer]);
         }
         else{
             map.removeLayer(window[layer])
         }
-    }):(((zoom<=5 || zoom >7) && layers)?map.addLayer(layers):map.removeLayer(layers))
+    }):(((zoom<=5 || zoom >7.5) && layers)?map.addLayer(layers):map.removeLayer(layers))
 }
 
 export const handleZoom = (map, province, district, municipality, vt_label_province, vt_label_district, vt_label_municipality, labelcount) => {
@@ -234,7 +236,7 @@ export const handleZoom = (map, province, district, municipality, vt_label_provi
             activeLayer = vt_label_province;
         }
 
-        if ((zoom<=5 || zoom > 7) && activeLayer == vt_label_province) {
+        if ((zoom<=5 || zoom > 7.5) && activeLayer == vt_label_province) {
             map.removeLayer(vt_label_province);
             // console.log("zoom > 7")
         } else if (zoom < 9 && activeLayer == vt_label_district) {
@@ -244,7 +246,7 @@ export const handleZoom = (map, province, district, municipality, vt_label_provi
             map.removeLayer(vt_label_municipality);
             map.removeLayer(vt_label_district);
             map.removeLayer(vt_label_province);
-        } else if (zoom <= 7 && map.hasLayer(province)) {
+        } else if (zoom <= 7.5 && map.hasLayer(province)) {
             labelcount = 0;
             map.addLayer(vt_label_province);
             map.addLayer(activeLayer);

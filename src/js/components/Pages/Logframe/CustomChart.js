@@ -11,6 +11,8 @@ export default class CustomChart extends Component {
     this.state = {};
   }
 
+  componentDidMount() {}
+
   render() {
     // const { activeLayer, statsData } = this.state;
     const { options, series, chartRef } = this.props;

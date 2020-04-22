@@ -64,46 +64,70 @@ h4{
     letter-spacing: 2.6px;
 }
 
-@media #{$breakpoint-normal-lp}{
-    h1{
-        font-size: 60px;
-        line-height: 65px;
-    }
-    h2 {
-        font-size: 45px;
-        line-height: 3rem;
-    }
+@media #{$breakpoint-xl}{
     h3{
         font-size: 2rem;
-        line-height: 2.3rem;
     }
-    .h3-red{
-        font-size: 1.425rem;
+    .h3-red {
+        font-size: 1.45rem;
     }
-    .span_black_15, .span_heavy_15, .span_book_15{
+    .span_black_15 {
         font-size: .875rem;
     }
 }
 
-@media #{$breakpoint-pt}{
-    h3{
-        font-size: 1.75rem;
-        line-height: 2.1rem;
-    }
-    .h3-red{
-        font-size: 1.425rem;
-        line-height: 1.325rem;;
+@media #{$breakpoint-lg}{
+    h3 {
+        font-size: 1.8rem;
+        line-height: 2.25rem;
     }
 
+  .h3-red {
+    font-size: 1.35rem;
+    line-height: 1.85rem;
+    }   
+}
+
+@media #{$breakpoint-ls}{
+    h1 {
+        font-size: 60px;
+        line-height: 70px;
+    }
+    h2{
+        font-size: 45px;
+        line-height: 3.5rem;
+    }
+}
+
+@media #{$breakpoint-pt}{
+    h1 {
+        font-size: 55px;
+        line-height: 60px;
+    }
+    h2{
+        font-size: 50px;
+        line-height: 3.5rem;
+    }
 }
 
 @media #{$breakpoint-sm}{
-    h1{
+    h1 {
         font-size: 50px;
         line-height: 55px;
     }
-    h2 {
+    h2{
+        font-size: 45px;
+        line-height: 3rem;
+    }
+}
+
+@media #{$breakpoint-xs}{
+    h1 {
+        font-size: 42px;
+        line-height: 46px;
+    }
+    h2{
         font-size: 35px;
-        line-height: 2.5rem;
+        line-height: 3rem;
     }
 }

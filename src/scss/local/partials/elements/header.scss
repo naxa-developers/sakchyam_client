@@ -237,33 +237,6 @@
     }
 }
 
-
-@media #{$breakpoint-xxl}{
-    .main-header{
-        padding: 12px 50px 8px;
-    }
-}
-
-@media #{$breakpoint-normal-lp}{
-    .main-header{
-        padding: .5rem 2rem;
-        img {
-            max-width: 185px;
-        }
-        ul{
-            li{
-                &:last-child{
-                    a.logo {
-                        img{
-                            max-width: 58px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 @media #{$breakpoint-sm}{
     .main-header{
         padding: .5rem .5rem;

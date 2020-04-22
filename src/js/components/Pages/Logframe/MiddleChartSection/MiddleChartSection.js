@@ -198,7 +198,70 @@ class MiddleChartSection extends Component {
     this.setState({ allIndicatorCategory: array });
   };
 
+  // handleClickOnLegend = () => {
+  //   console.log('clicked');
+  // };
+
+  componentDidMount() {
+    // const firstLegend = document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[0];
+    // const secondLegend = document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[3];
+    // firstLegend.addEventListener('click', async event => {
+    //   console.log('clicked firstlegend');
+    // });
+    // window.addEventListener('resize', this.handleClickOnLegend);
+    const { activeLayer, activeDate } = this.props;
+    this.props.getIndicatorsGraphData(activeLayer, false);
+
+    const timeDropdownEl = document.getElementById('duration_id');
+    const dataDropdownEl = document.getElementById('data_id');
+    // console.log(specifiedElement, 'ss');
+    document.addEventListener('click', async event => {
+      const isClickInside = timeDropdownEl.contains(event.target);
+
+      if (!isClickInside) {
+        this.setState({
+          toggleTimePeriodDropdown: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    document.addEventListener('click', async event => {
+      const isClickInside = dataDropdownEl.contains(event.target);
+
+      if (!isClickInside) {
+        this.setState({
+          toggleDataDropdown: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+
+    // setTimeout(() => {
+    //   console.log('s');
+    //   this.props.handleOneTimeLayerChange();
+    // }, 1000);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleClickOnLegend);
+  }
+
   componentDidUpdate(prevProps, prevState) {
+    // document.getElementsByClassName('apexcharts-menu-icon')[0].title =
+    //   'Export';
+    // document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[1].style.display = 'none';
+    // document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[2].style.display = 'none';
+
     const {
       logFrameReducer: { indicatorCategory },
     } = this.props;
@@ -271,11 +334,41 @@ class MiddleChartSection extends Component {
           );
         }
         // this.filterDataWithLayer();
+      } else if (activeDate.length === 0) {
+        // if (activeDate.length === 0) {
+        this.props.getIndicatorsGraphData(activeLayer, false);
       } else {
         this.props.getIndicatorsGraphData(activeLayer, activeDate);
-        // this.filterDataWithLayer();
       }
+      // } else {
+      //   this.props.getIndicatorsGraphData(activeLayer, activeDate);
+      // }
+      // this.props.getIndicatorsGraphData(activeLayer, activeDate);
+      // this.filterDataWithLayer();
+      // }
     }
+    const firstLegend = document.getElementsByClassName(
+      'apexcharts-legend-series',
+    )[0];
+    const secondLegend = document.getElementsByClassName(
+      'apexcharts-legend-series',
+    )[3];
+    // console.log(firstLegend, 'firsttt');
+    // console.log(secondLegend, 'second');
+    // firstLegend.addEventListener('click', async event => {
+    //   console.log('clicked firstlegend');
+    //   this.chartRef.chart.toggleSeries(
+    //     'Planned As per AFP contract Budget Bar',
+    //   );
+    //   this.chartRef.chart.toggleSeries(
+    //     'Planned As per AFP contract Budget Line',
+    //   );
+    // });
+    // secondLegend.addEventListener('click', async event => {
+    //   console.log('clicked 2ndlegend');
+    //   this.chartRef.chart.toggleSeries('Achieved Bar');
+    //   this.chartRef.chart.toggleSeries('Achieved Line');
+    // });
   }
 
   handleToggleTimePeriodDropdown = () => {
@@ -289,41 +382,6 @@ class MiddleChartSection extends Component {
       toggleDataDropdown: !prevState.toggleDataDropdown,
     }));
   };
-
-  componentDidMount() {
-    const { activeLayer, activeDate } = this.props;
-    this.props.getIndicatorsGraphData(activeLayer, false);
-
-    const timeDropdownEl = document.getElementById('duration_id');
-    const dataDropdownEl = document.getElementById('data_id');
-    // console.log(specifiedElement, 'ss');
-    document.addEventListener('click', async event => {
-      const isClickInside = timeDropdownEl.contains(event.target);
-
-      if (!isClickInside) {
-        this.setState({
-          toggleTimePeriodDropdown: false,
-          // searchDropdown: false,
-        });
-        // the click was outside the specifiedElement, do something
-      }
-    });
-    document.addEventListener('click', async event => {
-      const isClickInside = dataDropdownEl.contains(event.target);
-
-      if (!isClickInside) {
-        this.setState({
-          toggleDataDropdown: false,
-          // searchDropdown: false,
-        });
-        // the click was outside the specifiedElement, do something
-      }
-    });
-    // setTimeout(() => {
-    //   console.log('s');
-    //   this.props.handleOneTimeLayerChange();
-    // }, 1000);
-  }
 
   handleBarClick = () => {
     this.setState(prevState => ({
