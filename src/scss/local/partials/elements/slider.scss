@@ -1,0 +1,11 @@
+.carousel-container{
+    .carousel-slide{
+        @include display-flex(flex);
+        height: auto;
+        width: 100%;
+        .mySlides{
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+}

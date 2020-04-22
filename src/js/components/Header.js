@@ -108,7 +108,7 @@ class Header extends Component {
     const { headerTransparent } = this.props;
     return (
       <header
-        className={`main-header ${
+        className={`main-header header-fixed ${
           headerTransparent ? 'home-header' : ''
         }`}
       >
@@ -124,15 +124,15 @@ class Header extends Component {
             </li>
             <li>
               <ul className="link-wrap">
-                <li>
-                  <a href="#/" className="span_heavy_15">
-                    Visualisation Structures
-                  </a>
+                <li style={{ display: 'none' }}>
+                  <Link to="/" className="span_heavy_15">
+                    Home
+                  </Link>
                 </li>
                 <li>
-                  <a href="#/" className="span_heavy_15">
-                    FAQs
-                  </a>
+                  <Link to="/" className="span_heavy_15">
+                    Home
+                  </Link>
                 </li>
                 <li>
                   <a href="#/" className="span_heavy_15">

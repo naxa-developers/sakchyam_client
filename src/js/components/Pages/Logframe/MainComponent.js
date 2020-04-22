@@ -117,6 +117,8 @@ class MainComponent extends Component {
   };
 
   componentDidMount() {
+    // console.log(document.getElementsByClassName('apexcharts-menu-icon')[0].title =
+    //   'Export';
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);
@@ -140,6 +142,14 @@ class MainComponent extends Component {
   };
 
   updateWindowDimensions = () => {
+    document.getElementsByClassName('apexcharts-menu-icon')[0].title =
+      'Export';
+    // document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[1].style.display = 'none';
+    // document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[2].style.display = 'none';
     console.log(screen.height, 'screen');
     console.log(window.height, 'windowheight');
     // this.setState({

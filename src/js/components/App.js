@@ -11,7 +11,7 @@ import PrivateRoute from '../Routes/PrivateRouter.routes';
 import MainComponent from './Pages/Logframe/MainComponent';
 import ForgotPassword from './ForgotPassword';
 import Landing from './Landing';
-// import MainAutomation from './Pages/Automation/MainAutomation';
+import MainAutomation from './Pages/Automation/MainAutomation';
 
 class App extends Component {
   constructor(props) {
@@ -51,10 +51,10 @@ class App extends Component {
           {/* <Route path="/signup" component={SignUp} /> */}
           <PrivateRoute path="/logframe" component={MainComponent} />
           <PrivateRoute path="/landing" component={Landing} />
-          {/* <PrivateRoute
+          <PrivateRoute
             path="/automation"
             component={MainAutomation}
-          /> */}
+          />
           <Route path="/login" component={Login} />
           <Route path="/" component={Landing} />
         </Switch>

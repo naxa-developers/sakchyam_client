@@ -8,7 +8,7 @@ body {
 
 .sidebar-li{
     a{
-        // font-family: $heading-fonts;
+        font-family: $avenir-heavy;
         font-size: 1.25rem;
         color: $text-color;
         line-height: 1.5rem;
@@ -18,7 +18,7 @@ body {
 .sidebar-sublist{
     li{
         a{
-            font-family: $avenir-heavy;
+            font-family: $body-fonts;
             font-size: .938rem;
             line-height: 1.5rem;
             text-transform: capitalize;
@@ -29,30 +29,12 @@ body {
         }
     }
 }
-@media #{$breakpoint-normal-lp}{
+
+@media #{$breakpoint-ls}{
     .sidebar-li a {
         font-size: 1.125rem;
     }
 }
-
-@media #{$breakpoint-pt}{
-    .sidebar-li{
-        a{font-size: 1rem;}
-    }
-    .sidebar-sublist{
-        li{a{font-size: .875rem;}}
-    }
-}
-
-@media #{$breakpoint-sm}{
-   /*  .sidebar-li{
-        a{font-size: .625rem;}
-    }
-    .sidebar-sublist{
-        li{a{font-size: .593rem;}}
-    } */
-}
-
 
 .mt-3 {
     margin-top: 2rem;
@@ -73,10 +55,6 @@ body {
 .mt-100 {
     margin-top: 6rem;
 
-    @media #{$breakpoint-md} {
-        margin-top: 3rem;
-    }
-
     @media #{$breakpoint-xs} {
         margin-top: 3rem;
     }
@@ -89,10 +67,6 @@ body {
 .mb-100 {
     margin-bottom: 6rem;
 
-    @media #{$breakpoint-md} {
-        margin-bottom: 3rem;
-    }
-
     @media #{$breakpoint-xs} {
         margin-bottom: 3rem;
     }
@@ -101,9 +75,7 @@ body {
 .mtb-100 {
     margin: 6rem 0;
 
-    @media #{$breakpoint-md} {
-        margin: 3rem 0;
-    }
+   
 
     @media #{$breakpoint-xs} {
         margin: 3rem 0;
@@ -114,14 +86,14 @@ body {
         max-width: 540px;
     }
 }
-@media screen and (min-width: 992px) {
-    .container {
-        max-width: 960px;
-    }
-}
 @media screen and (min-width: 768px) {
     .container {
         max-width: 720px;
+    }
+}
+@media screen and (min-width: 992px) {
+    .container {
+        max-width: 960px;
     }
 }
 @media screen and (min-width: 1200px) {
@@ -132,9 +104,15 @@ body {
 @media screen and (min-width: 1440px) {
     .container {
         max-width: 1366px;
+        
     }
 }
 
+@media screen and (min-width: 1640px){
+    .container{
+        max-width: 1170px;
+    }
+}
 
 
 
