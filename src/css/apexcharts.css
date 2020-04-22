@@ -150,6 +150,8 @@
 
 .apexcharts-yaxis-label tspan{
   font-family: 'Avenir Book' !important;
+  font-variant: petite-caps !important; 
+  font-size: 0.875rem !important;
 }
 
 .apexcharts-legend-marker{

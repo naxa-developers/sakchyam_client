@@ -94,3 +94,15 @@
 //   .apexcharts-legend-series:nth-child(4){
 //       display: none !important;
 //   }
+.apexcharts-yaxis-title-text{
+    font-variant: petite-caps !important; 
+    font-size: 0.875rem !important;
+} 
+.apexcharts-svg .apexcharts-yaxis {
+    // transform: translate(37px, 0px) !important;
+    transform: translate(25px, 0px) !important;
+}
+
+// .apexcharts-yaxis-title-text{
+//   y:272.674;
+// }

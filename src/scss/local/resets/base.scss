@@ -8,7 +8,7 @@ body {
 
 .sidebar-li{
     a{
-        // font-family: $heading-fonts;
+        font-family: $avenir-heavy;
         font-size: 1.25rem;
         color: $text-color;
         line-height: 1.5rem;
@@ -18,7 +18,7 @@ body {
 .sidebar-sublist{
     li{
         a{
-            font-family: $avenir-heavy;
+            font-family: $body-fonts;
             font-size: .938rem;
             line-height: 1.5rem;
             text-transform: capitalize;

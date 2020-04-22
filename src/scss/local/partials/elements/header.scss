@@ -1,4 +1,11 @@
 .main-header {
+    &.header-fixed{
+        position: fixed;
+        z-index: 11;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
     &.home-header{
         position: fixed;
         z-index: 111;
@@ -74,11 +81,11 @@
                             display: inline-block;
                             max-width: 100%;
                             cursor: pointer;
+                            width: 55px;
                             img{
                                 @include radius(50%);
                                 max-width: 100%;
-                                width: 50px;
-                                max-height: 50px;
+                               
                                 border: 2px solid $red-color;
                             }
                         }
@@ -241,20 +248,14 @@
     .main-header{
         padding: .5rem .5rem;
         .logo,img {
-            max-width: 105px;
+            max-width: 170px;
         }
         ul {
             li{
                 &:last-child{
-                    a.log-out{
-                        img{
-                            max-width: 30px;
-                            height: 30px;
-                        }
-                    }
                     a.logo{
                         img{
-                            max-width: 35px;
+                            max-width: 55px;
                         }
                     }
                 }

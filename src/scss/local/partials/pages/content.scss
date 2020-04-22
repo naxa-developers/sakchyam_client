@@ -1,8 +1,7 @@
 .page-wrap{
     &.page-100{
-        // height: 100vh;
         main{
-            height: calc(100% - 100px);
+            height: 100vh;
         }
     }
 }
@@ -10,12 +9,22 @@
 .content{
     height: 100%;;
     max-width: 100%;
+    &.content-mod{
+        // height: 100vh;
+        padding-top: 100px;
+    }
     @include display-flex(flex);
     .sidebar{
+        height: 100%;
         width: 277px;
         background: $white-color;
         @include transition(all .7s ease-in-out);
         border-right: .8px solid $primary-xs-light;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        padding-top: 100px;
         ul.sidebar-li{
             
             h5{
@@ -127,9 +136,7 @@
                             padding: 11px 78px 11px 70px;
                             @include transition(all .4s ease-in-out);
                             max-width: 300px;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
+                            font-weight: 800;
                             &:hover{
                                 overflow: visible;
                                 max-width: 100%;
@@ -191,6 +198,8 @@
         background-color: $bg-color;
         padding: 30px 110px 5px;
         position: relative;
+        margin-left: 302px;
+        overflow: auto;
         a.toggle_button{
             width: 20px;
             height: 20px;
@@ -350,6 +359,12 @@
                                 &.checkbox{
                                     padding: 0 !important;
                                 }
+                                &:first-child{
+                                    label{
+                                        text-align: left;
+                                        padding-left: 44px;;
+                                    }
+                                }
                                 label{
                                     width: 100%;
                                     padding-top: 4px;
@@ -378,6 +393,9 @@
                                 width: 100%;
                                 span, ul.ul-dropdown{
                                     width: 100%;
+                                    text-overflow: ellipsis; 
+                                    white-space: nowrap; 
+                                    overflow: hidden;
                                 }
                             }
                         }
@@ -477,7 +495,7 @@
                         padding: 4px 20px;
                         @include transition(all .4s linear);
                         a{
-                            font-size: .703rem;
+                            font-size: 1rem;
                             color: #757575;
                             font-family: "Avenir Heavy";
                             cursor: pointer;
@@ -503,10 +521,10 @@
                 .slider-container{
                     position: relative;
                     #chart{
+                        max-width: 1800px;
+                        margin-left: 40px auto;
                         // height: 100%;
                         .apexcharts-toolbar{
-                            top: 4px !important;
-                            // right: 20px;
                             // display: none;
                             // right: 20px !important;
                             .apexcharts-pan-icon, .apexcharts-reset-icon, .apexcharts-menu-icon, .apexcharts-menu{
@@ -523,7 +541,7 @@
                         border: 0;
                         border-radius: 0;
                         @include transition(all .5s linear);
-                        border: .8px solid $primary-xs-light;
+                        border: .8px solid lighten($primary-light, 20%);
                         &:hover{
                             background: $red-light;
                             &:before{
@@ -601,8 +619,24 @@
     .content{
         .sidebar{
             max-width: 200px;
+            ul.sidebar-li{
+                li{
+                    ul.sidebar-sublist{
+                        li {
+                            a {
+                                padding: 11px 50px 11px;
+                            }
+                        }
+                    } 
+                }
+                h5 {
+                    font-size: 1rem;
+                    max-width: 162px;
+                }
+            }
         }
         .info-content{
+            margin-left: 200px;
             width: calc(100% - 200px);
             padding: 30px 90px 20px;
             .info-content-wrap{
@@ -698,6 +732,15 @@
                                 }
                             } 
                         }
+                    }
+                }
+                .info-slider{
+                    .download-dropdown {
+                        li{
+                            a {
+                                font-size: .875rem;
+                            }
+                        } 
                     }
                 }
             }
@@ -801,7 +844,7 @@
 
 @media #{$breakpoint-sm}{
     .content {
-        background-color: red;
+        // background-color: red;
         .info-content {
             a.toggle_button i {
                 font-size: 14px;

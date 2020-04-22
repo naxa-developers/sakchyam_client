@@ -253,8 +253,11 @@ class MiddleChartSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // document.getElementsByClassName('apexcharts-menu-icon')[0].title =
-    //   'Export';
+    if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
+      document.getElementsByClassName(
+        'apexcharts-menu-icon',
+      )[0].title = 'Export';
+    }
     // document.getElementsByClassName(
     //   'apexcharts-legend-series',
     // )[1].style.display = 'none';

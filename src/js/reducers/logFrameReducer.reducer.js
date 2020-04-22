@@ -75,11 +75,6 @@ const initialState = {
       events: {
         // eslint-disable-next-line object-shorthand
         legendClick: function(chartContext, seriesIndex, config) {
-          // your code
-          console.log('legendClick');
-          console.log(chartContext, 'chartContext');
-          console.log(seriesIndex, 'legendClick');
-          console.log(config, 'config');
           if (seriesIndex === 0) {
             chartContext.toggleSeries(
               'Planned As per AFP contract Budget Bar',
@@ -94,15 +89,6 @@ const initialState = {
             chartContext.toggleSeries('Achieved Bar');
             chartContext.toggleSeries('Achieved Line');
             chartContext.toggleSeries('Achieved Line');
-          } else {
-            chartContext.toggleSeries('Achieved Bar');
-            chartContext.toggleSeries('Achieved Line');
-            chartContext.toggleSeries(
-              'Planned As per AFP contract Budget Line',
-            );
-            chartContext.toggleSeries(
-              'Planned As per AFP contract Budget Bar',
-            );
           }
         },
       },
@@ -125,12 +111,7 @@ const initialState = {
           chart: {
             height: 320,
             events: {
-              legendClick(chartContext, seriesIndex, config) {
-                console.log('legendClick');
-                console.log(chartContext, 'chartContext');
-                console.log(seriesIndex, 'legendClick');
-                console.log(config, 'config');
-              },
+              legendClick(chartContext, seriesIndex, config) {},
             },
           },
         },
@@ -232,8 +213,9 @@ const initialState = {
         offsetY: 0,
         rotate: 0,
         formatter: value => {
+          console.log(value, 'v');
           const roundNumber = Math.round(value);
-          //   console.log(roundNumber);
+          console.log(convert(roundNumber));
           //   console.log(convert(roundNumber));
           return convert(roundNumber);
         },
