@@ -144,16 +144,37 @@ class MainComponent extends Component {
     });
   };
 
+  updateScrollResponsive = () => {
+    const windowPos = window.pageYOffset;
+    if (windowPos >= 100) {
+      document
+        .querySelector('.content .sidebar')
+        .classList.add('sidebar-sticky');
+      document
+        .querySelector('.content .info-content')
+        .classList.add('sticky-content');
+    } else {
+      document
+        .querySelector('.content .sidebar')
+        .classList.add('sidebar-sticky');
+      document
+        .querySelector('.content .info-content')
+        .classList.remove('sticky-content');
+    }
+  };
+
   componentDidMount() {
     // console.log(document.getElementsByClassName('apexcharts-menu-icon')[0].title =
     //   'Export';
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);
+    window.addEventListener('scroll', this.updateScrollResponsive);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener('scroll', this.updateScrollResponsive);
   }
 
   handleModal = () => {
