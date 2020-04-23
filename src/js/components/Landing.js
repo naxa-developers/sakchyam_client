@@ -54,22 +54,25 @@ class Landing extends Component {
         <Header headerTransparent disableScroll />
         <section className="banner">
           <div className="banner_content" style={{ backgroundImage: `url(${BG})` }}> 
-            <div className="banner-header">
-              <h1 className="banner-title">
-                Welcome
-                <span className="small">to</span>
-                <br />
-                {' '}
-                Data Visualization Tool 
-                {' '}
-                <span className="abbr">(DVT)</span>
-              </h1>
-              <p className="span_book_18">A Small Leap towards Application of Open Data on Aid and Budget in Nepal.</p>
-            </div>
             
-            <div className="banner-image"> 
-              <img src={Main} alt="laptop-img-banner" /> 
-            </div> 
+            <div className="container">
+              <div className="banner-header">
+                <h1 className="banner-title">
+                  Welcome
+                  <span className="small"> To</span>
+                  <br />
+                  {' '}
+                  Data Visualization Tool 
+                  {' '}
+                  <span className="abbr">(DVT)</span>
+                </h1>
+                <p className="span_book_18">A Small Leap towards Application of Open Data on Aid and Budget in Nepal.</p>
+              </div>
+              <figure className="banner-image"> 
+                <img src={Main} alt="laptop-img-banner" />
+              </figure>
+            </div>
+            <div className="bottom-border-block" />
           </div>
         </section>
 

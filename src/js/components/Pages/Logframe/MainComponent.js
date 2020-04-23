@@ -66,39 +66,67 @@ class MainComponent extends Component {
     });
   };
 
-  handleActiveDate = e => {
-    // push uniques
-    const collator = new Intl.Collator(undefined, {
-      numeric: true,
-      sensitivity: 'base',
-    });
-
+  handleActiveDate = (e, element) => {
     const { dateRange } = this.props.logFrameReducer;
     const { updateChart } = this.state;
-    const dateFilteredObj = dateRange.filter(
-      filteredData => filteredData.range === e,
-    );
-    this.setState({ updateChart: !updateChart });
-    if (dateArray.indexOf(e) === -1) {
-      dateArray.push(e);
-      dateArrayValues.push(dateFilteredObj[0].name);
-    } else {
-      dateArray = dateArray.filter(f => f !== e);
-      dateArrayValues = dateArrayValues.filter(
-        g => g !== dateFilteredObj[0].name,
-      );
-    }
-    dateArray.sort();
-    // dateArrayValues.sort();
-    dateArrayValues.sort(collator.compare);
-    if (dateArray.length === 0) {
-      // console.log(dateRange);
+    console.log(element.target.checked, 'checked');
+    if (e === 'All' && element.target.checked === true) {
+      const {
+        logFrameReducer: { totalRangeDate, totalRangeDateName },
+      } = this.props;
+      alert('if');
+      dateArray = [];
+      dateArrayValues = [];
       dateRange.map(data => {
         dateArray.push(data.range);
         dateArrayValues.push(data.name);
         return true;
       });
-      // console.log(allDateRange);
+      this.setState({ updateChart: !updateChart });
+
+      // console.log(this.props.logFrameReducer.totalDateRange);
+      // return this.setState({
+      //   activeDate: totalRangeDate,
+      //   activeDateValues: totalRangeDateName,
+      // });
+    } else if (e === 'All' && element.target.checked === false) {
+      alert('else if');
+      dateArray = [];
+      dateArrayValues = [];
+      this.setState({ updateChart: !updateChart });
+    } else {
+      alert('else');
+      // push uniques
+      const collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      });
+
+      const dateFilteredObj = dateRange.filter(
+        filteredData => filteredData.range === e,
+      );
+      this.setState({ updateChart: !updateChart });
+      if (dateArray.indexOf(e) === -1) {
+        dateArray.push(e);
+        dateArrayValues.push(dateFilteredObj[0].name);
+      } else {
+        dateArray = dateArray.filter(f => f !== e);
+        dateArrayValues = dateArrayValues.filter(
+          g => g !== dateFilteredObj[0].name,
+        );
+      }
+      dateArray.sort();
+      // dateArrayValues.sort();
+      dateArrayValues.sort(collator.compare);
+      if (dateArray.length === 0) {
+        // console.log(dateRange);
+        dateRange.map(data => {
+          dateArray.push(data.range);
+          dateArrayValues.push(data.name);
+          return true;
+        });
+        // console.log(allDateRange);
+      }
     }
     this.setState({
       activeDate: dateArray,
@@ -116,14 +144,33 @@ class MainComponent extends Component {
     });
   };
 
+  // stickyLeftSidebar = () => {
+  //   $(window).scroll('scroll', function() {
+  //     const windowpos = $(window).scrollTop();
+  //     if (windowpos >= 100) {
+  //       $('.content .sidebar').addClass('sidebar-sticky');
+  //       $('.content .info-content').addClass('sticky-content');
+  //     } else {
+  //       $('.content .sidebar').addClass('sidebar-sticky');
+  //       $('.content .info-content').removeClass('sticky-content');
+  //     }
+  //   });
+  //   const windowpos =
+  // };
+
   componentDidMount() {
+    // console.log(document.getElementsByClassName('apexcharts-menu-icon')[0].title =
+    //   'Export';
+    this.stickyLeftSidebar();
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);
+    // window.addEventListener('scroll', this.stickyLeftSidebar);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions);
+    // window.removeEventListener('scroll', this.stickyLeftSidebar);
   }
 
   handleModal = () => {
@@ -140,6 +187,23 @@ class MainComponent extends Component {
   };
 
   updateWindowDimensions = () => {
+    document.getElementsByClassName('apexcharts-menu-icon')[0].title =
+      'Export';
+    if (
+      document.getElementsByClassName('apexcharts-legend-text')[3]
+    ) {
+      document.getElementsByClassName(
+        'apexcharts-legend-text',
+      )[3].innerText = document
+        .getElementsByClassName('apexcharts-legend-text')[3]
+        .innerText.replace('Line', '');
+    }
+    // document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[1].style.display = 'none';
+    // document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[2].style.display = 'none';
     console.log(screen.height, 'screen');
     console.log(window.height, 'windowheight');
     // this.setState({

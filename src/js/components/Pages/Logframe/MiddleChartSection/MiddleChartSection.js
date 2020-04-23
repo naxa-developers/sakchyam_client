@@ -198,7 +198,101 @@ class MiddleChartSection extends Component {
     this.setState({ allIndicatorCategory: array });
   };
 
+  // handleClickOnLegend = () => {
+  //   console.log('clicked');
+  // };
+
+  componentDidMount() {
+    // const firstLegend = document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[0];
+    // const secondLegend = document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[3];
+    // firstLegend.addEventListener('click', async event => {
+    //   console.log('clicked firstlegend');
+    // });
+    // window.addEventListener('resize', this.handleClickOnLegend);
+    const { activeLayer, activeDate } = this.props;
+    this.props.getIndicatorsGraphData(activeLayer, false);
+
+    const timeDropdownEl = document.getElementById('duration_id');
+    const dataDropdownEl = document.getElementById('data_id');
+    // console.log(specifiedElement, 'ss');
+    document.addEventListener('click', async event => {
+      const isClickInside = timeDropdownEl.contains(event.target);
+
+      if (!isClickInside) {
+        this.setState({
+          toggleTimePeriodDropdown: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    document.addEventListener('click', async event => {
+      const isClickInside = dataDropdownEl.contains(event.target);
+
+      if (!isClickInside) {
+        this.setState({
+          toggleDataDropdown: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+
+    // setTimeout(() => {
+    //   console.log('s');
+    //   this.props.handleOneTimeLayerChange();
+    // }, 1000);
+  }
+
+  componentWillUnmount() {
+    // window.removeEventListener('resize', this.handleClickOnLegend);
+  }
+
   componentDidUpdate(prevProps, prevState) {
+    if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
+      document.getElementsByClassName(
+        'apexcharts-menu-icon',
+      )[0].title = 'Export';
+    }
+    if (
+      document.getElementsByClassName('apexcharts-legend-text')[0]
+    ) {
+      document.getElementsByClassName(
+        'apexcharts-legend-text',
+      )[0].innerText = document
+        .getElementsByClassName('apexcharts-legend-text')[0]
+        .innerText.replace('Bar', '');
+      document.getElementsByClassName(
+        'apexcharts-tooltip-text-label',
+      )[0].innerText = document
+        .getElementsByClassName('apexcharts-tooltip-text-label')[0]
+        .innerText.replace('Bar', '');
+    }
+    if (
+      document.getElementsByClassName('apexcharts-legend-text')[3]
+    ) {
+      document.getElementsByClassName(
+        'apexcharts-legend-text',
+      )[3].innerText = document
+        .getElementsByClassName('apexcharts-legend-text')[3]
+        .innerText.replace('Line', '');
+      document.getElementsByClassName(
+        'apexcharts-legend-text',
+      )[3].innerText = document
+        .getElementsByClassName('apexcharts-legend-text')[3]
+        .innerText.replace('Line', '');
+    }
+    // document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[1].style.display = 'none';
+    // document.getElementsByClassName(
+    //   'apexcharts-legend-series',
+    // )[2].style.display = 'none';
+
     const {
       logFrameReducer: { indicatorCategory },
     } = this.props;
@@ -271,11 +365,41 @@ class MiddleChartSection extends Component {
           );
         }
         // this.filterDataWithLayer();
+      } else if (activeDate.length === 0) {
+        // if (activeDate.length === 0) {
+        this.props.getIndicatorsGraphData(activeLayer, false);
       } else {
         this.props.getIndicatorsGraphData(activeLayer, activeDate);
-        // this.filterDataWithLayer();
       }
+      // } else {
+      //   this.props.getIndicatorsGraphData(activeLayer, activeDate);
+      // }
+      // this.props.getIndicatorsGraphData(activeLayer, activeDate);
+      // this.filterDataWithLayer();
+      // }
     }
+    const firstLegend = document.getElementsByClassName(
+      'apexcharts-legend-series',
+    )[0];
+    const secondLegend = document.getElementsByClassName(
+      'apexcharts-legend-series',
+    )[3];
+    // console.log(firstLegend, 'firsttt');
+    // console.log(secondLegend, 'second');
+    // firstLegend.addEventListener('click', async event => {
+    //   console.log('clicked firstlegend');
+    //   this.chartRef.chart.toggleSeries(
+    //     'Planned As per AFP contract Budget Bar',
+    //   );
+    //   this.chartRef.chart.toggleSeries(
+    //     'Planned As per AFP contract Budget Line',
+    //   );
+    // });
+    // secondLegend.addEventListener('click', async event => {
+    //   console.log('clicked 2ndlegend');
+    //   this.chartRef.chart.toggleSeries('Achieved Bar');
+    //   this.chartRef.chart.toggleSeries('Achieved Line');
+    // });
   }
 
   handleToggleTimePeriodDropdown = () => {
@@ -290,59 +414,39 @@ class MiddleChartSection extends Component {
     }));
   };
 
-  componentDidMount() {
-    const { activeLayer, activeDate } = this.props;
-    this.props.getIndicatorsGraphData(activeLayer, false);
-
-    const timeDropdownEl = document.getElementById('duration_id');
-    const dataDropdownEl = document.getElementById('data_id');
-    // console.log(specifiedElement, 'ss');
-    document.addEventListener('click', async event => {
-      const isClickInside = timeDropdownEl.contains(event.target);
-
-      if (!isClickInside) {
-        this.setState({
-          toggleTimePeriodDropdown: false,
-          // searchDropdown: false,
-        });
-        // the click was outside the specifiedElement, do something
-      }
-    });
-    document.addEventListener('click', async event => {
-      const isClickInside = dataDropdownEl.contains(event.target);
-
-      if (!isClickInside) {
-        this.setState({
-          toggleDataDropdown: false,
-          // searchDropdown: false,
-        });
-        // the click was outside the specifiedElement, do something
-      }
-    });
-    // setTimeout(() => {
-    //   console.log('s');
-    //   this.props.handleOneTimeLayerChange();
-    // }, 1000);
-  }
-
   handleBarClick = () => {
+    console.log(this.state.activeBar, 'activeBar 1st');
     this.setState(prevState => ({
       activeBar: !prevState.activeBar,
     }));
-    this.chartRef.chart.toggleSeries(
-      'Planned As per AFP contract Budget Bar',
-    );
-    this.chartRef.chart.toggleSeries('Achieved Bar');
+    if (this.state.activeBar) {
+      this.chartRef.chart.hideSeries(
+        'Planned As per AFP contract Budget Bar',
+      );
+      this.chartRef.chart.hideSeries('Achieved Bar');
+    } else {
+      this.chartRef.chart.showSeries(
+        'Planned As per AFP contract Budget Bar',
+      );
+      this.chartRef.chart.showSeries('Achieved Bar');
+    }
   };
 
   handleTimeGraphClick = () => {
     this.setState(prevState => ({
       activeTimeGraph: !prevState.activeTimeGraph,
     }));
-    this.chartRef.chart.toggleSeries(
-      'Planned As per AFP contract Budget Line',
-    );
-    this.chartRef.chart.toggleSeries('Achieved Line');
+    if (this.state.activeTimeGraph) {
+      this.chartRef.chart.hideSeries(
+        'Planned As per AFP contract Budget Line',
+      );
+      this.chartRef.chart.hideSeries('Achieved Line');
+    } else {
+      this.chartRef.chart.showSeries(
+        'Planned As per AFP contract Budget Line',
+      );
+      this.chartRef.chart.showSeries('Achieved Line');
+    }
   };
 
   handleMainCategorySlide = selectedValue => {
@@ -589,6 +693,24 @@ class MiddleChartSection extends Component {
                       }`}
                       id="dropdown-list"
                     >
+                      <li className="checkbox">
+                        <input
+                          type="checkbox"
+                          checked={
+                            activeDate.includes('All') === true
+                              ? true
+                              : false
+                          }
+                          id="check_time"
+                          onClick={e => {
+                            handleActiveDate('All', e);
+                          }}
+                          onKeyDown={e => {
+                            handleActiveDate('All', e);
+                          }}
+                        />
+                        <label htmlFor="check_time">All</label>
+                      </li>
                       {dateRange.map((d, key) => {
                         return (
                           <li key={d.id} className="checkbox">
@@ -688,19 +810,19 @@ class MiddleChartSection extends Component {
                       >
                         <li
                           className={
-                            activeDataType === 'Cummulative'
+                            activeDataType === 'Cumulative'
                               ? 'li-active'
                               : ''
                           }
                           role="tab"
                           onClick={() => {
-                            handleSelectedDataType('Cummulative');
+                            handleSelectedDataType('Cumulative');
                           }}
                           onKeyDown={() => {
-                            handleSelectedDataType('Cummulative');
+                            handleSelectedDataType('Cumulative');
                           }}
                         >
-                          Cummulative
+                          Cumulative
                         </li>
                         <li
                           className={

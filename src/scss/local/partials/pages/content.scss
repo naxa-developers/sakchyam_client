@@ -398,6 +398,9 @@
                                 width: 100%;
                                 span, ul.ul-dropdown{
                                     width: 100%;
+                                    text-overflow: ellipsis; 
+                                    white-space: nowrap; 
+                                    overflow: hidden;
                                 }
                             }
                         }
@@ -523,6 +526,8 @@
                 .slider-container{
                     position: relative;
                     #chart{
+                        max-width: 1800px;
+                        margin-left: 40px auto;
                         // height: 100%;
                         .apexcharts-toolbar{
                             // display: none;
@@ -664,6 +669,7 @@
                 max-width: 1000px;
                 .info-content-header {
                     .info-header-top{
+                        @include flex-direction-column(column);
                         .h3-red {
                             flex: 0 0 800px;
                             max-width: 800px;
@@ -737,7 +743,7 @@
                             &:before{
                                 font-size: 22px;
                             }
-                        }
+                        } 
                     }
                 } 
                 .info-content-footer {

@@ -79,6 +79,24 @@ class Header extends Component {
   }
 
   headerUpdate = () => {
+    if (
+      document.getElementsByClassName('apexcharts-legend-text')[0]
+    ) {
+      document.getElementsByClassName(
+        'apexcharts-legend-text',
+      )[0].innerText = document
+        .getElementsByClassName('apexcharts-legend-text')[0]
+        .innerText.replace('Bar', '');
+    }
+    if (
+      document.getElementsByClassName('apexcharts-legend-text')[3]
+    ) {
+      document.getElementsByClassName(
+        'apexcharts-legend-text',
+      )[3].innerText = document
+        .getElementsByClassName('apexcharts-legend-text')[3]
+        .innerText.replace('Line', '');
+    }
     const windowPos = window.pageYOffset;
     const siteHeader = document.getElementsByClassName('main-header');
     const scrollLink = document.getElementsByClassName('scroll-top');
@@ -108,7 +126,7 @@ class Header extends Component {
     const { headerTransparent } = this.props;
     return (
       <header
-        className={`main-header ${
+        className={`main-header header-fixed ${
           headerTransparent ? 'home-header' : ''
         }`}
       >
@@ -124,15 +142,15 @@ class Header extends Component {
             </li>
             <li>
               <ul className="link-wrap">
-                <li>
-                  <a href="#/" className="span_heavy_15">
-                    Visualisation Structures
-                  </a>
+                <li style={{ display: 'none' }}>
+                  <Link to="/" className="span_heavy_15">
+                    Home
+                  </Link>
                 </li>
                 <li>
-                  <a href="#/" className="span_heavy_15">
-                    FAQs
-                  </a>
+                  <Link to="/" className="span_heavy_15">
+                    Home
+                  </Link>
                 </li>
                 <li>
                   <a href="#/" className="span_heavy_15">

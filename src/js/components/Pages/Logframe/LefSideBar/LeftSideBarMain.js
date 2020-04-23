@@ -65,6 +65,7 @@ class LeftSidebarMain extends Component {
     return (
       <div className="sidebar" id="sidebar-toggle">
         <ul className="sidebar-li">
+          <h5>Logical framework</h5>
           <h2>Indicators</h2>
 
           {logFrameReducer.indicatorCategory.map(data => {

@@ -4,42 +4,48 @@
 // $body-fonts:'Open Sans', sans-serif;
 // $heading-fonts:'Montserrat', sans-serif;
 @font-face {
-    font-family: 'Avenir Book';
-    src: url('../../fonts/Avenir-Book.eot');
-    src: url('../../fonts/Avenir-Book.eot?#iefix') format('embedded-opentype'),
-        url('../../fonts/Avenir-Book.woff2') format('woff2'),
-        url('../../fonts/Avenir-Book.woff') format('woff'),
-        url('../../fonts/Avenir-Book.ttf') format('truetype'),
-        url('../../fonts/Avenir-Book.svg#Avenir-Book') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Avenir Book';
+
+  src: url('#{$assets-path}/fonts/Avenir-Book.eot');
+  src: url('#{$assets-path}/fonts/Avenir-Book.eot?#iefix')
+      format('embedded-opentype'),
+    url('#{$assets-path}/fonts/Avenir-Book.woff2') format('woff2'),
+    url('#{$assets-path}/fonts/Avenir-Book.woff') format('woff'),
+    url('#{$assets-path}/fonts/Avenir-Book.ttf') format('truetype'),
+    url('#{$assets-path}/fonts/Avenir-Book.svg#Avenir-Book')
+      format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Avenir Black';
-    src: url('../../fonts/Avenir-Black.eot');
-    src: url('../../fonts/Avenir-Black.eot?#iefix') format('embedded-opentype'),
-        url('../../fonts/Avenir-Black.woff2') format('woff2'),
-        url('../../fonts/Avenir-Black.woff') format('woff'),
-        url('../../fonts/Avenir-Black.ttf') format('truetype'),
-        url('../../fonts/Avenir-Black.svg#Avenir-Black') format('svg');
-    font-weight: 900;
-    font-style: normal;
+  font-family: 'Avenir Black';
+  src: url('#{$assets-path}/fonts/Avenir-Black.eot');
+  src: url('#{$assets-path}/fonts/Avenir-Black.eot?#iefix')
+      format('embedded-opentype'),
+    url('#{$assets-path}/fonts/Avenir-Black.woff2') format('woff2'),
+    url('#{$assets-path}/fonts/Avenir-Black.woff') format('woff'),
+    url('#{$assets-path}/fonts/Avenir-Black.ttf') format('truetype'),
+    url('#{$assets-path}/fonts/Avenir-Black.svg#Avenir-Black')
+      format('svg');
+  font-weight: 900;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Avenir Heavy';
-    src: url('../../fonts/Avenir-Heavy.eot?#iefix') format('embedded-opentype'),
-        url('../../fonts/Avenir-Heavy.woff2') format('woff2'),
-        url('../../fonts/Avenir-Heavy.woff') format('woff'),
-        url('../../fonts/Avenir-Heavy.ttf') format('truetype'),
-        url('../../fonts/Avenir-Heavy.svg#Avenir-Heavy') format('svg');
-    font-weight: 900;
-    font-style: normal;
+  font-family: 'Avenir Heavy';
+  src: url('#{$assets-path}/fonts/Avenir-Heavy.eot?#iefix')
+      format('embedded-opentype'),
+    url('#{$assets-path}/fonts/Avenir-Heavy.woff2') format('woff2'),
+    url('#{$assets-path}/fonts/Avenir-Heavy.woff') format('woff'),
+    url('#{$assets-path}/fonts/Avenir-Heavy.ttf') format('truetype'),
+    url('#{$assets-path}/fonts/Avenir-Heavy.svg#Avenir-Heavy')
+      format('svg');
+  font-weight: 900;
+  font-style: normal;
 }
 
 $body-fonts: 'Avenir Book';
-$heading-fonts:'Avenir Black';
+$heading-fonts: 'Avenir Black';
 $avenir-heavy: 'Avenir Heavy';
-$banner-fonts: 'Titillium',sans-serif;
-
+$banner-fonts: 'Titillium', sans-serif;

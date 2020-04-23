@@ -72,6 +72,37 @@ const initialState = {
       height: 350,
       type: 'line',
       stacked: false,
+      events: {
+        // eslint-disable-next-line object-shorthand
+        legendClick: function(chartContext, seriesIndex, config) {
+          if (seriesIndex === 0) {
+            chartContext.toggleSeries(
+              'Planned As per AFP contract Budget Bar',
+            );
+            chartContext.toggleSeries(
+              'Planned As per AFP contract Budget Line',
+            );
+            chartContext.toggleSeries(
+              'Planned As per AFP contract Budget Bar',
+            );
+          } else if (seriesIndex === 3) {
+            chartContext.toggleSeries('Achieved Bar');
+            chartContext.toggleSeries('Achieved Line');
+            chartContext.toggleSeries('Achieved Line');
+          }
+        },
+      },
+      // events: {
+      //   // eslint-disable-next-line object-shorthand
+      //   legendClick: function(chartContext, seriesIndex, config) {
+      //     console.log('legendClick');
+      //   },
+      //   // eslint-disable-next-line object-shorthand
+      //   click: function(event, chartContext, config) {
+      //     // ...
+      //     // console.log('chart Click');
+      //   },
+      // },
     },
     responsive: [
       {
@@ -79,6 +110,9 @@ const initialState = {
         options: {
           chart: {
             height: 320,
+            events: {
+              legendClick(chartContext, seriesIndex, config) {},
+            },
           },
         },
       },
@@ -86,6 +120,14 @@ const initialState = {
     legend: {
       position: 'top',
       horizontalAlign: 'left',
+      // markers: {
+      //   onClick(chart, seriesIndex, opts) {
+      //     console.log(`series- ${seriesIndex}'s marker was clicked`);
+      //   },
+      // },
+      // onItemClick: {
+      //   toggleDataSeries: false,
+      // },
     },
     stroke: {
       width: [0, 1, 1],
@@ -98,13 +140,13 @@ const initialState = {
     },
     colors: ['#b41833', '#287078'],
     fill: {
-      opacity: [0.85, 1, 1],
+      opacity: [0.75, 0.45, 0.45],
       gradient: {
         inverseColors: false,
         shade: 'light',
         type: 'vertical',
         opacityFrom: 0.85,
-        opacityTo: 0.55,
+        opacityTo: 0,
         stops: [0, 100, 100, 100],
       },
     },
@@ -171,8 +213,9 @@ const initialState = {
         offsetY: 0,
         rotate: 0,
         formatter: value => {
+          console.log(value, 'v');
           const roundNumber = Math.round(value);
-          //   console.log(roundNumber);
+          console.log(convert(roundNumber));
           //   console.log(convert(roundNumber));
           return convert(roundNumber);
         },
@@ -280,12 +323,12 @@ const filterIndicatorGraphData = (state, action) => {
     },
     {
       name: 'Planned As per AFP contract Budget Line',
-      type: 'line',
+      type: 'area',
       data: planned,
     },
     {
       name: 'Achieved Line',
-      type: 'line',
+      type: 'area',
       data: achieved,
     },
   ];
@@ -433,12 +476,12 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     },
     {
       name: 'Planned As per AFP contract Budget Line',
-      type: 'line',
+      type: 'area',
       data: planned,
     },
     {
       name: 'Achieved Line',
-      type: 'line',
+      type: 'area',
       data: achieved,
     },
   ];

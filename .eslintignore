@@ -3,3 +3,7 @@ test/
 __tests__/
 __specs__
 setupTest.js
+VectortileComponent.js
+Functions.js
+MarkerClusterComponent.js
+# BaselayersComponent.js

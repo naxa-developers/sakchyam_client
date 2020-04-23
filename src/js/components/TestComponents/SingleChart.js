@@ -241,7 +241,7 @@ export class SingleChart extends Component {
                       <span>Individual</span>
                       <ul className="ul-dropdown">
                         <li>Individual</li>
-                        <li>Cummulative</li>
+                        <li>Cumulative</li>
                       </ul>
                     </div>
                   </div>

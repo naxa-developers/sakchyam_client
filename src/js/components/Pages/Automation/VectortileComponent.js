@@ -36,10 +36,10 @@ class VectorGridComponent extends Component {
     componentWillMount(){
         var provinceStyle = {
             fillColor: "white",
-            fillOpacity: 0,
+            fillOpacity: 0.4,
             weight: 1.5,
             opacity: 1,
-            color: "#a3b7e3",
+            color: '#a3b7e3',
             fill: true
           };
         var districtStyle = {
@@ -83,11 +83,11 @@ class VectorGridComponent extends Component {
                     feature.properties.Centroid_X = data[1]
                     feature.properties.Centroid_Y = data[0]
                     feature.properties.PROV_NAME = null
-                    label_Vector_Tiles(feature, vt_label_province, vt_label_district, vt_label_municipality, labelcount, this.props.provinceCounts);
+                    // label_Vector_Tiles(feature, vt_label_province, vt_label_district, vt_label_municipality, labelcount, this.props.provinceCounts);
                 })
             }
             map.on("zoomend", (e)=>{
-                handleZoom(map, province, district, municipality, vt_label_province, vt_label_district, vt_label_municipality, labelcount);
+                // handleZoom(map, province, district, municipality, vt_label_province, vt_label_district, vt_label_municipality, labelcount);
             });
 
             circleLoad = false;

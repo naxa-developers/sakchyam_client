@@ -1,3 +1,108 @@
 .apexcharts-inner.apexcharts-graphical{
     
 }
+
+/*legend css*/
+.dot {
+    height: 28px;
+    width: 28px;
+    background-color: rgb(0, 143, 251);
+    border-radius: 50%;
+    display: inline-block; 
+    margin-left: 12px;
+    align-items: center; 
+    vertical-align: middle;
+  }
+  .circle {
+    background: rgba(72, 156, 234, 1);
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    position: relative;
+    box-shadow: 0 0 0 5px #F1F1F1;
+    color: #6F0;
+    vertical-align: middle;
+  }
+  .text_circle {
+    font-size: 12px;
+    margin-bottom: 20px;
+    line-height: 30px;
+    color: white;
+    font-size: 11px;
+  }
+  .marker-cluster-large {
+    background-color: #F1F1F1 !important;
+    width: 35px !important;
+    height: 35px !important; 
+  }
+  .marker-cluster-large div {
+    background-color: #489cea !important; 
+  }
+  .marker-cluster-medium {
+    background-color: #F1F1F1 !important;
+    width: 35px !important;
+    height: 35px !important; 
+  }
+  .marker-cluster-medium div {
+    background-color: #489cea !important; 
+  }
+  .marker-cluster-small {
+    background-color: #F1F1F1 !important;
+    width: 35px !important;
+    height: 35px !important; 
+  }
+  .marker-cluster-small div {
+    background-color: #489cea !important; 
+  }
+  .marker-cluster div {
+    color: #ffffff;
+    width: 27px;
+    height: 27px;
+    margin-left: 4px;
+    margin-top: 4px;
+    font: 12px Helvetica Neue,Arial,Helvetica,sans-serif !important; 
+  }
+  .marker-cluster span {
+    line-height: 27px; 
+  }
+  .leaflet-popup {
+    //   left: -160px !important; 
+      left: 20px !important; 
+  }
+  
+  .leaflet-div-icon {
+    background: none;
+    border: none;
+    margin-top: -20px !important;
+    margin-left: -22px !important;
+  }
+  .apexcharts-tooltip-series-group:nth-child(3) {
+    display: none !important;
+  }
+  .apexcharts-tooltip-series-group:nth-child(4) {
+    display: none !important;
+  }
+//   .apexcharts-legend-series:nth-child(1){
+//       display: none !important;
+//   }
+  .apexcharts-legend-series:nth-child(2){
+      display: none !important;
+  }
+  .apexcharts-legend-series:nth-child(3){
+      display: none !important;
+  }
+//   .apexcharts-legend-series:nth-child(4){
+//       display: none !important;
+//   }
+.apexcharts-yaxis-title-text{
+    font-variant: petite-caps !important; 
+    font-size: 0.875rem !important;
+} 
+.apexcharts-svg .apexcharts-yaxis {
+    // transform: translate(37px, 0px) !important;
+    transform: translate(25px, 0px) !important;
+}
+
+// .apexcharts-yaxis-title-text{
+//   y:272.674;
+// }
