@@ -28,7 +28,7 @@ body {
   text-align: left;
 }
 
-@media #{$breakpoint-xs}
+/* @media #{$breakpoint-xs}
 {
   span{
     &.span_book_15,
@@ -38,7 +38,7 @@ body {
     }
   }
 }
-
+ */
 hr {
   box-sizing: content-box;
   height: 0;
