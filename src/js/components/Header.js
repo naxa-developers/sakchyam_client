@@ -79,6 +79,24 @@ class Header extends Component {
   }
 
   headerUpdate = () => {
+    if (
+      document.getElementsByClassName('apexcharts-legend-text')[0]
+    ) {
+      document.getElementsByClassName(
+        'apexcharts-legend-text',
+      )[0].innerText = document
+        .getElementsByClassName('apexcharts-legend-text')[0]
+        .innerText.replace('Bar', '');
+    }
+    if (
+      document.getElementsByClassName('apexcharts-legend-text')[3]
+    ) {
+      document.getElementsByClassName(
+        'apexcharts-legend-text',
+      )[3].innerText = document
+        .getElementsByClassName('apexcharts-legend-text')[3]
+        .innerText.replace('Line', '');
+    }
     const windowPos = window.pageYOffset;
     const siteHeader = document.getElementsByClassName('main-header');
     const scrollLink = document.getElementsByClassName('scroll-top');
