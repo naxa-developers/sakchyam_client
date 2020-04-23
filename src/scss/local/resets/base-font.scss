@@ -64,26 +64,31 @@ h4{
     letter-spacing: 2.6px;
 }
 
-@media #{$breakpoint-xl}{
+@media #{$breakpoint-xxl}{
     h3{
         font-size: 2rem;
+        line-height: 2.2rem;
     }
     .h3-red {
-        font-size: 1.45rem;
+        font-size: 1.47rem;
     }
     .span_black_15 {
         font-size: .875rem;
+    }
+    .span_book_14{
+        font-size: .793rem;
+        line-height: 1.3rem;
     }
 }
 
 @media #{$breakpoint-lg}{
     h3 {
-        font-size: 1.8rem;
-        line-height: 2.25rem;
+        font-size: 1.75rem;
+        line-height: 2.2rem;
     }
 
   .h3-red {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     line-height: 1.85rem;
     }   
 }
