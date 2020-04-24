@@ -261,15 +261,25 @@ class MiddleChartSection extends Component {
     if (
       document.getElementsByClassName('apexcharts-legend-text')[0]
     ) {
+      // document.getElementsByClassName(
+      //   'apexcharts-legend-text',
+      // )[0].innerText = document
+      //   .getElementsByClassName('apexcharts-legend-text')[0]
+      //   .innerText.replace('Bar', '');
+      // document.getElementsByClassName(
+      //   'apexcharts-tooltip-text-label',
+      // )[0].innerText = document
+      //   .getElementsByClassName('apexcharts-tooltip-text-label')[0]
+      //   .innerText.replace('Bar', '');
       document.getElementsByClassName(
         'apexcharts-legend-text',
       )[0].innerText = document
         .getElementsByClassName('apexcharts-legend-text')[0]
         .innerText.replace('Bar', '');
       document.getElementsByClassName(
-        'apexcharts-tooltip-text-label',
+        'apexcharts-legend-text',
       )[0].innerText = document
-        .getElementsByClassName('apexcharts-tooltip-text-label')[0]
+        .getElementsByClassName('apexcharts-legend-text')[0]
         .innerText.replace('Bar', '');
     }
     if (
@@ -421,12 +431,12 @@ class MiddleChartSection extends Component {
     }));
     if (this.state.activeBar) {
       this.chartRef.chart.hideSeries(
-        'Planned As per AFP contract Budget Bar',
+        'Planned As per AFP contract Budget',
       );
       this.chartRef.chart.hideSeries('Achieved Bar');
     } else {
       this.chartRef.chart.showSeries(
-        'Planned As per AFP contract Budget Bar',
+        'Planned As per AFP contract Budget',
       );
       this.chartRef.chart.showSeries('Achieved Bar');
     }
@@ -440,12 +450,12 @@ class MiddleChartSection extends Component {
       this.chartRef.chart.hideSeries(
         'Planned As per AFP contract Budget Line',
       );
-      this.chartRef.chart.hideSeries('Achieved Line');
+      this.chartRef.chart.hideSeries('Achieved');
     } else {
       this.chartRef.chart.showSeries(
         'Planned As per AFP contract Budget Line',
       );
-      this.chartRef.chart.showSeries('Achieved Line');
+      this.chartRef.chart.showSeries('Achieved');
     }
   };
 

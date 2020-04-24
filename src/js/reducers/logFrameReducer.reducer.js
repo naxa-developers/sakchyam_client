@@ -95,7 +95,7 @@ const initialState = {
         legendClick: function(chartContext, seriesIndex, config) {
           if (seriesIndex === 0) {
             chartContext.toggleSeries(
-              'Planned As per AFP contract Budget Bar',
+              'Planned As per AFP contract Budget',
             );
             chartContext.toggleSeries(
               'Planned As per AFP contract Budget Line',
@@ -104,9 +104,10 @@ const initialState = {
               'Planned As per AFP contract Budget Bar',
             );
           } else if (seriesIndex === 3) {
+            // chartContext.toggleSeries('Achieved Bar');
             chartContext.toggleSeries('Achieved Bar');
-            chartContext.toggleSeries('Achieved Line');
-            chartContext.toggleSeries('Achieved Line');
+            chartContext.toggleSeries('Achieved');
+            chartContext.toggleSeries('Achieved');
           }
         },
       },
@@ -213,7 +214,7 @@ const initialState = {
       type: 'category',
     },
     yaxis: {
-      y: 8200,
+      // y: 8200,
       crosshairs: {
         show: true,
         position: 'back',
@@ -342,7 +343,7 @@ const filterIndicatorGraphData = (state, action) => {
   // console.log(achieved, 'achieved');
   const series = [
     {
-      name: 'Planned As per AFP contract Budget Bar',
+      name: 'Planned As per AFP contract Budget',
       type: 'column',
       data: planned,
     },
@@ -357,7 +358,7 @@ const filterIndicatorGraphData = (state, action) => {
       data: planned,
     },
     {
-      name: 'Achieved Line',
+      name: 'Achieved',
       type: 'area',
       data: achieved,
     },
