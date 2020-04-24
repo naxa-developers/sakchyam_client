@@ -244,6 +244,30 @@
     }
 }
 
+@media #{$breakpoint-xxl}{
+    .main-header{
+        .logo,img {
+            max-width: 185px;
+        }
+        ul {
+            li{
+                &:last-child{
+                    .profile-img {
+                        .log-out {
+                            width: 50px;
+                        }
+                    }
+                    a.logo{
+                        img{
+                            max-width: 62px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media #{$breakpoint-sm}{
     .main-header{
         padding: .5rem .5rem;

@@ -133,7 +133,7 @@
                         }
                         a{
                             color: $text-color;
-                            padding: 11px 78px 11px 70px;
+                            padding: 11px 0px 11px 70px;
                             @include transition(all .4s ease-in-out);
                             max-width: 300px;
                             font-weight: 800;
@@ -191,10 +191,6 @@
             // .sidebar{
                 margin-left: -210px;
             // }
-        }
-        &.sidebar-sticky{
-            padding-top:1rem;
-            z-index: 10111;
         }
     }
     .info-content{
@@ -398,8 +394,8 @@
                                 width: 100%;
                                 span, ul.ul-dropdown{
                                     width: 100%;
-                                    text-overflow: ellipsis; 
-                                    white-space: nowrap; 
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
                                     overflow: hidden;
                                 }
                             }
@@ -526,8 +522,6 @@
                 .slider-container{
                     position: relative;
                     #chart{
-                        max-width: 1800px;
-                        margin-left: 40px auto;
                         // height: 100%;
                         .apexcharts-toolbar{
                             // display: none;
@@ -566,7 +560,7 @@
                         }
                     }
                     .slick-next{
-                        right: -8%;
+                        right: -5%;
                         left: auto;
                         &::before{
                             font-size: 24px;
@@ -576,11 +570,6 @@
                             line-height: 1.813rem;
                         }
                     }
-                }
-                &.sticky-content{
-                    position: -webkit-sticky; /* Safari */  
-                    position: sticky;
-                    top:0;
                 }
             }
             .info-content-footer{
@@ -622,19 +611,7 @@
                     cursor: pointer;
                 }
             }
-            
         }
-        &.sticky-content{
-            .info-content-wrap{
-                h3{
-                    display: none;
-                }
-                .info-header-top{
-                    display: none;
-                }
-            }
-        }
-        
     }
 }
 
@@ -669,7 +646,6 @@
                 max-width: 1000px;
                 .info-content-header {
                     .info-header-top{
-                        @include flex-direction-column(column);
                         .h3-red {
                             flex: 0 0 800px;
                             max-width: 800px;
@@ -743,7 +719,7 @@
                             &:before{
                                 font-size: 22px;
                             }
-                        } 
+                        }
                     }
                 } 
                 .info-content-footer {

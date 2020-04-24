@@ -335,8 +335,8 @@ class MiddleChartSection extends Component {
       //   console.log('setTimeout');
       // }, 3000);
     }
-    const { updateChart, activeDataType } = this.props;
-    if (prevProps.updateChart !== updateChart) {
+    const { activeDataType } = this.props;
+    if (prevProps.activeDate !== activeDate) {
       this.props.filterIndicatorGraphDataWithDate(
         activeLayer,
         activeDate,
@@ -684,7 +684,7 @@ class MiddleChartSection extends Component {
                       }`}
                     >
                       {activeDateValues.length === 0
-                        ? 'All'
+                        ? 'Nothing Selected'
                         : `${activeDateValues},`}
                     </span>
                     <ul
@@ -722,11 +722,11 @@ class MiddleChartSection extends Component {
                                   : false
                               }
                               id={`check_time${key}`}
-                              onClick={() => {
-                                handleActiveDate(d.range);
+                              onClick={e => {
+                                handleActiveDate(d.range, e, d.name);
                               }}
-                              onKeyDown={() => {
-                                handleActiveDate(d.range);
+                              onKeyDown={e => {
+                                handleActiveDate(d.range, e, d.name);
                               }}
                             />
                             <label htmlFor={`check_time${key}`}>

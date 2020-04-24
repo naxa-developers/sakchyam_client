@@ -5,6 +5,7 @@ import {
   FILTER_INDICATOR_GRAPH_DATA,
   FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
 } from '../actions/index.actions';
+import DownloadIcon from '../../img/save_alt.svg';
 
 // import copy from '../utils/cloneNestedObject';
 /* eslint-disable camelcase */
@@ -69,6 +70,23 @@ const initialState = {
   ],
   options: {
     chart: {
+      toolbar: {
+        show: true,
+        // offsetX: 0,
+        // offsetY: 0,
+        tools: {
+          // download: `<a href="#/" class="download-icon-image"><img src=${DownloadIcon} alt=""></a>`,
+          download: `<i class="fa fa-download" aria-hidden="true"></i>`,
+          //   selection: true,
+          //   zoom: true,
+          //   zoomin: true,
+          //   zoomout: true,
+          //   pan: true,
+          //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
+          //   // customIcons: []
+        },
+        // autoSelected: 'zoom',
+      },
       height: 350,
       type: 'line',
       stacked: false,
@@ -140,12 +158,12 @@ const initialState = {
     },
     colors: ['#b41833', '#287078'],
     fill: {
-      opacity: [0.75, 0.45, 0.45],
+      opacity: [0.45, 0.75, 0.15],
       gradient: {
         inverseColors: false,
         shade: 'light',
         type: 'vertical',
-        opacityFrom: 0.85,
+        opacityFrom: 0.25,
         opacityTo: 0,
         stops: [0, 100, 100, 100],
       },
@@ -172,6 +190,15 @@ const initialState = {
       offsetY: 0,
     },
     xaxis: {
+      crosshairs: {
+        show: true,
+        position: 'back',
+        stroke: {
+          color: '#b6b6b6',
+          width: 1,
+          dashArray: 0,
+        },
+      },
       categories: [
         'Jan',
         'Feb',
@@ -186,8 +213,19 @@ const initialState = {
       type: 'category',
     },
     yaxis: {
+      y: 8200,
+      crosshairs: {
+        show: true,
+        position: 'back',
+        stroke: {
+          color: '#b6b6b6',
+          width: 1,
+          dashArray: 0,
+        },
+      },
       title: {
         text: 'Points',
+
         style: {
           color: undefined,
           fontSize: '12px',
@@ -196,7 +234,10 @@ const initialState = {
           cssClass: 'apexcharts-yaxis-title',
         },
       },
-      floating: false,
+      floating: true,
+      // align: 'center',
+      // minWidth: '200',
+      // maxWidth: '200',
       labels: {
         show: true,
         align: 'right',
@@ -221,7 +262,11 @@ const initialState = {
         },
       },
       min: 0,
+      forceNiceScale: true,
+
+      // max: 10,
     },
+    logarithmic: true,
     title: {
       text: undefined,
       rotate: -90,
@@ -235,22 +280,7 @@ const initialState = {
         cssClass: 'apexcharts-yaxis-title',
       },
     },
-    toolbar: {
-      show: true,
-      // offsetX: 0,
-      // offsetY: 0,
-      // tools: {
-      //   download: true,
-      //   selection: true,
-      //   zoom: true,
-      //   zoomin: true,
-      //   zoomout: true,
-      //   pan: true,
-      //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
-      //   // customIcons: []
-      // },
-      // autoSelected: 'zoom',
-    },
+
     tooltip: {
       shared: true,
       intersect: false,
