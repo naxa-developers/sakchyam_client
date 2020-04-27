@@ -19,7 +19,7 @@ import 'react-leaflet-markercluster/dist/styles.min.css';
 // import 'leaflet.featuregroup.subgroup';
 import VectorGridComponent from './VectortileComponent';
 import BaseLayers from './BaselayersComponent';
-// import MarkerClusterComponent from './MarkerClusterComponent';
+import MarkerClusterComponent from './MarkerClusterComponent';
 
 // let map = {};
 class MapComponent extends Component {
@@ -123,13 +123,13 @@ class MapComponent extends Component {
           // provinceCounts={7}
         />
         {/* {provinceAllData && ( */}
-        {/* <MarkerClusterComponent
+        <MarkerClusterComponent
           mapRef={this.props.mapRef}
           innovationData={
             provinceAllData === null ? [] : provinceAllData
           }
           viewDetailsClicked={this.handleViewDetailsClick}
-        /> */}
+        />
         {/* )} */}
       </Map>
     );

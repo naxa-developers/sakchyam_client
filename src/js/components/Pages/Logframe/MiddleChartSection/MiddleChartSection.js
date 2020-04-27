@@ -249,15 +249,53 @@ class MiddleChartSection extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleClickOnLegend);
+    // window.removeEventListener('resize', this.handleClickOnLegend);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
-      document.getElementsByClassName(
-        'apexcharts-menu-icon',
-      )[0].title = 'Export';
-    }
+    // if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
+    //   document.getElementsByClassName(
+    //     'apexcharts-menu-icon',
+    //   )[0].title = 'Export';
+    // }
+    // if (
+    //   document.getElementsByClassName('apexcharts-legend-text')[0]
+    // ) {
+    //   // document.getElementsByClassName(
+    //   //   'apexcharts-legend-text',
+    //   // )[0].innerText = document
+    //   //   .getElementsByClassName('apexcharts-legend-text')[0]
+    //   //   .innerText.replace('Bar', '');
+    //   // document.getElementsByClassName(
+    //   //   'apexcharts-tooltip-text-label',
+    //   // )[0].innerText = document
+    //   //   .getElementsByClassName('apexcharts-tooltip-text-label')[0]
+    //   //   .innerText.replace('Bar', '');
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[0].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[0]
+    //     .innerText.replace('Bar', '');
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[0].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[0]
+    //     .innerText.replace('Bar', '');
+    // }
+    // if (
+    //   document.getElementsByClassName('apexcharts-legend-text')[3]
+    // ) {
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[3].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[3]
+    //     .innerText.replace('Line', '');
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[3].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[3]
+    //     .innerText.replace('Line', '');
+    // }
     // document.getElementsByClassName(
     //   'apexcharts-legend-series',
     // )[1].style.display = 'none';
@@ -307,8 +345,8 @@ class MiddleChartSection extends Component {
       //   console.log('setTimeout');
       // }, 3000);
     }
-    const { updateChart, activeDataType } = this.props;
-    if (prevProps.updateChart !== updateChart) {
+    const { activeDataType } = this.props;
+    if (prevProps.activeDate !== activeDate) {
       this.props.filterIndicatorGraphDataWithDate(
         activeLayer,
         activeDate,
@@ -387,23 +425,38 @@ class MiddleChartSection extends Component {
   };
 
   handleBarClick = () => {
+    console.log(this.state.activeBar, 'activeBar 1st');
     this.setState(prevState => ({
       activeBar: !prevState.activeBar,
     }));
-    this.chartRef.chart.toggleSeries(
-      'Planned As per AFP contract Budget Bar',
-    );
-    this.chartRef.chart.toggleSeries('Achieved Bar');
+    if (this.state.activeBar) {
+      this.chartRef.chart.hideSeries(
+        'Planned As per AFP contract Budget',
+      );
+      this.chartRef.chart.hideSeries('Achieved Bar');
+    } else {
+      this.chartRef.chart.showSeries(
+        'Planned As per AFP contract Budget',
+      );
+      this.chartRef.chart.showSeries('Achieved Bar');
+    }
   };
 
   handleTimeGraphClick = () => {
     this.setState(prevState => ({
       activeTimeGraph: !prevState.activeTimeGraph,
     }));
-    this.chartRef.chart.toggleSeries(
-      'Planned As per AFP contract Budget Line',
-    );
-    this.chartRef.chart.toggleSeries('Achieved Line');
+    if (this.state.activeTimeGraph) {
+      this.chartRef.chart.hideSeries(
+        'Planned As per AFP contract Budget Line',
+      );
+      this.chartRef.chart.hideSeries('Achieved');
+    } else {
+      this.chartRef.chart.showSeries(
+        'Planned As per AFP contract Budget Line',
+      );
+      this.chartRef.chart.showSeries('Achieved');
+    }
   };
 
   handleMainCategorySlide = selectedValue => {
@@ -650,6 +703,24 @@ class MiddleChartSection extends Component {
                       }`}
                       id="dropdown-list"
                     >
+                      <li className="checkbox">
+                        <input
+                          type="checkbox"
+                          checked={
+                            activeDate.includes('All') === true
+                              ? true
+                              : false
+                          }
+                          id="check_time"
+                          onClick={e => {
+                            handleActiveDate('All', e);
+                          }}
+                          onKeyDown={e => {
+                            handleActiveDate('All', e);
+                          }}
+                        />
+                        <label htmlFor="check_time">All</label>
+                      </li>
                       {dateRange.map((d, key) => {
                         return (
                           <li key={d.id} className="checkbox">
@@ -661,11 +732,11 @@ class MiddleChartSection extends Component {
                                   : false
                               }
                               id={`check_time${key}`}
-                              onClick={() => {
-                                handleActiveDate(d.range);
+                              onClick={e => {
+                                handleActiveDate(d.range, e, d.name);
                               }}
-                              onKeyDown={() => {
-                                handleActiveDate(d.range);
+                              onKeyDown={e => {
+                                handleActiveDate(d.range, e, d.name);
                               }}
                             />
                             <label htmlFor={`check_time${key}`}>
@@ -749,19 +820,19 @@ class MiddleChartSection extends Component {
                       >
                         <li
                           className={
-                            activeDataType === 'Cummulative'
+                            activeDataType === 'Cumulative'
                               ? 'li-active'
                               : ''
                           }
                           role="tab"
                           onClick={() => {
-                            handleSelectedDataType('Cummulative');
+                            handleSelectedDataType('Cumulative');
                           }}
                           onKeyDown={() => {
-                            handleSelectedDataType('Cummulative');
+                            handleSelectedDataType('Cumulative');
                           }}
                         >
-                          Cummulative
+                          Cumulative
                         </li>
                         <li
                           className={

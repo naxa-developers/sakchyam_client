@@ -5,6 +5,7 @@ import {
   FILTER_INDICATOR_GRAPH_DATA,
   FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
 } from '../actions/index.actions';
+import DownloadIcon from '../../img/save_alt.svg';
 
 // import copy from '../utils/cloneNestedObject';
 /* eslint-disable camelcase */
@@ -69,7 +70,27 @@ const initialState = {
   ],
   options: {
     chart: {
+      parentHeightOffset: 15,
+      // offsetY: -0,
+      toolbar: {
+        show: true,
+        // offsetX: 0,
+        // offsetY: 0,
+        tools: {
+          // download: `<a href="#/" class="download-icon-image"><img src=${DownloadIcon} alt=""></a>`,
+          download: `<i class="fa fa-download" aria-hidden="true"></i>`,
+          //   selection: true,
+          //   zoom: true,
+          //   zoomin: true,
+          //   zoomout: true,
+          //   pan: true,
+          //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
+          //   // customIcons: []
+        },
+        // autoSelected: 'zoom',
+      },
       height: 350,
+      // width: '100%',
       type: 'line',
       stacked: false,
       events: {
@@ -77,7 +98,7 @@ const initialState = {
         legendClick: function(chartContext, seriesIndex, config) {
           if (seriesIndex === 0) {
             chartContext.toggleSeries(
-              'Planned As per AFP contract Budget Bar',
+              'Planned As per AFP contract Budget',
             );
             chartContext.toggleSeries(
               'Planned As per AFP contract Budget Line',
@@ -86,9 +107,10 @@ const initialState = {
               'Planned As per AFP contract Budget Bar',
             );
           } else if (seriesIndex === 3) {
+            // chartContext.toggleSeries('Achieved Bar');
             chartContext.toggleSeries('Achieved Bar');
-            chartContext.toggleSeries('Achieved Line');
-            chartContext.toggleSeries('Achieved Line');
+            chartContext.toggleSeries('Achieved');
+            chartContext.toggleSeries('Achieved');
           }
         },
       },
@@ -140,12 +162,12 @@ const initialState = {
     },
     colors: ['#b41833', '#287078'],
     fill: {
-      opacity: [0.75, 0.45, 0.45],
+      opacity: [0.45, 0.75, 0.15],
       gradient: {
         inverseColors: false,
         shade: 'light',
         type: 'vertical',
-        opacityFrom: 0.85,
+        opacityFrom: 0.25,
         opacityTo: 0,
         stops: [0, 100, 100, 100],
       },
@@ -172,6 +194,16 @@ const initialState = {
       offsetY: 0,
     },
     xaxis: {
+      tickAmount: 10,
+      crosshairs: {
+        show: true,
+        position: 'back',
+        stroke: {
+          color: '#ffffff',
+          width: 0,
+          dashArray: 0,
+        },
+      },
       categories: [
         'Jan',
         'Feb',
@@ -186,8 +218,23 @@ const initialState = {
       type: 'category',
     },
     yaxis: {
+      // floating: true
+      decimalsInFloat: 2,
+      tickPlacement: 'between',
+      // y: 8200,
+      // y: 1000,
+      crosshairs: {
+        show: true,
+        position: 'back',
+        stroke: {
+          color: '#b6b6b6',
+          width: 1,
+          dashArray: 0,
+        },
+      },
       title: {
         text: 'Points',
+
         style: {
           color: undefined,
           fontSize: '12px',
@@ -196,7 +243,10 @@ const initialState = {
           cssClass: 'apexcharts-yaxis-title',
         },
       },
-      floating: false,
+      // floating: true,
+      // align: 'center',
+      // minWidth: '200',
+      // maxWidth: '200',
       labels: {
         show: true,
         align: 'right',
@@ -213,15 +263,22 @@ const initialState = {
         offsetY: 0,
         rotate: 0,
         formatter: value => {
-          console.log(value, 'v');
+          if (value < 5) {
+            return value.toFixed(1);
+          }
+          // console.log(value, 'v');
           const roundNumber = Math.round(value);
-          console.log(convert(roundNumber));
+          // console.log(convert(roundNumber));
           //   console.log(convert(roundNumber));
           return convert(roundNumber);
         },
       },
       min: 0,
+      forceNiceScale: true,
+
+      // max: 10,
     },
+    logarithmic: true,
     title: {
       text: undefined,
       rotate: -90,
@@ -235,27 +292,13 @@ const initialState = {
         cssClass: 'apexcharts-yaxis-title',
       },
     },
-    toolbar: {
-      show: true,
-      // offsetX: 0,
-      // offsetY: 0,
-      // tools: {
-      //   download: true,
-      //   selection: true,
-      //   zoom: true,
-      //   zoomin: true,
-      //   zoomout: true,
-      //   pan: true,
-      //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
-      //   // customIcons: []
-      // },
-      // autoSelected: 'zoom',
-    },
+
     tooltip: {
       shared: true,
       intersect: false,
       y: {
         formatter(y) {
+          // console.log(y, 'y');
           if (typeof y !== 'undefined') {
             return `${y.toFixed(0)} £`;
           }
@@ -282,11 +325,18 @@ const filterIndicatorGraphData = (state, action) => {
   const dataType = filtered[0].data_type;
   const dataUnit = filtered[0].unit;
 
+  let unit = '';
+  console.log(dataUnit, 'dataunit');
+  if (dataUnit === 'pound') {
+    unit = '£';
+  } else if (dataUnit === 'nrs') {
+    unit = 'Rs';
+  }
   const planned = filtered.map(el => {
-    return el.planned_afp;
+    return `${el.planned_afp}`;
   });
   const achieved = filtered.map(el => {
-    return el.achieved;
+    return `${el.achieved}`;
   });
   const label = filtered.map(el => {
     //   console.log(el, 'elLabel');
@@ -312,7 +362,7 @@ const filterIndicatorGraphData = (state, action) => {
   // console.log(achieved, 'achieved');
   const series = [
     {
-      name: 'Planned As per AFP contract Budget Bar',
+      name: 'Planned As per AFP contract Budget',
       type: 'column',
       data: planned,
     },
@@ -327,7 +377,7 @@ const filterIndicatorGraphData = (state, action) => {
       data: planned,
     },
     {
-      name: 'Achieved Line',
+      name: 'Achieved',
       type: 'area',
       data: achieved,
     },
@@ -354,6 +404,19 @@ const filterIndicatorGraphData = (state, action) => {
           text: `${dataType}  ${
             dataUnit !== null ? `(${dataUnit})` : ''
           }`,
+        },
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter(y) {
+            // console.log(y, 'y');
+            if (typeof y !== 'undefined') {
+              return `${unit} ${y.toFixed(0)}`;
+            }
+            return y;
+          },
         },
       },
     },
@@ -444,13 +507,20 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       }
     });
   });
+  const dataUnit = filtered && filtered[0] && filtered[0].unit;
+  let unit = '';
+  if (dataUnit === 'pound') {
+    unit = '£';
+  } else if (dataUnit === 'nrs') {
+    unit = 'Rs';
+  }
   // const { dataType } = filtered[0];
 
   const planned = filtered.map(el => {
-    return el.planned_afp;
+    return `${el.planned_afp}`;
   });
   const achieved = filtered.map(el => {
-    return el.achieved;
+    return `${el.achieved}`;
   });
   const label = filtered.map(el => {
     //   console.log(el, 'elLabel');
@@ -498,6 +568,19 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       ...state.options,
       labels: label,
       xaxis: { ...state.options.xaxis, categories: category },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter(y) {
+            // console.log(y, 'y');
+            if (typeof y !== 'undefined') {
+              return `${unit} ${y.toFixed(0)}`;
+            }
+            return y;
+          },
+        },
+      },
     },
   };
 };

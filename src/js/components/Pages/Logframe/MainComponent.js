@@ -66,46 +66,170 @@ class MainComponent extends Component {
     });
   };
 
-  handleActiveDate = e => {
-    // push uniques
-    const collator = new Intl.Collator(undefined, {
-      numeric: true,
-      sensitivity: 'base',
-    });
+  handleActiveDate = (value, e, item) => {
+    const {
+      dateRange,
+      totalRangeDate,
+      totalRangeDateName,
+    } = this.props.logFrameReducer;
+    const { activeDate, activeDateValues } = this.state;
+    console.log(item);
+    console.log(value, 'value');
+    dateArray = [];
+    dateArrayValues = [];
+    if (value === 'All') {
+      if (!activeDate.includes('All')) {
+        dateArray.push('All');
+        dateRange.map(data => {
+          dateArray.push(data.range);
 
-    const { dateRange } = this.props.logFrameReducer;
-    const { updateChart } = this.state;
-    const dateFilteredObj = dateRange.filter(
-      filteredData => filteredData.range === e,
-    );
-    this.setState({ updateChart: !updateChart });
-    if (dateArray.indexOf(e) === -1) {
-      dateArray.push(e);
-      dateArrayValues.push(dateFilteredObj[0].name);
+          // dateArrayValues.push(data.name);
+          return true;
+        });
+        dateArrayValues.push('All');
+        this.setState({
+          activeDate: dateArray,
+          activeDateValues: dateArrayValues,
+          // isSiteTypeSelected: true,
+          // filterLegendSelection: 'site_type',
+        });
+      } else {
+        // dateArrayValues.push('Nothing Selected');
+        this.setState({
+          activeDate: [],
+          activeDateValues: [],
+          // isSiteTypeSelected: true,
+          // filterLegendSelection: 'site_type',
+        });
+      }
     } else {
-      dateArray = dateArray.filter(f => f !== e);
-      dateArrayValues = dateArrayValues.filter(
-        g => g !== dateFilteredObj[0].name,
-      );
+      const totalActiveDateLength = activeDate.length + 1;
+      if (totalActiveDateLength === totalRangeDate.length) {
+        dateArray = [];
+        dateArrayValues = totalRangeDateName;
+        dateArray = activeDate;
+        dateArray.push('All');
+        this.setState({
+          activeDate: dateArray,
+          activeDateValues: dateArrayValues,
+        });
+      }
+      const isSiteChecked = e.target.checked;
+      if (isSiteChecked === true) {
+        const joined = activeDate.concat(value);
+        const joinedName = activeDateValues.concat(item);
+        joined.sort();
+        this.setState({
+          activeDate: joined,
+          activeDateValues: joinedName,
+          // isSiteTypeSelected: true,
+          // filterLegendSelection: 'site_type',
+        });
+      } else {
+        let filteredData = activeDate.filter(data => data !== value);
+        const filteredDataName = activeDateValues.filter(
+          data => data !== item,
+        );
+        if (filteredData.includes('All')) {
+          filteredData = filteredData.filter(f => f !== 'All');
+        }
+        filteredData.sort();
+        this.setState({
+          activeDate: filteredData,
+          activeDateValues: filteredDataName,
+        });
+      }
     }
-    dateArray.sort();
-    // dateArrayValues.sort();
-    dateArrayValues.sort(collator.compare);
-    if (dateArray.length === 0) {
-      // console.log(dateRange);
-      dateRange.map(data => {
-        dateArray.push(data.range);
-        dateArrayValues.push(data.name);
-        return true;
-      });
-      // console.log(allDateRange);
-    }
-    this.setState({
-      activeDate: dateArray,
-      activeDateValues: dateArrayValues,
-    });
-    // this.setState({ activeDate: e });
   };
+  // handleActiveDate = (e, element) => {
+  //   const { dateRange } = this.props.logFrameReducer;
+  //   const { updateChart } = this.state;
+  //   console.log(element.target.checked, 'checked');
+  //   if (e === 'All' && element.target.checked === true) {
+  //     const {
+  //       logFrameReducer: { totalRangeDate, totalRangeDateName },
+  //     } = this.props;
+  //     alert('if');
+  //     dateArray = [];
+  //     dateArrayValues = [];
+  //     dateRange.map(data => {
+  //       dateArray.push(data.range);
+  //       dateArrayValues.push(data.name);
+  //       return true;
+  //     });
+  //     dateArray.push('All');
+  //     this.setState({ updateChart: !updateChart });
+
+  //     // console.log(this.props.logFrameReducer.totalDateRange);
+  //     // return this.setState({
+  //     //   activeDate: totalRangeDate,
+  //     //   activeDateValues: totalRangeDateName,
+  //     // });
+  //   } else if (e === 'All' && element.target.checked === false) {
+  //     alert('else if');
+  //     dateArray = [];
+  //     dateArrayValues = [];
+  //     this.setState({ updateChart: !updateChart });
+  //   } else {
+  //     alert('else');
+  //     // dateArray = [];
+  //     // dateArrayValues = [];
+  //     console.log('false check');
+  //     console.log(
+  //       this.props.logFrameReducer.totalRangeDateName.length,
+  //       '1props',
+  //     );
+  //     console.log(dateArrayValues.length, '2state');
+  //     const totalLengthOfRangeDateName = dateArrayValues + 1;
+  //     // if (dateArray.includes('All')) {
+  //     //   dateArray = dateArray.filter(f => f !== 'All');
+  //     // } else
+  //     if (totalLengthOfRangeDateName === dateArrayValues.length) {
+  //       console.log('push ALl if equal');
+  //       dateArray.push('All');
+  //     } else if (dateArray.includes('All')) {
+  //       dateArray = dateArray.filter(f => f !== 'All');
+  //     }
+  //     // push uniques
+  //     const collator = new Intl.Collator(undefined, {
+  //       numeric: true,
+  //       sensitivity: 'base',
+  //     });
+
+  //     const dateFilteredObj = dateRange.filter(
+  //       filteredData => filteredData.range === e,
+  //     );
+  //     this.setState({ updateChart: !updateChart });
+  //     if (dateArray.indexOf(e) === -1) {
+  //       dateArray.push(e);
+  //       dateArrayValues.push(dateFilteredObj[0].name);
+  //     } else {
+  //       dateArray = dateArray.filter(f => f !== e);
+  //       dateArrayValues = dateArrayValues.filter(
+  //         g => g !== dateFilteredObj[0].name,
+  //       );
+  //     }
+  //     dateArray.sort();
+  //     // dateArrayValues.sort();
+  //     dateArrayValues.sort(collator.compare);
+  //     if (dateArray.length === 0) {
+  //       // console.log(dateRange);
+  //       dateRange.map(data => {
+  //         dateArray.push(data.range);
+  //         dateArrayValues.push(data.name);
+  //         return true;
+  //       });
+  //       dateArray.push('All');
+
+  //       // console.log(allDateRange);
+  //     }
+  //   }
+  //   this.setState({
+  //     activeDate: dateArray,
+  //     activeDateValues: dateArrayValues,
+  //   });
+  //   // this.setState({ activeDate: e });
+  // };
 
   handleArrowClick = () => {
     window.scrollTo(0, this.headRef.current);
@@ -116,16 +240,61 @@ class MainComponent extends Component {
     });
   };
 
+  updateScrollResponsive = () => {
+    // const windowPos = window.pageYOffset;
+    // if (windowPos >= 200) {
+    //   document
+    //     .querySelector('.content .sidebar')
+    //     .classList.add('sidebar-sticky');
+    //   document
+    //     .querySelector('.content .info-content')
+    //     .classList.add('sticky-content');
+    //   document.querySelector('body').classList.add('scroll-event');
+    // } else {
+    //   document
+    //     .querySelector('.content .sidebar')
+    //     .classList.add('sidebar-sticky');
+    //   document
+    //     .querySelector('.content .info-content')
+    //     .classList.remove('sticky-content');
+    //   document.querySelector('body').classList.remove('scroll-event');
+    // }
+    // const a =
+    // if (windowPos >= 50) {
+    //   document.querySelector('body').classList.add('scroll-event');
+    // } else {
+    //   document.querySelector('body').classList.remove('scroll-event');
+    // }
+    // const $contetntY = $('.content').offset().top;
+    // console.log($contetntY);
+    // if ($contetntY > 0) {
+    //   $('body').addClass('scroll-event');
+    // } else {
+    //   $('body').removeClass('scroll-event');
+    // }
+
+    const contentEl = document.getElementsByClassName('content')[0]
+      .offsetTop;
+    if (contentEl > 0) {
+      document.querySelector('body').classList.add('scroll-event');
+    } else {
+      document.querySelector('body').classList.remove('scroll-event');
+    }
+    console.log(contentEl, 'contentoffset');
+  };
+
   componentDidMount() {
     // console.log(document.getElementsByClassName('apexcharts-menu-icon')[0].title =
     //   'Export';
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);
+    window.addEventListener('scroll', this.updateScrollResponsive);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener('scroll', this.updateScrollResponsive);
   }
 
   handleModal = () => {
@@ -142,8 +311,17 @@ class MainComponent extends Component {
   };
 
   updateWindowDimensions = () => {
-    document.getElementsByClassName('apexcharts-menu-icon')[0].title =
-      'Export';
+    // document.getElementsByClassName('apexcharts-menu-icon')[0].title =
+    //   'Export';
+    // if (
+    //   document.getElementsByClassName('apexcharts-legend-text')[3]
+    // ) {
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[3].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[3]
+    //     .innerText.replace('Line', '');
+    // }
     // document.getElementsByClassName(
     //   'apexcharts-legend-series',
     // )[1].style.display = 'none';

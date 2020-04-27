@@ -30,9 +30,18 @@ body {
     }
 }
 
-@media #{$breakpoint-ls}{
+
+@media #{$breakpoint-xxl}{
     .sidebar-li a {
         font-size: 1.125rem;
+    }
+    .sidebar-sublist{
+        li{
+            a{
+                font-family: $body-fonts;
+                font-size: .875rem;
+            }
+        }
     }
 }
 

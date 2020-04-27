@@ -133,7 +133,7 @@
                         }
                         a{
                             color: $text-color;
-                            padding: 11px 78px 11px 70px;
+                            padding: 11px 0px 11px 70px;
                             @include transition(all .4s ease-in-out);
                             max-width: 300px;
                             font-weight: 800;
@@ -199,7 +199,7 @@
         padding: 30px 110px 5px;
         position: relative;
         margin-left: 302px;
-        overflow: auto;
+        // overflow: auto;
         a.toggle_button{
             width: 20px;
             height: 20px;
@@ -233,6 +233,7 @@
             width: 100%;
 
             .info-content-header{
+                padding-left: 10px;
                 margin-bottom: 21px;
                 h3{
                     margin-bottom: 12px;
@@ -393,8 +394,8 @@
                                 width: 100%;
                                 span, ul.ul-dropdown{
                                     width: 100%;
-                                    text-overflow: ellipsis; 
-                                    white-space: nowrap; 
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
                                     overflow: hidden;
                                 }
                             }
@@ -521,8 +522,6 @@
                 .slider-container{
                     position: relative;
                     #chart{
-                        max-width: 1800px;
-                        margin-left: 40px auto;
                         // height: 100%;
                         .apexcharts-toolbar{
                             // display: none;
@@ -578,6 +577,7 @@
                 @include radius(10px);
                 padding: 19px 64px 18px;
                 margin-top: 20px;
+                margin-left: 10px;
                 @include display-flex(flex);
                 align-items: center;
                 position: relative;
@@ -614,31 +614,55 @@
         }
     }
 }
+body{
+    &.scroll-event{
+        .content{
+            .sidebar{
+                padding-top:0;
+            }
+            .info-content{
+                .info-content-wrap{
+                    .info-content-header{
+                        .info-header-top,h3{
+                            display: none;
+                        }
+                    }
+                }
+            }
+            &.content-mod{
+                padding-top:50px;
+            }
+        }
+    }
+}
 
 @media #{$breakpoint-xxl}{
     .content{
         .sidebar{
-            max-width: 200px;
+            max-width: 230px;
             ul.sidebar-li{
                 li{
                     ul.sidebar-sublist{
                         li {
                             a {
-                                padding: 11px 50px 11px;
+                                padding: 11px 0px 11px 50px;
                             }
                         }
                     } 
                 }
                 h5 {
-                    font-size: 1rem;
+                    font-size: .938rem;
                     max-width: 162px;
+                }
+                h2{
+                    font-size: 12px;
                 }
             }
         }
         .info-content{
-            margin-left: 200px;
-            width: calc(100% - 200px);
-            padding: 30px 90px 20px;
+            margin-left: 230px;
+            width: calc(100% - 230px);
+            padding: 30px 65px 20px;
             .info-content-wrap{
                 max-width: 1000px;
                 .info-content-header {
@@ -648,6 +672,84 @@
                             max-width: 800px;
                         }
                     } 
+                    .info-header-bottom{
+                        padding: 15px 25px;
+                        .bottom-wrapper{
+                            .span-option {
+                                font-size: .875rem;
+                            }
+                            .span-label {
+                                font-size: .938rem;
+                                padding: 5px 20px 5px 50px;
+                            }
+                            .span-dropdown {
+                                padding: 5px 63px 5px 20px !important;
+                                &::after{
+                                    top: 2px;
+                                }
+                            }
+                            .option-wrap{
+                                .chart {
+                                    .chart-wrap{
+                                        span{
+                                            &:first-child{
+                                                &:before{
+                                                    font-size: 1.5rem;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                    
+                            }
+                            ul.ul-dropdown{
+                                li{
+                                    font-size: .875rem;
+                                }
+                            } 
+                        }
+                    }
+                }
+                .info-slider{
+                    .download-dropdown {
+                        li{
+                            a {
+                                font-size: .875rem;
+                            }
+                        } 
+                    }
+                    .download-icon-image{
+                        img {
+                            width: 22px;
+                            height: 22px;
+                        }
+                    }
+                   .slider-container{
+                        .slick-next {
+                            right: -6%; 
+                            width: 35px;
+                            height: 35px;
+                            &:before{
+                                font-size: 22px;
+                            }
+                        }
+                        .slick-prev{
+                            left: -4%;
+                            width: 35px;
+                            height: 35px;
+                            &:before{
+                                font-size: 22px;
+                            }
+                        }
+                    }
+                } 
+                .info-content-footer {
+                    span.important {
+                        top: 16px;
+                        &:before{
+                            font-size: 1.25rem;
+                        }
+                    }
                 }
             }
         }
@@ -712,12 +814,6 @@
                     .info-header-bottom{
                         .bottom-wrapper{
                             @include flex-direction-column(column);
-                            .span-option {
-                                font-size: .875rem;
-                            }
-                            .span-label {
-                                font-size: .938rem;
-                            }
                             .duration-wrap, .option-wrap{
                                 flex: 0 0 100%;
                                 max-width: 100%;
@@ -726,21 +822,7 @@
                                 margin-top: 20px;
                                 @include justify-content-start;
                             }
-                            ul.ul-dropdown{
-                                li{
-                                    font-size: .875rem;
-                                }
-                            } 
                         }
-                    }
-                }
-                .info-slider{
-                    .download-dropdown {
-                        li{
-                            a {
-                                font-size: .875rem;
-                            }
-                        } 
                     }
                 }
             }
@@ -846,14 +928,11 @@
     .content {
         // background-color: red;
         .info-content {
-            a.toggle_button i {
-                font-size: 14px;
-            }
             .info-content-wrap {
                 .info-content-header  {
-                    margin-bottom: 0;
+                    margin-bottom: 40px;
                     .info-header-bottom{
-                        padding: 10px 15px;
+                        padding: 15px;
                         .bottom-wrapper{
                             flex-direction: column;
                             .duration-wrap, .option-wrap{
@@ -863,6 +942,11 @@
                             .option-wrap{
                                 margin-top: 15px;
                                 @include justify-content-start;
+                                @include flex-direction-column(column);
+                                .chart{
+                                    margin-left: 0;
+                                    margin-top: 20px;
+                                }
                             }
                         }   
                     }

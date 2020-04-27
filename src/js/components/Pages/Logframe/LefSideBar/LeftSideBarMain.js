@@ -84,10 +84,10 @@ class LeftSidebarMain extends Component {
                   handleActiveIndicator(data.name);
                 }}
               >
-                <a href="#/">
+                <a href="#/" tooltip={data.title} flow="right">
                   {/* <ReactTooltip /> */}
                   {data.name.toLowerCase()}
-                  <span className="tooltip-list">{data.title}</span>
+                  {/* <span className="tooltip-list">{data.title}</span> */}
                 </a>
                 <ul
                   className={`sidebar-sublist ${
@@ -116,11 +116,13 @@ class LeftSidebarMain extends Component {
                           onKeyDown={() => {
                             handleActiveLayer(el.name);
                           }}
+                          tooltip={el.title}
+                          flow="right"
                         >
                           {el.name}
-                          <span className="tooltip-list">
+                          {/* <span className="tooltip-list">
                             {el.title}
-                          </span>
+                          </span> */}
                         </a>
                       </li>
                     );

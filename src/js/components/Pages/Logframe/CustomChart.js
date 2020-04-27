@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import 'apexcharts';
+// import 'apexcharts';
 
 // require 'apexcharts';
 require('apexcharts');
@@ -24,6 +24,7 @@ export default class CustomChart extends Component {
           series={series}
           type="line"
           height={500}
+          // width={600}
         />
       </div>
     );
