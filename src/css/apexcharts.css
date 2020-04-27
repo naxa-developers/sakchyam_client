@@ -16,10 +16,10 @@
 /* .apexcharts-inner{
   transform: translate(100px, 70px) !important;
 } */
-.apexcharts-yaxis{
+/* .apexcharts-yaxis{
   transform: translate(40px, 0) !important;
-}
-@media only screen and (max-width:1199px) and (min-width: 1150px){
+} */
+/* @media only screen and (max-width:1199px) and (min-width: 1150px){
   .apexcharts-inner{
     transform: translate(130px, 60px) !important;
   }
@@ -28,7 +28,7 @@
   .apexcharts-inner{
     transform: translate(130px, 100px) !important;
   }
-}
+} */
 
 .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
   border-radius:0;
@@ -885,4 +885,4 @@
   width: 200%;
   height: 200%;
 }
-.apexcharts-plot-series {transform: translate(25px, 10px);}
+/* .apexcharts-plot-series {transform: translate(25px, 10px);} */

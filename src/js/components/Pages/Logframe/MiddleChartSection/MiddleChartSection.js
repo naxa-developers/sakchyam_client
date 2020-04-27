@@ -253,49 +253,49 @@ class MiddleChartSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
-      document.getElementsByClassName(
-        'apexcharts-menu-icon',
-      )[0].title = 'Export';
-    }
-    if (
-      document.getElementsByClassName('apexcharts-legend-text')[0]
-    ) {
-      // document.getElementsByClassName(
-      //   'apexcharts-legend-text',
-      // )[0].innerText = document
-      //   .getElementsByClassName('apexcharts-legend-text')[0]
-      //   .innerText.replace('Bar', '');
-      // document.getElementsByClassName(
-      //   'apexcharts-tooltip-text-label',
-      // )[0].innerText = document
-      //   .getElementsByClassName('apexcharts-tooltip-text-label')[0]
-      //   .innerText.replace('Bar', '');
-      document.getElementsByClassName(
-        'apexcharts-legend-text',
-      )[0].innerText = document
-        .getElementsByClassName('apexcharts-legend-text')[0]
-        .innerText.replace('Bar', '');
-      document.getElementsByClassName(
-        'apexcharts-legend-text',
-      )[0].innerText = document
-        .getElementsByClassName('apexcharts-legend-text')[0]
-        .innerText.replace('Bar', '');
-    }
-    if (
-      document.getElementsByClassName('apexcharts-legend-text')[3]
-    ) {
-      document.getElementsByClassName(
-        'apexcharts-legend-text',
-      )[3].innerText = document
-        .getElementsByClassName('apexcharts-legend-text')[3]
-        .innerText.replace('Line', '');
-      document.getElementsByClassName(
-        'apexcharts-legend-text',
-      )[3].innerText = document
-        .getElementsByClassName('apexcharts-legend-text')[3]
-        .innerText.replace('Line', '');
-    }
+    // if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
+    //   document.getElementsByClassName(
+    //     'apexcharts-menu-icon',
+    //   )[0].title = 'Export';
+    // }
+    // if (
+    //   document.getElementsByClassName('apexcharts-legend-text')[0]
+    // ) {
+    //   // document.getElementsByClassName(
+    //   //   'apexcharts-legend-text',
+    //   // )[0].innerText = document
+    //   //   .getElementsByClassName('apexcharts-legend-text')[0]
+    //   //   .innerText.replace('Bar', '');
+    //   // document.getElementsByClassName(
+    //   //   'apexcharts-tooltip-text-label',
+    //   // )[0].innerText = document
+    //   //   .getElementsByClassName('apexcharts-tooltip-text-label')[0]
+    //   //   .innerText.replace('Bar', '');
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[0].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[0]
+    //     .innerText.replace('Bar', '');
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[0].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[0]
+    //     .innerText.replace('Bar', '');
+    // }
+    // if (
+    //   document.getElementsByClassName('apexcharts-legend-text')[3]
+    // ) {
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[3].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[3]
+    //     .innerText.replace('Line', '');
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[3].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[3]
+    //     .innerText.replace('Line', '');
+    // }
     // document.getElementsByClassName(
     //   'apexcharts-legend-series',
     // )[1].style.display = 'none';

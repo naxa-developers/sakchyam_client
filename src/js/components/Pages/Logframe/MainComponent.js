@@ -241,22 +241,27 @@ class MainComponent extends Component {
   };
 
   updateScrollResponsive = () => {
-    // const windowPos = window.pageYOffset;
-    // if (windowPos >= 200) {
-    //   document
-    //     .querySelector('.content .sidebar')
-    //     .classList.add('sidebar-sticky');
-    //   document
-    //     .querySelector('.content .info-content')
-    //     .classList.add('sticky-content');
-    // } else {
-    //   document
-    //     .querySelector('.content .sidebar')
-    //     .classList.add('sidebar-sticky');
-    //   document
-    //     .querySelector('.content .info-content')
-    //     .classList.remove('sticky-content');
-    // }
+    const windowPos = window.pageYOffset;
+    if (windowPos >= 100) {
+      document
+        .querySelector('.content .sidebar')
+        .classList.add('sidebar-sticky');
+      document
+        .querySelector('.content .info-content')
+        .classList.add('sticky-content');
+    } else {
+      document
+        .querySelector('.content .sidebar')
+        .classList.add('sidebar-sticky');
+      document
+        .querySelector('.content .info-content')
+        .classList.remove('sticky-content');
+    }
+    if (windowPos >= 50) {
+      document.querySelector('body').classList.add('scroll-event');
+    } else {
+      document.querySelector('body').classList.remove('scroll-event');
+    }
   };
 
   componentDidMount() {
@@ -287,17 +292,17 @@ class MainComponent extends Component {
   };
 
   updateWindowDimensions = () => {
-    document.getElementsByClassName('apexcharts-menu-icon')[0].title =
-      'Export';
-    if (
-      document.getElementsByClassName('apexcharts-legend-text')[3]
-    ) {
-      document.getElementsByClassName(
-        'apexcharts-legend-text',
-      )[3].innerText = document
-        .getElementsByClassName('apexcharts-legend-text')[3]
-        .innerText.replace('Line', '');
-    }
+    // document.getElementsByClassName('apexcharts-menu-icon')[0].title =
+    //   'Export';
+    // if (
+    //   document.getElementsByClassName('apexcharts-legend-text')[3]
+    // ) {
+    //   document.getElementsByClassName(
+    //     'apexcharts-legend-text',
+    //   )[3].innerText = document
+    //     .getElementsByClassName('apexcharts-legend-text')[3]
+    //     .innerText.replace('Line', '');
+    // }
     // document.getElementsByClassName(
     //   'apexcharts-legend-series',
     // )[1].style.display = 'none';

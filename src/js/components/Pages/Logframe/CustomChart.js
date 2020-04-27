@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import 'apexcharts';
+// import 'apexcharts';
 
 // require 'apexcharts';
 require('apexcharts');

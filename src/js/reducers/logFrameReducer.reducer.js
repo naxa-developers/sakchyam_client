@@ -70,6 +70,7 @@ const initialState = {
   ],
   options: {
     chart: {
+      // offsetY: -0,
       toolbar: {
         show: true,
         // offsetX: 0,
@@ -214,7 +215,9 @@ const initialState = {
       type: 'category',
     },
     yaxis: {
+      tickPlacement: 'between',
       // y: 8200,
+      // y: 1000,
       crosshairs: {
         show: true,
         position: 'back',
@@ -255,9 +258,9 @@ const initialState = {
         offsetY: 0,
         rotate: 0,
         formatter: value => {
-          console.log(value, 'v');
+          // console.log(value, 'v');
           const roundNumber = Math.round(value);
-          console.log(convert(roundNumber));
+          // console.log(convert(roundNumber));
           //   console.log(convert(roundNumber));
           return convert(roundNumber);
         },
@@ -287,6 +290,7 @@ const initialState = {
       intersect: false,
       y: {
         formatter(y) {
+          // console.log(y, 'y');
           if (typeof y !== 'undefined') {
             return `${y.toFixed(0)} £`;
           }
@@ -314,10 +318,10 @@ const filterIndicatorGraphData = (state, action) => {
   const dataUnit = filtered[0].unit;
 
   const planned = filtered.map(el => {
-    return el.planned_afp;
+    return `${el.planned_afp} ${dataUnit}`;
   });
   const achieved = filtered.map(el => {
-    return el.achieved;
+    return `${el.achieved} ${dataUnit}`;
   });
   const label = filtered.map(el => {
     //   console.log(el, 'elLabel');
@@ -475,13 +479,14 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       }
     });
   });
+  const dataUnit = filtered[0].unit;
   // const { dataType } = filtered[0];
 
   const planned = filtered.map(el => {
-    return el.planned_afp;
+    return `${el.planned_afp} ${dataUnit}`;
   });
   const achieved = filtered.map(el => {
-    return el.achieved;
+    return `${el.achieved} ${dataUnit}`;
   });
   const label = filtered.map(el => {
     //   console.log(el, 'elLabel');

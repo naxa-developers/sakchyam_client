@@ -100,10 +100,9 @@
     font-variant: petite-caps !important; 
     font-size: 0.875rem !important;
 } 
-// .apexcharts-svg .apexcharts-yaxis {
-//     // transform: translate(37px, 0px) !important;
-//     transform: translate(72px, 0px) !important;
-// }
+.apexcharts-svg .apexcharts-yaxis {
+  transform: translate(40px, 2px) !important;
+}
 .apexcharts-menu-icon{
     top: 6px;
     left: 4px;
