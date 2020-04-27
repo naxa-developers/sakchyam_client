@@ -694,7 +694,7 @@ class MiddleChartSection extends Component {
                       }`}
                     >
                       {activeDateValues.length === 0
-                        ? 'Nothing Selected'
+                        ? 'All'
                         : `${activeDateValues},`}
                     </span>
                     <ul
