@@ -241,27 +241,46 @@ class MainComponent extends Component {
   };
 
   updateScrollResponsive = () => {
-    const windowPos = window.pageYOffset;
-    if (windowPos >= 100) {
-      document
-        .querySelector('.content .sidebar')
-        .classList.add('sidebar-sticky');
-      document
-        .querySelector('.content .info-content')
-        .classList.add('sticky-content');
-    } else {
-      document
-        .querySelector('.content .sidebar')
-        .classList.add('sidebar-sticky');
-      document
-        .querySelector('.content .info-content')
-        .classList.remove('sticky-content');
-    }
-    if (windowPos >= 50) {
+    // const windowPos = window.pageYOffset;
+    // if (windowPos >= 200) {
+    //   document
+    //     .querySelector('.content .sidebar')
+    //     .classList.add('sidebar-sticky');
+    //   document
+    //     .querySelector('.content .info-content')
+    //     .classList.add('sticky-content');
+    //   document.querySelector('body').classList.add('scroll-event');
+    // } else {
+    //   document
+    //     .querySelector('.content .sidebar')
+    //     .classList.add('sidebar-sticky');
+    //   document
+    //     .querySelector('.content .info-content')
+    //     .classList.remove('sticky-content');
+    //   document.querySelector('body').classList.remove('scroll-event');
+    // }
+    // const a =
+    // if (windowPos >= 50) {
+    //   document.querySelector('body').classList.add('scroll-event');
+    // } else {
+    //   document.querySelector('body').classList.remove('scroll-event');
+    // }
+    // const $contetntY = $('.content').offset().top;
+    // console.log($contetntY);
+    // if ($contetntY > 0) {
+    //   $('body').addClass('scroll-event');
+    // } else {
+    //   $('body').removeClass('scroll-event');
+    // }
+
+    const contentEl = document.getElementsByClassName('content')[0]
+      .offsetTop;
+    if (contentEl > 0) {
       document.querySelector('body').classList.add('scroll-event');
     } else {
       document.querySelector('body').classList.remove('scroll-event');
     }
+    console.log(contentEl, 'contentoffset');
   };
 
   componentDidMount() {

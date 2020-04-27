@@ -199,7 +199,7 @@
         padding: 30px 110px 5px;
         position: relative;
         margin-left: 302px;
-        overflow: auto;
+        // overflow: auto;
         a.toggle_button{
             width: 20px;
             height: 20px;
@@ -610,6 +610,27 @@
                     color: $text-color;
                     cursor: pointer;
                 }
+            }
+        }
+    }
+}
+body{
+    &.scroll-event{
+        .content{
+            .sidebar{
+                padding-top:0;
+            }
+            .info-content{
+                .info-content-wrap{
+                    .info-content-header{
+                        .info-header-top,h3{
+                            display: none;
+                        }
+                    }
+                }
+            }
+            &.content-mod{
+                padding-top:50px;
             }
         }
     }

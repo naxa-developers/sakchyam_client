@@ -70,6 +70,7 @@ const initialState = {
   ],
   options: {
     chart: {
+      parentHeightOffset: 15,
       // offsetY: -0,
       toolbar: {
         show: true,
@@ -193,12 +194,13 @@ const initialState = {
       offsetY: 0,
     },
     xaxis: {
+      tickAmount: 10,
       crosshairs: {
         show: true,
         position: 'back',
         stroke: {
-          color: '#b6b6b6',
-          width: 1,
+          color: '#ffffff',
+          width: 0,
           dashArray: 0,
         },
       },
@@ -216,6 +218,8 @@ const initialState = {
       type: 'category',
     },
     yaxis: {
+      // floating: true
+      decimalsInFloat: 2,
       tickPlacement: 'between',
       // y: 8200,
       // y: 1000,
@@ -239,7 +243,7 @@ const initialState = {
           cssClass: 'apexcharts-yaxis-title',
         },
       },
-      floating: true,
+      // floating: true,
       // align: 'center',
       // minWidth: '200',
       // maxWidth: '200',
@@ -259,6 +263,9 @@ const initialState = {
         offsetY: 0,
         rotate: 0,
         formatter: value => {
+          if (value < 5) {
+            return value.toFixed(1);
+          }
           // console.log(value, 'v');
           const roundNumber = Math.round(value);
           // console.log(convert(roundNumber));
@@ -318,11 +325,18 @@ const filterIndicatorGraphData = (state, action) => {
   const dataType = filtered[0].data_type;
   const dataUnit = filtered[0].unit;
 
+  let unit = '';
+  console.log(dataUnit, 'dataunit');
+  if (dataUnit === 'pound') {
+    unit = '£';
+  } else if (dataUnit === 'nrs') {
+    unit = 'Rs';
+  }
   const planned = filtered.map(el => {
-    return `${el.planned_afp} ${dataUnit}`;
+    return `${el.planned_afp}`;
   });
   const achieved = filtered.map(el => {
-    return `${el.achieved} ${dataUnit}`;
+    return `${el.achieved}`;
   });
   const label = filtered.map(el => {
     //   console.log(el, 'elLabel');
@@ -390,6 +404,19 @@ const filterIndicatorGraphData = (state, action) => {
           text: `${dataType}  ${
             dataUnit !== null ? `(${dataUnit})` : ''
           }`,
+        },
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter(y) {
+            // console.log(y, 'y');
+            if (typeof y !== 'undefined') {
+              return `${unit} ${y.toFixed(0)}`;
+            }
+            return y;
+          },
         },
       },
     },
@@ -481,13 +508,19 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     });
   });
   const dataUnit = filtered && filtered[0] && filtered[0].unit;
+  let unit = '';
+  if (dataUnit === 'pound') {
+    unit = '£';
+  } else if (dataUnit === 'nrs') {
+    unit = 'Rs';
+  }
   // const { dataType } = filtered[0];
 
   const planned = filtered.map(el => {
-    return `${el.planned_afp} ${dataUnit}`;
+    return `${el.planned_afp}`;
   });
   const achieved = filtered.map(el => {
-    return `${el.achieved} ${dataUnit}`;
+    return `${el.achieved}`;
   });
   const label = filtered.map(el => {
     //   console.log(el, 'elLabel');
@@ -535,6 +568,19 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       ...state.options,
       labels: label,
       xaxis: { ...state.options.xaxis, categories: category },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter(y) {
+            // console.log(y, 'y');
+            if (typeof y !== 'undefined') {
+              return `${unit} ${y.toFixed(0)}`;
+            }
+            return y;
+          },
+        },
+      },
     },
   };
 };

@@ -243,6 +243,13 @@
         animation-iteration-count: 1; */
     }
 }
+body{
+    &.scroll-event{
+        .main-header{
+            display:none;
+        }
+    }
+}
 
 @media #{$breakpoint-xxl}{
     .main-header{
