@@ -89,6 +89,7 @@ const initialState = {
         // autoSelected: 'zoom',
       },
       height: 350,
+      // width: '100%',
       type: 'line',
       stacked: false,
       events: {
@@ -479,7 +480,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       }
     });
   });
-  const dataUnit = filtered[0].unit;
+  const dataUnit = filtered && filtered[0] && filtered[0].unit;
   // const { dataType } = filtered[0];
 
   const planned = filtered.map(el => {
