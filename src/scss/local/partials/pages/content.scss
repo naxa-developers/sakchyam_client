@@ -614,6 +614,27 @@
         }
     }
 }
+body{
+    &.scroll-event{
+        .content{
+            .sidebar{
+                padding-top:0;
+            }
+            .info-content{
+                .info-content-wrap{
+                    .info-content-header{
+                        .info-header-top,h3{
+                            display: none;
+                        }
+                    }
+                }
+            }
+            &.content-mod{
+                padding-top:50px;
+            }
+        }
+    }
+}
 
 @media #{$breakpoint-xxl}{
     .content{
