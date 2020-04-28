@@ -1,9 +1,25 @@
+import gradStop from 'gradstop';
+import React from "react";
+// import ReactDOMServer from 'react-dom/server';
+// import HospitalIcon from './Icons/HealthFacilityIcon';
+
+export const choroplethColorArray = (stops, color) =>{
+    // console.log(color, "color func")
+    var gradient = gradStop({
+        stops: stops,
+        inputFormat: 'hex',
+        colorArray: ['#ffffff', color]
+    });
+    return gradient;
+}
+
 export const getMarkerColor = (value, type, colors) => {
     var color = "";
     type.map((data, i) => {
         if(value && value.toLowerCase().trim().replace(/\s/g, '') == data.toLowerCase().trim().replace(/\s/g, '')){
             color = colors[i];
         }
+      
     })
     return color;
 }
@@ -24,22 +40,13 @@ export const getProvinceCircleSize = (count, max, min) => {
 export const setProvinceCircleSize = (counts) => {
     const min = Math.min(...counts);
     const max = Math.max(...counts);
-    counts.map((data,i) =>{
-            // console.log(document.getElementById("provinceCount1"), "setinnerhtml")
-            
-            var size = getProvinceCircleSize(data, max, min);
-            // console.log(size, "size")
-            // document.getElementById("provinceCount"+(i+1)).innerHTML = data;
-            // document.getElementById("provinceCount"+(i+1)).style.lineHeight = size+"px";
-            // document.getElementById("circle"+(i+1)).style.width = size+"px";
-            // document.getElementById("circle"+(i+1)).style.height = size+"px";
-            // document.getElementById("circle"+(i+1)).style.marginLeft = size>=35?-(size/4)+"px":-(size/15)+"px";
-        
+    counts.map((data,i) =>{   
+        var size = getProvinceCircleSize(data, max, min);
         return([data, size]);
     })            
 }
 
-export const label_Vector_Tiles = (feature, vt_label_province, vt_label_district, vt_label_municipality, labelcount, provinceCounts) => { 
+export const label_Vector_Tiles = (feature, vt_label_province, labelcount, provinceCounts) => { 
     var name = "";
     // console.log(provinceCounts, "functions")
     var lat = feature.properties.Centroid_Y;
@@ -52,7 +59,8 @@ export const label_Vector_Tiles = (feature, vt_label_province, vt_label_district
         var marginLeft = size>=35?-(size/5)+"px":-(size/15)+"px";
         // console.log(name, "functions name")
         var divIconP = L.divIcon({
-            html: "<div align='center' class='circle' id = 'circle"+feature.properties.id+"' style='width:"+size+"px !important; height:"+size+"px !important; margin-left:"+marginLeft+"'><span id= 'provinceCount"+feature.properties.id+"' class='text_circle' style ='line-height:"+size+"px;'>"+provinceCounts[feature.properties.id]+"</span></div><text class='fed_labelText' style='color:#383838; font-size: 10px; margin-left: -10px;'>" + name + "</text>",
+            html: "<div align='center' class='circle' id = 'circle"+feature.properties.id+"' style='width:"+size+"px !important; height:"+size+"px !important; margin-left:"+marginLeft+"'><span id= 'provinceCount"+feature.properties.id+"' class='text_circle' style ='margin-left:-2px; line-height:"+size+"px;'>"+provinceCounts[feature.properties.id]+"</span></div><text class='fed_labelText' style='color:#383838; font-size: 10px; margin-left: -10px;'>" + name + "</text>",
+            // html: "<div align='center' class='circle' id = 'circle"+feature.properties.id+"' style='width:"+size+"px !important; height:"+size+"px !important; margin-left:"+marginLeft+"'>"+ReactDOMServer.renderToString(<HospitalIcon/>)+"<span id= 'provinceCount"+feature.properties.id+"' class='text_circle' style ='margin-left:-2px; line-height:"+size+"px;'>"+provinceCounts[feature.properties.id]+"</span></div><text class='fed_labelText' style='color:#383838; font-size: 10px; margin-left: -10px;'>" + name + "</text>",
             iconAnchor: [12, 0],
         });
         
@@ -60,44 +68,22 @@ export const label_Vector_Tiles = (feature, vt_label_province, vt_label_district
             icon: divIconP
         });
 
+        vt_label_marker_P.bindTooltip("<div>Number of Health Facilities</div>")
+        // vt_label_marker_P.on("mouseover", ()=>{
+        //     vt_label_marker_P.openPopup();
+        //   })
+        
+        //   vt_label_marker_P.on('mouseout', () => {
+        //     vt_label_marker_P.closePopup();
+        // });
+
         if (countEqual(vt_label_province._layers, vt_label_marker_P, labelcount) > 0) {
             //do nothing
         } else {
             vt_label_marker_P.addTo(vt_label_province);
         }
 
-    } else if (feature.properties.hasOwnProperty('DistLabel')) {
-        name = feature.properties.Name;
-        var divIconD = L.divIcon({
-            html: "<span class='fed_labelText' style='color:white !important; background:none; font-size: 9px;'>" + name + "</span>",
-            iconAnchor: [12, 0],
-        });
-
-        var vt_label_marker_D = L.marker([lat, long], {
-            icon: divIconD
-        });
-        if (countEqual(vt_label_district._layers, vt_label_marker_D, labelcount) > 0) {
-            //do nothing
-        } else {
-            vt_label_marker_D.addTo(vt_label_district);
-        }
-    } else if (feature.properties.hasOwnProperty('GaPa_NaPa')) {
-        name = feature.properties.Name;
-        var divIconM = L.divIcon({
-            html: "<span class='fed_labelText' style='color:white !important;background:none; font-size: 8px; '>" + name + "</span>",
-            iconAnchor: [12, 0],
-        });
-
-        var vt_label_marker_M = L.marker([lat, long], {
-            icon: divIconM
-        });
-        //vt_label_marker_M.addTo(vt_label_muclnicipality);
-        if (countEqual(vt_label_municipality._layers, vt_label_marker_M, labelcount) > 0) {
-            //do nothing
-        } else {
-            vt_label_marker_M.addTo(vt_label_municipality);                    
-        }
-    }   
+    } 
 }
 
 
@@ -116,7 +102,8 @@ export const calculateRange = (start, end1, step) => {
     var typeofEnd = typeof end;
 
     if (step === 0) {
-        throw TypeError("Step cannot be zero.");
+        console.log("Step cannot be zero.");
+        // throw TypeError("Step cannot be zero.");
     }
 
     if (typeofStart == "undefined" || typeofEnd == "undefined") {
@@ -132,11 +119,12 @@ export const calculateRange = (start, end1, step) => {
     }
 
     if (typeofStart == "number") {
-
+        // console.log("start is number", end)
         while (step > 0 ? end >= start : end <= start) {
             if (end <= 10) {
                 range.push(start.toFixed(2));
             } else {
+                // console.log("start math round", start)
                 range.push(Math.round(start));
             }
 
@@ -144,9 +132,9 @@ export const calculateRange = (start, end1, step) => {
         }
         if (isOdd(Math.round(end))) {
             if (end <= 10) {
-                range.push(end.toFixed(2));
+                range[range.length-1] = end.toFixed(2);
             } else {
-                range.push(Math.round(end));
+                range[range.length-1] = Math.round(end);
             }
         }
 
@@ -172,22 +160,25 @@ export const calculateRange = (start, end1, step) => {
 
 }
 
-export const getProvinceName = (id) => {
-      if (id === 3) {
-        return "Bagmati";
-      } else if (id === 4) {
-        return "Gandaki";
-      } else if (id === 6) {
-        return "Karnali";
-      } else if (id === 7) {
-        return "Sudurpaschim";
-      } else if(id === 1){
-        return "Province1";
-      }else if(id === 2){
-        return "Province2";
-      }else if(id === 5){
-        return "Province5";
-      }
+export const getProvinceName = (id, language) => {
+    language == null?language='en':language
+    var ProvinceName;
+    if (id === 3) {
+      ProvinceName = language == 'en'?"Bagmati":"बाग्मती प्रदेश";
+    } else if (id === 4) {
+      ProvinceName = language == 'en'?"Gandaki":"गण्डकी प्रदेश";
+    } else if (id === 6) {
+      ProvinceName = language == 'en'?"Karnali":"कर्णाली प्रदेश";
+    } else if (id === 7) {
+      ProvinceName = language == 'en'? "Sudurpashchim":"सुदूरपश्चिम प्रदेश";
+    } else if(id === 1){
+      ProvinceName = language == 'en'? "Province1":"प्रदेश नं १";
+    }else if(id === 2){
+      ProvinceName = language == 'en'? "Province2":"प्रदेश नं २";
+    }else if(id === 5){
+      ProvinceName = language == 'en'? "Province5":"प्रदेश नं ५";
+    }
+    return ProvinceName;
 }
 
 export const countEqual = (oo, pp, labelcount) => {
@@ -209,10 +200,8 @@ export const countEqual = (oo, pp, labelcount) => {
 } 
 
 export const handleMarkerZoom = (map, layers) => {
-    console.log(map,'map');
-    console.log(layers,'layers');
     var zoom = map.getZoom();
-    console.log(zoom, "zoom")
+    console.log(map.getBounds(), "bounds")
     layers.length>0 ? layers.map(layer =>{
         if((zoom<=5 || zoom > 7.5) && window[layer]){
             // console.log("zoom <=5 or zoom>7")
@@ -221,34 +210,15 @@ export const handleMarkerZoom = (map, layers) => {
         else{
             map.removeLayer(window[layer])
         }
-    }):(((zoom<=5 || zoom >7.5) && layers)?map.addLayer(layers):map.removeLayer(layers))
+    }):(((zoom<=5 || zoom > 7.5) && layers)?map.addLayer(layers):map.removeLayer(layers))
 }
 
-export const handleZoom = (map, province, district, municipality, vt_label_province, vt_label_district, vt_label_municipality, labelcount) => {
+export const handleZoom = (map, province, vt_label_province) => {
         var zoom = map.getZoom();
-        var activeLayer = null;
-        // console.log(zoom,"zoom");        
-        if (map.hasLayer(district)) {
-            activeLayer = vt_label_district;
-        } else if (map.hasLayer(municipality)) {
-            activeLayer = vt_label_municipality;
-        } else {
-            activeLayer = vt_label_province;
-        }
-
-        if ((zoom<=5 || zoom > 7.5) && activeLayer == vt_label_province) {
-            map.removeLayer(vt_label_province);
-            // console.log("zoom > 7")
-        } else if (zoom < 9 && activeLayer == vt_label_district) {
-            map.removeLayer(vt_label_district);
-            map.removeLayer(vt_label_province);
-        } else if (zoom < 11 && activeLayer == vt_label_municipality) {
-            map.removeLayer(vt_label_municipality);
-            map.removeLayer(vt_label_district);
+        // console.log(map.getBounds(), "bounds")
+        if ((zoom<=5 || zoom > 7.5)) {
             map.removeLayer(vt_label_province);
         } else if (zoom <= 7.5 && map.hasLayer(province)) {
-            labelcount = 0;
             map.addLayer(vt_label_province);
-            map.addLayer(activeLayer);
         }
 }
