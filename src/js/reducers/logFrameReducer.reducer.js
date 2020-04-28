@@ -162,12 +162,12 @@ const initialState = {
     },
     colors: ['#b41833', '#287078'],
     fill: {
-      opacity: [0.45, 0.75, 0.15],
+      opacity: [0.45, 0.75, 0.15, 0.2],
       gradient: {
         inverseColors: false,
         shade: 'light',
         type: 'vertical',
-        opacityFrom: 0.25,
+        opacityFrom: 0,
         opacityTo: 0,
         stops: [0, 100, 100, 100],
       },
@@ -263,7 +263,7 @@ const initialState = {
         offsetY: 0,
         rotate: 0,
         formatter: value => {
-          if (value < 5) {
+          if (value <= 1) {
             return value.toFixed(1);
           }
           // console.log(value, 'v');
@@ -326,10 +326,15 @@ const filterIndicatorGraphData = (state, action) => {
   const dataUnit = filtered[0].unit;
 
   let unit = '';
-  console.log(dataUnit, 'dataunit');
-  if (dataUnit === 'pound') {
+  let type = '';
+  console.log(dataUnit, 'dataUnit');
+  if (dataType === 'percentage') {
+    type = '%';
+  } else if (dataUnit === 'pound') {
     unit = '£';
   } else if (dataUnit === 'nrs') {
+    unit = 'Rs';
+  } else if (dataUnit === 'percentage') {
     unit = 'Rs';
   }
   const planned = filtered.map(el => {
@@ -413,7 +418,7 @@ const filterIndicatorGraphData = (state, action) => {
           formatter(y) {
             // console.log(y, 'y');
             if (typeof y !== 'undefined') {
-              return `${unit} ${y.toFixed(0)}`;
+              return `${unit} ${y.toFixed(0)}${type}`;
             }
             return y;
           },

@@ -17,7 +17,7 @@ class MainComponent extends Component {
     this.state = {
       activeIndicator: 'IMPACT',
       activeLayer: 'Impact Indicator 1',
-      activeDataType: 'Cummulative',
+      activeDataType: 'Cumulative',
       dateRange: [],
       activeModal: false,
       // width: '',

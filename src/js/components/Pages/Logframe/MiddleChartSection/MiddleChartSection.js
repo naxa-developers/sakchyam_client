@@ -253,11 +253,25 @@ class MiddleChartSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
-    //   document.getElementsByClassName(
-    //     'apexcharts-menu-icon',
-    //   )[0].title = 'Export';
+    console.log(this.state.activeBar, 'activeBar state update');
+    console.log(this.state.activeBar, 'activeBar state update');
+    // if()
+    // (!prevState.activeBar && !this.state.activeTimeGraph) {
+    //   alert('else if ');
+    //   this.chartRef.chart.showSeries(
+    //     'Planned As per AFP contract Budget',
+    //   );
+    //   this.chartRef.chart.showSeries('Achieved Bar');
+    //   this.chartRef.chart.showSeries(
+    //     'Planned As per AFP contract Budget Line',
+    //   );
+    //   this.chartRef.chart.showSeries('Achieved');
     // }
+    if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
+      document.getElementsByClassName(
+        'apexcharts-menu-icon',
+      )[0].title = 'Export';
+    }
     // if (
     //   document.getElementsByClassName('apexcharts-legend-text')[0]
     // ) {
@@ -695,7 +709,7 @@ class MiddleChartSection extends Component {
                     >
                       {activeDateValues.length === 0
                         ? 'All'
-                        : `${activeDateValues},`}
+                        : `${activeDateValues}`}
                     </span>
                     <ul
                       className={`ul-dropdown ${
