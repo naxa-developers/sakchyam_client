@@ -62,7 +62,7 @@ class Landing extends Component {
                   <span className="small"> To</span>
                   <br />
                   {' '}
-                  Data Visualization Tool 
+                  Data Visualization Port 
                   {' '}
                   <span className="abbr">(DVT)</span>
                 </h1>

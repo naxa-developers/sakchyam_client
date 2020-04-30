@@ -68,7 +68,7 @@ export const label_Vector_Tiles = (feature, vt_label_province, labelcount, provi
             icon: divIconP
         });
 
-        vt_label_marker_P.bindTooltip("<div>Number of Health Facilities</div>")
+        vt_label_marker_P.bindTooltip("<div>Number of Automation Deployed</div>")
         // vt_label_marker_P.on("mouseover", ()=>{
         //     vt_label_marker_P.openPopup();
         //   })

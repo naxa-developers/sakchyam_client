@@ -167,7 +167,7 @@
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   border-radius: 5px;
-  min-width: 270px;
+  min-width: 306px;
 }
 .map-legend ul.color-legend li {
   -webkit-box-flex: 0;
@@ -212,3 +212,9 @@
 // .apexcharts-yaxis-title-text{
 //   y:272.674;
 // }
+.none {
+  display:none !important;
+}
+.flex{
+  display: flex !important;
+}

@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { withLeaflet } from 'react-leaflet';
 import VectorGridDefault from 'react-leaflet-vectorgrid';
+import {connect} from 'react-redux';
 // import ScrollTab from './ScrollTab';
 const VectorGrid = withLeaflet(VectorGridDefault);
 import {label_Vector_Tiles, calculateRange, handleZoom, choroplethColorArray, getProvinceName} from "./Functions";
+import { filterDistrictFromProvinceColor } from "../../../actions/automation.actions";
 // import './Developers_css/vectorgrid.css';
 
 var map = {};
@@ -103,6 +105,7 @@ class VectorGridComponent extends Component {
     }
 
     setChoroplethStyle = (layer, values) =>{
+        
         values.map((value) => {
             var color = this.getLegendColor(value.count);
             var newStyle= {};
@@ -128,6 +131,7 @@ class VectorGridComponent extends Component {
 
     loadProvinceCircles=()=>{
         province = this.vectorGridRef.current.leafletElement;
+        console.log(province,'ProvinceRef')
             var infoDiv = this.infoDivRef.current;
             map = this.props.mapRef.current.leafletElement;
             console.log('if case')
@@ -148,9 +152,15 @@ class VectorGridComponent extends Component {
                     handleZoom(map, province, vt_label_province);
                 }
             });
-
+            province.on("click",(e)=>{
+                this.props.handleProvinceClick(e.layer.properties.id);
+                this.props.filterDistrictFromProvinceColor(e.layer.properties.id);
+                // const a = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
+                // console.log(e.layer.properties.code);
+                // console.log(a,'a'); 
+                // console.log(`${a}&province_id=${e.layer.properties.code}`,'a'); 
+            });
             province.on("mouseover",(e)=>{
-                // console.log(e, "ee")
                 var provName = "";
                 // console.log(provName, "provName")
                 var level = "";
@@ -189,6 +199,7 @@ class VectorGridComponent extends Component {
     componentDidMount(){
         map = this.props.mapRef.current.leafletElement;
         province = this.vectorGridRef.current.leafletElement;
+        console.log(this.vectorGridRef,'vectorGridre')
         // console.log(province, "refrefref")
         map.addLayer(vt_label_province);
         this.changeGrades();
@@ -196,6 +207,7 @@ class VectorGridComponent extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
+        console.log('update')
         if(prevProps.provinceCounts != this.props.provinceCounts){
             
         }
@@ -208,7 +220,7 @@ class VectorGridComponent extends Component {
 
     render() {
         const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
-        // console.log(provinceUrl,"provinceUrl")
+        console.log(provinceUrl,"provinceUrlss")
         var style = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
         // console.log(this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle, "defaultstyle")
         const options = {
@@ -218,13 +230,15 @@ class VectorGridComponent extends Component {
             // },
             getFeatureId: function (feature) {
                 console.log(feature, "feature  ")
-                return feature.properties.id; // feature.properties.code
+                return feature.properties.code; // feature.properties.code
             },
             url: provinceUrl,
-            vectorTileLayerStyles: {Province: style},
+            vectorTileLayerStyles: {default: style},
+            // vectorTileLayerStyles: {Default: style},
             subdomains: 'abcd',
             key: 'abcdefghi01234567890',
         };
+        // console.log(province && province.getBounds(),'ProvinceRefBound')
         return (
             <div>
                 <VectorGrid {...options} ref={this.vectorGridRef}></VectorGrid>
@@ -259,4 +273,8 @@ class VectorGridComponent extends Component {
         )
     }
 }
-export default VectorGridComponent;
+const mapStateToProps = ({ automationReducer }) => ({
+    automationReducer,
+});
+
+export default connect(mapStateToProps, {filterDistrictFromProvinceColor})(VectorGridComponent)

@@ -50,7 +50,7 @@ class App extends Component {
           <Route path="/forgot-password" component={ForgotPassword} />
           {/* <Route path="/signup" component={SignUp} /> */}
           <PrivateRoute path="/logframe" component={MainComponent} />
-          <PrivateRoute path="/landing" component={Landing} />
+          {/* <PrivateRoute path="/" component={Landing} /> */}
           <PrivateRoute
             path="/automation"
             component={MainAutomation}
