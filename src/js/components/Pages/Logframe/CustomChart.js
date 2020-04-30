@@ -15,9 +15,21 @@ export default class CustomChart extends Component {
 
   render() {
     // const { activeLayer, statsData } = this.state;
-    const { options, series, chartRef } = this.props;
+    const {
+      options,
+      series,
+      chartRef,
+      activeDateValues,
+    } = this.props;
     return (
       <div id="chart">
+        {/* {activeDateValues.length === 0 ? (
+          <label>
+            {activeDateValues.length === 0
+              ? 'No Data Selected'
+              : `${activeDateValues}`}
+          </label>
+        ) : ( */}
         <ReactApexChart
           ref={chartRef}
           options={options}
@@ -26,6 +38,7 @@ export default class CustomChart extends Component {
           height={500}
           // width={600}
         />
+        {/* )} */}
       </div>
     );
   }

@@ -81,7 +81,7 @@ class Login extends Component {
     } = this.props;
 
     if (redirectToReferrer === true) {
-      return <Redirect to="/landing" />;
+      return <Redirect to="/" />;
     }
     const { username, password } = this.state;
 

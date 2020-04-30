@@ -438,7 +438,34 @@ class MiddleChartSection extends Component {
     }));
   };
 
+  changedElementCss = () => {
+    document
+      .getElementsByClassName('apexcharts-tooltip-series-group')[0]
+      .classList.add('flex');
+    document
+      .getElementsByClassName('apexcharts-tooltip-series-group')[1]
+      .classList.add('none');
+    document
+      .getElementsByClassName('apexcharts-tooltip-series-group')[2]
+      .classList.add('flex');
+    document
+      .getElementsByClassName('apexcharts-tooltip-series-group')[3]
+      .classList.add('none');
+  };
+
   handleBarClick = () => {
+    console.log(
+      document.getElementsByClassName(
+        'apexcharts-tooltip-series-group',
+      ),
+      'tooltipl Elements',
+    );
+    // setTimeout(() => {
+    //   this.changedElementCss();
+    // }, 2000);
+    // for (let i = 0; i < a.length; i + 1) {
+    //   a[i].style.display = 'none';
+    // }
     console.log(this.state.activeBar, 'activeBar 1st');
     this.setState(prevState => ({
       activeBar: !prevState.activeBar,
@@ -708,7 +735,7 @@ class MiddleChartSection extends Component {
                       }`}
                     >
                       {activeDateValues.length === 0
-                        ? 'All'
+                        ? 'Choose Time Period'
                         : `${activeDateValues}`}
                     </span>
                     <ul
@@ -924,6 +951,7 @@ class MiddleChartSection extends Component {
                 Previous
               </button>
               <CustomChart
+                activeDateValues={activeDateValues}
                 activeLayer={activeLayer}
                 activeDate={activeDate}
                 updateChart={updateChart}
@@ -933,6 +961,7 @@ class MiddleChartSection extends Component {
                   this.chartRef = arg;
                 }}
               />
+
               <button
                 onClick={this.nextBtnClick}
                 type="button"
@@ -970,6 +999,14 @@ class MiddleChartSection extends Component {
                   width={100}
                   visible={!isDataFetched}
                 />
+                <label
+                  style={{
+                    display: isDataFetched ? 'none' : 'block',
+                    marginLeft: '15px',
+                  }}
+                >
+                  Loading...
+                </label>
               </div>
             </div>
           </div>

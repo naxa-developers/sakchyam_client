@@ -9,7 +9,11 @@ class MainAutomation extends Component {
   }
 
   render() {
-    return <MapComponent mapRef={this.mapRef} />;
+    return (
+      <>
+        <MapComponent mapRef={this.mapRef} />
+      </>
+    );
   }
 }
 
