@@ -995,3 +995,27 @@ body{
         } 
     } 
 }
+.span-label{
+    &:last-child{
+        margin-left: 8px;
+    }
+    font-family: $avenir-heavy;
+    font-size: 1rem;
+    padding: 8px 20px 7px 50px;
+    line-height: 1.5rem;
+    color: $text-color;
+    background: $white-color;
+    border: .8px solid $primary-xs-light;
+    @include transition(all .3s ease-in-out);
+    @include radius(20px);
+    cursor: pointer;
+    &:hover{
+        background-color: $red-light;
+    }
+    &.span-active{
+        background-color: $red-light;
+    }
+    &.span-inactive{
+        opacity: .5;
+    }
+}

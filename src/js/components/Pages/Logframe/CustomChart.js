@@ -11,7 +11,23 @@ export default class CustomChart extends Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  // componentDidMount() {
+  //   const firstLegend = document.getElementsByClassName(
+  //     'apexcharts-legend-series',
+  //   )[0];
+  //   // firstLegend.addEventListener('click', function() {
+  //   //   alert('clicked First Legend');
+  //   // });
+  //   // const firstLegend = document.getElementsByClassName(
+  //   //   'apexcharts-legend-series',
+  //   // )[0];
+  //   // const secondLegend = document.getElementsByClassName(
+  //   //   'apexcharts-legend-series',
+  //   // )[3];
+  //   firstLegend.addEventListener('click', async event => {
+  //     console.log('clicked firstlegend');
+  //   });
+  // }
 
   render() {
     // const { activeLayer, statsData } = this.state;
