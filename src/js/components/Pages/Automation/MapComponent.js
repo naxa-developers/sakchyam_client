@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { Map } from 'react-leaflet';
 import Loader from 'react-loader-spinner';
-
 import 'leaflet/dist/leaflet.css';
+
+import L from 'leaflet';
 import 'react-leaflet-markercluster/dist/styles.min.css';
 import Axios from 'axios';
 import 'leaflet.featuregroup.subgroup';
+import '../../../../library/canvasFlowmapLayer';
 // import Select from 'react-select';
 // import Control from 'react-leaflet-control';
 import { connect } from 'react-redux';
+import CsvFile from '../../../../data/provincemerge.json';
 import VectorGrid from './VectorGrid';
 import BaseLayers from './BaselayersComponent';
 import MarkerClusterComponent from './MarkerClusterComponent';
@@ -23,7 +26,7 @@ import automationReducerReducer from '../../../reducers/automationReducer.reduce
 // import ScrollTab from './ScrollTab';
 // import IosSwitch from '../../Includes/IosSwitch';
 
-const map = {};
+// const map = {};
 class MapComponent extends Component {
   constructor(props) {
     super(props);
@@ -55,6 +58,110 @@ class MapComponent extends Component {
     this.props.getAutomationDataByProvince();
     this.props.getAutomationDataByDistrict();
     this.props.getAutomationDataByMunicipality();
+    const map = this.props.mapRef.current.leafletElement;
+    console.log(map, 'mapref');
+
+    const geoJsonFeatureCollection = {
+      type: 'FeatureCollection',
+      features: CsvFile.map(function(datum) {
+        return {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [datum.s_lon, datum.s_lat],
+          },
+          properties: datum,
+        };
+      }),
+    };
+    console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
+
+    const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
+      geoJsonFeatureCollection,
+      {
+        originAndDestinationFieldIds: {
+          originUniqueIdField: 's_city_id',
+          originGeometry: {
+            x: 's_lon',
+            y: 's_lat',
+          },
+          destinationUniqueIdField: 'e_city_id',
+          destinationGeometry: {
+            x: 'e_lon',
+            y: 'e_lat',
+          },
+        },
+        pathDisplayMode: 'selection',
+        animationStarted: true,
+        animationEasingFamily: 'Cubic',
+        animationEasingType: 'In',
+        animationDuration: 2000,
+      },
+    ).addTo(map);
+    oneToManyFlowmapLayer.on('click', function(e) {
+      if (e.sharedOriginFeatures.length) {
+        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+          e.sharedOriginFeatures,
+          'SELECTION_NEW',
+        );
+      }
+      if (e.sharedDestinationFeatures.length) {
+        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+          e.sharedDestinationFeatures,
+          'SELECTION_NEW',
+        );
+      }
+    });
+
+    // immediately select an origin point for Bezier path display,
+    // instead of waiting for the first user click event to fire
+    oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+      's_city_id',
+      373,
+      true,
+      'SELECTION_NEW',
+    );
+
+    // since this demo is using the optional "pathDisplayMode" as "selection",
+    // it is up to the developer to wire up a click or mouseover listener
+    // and then call the "selectFeaturesForPathDisplay()" method to inform the layer
+    // which Bezier paths need to be drawn
+    // oneToManyFlowmapLayer.on('click', function(e) {
+    //   if (e.sharedOriginFeatures.length) {
+    //     oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+    //       e.sharedOriginFeatures,
+    //       'SELECTION_NEW',
+    //     );
+    //   }
+    //   if (e.sharedDestinationFeatures.length) {
+    //     oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+    //       e.sharedDestinationFeatures,
+    //       'SELECTION_NEW',
+    //     );
+    //   }
+    // });
+
+    // // immediately select a few origin points for Bezier path display,
+    // // instead of waiting for the first user click event to fire
+    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+    //   's_city_id',
+    //   562,
+    //   true,
+    //   'SELECTION_NEW',
+    // );
+    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+    //   's_city_id',
+    //   657,
+    //   true,
+    //   'SELECTION_ADD',
+    // );
+    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+    //   's_city_id',
+    //   516,
+    //   true,
+    //   'SELECTION_ADD',
+    // );
+
     // this.props.filterAutomationDataForVectorTiles();
   }
 
