@@ -10,6 +10,32 @@ import {
   filterIndicatorGraphDataWithDate,
 } from '../../../../actions/logFrame.actions';
 
+function convert(x) {
+  // eslint-disable-next-line no-restricted-globals
+  if (isNaN(x)) return x;
+
+  if (x < 9999) {
+    return x;
+  }
+
+  if (x < 1000000) {
+    return `${Math.round(x / 1000)}K`;
+  }
+  if (x < 10000000) {
+    return `${(x / 1000000).toFixed(2)}M`;
+  }
+
+  if (x < 1000000000) {
+    return `${Math.round(x / 1000000)}M`;
+  }
+
+  if (x < 1000000000000) {
+    return `${Math.round(x / 1000000000)}B`;
+  }
+
+  return '1T+';
+}
+
 class MiddleChartSection extends Component {
   constructor(props) {
     super(props);
@@ -18,12 +44,259 @@ class MiddleChartSection extends Component {
       // dateRange: [],
       allIndicatorCategory: null,
       selectedOption: null,
+      activeBar1: true,
+      activeBar2: true,
+      activeLine1: true,
+      activeLine2: true,
       activeTimeGraph: true,
       activeBar: true,
       toggleTimePeriodDropdown: false,
       toggleDataDropdown: false,
+      firstPlannedSelected: false,
+      secondAchievedSelected: false,
+      options: null,
     };
   }
+
+  plotChart = () => {
+    const currentComponent = this;
+    const option = {
+      options: {
+        chart: {
+          parentHeightOffset: 15,
+          // offsetY: -0,
+          toolbar: {
+            show: true,
+            // offsetX: 0,
+            // offsetY: 0,
+            tools: {
+              // download: `<a href="#/" class="download-icon-image"><img src=${DownloadIcon} alt=""></a>`,
+              download: `<i class="fa fa-download" aria-hidden="true"></i>`,
+              //   selection: true,
+              //   zoom: true,
+              //   zoomin: true,
+              //   zoomout: true,
+              //   pan: true,
+              //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
+              //   // customIcons: []
+            },
+            // autoSelected: 'zoom',
+          },
+          height: 350,
+          // width: '100%',
+          type: 'line',
+          stacked: false,
+          events: {
+            // eslint-disable-next-line object-shorthand
+            legendClick: function(chartContext, seriesIndex, config) {
+              // console.log('a');
+              // console.log(
+              //   currentComponent.state.activeBar1,
+              //   'activeBar1',
+              // );
+              // console.log(seriesIndex, 'serieIndex');
+              // if (seriesIndex === 0) {
+              //   console.log('seriesIndex 0 Inside');
+              // }
+            },
+          },
+          // events: {
+          //   // eslint-disable-next-line object-shorthand
+          //   legendClick: function(chartContext, seriesIndex, config) {
+          //     console.log('legendClick');
+          //   },
+          //   // eslint-disable-next-line object-shorthand
+          //   click: function(event, chartContext, config) {
+          //     // ...
+          //     // console.log('chart Click');
+          //   },
+          // },
+        },
+        responsive: [
+          {
+            breakpoint: 992,
+            options: {
+              chart: {
+                height: 320,
+                events: {
+                  legendClick(chartContext, seriesIndex, config) {},
+                },
+              },
+            },
+          },
+        ],
+        legend: {
+          position: 'top',
+          horizontalAlign: 'left',
+          // markers: {
+          //   onClick(chart, seriesIndex, opts) {
+          //     console.log(`series- ${seriesIndex}'s marker was clicked`);
+          //   },
+          // },
+          // onItemClick: e => {
+          //   console.log(e, 'a');
+          // },
+        },
+        stroke: {
+          width: [0, 1, 1],
+          curve: 'straight',
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '20%',
+          },
+        },
+        colors: ['#b41833', '#287078'],
+        fill: {
+          opacity: [0.45, 0.75, 0.15, 0.2],
+          gradient: {
+            inverseColors: false,
+            shade: 'light',
+            type: 'vertical',
+            opacityFrom: 0,
+            opacityTo: 0,
+            stops: [0, 100, 100, 100],
+          },
+        },
+        labels: [
+          '01/01/2003',
+          '02/01/2003',
+          '03/01/2003',
+          '04/01/2003',
+          '05/01/2003',
+          '06/01/2003',
+          '07/01/2003',
+          '08/01/2003',
+          '09/01/2003',
+          '10/01/2003',
+          '11/01/2003',
+          '12/01/2003',
+          '01/01/2004',
+          '02/01/2004',
+        ],
+        markers: {
+          size: 5,
+          offsetX: 0,
+          offsetY: 0,
+        },
+        xaxis: {
+          tickAmount: 10,
+          crosshairs: {
+            show: true,
+            position: 'back',
+            stroke: {
+              color: '#ffffff',
+              width: 0,
+              dashArray: 0,
+            },
+          },
+          categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+          ],
+          type: 'category',
+        },
+        yaxis: {
+          // floating: true
+          decimalsInFloat: 2,
+          tickPlacement: 'between',
+          // y: 8200,
+          // y: 1000,
+          crosshairs: {
+            show: true,
+            position: 'back',
+            stroke: {
+              color: '#b6b6b6',
+              width: 1,
+              dashArray: 0,
+            },
+          },
+          title: {
+            text: 'Points',
+
+            style: {
+              color: undefined,
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 600,
+              cssClass: 'apexcharts-yaxis-title',
+            },
+          },
+          // floating: true,
+          // align: 'center',
+          // minWidth: '200',
+          // maxWidth: '200',
+          labels: {
+            show: true,
+            align: 'right',
+            minWidth: 0,
+            maxWidth: 160,
+            style: {
+              colors: [],
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 400,
+              cssClass: 'apexcharts-yaxis-label',
+            },
+            offsetX: 0,
+            offsetY: 0,
+            rotate: 0,
+            formatter: value => {
+              if (value <= 1) {
+                return value.toFixed(1);
+              }
+              // console.log(value, 'v');
+              const roundNumber = Math.round(value);
+              // console.log(convert(roundNumber));
+              //   console.log(convert(roundNumber));
+              return convert(roundNumber);
+            },
+          },
+          min: 0,
+          forceNiceScale: true,
+
+          // max: 10,
+        },
+        logarithmic: true,
+        title: {
+          text: undefined,
+          rotate: -90,
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            color: undefined,
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 600,
+            cssClass: 'apexcharts-yaxis-title',
+          },
+        },
+
+        tooltip: {
+          shared: true,
+          intersect: false,
+          y: {
+            formatter(y) {
+              // console.log(y, 'y');
+              if (typeof y !== 'undefined') {
+                return `${y.toFixed(0)} £`;
+              }
+              return y;
+            },
+          },
+        },
+      },
+    };
+    this.setState({ options: option.options });
+    return true;
+  };
 
   // filterDataWithDate = () => {
   //   // eslint-disable-next-line react/destructuring-assignment
@@ -203,15 +476,46 @@ class MiddleChartSection extends Component {
   // };
 
   componentDidMount() {
-    // const firstLegend = document.getElementsByClassName(
-    //   'apexcharts-legend-series',
-    // )[0];
-    // const secondLegend = document.getElementsByClassName(
-    //   'apexcharts-legend-series',
-    // )[3];
-    // firstLegend.addEventListener('click', async event => {
-    //   console.log('clicked firstlegend');
-    // });
+    // setTimeout(() => {
+    //   const firstLegend = document.getElementsByClassName(
+    //     'apexcharts-legend-series',
+    //   )[0];
+    //   // firstLegend.addEventListener('click', function() {
+    //   //   alert('clicked First Legend');
+    //   // });
+    //   // const firstLegend = document.getElementsByClassName(
+    //   //   'apexcharts-legend-series',
+    //   // )[0];
+    //   // const secondLegend = document.getElementsByClassName(
+    //   //   'apexcharts-legend-series',
+    //   // )[3];
+    //   firstLegend.addEventListener('change', event => {
+    //     console.log('clicked firstlegend');
+    //     this.setState(prevState => ({
+    //       firstPlannedSelected: !prevState.firstPlannedSelected,
+    //     }));
+    //   });
+    // }, 2000);
+    // setTimeout(() => {
+    //   const secondLegend = document.getElementsByClassName(
+    //     'apexcharts-legend-series',
+    //   )[3];
+    //   // firstLegend.addEventListener('click', function() {
+    //   //   alert('clicked First Legend');
+    //   // });
+    //   // const firstLegend = document.getElementsByClassName(
+    //   //   'apexcharts-legend-series',
+    //   // )[0];
+    //   // const secondLegend = document.getElementsByClassName(
+    //   //   'apexcharts-legend-series',
+    //   // )[3];
+    //   secondLegend.addEventListener('change', event => {
+    //     console.log('clicked secondlegend');
+    //     this.setState(prevState => ({
+    //       secondAchievedSelected: !prevState.secondAchievedSelected,
+    //     }));
+    //   });
+    // }, 2000);
     // window.addEventListener('resize', this.handleClickOnLegend);
     const { activeLayer, activeDate } = this.props;
     this.props.getIndicatorsGraphData(activeLayer, false);
@@ -252,12 +556,101 @@ class MiddleChartSection extends Component {
     // window.removeEventListener('resize', this.handleClickOnLegend);
   }
 
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
+    this.plotChart();
+
+    // window.removeEventListener('resize', this.handleClickOnLegend);
+  }
+
   componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.activeBar1 !== this.state.activeBar1 ||
+      prevState.activeBar2 !== this.state.activeBar2 ||
+      prevState.activeLine1 !== this.state.activeLine1 ||
+      prevState.activeLine2 !== this.state.activeLine2
+    ) {
+      if (this.state.activeBar1) {
+        this.chartRef.chart.showSeries(
+          'Planned As per AFP contract Budget',
+        );
+      } else {
+        this.chartRef.chart.hideSeries(
+          'Planned As per AFP contract Budget',
+        );
+      }
+      if (this.state.activeBar2) {
+        this.chartRef.chart.showSeries('Achieved Bar');
+      } else {
+        this.chartRef.chart.hideSeries('Achieved Bar');
+      }
+      if (this.state.activeLine1) {
+        this.chartRef.chart.showSeries(
+          'Planned As per AFP contract Budget Line',
+        );
+      } else {
+        this.chartRef.chart.hideSeries(
+          'Planned As per AFP contract Budget Line',
+        );
+      }
+      if (this.state.activeLine2) {
+        this.chartRef.chart.showSeries('Achieved');
+      } else {
+        this.chartRef.chart.hideSeries('Achieved');
+      }
+    }
+    // if (prevState.activeBar2 !== this.state.activeBar2) {
+    // }
+    // if (prevState.activeBar1 !== this.state.activeLine1) {
+    // }
+    // if (prevState.activeBar1 !== this.state.activeLine2) {
+    // }
+    // setTimeout(() => {
+    //   const firstLegend = document.getElementsByClassName(
+    //     'apexcharts-legend-series',
+    //   )[0];
+    //   // firstLegend.addEventListener('click', function() {
+    //   //   alert('clicked First Legend');
+    //   // });
+    //   // const firstLegend = document.getElementsByClassName(
+    //   //   'apexcharts-legend-series',
+    //   // )[0];
+    //   // const secondLegend = document.getElementsByClassName(
+    //   //   'apexcharts-legend-series',
+    //   // )[3];
+    //   firstLegend.addEventListener('click', event => {
+    //     console.log('clicked firstlegend');
+    //     this.setState(prevState => ({
+    //       firstPlannedSelected: !prevState.firstPlannedSelected,
+    //     }));
+    //   });
+    // }, 1000);
+
+    // setTimeout(() => {
+    //   const secondLegend = document.getElementsByClassName(
+    //     'apexcharts-legend-series',
+    //   )[3];
+    //   // firstLegend.addEventListener('click', function() {
+    //   //   alert('clicked First Legend');
+    //   // });
+    //   // const firstLegend = document.getElementsByClassName(
+    //   //   'apexcharts-legend-series',
+    //   // )[0];
+    //   // const secondLegend = document.getElementsByClassName(
+    //   //   'apexcharts-legend-series',
+    //   // )[3];
+    //   secondLegend.addEventListener('click', event => {
+    //     console.log('clicked secondlegend');
+    //     this.setState(prevState => ({
+    //       secondAchievedSelected: !prevState.secondAchievedSelected,
+    //     }));
+    //   });
+    // }, 1000);
     setTimeout(() => {
       this.changedElementCssBar();
     }, 2000);
-    console.log(this.state.activeBar, 'activeBar state update');
-    console.log(this.state.activeBar, 'activeBar state update');
+    // console.log(this.state.activeBar, 'activeBar state update');
+    // console.log(this.state.activeBar, 'activeBar state update');
     // if()
     // (!prevState.activeBar && !this.state.activeTimeGraph) {
     //   alert('else if ');
@@ -472,65 +865,41 @@ class MiddleChartSection extends Component {
   };
 
   handleBarClick = () => {
-    const a = document.getElementsByClassName(
-      'apexcharts-tooltip-series-group',
-    );
-    // setTimeout(() => {
-    //   this.changedElementCssBar();
-    // }, 2000);
     this.setState(prevState => ({
       activeBar: !prevState.activeBar,
     }));
-    this.chartRef.chart.toggleSeries(
-      'Planned As per AFP contract Budget',
-    );
-    // this.chartRef.chart.toggleSeries(
-    //   'Planned As per AFP contract Budget',
-    // );
-    this.chartRef.chart.toggleSeries('Achieved Bar');
-    // console.log(this.state.activeBar, 'activeBar 1st');
-    // if (this.state.activeBar) {
-    //   this.chartRef.chart.hideSeries(
-    //     'Planned As per AFP contract Budget',
-    //   );
-    //   this.chartRef.chart.hideSeries('Achieved Bar');
-    // } else {
-    //   this.chartRef.chart.showSeries(
-    //     'Planned As per AFP contract Budget',
-    //   );
-    //   this.chartRef.chart.showSeries('Achieved Bar');
-    // }
+
+    if (this.state.activeBar) {
+      // true === false
+      this.setState({ activeBar1: false, activeBar2: false });
+    } else {
+      // false === true
+      if (this.state.activeBar1 || this.state.activeLine1) {
+        this.setState({ activeBar1: true });
+      }
+      if (this.state.activeBar2 || this.state.activeLine2) {
+        this.setState({ activeBar2: true });
+      }
+    }
   };
 
   handleTimeGraphClick = () => {
     this.setState(prevState => ({
       activeTimeGraph: !prevState.activeTimeGraph,
     }));
-    this.chartRef.chart.toggleSeries(
-      'Planned As per AFP contract Budget Line',
-    );
-    // this.chartRef.chart.toggleSeries(
-    //   'Planned As per AFP contract Budget',
-    // );
-    this.chartRef.chart.toggleSeries('Achieved');
-    // this.chartRef.chart.toggleSeries('Achieved');
-    // if (this.state.activeTimeGraph) {
-    //   this.chartRef.chart.hideSeries(
-    //     'Planned As per AFP contract Budget Line',
-    //   );
-    //   this.chartRef.chart.hideSeries('Achieved');
-    // } else {
-    //   this.chartRef.chart.showSeries(
-    //     'Planned As per AFP contract Budget Line',
-    //   );
-    //   this.chartRef.chart.showSeries('Achieved');
-    // }
-    // const a = document.getElementsByClassName(
-    //   'apexcharts-tooltip-series-group',
-    // );
-    // setTimeout(() => {
-    //   this.changedElementCssTime();
-    // }, 2000);
+
+    if (this.state.activeTimeGraph) {
+      // true === false
+      this.setState({ activeLine1: false, activeLine2: false });
+    } else {
+      // false === true
+      if (this.state.activeBar1 || this.state.activeLine1) {
+        this.setState({ activeLine1: true });
+      }
+      if (this.state.activeBar2 || this.state.activeLine2) {
+        this.setState({ activeLine2: true });
+      }
+    }
   };
 
   handleMainCategorySlide = selectedValue => {
@@ -632,6 +1001,54 @@ class MiddleChartSection extends Component {
     );
   };
 
+  handleLegend1Click = () => {
+    if (this.state.activeBar1 === true) {
+      this.setState({
+        activeBar1: false,
+        // activeLine2: false,
+      });
+    } else if (this.state.activeBar) {
+      this.setState({
+        activeBar1: true,
+        // activeLine2: false,
+      });
+    }
+    if (this.state.activeLine1 === true) {
+      this.setState({
+        activeLine1: false,
+      });
+    } else if (this.state.activeTimeGraph) {
+      this.setState({
+        activeLine1: true,
+        // activeLine2: false,
+      });
+    }
+  };
+
+  handleLegend2Click = () => {
+    if (this.state.activeBar2 === true) {
+      this.setState({
+        activeBar2: false,
+        // activeLine2: false,
+      });
+    } else if (this.state.activeBar) {
+      this.setState({
+        activeBar2: true,
+        // activeLine2: false,
+      });
+    }
+    if (this.state.activeLine2 === true) {
+      this.setState({
+        activeLine2: false,
+      });
+    } else if (this.state.activeTimeGraph) {
+      this.setState({
+        activeLine2: true,
+        // activeLine2: false,
+      });
+    }
+  };
+
   render() {
     const optionsd = [
       { label: 'Thing 1', value: 1 },
@@ -644,9 +1061,17 @@ class MiddleChartSection extends Component {
       toggleDataDropdown,
       activeBar,
       activeTimeGraph,
+      firstPlannedSelected,
+      secondAchievedSelected,
       allIndicatorCategory,
       selectedOption,
       selectedDataType,
+      activeBar1,
+      activeBar2,
+      activeLine1,
+      activeLine2,
+      options,
+
       // dateRange,
     } = this.state;
     // const settings = {
@@ -678,7 +1103,6 @@ class MiddleChartSection extends Component {
       props: {
         logFrameReducer: {
           series,
-          options,
           dateRange,
           filteredDynamicData,
           isDataFetched,
@@ -957,6 +1381,38 @@ class MiddleChartSection extends Component {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="chart-wrap">
+            <span
+              className={`span-label ${
+                activeBar1
+                  ? 'span-active'
+                  : activeLine1
+                  ? 'span-active'
+                  : ''
+              }`}
+              role="button"
+              tabIndex="-1"
+              onKeyDown={this.handleLegend1Click}
+              onClick={this.handleLegend1Click}
+            >
+              Planned as per Apf
+            </span>
+            <span
+              className={`span-label ${
+                activeBar2
+                  ? 'span-active'
+                  : activeLine2
+                  ? 'span-active'
+                  : ''
+              }`}
+              role="button"
+              tabIndex="-1"
+              onKeyDown={this.handleLegend2Click}
+              onClick={this.handleLegend2Click}
+            >
+              Achieved
+            </span>
           </div>
           <div className="info-slider">
             <a href="#/" className="download-icon-image">

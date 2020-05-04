@@ -39,6 +39,10 @@ function convert(x) {
 }
 const initialState = {
   dateRange: [],
+  activeBar1: true,
+  activeBar2: true,
+  activeLine1: true,
+  activeLine2: true,
   totalRangeDate: null,
   totalRangeDateName: null,
   filteredDynamicData: [],
@@ -96,17 +100,90 @@ const initialState = {
       events: {
         // eslint-disable-next-line object-shorthand
         legendClick: function(chartContext, seriesIndex, config) {
+          console.log('a');
           if (seriesIndex === 0) {
+            if (this.state.activeBar2 === true) {
+              this.setState({
+                activeBar1: false,
+                // activeLine2: false,
+              });
+            } else {
+              this.setState({
+                activeBar1: true,
+                // activeLine2: false,
+              });
+            }
+            if (this.state.activeLine2 === true) {
+              this.setState({
+                activeLine1: false,
+              });
+            } else {
+              this.setState({
+                activeLine1: true,
+                // activeLine2: false,
+              });
+            }
+            // this.setState({ activeBar1: false, activeLine1: false });
             chartContext.toggleSeries(
               'Planned As per AFP contract Budget',
             );
             chartContext.toggleSeries(
               'Planned As per AFP contract Budget Line',
             );
-            chartContext.toggleSeries(
-              'Planned As per AFP contract Budget Bar',
-            );
+            // chartContext.toggleSeries(
+            //   'Planned As per AFP contract Budget Bar',
+            // );
+            // setTimeout(() => {
+            //   document
+            //     .getElementsByClassName('apexcharts-legend-series')[0]
+            //     .classList.add('none');
+            //   // document
+            //   //   .getElementsByClassName(
+            //   //     'apexcharts-tooltip-series-group',
+            //   //   )[1]
+            //   //   .classList.add('none');
+            //   document
+            //     .getElementsByClassName('apexcharts-legend-series')[2]
+            //     .classList.add('none');
+            //   // document
+            //   //   .getElementsByClassName(
+            //   //     'apexcharts-tooltip-series-group',
+            //   //   )[3]
+            //   //   .classList.add('flex');
+            // }, 2000);
+            // } else if (seriesIndex === 1) {
+            //   // chartContext.toggleSeries('Achieved Bar');
+            //   // this.setState({});
+            //   chartContext.toggleSeries('Achieved Bar');
+            //   chartContext.toggleSeries('Achieved');
+            //   chartContext.toggleSeries('Achieved');
+            // } else if (seriesIndex === 2) {
+            //   // chartContext.toggleSeries('Achieved Bar');
+            //   chartContext.toggleSeries('Achieved Bar');
+            //   chartContext.toggleSeries('Achieved');
+            //   chartContext.toggleSeries('Achieved');
           } else if (seriesIndex === 3) {
+            if (this.state.activeBar2 === true) {
+              this.setState({
+                activeBar2: false,
+                // activeLine2: false,
+              });
+            } else {
+              this.setState({
+                activeBar2: true,
+                // activeLine2: false,
+              });
+            }
+            if (this.state.activeLine2 === true) {
+              this.setState({
+                activeLine2: false,
+              });
+            } else {
+              this.setState({
+                activeLine2: true,
+                // activeLine2: false,
+              });
+            }
             // chartContext.toggleSeries('Achieved Bar');
             chartContext.toggleSeries('Achieved Bar');
             chartContext.toggleSeries('Achieved');
@@ -147,8 +224,8 @@ const initialState = {
       //     console.log(`series- ${seriesIndex}'s marker was clicked`);
       //   },
       // },
-      // onItemClick: {
-      //   toggleDataSeries: false,
+      // onItemClick: e => {
+      //   console.log(e, 'a');
       // },
     },
     stroke: {
