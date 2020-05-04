@@ -145,7 +145,7 @@ class Landing extends Component {
                           </li>
                         </ul>                    
                       </div>
-                      <a href="index.html"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></a>
+                      <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>

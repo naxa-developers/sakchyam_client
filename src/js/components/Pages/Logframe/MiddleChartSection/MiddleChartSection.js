@@ -253,6 +253,9 @@ class MiddleChartSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    setTimeout(() => {
+      this.changedElementCssBar();
+    }, 2000);
     console.log(this.state.activeBar, 'activeBar state update');
     console.log(this.state.activeBar, 'activeBar state update');
     // if()
@@ -438,7 +441,7 @@ class MiddleChartSection extends Component {
     }));
   };
 
-  changedElementCss = () => {
+  changedElementCssBar = () => {
     document
       .getElementsByClassName('apexcharts-tooltip-series-group')[0]
       .classList.add('flex');
@@ -447,57 +450,87 @@ class MiddleChartSection extends Component {
       .classList.add('none');
     document
       .getElementsByClassName('apexcharts-tooltip-series-group')[2]
-      .classList.add('flex');
+      .classList.add('none');
     document
       .getElementsByClassName('apexcharts-tooltip-series-group')[3]
+      .classList.add('flex');
+  };
+
+  changedElementCssTime = () => {
+    document
+      .getElementsByClassName('apexcharts-tooltip-series-group')[0]
+      .classList.add('flex');
+    document
+      .getElementsByClassName('apexcharts-tooltip-series-group')[1]
+      .classList.add('flex');
+    document
+      .getElementsByClassName('apexcharts-tooltip-series-group')[2]
       .classList.add('none');
+    document
+      .getElementsByClassName('apexcharts-tooltip-series-group')[3]
+      .classList.add('flex');
   };
 
   handleBarClick = () => {
-    console.log(
-      document.getElementsByClassName(
-        'apexcharts-tooltip-series-group',
-      ),
-      'tooltipl Elements',
+    const a = document.getElementsByClassName(
+      'apexcharts-tooltip-series-group',
     );
     // setTimeout(() => {
-    //   this.changedElementCss();
+    //   this.changedElementCssBar();
     // }, 2000);
-    // for (let i = 0; i < a.length; i + 1) {
-    //   a[i].style.display = 'none';
-    // }
-    console.log(this.state.activeBar, 'activeBar 1st');
     this.setState(prevState => ({
       activeBar: !prevState.activeBar,
     }));
-    if (this.state.activeBar) {
-      this.chartRef.chart.hideSeries(
-        'Planned As per AFP contract Budget',
-      );
-      this.chartRef.chart.hideSeries('Achieved Bar');
-    } else {
-      this.chartRef.chart.showSeries(
-        'Planned As per AFP contract Budget',
-      );
-      this.chartRef.chart.showSeries('Achieved Bar');
-    }
+    this.chartRef.chart.toggleSeries(
+      'Planned As per AFP contract Budget',
+    );
+    // this.chartRef.chart.toggleSeries(
+    //   'Planned As per AFP contract Budget',
+    // );
+    this.chartRef.chart.toggleSeries('Achieved Bar');
+    // console.log(this.state.activeBar, 'activeBar 1st');
+    // if (this.state.activeBar) {
+    //   this.chartRef.chart.hideSeries(
+    //     'Planned As per AFP contract Budget',
+    //   );
+    //   this.chartRef.chart.hideSeries('Achieved Bar');
+    // } else {
+    //   this.chartRef.chart.showSeries(
+    //     'Planned As per AFP contract Budget',
+    //   );
+    //   this.chartRef.chart.showSeries('Achieved Bar');
+    // }
   };
 
   handleTimeGraphClick = () => {
     this.setState(prevState => ({
       activeTimeGraph: !prevState.activeTimeGraph,
     }));
-    if (this.state.activeTimeGraph) {
-      this.chartRef.chart.hideSeries(
-        'Planned As per AFP contract Budget Line',
-      );
-      this.chartRef.chart.hideSeries('Achieved');
-    } else {
-      this.chartRef.chart.showSeries(
-        'Planned As per AFP contract Budget Line',
-      );
-      this.chartRef.chart.showSeries('Achieved');
-    }
+    this.chartRef.chart.toggleSeries(
+      'Planned As per AFP contract Budget Line',
+    );
+    // this.chartRef.chart.toggleSeries(
+    //   'Planned As per AFP contract Budget',
+    // );
+    this.chartRef.chart.toggleSeries('Achieved');
+    // this.chartRef.chart.toggleSeries('Achieved');
+    // if (this.state.activeTimeGraph) {
+    //   this.chartRef.chart.hideSeries(
+    //     'Planned As per AFP contract Budget Line',
+    //   );
+    //   this.chartRef.chart.hideSeries('Achieved');
+    // } else {
+    //   this.chartRef.chart.showSeries(
+    //     'Planned As per AFP contract Budget Line',
+    //   );
+    //   this.chartRef.chart.showSeries('Achieved');
+    // }
+    // const a = document.getElementsByClassName(
+    //   'apexcharts-tooltip-series-group',
+    // );
+    // setTimeout(() => {
+    //   this.changedElementCssTime();
+    // }, 2000);
   };
 
   handleMainCategorySlide = selectedValue => {

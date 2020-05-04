@@ -10,4 +10,5 @@ MarkerClusterComponent.js
 BaselayersComponent.js
 VectorGrid.js
 Icons/
+canvasFlowmapLayer.js
 # /AutomaMainComponent.js
