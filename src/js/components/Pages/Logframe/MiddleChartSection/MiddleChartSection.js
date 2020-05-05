@@ -261,7 +261,12 @@ class MiddleChartSection extends Component {
           },
           min: 0,
           forceNiceScale: true,
-
+          // axisBorder: {
+          //   show: true,
+          //   color: '#78909C',
+          //   offsetX: 100,
+          //   offsetY: 0,
+          // },
           // max: 10,
         },
         logarithmic: true,
@@ -343,12 +348,12 @@ class MiddleChartSection extends Component {
   //       data: planned,
   //     },
   //     {
-  //       name: 'Achieved Bar',
+  //       name: 'Achieved ',
   //       type: 'column',
   //       data: achieved,
   //     },
   //     {
-  //       name: 'Planned As per AFP contract Budget Line',
+  //       name: 'Planned As per AFP contract Budget ',
   //       type: 'line',
   //       data: planned,
   //     },
@@ -429,12 +434,12 @@ class MiddleChartSection extends Component {
   //       data: planned,
   //     },
   //     {
-  //       name: 'Achieved Bar',
+  //       name: 'Achieved ',
   //       type: 'column',
   //       data: achieved,
   //     },
   //     {
-  //       name: 'Planned As per AFP contract Budget Line',
+  //       name: 'Planned As per AFP contract Budget ',
   //       type: 'line',
   //       data: planned,
   //     },
@@ -563,16 +568,159 @@ class MiddleChartSection extends Component {
     // window.removeEventListener('resize', this.handleClickOnLegend);
   }
 
+  checkTooltip = () => {
+    // alert('ss');
+    if (this.state.activeLine1 && this.state.activeBar1) {
+      // alert('2selected activeLine1 activeBar1');
+      setTimeout(() => {
+        document
+          .getElementsByClassName(
+            'apexcharts-tooltip-series-group',
+          )[2]
+          .classList.add('none');
+      }, 1000);
+    } else {
+      // alert('else activeLine1 activeBar1');
+      setTimeout(() => {
+        document
+          .getElementsByClassName(
+            'apexcharts-tooltip-series-group',
+          )[2]
+          .classList.remove('none');
+      }, 1000);
+    }
+    if (this.state.activeLine2 && this.state.activeBar2) {
+      // alert('2selected activeLine1 activeBar1');
+      setTimeout(() => {
+        document
+          .getElementsByClassName(
+            'apexcharts-tooltip-series-group',
+          )[3]
+          .classList.add('none');
+      }, 1000);
+    } else {
+      // alert('else activeLine1 activeBar1');
+      setTimeout(() => {
+        document
+          .getElementsByClassName(
+            'apexcharts-tooltip-series-group',
+          )[3]
+          .classList.remove('none');
+      }, 1000);
+    }
+    // if (this.state.activeBar1 && this.state.activeLine1) {
+    //   setTimeout(() => {
+    //     document
+    //       .getElementsByClassName(
+    //         'apexcharts-tooltip-series-group',
+    //       )[1]
+    //       .classList.remove('none');
+    //   }, 2000);
+    // } else {
+    //   setTimeout(() => {
+    //     document
+    //       .getElementsByClassName(
+    //         'apexcharts-tooltip-series-group',
+    //       )[1]
+    //       .classList.add('none');
+    //   }, 2000);
+    // }
+    // if (this.state.activeBar2 && this.state.activeLine2) {
+    //   setTimeout(() => {
+    //     document
+    //       .getElementsByClassName(
+    //         'apexcharts-tooltip-series-group',
+    //       )[2]
+    //       .classList.remove('none');
+    //   }, 2000);
+    // } else {
+    //   setTimeout(() => {
+    //     document
+    //       .getElementsByClassName(
+    //         'apexcharts-tooltip-series-group',
+    //       )[2]
+    //       .classList.add('none');
+    //   }, 2000);
+    // }
+  };
+
   componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.logFrameReducer.totalRangeDateName !==
+      this.props.logFrameReducer.totalRangeDateName
+    ) {
+      this.props.selectAllDate();
+    }
     // if (
     //   prevState.activeBar1 !== this.state.activeBar1 ||
     //   prevState.activeBar2 !== this.state.activeBar2 ||
     //   prevState.activeLine1 !== this.state.activeLine1 ||
     //   prevState.activeLine2 !== this.state.activeLine2
     // ) {
-
     // }
-    console.log(this.chartRef.chart, 'chartRef');
+    // this.checkTooltip();
+    // if (
+    //   this.state.activeBar1 &&
+    //   this.state.activeBar2 &&
+    //   this.state.activeLine1 &&
+    //   this.state.activeLine2
+    // ) {
+    //   // alert('updated data');
+    //   if (
+    //     document.getElementsByClassName(
+    //       'apexcharts-tooltip-series-group',
+    //     )[1]
+    //   ) {
+    //     setTimeout(() => {
+    //       document
+    //         .getElementsByClassName(
+    //           'apexcharts-tooltip-series-group',
+    //         )[1]
+    //         .classList.add('none');
+    //     }, 1000);
+    //   }
+    //   if (
+    //     document.getElementsByClassName(
+    //       'apexcharts-tooltip-series-group',
+    //     )[2]
+    //   ) {
+    //     setTimeout(() => {
+    //       document
+    //         .getElementsByClassName(
+    //           'apexcharts-tooltip-series-group',
+    //         )[2]
+    //         .classList.add('none');
+    //     }, 1000);
+    //   }
+    // } else {
+    //   if (
+    //     document.getElementsByClassName(
+    //       'apexcharts-tooltip-series-group',
+    //     )[1]
+    //   ) {
+    //     setTimeout(() => {
+    //       document
+    //         .getElementsByClassName(
+    //           'apexcharts-tooltip-series-group',
+    //         )[1]
+    //         .classList.remove('none');
+    //     }, 1000);
+    //   }
+    //   if (
+    //     document.getElementsByClassName(
+    //       'apexcharts-tooltip-series-group',
+    //     )[2]
+    //   ) {
+    //     setTimeout(() => {
+    //       document
+    //         .getElementsByClassName(
+    //           'apexcharts-tooltip-series-group',
+    //         )[2]
+    //         .classList.remove('none');
+    //     }, 1000);
+    //   }
+    // }
+    // console.log(this.chartRef.chart, 'chartRef');
     if (
       prevState.activeBar1 !== this.state.activeBar1 ||
       prevState.activeBar2 !== this.state.activeBar2 ||
@@ -580,7 +728,7 @@ class MiddleChartSection extends Component {
       prevState.activeLine2 !== this.state.activeLine2
     ) {
       // setTimeout(() => {
-
+      this.checkTooltip();
       if (this.state.activeBar1) {
         // setTimeout(() => {
         //   document
@@ -588,7 +736,14 @@ class MiddleChartSection extends Component {
         //       'apexcharts-tooltip-series-group',
         //     )[1]
         //     .classList.remove('none');
-        // }, 3000);
+        // }, 2000);
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[2]
+        //     .classList.remove('none');
+        // }, 2000);
         this.chartRef.chart.showSeries(
           'Planned As per AFP contract Budget',
         );
@@ -599,6 +754,13 @@ class MiddleChartSection extends Component {
         //       'apexcharts-tooltip-series-group',
         //     )[1]
         //     .classList.add('none');
+        // }, 2000);
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[2]
+        //     .classList.remove('none');
         // }, 2000);
         this.chartRef.chart.hideSeries(
           'Planned As per AFP contract Budget',
@@ -611,8 +773,8 @@ class MiddleChartSection extends Component {
         //       'apexcharts-tooltip-series-group',
         //     )[2]
         //     .classList.remove('none');
-        // }, 3000);
-        this.chartRef.chart.showSeries('Achieved Bar');
+        // }, 2000);
+        this.chartRef.chart.showSeries('Achieved ');
       } else {
         // setTimeout(() => {
         //   document
@@ -620,8 +782,8 @@ class MiddleChartSection extends Component {
         //       'apexcharts-tooltip-series-group',
         //     )[2]
         //     .classList.add('none');
-        // }, 3000);
-        this.chartRef.chart.hideSeries('Achieved Bar');
+        // }, 2000);
+        this.chartRef.chart.hideSeries('Achieved ');
       }
       if (this.state.activeLine1) {
         // setTimeout(() => {
@@ -630,9 +792,9 @@ class MiddleChartSection extends Component {
         //       'apexcharts-tooltip-series-group',
         //     )[1]
         //     .classList.remove('none');
-        // }, 3000);
+        // }, 2000);
         this.chartRef.chart.showSeries(
-          'Planned As per AFP contract Budget Line',
+          'Planned As per AFP contract Budget ',
         );
       } else {
         // setTimeout(() => {
@@ -641,9 +803,9 @@ class MiddleChartSection extends Component {
         //       'apexcharts-tooltip-series-group',
         //     )[1]
         //     .classList.add('none');
-        // });
+        // }, 2000);
         this.chartRef.chart.hideSeries(
-          'Planned As per AFP contract Budget Line',
+          'Planned As per AFP contract Budget ',
         );
       }
       if (this.state.activeLine2) {
@@ -653,7 +815,7 @@ class MiddleChartSection extends Component {
         //       'apexcharts-tooltip-series-group',
         //     )[1]
         //     .classList.remove('none');
-        // }, 3000);
+        // }, 2000);
         this.chartRef.chart.showSeries('Achieved');
       } else {
         // setTimeout(() => {
@@ -662,7 +824,7 @@ class MiddleChartSection extends Component {
         //       'apexcharts-tooltip-series-group',
         //     )[1]
         //     .classList.add('none');
-        // });
+        // }, 2000);
         this.chartRef.chart.hideSeries('Achieved');
       }
     }
@@ -713,9 +875,9 @@ class MiddleChartSection extends Component {
     //     }));
     //   });
     // }, 1000);
-    setTimeout(() => {
-      this.changedElementCssBar();
-    }, 2000);
+    // setTimeout(() => {
+    //   this.changedElementCssBar();
+    // }, 2000);
     // console.log(this.state.activeBar, 'activeBar state update');
     // console.log(this.state.activeBar, 'activeBar state update');
     // if()
@@ -724,18 +886,60 @@ class MiddleChartSection extends Component {
     //   this.chartRef.chart.showSeries(
     //     'Planned As per AFP contract Budget',
     //   );
-    //   this.chartRef.chart.showSeries('Achieved Bar');
+    //   this.chartRef.chart.showSeries('Achieved ');
     //   this.chartRef.chart.showSeries(
-    //     'Planned As per AFP contract Budget Line',
+    //     'Planned As per AFP contract Budget ',
     //   );
     //   this.chartRef.chart.showSeries('Achieved');
     // }
     if (
+      prevProps.logFrameReducer.series !==
+      this.props.logFrameReducer.series
+    ) {
+      if (
+        this.state.activeBar1 &&
+        this.state.activeBar2 &&
+        this.state.activeLine1 &&
+        this.state.activeLine2
+      ) {
+        // alert('updated data');
+        setTimeout(() => {
+          document
+            .getElementsByClassName(
+              'apexcharts-tooltip-series-group',
+            )[1]
+            .classList.add('none');
+        }, 1000);
+        setTimeout(() => {
+          document
+            .getElementsByClassName(
+              'apexcharts-tooltip-series-group',
+            )[2]
+            .classList.add('none');
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          document
+            .getElementsByClassName(
+              'apexcharts-tooltip-series-group',
+            )[1]
+            .classList.remove('none');
+        }, 1000);
+        setTimeout(() => {
+          document
+            .getElementsByClassName(
+              'apexcharts-tooltip-series-group',
+            )[2]
+            .classList.remove('none');
+        }, 1000);
+      }
+    }
+    if (
       prevProps.logFrameReducer.options !==
       this.props.logFrameReducer.options
     ) {
-      console.log(prevProps.logFrameReducer.options);
-      console.log(this.props.logFrameReducer.options);
+      // console.log(prevProps.logFrameReducer.options);
+      // console.log(this.props.logFrameReducer.options);
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         options: { ...this.props.logFrameReducer.options },
@@ -806,7 +1010,7 @@ class MiddleChartSection extends Component {
         });
         return true;
       });
-      console.log(b);
+      // console.log(b);
       this.allIndicatorCategorySetState(b);
       // this.props.filterIndicatorGraphData(activeLayer);
     }
@@ -816,10 +1020,10 @@ class MiddleChartSection extends Component {
     if (prevProps.activeLayer !== activeLayer) {
       // this.filterDataWithLayer();
       if (activeDate.length === 0) {
-        console.log('if active layer changed');
+        // console.log('if active layer changed');
         this.props.filterIndicatorGraphData(activeLayer);
       } else {
-        console.log('else active layer changed');
+        // console.log('else active layer changed');
 
         this.props.filterIndicatorGraphDataWithDate(
           activeLayer,
@@ -863,7 +1067,7 @@ class MiddleChartSection extends Component {
         activeLine1: true,
         activeLine2: true,
       });
-      console.log(activeDataType, 'change datatype');
+      // console.log(activeDataType, 'change datatype');
       if (activeDataType === 'Individual') {
         if (activeDate.length === 0) {
           this.props.getIndicatorsGraphDataIndividual(
@@ -904,12 +1108,12 @@ class MiddleChartSection extends Component {
     //     'Planned As per AFP contract Budget Bar',
     //   );
     //   this.chartRef.chart.toggleSeries(
-    //     'Planned As per AFP contract Budget Line',
+    //     'Planned As per AFP contract Budget ',
     //   );
     // });
     // secondLegend.addEventListener('click', async event => {
     //   console.log('clicked 2ndlegend');
-    //   this.chartRef.chart.toggleSeries('Achieved Bar');
+    //   this.chartRef.chart.toggleSeries('Achieved ');
     //   this.chartRef.chart.toggleSeries('Achieved Line');
     // });
   }
@@ -1099,7 +1303,7 @@ class MiddleChartSection extends Component {
   };
 
   handleChange = selectedOption => {
-    console.log('selectedOption', selectedOption);
+    // console.log('selectedOption', selectedOption);
     this.setState({ selectedOption }, () =>
       console.log(`Option selected:`, this.state.selectedOption),
     );
@@ -1297,6 +1501,8 @@ class MiddleChartSection extends Component {
                     >
                       {activeDateValues.length === 0
                         ? 'Choose Time Period'
+                        : activeDateValues.length >= 6
+                        ? 'All'
                         : `${activeDateValues}`}
                     </span>
                     <ul
@@ -1309,7 +1515,7 @@ class MiddleChartSection extends Component {
                         <input
                           type="checkbox"
                           checked={
-                            activeDate.includes('All') === true
+                            activeDate.length >= 6 === true
                               ? true
                               : false
                           }
@@ -1437,12 +1643,23 @@ class MiddleChartSection extends Component {
                           Cumulative
                         </li>
                         <li
-                          className={
+                          // className={
+                          //   {activeDataType === 'Individual'
+                          //     ? 'li-active'
+                          //     : ''}
+                          //     activeLayer === 'Output Indicator 2.1' ? 'disabled':''
+                          // }
+                          className={`${
                             activeDataType === 'Individual'
                               ? 'li-active'
                               : ''
-                          }
+                          } ${
+                            activeLayer === 'Output Indicator 2.1'
+                              ? 'disabled'
+                              : ''
+                          }`}
                           role="tab"
+                          // style={activeLayer === 'Output Indicator 2.1'? ''}}
                           onClick={() => {
                             handleSelectedDataType('Individual');
                           }}
@@ -1577,6 +1794,26 @@ class MiddleChartSection extends Component {
                 /> */}
               {/* </Slider> */}
               <div id="chartone" />
+              <div
+                id="center_loader"
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                }}
+              >
+                <label
+                  style={{
+                    display:
+                      activeDateValues.length === 0
+                        ? 'block'
+                        : 'none',
+                    marginLeft: '15px',
+                  }}
+                >
+                  No Data Selected
+                </label>
+              </div>
               <div
                 id="center_loader"
                 style={{

@@ -1033,15 +1033,17 @@ body{
         }
         &:first-child{
             &:before{
-                width: 20px;
-                height: 20px;
-                color: 'red';
-                content: 'bar_chart';
+                // width: 20px;
+                // height: 20px;
+                content: 'stop';
+                // color: 'red';
+                color: rgb(180, 24, 51);
             }
         }
         &:last-child{
             &:before{
-                content: 'show_chart';
+                content: 'stop';
+                color: rgb(40, 112, 120);
             }
         }
 }

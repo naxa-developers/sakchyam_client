@@ -255,12 +255,12 @@ const filterIndicatorGraphData = (state, action) => {
       data: planned,
     },
     {
-      name: 'Achieved Bar',
+      name: 'Achieved ',
       type: 'column',
       data: achieved,
     },
     {
-      name: 'Planned As per AFP contract Budget Line',
+      name: 'Planned As per AFP contract Budget ',
       type: 'area',
       data: planned,
     },
@@ -356,12 +356,12 @@ const filterIndicatorGraphData = (state, action) => {
 //       data: planned,
 //     },
 //     {
-//       name: 'Achieved Bar',
+//       name: 'Achieved ',
 //       type: 'column',
 //       data: achieved,
 //     },
 //     {
-//       name: 'Planned As per AFP contract Budget Line',
+//       name: 'Planned As per AFP contract Budget ',
 //       type: 'line',
 //       data: planned,
 //     },
@@ -428,12 +428,12 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       data: planned,
     },
     {
-      name: 'Achieved Bar',
+      name: 'Achieved ',
       type: 'column',
       data: achieved,
     },
     {
-      name: 'Planned As per AFP contract Budget Line',
+      name: 'Planned As per AFP contract Budget ',
       type: 'area',
       data: planned,
     },

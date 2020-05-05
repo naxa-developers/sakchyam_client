@@ -66,6 +66,13 @@ class MainComponent extends Component {
     });
   };
 
+  selectAllDate = () => {
+    this.setState({
+      activeDateValues: this.props.logFrameReducer.totalRangeDateName,
+      activeDate: this.props.logFrameReducer.totalRangeDate,
+    });
+  };
+
   handleActiveDate = (value, e, item) => {
     const {
       dateRange,
@@ -73,20 +80,28 @@ class MainComponent extends Component {
       totalRangeDateName,
     } = this.props.logFrameReducer;
     const { activeDate, activeDateValues } = this.state;
-    console.log(item);
-    console.log(value, 'value');
+    // console.log(item);
+    // console.log(value, 'value');
     dateArray = [];
     dateArrayValues = [];
     if (value === 'All') {
-      if (!activeDate.includes('All')) {
-        dateArray.push('All');
-        dateRange.map(data => {
-          dateArray.push(data.range);
+      // alert('all click');
+      if (!activeDate.length >= 6 || activeDate.length === 0) {
+        // dateArray.push('All');
+        // alert('xirtyo');
+        totalRangeDate.map(data => {
+          dateArray.push(data);
 
           // dateArrayValues.push(data.name);
           return true;
         });
-        dateArrayValues.push('All');
+        totalRangeDateName.map(data => {
+          dateArrayValues.push(data);
+
+          // dateArrayValues.push(data.name);
+          return true;
+        });
+        // dateArrayValues.push('All');
         this.setState({
           activeDate: dateArray,
           activeDateValues: dateArrayValues,
@@ -94,6 +109,7 @@ class MainComponent extends Component {
           // filterLegendSelection: 'site_type',
         });
       } else {
+        // alert('else');
         // dateArrayValues.push('Nothing Selected');
         this.setState({
           activeDate: [],
@@ -108,7 +124,7 @@ class MainComponent extends Component {
         dateArray = [];
         dateArrayValues = totalRangeDateName;
         dateArray = activeDate;
-        dateArray.push('All');
+        // dateArray.push('All');
         this.setState({
           activeDate: dateArray,
           activeDateValues: dateArrayValues,
@@ -126,13 +142,15 @@ class MainComponent extends Component {
           // filterLegendSelection: 'site_type',
         });
       } else {
-        let filteredData = activeDate.filter(data => data !== value);
+        const filteredData = activeDate.filter(
+          data => data !== value,
+        );
         const filteredDataName = activeDateValues.filter(
           data => data !== item,
         );
-        if (filteredData.includes('All')) {
-          filteredData = filteredData.filter(f => f !== 'All');
-        }
+        // if (filteredData.includes('All')) {
+        //   filteredData = filteredData.filter(f => f !== 'All');
+        // }
         filteredData.sort();
         this.setState({
           activeDate: filteredData,
@@ -280,7 +298,7 @@ class MainComponent extends Component {
     } else {
       document.querySelector('body').classList.remove('scroll-event');
     }
-    console.log(contentEl, 'contentoffset');
+    // console.log(contentEl, 'contentoffset');
   };
 
   componentDidMount() {
@@ -298,7 +316,7 @@ class MainComponent extends Component {
   }
 
   handleModal = () => {
-    console.log('statemodal', this.state.activeModal);
+    // console.log('statemodal', this.state.activeModal);
     this.setState(prevState => ({
       activeModal: !prevState.activeModal,
     }));
@@ -328,8 +346,8 @@ class MainComponent extends Component {
     // document.getElementsByClassName(
     //   'apexcharts-legend-series',
     // )[2].style.display = 'none';
-    console.log(screen.height, 'screen');
-    console.log(window.height, 'windowheight');
+    // console.log(screen.height, 'screen');
+    // console.log(window.height, 'windowheight');
     // this.setState({
     //   width: window.innerWidth,
     //   height: window.innerHeight,
@@ -437,6 +455,7 @@ class MainComponent extends Component {
               handleActiveIndicator={this.handleActiveIndicator}
             />
             <MiddleChartSection
+              selectAllDate={this.selectAllDate}
               activeLayer={activeLayer}
               activeDateValues={activeDateValues}
               activeDataType={activeDataType}

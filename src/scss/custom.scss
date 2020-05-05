@@ -180,18 +180,24 @@
   height: 18px;
 }
 /*map legend css end*/
-  .apexcharts-tooltip-series-group:nth-child(0) {
-    display: none;
-  }
-  .apexcharts-tooltip-series-group:nth-child(1) {
-    display: none;
-  }
-  .apexcharts-tooltip-series-group:nth-child(2) {
-    display: none;
-  }
-  .apexcharts-tooltip-series-group:nth-child(3) {
-    display: none;
-  }
+  // .apexcharts-tooltip-series-group:nth-child(0) {
+  //   display: none !important;
+  // }
+  // .apexcharts-tooltip-series-group:nth-child(1) {
+  //   display: none !important;
+  // }
+  // .apexcharts-tooltip-series-group:nth-child(2) {
+  //   display: none !important;
+  // }
+  // .apexcharts-tooltip-series-group:nth-child(3) {
+  //   display: none !important;
+  // }
+  // .apexcharts-tooltip-series-group:nth-child(4) {
+  //   display: none !important;
+  // }
+  // .apexcharts-tooltip-series-group:nth-child(5) {
+  //   display: none !important;
+  // }
 //   .apexcharts-legend-series:nth-child(1){
 //       display: none !important;
 //   }
@@ -232,4 +238,8 @@
 }
 .flex{
   display: flex !important;
+}
+.disabled {
+  pointer-events:none; //This makes it not clickable
+  opacity:0.6;         //This grays it out to look disabled
 }
