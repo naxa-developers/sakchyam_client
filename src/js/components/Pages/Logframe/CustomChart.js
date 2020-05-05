@@ -47,6 +47,7 @@ export default class CustomChart extends Component {
           </label>
         ) : ( */}
         <ReactApexChart
+          key={series}
           ref={chartRef}
           options={options}
           series={series}

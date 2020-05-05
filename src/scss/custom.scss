@@ -180,10 +180,16 @@
   height: 18px;
 }
 /*map legend css end*/
-  .apexcharts-tooltip-series-group:nth-child(3) {
+  .apexcharts-tooltip-series-group:nth-child(0) {
     display: none;
   }
-  .apexcharts-tooltip-series-group:nth-child(4) {
+  .apexcharts-tooltip-series-group:nth-child(1) {
+    display: none;
+  }
+  .apexcharts-tooltip-series-group:nth-child(2) {
+    display: none;
+  }
+  .apexcharts-tooltip-series-group:nth-child(3) {
     display: none;
   }
 //   .apexcharts-legend-series:nth-child(1){

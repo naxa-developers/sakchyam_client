@@ -564,38 +564,105 @@ class MiddleChartSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // if (
+    //   prevState.activeBar1 !== this.state.activeBar1 ||
+    //   prevState.activeBar2 !== this.state.activeBar2 ||
+    //   prevState.activeLine1 !== this.state.activeLine1 ||
+    //   prevState.activeLine2 !== this.state.activeLine2
+    // ) {
+
+    // }
+    console.log(this.chartRef.chart, 'chartRef');
     if (
       prevState.activeBar1 !== this.state.activeBar1 ||
       prevState.activeBar2 !== this.state.activeBar2 ||
       prevState.activeLine1 !== this.state.activeLine1 ||
       prevState.activeLine2 !== this.state.activeLine2
     ) {
+      // setTimeout(() => {
+
       if (this.state.activeBar1) {
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[1]
+        //     .classList.remove('none');
+        // }, 3000);
         this.chartRef.chart.showSeries(
           'Planned As per AFP contract Budget',
         );
       } else {
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[1]
+        //     .classList.add('none');
+        // }, 2000);
         this.chartRef.chart.hideSeries(
           'Planned As per AFP contract Budget',
         );
       }
       if (this.state.activeBar2) {
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[2]
+        //     .classList.remove('none');
+        // }, 3000);
         this.chartRef.chart.showSeries('Achieved Bar');
       } else {
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[2]
+        //     .classList.add('none');
+        // }, 3000);
         this.chartRef.chart.hideSeries('Achieved Bar');
       }
       if (this.state.activeLine1) {
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[1]
+        //     .classList.remove('none');
+        // }, 3000);
         this.chartRef.chart.showSeries(
           'Planned As per AFP contract Budget Line',
         );
       } else {
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[1]
+        //     .classList.add('none');
+        // });
         this.chartRef.chart.hideSeries(
           'Planned As per AFP contract Budget Line',
         );
       }
       if (this.state.activeLine2) {
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[1]
+        //     .classList.remove('none');
+        // }, 3000);
         this.chartRef.chart.showSeries('Achieved');
       } else {
+        // setTimeout(() => {
+        //   document
+        //     .getElementsByClassName(
+        //       'apexcharts-tooltip-series-group',
+        //     )[1]
+        //     .classList.add('none');
+        // });
         this.chartRef.chart.hideSeries('Achieved');
       }
     }
@@ -663,6 +730,17 @@ class MiddleChartSection extends Component {
     //   );
     //   this.chartRef.chart.showSeries('Achieved');
     // }
+    if (
+      prevProps.logFrameReducer.options !==
+      this.props.logFrameReducer.options
+    ) {
+      console.log(prevProps.logFrameReducer.options);
+      console.log(this.props.logFrameReducer.options);
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        options: { ...this.props.logFrameReducer.options },
+      });
+    }
     if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
       document.getElementsByClassName(
         'apexcharts-menu-icon',
@@ -757,6 +835,13 @@ class MiddleChartSection extends Component {
     }
     const { activeDataType } = this.props;
     if (prevProps.activeDate !== activeDate) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        activeBar1: true,
+        activeBar2: true,
+        activeLine1: true,
+        activeLine2: true,
+      });
       this.props.filterIndicatorGraphDataWithDate(
         activeLayer,
         activeDate,
@@ -771,6 +856,13 @@ class MiddleChartSection extends Component {
     //   // selectActivelayer("activelayer1")
     // }
     if (prevProps.activeDataType !== activeDataType) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        activeBar1: true,
+        activeBar2: true,
+        activeLine1: true,
+        activeLine2: true,
+      });
       console.log(activeDataType, 'change datatype');
       if (activeDataType === 'Individual') {
         if (activeDate.length === 0) {
@@ -915,6 +1007,12 @@ class MiddleChartSection extends Component {
   };
 
   nextBtnClick = () => {
+    this.setState({
+      activeBar1: true,
+      activeBar2: true,
+      activeLine1: true,
+      activeLine2: true,
+    });
     // console.log(
     //   this.props.logFrameReducer.indicatorCategory.map(a => {
     //     a.subcat.filter(data => data.name === 'Impact Indicator 2');
@@ -969,6 +1067,12 @@ class MiddleChartSection extends Component {
   };
 
   prevBtnClick = () => {
+    this.setState({
+      activeBar1: true,
+      activeBar2: true,
+      activeLine1: true,
+      activeLine2: true,
+    });
     const activeLayerIndex = this.state.allIndicatorCategory.indexOf(
       this.props.activeLayer,
     );
@@ -1396,7 +1500,7 @@ class MiddleChartSection extends Component {
               onKeyDown={this.handleLegend1Click}
               onClick={this.handleLegend1Click}
             >
-              Planned as per Apf
+              Planned As per AFP contract Budget
             </span>
             <span
               className={`span-label ${
