@@ -64,7 +64,7 @@ class Landing extends Component {
                   {' '}
                   Data Visualization Port 
                   {' '}
-                  <span className="abbr">(DVT)</span>
+                  <span className="abbr">(DVP)</span>
                 </h1>
                 <p className="span_book_18">A Small Leap towards Application of Open Data on Aid and Budget in Nepal.</p>
               </div>
