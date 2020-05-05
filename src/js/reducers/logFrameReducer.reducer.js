@@ -73,182 +73,7 @@ const initialState = {
     },
   ],
   options: {
-    chart: {
-      parentHeightOffset: 15,
-      // offsetY: -0,
-      toolbar: {
-        show: true,
-        // offsetX: 0,
-        // offsetY: 0,
-        tools: {
-          // download: `<a href="#/" class="download-icon-image"><img src=${DownloadIcon} alt=""></a>`,
-          download: `<i class="fa fa-download" aria-hidden="true"></i>`,
-          //   selection: true,
-          //   zoom: true,
-          //   zoomin: true,
-          //   zoomout: true,
-          //   pan: true,
-          //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
-          //   // customIcons: []
-        },
-        // autoSelected: 'zoom',
-      },
-      height: 350,
-      // width: '100%',
-      type: 'line',
-      stacked: false,
-      events: {
-        // eslint-disable-next-line object-shorthand
-        legendClick: function(chartContext, seriesIndex, config) {
-          console.log('a');
-          if (seriesIndex === 0) {
-            if (this.state.activeBar2 === true) {
-              this.setState({
-                activeBar1: false,
-                // activeLine2: false,
-              });
-            } else {
-              this.setState({
-                activeBar1: true,
-                // activeLine2: false,
-              });
-            }
-            if (this.state.activeLine2 === true) {
-              this.setState({
-                activeLine1: false,
-              });
-            } else {
-              this.setState({
-                activeLine1: true,
-                // activeLine2: false,
-              });
-            }
-            // this.setState({ activeBar1: false, activeLine1: false });
-            chartContext.toggleSeries(
-              'Planned As per AFP contract Budget',
-            );
-            chartContext.toggleSeries(
-              'Planned As per AFP contract Budget Line',
-            );
-            // chartContext.toggleSeries(
-            //   'Planned As per AFP contract Budget Bar',
-            // );
-            // setTimeout(() => {
-            //   document
-            //     .getElementsByClassName('apexcharts-legend-series')[0]
-            //     .classList.add('none');
-            //   // document
-            //   //   .getElementsByClassName(
-            //   //     'apexcharts-tooltip-series-group',
-            //   //   )[1]
-            //   //   .classList.add('none');
-            //   document
-            //     .getElementsByClassName('apexcharts-legend-series')[2]
-            //     .classList.add('none');
-            //   // document
-            //   //   .getElementsByClassName(
-            //   //     'apexcharts-tooltip-series-group',
-            //   //   )[3]
-            //   //   .classList.add('flex');
-            // }, 2000);
-            // } else if (seriesIndex === 1) {
-            //   // chartContext.toggleSeries('Achieved Bar');
-            //   // this.setState({});
-            //   chartContext.toggleSeries('Achieved Bar');
-            //   chartContext.toggleSeries('Achieved');
-            //   chartContext.toggleSeries('Achieved');
-            // } else if (seriesIndex === 2) {
-            //   // chartContext.toggleSeries('Achieved Bar');
-            //   chartContext.toggleSeries('Achieved Bar');
-            //   chartContext.toggleSeries('Achieved');
-            //   chartContext.toggleSeries('Achieved');
-          } else if (seriesIndex === 3) {
-            if (this.state.activeBar2 === true) {
-              this.setState({
-                activeBar2: false,
-                // activeLine2: false,
-              });
-            } else {
-              this.setState({
-                activeBar2: true,
-                // activeLine2: false,
-              });
-            }
-            if (this.state.activeLine2 === true) {
-              this.setState({
-                activeLine2: false,
-              });
-            } else {
-              this.setState({
-                activeLine2: true,
-                // activeLine2: false,
-              });
-            }
-            // chartContext.toggleSeries('Achieved Bar');
-            chartContext.toggleSeries('Achieved Bar');
-            chartContext.toggleSeries('Achieved');
-            chartContext.toggleSeries('Achieved');
-          }
-        },
-      },
-      // events: {
-      //   // eslint-disable-next-line object-shorthand
-      //   legendClick: function(chartContext, seriesIndex, config) {
-      //     console.log('legendClick');
-      //   },
-      //   // eslint-disable-next-line object-shorthand
-      //   click: function(event, chartContext, config) {
-      //     // ...
-      //     // console.log('chart Click');
-      //   },
-      // },
-    },
-    responsive: [
-      {
-        breakpoint: 992,
-        options: {
-          chart: {
-            height: 320,
-            events: {
-              legendClick(chartContext, seriesIndex, config) {},
-            },
-          },
-        },
-      },
-    ],
-    legend: {
-      position: 'top',
-      horizontalAlign: 'left',
-      // markers: {
-      //   onClick(chart, seriesIndex, opts) {
-      //     console.log(`series- ${seriesIndex}'s marker was clicked`);
-      //   },
-      // },
-      // onItemClick: e => {
-      //   console.log(e, 'a');
-      // },
-    },
-    stroke: {
-      width: [0, 1, 1],
-      curve: 'straight',
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '20%',
-      },
-    },
-    colors: ['#b41833', '#287078'],
-    fill: {
-      opacity: [0.45, 0.75, 0.15, 0.2],
-      gradient: {
-        inverseColors: false,
-        shade: 'light',
-        type: 'vertical',
-        opacityFrom: 0,
-        opacityTo: 0,
-        stops: [0, 100, 100, 100],
-      },
-    },
+    filteredDynamicData: null,
     labels: [
       '01/01/2003',
       '02/01/2003',
@@ -265,11 +90,6 @@ const initialState = {
       '01/01/2004',
       '02/01/2004',
     ],
-    markers: {
-      size: 5,
-      offsetX: 0,
-      offsetY: 0,
-    },
     xaxis: {
       tickAmount: 10,
       crosshairs: {
@@ -354,20 +174,6 @@ const initialState = {
       forceNiceScale: true,
 
       // max: 10,
-    },
-    logarithmic: true,
-    title: {
-      text: undefined,
-      rotate: -90,
-      offsetX: 0,
-      offsetY: 0,
-      style: {
-        color: undefined,
-        fontSize: '12px',
-        fontFamily: 'Helvetica, Arial, sans-serif',
-        fontWeight: 600,
-        cssClass: 'apexcharts-yaxis-title',
-      },
     },
 
     tooltip: {
@@ -617,7 +423,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   // console.log(achieved, 'achieved');
   const series = [
     {
-      name: 'Planned As per AFP contract Budget Bar',
+      name: 'Planned As per AFP contract Budget',
       type: 'column',
       data: planned,
     },
@@ -632,7 +438,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       data: planned,
     },
     {
-      name: 'Achieved Line',
+      name: 'Achieved',
       type: 'area',
       data: achieved,
     },

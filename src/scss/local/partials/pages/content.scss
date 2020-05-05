@@ -995,7 +995,9 @@ body{
         } 
     } 
 }
+.chart-wrap{
 .span-label{
+    position: relative;
     &:last-child{
         margin-left: 8px;
     }
@@ -1018,4 +1020,29 @@ body{
     &.span-inactive{
         opacity: .5;
     }
+    &:first-child, 
+        &:last-child{
+            &:before{
+               font-family: 'Material Icons';
+               font-size: 1.5rem;
+               color: $primary-light;
+               position: absolute;
+               top: 4.5px;
+               left: 15px;
+            }
+        }
+        &:first-child{
+            &:before{
+                width: 20px;
+                height: 20px;
+                color: 'red';
+                content: 'bar_chart';
+            }
+        }
+        &:last-child{
+            &:before{
+                content: 'show_chart';
+            }
+        }
+}
 }
