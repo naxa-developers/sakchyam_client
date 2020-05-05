@@ -734,7 +734,7 @@
 
 .apexcharts-toolbar {
   position: absolute;
-  z-index: 10;
+  z-index: 10 !important;
   max-width: 176px;
   text-align: right;
   border-radius: 3px;
