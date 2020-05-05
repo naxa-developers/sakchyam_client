@@ -1695,7 +1695,7 @@ class MiddleChartSection extends Component {
                         onKeyDown={this.handleTimeGraphClick}
                         onClick={this.handleTimeGraphClick}
                       >
-                        Time graph
+                        Line graph
                       </span>
                     </div>
                   </div>
@@ -1806,6 +1806,11 @@ class MiddleChartSection extends Component {
                   style={{
                     display:
                       activeDateValues.length === 0
+                        ? 'block'
+                        : activeBar1 === false &&
+                          activeBar2 === false &&
+                          activeLine1 === false &&
+                          activeLine2 === false
                         ? 'block'
                         : 'none',
                     marginLeft: '15px',

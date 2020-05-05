@@ -86,7 +86,8 @@ class MainComponent extends Component {
     dateArrayValues = [];
     if (value === 'All') {
       // alert('all click');
-      if (!activeDate.length >= 6 || activeDate.length === 0) {
+      // if (!activeDate.length >= 6 || activeDate.length === 0) {
+      if (e.target.checked === true) {
         // dateArray.push('All');
         // alert('xirtyo');
         totalRangeDate.map(data => {
