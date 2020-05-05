@@ -102,7 +102,7 @@ class Login extends Component {
                       Welcome
                       <span> to</span>
                       <br />
-                      Data Visualization Tool (DVT)
+                      Data Visualization Port (DVP)
                     </h3>
                     <span className="span_heavy_15">
                       A Small Leap towards Application of Open Data on

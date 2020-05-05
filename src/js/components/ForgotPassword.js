@@ -71,7 +71,7 @@ class ChangePassword extends Component {
                           <span>to</span>
                           <br />
                           {' '}
-                          Data Visualization Tool (DVT)
+                          Data Visualization Port (DVP)
                         </h2>
                         <span className="span_heavy_15">A Small Leap towards Application of Open Data on Aid and Budget in Nepal.</span>
                       </div>

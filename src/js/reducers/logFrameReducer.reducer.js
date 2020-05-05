@@ -255,12 +255,12 @@ const filterIndicatorGraphData = (state, action) => {
       data: planned,
     },
     {
-      name: 'Achieved Bar',
+      name: 'Achieved ',
       type: 'column',
       data: achieved,
     },
     {
-      name: 'Planned As per AFP contract Budget Line',
+      name: 'Planned As per AFP contract Budget ',
       type: 'area',
       data: planned,
     },
@@ -356,12 +356,12 @@ const filterIndicatorGraphData = (state, action) => {
 //       data: planned,
 //     },
 //     {
-//       name: 'Achieved Bar',
+//       name: 'Achieved ',
 //       type: 'column',
 //       data: achieved,
 //     },
 //     {
-//       name: 'Planned As per AFP contract Budget Line',
+//       name: 'Planned As per AFP contract Budget ',
 //       type: 'line',
 //       data: planned,
 //     },
@@ -383,6 +383,8 @@ const filterIndicatorGraphData = (state, action) => {
 const filterIndicatorGraphDataWithDate = (state, action) => {
   const { activeLayer, activeDate } = action.payload;
   const filtered = [];
+  // eslint-disable-next-line array-callback-return
+  console.log(activeDate, 'activeDate');
   // eslint-disable-next-line array-callback-return
   activeDate.map(date => {
     // eslint-disable-next-line array-callback-return
@@ -428,12 +430,12 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       data: planned,
     },
     {
-      name: 'Achieved Bar',
+      name: 'Achieved ',
       type: 'column',
       data: achieved,
     },
     {
-      name: 'Planned As per AFP contract Budget Line',
+      name: 'Planned As per AFP contract Budget ',
       type: 'area',
       data: planned,
     },
