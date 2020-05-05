@@ -133,7 +133,7 @@ class Header extends Component {
         <div className="container-fluid p-0">
           <ul>
             <li>
-              <Link to="/logframe" className="logo">
+              <Link to="/landing" className="logo">
                 <img
                   src={headerTransparent ? WhiteLogo : Logo}
                   alt="sakchyam logo"

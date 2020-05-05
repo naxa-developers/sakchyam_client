@@ -395,15 +395,23 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       }
     });
   });
+
+  // const { dataType } = filtered[0];
+  const dataType = filtered && filtered[0] && filtered[0].data_type;
   const dataUnit = filtered && filtered[0] && filtered[0].unit;
+
   let unit = '';
-  if (dataUnit === 'pound') {
+  let type = '';
+  console.log(dataUnit, 'dataUnit');
+  if (dataType === 'percentage') {
+    type = '%';
+  } else if (dataUnit === 'pound') {
     unit = '£';
   } else if (dataUnit === 'nrs') {
     unit = 'Rs';
+  } else if (dataUnit === 'percentage') {
+    unit = 'Rs';
   }
-  // const { dataType } = filtered[0];
-
   const planned = filtered.map(el => {
     return `${el.planned_afp}`;
   });
@@ -456,6 +464,14 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       ...state.options,
       labels: label,
       xaxis: { ...state.options.xaxis, categories: category },
+      yaxis: {
+        ...state.options.yaxis,
+        title: {
+          text: `${dataType}  ${
+            dataUnit !== null ? `(${dataUnit})` : ''
+          }`,
+        },
+      },
       tooltip: {
         shared: true,
         intersect: false,
@@ -463,7 +479,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
           formatter(y) {
             // console.log(y, 'y');
             if (typeof y !== 'undefined') {
-              return `${unit} ${y.toFixed(0)}`;
+              return `${unit} ${y.toFixed(0)}${type}`;
             }
             return y;
           },
