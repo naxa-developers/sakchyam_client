@@ -384,8 +384,6 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   const { activeLayer, activeDate } = action.payload;
   const filtered = [];
   // eslint-disable-next-line array-callback-return
-  console.log(activeDate, 'activeDate');
-  // eslint-disable-next-line array-callback-return
   activeDate.map(date => {
     // eslint-disable-next-line array-callback-return
     state.logDataGraph.map(data => {

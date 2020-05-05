@@ -261,7 +261,12 @@ class MiddleChartSection extends Component {
           },
           min: 0,
           forceNiceScale: true,
-
+          // axisBorder: {
+          //   show: true,
+          //   color: '#78909C',
+          //   offsetX: 100,
+          //   offsetY: 0,
+          // },
           // max: 10,
         },
         logarithmic: true,
@@ -640,6 +645,12 @@ class MiddleChartSection extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.logFrameReducer.totalRangeDateName !==
+      this.props.logFrameReducer.totalRangeDateName
+    ) {
+      this.props.selectAllDate();
+    }
     // if (
     //   prevState.activeBar1 !== this.state.activeBar1 ||
     //   prevState.activeBar2 !== this.state.activeBar2 ||
@@ -709,7 +720,7 @@ class MiddleChartSection extends Component {
     //     }, 1000);
     //   }
     // }
-    console.log(this.chartRef.chart, 'chartRef');
+    // console.log(this.chartRef.chart, 'chartRef');
     if (
       prevState.activeBar1 !== this.state.activeBar1 ||
       prevState.activeBar2 !== this.state.activeBar2 ||
@@ -927,8 +938,8 @@ class MiddleChartSection extends Component {
       prevProps.logFrameReducer.options !==
       this.props.logFrameReducer.options
     ) {
-      console.log(prevProps.logFrameReducer.options);
-      console.log(this.props.logFrameReducer.options);
+      // console.log(prevProps.logFrameReducer.options);
+      // console.log(this.props.logFrameReducer.options);
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         options: { ...this.props.logFrameReducer.options },
@@ -999,7 +1010,7 @@ class MiddleChartSection extends Component {
         });
         return true;
       });
-      console.log(b);
+      // console.log(b);
       this.allIndicatorCategorySetState(b);
       // this.props.filterIndicatorGraphData(activeLayer);
     }
@@ -1009,10 +1020,10 @@ class MiddleChartSection extends Component {
     if (prevProps.activeLayer !== activeLayer) {
       // this.filterDataWithLayer();
       if (activeDate.length === 0) {
-        console.log('if active layer changed');
+        // console.log('if active layer changed');
         this.props.filterIndicatorGraphData(activeLayer);
       } else {
-        console.log('else active layer changed');
+        // console.log('else active layer changed');
 
         this.props.filterIndicatorGraphDataWithDate(
           activeLayer,
@@ -1056,7 +1067,7 @@ class MiddleChartSection extends Component {
         activeLine1: true,
         activeLine2: true,
       });
-      console.log(activeDataType, 'change datatype');
+      // console.log(activeDataType, 'change datatype');
       if (activeDataType === 'Individual') {
         if (activeDate.length === 0) {
           this.props.getIndicatorsGraphDataIndividual(
@@ -1292,7 +1303,7 @@ class MiddleChartSection extends Component {
   };
 
   handleChange = selectedOption => {
-    console.log('selectedOption', selectedOption);
+    // console.log('selectedOption', selectedOption);
     this.setState({ selectedOption }, () =>
       console.log(`Option selected:`, this.state.selectedOption),
     );
@@ -1490,7 +1501,7 @@ class MiddleChartSection extends Component {
                     >
                       {activeDateValues.length === 0
                         ? 'Choose Time Period'
-                        : activeDateValues.length >= 5
+                        : activeDateValues.length >= 6
                         ? 'All'
                         : `${activeDateValues}`}
                     </span>
@@ -1504,7 +1515,7 @@ class MiddleChartSection extends Component {
                         <input
                           type="checkbox"
                           checked={
-                            activeDate.includes('All') === true
+                            activeDate.length >= 6 === true
                               ? true
                               : false
                           }
@@ -1632,12 +1643,23 @@ class MiddleChartSection extends Component {
                           Cumulative
                         </li>
                         <li
-                          className={
+                          // className={
+                          //   {activeDataType === 'Individual'
+                          //     ? 'li-active'
+                          //     : ''}
+                          //     activeLayer === 'Output Indicator 2.1' ? 'disabled':''
+                          // }
+                          className={`${
                             activeDataType === 'Individual'
                               ? 'li-active'
                               : ''
-                          }
+                          } ${
+                            activeLayer === 'Output Indicator 2.1'
+                              ? 'disabled'
+                              : ''
+                          }`}
                           role="tab"
+                          // style={activeLayer === 'Output Indicator 2.1'? ''}}
                           onClick={() => {
                             handleSelectedDataType('Individual');
                           }}
