@@ -13,6 +13,8 @@ export const loginUser = data => dispatch => {
         const expireTime = new Date();
         expireTime.setHours(expireTime.getHours() + 1);
         const today = new Date();
+        console.log(today.valueOf());
+        console.log(expireTime.valueOf());
         localStorage.setItem('loginTime', today);
         localStorage.setItem('expirationTime', expireTime);
         axiosInstance.defaults.headers.Authorization = `Bearer ${result.data.access}`;

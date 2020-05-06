@@ -26,16 +26,20 @@ class Landing extends Component {
 
   componentDidMount() {
     const today= localStorage.getItem('loginTime')
+    const currentTime = new Date().valueOf();
+    console.log(currentTime,'cuirren  ')
     const expireTime= localStorage.getItem('expirationTime')
-    if (today <= expireTime) {
+    if (currentTime <= expireTime && expireTime.valueOf()) {
       console.log('correct');
-    } else {
       localStorage.removeItem('userToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('loginTime');
       localStorage.removeItem('expirationTime');
       localStorage.removeItem('userPermission');
-      window.location.reload()
+    } else {
+      alert('else')
+     
+      // window.location.reload()
       console.log('incorrect');
     }
     const permissionData = localStorage.getItem('userPermission');
