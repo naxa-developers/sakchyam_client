@@ -646,6 +646,15 @@ class MiddleChartSection extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    // if (!this.state.activeBar && !this.state.activeTimeGraph) {
+    //   // eslint-disable-next-line react/no-did-update-set-state
+    //   this.setState({
+    //     activeBar1: true,
+    //     activeBar2: true,
+    //     activeLine1: true,
+    //     activeLine2: true,
+    //   });
+    // }
     if (
       prevProps.logFrameReducer.totalRangeDateName !==
       this.props.logFrameReducer.totalRangeDateName
@@ -1184,6 +1193,17 @@ class MiddleChartSection extends Component {
         this.setState({ activeBar2: true });
       }
     }
+    if (!this.state.activeTimeGraph && this.state.activeBar) {
+      console.log('xiryo First');
+      this.setState({
+        activeBar: true,
+        activeTimeGraph: true,
+        activeBar1: true,
+        activeBar2: true,
+        activeLine1: true,
+        activeLine2: true,
+      });
+    }
   };
 
   handleTimeGraphClick = () => {
@@ -1203,6 +1223,19 @@ class MiddleChartSection extends Component {
         this.setState({ activeLine2: true });
       }
     }
+    console.log(this.state.activeTimeGraph, 'a');
+    console.log(this.state.activeBar, 'b');
+    if (this.state.activeTimeGraph && !this.state.activeBar) {
+      console.log('xiryo');
+      this.setState({
+        activeBar: true,
+        activeTimeGraph: true,
+        activeBar1: true,
+        activeBar2: true,
+        activeLine1: true,
+        activeLine2: true,
+      });
+    }
   };
 
   handleMainCategorySlide = selectedValue => {
@@ -1219,6 +1252,8 @@ class MiddleChartSection extends Component {
 
   nextBtnClick = () => {
     this.setState({
+      activeBar: true,
+      activeTimeGraph: true,
       activeBar1: true,
       activeBar2: true,
       activeLine1: true,
@@ -1279,6 +1314,8 @@ class MiddleChartSection extends Component {
 
   prevBtnClick = () => {
     this.setState({
+      activeBar: true,
+      activeTimeGraph: true,
       activeBar1: true,
       activeBar2: true,
       activeLine1: true,

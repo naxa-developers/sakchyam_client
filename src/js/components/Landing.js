@@ -25,6 +25,19 @@ class Landing extends Component {
   };
 
   componentDidMount() {
+    const today= localStorage.getItem('loginTime')
+    const expireTime= localStorage.getItem('expirationTime')
+    if (today <= expireTime) {
+      console.log('correct');
+    } else {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('loginTime');
+      localStorage.removeItem('expirationTime');
+      localStorage.removeItem('userPermission');
+      window.location.reload()
+      console.log('incorrect');
+    }
     const permissionData = localStorage.getItem('userPermission');
     permissionObject= JSON.parse(permissionData)
     this.setState({permissions: permissionObject})
