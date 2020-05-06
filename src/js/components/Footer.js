@@ -67,12 +67,12 @@ class Footer extends Component {
               </div>
             </div>
 
-            <div className="contact">
+            {/* <div className="contact">
               <ul>
                 <li className="span_heavy_15">FAQs</li>
                 <li className="span_heavy_15">Contact</li>
               </ul>
-            </div>
+            </div> */}
           </div>
 
           <span className="footer-copy">

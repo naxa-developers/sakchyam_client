@@ -1,4 +1,7 @@
-import { LOGIN_USER } from '../actions/index.actions';
+import {
+  LOGIN_USER,
+  USER_PERMISSIONS,
+} from '../actions/index.actions';
 
 // import copy from '../utils/cloneNestedObject';
 /* eslint-disable camelcase */
@@ -9,6 +12,7 @@ import { LOGIN_USER } from '../actions/index.actions';
 const initialState = {
   login: [],
   redirectToReferrer: false,
+  permissions: null,
   //   logDataGraph: [],
 };
 
@@ -18,6 +22,14 @@ export default function(state = initialState, action) {
       console.log(action.payload);
       return {
         ...state,
+        login: action.payload,
+        // logDataGraph: action.payload,
+      };
+    case USER_PERMISSIONS:
+      console.log(action.payload);
+      return {
+        ...state,
+        permissions: action.payload,
         redirectToReferrer: true,
         // logDataGraph: action.payload,
       };

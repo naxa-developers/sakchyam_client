@@ -909,14 +909,14 @@ class MiddleChartSection extends Component {
               'apexcharts-tooltip-series-group',
             )[1]
             .classList.add('none');
-        }, 1000);
+        }, 500);
         setTimeout(() => {
           document
             .getElementsByClassName(
               'apexcharts-tooltip-series-group',
             )[2]
             .classList.add('none');
-        }, 1000);
+        }, 500);
       } else {
         setTimeout(() => {
           document
@@ -924,14 +924,14 @@ class MiddleChartSection extends Component {
               'apexcharts-tooltip-series-group',
             )[1]
             .classList.remove('none');
-        }, 1000);
+        }, 500);
         setTimeout(() => {
           document
             .getElementsByClassName(
               'apexcharts-tooltip-series-group',
             )[2]
             .classList.remove('none');
-        }, 1000);
+        }, 500);
       }
     }
     if (
@@ -1161,6 +1161,11 @@ class MiddleChartSection extends Component {
   };
 
   handleBarClick = () => {
+    // html2canvas(document.querySelector('.info-content-wrap')[0]).then(
+    //   canvas => {
+    //     document.body.appendChild(canvas);
+    //   },
+    // );
     this.setState(prevState => ({
       activeBar: !prevState.activeBar,
     }));

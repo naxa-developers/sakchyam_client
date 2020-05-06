@@ -12,6 +12,7 @@ class Header extends Component {
     super(props);
     this.state = {
       activeProfileDropdown: false,
+      permissions: null,
     };
   }
 
@@ -47,6 +48,10 @@ class Header extends Component {
   // }
 
   componentDidMount() {
+    const permissionData = localStorage.getItem('userPermission');
+    const permissionObject = JSON.parse(permissionData);
+    this.setState({ permissions: permissionObject });
+    console.log(permissionObject, 'permission');
     if (this.props.disableScroll) {
       // this.headerUpdate();
 
@@ -118,11 +123,12 @@ class Header extends Component {
   handleLogOut = () => {
     localStorage.removeItem('userToken');
     localStorage.removeItem('refreshToken');
-    window.location.href = '/login';
+    localStorage.removeItem('userPermission');
+    window.location.href = '/';
   };
 
   render() {
-    const { activeProfileDropdown } = this.state;
+    const { activeProfileDropdown, permissions } = this.state;
     const { headerTransparent } = this.props;
     return (
       <header
@@ -157,52 +163,71 @@ class Header extends Component {
                     Contact
                   </a>
                 </li>
-                <li>
-                  <Link to="/login" className="span_heavy_15">
-                    Login
-                  </Link>
-                </li>
+                {permissions && permissions[0].email ? (
+                  ''
+                ) : (
+                  <li>
+                    <Link to="/login" className="span_heavy_15">
+                      Login
+                    </Link>
+                  </li>
+                )}
               </ul>
-              {/* <div
-                className="profile-img dropdown"
-                id="profile_dropdown"
-              >
-                <a
-                  className="log-out dropdown_toggle"
-                  role="button"
-                  tabIndex="0"
-                  onKeyDown={this.handleDropdown}
-                  onClick={this.handleDropdown}
+              {permissions && permissions[0].email ? (
+                <div
+                  className="profile-img dropdown"
+                  id="profile_dropdown"
                 >
-                  <img src={PpImage} alt="ppimage" />
-                </a>
-                <ul
-                  className={`dropdown_menu ${
-                    activeProfileDropdown ? 'active' : ''
-                  }`}
-                >
-                  <li>
-                    <a href="#/" className="profile span_heavy_15">
-                      Profile
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#/" className="settings span_heavy_15">
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                    {' '}
-                    <a
-                      href="#/"
-                      onClick={this.handleLogOut}
-                      className="logout span_heavy_15"
-                    >
-                      Logout
-                    </a>
-                  </li>
-                </ul>
-              </div> */}
+                  <a
+                    className="log-out dropdown_toggle"
+                    role="button"
+                    tabIndex="0"
+                    onKeyDown={this.handleDropdown}
+                    onClick={this.handleDropdown}
+                  >
+                    {permissions[0].image ? (
+                      <img
+                        src={`https://sakchyam.naxa.com.np${permissions[0].image}`}
+                        alt="ppimage"
+                      />
+                    ) : (
+                      <img src={PpImage} alt="ppimage" />
+                    )}
+                  </a>
+                  <ul
+                    className={`dropdown_menu ${
+                      activeProfileDropdown ? 'active' : ''
+                    }`}
+                  >
+                    <li>
+                      <a
+                        href="#/"
+                        className="disabled profile span_heavy_15"
+                      >
+                        Profile
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#/"
+                        className="disabled settings span_heavy_15"
+                      >
+                        Settings
+                      </a>
+                    </li>
+                    <li>
+                      {' '}
+                      <a
+                        href="#/"
+                        onClick={this.handleLogOut}
+                        className="logout span_heavy_15"
+                      >
+                        Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              ) : null}
               <a href="index.html" className="logo">
                 <img
                   src={headerTransparent ? UKAidWhiteLogo : UkaidLogo}
