@@ -22,7 +22,7 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.loginUser(this.state);
-    this.props.getUserPermissions();
+    // this.props.getUserPermissions();
   };
 
   handleChange = e => {
@@ -192,9 +192,9 @@ class Login extends Component {
                     <button type="submit">
                       <a className="span_heavy_15">Log in</a>
                     </button>
-                    <span className="span_book_15">
+                    {/* <span className="span_book_15">
                       Can&apos;t log in?
-                    </span>
+                    </span> */}
                   </div>
                 </form>
                 <div className="login-footer">

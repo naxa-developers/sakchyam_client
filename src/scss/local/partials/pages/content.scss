@@ -462,7 +462,7 @@
                     position: absolute;
                     left: auto;
                     right: 0px;
-                    top: 0px;
+                    top: -5px;
                     @include display-flex(flex);
                     @include justify-content-center;
                     @include align-items-center;

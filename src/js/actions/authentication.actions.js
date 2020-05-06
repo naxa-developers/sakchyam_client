@@ -14,6 +14,26 @@ export const loginUser = data => dispatch => {
         axiosInstance.defaults.headers.Authorization = `Bearer ${result.data.access}`;
         localStorage.setItem('userToken', result.data.access);
         localStorage.setItem('refreshToken', result.data.refresh);
+        axios
+          .get(
+            `${process.env.PUBLIC_URL}/api/v1/token/user-permission/`,
+            {
+              headers: {
+                Authorization: `Bearer ${result.data.access}`,
+              },
+            },
+          )
+          .then(res => {
+            localStorage.setItem(
+              'userPermission',
+              JSON.stringify(res.data),
+            );
+            dispatch({
+              type: USER_PERMISSIONS,
+              payload: res.data,
+            });
+          })
+          .catch(() => {});
         return dispatch({
           type: LOGIN_USER,
           payload: result.data,
@@ -41,18 +61,36 @@ export const loginUser = data => dispatch => {
   //   .catch(() => {});
 };
 export const getUserPermissions = () => dispatch => {
-  const token = localStorage.getItem('userToken');
-  axios
-    .get(`${process.env.PUBLIC_URL}/api/v1/token/user-permission/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then(res => {
-      dispatch({
-        type: USER_PERMISSIONS,
-        payload: res.data,
+  try {
+    const response = axiosInstance
+      .get('/api/v1/token/user-permission/')
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: USER_PERMISSIONS,
+          payload: result.data,
+        });
       });
-    })
-    .catch(() => {});
+  } catch (err) {
+    console.error(err);
+  }
+  // const token = localStorage.getItem('userToken');
+  // axios
+  //   .get(`${process.env.PUBLIC_URL}/api/v1/token/user-permission/`, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //   .then(res => {
+  //     localStorage.setItem(
+  //       'userPermission',
+  //       JSON.stringify(res.data),
+  //     );
+  //     dispatch({
+  //       type: USER_PERMISSIONS,
+  //       payload: res.data,
+  //     });
+  //   })
+  //   .catch(() => {});
 };
