@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FullPage, Slide } from 'react-full-page';
-import Background from '../../../../img/banner.png';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-
+// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Header from '../../Header';
 import LeftSidebarMain from './LefSideBar/LeftSideBarMain';
 
