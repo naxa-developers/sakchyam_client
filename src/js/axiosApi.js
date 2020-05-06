@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.PUBLIC_URL}`,
-  timeout: 15000,
+  timeout: 3600000,
   headers: {
     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
     'Content-Type': 'application/json',
@@ -22,6 +22,7 @@ axiosInstance.interceptors.response.use(
       const refreshToken = localStorage.getItem('refreshToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('userToken');
+      localStorage.removeItem('userPermission');
       console.log(refreshToken, 'reftoken');
       return axiosInstance
         .post('/api/v1/token/refresh/', { refresh: refreshToken })
@@ -46,7 +47,7 @@ axiosInstance.interceptors.response.use(
       error.response.statusText === 'Unauthorized'
     ) {
       // send login page
-      window.location.href = '/';
+      window.location.href = '/login';
     }
 
     // specific error handling done elsewhere

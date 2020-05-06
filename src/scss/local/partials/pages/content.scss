@@ -462,7 +462,7 @@
                     position: absolute;
                     left: auto;
                     right: 0px;
-                    top: -5px;
+                    top: -38px;
                     @include display-flex(flex);
                     @include justify-content-center;
                     @include align-items-center;
@@ -524,6 +524,7 @@
                     #chart{
                         // height: 100%;
                         .apexcharts-toolbar{
+                            top:-35px !important;
                             // display: none;
                             // right: 20px !important;
                             .apexcharts-pan-icon, .apexcharts-reset-icon, .apexcharts-menu-icon, .apexcharts-menu{

@@ -646,82 +646,43 @@ class MiddleChartSection extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const {
+      props: {
+        logFrameReducer: { filteredDynamicData },
+      },
+    } = this;
+    if (
+      prevProps.logFrameReducer.filteredDynamicData &&
+      prevProps.logFrameReducer.filteredDynamicData[0] &&
+      prevProps.logFrameReducer.filteredDynamicData[0].sub_category
+        .title !== filteredDynamicData[0].sub_category.title
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        activeBar: true,
+        activeBar1: true,
+        activeBar2: true,
+        activeLine1: true,
+        activeLine2: true,
+        activeTimeGraph: true,
+      });
+    }
     if (
       prevProps.logFrameReducer.totalRangeDateName !==
       this.props.logFrameReducer.totalRangeDateName
     ) {
+      // if (!this.state.activeBar && !this.state.activeTimeGraph) {
+      //   // eslint-disable-next-line react/no-did-update-set-state
+      //   this.setState({
+      //     activeBar1: true,
+      //     activeBar2: true,
+      //     activeLine1: true,
+      //     activeLine2: true,
+      //   });
+      // }
       this.props.selectAllDate();
     }
-    // if (
-    //   prevState.activeBar1 !== this.state.activeBar1 ||
-    //   prevState.activeBar2 !== this.state.activeBar2 ||
-    //   prevState.activeLine1 !== this.state.activeLine1 ||
-    //   prevState.activeLine2 !== this.state.activeLine2
-    // ) {
-    // }
-    // this.checkTooltip();
-    // if (
-    //   this.state.activeBar1 &&
-    //   this.state.activeBar2 &&
-    //   this.state.activeLine1 &&
-    //   this.state.activeLine2
-    // ) {
-    //   // alert('updated data');
-    //   if (
-    //     document.getElementsByClassName(
-    //       'apexcharts-tooltip-series-group',
-    //     )[1]
-    //   ) {
-    //     setTimeout(() => {
-    //       document
-    //         .getElementsByClassName(
-    //           'apexcharts-tooltip-series-group',
-    //         )[1]
-    //         .classList.add('none');
-    //     }, 1000);
-    //   }
-    //   if (
-    //     document.getElementsByClassName(
-    //       'apexcharts-tooltip-series-group',
-    //     )[2]
-    //   ) {
-    //     setTimeout(() => {
-    //       document
-    //         .getElementsByClassName(
-    //           'apexcharts-tooltip-series-group',
-    //         )[2]
-    //         .classList.add('none');
-    //     }, 1000);
-    //   }
-    // } else {
-    //   if (
-    //     document.getElementsByClassName(
-    //       'apexcharts-tooltip-series-group',
-    //     )[1]
-    //   ) {
-    //     setTimeout(() => {
-    //       document
-    //         .getElementsByClassName(
-    //           'apexcharts-tooltip-series-group',
-    //         )[1]
-    //         .classList.remove('none');
-    //     }, 1000);
-    //   }
-    //   if (
-    //     document.getElementsByClassName(
-    //       'apexcharts-tooltip-series-group',
-    //     )[2]
-    //   ) {
-    //     setTimeout(() => {
-    //       document
-    //         .getElementsByClassName(
-    //           'apexcharts-tooltip-series-group',
-    //         )[2]
-    //         .classList.remove('none');
-    //     }, 1000);
-    //   }
-    // }
-    // console.log(this.chartRef.chart, 'chartRef');
+
     if (
       prevState.activeBar1 !== this.state.activeBar1 ||
       prevState.activeBar2 !== this.state.activeBar2 ||
@@ -829,70 +790,6 @@ class MiddleChartSection extends Component {
         this.chartRef.chart.hideSeries('Achieved');
       }
     }
-    // if (prevState.activeBar2 !== this.state.activeBar2) {
-    // }
-    // if (prevState.activeBar1 !== this.state.activeLine1) {
-    // }
-    // if (prevState.activeBar1 !== this.state.activeLine2) {
-    // }
-    // setTimeout(() => {
-    //   const firstLegend = document.getElementsByClassName(
-    //     'apexcharts-legend-series',
-    //   )[0];
-    //   // firstLegend.addEventListener('click', function() {
-    //   //   alert('clicked First Legend');
-    //   // });
-    //   // const firstLegend = document.getElementsByClassName(
-    //   //   'apexcharts-legend-series',
-    //   // )[0];
-    //   // const secondLegend = document.getElementsByClassName(
-    //   //   'apexcharts-legend-series',
-    //   // )[3];
-    //   firstLegend.addEventListener('click', event => {
-    //     console.log('clicked firstlegend');
-    //     this.setState(prevState => ({
-    //       firstPlannedSelected: !prevState.firstPlannedSelected,
-    //     }));
-    //   });
-    // }, 1000);
-
-    // setTimeout(() => {
-    //   const secondLegend = document.getElementsByClassName(
-    //     'apexcharts-legend-series',
-    //   )[3];
-    //   // firstLegend.addEventListener('click', function() {
-    //   //   alert('clicked First Legend');
-    //   // });
-    //   // const firstLegend = document.getElementsByClassName(
-    //   //   'apexcharts-legend-series',
-    //   // )[0];
-    //   // const secondLegend = document.getElementsByClassName(
-    //   //   'apexcharts-legend-series',
-    //   // )[3];
-    //   secondLegend.addEventListener('click', event => {
-    //     console.log('clicked secondlegend');
-    //     this.setState(prevState => ({
-    //       secondAchievedSelected: !prevState.secondAchievedSelected,
-    //     }));
-    //   });
-    // }, 1000);
-    // setTimeout(() => {
-    //   this.changedElementCssBar();
-    // }, 2000);
-    // console.log(this.state.activeBar, 'activeBar state update');
-    // console.log(this.state.activeBar, 'activeBar state update');
-    // if()
-    // (!prevState.activeBar && !this.state.activeTimeGraph) {
-    //   alert('else if ');
-    //   this.chartRef.chart.showSeries(
-    //     'Planned As per AFP contract Budget',
-    //   );
-    //   this.chartRef.chart.showSeries('Achieved ');
-    //   this.chartRef.chart.showSeries(
-    //     'Planned As per AFP contract Budget ',
-    //   );
-    //   this.chartRef.chart.showSeries('Achieved');
-    // }
     if (
       prevProps.logFrameReducer.series !==
       this.props.logFrameReducer.series
@@ -951,50 +848,6 @@ class MiddleChartSection extends Component {
         'apexcharts-menu-icon',
       )[0].title = 'Export';
     }
-    // if (
-    //   document.getElementsByClassName('apexcharts-legend-text')[0]
-    // ) {
-    //   // document.getElementsByClassName(
-    //   //   'apexcharts-legend-text',
-    //   // )[0].innerText = document
-    //   //   .getElementsByClassName('apexcharts-legend-text')[0]
-    //   //   .innerText.replace('Bar', '');
-    //   // document.getElementsByClassName(
-    //   //   'apexcharts-tooltip-text-label',
-    //   // )[0].innerText = document
-    //   //   .getElementsByClassName('apexcharts-tooltip-text-label')[0]
-    //   //   .innerText.replace('Bar', '');
-    //   document.getElementsByClassName(
-    //     'apexcharts-legend-text',
-    //   )[0].innerText = document
-    //     .getElementsByClassName('apexcharts-legend-text')[0]
-    //     .innerText.replace('Bar', '');
-    //   document.getElementsByClassName(
-    //     'apexcharts-legend-text',
-    //   )[0].innerText = document
-    //     .getElementsByClassName('apexcharts-legend-text')[0]
-    //     .innerText.replace('Bar', '');
-    // }
-    // if (
-    //   document.getElementsByClassName('apexcharts-legend-text')[3]
-    // ) {
-    //   document.getElementsByClassName(
-    //     'apexcharts-legend-text',
-    //   )[3].innerText = document
-    //     .getElementsByClassName('apexcharts-legend-text')[3]
-    //     .innerText.replace('Line', '');
-    //   document.getElementsByClassName(
-    //     'apexcharts-legend-text',
-    //   )[3].innerText = document
-    //     .getElementsByClassName('apexcharts-legend-text')[3]
-    //     .innerText.replace('Line', '');
-    // }
-    // document.getElementsByClassName(
-    //   'apexcharts-legend-series',
-    // )[1].style.display = 'none';
-    // document.getElementsByClassName(
-    //   'apexcharts-legend-series',
-    // )[2].style.display = 'none';
 
     const {
       logFrameReducer: { indicatorCategory },
@@ -1184,6 +1037,17 @@ class MiddleChartSection extends Component {
         this.setState({ activeBar2: true });
       }
     }
+    if (!this.state.activeTimeGraph && this.state.activeBar) {
+      console.log('xiryo First');
+      this.setState({
+        activeBar: true,
+        activeTimeGraph: true,
+        activeBar1: true,
+        activeBar2: true,
+        activeLine1: true,
+        activeLine2: true,
+      });
+    }
   };
 
   handleTimeGraphClick = () => {
@@ -1203,6 +1067,19 @@ class MiddleChartSection extends Component {
         this.setState({ activeLine2: true });
       }
     }
+    console.log(this.state.activeTimeGraph, 'a');
+    console.log(this.state.activeBar, 'b');
+    if (this.state.activeTimeGraph && !this.state.activeBar) {
+      console.log('xiryo');
+      this.setState({
+        activeBar: true,
+        activeTimeGraph: true,
+        activeBar1: true,
+        activeBar2: true,
+        activeLine1: true,
+        activeLine2: true,
+      });
+    }
   };
 
   handleMainCategorySlide = selectedValue => {
@@ -1219,6 +1096,8 @@ class MiddleChartSection extends Component {
 
   nextBtnClick = () => {
     this.setState({
+      activeBar: true,
+      activeTimeGraph: true,
       activeBar1: true,
       activeBar2: true,
       activeLine1: true,
@@ -1279,6 +1158,8 @@ class MiddleChartSection extends Component {
 
   prevBtnClick = () => {
     this.setState({
+      activeBar: true,
+      activeTimeGraph: true,
       activeBar1: true,
       activeBar2: true,
       activeLine1: true,

@@ -25,10 +25,27 @@ class Landing extends Component {
   };
 
   componentDidMount() {
+    const today= localStorage.getItem('loginTime')
+    const currentTime = new Date().valueOf();
+    // console.log(currentTime,'cuirren  ')
+    const expireTime= localStorage.getItem('expirationTime')
+    if (currentTime <= expireTime && expireTime.valueOf()) {
+      // console.log('correct');
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('loginTime');
+      localStorage.removeItem('expirationTime');
+      localStorage.removeItem('userPermission');
+    } else {
+      // alert('else')
+     
+      // window.location.reload()
+      // console.log('incorrect');
+    }
     const permissionData = localStorage.getItem('userPermission');
     permissionObject= JSON.parse(permissionData)
     this.setState({permissions: permissionObject})
-    console.log(permissionObject,'permission');
+    // console.log(permissionObject,'permission');
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);

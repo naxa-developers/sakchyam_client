@@ -10,7 +10,13 @@ export const loginUser = data => dispatch => {
     const response = axiosInstance
       .post('/api/v1/token/login/', data)
       .then(function(result) {
-        console.log(result, 'result');
+        const expireTime = new Date();
+        expireTime.setHours(expireTime.getHours() + 1);
+        const today = new Date();
+        console.log(today.valueOf());
+        console.log(expireTime.valueOf());
+        localStorage.setItem('loginTime', today);
+        localStorage.setItem('expirationTime', expireTime);
         axiosInstance.defaults.headers.Authorization = `Bearer ${result.data.access}`;
         localStorage.setItem('userToken', result.data.access);
         localStorage.setItem('refreshToken', result.data.refresh);
