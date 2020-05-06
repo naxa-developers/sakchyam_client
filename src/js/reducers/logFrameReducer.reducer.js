@@ -4,6 +4,7 @@ import {
   GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
   FILTER_INDICATOR_GRAPH_DATA,
   FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
+  LOADING_TRUE,
 } from '../actions/index.actions';
 import DownloadIcon from '../../img/save_alt.svg';
 
@@ -11,6 +12,30 @@ import DownloadIcon from '../../img/save_alt.svg';
 /* eslint-disable camelcase */
 /* eslint-disable  no-unused-vars */
 
+/* eslint-disable no-param-reassign */
+// function numberWithCommas(x) {
+//   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+// }
+// function numberWithCommas(_number, _sep) {
+//   _number =
+//     typeof _number !== 'undefined' && _number > 0 ? _number : '';
+//   _number = _number
+//     .replace(
+//       new RegExp(
+//         `^(\\d{${
+//           _number.length % 3 ? _number.length % 3 : 0
+//         }})(\\d{3})`,
+//         'g',
+//       ),
+//       '$1 $2',
+//     )
+//     .replace(/(\d{3})+?/gi, '$1 ')
+//     .trim();
+//   if (typeof _sep !== 'undefined' && _sep != ' ') {
+//     _number = _number.replace(/\s/g, _sep);
+//   }
+//   return _number;
+// }
 /* eslint-disable no-param-reassign */
 function convert(x) {
   // eslint-disable-next-line no-restricted-globals
@@ -24,7 +49,7 @@ function convert(x) {
     return `${Math.round(x / 1000)}K`;
   }
   if (x < 10000000) {
-    return `${(x / 1000000).toFixed(2)}M`;
+    return `${Math.round(x / 1000000)}M`;
   }
 
   if (x < 1000000000) {
@@ -301,9 +326,10 @@ const filterIndicatorGraphData = (state, action) => {
           formatter(y) {
             // console.log(y, 'y');
             if (typeof y !== 'undefined') {
-              return `${unit} ${y.toFixed(0)}${type}`;
+              // return `${unit} ${y.toFixed(0)}${type}`;
+              return `${unit} ${y.toLocaleString()}${type}`;
             }
-            return y;
+            return y.toLocaleString();
           },
         },
       },
@@ -415,6 +441,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   const planned = filtered.map(el => {
     return `${el.planned_afp}`;
   });
+  console.log(planned, 'comma planned');
   const achieved = filtered.map(el => {
     return `${el.achieved}`;
   });
@@ -477,11 +504,12 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
         intersect: false,
         y: {
           formatter(y) {
-            // console.log(y, 'y');
+            console.log(y.toLocaleString(), 'y');
             if (typeof y !== 'undefined') {
-              return `${unit} ${y.toFixed(0)}${type}`;
+              // return `${unit} ${y.toFixed(0)}${type}`;
+              return `${unit} ${y.toLocaleString()}${type}`;
             }
-            return y;
+            return y.toLocaleString();
           },
         },
       },
@@ -491,6 +519,11 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case LOADING_TRUE:
+      return {
+        ...state,
+        isDataFetched: false,
+      };
     case GET_INDICATORS_GRAPHDATA:
       return {
         ...state,

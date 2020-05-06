@@ -128,16 +128,27 @@ class Landing extends Component {
                           </li>
                         </ul>
                       </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes('') ?
-                        <Link to="/logframe"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
+                      {permissions && permissions[0] && permissions[0].permission.includes("") ?
+                        <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
-                        <>
-                          <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                          <a href="#/" className="span_book_14">
-                            {/* <span>You Dont Have Permission</span> */}
-                            You dont have permission to get an access!
-                          </a>
-                        </>}
+                        permissions && permissions[0] && permissions[0].email 
+                        ? 
+                          <>
+                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                            <a href="#/" className="span_book_14">
+                              You dont have permission to get an access!
+                            </a>
+                          </> 
+                          :null}
+                      {permissions && permissions[0] && permissions[0].email ?
+                       null : 
+                       <>
+                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to="/login" className="span_book_14">
+                           <span className="view">Log in</span>
+                           to get an access!
+                         </Link>
+                       </>}
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>
@@ -153,16 +164,27 @@ class Landing extends Component {
                           <li className="span_heavy_15">output</li>
                         </ul>                        
                       </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes('view_logentry') ?
+                      {permissions && permissions[0] && permissions[0].permission.includes("view_logentry") ?
                         <Link to="/logframe"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
-                        <>
-                          <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                          <a href="#/" className="span_book_14">
-                            You dont have permission to get an access!
-                          </a>
-                        </>}                      
-                      {' '}
+                        permissions && permissions[0] && permissions[0].email 
+                        ? 
+                          <>
+                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                            <a href="#/" className="span_book_14">
+                              You dont have permission to get an access!
+                            </a>
+                          </> 
+                          :null}
+                      {permissions && permissions[0] && permissions[0].email ?
+                       null : 
+                       <>
+                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to="/login" className="span_book_14">
+                           <span className="view">Log in</span>
+                           to get an access!
+                         </Link>
+                       </>}
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>
@@ -186,13 +208,24 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].permission.includes("view_automation") ?
                         <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
-                        <>
-                          <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                          <a href="#/" className="span_book_14">
-                            You dont have permission to get an access!
-                          </a>
-                        </>}                      
-                      {' '}
+                        permissions && permissions[0] && permissions[0].email 
+                        ? 
+                          <>
+                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                            <a href="#/" className="span_book_14">
+                              You dont have permission to get an access!
+                            </a>
+                          </> 
+                          :null}
+                      {permissions && permissions[0] && permissions[0].email ?
+                       null : 
+                       <>
+                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to="/login" className="span_book_14">
+                           <span className="view">Log in</span>
+                           to get an access!
+                         </Link>
+                       </>}
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>
@@ -216,12 +249,24 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].permission.includes("") ?
                         <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
-                        <>
-                          <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                          <a href="#/" className="span_book_14">
-                            You dont have permission to get an access!
-                          </a>
-                        </>} 
+                        permissions && permissions[0] && permissions[0].email 
+                        ? 
+                          <>
+                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                            <a href="#/" className="span_book_14">
+                              You dont have permission to get an access!
+                            </a>
+                          </> 
+                          :null}
+                      {permissions && permissions[0] && permissions[0].email ?
+                       null : 
+                       <>
+                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to="/login" className="span_book_14">
+                           <span className="view">Log in</span>
+                           to get an access!
+                         </Link>
+                       </>}
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>
@@ -243,12 +288,24 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].permission.includes("") ?
                         <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
-                        <>
-                          <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                          <a href="#/" className="span_book_14">
-                            You dont have permission to get an access!
-                          </a>
-                        </>} 
+                        permissions && permissions[0] && permissions[0].email 
+                        ? 
+                          <>
+                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                            <a href="#/" className="span_book_14">
+                              You dont have permission to get an access!
+                            </a>
+                          </> 
+                          :null}
+                      {permissions && permissions[0] && permissions[0].email ?
+                       null : 
+                       <>
+                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to="/login" className="span_book_14">
+                           <span className="view">Log in</span>
+                           to get an access!
+                         </Link>
+                       </>}
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>
@@ -267,12 +324,24 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].permission.includes("") ?
                         <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
-                        <>
-                          <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                          <a href="#/" className="span_book_14">
-                            You dont have permission to get an access!
-                          </a>
-                        </>} 
+                        permissions && permissions[0] && permissions[0].email 
+                        ? 
+                          <>
+                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                            <a href="#/" className="span_book_14">
+                              You dont have permission to get an access!
+                            </a>
+                          </> 
+                          :null}
+                      {permissions && permissions[0] && permissions[0].email ?
+                       null : 
+                       <>
+                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to="/login" className="span_book_14">
+                           <span className="view">Log in</span>
+                           to get an access!
+                         </Link>
+                       </>}
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>
@@ -296,13 +365,24 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].permission.includes("") ?
                         <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
-                        <>
-                          <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                          <a href="#/" className="span_book_14">
-                            You dont have permission to get an access!
-                          </a>
-                        </>}                       
-                      {' '}
+                        permissions && permissions[0] && permissions[0].email 
+                        ? 
+                          <>
+                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                            <a href="#/" className="span_book_14">
+                              You dont have permission to get an access!
+                            </a>
+                          </> 
+                          :null}
+                      {permissions && permissions[0] && permissions[0].email ?
+                       null : 
+                       <>
+                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to="/login" className="span_book_14">
+                           <span className="view">Log in</span>
+                           to get an access!
+                         </Link>
+                       </>}
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>
@@ -326,12 +406,24 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].permission.includes("") ?
                         <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
-                        <>
-                          <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                          <a href="#/" className="span_book_14">
-                            You dont have permission to get an access!
-                          </a>
-                        </>} 
+                        permissions && permissions[0] && permissions[0].email 
+                        ? 
+                          <>
+                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                            <a href="#/" className="span_book_14">
+                              You dont have permission to get an access!
+                            </a>
+                          </> 
+                          :null}
+                      {permissions && permissions[0] && permissions[0].email ?
+                       null : 
+                       <>
+                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to="/login" className="span_book_14">
+                           <span className="view">Log in</span>
+                           to get an access!
+                         </Link>
+                       </>}
                       <img className="grid-img" src={GridImg} alt="" />
                     </div>
                   </div>
@@ -340,9 +432,17 @@ class Landing extends Component {
             </div>
 
             <div className="data-portals">
-              <h2>Ready to explore data?</h2>
-              <p className="span_book_18">Amazing tools for all your data solution.</p>
-              {permissions && permissions[0] && permissions[0].email ? null : (<Link to="/login"><button type="button"><a className="span_heavy_15">Explore</a></button></Link>)}
+              {permissions && permissions[0] && permissions[0].email ? 
+                <>
+                  <h2>Ready to explore data</h2>
+                  <p className="span_book_18">Amazing tools for all your data solution.</p>
+                </> : 
+                <>
+                  <h2>Ready to explore data?</h2>
+                  <p className="span_book_18">Amazing tools for all your data solution.</p>
+                  <Link to="/login"><button type="button"><a className="span_heavy_15">Explore</a></button></Link>
+                </>}
+              
               {/* <Link to="/login"><button type="button"><a className="span_heavy_15">Explore</a></button></Link> */}
               <img src={LoginIllustration} alt="" className="data-sidebg" />
             </div>

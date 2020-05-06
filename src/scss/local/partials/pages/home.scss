@@ -174,7 +174,7 @@
                     display: inline-block;
                     color: $primary-light;
                     cursor: pointer;
-                    span{
+                    span.view{
                         color: $red-hover;
                         text-decoration: none;
                     }
@@ -191,7 +191,7 @@
     .data-portals{
         max-width: 1170px;
         margin: 0 auto;
-        padding: 40px 20px 40px 70px;
+        padding: 40px 20px 92px 70px;
         @include radius(5px);
         position: relative;
         top: 180px;
