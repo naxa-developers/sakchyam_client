@@ -329,7 +329,7 @@ const filterIndicatorGraphData = (state, action) => {
               // return `${unit} ${y.toFixed(0)}${type}`;
               return `${unit} ${y.toLocaleString()}${type}`;
             }
-            return y.toLocaleString();
+            return y;
           },
         },
       },
@@ -504,12 +504,12 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
         intersect: false,
         y: {
           formatter(y) {
-            console.log(y.toLocaleString(), 'y');
+            // console.log(y.toLocaleString(), 'y');
             if (typeof y !== 'undefined') {
               // return `${unit} ${y.toFixed(0)}${type}`;
               return `${unit} ${y.toLocaleString()}${type}`;
             }
-            return y.toLocaleString();
+            return y;
           },
         },
       },

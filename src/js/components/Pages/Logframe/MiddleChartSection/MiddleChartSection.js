@@ -579,7 +579,7 @@ class MiddleChartSection extends Component {
             'apexcharts-tooltip-series-group',
           )[2]
           .classList.add('none');
-      }, 1000);
+      }, 500);
     } else {
       // alert('else activeLine1 activeBar1');
       setTimeout(() => {
@@ -588,7 +588,7 @@ class MiddleChartSection extends Component {
             'apexcharts-tooltip-series-group',
           )[2]
           .classList.remove('none');
-      }, 1000);
+      }, 500);
     }
     if (this.state.activeLine2 && this.state.activeBar2) {
       // alert('2selected activeLine1 activeBar1');
@@ -607,7 +607,7 @@ class MiddleChartSection extends Component {
             'apexcharts-tooltip-series-group',
           )[3]
           .classList.remove('none');
-      }, 1000);
+      }, 500);
     }
     // if (this.state.activeBar1 && this.state.activeLine1) {
     //   setTimeout(() => {
