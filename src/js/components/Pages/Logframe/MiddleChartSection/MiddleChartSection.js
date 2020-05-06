@@ -8,6 +8,7 @@ import {
   getIndicatorsGraphDataIndividual,
   filterIndicatorGraphData,
   filterIndicatorGraphDataWithDate,
+  loadingTrue,
 } from '../../../../actions/logFrame.actions';
 
 function convert(x) {
@@ -127,7 +128,7 @@ class MiddleChartSection extends Component {
         ],
         legend: {
           position: 'top',
-          horizontalAlign: 'left',
+          horizontalAlign: 'right',
           // markers: {
           //   onClick(chart, seriesIndex, opts) {
           //     console.log(`series- ${seriesIndex}'s marker was clicked`);
@@ -1060,6 +1061,7 @@ class MiddleChartSection extends Component {
     //   // selectActivelayer("activelayer1")
     // }
     if (prevProps.activeDataType !== activeDataType) {
+      this.props.loadingTrue();
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         activeBar1: true,
@@ -1880,4 +1882,5 @@ export default connect(mapStateToProps, {
   getIndicatorsGraphDataIndividual,
   filterIndicatorGraphData,
   filterIndicatorGraphDataWithDate,
+  loadingTrue,
 })(MiddleChartSection);

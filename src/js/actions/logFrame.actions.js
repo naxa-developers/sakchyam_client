@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  LOADING_TRUE,
   GET_INDICATORS_GRAPHDATA,
   GET_INDICATORS_CATEGORY,
   GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
@@ -39,6 +40,10 @@ export const getIndicatorsCategory = () => dispatch => {
   //   })
   //   .catch(() => {});
 };
+export const loadingTrue = () => dispatch =>
+  dispatch({
+    type: LOADING_TRUE,
+  });
 
 export const getIndicatorsGraphData = (
   activeLayer,
