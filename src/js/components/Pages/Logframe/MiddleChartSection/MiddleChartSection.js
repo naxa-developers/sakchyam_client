@@ -55,6 +55,7 @@ class MiddleChartSection extends Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.plotChart();
+    // window.addEventListener('resize', this.checkTooltip());
 
     // window.removeEventListener('resize', this.handleClickOnLegend);
   }
@@ -478,6 +479,7 @@ class MiddleChartSection extends Component {
   //   console.log('clicked');
   // };
   checkTooltip = () => {
+    console.log('checktooltip');
     // alert('ss');
     if (this.props.activeLine1 && this.props.activeBar1) {
       // alert('2selected activeLine1 activeBar1');
@@ -622,6 +624,8 @@ class MiddleChartSection extends Component {
   };
 
   componentDidMount() {
+    this.checkTooltip();
+    window.addEventListener('resize', this.checkTooltip);
     // setTimeout(() => {
     //   const firstLegend = document.getElementsByClassName(
     //     'apexcharts-legend-series',
@@ -662,7 +666,6 @@ class MiddleChartSection extends Component {
     //     }));
     //   });
     // }, 2000);
-    // window.addEventListener('resize', this.handleClickOnLegend);
     const { activeLayer, activeDate } = this.props;
     this.props.getIndicatorsGraphData(activeLayer, false);
 
@@ -699,7 +702,7 @@ class MiddleChartSection extends Component {
   }
 
   componentWillUnmount() {
-    // window.removeEventListener('resize', this.handleClickOnLegend);
+    window.removeEventListener('resize', this.checkTooltip);
   }
 
   // eslint-disable-next-line camelcase
