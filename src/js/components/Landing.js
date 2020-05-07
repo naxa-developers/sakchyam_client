@@ -38,6 +38,8 @@ class Landing extends Component {
       localStorage.removeItem('loginTime');
       localStorage.removeItem('expirationTime');
       localStorage.removeItem('userPermission');
+            window.location.reload()
+
     } else {
       // alert('else')
      

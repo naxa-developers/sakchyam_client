@@ -535,14 +535,14 @@ class MainComponent extends Component {
     const { activeLayer, activeDate } = this.state;
     if (prevState.activeLayer !== activeLayer) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        activeBar: true,
-        activeBar1: true,
-        activeBar2: true,
-        activeLine1: true,
-        activeLine2: true,
-        activeTimeGraph: true,
-      });
+      // this.setState({
+      //   activeBar: true,
+      //   activeBar1: true,
+      //   activeBar2: true,
+      //   activeLine1: true,
+      //   activeLine2: true,
+      //   activeTimeGraph: true,
+      // });
       // this.filterDataWithLayer();
       if (activeDate.length === 0) {
         // console.log('if active layer changed');
@@ -645,14 +645,14 @@ class MainComponent extends Component {
   }
 
   nextBtnClick = () => {
-    this.setState({
-      activeBar: true,
-      activeTimeGraph: true,
-      activeBar1: true,
-      activeBar2: true,
-      activeLine1: true,
-      activeLine2: true,
-    });
+    // this.setState({
+    //   activeBar: true,
+    //   activeTimeGraph: true,
+    //   activeBar1: true,
+    //   activeBar2: true,
+    //   activeLine1: true,
+    //   activeLine2: true,
+    // });
     // console.log(
     //   this.props.logFrameReducer.indicatorCategory.map(a => {
     //     a.subcat.filter(data => data.name === 'Impact Indicator 2');
@@ -691,9 +691,7 @@ class MainComponent extends Component {
     } else {
       // console.log(totalNumberofIndex, 'totalNumber index else if');
       // console.log(addedNumberIndex, 'activeLayer + 1 index else if');
-      this.props.handleActiveLayer(
-        this.state.allIndicatorCategory[0],
-      );
+      this.handleActiveLayer(this.state.allIndicatorCategory[0]);
       this.handleMainCategorySlide(
         this.state.allIndicatorCategory[0],
       );
@@ -711,14 +709,14 @@ class MainComponent extends Component {
   };
 
   prevBtnClick = () => {
-    this.setState({
-      activeBar: true,
-      activeTimeGraph: true,
-      activeBar1: true,
-      activeBar2: true,
-      activeLine1: true,
-      activeLine2: true,
-    });
+    // this.setState({
+    //   activeBar: true,
+    //   activeTimeGraph: true,
+    //   activeBar1: true,
+    //   activeBar2: true,
+    //   activeLine1: true,
+    //   activeLine2: true,
+    // });
     const activeLayerIndex = this.state.allIndicatorCategory.indexOf(
       this.state.activeLayer,
     );
@@ -891,6 +889,8 @@ class MainComponent extends Component {
               // chartRef={arg => {
               //   this.chartRef = arg;
               // }}
+              prevBtnClick={this.prevBtnClick}
+              nextBtnClick={this.nextBtnClick}
               options={options}
               activeBar={activeBar}
               activeTimeGraph={activeTimeGraph}

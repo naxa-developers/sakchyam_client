@@ -73,11 +73,12 @@ class MiddleChartSection extends Component {
             tools: {
               // download: `<a href="#/" class="download-icon-image"><img src=${DownloadIcon} alt=""></a>`,
               download: `<i class="fa fa-download" aria-hidden="true"></i>`,
-              //   selection: true,
-              //   zoom: true,
-              //   zoomin: true,
-              //   zoomout: true,
-              //   pan: true,
+              selection: false,
+              zoom: false,
+              zoomin: false,
+              zoomout: false,
+              pan: false,
+              reset: false,
               //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
               //   // customIcons: []
             },
@@ -1314,7 +1315,7 @@ class MiddleChartSection extends Component {
               {/* <div id="chart" /> */}
               {/* <Slider {...settings}> */}
               <button
-                onClick={this.prevBtnClick}
+                onClick={this.props.prevBtnClick}
                 type="button"
                 data-role="none"
                 className="slick-arrow slick-prev"
@@ -1336,7 +1337,7 @@ class MiddleChartSection extends Component {
               />
 
               <button
-                onClick={this.nextBtnClick}
+                onClick={this.props.nextBtnClick}
                 type="button"
                 data-role="none"
                 className="slick-arrow slick-next"
