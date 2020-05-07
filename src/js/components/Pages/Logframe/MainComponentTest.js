@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -6,41 +5,9 @@ import Header from '../../Header';
 import LeftSidebarMain from './LefSideBar/LeftSideBarMain';
 
 import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
-import {
-  filterIndicatorGraphData,
-  filterIndicatorGraphDataWithDate,
-  loadingTrue,
-  getIndicatorsGraphDataIndividual,
-  getIndicatorsGraphData,
-} from '../../../actions/logFrame.actions';
 
 let dateArray = [];
 let dateArrayValues = [];
-function convert(x) {
-  // eslint-disable-next-line no-restricted-globals
-  if (isNaN(x)) return x;
-
-  if (x < 9999) {
-    return x;
-  }
-
-  if (x < 1000000) {
-    return `${Math.round(x / 1000)}K`;
-  }
-  if (x < 10000000) {
-    return `${(x / 1000000).toFixed(2)}M`;
-  }
-
-  if (x < 1000000000) {
-    return `${Math.round(x / 1000000)}M`;
-  }
-
-  if (x < 1000000000000) {
-    return `${Math.round(x / 1000000000)}B`;
-  }
-
-  return '1T+';
-}
 class MainComponent extends Component {
   constructor(props) {
     super(props);
@@ -50,20 +17,12 @@ class MainComponent extends Component {
       activeDataType: 'Cumulative',
       dateRange: [],
       activeModal: false,
-      allIndicatorCategory: null,
       // width: '',
       // height: '',
       // activeIndicator: [],
       activeDate: [],
       activeDateValues: [],
       updateChart: false,
-      activeBar1: true,
-      activeBar2: true,
-      activeLine1: true,
-      activeLine2: true,
-      activeTimeGraph: true,
-      activeBar: true,
-      options: null,
     };
   }
 
@@ -109,64 +68,6 @@ class MainComponent extends Component {
       activeDateValues: this.props.logFrameReducer.totalRangeDateName,
       activeDate: this.props.logFrameReducer.totalRangeDate,
     });
-  };
-
-  handleBarClick = e => {
-    const active = e.target.classList.contains('span-active');
-    const activeTimegraph = this.state.activeTimeGraph;
-    // this.setState({ activeBar: active });
-    this.setState({
-      activeBar: active ? (activeTimegraph ? false : true) : true,
-    });
-    if (this.state.activeBar) {
-      console.log('if activeBar');
-      // true === false
-      // this.setState({ activeBar1: false, activeBar2: false });
-      // this.setState({ activeBar1: false, activeBar2: false });
-      if (this.state.activeTimeGraph) {
-        this.setState({ activeBar1: false, activeBar2: false });
-      }
-    } else {
-      console.log('else activeBar');
-
-      // false === true
-      if (this.state.activeBar1 || this.state.activeLine1) {
-        this.setState({ activeBar1: true });
-      }
-      if (this.state.activeBar2 || this.state.activeLine2) {
-        this.setState({ activeBar2: true });
-      }
-    }
-  };
-
-  handleTimeGraphClick = e => {
-    const active = e.target.classList.contains('span-active');
-    const activeBarState = this.state.activeBar;
-    // this.setState({ activeTimeGraph: active });
-    this.setState({
-      activeTimeGraph: active
-        ? activeBarState
-          ? false
-          : true
-        : true,
-    });
-    if (this.state.activeTimeGraph) {
-      // true === false
-      // this.setState({ activeLine1: false, activeLine2: false });
-      if (this.state.activeBar) {
-        this.setState({ activeLine1: false, activeLine2: false });
-      }
-    } else {
-      // false === true
-      if (this.state.activeBar1 || this.state.activeLine1) {
-        this.setState({ activeLine1: true });
-      }
-      if (this.state.activeBar2 || this.state.activeLine2) {
-        this.setState({ activeLine2: true });
-      }
-    }
-    console.log(this.state.activeTimeGraph, 'a');
-    console.log(this.state.activeBar, 'b');
   };
 
   handleActiveDate = (value, e, item) => {
@@ -476,334 +377,6 @@ class MainComponent extends Component {
     // console.log(height, 'height');
   };
 
-  // eslint-disable-next-line camelcase
-
-  componentDidUpdate(prevProps, prevState) {
-    // if (prevState.activeBar !== this.state.activeBar) {
-    // }
-    // if (prevState.activeTimegraph !== this.state.activeTimeGraph) {
-    // }
-    // if (
-    //   prevProps.logFrameReducer.series !==
-    //   this.props.logFrameReducer.series
-    // ) {
-    //   if (
-    //     this.state.activeBar1 &&
-    //     this.state.activeBar2 &&
-    //     this.state.activeLine1 &&
-    //     this.state.activeLine2
-    //   ) {
-    //     console.log('active changes');
-    //     // alert('updated data');
-    //     // setTimeout(() => {
-    //     //   document
-    //     //     .getElementsByClassName(
-    //     //       'apexcharts-tooltip-series-group',
-    //     //     )[1]
-    //     //     .classList.add('none');
-    //     // }, 500);
-    //     // setTimeout(() => {
-    //     //   document
-    //     //     .getElementsByClassName(
-    //     //       'apexcharts-tooltip-series-group',
-    //     //     )[2]
-    //     //     .classList.add('none');
-    //     // }, 500);
-    //   } else {
-    //     // setTimeout(() => {
-    //     //   document
-    //     //     .getElementsByClassName(
-    //     //       'apexcharts-tooltip-series-group',
-    //     //     )[1]
-    //     //     .classList.remove('none');
-    //     // }, 500);
-    //     // setTimeout(() => {
-    //     //   document
-    //     //     .getElementsByClassName(
-    //     //       'apexcharts-tooltip-series-group',
-    //     //     )[2]
-    //     //     .classList.remove('none');
-    //     // }, 500);
-    //   }
-    // }
-
-    if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
-      document.getElementsByClassName(
-        'apexcharts-menu-icon',
-      )[0].title = 'Export';
-    }
-    const { activeLayer, activeDate } = this.state;
-    if (prevState.activeLayer !== activeLayer) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        activeBar: true,
-        activeBar1: true,
-        activeBar2: true,
-        activeLine1: true,
-        activeLine2: true,
-        activeTimeGraph: true,
-      });
-      // this.filterDataWithLayer();
-      if (activeDate.length === 0) {
-        // console.log('if active layer changed');
-        this.props.filterIndicatorGraphData(activeLayer);
-      } else {
-        // console.log('else active layer changed');
-
-        this.props.filterIndicatorGraphDataWithDate(
-          activeLayer,
-          activeDate,
-        );
-      }
-
-      // console.log('xxxss');
-      // setTimeout(function() {
-
-      //   console.log('setTimeout');
-      // }, 3000);
-    }
-    const { activeDataType } = this.state;
-    if (prevState.activeDate !== activeDate) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      // this.setState({
-      //   activeBar: true,
-      //   activeBar1: true,
-      //   activeBar2: true,
-      //   activeLine1: true,
-      //   activeLine2: true,
-      //   activeTimeGraph: true,
-      // });
-      // eslint-disable-next-line react/no-did-update-set-state
-      // this.setState({
-      //   activeBar1: true,
-      //   activeBar2: true,
-      //   activeLine1: true,
-      //   activeLine2: true,
-      // });
-      this.props.filterIndicatorGraphDataWithDate(
-        activeLayer,
-        activeDate,
-      );
-    }
-    if (prevState.activeDataType !== activeDataType) {
-      this.props.loadingTrue();
-      // eslint-disable-next-line react/no-did-update-set-state
-      // this.setState({
-      //   activeBar1: true,
-      //   activeBar2: true,
-      //   activeLine1: true,
-      //   activeLine2: true,
-      //   activeBar: true,
-      //   activeTimeGraph: true,
-      // });
-      // console.log(activeDataType, 'change datatype');
-      if (activeDataType === 'Individual') {
-        if (activeDate.length === 0) {
-          this.props.getIndicatorsGraphDataIndividual(
-            activeLayer,
-            false,
-          );
-        } else {
-          this.props.getIndicatorsGraphDataIndividual(
-            activeLayer,
-            activeDate,
-          );
-        }
-        // this.filterDataWithLayer();
-      } else if (activeDate.length === 0) {
-        // if (activeDate.length === 0) {
-        this.props.getIndicatorsGraphData(activeLayer, false);
-      } else {
-        this.props.getIndicatorsGraphData(activeLayer, activeDate);
-      }
-      // } else {
-      //   this.props.getIndicatorsGraphData(activeLayer, activeDate);
-      // }
-      // this.props.getIndicatorsGraphData(activeLayer, activeDate);
-      // this.filterDataWithLayer();
-      // }
-    }
-    const {
-      logFrameReducer: { indicatorCategory },
-    } = this.props;
-    if (
-      prevProps.logFrameReducer.indicatorCategory !==
-      indicatorCategory
-    ) {
-      // this.filterDataWithLayer();
-      const b = [];
-      const a = indicatorCategory.map(data => {
-        data.subcat.map(subdata => {
-          return b.push(subdata.name);
-        });
-        return true;
-      });
-      // console.log(b);
-      this.allIndicatorCategorySetState(b);
-      // this.props.filterIndicatorGraphData(activeLayer);
-    }
-  }
-
-  nextBtnClick = () => {
-    this.setState({
-      activeBar: true,
-      activeTimeGraph: true,
-      activeBar1: true,
-      activeBar2: true,
-      activeLine1: true,
-      activeLine2: true,
-    });
-    // console.log(
-    //   this.props.logFrameReducer.indicatorCategory.map(a => {
-    //     a.subcat.filter(data => data.name === 'Impact Indicator 2');
-    //   }),
-    //   'filtered data',
-    // );
-
-    const activeLayerIndex = this.state.allIndicatorCategory.indexOf(
-      this.state.activeLayer,
-    );
-    const totalNumberofIndex = this.state.allIndicatorCategory.length;
-    // console.log(totalNumberofIndex, 'totalnumberindex');
-    const addedNumberIndex = activeLayerIndex + 1;
-    if (addedNumberIndex < totalNumberofIndex) {
-      // console.log(totalNumberofIndex, 'totalNumber index if');
-      // console.log(addedNumberIndex, 'activeLayer + 1 index if');
-      // console.log('error');
-      this.handleActiveLayer(
-        this.state.allIndicatorCategory[addedNumberIndex],
-      );
-
-      this.handleMainCategorySlide(
-        this.state.allIndicatorCategory[addedNumberIndex],
-      );
-      // const b = this.props.logFrameReducer.indicatorCategory.map(
-      //   a => {
-      //     a.subcat.filter(b => {
-      //       if (b.name === this.props.activeLayer) {
-      //         return this.props.handleActiveIndicator(a.name);
-      //       }
-      //     });
-      //   },
-      // );
-      // console.log(b, 'bbbb');
-      // } else if (addedNumberIndex >= totalNumberofIndex) {
-    } else {
-      // console.log(totalNumberofIndex, 'totalNumber index else if');
-      // console.log(addedNumberIndex, 'activeLayer + 1 index else if');
-      this.props.handleActiveLayer(
-        this.state.allIndicatorCategory[0],
-      );
-      this.handleMainCategorySlide(
-        this.state.allIndicatorCategory[0],
-      );
-    }
-    // this.props.handleSelectAllDate(
-    //   this.props.logFrameReducer.totalRangeDate,
-    // );
-    // this.props.handleSelectAllDateName(
-    //   this.props.logFrameReducer.totalRangeDateName,
-    // );
-  };
-
-  allIndicatorCategorySetState = array => {
-    this.setState({ allIndicatorCategory: array });
-  };
-
-  prevBtnClick = () => {
-    this.setState({
-      activeBar: true,
-      activeTimeGraph: true,
-      activeBar1: true,
-      activeBar2: true,
-      activeLine1: true,
-      activeLine2: true,
-    });
-    const activeLayerIndex = this.state.allIndicatorCategory.indexOf(
-      this.state.activeLayer,
-    );
-    const totalNumberofIndex = this.state.allIndicatorCategory.length;
-    const subtractNumberIndex = activeLayerIndex - 1;
-    if (
-      subtractNumberIndex < totalNumberofIndex &&
-      subtractNumberIndex >= 0
-    ) {
-      this.handleActiveLayer(
-        this.state.allIndicatorCategory[subtractNumberIndex],
-      );
-      this.handleMainCategorySlide(
-        this.state.allIndicatorCategory[subtractNumberIndex],
-      );
-    } else {
-      this.handleActiveLayer(
-        this.state.allIndicatorCategory[totalNumberofIndex - 1],
-      );
-      this.handleMainCategorySlide(
-        this.state.allIndicatorCategory[totalNumberofIndex - 1],
-      );
-    }
-  };
-
-  handleMainCategorySlide = selectedValue => {
-    this.props.logFrameReducer.indicatorCategory.map(a => {
-      a.subcat.filter(b => {
-        if (b.name === selectedValue) {
-          return this.handleActiveIndicator(a.name);
-        }
-        return true;
-      });
-      return true;
-    });
-  };
-
-  handleLegend1Click = () => {
-    if (this.state.activeBar1 === true) {
-      this.setState({
-        activeBar1: false,
-        // activeLine2: false,
-      });
-    } else if (this.state.activeBar) {
-      this.setState({
-        activeBar1: true,
-        // activeLine2: false,
-      });
-    }
-    if (this.state.activeLine1 === true) {
-      this.setState({
-        activeLine1: false,
-      });
-    } else if (this.state.activeTimeGraph) {
-      this.setState({
-        activeLine1: true,
-        // activeLine2: false,
-      });
-    }
-  };
-
-  handleLegend2Click = () => {
-    if (this.state.activeBar2 === true) {
-      this.setState({
-        activeBar2: false,
-        // activeLine2: false,
-      });
-    } else if (this.state.activeBar) {
-      this.setState({
-        activeBar2: true,
-        // activeLine2: false,
-      });
-    }
-    if (this.state.activeLine2 === true) {
-      this.setState({
-        activeLine2: false,
-      });
-    } else if (this.state.activeTimeGraph) {
-      this.setState({
-        activeLine2: true,
-        // activeLine2: false,
-      });
-    }
-  };
-
   render() {
     const {
       activeLayer,
@@ -814,13 +387,6 @@ class MainComponent extends Component {
       updateChart,
       activeDataType,
       activeIndicator,
-      activeBar,
-      activeTimeGraph,
-      activeBar1,
-      activeBar2,
-      activeLine1,
-      activeLine2,
-      options,
     } = this.state;
     const {
       props: {
@@ -887,21 +453,6 @@ class MainComponent extends Component {
               handleActiveIndicator={this.handleActiveIndicator}
             />
             <MiddleChartSection
-              // key={`chart${activeLine1}${activeLine2}${activeBar}${activeTimeGraph}`}
-              // chartRef={arg => {
-              //   this.chartRef = arg;
-              // }}
-              options={options}
-              activeBar={activeBar}
-              activeTimeGraph={activeTimeGraph}
-              activeBar1={activeBar1}
-              activeBar2={activeBar2}
-              activeLine1={activeLine1}
-              activeLine2={activeLine2}
-              handleBarClick={this.handleBarClick}
-              handleTimeGraphClick={this.handleTimeGraphClick}
-              handleLegend1Click={this.handleLegend1Click}
-              handleLegend2Click={this.handleLegend2Click}
               selectAllDate={this.selectAllDate}
               activeLayer={activeLayer}
               activeDateValues={activeDateValues}
@@ -929,10 +480,4 @@ class MainComponent extends Component {
 const mapStateToProps = ({ logFrameReducer }) => ({
   logFrameReducer,
 });
-export default connect(mapStateToProps, {
-  filterIndicatorGraphData,
-  filterIndicatorGraphDataWithDate,
-  loadingTrue,
-  getIndicatorsGraphDataIndividual,
-  getIndicatorsGraphData,
-})(MainComponent);
+export default connect(mapStateToProps, {})(MainComponent);
