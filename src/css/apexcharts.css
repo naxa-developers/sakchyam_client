@@ -94,7 +94,7 @@
 } */
 
 .apexcharts-toolbar {
-  right: 42px !important;
+  right: -2px !important;
 }
 .apexcharts-zoom-icon, .apexcharts-zoomin-icon, .apexcharts-zoomout-icon, .apexcharts-reset-icon, .apexcharts-pan-icon, .apexcharts-selection-icon, .apexcharts-menu-icon{
   transform: scale(1) !important;
