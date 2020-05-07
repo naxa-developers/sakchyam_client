@@ -74,8 +74,8 @@ class MiddleChartSection extends Component {
             // offsetY: 0,
             tools: {
               // download: `<a href="#/" class="download-icon-image"><img src=${DownloadIcon} alt=""></a>`,
-              // download: `<i class="fa fa-download" aria-hidden="true"></i>`,
-              download: false,
+              download: `<i class="fa fa-download" aria-hidden="true"></i>`,
+              // download: false,
               selection: false,
               zoom: false,
               zoomin: false,
@@ -131,7 +131,7 @@ class MiddleChartSection extends Component {
           },
         ],
         legend: {
-          show: false,
+          // show: false,
           position: 'top',
           horizontalAlign: 'right',
           // markers: {
@@ -915,23 +915,23 @@ class MiddleChartSection extends Component {
     );
   };
 
-  downloadPng = () => {
-    document.querySelector('.info-header-bottom').style.display =
-      'none';
-    html2canvas(document.querySelector('.info-content-wrap'), {
-      // logging: true,
-      // letterRendering: 1,
-      allowTaint: true,
-      // foreignObjectRendering: true,
-      // useCORS: true,
-    }).then(canvas => {
-      canvas.toBlob(function(blob) {
-        saveAs(blob, 'Dashboard.png');
-      });
-      document.querySelector('.info-header-bottom').style.display =
-        'block';
-    });
-  };
+  // downloadPng = () => {
+  //   document.querySelector('.info-header-bottom').style.display =
+  //     'none';
+  //   html2canvas(document.querySelector('.info-content-wrap'), {
+  //     // logging: true,
+  //     // letterRendering: 1,
+  //     allowTaint: true,
+  //     // foreignObjectRendering: true,
+  //     // useCORS: true,
+  //   }).then(canvas => {
+  //     canvas.toBlob(function(blob) {
+  //       saveAs(blob, 'Dashboard.png');
+  //     });
+  //     document.querySelector('.info-header-bottom').style.display =
+  //       'block';
+  //   });
+  // };
 
   render() {
     const optionsd = [
@@ -1327,9 +1327,11 @@ class MiddleChartSection extends Component {
             <a
               href="#/"
               className="download-icon-image"
-              onClick={this.downloadPng}
+              // onClick={this.downloadPng}
             >
-              <i className="fa fa-download" aria-hidden="true" />
+              <img src="./img/save_alt.svg" alt="" />
+
+              {/* <i className="fa fa-download" aria-hidden="true" /> */}
             </a>
             <ul className="download-dropdown">
               <li>
