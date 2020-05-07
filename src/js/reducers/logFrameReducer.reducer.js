@@ -315,7 +315,9 @@ const filterIndicatorGraphData = (state, action) => {
         ...state.options.yaxis,
         title: {
           text: `${dataType}  ${
-            dataUnit !== null ? `(${dataUnit})` : ''
+            dataUnit !== null && dataUnit !== undefined
+              ? `(${dataUnit})`
+              : ''
           }`,
         },
       },
@@ -428,7 +430,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
 
   let unit = '';
   let type = '';
-  console.log(dataUnit, 'dataUnit');
+  // console.log(dataUnit, 'dataUnit');
   if (dataType === 'percentage') {
     type = '%';
   } else if (dataUnit === 'pound') {
@@ -441,7 +443,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   const planned = filtered.map(el => {
     return `${el.planned_afp}`;
   });
-  console.log(planned, 'comma planned');
+  // console.log(planned, 'comma planned');
   const achieved = filtered.map(el => {
     return `${el.achieved}`;
   });
@@ -494,8 +496,14 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       yaxis: {
         ...state.options.yaxis,
         title: {
-          text: `${dataType}  ${
-            dataUnit !== null ? `(${dataUnit})` : ''
+          text: `${
+            dataType !== null && dataType !== undefined
+              ? dataType
+              : ``
+          }  ${
+            dataUnit !== null && dataUnit !== undefined
+              ? `(${dataUnit})`
+              : ''
           }`,
         },
       },
