@@ -27,9 +27,11 @@ class Landing extends Component {
   componentDidMount() {
     const today= localStorage.getItem('loginTime')
     const currentTime = new Date().valueOf();
-    // console.log(currentTime,'cuirren  ')
+    console.log(currentTime,'cuirren  ')
     const expireTime= localStorage.getItem('expirationTime')
-    if (currentTime <= expireTime && expireTime.valueOf()) {
+    console.log(Date.parse(expireTime),'expireTime  ')
+    console.log(currentTime <= expireTime && expireTime.valueOf());
+    if (currentTime >= Date.parse(expireTime)) {
       // console.log('correct');
       localStorage.removeItem('userToken');
       localStorage.removeItem('refreshToken');

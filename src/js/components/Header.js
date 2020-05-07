@@ -124,6 +124,8 @@ class Header extends Component {
     localStorage.removeItem('userToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('userPermission');
+    localStorage.removeItem('loginTime');
+    localStorage.removeItem('expirationTime');
     window.location.href = '/';
   };
 
