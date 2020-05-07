@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
-import Slider from 'react-slick';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 import CustomChart from '../CustomChart';
 import {
   getIndicatorsGraphData,
@@ -55,6 +56,7 @@ class MiddleChartSection extends Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.plotChart();
+    // window.addEventListener('resize', this.checkTooltip());
 
     // window.removeEventListener('resize', this.handleClickOnLegend);
   }
@@ -72,7 +74,8 @@ class MiddleChartSection extends Component {
             // offsetY: 0,
             tools: {
               // download: `<a href="#/" class="download-icon-image"><img src=${DownloadIcon} alt=""></a>`,
-              download: `<i class="fa fa-download" aria-hidden="true"></i>`,
+              // download: `<i class="fa fa-download" aria-hidden="true"></i>`,
+              download: false,
               selection: false,
               zoom: false,
               zoomin: false,
@@ -128,6 +131,7 @@ class MiddleChartSection extends Component {
           },
         ],
         legend: {
+          show: false,
           position: 'top',
           horizontalAlign: 'right',
           // markers: {
@@ -478,6 +482,7 @@ class MiddleChartSection extends Component {
   //   console.log('clicked');
   // };
   checkTooltip = () => {
+    console.log('checktooltip');
     // alert('ss');
     if (this.props.activeLine1 && this.props.activeBar1) {
       // alert('2selected activeLine1 activeBar1');
@@ -622,6 +627,8 @@ class MiddleChartSection extends Component {
   };
 
   componentDidMount() {
+    this.checkTooltip();
+    window.addEventListener('resize', this.checkTooltip);
     // setTimeout(() => {
     //   const firstLegend = document.getElementsByClassName(
     //     'apexcharts-legend-series',
@@ -662,7 +669,6 @@ class MiddleChartSection extends Component {
     //     }));
     //   });
     // }, 2000);
-    // window.addEventListener('resize', this.handleClickOnLegend);
     const { activeLayer, activeDate } = this.props;
     this.props.getIndicatorsGraphData(activeLayer, false);
 
@@ -699,7 +705,7 @@ class MiddleChartSection extends Component {
   }
 
   componentWillUnmount() {
-    // window.removeEventListener('resize', this.handleClickOnLegend);
+    window.removeEventListener('resize', this.checkTooltip);
   }
 
   // eslint-disable-next-line camelcase
@@ -907,6 +913,24 @@ class MiddleChartSection extends Component {
     this.setState({ selectedOption }, () =>
       console.log(`Option selected:`, this.state.selectedOption),
     );
+  };
+
+  downloadPng = () => {
+    document.querySelector('.info-header-bottom').style.display =
+      'none';
+    html2canvas(document.querySelector('.info-content-wrap'), {
+      // logging: true,
+      // letterRendering: 1,
+      allowTaint: true,
+      // foreignObjectRendering: true,
+      // useCORS: true,
+    }).then(canvas => {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, 'Dashboard.png');
+      });
+      document.querySelector('.info-header-bottom').style.display =
+        'block';
+    });
   };
 
   render() {
@@ -1300,8 +1324,12 @@ class MiddleChartSection extends Component {
             </span>
           </div>
           <div className="info-slider">
-            <a href="#/" className="download-icon-image">
-              <img src="./img/save_alt.svg" alt="" />
+            <a
+              href="#/"
+              className="download-icon-image"
+              onClick={this.downloadPng}
+            >
+              <i className="fa fa-download" aria-hidden="true" />
             </a>
             <ul className="download-dropdown">
               <li>
