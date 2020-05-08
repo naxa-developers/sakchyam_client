@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AutomationImg from '../../img/Automation.svg'
 import BG from '../../img/BG.jpg';
 import Main from '../../img/Main.png';
 import GridImg from '../../img/grid-img.png';
@@ -226,7 +227,7 @@ class Landing extends Component {
                           </li>
                         </ul>                    
                       </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("view_automation") ?
+                      {permissions && permissions[0] && permissions[0].permission.includes("") ?
                         <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
                         permissions && permissions[0] && permissions[0].email 
@@ -247,7 +248,7 @@ class Landing extends Component {
                            to get an access!
                          </Link>
                        </>}
-                      <img className="grid-img" src={GridImg} alt="" />
+                      <img className="grid-img" src={AutomationImg} alt="" />
                     </div>
                   </div>
 

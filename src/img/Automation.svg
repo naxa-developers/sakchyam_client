@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="370" height="280" viewBox="0 0 370 280">
+  <defs>
+    <filter id="Rectangle_1900" x="0" y="0" width="370" height="280" filterUnits="userSpaceOnUse">
+      <feOffset dy="20" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feFlood flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_4058" data-name="Group 4058" transform="translate(-965 -1680)">
+    <g transform="matrix(1, 0, 0, 1, 965, 1680)" filter="url(#Rectangle_1900)">
+      <g id="Rectangle_1900-2" data-name="Rectangle 1900" transform="translate(45 25)" fill="#fff" stroke="#e2e2e2" stroke-width="1">
+        <rect width="280" height="190" rx="5" stroke="none"/>
+        <rect x="0.5" y="0.5" width="279" height="189" rx="4.5" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_4053" data-name="Group 4053" transform="translate(0 10)">
+      <line id="Line_14" data-name="Line 14" x2="49" transform="translate(1235.5 1862.415)" fill="none" stroke="#757575" stroke-width="1"/>
+      <path id="Path_1" data-name="Path 1" d="M2651.732,3555.93l-19.67,5.615-19.082,37.544" transform="translate(-1369.396 -1737.055)" fill="none" stroke="#007078" stroke-width="2"/>
+      <path id="Path_2" data-name="Path 2" d="M2618.453,3675.85l-19.83,3.866-19.865,17.75" transform="translate(-1342.056 -1835.217)" fill="none" stroke="#c2002f" stroke-width="2"/>
+      <g id="Group_3960" data-name="Group 3960" transform="translate(1246.713 1817.893)">
+        <rect id="Rectangle_1906" data-name="Rectangle 1906" width="4.995" height="43.958" transform="translate(31.574 0)" fill="#007078"/>
+        <rect id="Rectangle_1907" data-name="Rectangle 1907" width="5.994" height="21.979" transform="translate(25.659 21.979)" fill="#c2002f"/>
+        <rect id="Rectangle_1914" data-name="Rectangle 1914" width="5.994" height="39.962" transform="translate(12.995 4.995)" fill="#007078"/>
+        <rect id="Rectangle_1915" data-name="Rectangle 1915" width="4.995" height="19.981" transform="translate(8 24.976)" fill="#c2002f"/>
+      </g>
+    </g>
+    <g id="Rectangle_1987" data-name="Rectangle 1987" transform="translate(1067 1706)" fill="#f7f7f7" stroke="#e2e2e2" stroke-width="1">
+      <rect width="163" height="189" stroke="none"/>
+      <rect x="0.5" y="0.5" width="162" height="188" fill="none"/>
+    </g>
+    <g id="Group_4052" data-name="Group 4052">
+      <rect id="Rectangle_1899" data-name="Rectangle 1899" width="34" height="6" rx="3" transform="translate(1017 1715)" fill="#c2002f"/>
+      <rect id="Rectangle_1916" data-name="Rectangle 1916" width="34" height="6" rx="3" transform="translate(1017 1749)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1965" data-name="Rectangle 1965" width="34" height="6" rx="3" transform="translate(1017 1809)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1916-2" data-name="Rectangle 1916" width="29" height="6" rx="3" transform="translate(1017 1761)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1966" data-name="Rectangle 1966" width="29" height="6" rx="3" transform="translate(1017 1821)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1976" data-name="Rectangle 1976" width="29" height="6" rx="3" transform="translate(1017 1869)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1916-3" data-name="Rectangle 1916" width="25" height="6" rx="3" transform="translate(1017 1773)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1967" data-name="Rectangle 1967" width="25" height="6" rx="3" transform="translate(1017 1833)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1977" data-name="Rectangle 1977" width="25" height="6" rx="3" transform="translate(1017 1881)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1916-4" data-name="Rectangle 1916" width="34" height="6" rx="3" transform="translate(1017 1785)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1968" data-name="Rectangle 1968" width="34" height="6" rx="3" transform="translate(1017 1845)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1916-5" data-name="Rectangle 1916" width="23" height="6" rx="3" transform="translate(1017 1797)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1973" data-name="Rectangle 1973" width="23" height="6" rx="3" transform="translate(1017 1857)" fill="#bdbdbd"/>
+      <g id="Group_4050" data-name="Group 4050" transform="translate(1017.286 1730)">
+        <rect id="Rectangle_1903" data-name="Rectangle 1903" width="29" height="6" rx="3" transform="translate(-0.286)" fill="#e2e2e2"/>
+      </g>
+      <g id="Group_4051" data-name="Group 4051" transform="translate(1057 1730)">
+        <rect id="Rectangle_1903-2" data-name="Rectangle 1903" width="6" height="6" rx="3" fill="#e2e2e2"/>
+      </g>
+      <rect id="Rectangle_1903-3" data-name="Rectangle 1903" width="6" height="6" rx="3" transform="translate(1057 1749)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1969" data-name="Rectangle 1969" width="6" height="6" rx="3" transform="translate(1057 1809)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1962" data-name="Rectangle 1962" width="6" height="6" rx="3" transform="translate(1057 1773)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1970" data-name="Rectangle 1970" width="6" height="6" rx="3" transform="translate(1057 1833)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1980" data-name="Rectangle 1980" width="6" height="6" rx="3" transform="translate(1057 1881)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1964" data-name="Rectangle 1964" width="6" height="6" rx="3" transform="translate(1057 1797)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1974" data-name="Rectangle 1974" width="6" height="6" rx="3" transform="translate(1057 1857)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1960" data-name="Rectangle 1960" width="6" height="6" rx="3" transform="translate(1057 1761)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1971" data-name="Rectangle 1971" width="6" height="6" rx="3" transform="translate(1057 1821)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1981" data-name="Rectangle 1981" width="6" height="6" rx="3" transform="translate(1057 1869)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1961" data-name="Rectangle 1961" width="6" height="6" rx="3" transform="translate(1057 1785)" fill="#bdbdbd"/>
+      <rect id="Rectangle_1972" data-name="Rectangle 1972" width="6" height="6" rx="3" transform="translate(1057 1845)" fill="#bdbdbd"/>
+    </g>
+    <rect id="Rectangle_1982" data-name="Rectangle 1982" width="50" height="90" rx="2" transform="translate(1235 1715)" fill="#fdeaef"/>
+    <rect id="Rectangle_1895" data-name="Rectangle 1895" width="28" height="6" rx="3" transform="translate(1238 1725)" fill="#757575"/>
+    <rect id="Rectangle_1983" data-name="Rectangle 1983" width="28" height="6" rx="3" transform="translate(1238 1769)" fill="#757575"/>
+    <rect id="Rectangle_1896" data-name="Rectangle 1896" width="25" height="6" rx="3" transform="translate(1238 1734)" fill="#bdbdbd"/>
+    <rect id="Rectangle_1984" data-name="Rectangle 1984" width="25" height="6" rx="3" transform="translate(1238 1778)" fill="#bdbdbd"/>
+    <rect id="Rectangle_1898" data-name="Rectangle 1898" width="43" height="4" rx="2" transform="translate(1239 1745)" fill="#c2002f"/>
+    <rect id="Rectangle_1985" data-name="Rectangle 1985" width="43" height="4" rx="2" transform="translate(1239 1789)" fill="#c2002f"/>
+    <g id="Group_4054" data-name="Group 4054" transform="translate(1276 1725)">
+      <rect id="Rectangle_1903-4" data-name="Rectangle 1903" width="6" height="6" rx="3" fill="#fff"/>
+    </g>
+    <g id="Group_4055" data-name="Group 4055" transform="translate(1276 1769)">
+      <rect id="Rectangle_1903-5" data-name="Rectangle 1903" width="6" height="6" rx="3" fill="#fff"/>
+    </g>
+    <path id="Path_3869" data-name="Path 3869" d="M7823.953,17598.883l4.5,5.4a1.96,1.96,0,0,0,2.076-1.975c0-2.029,3.174-8.137,3.174-8.137l10.688,1.492,27.766,21.664,9.319,2.744,12.019,12.973,16.507,9.693h14.8l17.63,3.818h7.113l-1.088,14.943,1.088,13.9-39.539-5.176-23.688-7.48-16.734-11.2h-17.478l-25.5-14.676-19.061-9.73,6.273-18.539Z" transform="translate(-6729.545 -15829.679)" fill="#e2e2e2"/>
+    <g id="Group_4056" data-name="Group 4056" transform="translate(993.779 1763)">
+      <g id="Rectangle_1901" data-name="Rectangle 1901" transform="translate(103.221 -18)" fill="#fff" stroke="#bdbdbd" stroke-width="1">
+        <rect width="70" height="34" rx="2" stroke="none"/>
+        <rect x="0.5" y="0.5" width="69" height="33" rx="1.5" fill="none"/>
+      </g>
+      <g id="Group_3957" data-name="Group 3957" transform="translate(111.692 1)">
+        <rect id="Rectangle_1903-6" data-name="Rectangle 1903" width="36" height="6" rx="3" transform="translate(-0.472)" fill="#bdbdbd"/>
+      </g>
+      <g id="Group_3959" data-name="Group 3959" transform="translate(151.961 1)">
+        <rect id="Rectangle_1903-7" data-name="Rectangle 1903" width="10" height="6" rx="3" transform="translate(0.26)" fill="#bdbdbd"/>
+      </g>
+      <rect id="Rectangle_1986" data-name="Rectangle 1986" width="68" height="12" rx="2" transform="translate(104.221 -17)" fill="#fdeaef"/>
+      <g id="Group_4057" data-name="Group 4057" transform="translate(111.692 -14)">
+        <rect id="Rectangle_1903-8" data-name="Rectangle 1903" width="36" height="6" rx="3" transform="translate(-0.472)" fill="#bdbdbd"/>
+      </g>
+    </g>
+    <g id="Group_3964" data-name="Group 3964" transform="translate(974.779 1871)">
+      <g id="Rectangle_1901-2" data-name="Rectangle 1901" transform="translate(103.221)" fill="#fff" stroke="#bdbdbd" stroke-width="1">
+        <rect width="92" height="16" rx="2" stroke="none"/>
+        <rect x="0.5" y="0.5" width="91" height="15" rx="1.5" fill="none"/>
+      </g>
+      <g id="Group_3957-2" data-name="Group 3957" transform="translate(118.578 5)">
+        <rect id="Rectangle_1903-9" data-name="Rectangle 1903" width="29" height="6" rx="3" transform="translate(-0.358)" fill="#bdbdbd"/>
+      </g>
+      <g id="Group_3958" data-name="Group 3958" transform="translate(173.832 5)">
+        <rect id="Rectangle_1903-10" data-name="Rectangle 1903" width="9" height="6" rx="3" transform="translate(0.388)" fill="#bdbdbd"/>
+      </g>
+      <g id="Group_3959-2" data-name="Group 3959" transform="translate(151.961 5)">
+        <rect id="Rectangle_1903-11" data-name="Rectangle 1903" width="10" height="6" rx="3" transform="translate(0.26)" fill="#bdbdbd"/>
+      </g>
+    </g>
+  </g>
+</svg>
