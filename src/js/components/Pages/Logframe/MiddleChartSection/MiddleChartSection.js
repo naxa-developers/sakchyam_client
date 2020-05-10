@@ -952,26 +952,29 @@ class MiddleChartSection extends Component {
     document
       .querySelector('.download-dropdown')
       .classList.remove('active');
-    html2canvas(document.querySelector('.info-content-wrap'), {
-      // logging: true,
-      // letterRendering: 1,
-      allowTaint: true,
-      // scale: window.devicePixelRatio,
-      // windowWidth: window.innerWidth,
-      // windowHeight: window.innerHeight + 120,
-      // x: 20,
-      y: 70,
-      // width: window.innerWidth + 40,
-      // height: window.innerHeight + 40,
-      // foreignObjectRendering: true,
-      // useCORS: true,
-    }).then(canvas => {
-      canvas.toBlob(function(blob) {
-        saveAs(blob, 'Dashboard.png');
+    setTimeout(() => {
+      html2canvas(document.querySelector('.info-content-wrap'), {
+        // logging: true,
+        // letterRendering: 1,
+        allowTaint: true,
+        // scale: window.devicePixelRatio,
+        // windowWidth: window.innerWidth,
+        // windowHeight: window.innerHeight + 120,
+        // x: 20,
+        y: 70,
+        // width: window.innerWidth + 40,
+        // height: window.innerHeight + 40,
+        // foreignObjectRendering: true,
+        // useCORS: true,
+      }).then(canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, 'Dashboard.png');
+        });
+        document.querySelector('.info-header-bottom').style.display =
+          'block';
       });
-      document.querySelector('.info-header-bottom').style.display =
-        'block';
-    });
+    }, 500);
+
     this.setState({ downloadActive: false });
   };
 
