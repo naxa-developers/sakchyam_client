@@ -37,6 +37,7 @@ export default class CustomChart extends Component {
       chartRef,
       activeDateValues,
     } = this.props;
+    // const { series, options } = this.state;
     return (
       <div id="chart">
         {/* {activeDateValues.length === 0 ? (

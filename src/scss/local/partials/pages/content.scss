@@ -490,7 +490,7 @@
                     left: auto;
                     visibility: hidden;
                     opacity: 0;
-                    top: 18%;
+                    top: 13%;
                     @include transition(all .4s ease-in-out);
                     li{
                         padding: 4px 20px;
@@ -504,6 +504,7 @@
                         }
                         &:hover{
                             cursor: pointer;
+                            background: $red-light;
                         }
                         &.list-active{
                             background-color: $red-light;
@@ -516,7 +517,8 @@
                         @include transition(all .4s ease-in-out);
                         visibility: visible;
                         opacity: 1;
-                        top: 13%;
+                        top: 0%;
+                        right: 32px;
                     }
                 }
                 .slider-container{
