@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
+import saveAlt from '../../../../../img/save_alt.svg';
 import CustomChart from '../CustomChart';
 import {
   getIndicatorsGraphData,
@@ -49,6 +50,7 @@ class MiddleChartSection extends Component {
       toggleDataDropdown: false,
       firstPlannedSelected: false,
       secondAchievedSelected: false,
+      downloadActive: false,
       options: null,
     };
   }
@@ -87,24 +89,24 @@ class MiddleChartSection extends Component {
             },
             // autoSelected: 'zoom',
           },
-          height: 350,
+          height: 445,
           // width: '100%',
           type: 'line',
           stacked: false,
-          events: {
-            // eslint-disable-next-line object-shorthand
-            legendClick: function(chartContext, seriesIndex, config) {
-              // console.log('a');
-              // console.log(
-              //   currentComponent.state.activeBar1,
-              //   'activeBar1',
-              // );
-              // console.log(seriesIndex, 'serieIndex');
-              // if (seriesIndex === 0) {
-              //   console.log('seriesIndex 0 Inside');
-              // }
-            },
-          },
+          // events: {
+          //   // eslint-disable-next-line object-shorthand
+          //   legendClick: function(chartContext, seriesIndex, config) {
+          //     // console.log('a');
+          //     // console.log(
+          //     //   currentComponent.state.activeBar1,
+          //     //   'activeBar1',
+          //     // );
+          //     // console.log(seriesIndex, 'serieIndex');
+          //     // if (seriesIndex === 0) {
+          //     //   console.log('seriesIndex 0 Inside');
+          //     // }
+          //   },
+          // },
           // events: {
           //   // eslint-disable-next-line object-shorthand
           //   legendClick: function(chartContext, seriesIndex, config) {
@@ -117,21 +119,21 @@ class MiddleChartSection extends Component {
           //   },
           // },
         },
-        responsive: [
-          {
-            breakpoint: 992,
-            options: {
-              chart: {
-                height: 320,
-                events: {
-                  legendClick(chartContext, seriesIndex, config) {},
-                },
-              },
-            },
-          },
-        ],
+        // responsive: [
+        //   {
+        //     breakpoint: 992,
+        //     options: {
+        //       chart: {
+        //         height: 320,
+        //         events: {
+        //           legendClick(chartContext, seriesIndex, config) {},
+        //         },
+        //       },
+        //     },
+        //   },
+        // ],
         legend: {
-          // show: false,
+          show: false,
           position: 'top',
           horizontalAlign: 'right',
           // markers: {
@@ -149,12 +151,13 @@ class MiddleChartSection extends Component {
         },
         plotOptions: {
           bar: {
-            columnWidth: '20%',
+            columnWidth: '80%',
           },
         },
         colors: ['#b41833', '#287078'],
         fill: {
-          opacity: [0.45, 0.75, 0.15, 0.2],
+          opacity: [0.25, 0.25, 0.25, 0.25],
+          // opacity: [0.45, 0.75, 0.15, 0.2],
           gradient: {
             inverseColors: false,
             shade: 'light',
@@ -208,6 +211,7 @@ class MiddleChartSection extends Component {
             'Sep',
           ],
           type: 'category',
+          tickPlacement: 'between',
         },
         yaxis: {
           // floating: true
@@ -215,15 +219,15 @@ class MiddleChartSection extends Component {
           tickPlacement: 'between',
           // y: 8200,
           // y: 1000,
-          crosshairs: {
-            show: true,
-            position: 'back',
-            stroke: {
-              color: '#b6b6b6',
-              width: 1,
-              dashArray: 0,
-            },
-          },
+          // crosshairs: {
+          //   show: true,
+          //   position: 'back',
+          //   stroke: {
+          //     color: '#b6b6b6',
+          //     width: 1,
+          //     dashArray: 0,
+          //   },
+          // },
           title: {
             text: 'Points',
 
@@ -238,7 +242,7 @@ class MiddleChartSection extends Component {
           // floating: true,
           // align: 'center',
           // minWidth: '200',
-          // maxWidth: '200',
+          maxWidth: '200',
           labels: {
             show: true,
             align: 'right',
@@ -481,8 +485,14 @@ class MiddleChartSection extends Component {
   // handleClickOnLegend = () => {
   //   console.log('clicked');
   // };
+  toggleDownloadDropdown = () => {
+    this.setState(prevState => ({
+      downloadActive: !prevState.downloadActive,
+    }));
+  };
+
   checkTooltip = () => {
-    console.log('checktooltip');
+    // console.log('checktooltip');
     // alert('ss');
     if (this.props.activeLine1 && this.props.activeBar1) {
       // alert('2selected activeLine1 activeBar1');
@@ -629,6 +639,10 @@ class MiddleChartSection extends Component {
   componentDidMount() {
     this.checkTooltip();
     window.addEventListener('resize', this.checkTooltip);
+    // document
+    //   .getElementsByClassName('exportPNG')[0]
+    //   .addEventListener('click', this.downloadPng);
+
     // setTimeout(() => {
     //   const firstLegend = document.getElementsByClassName(
     //     'apexcharts-legend-series',
@@ -674,6 +688,9 @@ class MiddleChartSection extends Component {
 
     const timeDropdownEl = document.getElementById('duration_id');
     const dataDropdownEl = document.getElementById('data_id');
+    const downloadDropdown = document.getElementById(
+      'downloadDropdown',
+    );
     // console.log(specifiedElement, 'ss');
     document.addEventListener('click', async event => {
       const isClickInside = timeDropdownEl.contains(event.target);
@@ -681,6 +698,17 @@ class MiddleChartSection extends Component {
       if (!isClickInside) {
         this.setState({
           toggleTimePeriodDropdown: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    document.addEventListener('click', async event => {
+      const isClickInside = downloadDropdown.contains(event.target);
+
+      if (!isClickInside) {
+        this.setState({
+          downloadActive: false,
           // searchDropdown: false,
         });
         // the click was outside the specifiedElement, do something
@@ -711,6 +739,9 @@ class MiddleChartSection extends Component {
   // eslint-disable-next-line camelcase
 
   componentDidUpdate(prevProps, prevState) {
+    // document
+    //   .getElementsByClassName('exportPNG')[0]
+    //   .addEventListener('click', this.downloadPng);
     if (
       prevProps.logFrameReducer.options !==
       this.props.logFrameReducer.options
@@ -729,7 +760,7 @@ class MiddleChartSection extends Component {
       // this.plotChart();
       this.changeChart();
     }
-    console.log(this.props.chartRef, 'chartref');
+    // console.log(this.props.chartRef, 'chartref');
     if (
       prevProps.activeBar1 !== this.props.activeBar1 ||
       prevProps.activeBar2 !== this.props.activeBar2 ||
@@ -910,28 +941,39 @@ class MiddleChartSection extends Component {
 
   handleChange = selectedOption => {
     // console.log('selectedOption', selectedOption);
-    this.setState({ selectedOption }, () =>
-      console.log(`Option selected:`, this.state.selectedOption),
-    );
+    // this.setState({ selectedOption }, () =>
+    //   // console.log(`Option selected:`, this.state.selectedOption),
+    // );
   };
 
-  // downloadPng = () => {
-  //   document.querySelector('.info-header-bottom').style.display =
-  //     'none';
-  //   html2canvas(document.querySelector('.info-content-wrap'), {
-  //     // logging: true,
-  //     // letterRendering: 1,
-  //     allowTaint: true,
-  //     // foreignObjectRendering: true,
-  //     // useCORS: true,
-  //   }).then(canvas => {
-  //     canvas.toBlob(function(blob) {
-  //       saveAs(blob, 'Dashboard.png');
-  //     });
-  //     document.querySelector('.info-header-bottom').style.display =
-  //       'block';
-  //   });
-  // };
+  downloadPng = () => {
+    document.querySelector('.info-header-bottom').style.display =
+      'none';
+    this.setState({ downloadActive: false });
+    document
+      .querySelector('.download-dropdown')
+      .classList.remove('active');
+    html2canvas(document.querySelector('.info-content-wrap'), {
+      // logging: true,
+      // letterRendering: 1,
+      allowTaint: true,
+      // scale: window.devicePixelRatio,
+      // windowWidth: window.innerWidth,
+      // windowHeight: window.innerHeight + 120,
+      // x: 20,
+      y: 70,
+      // width: window.innerWidth + 40,
+      // height: window.innerHeight + 40,
+      // foreignObjectRendering: true,
+      // useCORS: true,
+    }).then(canvas => {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, 'Dashboard.png');
+      });
+      document.querySelector('.info-header-bottom').style.display =
+        'block';
+    });
+  };
 
   render() {
     const optionsd = [
@@ -954,7 +996,7 @@ class MiddleChartSection extends Component {
       // activeBar2,
       // activeLine1,
       // activeLine2,
-
+      downloadActive,
       // dateRange,
     } = this.state;
     // const settings = {
@@ -1002,49 +1044,7 @@ class MiddleChartSection extends Component {
         },
       },
     } = this;
-    const settings = {
-      // dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      initialSlide: 0,
-      // beforeChange: (current, next) => {
-      //   console.log('currentbefore', current);
-      //   console.log('nextbefore', current);
-      // },
-      // afterChange: (current, next) => {
-      //   console.log('currentafter', current);
-      //   console.log('nextafter', next);
-      // },
-      responsive: [
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
-            infinite: true,
-            dots: true,
-          },
-        },
-        {
-          breakpoint: 600,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            initialSlide: 2,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-          },
-        },
-      ],
-    };
-    console.log(this.props, 'props');
+    // console.log(this.props, 'props');
     // console.log(activeBar, 'activeBar Props');
     // console.log(activeTimeGraph, 'activeTimeGraph Props');
     // console.log(active)
@@ -1326,19 +1326,58 @@ class MiddleChartSection extends Component {
           <div className="info-slider">
             <a
               href="#/"
+              id="downloadDropdown"
               className="download-icon-image"
               // onClick={this.downloadPng}
+              onClick={this.toggleDownloadDropdown}
+              onKeyPress={this.toggleDownloadDropdown}
+              style={{ right: '44px' }}
             >
-              <img src="./img/save_alt.svg" alt="" />
-
+              {/* <label>Download</label> */}
+              <img src={saveAlt} alt="" />
               {/* <i className="fa fa-download" aria-hidden="true" /> */}
             </a>
-            <ul className="download-dropdown">
+
+            {/* <a
+              href="#/"
+              className={`download-icon-image ${downloadActive}`}
+              onClick={this.toggleDownloadDropdown}
+            >
+              <img src="../../save_alts.svg" alt="" />
+            </a> */}
+
+            <ul
+              className={`download-dropdown ${
+                downloadActive ? 'active' : ''
+              }`}
+            >
               <li>
-                <a>Download .PNG</a>
+                <a
+                  onClick={this.downloadPng}
+                  onKeyPress={this.downloadPng}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Download .PNG
+                </a>
               </li>
               <li>
-                <a>Download .PDF</a>
+                <a
+                  onClick={() => {
+                    document
+                      .getElementsByClassName('exportCSV')[0]
+                      .click();
+                  }}
+                  onKeyPress={() => {
+                    document
+                      .getElementsByClassName('exportCSV')[0]
+                      .click();
+                  }}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Download .CSV
+                </a>
               </li>
             </ul>
             <div className="slider-container">

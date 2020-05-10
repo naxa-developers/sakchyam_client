@@ -181,7 +181,7 @@ const initialState = {
           fontWeight: 400,
           cssClass: 'apexcharts-yaxis-label',
         },
-        offsetX: -50,
+        // offsetX: -50,
         offsetY: 0,
         rotate: 0,
         formatter: value => {
