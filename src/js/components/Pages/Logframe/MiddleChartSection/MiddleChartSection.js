@@ -949,7 +949,6 @@ class MiddleChartSection extends Component {
   downloadPng = () => {
     document.querySelector('.info-header-bottom').style.display =
       'none';
-    this.setState({ downloadActive: false });
     document
       .querySelector('.download-dropdown')
       .classList.remove('active');
@@ -973,6 +972,7 @@ class MiddleChartSection extends Component {
       document.querySelector('.info-header-bottom').style.display =
         'block';
     });
+    this.setState({ downloadActive: false });
   };
 
   render() {
