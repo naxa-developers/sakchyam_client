@@ -739,8 +739,7 @@
   text-align: right;
   border-radius: 3px;
   padding: 0px 6px 2px 6px;
-  /* display: flex; */
-  display: none;
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }
