@@ -156,7 +156,7 @@ class MiddleChartSection extends Component {
         },
         colors: ['#b41833', '#287078'],
         fill: {
-          opacity: [0.25, 0.25, 0.25, 0.25],
+          opacity: [0.55, 0.55, 0.25, 0.25],
           // opacity: [0.45, 0.75, 0.15, 0.2],
           gradient: {
             inverseColors: false,
@@ -189,6 +189,13 @@ class MiddleChartSection extends Component {
           offsetY: 0,
         },
         xaxis: {
+          // title: {
+          //   text: 'Varun',
+          // },
+          labels: {
+            // show: false,
+            // minHeight: 200,
+          },
           tickAmount: 10,
           crosshairs: {
             show: true,
@@ -551,9 +558,7 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries(
-        'Planned As per AFP contract Budget',
-      );
+      this.chartRef.chart.showSeries('Planned');
     } else {
       // setTimeout(() => {
       //   document
@@ -569,9 +574,7 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries(
-        'Planned As per AFP contract Budget',
-      );
+      this.chartRef.chart.hideSeries('Planned');
     }
     if (this.props.activeBar2) {
       // setTimeout(() => {
@@ -600,9 +603,7 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries(
-        'Planned As per AFP contract Budget ',
-      );
+      this.chartRef.chart.showSeries('Planned ');
     } else {
       // setTimeout(() => {
       //   document
@@ -611,9 +612,7 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.add('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries(
-        'Planned As per AFP contract Budget ',
-      );
+      this.chartRef.chart.hideSeries('Planned ');
     }
     if (this.props.activeLine2) {
       // setTimeout(() => {
@@ -1268,7 +1267,7 @@ class MiddleChartSection extends Component {
                     <div className="chart-wrap">
                       <span
                         className={`span-label ${
-                          activeBar ? 'span-active' : ''
+                          activeBar ? 'active' : 'span-inactive'
                         }`}
                         role="button"
                         tabIndex="-1"
@@ -1279,7 +1278,7 @@ class MiddleChartSection extends Component {
                       </span>
                       <span
                         className={`span-label ${
-                          activeTimeGraph ? 'span-active' : ''
+                          activeTimeGraph ? 'active' : 'span-inactive'
                         }`}
                         role="button"
                         tabIndex="-1"
@@ -1297,26 +1296,18 @@ class MiddleChartSection extends Component {
           <div className="chart-wrap">
             <span
               className={`span-label ${
-                activeBar1
-                  ? 'span-active'
-                  : activeLine1
-                  ? 'span-active'
-                  : ''
+                activeBar1 ? '' : activeLine1 ? '' : 'span-inactive'
               }`}
               role="button"
               tabIndex="-1"
               onKeyDown={this.props.handleLegend1Click}
               onClick={this.props.handleLegend1Click}
             >
-              Planned As per AFP contract Budget
+              Planned
             </span>
             <span
               className={`span-label ${
-                activeBar2
-                  ? 'span-active'
-                  : activeLine2
-                  ? 'span-active'
-                  : ''
+                activeBar2 ? '' : activeLine2 ? '' : 'span-inactive'
               }`}
               role="button"
               tabIndex="-1"

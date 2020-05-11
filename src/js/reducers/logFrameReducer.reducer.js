@@ -81,7 +81,7 @@ const initialState = {
       data: [],
     },
     {
-      name: 'Planned As per AFP contract Budget',
+      name: 'Planned',
       type: 'column',
       data: [],
     },
@@ -92,7 +92,7 @@ const initialState = {
     },
     {
       // name: 'Planned',
-      name: 'Planned As per AFP contract Budget',
+      name: 'Planned',
       type: 'line',
       data: [],
     },
@@ -182,7 +182,7 @@ const initialState = {
           cssClass: 'apexcharts-yaxis-label',
         },
         // offsetX: -50,
-        offsetY: 0,
+        offsetY: -5,
         rotate: 0,
         formatter: value => {
           if (value <= 1) {
@@ -275,7 +275,7 @@ const filterIndicatorGraphData = (state, action) => {
   // console.log(achieved, 'achieved');
   const series = [
     {
-      name: 'Planned As per AFP contract Budget',
+      name: 'Planned',
       type: 'column',
       data: planned,
     },
@@ -285,7 +285,7 @@ const filterIndicatorGraphData = (state, action) => {
       data: achieved,
     },
     {
-      name: 'Planned As per AFP contract Budget ',
+      name: 'Planned ',
       type: 'area',
       data: planned,
     },
@@ -453,14 +453,14 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   });
   const category = filtered.map(el => {
     //   console.log(el, 'elLabel');
-    return el.year.name;
+    return `${el.year.name} (${el.year.range})`;
   });
   // console.log(category, 'cat');
   // console.log(label, 'label');
   // console.log(achieved, 'achieved');
   const series = [
     {
-      name: 'Planned As per AFP contract Budget',
+      name: 'Planned',
       type: 'column',
       data: planned,
     },
@@ -470,7 +470,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       data: achieved,
     },
     {
-      name: 'Planned As per AFP contract Budget ',
+      name: 'Planned ',
       type: 'area',
       data: planned,
     },
