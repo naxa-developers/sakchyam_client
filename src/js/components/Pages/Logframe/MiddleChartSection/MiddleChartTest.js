@@ -708,9 +708,7 @@ class MiddleChartSection extends Component {
         //     )[2]
         //     .classList.remove('none');
         // }, 2000);
-        this.chartRef.chart.showSeries(
-          'Planned As per AFP contract Budget',
-        );
+        this.chartRef.chart.showSeries('Planned');
       } else {
         // setTimeout(() => {
         //   document
@@ -726,9 +724,7 @@ class MiddleChartSection extends Component {
         //     )[2]
         //     .classList.remove('none');
         // }, 2000);
-        this.chartRef.chart.hideSeries(
-          'Planned As per AFP contract Budget',
-        );
+        this.chartRef.chart.hideSeries('Planned');
       }
       if (this.state.activeBar2) {
         // setTimeout(() => {
@@ -757,9 +753,7 @@ class MiddleChartSection extends Component {
         //     )[1]
         //     .classList.remove('none');
         // }, 2000);
-        this.chartRef.chart.showSeries(
-          'Planned As per AFP contract Budget ',
-        );
+        this.chartRef.chart.showSeries('Planned ');
       } else {
         // setTimeout(() => {
         //   document
@@ -768,9 +762,7 @@ class MiddleChartSection extends Component {
         //     )[1]
         //     .classList.add('none');
         // }, 2000);
-        this.chartRef.chart.hideSeries(
-          'Planned As per AFP contract Budget ',
-        );
+        this.chartRef.chart.hideSeries('Planned ');
       }
       if (this.state.activeLine2) {
         // setTimeout(() => {

@@ -112,7 +112,7 @@ class MainComponent extends Component {
   };
 
   handleBarClick = e => {
-    const active = e.target.classList.contains('span-active');
+    const active = e.target.classList.contains('active');
     const activeTimegraph = this.state.activeTimeGraph;
     // this.setState({ activeBar: active });
     this.setState({
@@ -140,7 +140,7 @@ class MainComponent extends Component {
   };
 
   handleTimeGraphClick = e => {
-    const active = e.target.classList.contains('span-active');
+    const active = e.target.classList.contains('active');
     const activeBarState = this.state.activeBar;
     // this.setState({ activeTimeGraph: active });
     this.setState({
