@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getIndicatorsCategory } from '../../../../actions/logFrame.actions';
@@ -45,6 +46,11 @@ class LeftSidebarMain extends Component {
       activeLayer,
       dateRange,
       activeDate,
+      activeListItem,
+      handleActiveListItem,
+      activeListFilteredData,
+      backNavigationClick,
+      handleSubCatClick,
     } = this.props;
     const {
       props: {
@@ -53,85 +59,79 @@ class LeftSidebarMain extends Component {
         activeIndicator,
       },
     } = this;
-    // console.log(this.props, 'incid');
-    // const a =
-    //   listOfSubCategory &&
-    //   listOfSubCategory.map(data => {
-    //     data.subcat.map(subdata => {
-    //       return arraylist.push(subdata.name);
-    //     });
-    //   });
-    // console.log(arraylist, 'arrrrr');
     return (
       <div className="sidebar" id="sidebar-toggle">
-        <ul className="sidebar-li">
+        <ul
+          className="sidebar-li"
+          style={
+            activeListItem
+              ? { display: 'none' }
+              : { display: 'block' }
+          }
+        >
           <h5>Logical framework</h5>
-          <h2>Indicators</h2>
-
           {logFrameReducer.indicatorCategory.map(data => {
             return (
+              // Number 1 change
               <li
-                key={data.id}
                 role="tab"
-                className={`${
-                  activeIndicator === data.name ? 'active' : ''
-                }`}
-                value={data.name}
-                onClick={() => {
-                  handleActiveIndicator(data.name);
-                }}
-                onKeyDown={() => {
-                  handleActiveIndicator(data.name);
-                }}
+                onClick={() => handleActiveListItem(data.name)}
+                onKeyPress={() => handleActiveListItem(data.name)}
               >
-                <a href="#/" tooltip={data.title} flow="right">
-                  {/* <ReactTooltip /> */}
-                  {data.name.toLowerCase()}
-                  {/* <span className="tooltip-list">{data.title}</span> */}
-                </a>
-                <ul
-                  className={`sidebar-sublist ${
-                    activeIndicator === data.name
-                      ? 'active-li'
-                      : 'false'
-                  }`}
-                >
-                  {data.subcat.map(el => {
-                    return (
-                      <li
-                        key={el.id}
-                        className={
-                          activeLayer === el.name
-                            ? 'active-sublist'
-                            : ''
-                        }
-                      >
-                        <a
-                          role="button"
-                          tabIndex="0"
-                          className={el.name.split(' ').join('')}
-                          onClick={() => {
-                            handleActiveLayer(el.name);
-                          }}
-                          onKeyDown={() => {
-                            handleActiveLayer(el.name);
-                          }}
-                          tooltip={el.title}
-                          flow="right"
-                        >
-                          {el.name}
-                          {/* <span className="tooltip-list">
-                            {el.title}
-                          </span> */}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className="li-wrap">
+                  <a href="#/">{data.name}</a>
+                  <p>{data.title}</p>
+                </div>
               </li>
             );
           })}
         </ul>
+        <div
+          className="more-content"
+          style={
+            activeListItem
+              ? { display: 'block' }
+              : { display: 'none' }
+          }
+        >
+          <a
+            onClick={backNavigationClick}
+            className="previous-nav"
+            href="#previous"
+          >
+            <i className="material-icons">keyboard_arrow_left</i>
+            Back
+          </a>
+          {activeListFilteredData && activeListFilteredData[0] && (
+            <div className="info-list" id="output2">
+              <div className="li-heading">
+                <span>{activeListFilteredData[0].name}</span>
+                <p>{activeListFilteredData[0].title}</p>
+              </div>
+              <ul>
+                {activeListFilteredData[0].subcat.map(data => {
+                  const regex = /[+-]?\d+(?:\.\d+)?/g;
+                  const indicatorNumber = regex.exec(data.name)[0];
+
+                  return (
+                    <li
+                      className={
+                        data.name === activeLayer ? 'active' : ''
+                      }
+                      role="tab"
+                      onClick={() => handleSubCatClick(data.name)}
+                      onKeyPress={() => handleSubCatClick(data.name)}
+                    >
+                      <a href="#/">
+                        {indicatorNumber}: {data.title}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     );
   }

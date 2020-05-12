@@ -54,7 +54,7 @@ export default class CustomChart extends Component {
           series={series}
           type="line"
           height={500}
-          // width={600}
+          // width={1300}
         />
         {/* )} */}
       </div>

@@ -11,12 +11,12 @@
     max-width: 100%;
     &.content-mod{
         // height: 100vh;
-        padding-top: 100px;
+        padding-top: 95px;
     }
     @include display-flex(flex);
     .sidebar{
         height: 100%;
-        width: 277px;
+        width: 320px;
         background: $white-color;
         @include transition(all .7s ease-in-out);
         border-right: .8px solid $primary-xs-light;
@@ -25,73 +25,63 @@
         top: 0;
         left: 0;
         padding-top: 100px;
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+            width: 1px;
+        }
         ul.sidebar-li{
-            
             h5{
                 text-transform: capitalize;
                 color: $white-color;
                 background-color: $red-color;
-                max-width: 185px;
-                padding: 5px 10px 6px;
+                max-width: 190px;
+                padding: 5px 13px;
                 text-align: center;
                 display: inline-block;
                 font-family: $avenir-heavy;
                 font-size: 1.125rem;
-                margin: 20px auto 0;
+                margin: 15px 10px 30px 30px;
                 @include display-flex(flex);
-            }
-            h2{
-                text-transform: uppercase;
-                width: 100%;
-                font-size: 13px;
-                padding: 20px 15px 20px 50px;
-                font-family: $avenir-heavy;
-                color: $primary-light;
-                background-color: $white-color;
-                line-height: 1;
                 border-bottom: .8px solid $primary-xs-light; 
-                letter-spacing: 2px;
             }
             li{
+                // @include flex-hr-center;
+                padding: 24px 0px;
                 position: relative;
                 border-bottom: .8px solid $primary-xs-light;
-                &:after{
-                    content: 'arrow_drop_down';
-                    font-family: 'Material Icons';
-                    font-size: 1.5rem;
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
-                    line-height: 1.813rem;
-                    color: $primary-light;
-                    @include transition(all .5s ease-in-out);
+                &:nth-child(2){
+                    border-top: .8px solid $primary-xs-light;
                 }
-                a{
-                    display: block;
-                    padding: 12px 10px 11px 50px;
+                .li-wrap{
+                    // max-width: 265px;
+                    margin: 0 30px;
+                    position: relative;
+                    &:after{
+                        content: 'chevron_right';
+                        font-family: 'Material Icons';
+                        font-size: 22px;
+                        position: absolute;
+                        top: 13px;
+                        right: -25px;
+                        color: $primary-light;
+                        @include transition(all .5s ease-in-out);
+                    }
+                    @media #{$breakpoint-md-desktop}{
+                        // max-width: 190px;
+                        &::after{
+                            font-size: 18px;
+                            top: 16px;
+                            right: -17px;
+                        }
+                    }
                 }
-                span.tooltip-list{
-                    @include box-shadow(0 0 3px 1px $primary-light);
-                    @include transition(all .2s linear);
-                    display: inline-block;
-                    white-space: nowrap;
-                    z-index: 11;
-                    font-family: $body-fonts;
-                    position: absolute;
-                    opacity: 0;
-                    top: -80%;
-                    left: 12%;
-                    font-size: .875rem;
-                    visibility: hidden;
-                    background: $text-color;
-                    @include radius(0px);
-                    padding: 8px 10px;
-                    line-height: 1.5rem;
-                    color: $white-color;
-                }
-                @include transition(all .4s ease-in-out);
-                &:last-child{
-                    margin-bottom: 0;
+                p{
+                    position: relative;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;  
+                    overflow: hidden;
+                   
                 }
                 &:hover{
                     cursor: pointer;
@@ -107,85 +97,83 @@
                     }
                 }
                 &.active{
-                    background-color: $bg-color;
+                    background-color: $yellow-light;
                     opacity: 1;
-                        &:after{
-                            content: 'arrow_drop_up';
-                            font-family: 'Material Icons';
-                            position: absolute;
-                        }
-                    span.tooltip-list{
-                        visibility: hidden;
-                        @include transition(all .4s ease-in-out);
-                        opacity: 0;
-                    }
-                    ul.sidebar-sublist{
-                        display: block;
-                    }
                 }
-                ul.sidebar-sublist{
-                    display: none;
-                    li{
-                        position: relative;
-                        border: 0;
-                        &:after{
-                            content: ' ';
-                        }
-                        a{
-                            color: $text-color;
-                            padding: 11px 0px 11px 70px;
-                            @include transition(all .4s ease-in-out);
-                            max-width: 300px;
-                            font-weight: 800;
-                            &:hover{
-                                overflow: visible;
-                                max-width: 100%;
-                            }
-                        }
-                        span.tooltip-list{
-                            @include box-shadow(0 0 3px 1px $primary-light);
-                            @include transition(all .2s linear);
-                            display: inline-block;
-                            white-space: nowrap;
-                            z-index: 11;
-                            font-family: $body-fonts;
-                            position: absolute;
-                            opacity: 0;
-                            top: -80%;
-                            left: 12%;
-                            font-size: .875rem;
-                            visibility: hidden;
-                            background: $text-color;
-                            @include radius(0px);
-                            padding: 8px 10px;
-                            line-height: 1.5rem;
-                            color: $white-color;
-                        }
-                        &:last-child{
-                            margin-bottom: 0;
-                        }
-                        &:hover{
-                            a{
-                                color: $red-color;
-                            }
-                            span.tooltip-list{
-                                opacity: 1;
-                                visibility: visible;
-                            }
-                        }
-                        &.active-sublist{
-                            background: $red-light;
-                            a{
-                                color: $red-color !important;
-                                span.tooltip-list{
-                                    visibility: hidden;
-                                }
-                            }
-                        }
-                        
+            }
+        }
+        .more-content{
+            background: $bg-color;
+            padding-top: 18px;
+            a.previous-nav{
+                cursor: pointer;
+                margin: 0 30px;
+                @include display-flex(flex);
+                @include align-items-center;
+                font-family: $avenir-heavy;
+                font-size: 15px;
+                line-height: 20px;
+                color: $text-color;
+                padding-bottom: 15px;
+                border-bottom: 1px solid $gray-light;
+                i{
+                    color: $primary-light;
+                    font-size: 22px;
+                    margin-right: 8px;
+                }
+                &:hover{
+                    color: $yellow-color;
+                    i{
+                        color:$yellow-color;
                     }
                 }
             }
+            .info-list{
+                margin-top: 20px;
+                .li-heading{
+                    margin: 0 30px;
+                    span{
+                        font-family: $avenir-heavy;
+                        font-size: 13px;
+                        line-height: 16px;
+                        color: $red-color;
+                    }
+                    p{
+                        margin-top: 5px;
+                        font-family: $avenir-heavy;
+                        font-size: 15px;
+                        line-height: 20px;
+                        color: $text-color;
+                    }
+                }
+                ul{
+                    margin-top: 10px;
+                    li{
+                        padding: 20px 30px 20px 45px;
+                        &.active,
+                        &:hover{
+                            background: $yellow-light;
+                            @include transition(all .4s ease);
+                            a{
+                                color: $red-color;
+                            }
+                        }
+                        a{
+                            font-size: 14px;
+                            line-height: 20px;
+                            font-family: $body-fonts;
+                            cursor: pointer;
+                            color: $primary-light;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 3;
+                            -webkit-box-orient: vertical;  
+                            overflow: hidden;
+                            max-width: 320px;
+                        }
+                    }
+                }
+            }
+
         }
         &.ls-toggle-menu{
             // .sidebar{
@@ -194,12 +182,27 @@
         }
     }
     .info-content{
-        width: calc(100% - 300px);
+        width: calc(100% - 320px);
         background-color: $bg-color;
         padding: 30px 110px 5px;
         position: relative;
-        margin-left: 302px;
-        // overflow: auto;
+        margin-left: 320px;
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+            width: 10px;
+            @include transition(all .3s ease-in-out);
+        }
+        &::-webkit-scrollbar-track{
+            background: $primary-xs-light;
+        }
+        &::-webkit-scrollbar-thumb{
+            background: $gray-light;
+            @include radius(10px);
+        }
+        &::-webkit-scrollbar-thumb:hover{
+            background: darken($gray-light, 10%);
+            @include radius(10px);
+        }
         a.toggle_button{
             width: 20px;
             height: 20px;
@@ -234,9 +237,13 @@
 
             .info-content-header{
                 padding-left: 10px;
-                margin-bottom: 21px;
+                margin-bottom: 10px;
                 h3{
                     margin-bottom: 12px;
+                    font-size: 20px;
+                    line-height: 28px;
+                    font-family: $body-fonts;
+                    color: $red-color;
                 }
                 h1{
                     font-family: $avenir-heavy;
@@ -247,25 +254,17 @@
                 }
                 .info-header-top{
                     margin-bottom: 27px;
-                    @include display-flex(flex);
-                    @include justify-content-between;
-                    // @include align-items-center;
                     .h3-red{
-                        flex: 0 0 900px;
-                        max-width: 900px;
-                    }
-                    span.span_black_15{
-                        // width: calc(100% - 70%);
-                        text-align: right;
-                        color: $text-color;
-                        text-transform: uppercase;  
-                        letter-spacing: 1.5px;
+                       font-size: 15px;
+                       line-height: 20px;
+                       color: $text-color;
+                       font-family: $avenir-heavy;
                     }
                 }
                 .info-header-bottom{
                     background-color: $white-color;
                     @include radius(5px);
-                    padding: 20px 25px;
+                    padding: 8px 25px;
                     border: .8px solid $primary-xs-light;
                     @media #{$breakpoint-sm}{
                         justify-content: flex-start;
@@ -275,7 +274,7 @@
                         @include justify-content-between;
                         width: 100%;
                         .span-option{
-                            font-size: .938rem;
+                            font-size: 14px;
                             line-height: 1.375rem;
                             color: $primary-light;
                             margin-right: 10px;
@@ -285,8 +284,8 @@
                                 margin-left: 8px;
                             }
                             font-family: $avenir-heavy;
-                            font-size: 1rem;
-                            padding: 8px 20px 7px 50px;
+                            font-size: 15px;
+                            padding: 8px 16px 7px 45px;
                             line-height: 1.5rem;
                             color: $text-color;
                             background: $white-color;
@@ -295,23 +294,23 @@
                             @include radius(20px);
                             cursor: pointer;
                             &:hover{
-                                background-color: $red-light;
+                                background-color: $yellow-light;
                             }
                             &.span-active{
-                                background-color: $red-light;
+                                background-color: $yellow-light;
                             }
                             &.span-inactive{
                                 opacity: .5;
                             }
                         }
                         .span-dropdown{
-                            padding: 8px 63px 7px 20px !important;
+                            padding: 6px 63px 7px 20px !important;
                             position: relative;
                             &:after{
                                 right: 6px;
                                 left: auto;
-                                top: 5px;
-                                font-size: 1.625rem;
+                                top: 3px;
+                                font-size: 1.5rem;
                                 position: absolute;
                                 font-family: 'Material Icons';
                                 content: 'arrow_drop_down';
@@ -338,7 +337,7 @@
                                 &.li-active{
                                     @include transition(all .4s linear);
                                     color: $text-color;
-                                    background-color: $red-light;
+                                    background-color: $yellow-light;
 
                                 }
                             }
@@ -353,9 +352,9 @@
                             li{
                                 padding: 4px 20px;
                                 @include transition(all .4s linear);
-                                font-size: 1rem;
+                                font-size: .875rem;
                                 color: $primary-light ;
-                                font-family: $avenir-heavy;
+                                font-family: $body-fonts;
                                 cursor: pointer;
                                 &.checkbox{
                                     padding: 0 !important;
@@ -363,7 +362,8 @@
                                 &:first-child{
                                     label{
                                         text-align: left;
-                                        padding-left: 44px;;
+                                        padding-left: 44px;
+                                        color: $black-color;
                                     }
                                 }
                                 label{
@@ -371,7 +371,8 @@
                                     padding-top: 4px;
                                     padding-bottom: 4px;
                                     text-align: center;
-                                    padding-left: 20px;
+                                    padding-left: -5px;
+                                    color: $black-color;
                                     &::before,
                                     &::after{
                                         width: 14px;
@@ -414,10 +415,10 @@
                                         &:last-child{
                                             &:before{
                                                font-family: 'Material Icons';
-                                               font-size: 1.6rem;
+                                               font-size: 1.5rem;
                                                color: $primary-light;
                                                position: absolute;
-                                               top: 5.5px;
+                                               top: 7.5px;
                                                left: 16px;
                                             }
                                         }
@@ -462,7 +463,7 @@
                     position: absolute;
                     left: auto;
                     right: 0px;
-                    top: -38px;
+                    top: 4px;
                     @include display-flex(flex);
                     @include justify-content-center;
                     @include align-items-center;
@@ -475,7 +476,8 @@
                     }
                     &:hover{
                         cursor: pointer;
-                        background: $red-light;
+                        background: $yellow-light;
+                        border: 0.8px solid $yellow-color;
                         img{
                             opacity: .5;
                         }
@@ -496,18 +498,18 @@
                         padding: 4px 20px;
                         @include transition(all .4s linear);
                         a{
-                            font-size: 1rem;
+                            font-size: .875rem;
                             color: #757575;
-                            font-family: "Avenir Heavy";
+                            font-family: $body-fonts;
                             cursor: pointer;
                             @include transition(all .4s linear);
                         }
                         &:hover{
                             cursor: pointer;
-                            background: $red-light;
+                            background: $yellow-light;
                         }
                         &.list-active{
-                            background-color: $red-light;
+                            background-color: $yellow-light;
                             a{
                                 color: $text-color;
                             }
@@ -517,8 +519,8 @@
                         @include transition(all .4s ease-in-out);
                         visibility: visible;
                         opacity: 1;
-                        top: 0%;
-                        right: 32px;
+                        top: 10%;
+                        right: 0;
                     }
                 }
                 .slider-container{
@@ -543,9 +545,9 @@
                         border: 0;
                         border-radius: 0;
                         @include transition(all .5s linear);
-                        border: .8px solid lighten($primary-light, 20%);
+                        border: .8px solid lighten($primary-light, 40%);
                         &:hover{
-                            background: $red-light;
+                            background: $yellow-light;
                             &:before{
                                 color: $red-color;
                             } 
@@ -1015,10 +1017,10 @@ body{
     @include radius(20px);
     cursor: pointer;
     &:hover{
-        background-color: $red-light;
+        background-color: $yellow-light;
     }
     &.span-active{
-        background-color: $red-light;
+        background-color: $yellow-light
     }
     &.span-inactive{
         opacity: .5;

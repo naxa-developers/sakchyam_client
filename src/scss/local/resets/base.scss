@@ -9,10 +9,20 @@ body {
 .sidebar-li{
     a{
         font-family: $avenir-heavy;
-        font-size: 1.25rem;
+        font-size: 13px;
+        color: $red-color;
+        line-height: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1.3px;
+        display:  block;
+    }
+    p{
+        margin-top: 5px;
+        font-family: $avenir-heavy;
+        font-size: 15px;
         color: $text-color;
-        line-height: 1.5rem;
-        text-transform: capitalize;
+        line-height: 1.25rem;
+
     }
 }
 .sidebar-sublist{
@@ -30,20 +40,6 @@ body {
     }
 }
 
-
-@media #{$breakpoint-xxl}{
-    .sidebar-li a {
-        font-size: 1.125rem;
-    }
-    .sidebar-sublist{
-        li{
-            a{
-                font-family: $body-fonts;
-                font-size: .875rem;
-            }
-        }
-    }
-}
 
 .mt-3 {
     margin-top: 2rem;

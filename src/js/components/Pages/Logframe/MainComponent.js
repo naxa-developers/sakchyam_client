@@ -46,7 +46,9 @@ class MainComponent extends Component {
     super(props);
     this.state = {
       activeIndicator: 'IMPACT',
+      activeListFilteredData: [],
       activeLayer: 'Impact Indicator 1',
+      activeListItem: '',
       activeDataType: 'Cumulative',
       dateRange: [],
       activeModal: false,
@@ -66,6 +68,19 @@ class MainComponent extends Component {
       options: null,
     };
   }
+
+  handleActiveListItem = clickedValue => {
+    console.log(clickedValue);
+    this.setState({ activeListItem: clickedValue });
+  };
+
+  backNavigationClick = () => {
+    this.setState({ activeListItem: '' });
+  };
+
+  handleSubCatClick = clickeditem => {
+    this.setState({ activeLayer: clickeditem });
+  };
 
   handleOneTimeLayerChange = () => {
     this.setState({ activeLayer: 'Impact Indicator 1' });
@@ -479,53 +494,15 @@ class MainComponent extends Component {
   // eslint-disable-next-line camelcase
 
   componentDidUpdate(prevProps, prevState) {
-    // if (prevState.activeBar !== this.state.activeBar) {
-    // }
-    // if (prevState.activeTimegraph !== this.state.activeTimeGraph) {
-    // }
-    // if (
-    //   prevProps.logFrameReducer.series !==
-    //   this.props.logFrameReducer.series
-    // ) {
-    //   if (
-    //     this.state.activeBar1 &&
-    //     this.state.activeBar2 &&
-    //     this.state.activeLine1 &&
-    //     this.state.activeLine2
-    //   ) {
-    //     console.log('active changes');
-    //     // alert('updated data');
-    //     // setTimeout(() => {
-    //     //   document
-    //     //     .getElementsByClassName(
-    //     //       'apexcharts-tooltip-series-group',
-    //     //     )[1]
-    //     //     .classList.add('none');
-    //     // }, 500);
-    //     // setTimeout(() => {
-    //     //   document
-    //     //     .getElementsByClassName(
-    //     //       'apexcharts-tooltip-series-group',
-    //     //     )[2]
-    //     //     .classList.add('none');
-    //     // }, 500);
-    //   } else {
-    //     // setTimeout(() => {
-    //     //   document
-    //     //     .getElementsByClassName(
-    //     //       'apexcharts-tooltip-series-group',
-    //     //     )[1]
-    //     //     .classList.remove('none');
-    //     // }, 500);
-    //     // setTimeout(() => {
-    //     //   document
-    //     //     .getElementsByClassName(
-    //     //       'apexcharts-tooltip-series-group',
-    //     //     )[2]
-    //     //     .classList.remove('none');
-    //     // }, 500);
-    //   }
-    // }
+    const { activeListItem, activeListFilteredData } = this.state;
+    if (prevState.activeListItem !== activeListItem) {
+      console.log(activeListItem, 'change active List');
+      const { indicatorCategory } = this.props.logFrameReducer;
+      const filteredData = indicatorCategory.filter(
+        data => data.name === activeListItem,
+      );
+      this.setState({ activeListFilteredData: filteredData });
+    }
 
     if (document.getElementsByClassName('apexcharts-menu-icon')[0]) {
       document.getElementsByClassName(
@@ -638,6 +615,11 @@ class MainComponent extends Component {
         });
         return true;
       });
+      const collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      });
+      b.sort(collator.compare);
       // console.log(b);
       this.allIndicatorCategorySetState(b);
       // this.props.filterIndicatorGraphData(activeLayer);
@@ -819,6 +801,8 @@ class MainComponent extends Component {
       activeLine1,
       activeLine2,
       options,
+      activeListItem,
+      activeListFilteredData,
     } = this.state;
     const {
       props: {
@@ -878,6 +862,11 @@ class MainComponent extends Component {
               </div>
             </div>
             <LeftSidebarMain
+              activeListItem={activeListItem}
+              handleActiveListItem={this.handleActiveListItem}
+              activeListFilteredData={activeListFilteredData}
+              backNavigationClick={this.backNavigationClick}
+              handleSubCatClick={this.handleSubCatClick}
               activeDate={activeDate}
               activeLayer={activeLayer}
               activeIndicator={activeIndicator}
