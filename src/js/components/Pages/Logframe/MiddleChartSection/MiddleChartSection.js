@@ -1069,7 +1069,7 @@ class MiddleChartSection extends Component {
                   filteredDynamicData[0] &&
                   filteredDynamicData[0].sub_category.title}
               </h3>
-              <span className="span_black_15">{activeLayer}</span>
+              {/* <span className="span_black_15">{activeLayer}</span> */}
             </div>
 
             <div className="info-header-bottom">
@@ -1325,7 +1325,7 @@ class MiddleChartSection extends Component {
               // onClick={this.downloadPng}
               onClick={this.toggleDownloadDropdown}
               onKeyPress={this.toggleDownloadDropdown}
-              style={{ right: '44px' }}
+              // style={{ right: '44px' }}
             >
               {/* <label>Download</label> */}
               <img src={saveAlt} alt="" />

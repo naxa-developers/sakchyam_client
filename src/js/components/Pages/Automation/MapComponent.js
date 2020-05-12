@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map } from 'react-leaflet';
+import { Map, Popup, Marker } from 'react-leaflet';
 import Loader from 'react-loader-spinner';
 import 'leaflet/dist/leaflet.css';
 
@@ -8,9 +8,11 @@ import 'react-leaflet-markercluster/dist/styles.min.css';
 import Axios from 'axios';
 import 'leaflet.featuregroup.subgroup';
 import '../../../../library/canvasFlowmapLayer';
+import { connect } from 'react-redux';
+import randomGeojson from '../../../../data/randomGeojson.json';
+// import Marker from '../../../../img/marker.png';
 // import Select from 'react-select';
 // import Control from 'react-leaflet-control';
-import { connect } from 'react-redux';
 import CsvFile from '../../../../data/provincemerge.json';
 import VectorGrid from './VectorGrid';
 import BaseLayers from './BaselayersComponent';
@@ -27,16 +29,36 @@ import automationReducerReducer from '../../../reducers/automationReducer.reduce
 // import IosSwitch from '../../Includes/IosSwitch';
 
 // const map = {};
+// const greenIcon = L.icon({
+//   iconUrl: '../../../../img/marker.png',
+//   // shadowUrl: 'leaf-shadow.png',
+
+//   iconSize: [38, 95], // size of the icon
+//   shadowSize: [50, 64], // size of the shadow
+//   iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+//   shadowAnchor: [4, 62], // the same for the shadow
+//   popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+// });
+export const pointerIcon = new L.Icon({
+  iconUrl: '../../../src/img/marker.png',
+  iconRetinaUrl: '../../../src/img/marker.png',
+  iconAnchor: [5, 55],
+  popupAnchor: [10, -44],
+  iconSize: [25, 25],
+  shadowUrl: '../assets/marker-shadow.png',
+  shadowSize: [68, 95],
+  shadowAnchor: [20, 92],
+});
 class MapComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       provinceBbox: [],
       provinceAllData: [],
-      dataTypeLevel: 'province',
+      dataTypeLevel: 'municipality',
       selectedBaseLayer: 'harje',
       vectorGridInputUrl:
-        'https://dvsnaxa.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
+        'https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
       vectorGridKey: '0',
       bounds: [
         [25.898761936567023, 80.00244140625001],
@@ -55,10 +77,9 @@ class MapComponent extends Component {
 
   componentDidMount() {
     // this.props.getAutomationDataByPartner();
-    this.props.getAutomationDataByProvince();
-    this.props.getAutomationDataByDistrict();
-    this.props.getAutomationDataByMunicipality();
+
     const map = this.props.mapRef.current.leafletElement;
+    // const marker = L.marker([84, 27], { icon: greenIcon }).addTo(map);
     console.log(map, 'mapref');
 
     const geoJsonFeatureCollection = {
@@ -76,51 +97,51 @@ class MapComponent extends Component {
     };
     console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
 
-    const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
-      geoJsonFeatureCollection,
-      {
-        originAndDestinationFieldIds: {
-          originUniqueIdField: 's_city_id',
-          originGeometry: {
-            x: 's_lon',
-            y: 's_lat',
-          },
-          destinationUniqueIdField: 'e_city_id',
-          destinationGeometry: {
-            x: 'e_lon',
-            y: 'e_lat',
-          },
-        },
-        pathDisplayMode: 'selection',
-        animationStarted: true,
-        animationEasingFamily: 'Cubic',
-        animationEasingType: 'In',
-        animationDuration: 2000,
-      },
-    ).addTo(map);
-    oneToManyFlowmapLayer.on('click', function(e) {
-      if (e.sharedOriginFeatures.length) {
-        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-          e.sharedOriginFeatures,
-          'SELECTION_NEW',
-        );
-      }
-      if (e.sharedDestinationFeatures.length) {
-        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-          e.sharedDestinationFeatures,
-          'SELECTION_NEW',
-        );
-      }
-    });
+    // const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
+    //   geoJsonFeatureCollection,
+    //   {
+    //     originAndDestinationFieldIds: {
+    //       originUniqueIdField: 's_city_id',
+    //       originGeometry: {
+    //         x: 's_lon',
+    //         y: 's_lat',
+    //       },
+    //       destinationUniqueIdField: 'e_city_id',
+    //       destinationGeometry: {
+    //         x: 'e_lon',
+    //         y: 'e_lat',
+    //       },
+    //     },
+    //     pathDisplayMode: 'selection',
+    //     animationStarted: true,
+    //     animationEasingFamily: 'Cubic',
+    //     animationEasingType: 'In',
+    //     animationDuration: 2000,
+    //   },
+    // ).addTo(map);
+    // oneToManyFlowmapLayer.on('click', function(e) {
+    //   if (e.sharedOriginFeatures.length) {
+    //     oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+    //       e.sharedOriginFeatures,
+    //       'SELECTION_NEW',
+    //     );
+    //   }
+    //   if (e.sharedDestinationFeatures.length) {
+    //     oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+    //       e.sharedDestinationFeatures,
+    //       'SELECTION_NEW',
+    //     );
+    //   }
+    // });
 
-    // immediately select an origin point for Bezier path display,
-    // instead of waiting for the first user click event to fire
-    oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
-      's_city_id',
-      373,
-      true,
-      'SELECTION_NEW',
-    );
+    // // immediately select an origin point for Bezier path display,
+    // // instead of waiting for the first user click event to fire
+    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+    //   's_city_id',
+    //   373,
+    //   true,
+    //   'SELECTION_NEW',
+    // );
 
     // since this demo is using the optional "pathDisplayMode" as "selection",
     // it is up to the developer to wire up a click or mouseover listener
@@ -373,8 +394,8 @@ class MapComponent extends Component {
             fill: true,
           }
         : {
-            fillColor: '#a3b7e3',
-            fillOpacity: 0,
+            fillColor: 'white',
+            fillOpacity: 0.7,
             weight: 1.5,
             opacity: 0.4,
             color: '#a3b7e3',
@@ -383,8 +404,8 @@ class MapComponent extends Component {
 
     // console.log(vectorGridInputUrl, 'url');
     // console.log(automationDataByProvince, 'data');
-    console.log(filteredProvinceChoropleth, 'filterProvince');
-    // console.log()
+    // console.log(filteredProvinceChoropleth, 'filterProvince');
+    // console.log(randomGeojson, 'geojson');
     return (
       <>
         <div>
@@ -464,6 +485,25 @@ class MapComponent extends Component {
             iconColor="#FF0000"
             mode="circle" // options - circle, circleIcon, marker
           />
+          {randomGeojson &&
+            randomGeojson.features.map(data => {
+              return (
+                <Marker
+                  attribution={{ name: data.properties.name }}
+                  position={[
+                    data.geometry.coordinates[1],
+                    data.geometry.coordinates[0],
+                  ]}
+                  icon={pointerIcon}
+                >
+                  <Popup>
+                    {data.properties.name}
+                    <br />
+                    Easily customizable.
+                  </Popup>
+                </Marker>
+              );
+            })}
           <div
             id="center_loader"
             style={{

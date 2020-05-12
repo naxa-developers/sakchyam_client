@@ -6,7 +6,7 @@
         visibility: hidden;
         &:checked{
             ~label{
-                background-color: $red-light;
+                background-color: $yellow-light;
                 color: $text-color;
                 &:after{
                     opacity: 1;
@@ -36,16 +36,17 @@
             background-color: transparent;
         }
         &::after{
-            content: '\f00c';
-            font-family: 'Font Awesome 5 Free';
+            // content: '\f00c';
+            // font-family: 'Font Awesome 5 Free';
             font-weight: 900;
-            // content: 'check';
-            // font-family: 'Material Icons';
+            content: 'check';
+            font-family: 'Material Icons';
             color: #ffffff;
             opacity: 0;
-            background-color: $red-color;
-            border: .8px solid $red-color;
+            background-color: $yellow-color;
+            border: .8px solid $yellow-color;
             line-height: 1;
+            text-transform: lowercase;
         }
     }
 }

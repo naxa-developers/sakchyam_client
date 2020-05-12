@@ -229,7 +229,7 @@ class VectorGridComponent extends Component {
             //     console.log(feature, "feature  ")
             // },
             getFeatureId: function (feature) {
-                console.log(feature, "feature  ")
+                // console.log(feature, "feature  ")
                 return feature.properties.code; // feature.properties.code
             },
             url: provinceUrl,
