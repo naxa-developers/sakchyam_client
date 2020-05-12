@@ -85,7 +85,7 @@ class MainAutomation extends Component {
                   tabIndex="0"
                   className={`w3-bar-item w3-button ${
                     activeClickPartners.includes(data.name)
-                      ? 'active'
+                      ? 'active_automation'
                       : ''
                   } `}
                   onClick={() => {
