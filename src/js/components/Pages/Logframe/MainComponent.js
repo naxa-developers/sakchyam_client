@@ -84,6 +84,7 @@ class MainComponent extends Component {
 
   handleActiveListItem = clickedValue => {
     console.log(clickedValue);
+
     this.setState({ activeListItem: clickedValue });
   };
 
@@ -92,6 +93,7 @@ class MainComponent extends Component {
   };
 
   handleSubCatClick = clickeditem => {
+    this.handleMainCategorySlide(clickeditem);
     this.setState({ activeLayer: clickeditem });
   };
 
