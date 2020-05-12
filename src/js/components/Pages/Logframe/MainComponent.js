@@ -41,6 +41,19 @@ function convert(x) {
 
   return '1T+';
 }
+function compare(a, b) {
+  // Use toUpperCase() to ignore character casing
+  const bandA = a.name.toUpperCase();
+  const bandB = b.name.toUpperCase();
+
+  let comparison = 0;
+  if (bandA > bandB) {
+    comparison = 1;
+  } else if (bandA < bandB) {
+    comparison = -1;
+  }
+  return comparison;
+}
 class MainComponent extends Component {
   constructor(props) {
     super(props);
@@ -501,6 +514,23 @@ class MainComponent extends Component {
       const filteredData = indicatorCategory.filter(
         data => data.name === activeListItem,
       );
+      console.log(filteredData[0]);
+      if (filteredData && filteredData[0]) {
+        filteredData[0].subcat.sort(compare);
+      }
+      // console.log(filteredData[0].subcat.sort(compare));
+      // const collator = new Intl.Collator(undefined, {
+      //   numeric: true,
+      //   sensitivity: 'base',
+      // });
+      // console.log(filteredData[0].subcat.sort(collator.compare));
+      // console.log(
+      //   filteredData[0].subcat.sort(function(a, b) {
+      //     console.log(a.name);
+      //     console.log(b.name);
+      //     return a.name - b.name;
+      //   }),
+      // );
       this.setState({ activeListFilteredData: filteredData });
     }
 

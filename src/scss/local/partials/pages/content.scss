@@ -463,7 +463,7 @@
                     position: absolute;
                     left: auto;
                     right: 0px;
-                    top: 4px;
+                    top: -32px;
                     @include display-flex(flex);
                     @include justify-content-center;
                     @include align-items-center;
@@ -519,7 +519,7 @@
                         @include transition(all .4s ease-in-out);
                         visibility: visible;
                         opacity: 1;
-                        top: 10%;
+                        top: 1%;
                         right: 0;
                     }
                 }
