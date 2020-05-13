@@ -1,6 +1,5 @@
-.apexcharts-inner.apexcharts-graphical{
-    
-}
+
+
 // .apexcharts-ycrosshairs{
 //   width: 1000px;
 // }
@@ -254,4 +253,11 @@
   
     color: #000!important;
     background-color: #ccc!important;
+}
+
+.x-axislabel {
+font-weight: 900;
+}
+.apexcharts-inner .apexcharts-graphical {
+  transform:translate(75.6875, 30) !important;
 }

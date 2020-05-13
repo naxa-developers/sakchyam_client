@@ -74,6 +74,9 @@ class LeftSidebarMain extends Component {
             return (
               // Number 1 change
               <li
+                className={
+                  activeIndicator === data.name ? 'active' : ''
+                }
                 role="tab"
                 onClick={() => handleActiveListItem(data.name)}
                 onKeyPress={() => handleActiveListItem(data.name)}

@@ -64,6 +64,7 @@ class MiddleChartSection extends Component {
   }
 
   plotChart = () => {
+    console.log('plotchart call');
     const currentComponent = this;
     const option = {
       options: {
@@ -156,7 +157,7 @@ class MiddleChartSection extends Component {
         },
         colors: ['#b41833', '#287078'],
         fill: {
-          opacity: [0.55, 0.55, 0.25, 0.25],
+          opacity: [0.45, 0.45, 0.15, 0.15],
           // opacity: [0.45, 0.75, 0.15, 0.2],
           gradient: {
             inverseColors: false,
@@ -193,7 +194,15 @@ class MiddleChartSection extends Component {
           //   text: 'Varun',
           // },
           labels: {
+            style: {
+              cssClass: 'x-axislabel',
+            },
             // show: false,
+            // formatter(value, timestamp, index) {
+            //   const splitFormat = value.split('(');
+            //   console.log(splitFormat[0], splitFormat[1]);
+            //   // return [splitFormat[0], splitFormat[1]];
+            // },
             // minHeight: 200,
           },
           tickAmount: 10,
@@ -738,6 +747,42 @@ class MiddleChartSection extends Component {
   // eslint-disable-next-line camelcase
 
   componentDidUpdate(prevProps, prevState) {
+    // console.log(prevProps.activeDate, 'prev');
+    // console.log(this.props.activeDate, 'new');
+    const {
+      state: { options },
+      props: { activeDate },
+    } = this;
+    if (prevProps.activeDate !== activeDate) {
+      if (activeDate.length < 3) {
+        console.log('true solti');
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          options: {
+            ...options,
+            plotOptions: {
+              ...options.plotOptions,
+              bar: {
+                columnWidth: '20%',
+              },
+            },
+          },
+        });
+      } else {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          options: {
+            ...options,
+            plotOptions: {
+              ...options.plotOptions,
+              bar: {
+                columnWidth: '80%',
+              },
+            },
+          },
+        });
+      }
+    }
     // document
     //   .getElementsByClassName('exportPNG')[0]
     //   .addEventListener('click', this.downloadPng);

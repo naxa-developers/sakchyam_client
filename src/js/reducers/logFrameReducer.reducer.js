@@ -453,7 +453,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   });
   const category = filtered.map(el => {
     //   console.log(el, 'elLabel');
-    return `${el.year.name} (${el.year.range})`;
+    return [el.year.name, el.year.range];
   });
   // console.log(category, 'cat');
   // console.log(label, 'label');

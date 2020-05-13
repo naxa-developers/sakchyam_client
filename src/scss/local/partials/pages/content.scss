@@ -24,7 +24,7 @@
         z-index: 1;
         top: 0;
         left: 0;
-        padding-top: 100px;
+        padding-top: 95px;
         overflow-y: auto;
         &::-webkit-scrollbar{
             width: 1px;
@@ -1042,13 +1042,13 @@ body{
                 // height: 20px;
                 content: 'stop';
                 // color: 'red';
-                color: rgb(180, 24, 51);
+                color: #bc597a
             }
         }
         &:last-child{
             &:before{
                 content: 'stop';
-                color: rgb(40, 112, 120);
+                color: #5d98a9;
             }
         }
 }
