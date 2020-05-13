@@ -754,8 +754,7 @@ class MiddleChartSection extends Component {
       props: { activeDate },
     } = this;
     if (prevProps.activeDate !== activeDate) {
-      if (activeDate.length < 3) {
-        console.log('true solti');
+      if (activeDate.length <= 3) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
           options: {
