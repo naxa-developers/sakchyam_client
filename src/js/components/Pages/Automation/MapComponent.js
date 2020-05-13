@@ -39,7 +39,7 @@ import automationReducerReducer from '../../../reducers/automationReducer.reduce
 //   shadowAnchor: [4, 62], // the same for the shadow
 //   popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
 // });
-export const pointerIcon = new L.Icon({
+export const activeIcon = new L.Icon({
   iconUrl: '../../../src/img/marker.png',
   iconRetinaUrl: '../../../src/img/marker.png',
   iconAnchor: [5, 55],
@@ -270,17 +270,16 @@ class MapComponent extends Component {
         vectorGridInputUrl: districtFilterUrl,
         vectorGridKey: Math.random(),
       });
+    } else if (dataTypeLevel === 'municipality') {
+      const districtFilterUrl = `https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}`;
+      this.setState({
+        vectorGridInputUrl: districtFilterUrl,
+        vectorGridKey: Math.random(),
+      });
     }
-    // else if (dataTypeLevel === 'municipality') {
-    //   const districtFilterUrl = `https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}`;
-    //   this.setState({
-    //     vectorGridInputUrl: districtFilterUrl,
-    //     vectorGridKey: Math.random(),
-    //   });
-    // }
-    // console.log(
-    //   `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
-    // );
+    console.log(
+      `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
+    );
   };
 
   handleStateLevel = e => {
@@ -314,6 +313,10 @@ class MapComponent extends Component {
     }
 
     this.setState({ dataTypeLevel: e.target.value });
+  };
+
+  markerClickProvinceSelect = clickedValue => {
+    this.props.handleActiveClickPartners(clickedValue);
   };
 
   render() {
@@ -409,7 +412,10 @@ class MapComponent extends Component {
     return (
       <>
         <div>
-          <select onChange={this.handleStateLevel}>
+          <select
+            onChange={this.handleStateLevel}
+            value={dataTypeLevel}
+          >
             <option value="province">Province</option>
             <option value="district">District</option>
             <option value="municipality">Municipality</option>
@@ -446,11 +452,26 @@ class MapComponent extends Component {
           {/* {choroplethInputData&&choroplethInputData.length >0 &&  */}
           {automationChoroplethData && filteredProvinceChoropleth && (
             <VectorGrid
+              // changetheme={this.props.changetheme}
+              //   key={"0"}
+              // mapRef={this.props.mapRef}
+              // style={inputStyle} // Province style setting
+              //   provinceCounts={[20, 12, 30, 4, 5, 26, 17]} //province counts for circles at center of province
+              // choroplethData={choroplethInputData} //
+              // color="#0000FF" //single color gradient - to make this active dont pass colorArray
+              // legendDivisions = {10} //no of divisions in legend
+              // colorArray={colors} // multi color custom gradient
+              // divisions = {inputDivisions}
+              // label = {true}
+              legend
+              // choroplethTitle = {"Covid Cases"}
+              // vectorGridUrl={vectorGridInputUrl} // vectortile url setting
               handleProvinceClick={this.handleProvinceClick}
               changetheme={this.props.changetheme}
               key={vectorGridKey}
               mapRef={this.props.mapRef}
               style={inputStyle} // Province style setting
+              choroplethTitle="Automation Deployed"
               // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
               provinceCounts={
                 filteredProvinceChoropleth &&
@@ -489,12 +510,17 @@ class MapComponent extends Component {
             randomGeojson.features.map(data => {
               return (
                 <Marker
+                  onClick={() => {
+                    this.markerClickProvinceSelect(
+                      data.properties.name,
+                    );
+                  }}
                   attribution={{ name: data.properties.name }}
                   position={[
                     data.geometry.coordinates[1],
                     data.geometry.coordinates[0],
                   ]}
-                  icon={pointerIcon}
+                  icon={activeIcon}
                 >
                   <Popup>
                     {data.properties.name}

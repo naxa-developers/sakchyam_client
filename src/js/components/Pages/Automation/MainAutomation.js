@@ -9,6 +9,16 @@ import {
   getAutomationDataByMunicipality,
 } from '../../../actions/automation.actions';
 
+export const activeIcon = new L.Icon({
+  iconUrl: '../../../src/img/marker.png',
+  iconRetinaUrl: '../../../src/img/marker.png',
+  iconAnchor: [5, 55],
+  popupAnchor: [10, -44],
+  iconSize: [25, 25],
+  shadowUrl: '../assets/marker-shadow.png',
+  shadowSize: [68, 95],
+  shadowAnchor: [20, 92],
+});
 export const inactiveIcon = new L.Icon({
   iconUrl: '../../../src/img/firstaid.svg',
   iconRetinaUrl: '../../../src/img/firstaid.svg',
@@ -44,22 +54,92 @@ class MainAutomation extends Component {
       ) {
         return partner !== clicked;
       });
+
       this.setState({
         activeClickPartners: removedPartnersFull,
       });
+      // Object.entries(mapLayers).forEach(([key, value]) => {
+      //   if (
+      //     value.options &&
+      //     value.options.attribution &&
+      //     value.options.attribution.name &&
+      //     value.options.attribution.name === clicked
+      //   ) {
+      //     console.log(value.options.attribution.name);
+      //     value.setIcon(activeIcon);
+      //   }
+      // });
     } else {
       const joined = activeClickPartners.concat(clicked);
       this.setState({ activeClickPartners: joined });
     }
-    const mapLayers = this.mapRef.current.leafletElement._layers;
-    console.log(mapLayers['30'].setIcon(inactiveIcon), 'mapref');
-    console.log(mapLayers.length, 'mapref');
+
+    // console.log(mapLayers['30'].setIcon(inactiveIcon), 'mapref');
     // eslint-disable-next-line no-restricted-syntax
     // for (var i=0; i>map)
-    Object.entries(mapLayers).forEach(([key, value]) =>
-      console.log(`${key}: ${value}`),
-    );
+    // for (const property in object) {
+    //   if (object.hasOwnProperty(property)) {
+    //     // Do things here
+    //   }
+    // }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { activeClickPartners } = this.state;
+    if (prevState.activeClickPartners !== activeClickPartners) {
+      const mapLayers = this.mapRef.current.leafletElement._layers;
+      console.log(activeClickPartners, 'activeClick');
+      if (activeClickPartners.length === 0) {
+        Object.entries(mapLayers).forEach(([key, value]) => {
+          if (
+            value.options &&
+            value.options.attribution &&
+            value.options.attribution.name
+          ) {
+            console.log(value.options.attribution.name);
+            value.setIcon(activeIcon);
+          }
+        });
+      } else {
+        Object.entries(mapLayers).forEach(([key, value]) => {
+          if (
+            value.options &&
+            value.options.attribution &&
+            value.options.attribution.name
+          ) {
+            console.log(value.options.attribution.name);
+            value.setIcon(inactiveIcon);
+          }
+        });
+      }
+      activeClickPartners.map(data => {
+        Object.entries(mapLayers).forEach(([key, value]) => {
+          if (
+            value.options &&
+            value.options.attribution &&
+            value.options.attribution.name &&
+            value.options.attribution.name === data
+          ) {
+            console.log(value.options.attribution.name);
+            value.setIcon(activeIcon);
+            value.openPopup();
+          }
+        });
+        return true;
+      });
+      // Object.entries(mapLayers).forEach(([key, value]) => {
+      //   if (
+      //     value.options &&
+      //     value.options.attribution &&
+      //     value.options.attribution.name &&
+      //     value.options.attribution.name !== clicked
+      //   ) {
+      //     console.log(value.options.attribution.name);
+      //     value.setIcon(inactiveIcon);
+      //   }
+      // });
+    }
+  }
 
   render() {
     const { activeClickPartners } = this.state;
@@ -112,7 +192,12 @@ class MainAutomation extends Component {
           </div>
 
           <div className="w3-container">
-            <MapComponent mapRef={this.mapRef} />
+            <MapComponent
+              handleActiveClickPartners={
+                this.handleActiveClickPartners
+              }
+              mapRef={this.mapRef}
+            />
           </div>
         </div>
         {/* <aside>
