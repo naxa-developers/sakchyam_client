@@ -13,10 +13,12 @@ import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
 import TableViewComponent from './TableViewComponent/TableViewComponent';
+import FirstIcon from '../../../../img/marker.png';
+import SecondIcon from '../../../../img/firstaid.svg';
 
 export const activeIcon = new L.Icon({
-  iconUrl: '../../../src/img/marker.png',
-  iconRetinaUrl: '../../../src/img/marker.png',
+  iconUrl: FirstIcon,
+  iconRetinaUrl: FirstIcon,
   iconAnchor: [5, 55],
   popupAnchor: [10, -44],
   iconSize: [25, 25],
@@ -25,8 +27,8 @@ export const activeIcon = new L.Icon({
   shadowAnchor: [20, 92],
 });
 export const inactiveIcon = new L.Icon({
-  iconUrl: '../../../src/img/firstaid.svg',
-  iconRetinaUrl: '../../../src/img/firstaid.svg',
+  iconUrl: SecondIcon,
+  iconRetinaUrl: SecondIcon,
   iconAnchor: [5, 55],
   popupAnchor: [10, -44],
   iconSize: [25, 25],
@@ -39,6 +41,7 @@ class MainAutomation extends Component {
     super(props);
     this.state = {
       activeClickPartners: [],
+      activeOutreachButton: true,
       activeFilterButton: false,
       activeRightSideBar: true,
       activeTableView: false,
@@ -258,6 +261,12 @@ class MainAutomation extends Component {
     }));
   };
 
+  toggleOutreachButton = () => {
+    this.setState(prevState => ({
+      activeOutreachButton: !prevState.activeOutreachButton,
+    }));
+  };
+
   handleStateLevel = clickedValue => {
     // console.log(e.target.value, 'target value');
     this.setState({ filteredProvinceChoropleth: null });
@@ -345,6 +354,7 @@ class MainAutomation extends Component {
       vectorGridInputUrl,
       vectorGridKey,
       color,
+      activeOutreachButton,
     } = this.state;
     const {
       automationDataByPartner,
@@ -363,6 +373,8 @@ class MainAutomation extends Component {
           <LeftSideBar
             activeClickPartners={activeClickPartners}
             handleActiveClickPartners={this.handleActiveClickPartners}
+            activeOutreachButton={activeOutreachButton}
+            toggleOutreachButton={this.toggleOutreachButton}
           />
           <main className="main">
             <div className="main-card map-card">
@@ -380,6 +392,8 @@ class MainAutomation extends Component {
                   vectorGridInputUrl={vectorGridInputUrl}
                   vectorGridKey={vectorGridKey}
                   color={color}
+                  activeOutreachButton={activeOutreachButton}
+                  // toggleOutreachButton={this.toggleOutreachButton}
                 />
               </div>
               <div

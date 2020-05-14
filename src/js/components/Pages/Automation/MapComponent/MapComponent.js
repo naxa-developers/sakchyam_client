@@ -10,7 +10,7 @@ import 'leaflet.featuregroup.subgroup';
 import '../../../../../library/canvasFlowmapLayer';
 import { connect } from 'react-redux';
 import randomGeojson from '../../../../../data/randomGeojson.json';
-// import Marker from '../../../../img/marker.png';
+import FirstIcon from '../../../../../img/marker.png';
 // import Select from 'react-select';
 // import Control from 'react-leaflet-control';
 import CsvFile from '../../../../../data/provincemerge.json';
@@ -40,8 +40,8 @@ import automationReducerReducer from '../../../../reducers/automationReducer.red
 //   popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
 // });
 export const activeIcon = new L.Icon({
-  iconUrl: '../../../src/img/marker.png',
-  iconRetinaUrl: '../../../src/img/marker.png',
+  iconUrl: FirstIcon,
+  iconRetinaUrl: FirstIcon,
   iconAnchor: [5, 55],
   popupAnchor: [10, -44],
   iconSize: [25, 25],
@@ -242,6 +242,7 @@ class MapComponent extends Component {
       vectorGridKey,
       color,
       handleProvinceClick,
+      activeOutreachButton,
     } = this.props;
     const position = [27.7, 85.4];
     const options = [
@@ -351,53 +352,55 @@ class MapComponent extends Component {
           {/* <IosSwitch/> */}
           <BaseLayers initialbase="mapbox" />
           {/* {choroplethInputData&&choroplethInputData.length >0 &&  */}
-          {automationChoroplethData && filteredProvinceChoropleth && (
-            <VectorGrid
-              // changetheme={this.props.changetheme}
-              //   key={"0"}
-              // mapRef={this.props.mapRef}
-              // style={inputStyle} // Province style setting
-              //   provinceCounts={[20, 12, 30, 4, 5, 26, 17]} //province counts for circles at center of province
-              // choroplethData={choroplethInputData} //
-              // color="#0000FF" //single color gradient - to make this active dont pass colorArray
-              // legendDivisions = {10} //no of divisions in legend
-              // colorArray={colors} // multi color custom gradient
-              // divisions = {inputDivisions}
-              // label = {true}
-              legend
-              // choroplethTitle = {"Covid Cases"}
-              // vectorGridUrl={vectorGridInputUrl} // vectortile url setting
-              handleProvinceClick={handleProvinceClick}
-              changetheme={this.props.changetheme}
-              key={vectorGridKey}
-              mapRef={this.props.mapRef}
-              style={inputStyle} // Province style setting
-              choroplethTitle="Automation Deployed"
-              // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
-              provinceCounts={
-                filteredProvinceChoropleth &&
-                filteredProvinceChoropleth
-              } // province counts for circles at center of province
-              mode="choropleth" // options- choropleth, provinceCircles, both
-              choroplethData={automationChoroplethData} //
-              // color={color} // single color gradient
-              // legendDivisions = {10} //no of divisions in legend
-              // colorArray={[
-              //   '#FFF3D4',
-              //   '#FED976',
-              //   '#FEB24C',
-              //   '#FD8D3C',
-              //   '#FC4E2A',
-              //   '#E31A1C',
-              //   '#BD0026',
-              //   '#800026',
-              // ]} // multi color custom gradient
-              divisions={inputDivisions}
-              // divisions={[0, 5, 10, 15, 20]}
-              // choroplethTitle = {"New Choropleth"}
-              vectorGridUrl={vectorGridInputUrl} // vectortile url setting
-            />
-          )}
+          {activeOutreachButton &&
+            automationChoroplethData &&
+            filteredProvinceChoropleth && (
+              <VectorGrid
+                // changetheme={this.props.changetheme}
+                //   key={"0"}
+                // mapRef={this.props.mapRef}
+                // style={inputStyle} // Province style setting
+                //   provinceCounts={[20, 12, 30, 4, 5, 26, 17]} //province counts for circles at center of province
+                // choroplethData={choroplethInputData} //
+                // color="#0000FF" //single color gradient - to make this active dont pass colorArray
+                // legendDivisions = {10} //no of divisions in legend
+                // colorArray={colors} // multi color custom gradient
+                // divisions = {inputDivisions}
+                // label = {true}
+                legend
+                // choroplethTitle = {"Covid Cases"}
+                // vectorGridUrl={vectorGridInputUrl} // vectortile url setting
+                handleProvinceClick={handleProvinceClick}
+                changetheme={this.props.changetheme}
+                key={vectorGridKey}
+                mapRef={this.props.mapRef}
+                style={inputStyle} // Province style setting
+                choroplethTitle="Automation Deployed"
+                // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
+                provinceCounts={
+                  filteredProvinceChoropleth &&
+                  filteredProvinceChoropleth
+                } // province counts for circles at center of province
+                mode="choropleth" // options- choropleth, provinceCircles, both
+                choroplethData={automationChoroplethData} //
+                // color={color} // single color gradient
+                // legendDivisions = {10} //no of divisions in legend
+                // colorArray={[
+                //   '#FFF3D4',
+                //   '#FED976',
+                //   '#FEB24C',
+                //   '#FD8D3C',
+                //   '#FC4E2A',
+                //   '#E31A1C',
+                //   '#BD0026',
+                //   '#800026',
+                // ]} // multi color custom gradient
+                divisions={inputDivisions}
+                // divisions={[0, 5, 10, 15, 20]}
+                // choroplethTitle = {"New Choropleth"}
+                vectorGridUrl={vectorGridInputUrl} // vectortile url setting
+              />
+            )}
           {/* } */}
           <MarkerClusterComponent
             mapRef={this.props.mapRef}
@@ -431,7 +434,7 @@ class MapComponent extends Component {
                 </Marker>
               );
             })}
-          {/* <div
+          <div
             id="center_loader"
             style={{
               position: 'absolute',
@@ -449,13 +452,13 @@ class MapComponent extends Component {
             />
             <label
               style={{
-                display: dataLoading ? 'none' : 'block',
+                display: !dataLoading ? 'none' : 'block',
                 marginLeft: '15px',
               }}
             >
               Loading...
             </label>
-          </div> */}
+          </div>
         </Map>
         {/* <ScrollTab changetheme={this.props.changetheme} /> */}
       </>

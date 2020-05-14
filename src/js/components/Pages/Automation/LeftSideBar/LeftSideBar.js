@@ -15,6 +15,8 @@ class LeftSideBar extends Component {
     const {
       activeClickPartners,
       handleActiveClickPartners,
+      activeOutreachButton,
+      toggleOutreachButton,
     } = this.props;
     return (
       <aside className="sidebar left-sidebar">
@@ -37,7 +39,11 @@ class LeftSideBar extends Component {
               <div className="inline-group">
                 <b>Outreach</b>
                 <label className="switch">
-                  <input type="checkbox" value="" />
+                  <input
+                    type="checkbox"
+                    checked={activeOutreachButton}
+                    onClick={toggleOutreachButton}
+                  />
                   <span className="slider" />
                 </label>
               </div>
@@ -77,7 +83,7 @@ class LeftSideBar extends Component {
                             <i className="material-icons">
                               tablet_mac
                             </i>
-                            <b>335</b>
+                            <b>{data.num_tablet_deployed}</b>
                           </div>
                           <div className="icons">
                             <i className="material-icons">business</i>
