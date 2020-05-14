@@ -1,0 +1,541 @@
+@import "automation-sidebar";
+@import "automation-map";
+
+
+.automation-wrapper{
+    @include display-flex(flex);
+    @include justify-content-start;
+    @include align-items-stretch;
+    flex-shrink: 1;
+    max-width: 100%;
+    width:100%;
+    position: relative;
+    @media #{$breakpoint-ls}{
+        @include flex-wrap(wrap);
+        align-items: initial;
+        padding:0 1rem;
+    }
+    aside{
+        &.sidebar{
+            position: relative;
+            @include transition(width 1s ease);
+            width:400px;
+            @media screen and (max-width:1440px){
+                width:320px;
+            }
+            @media #{$breakpoint-ls}{
+                @include flex(0 0 100%);
+                width:100%;
+            }
+            .sidebar-in{
+                display: block;
+            }
+            
+            // &.left-sidebar{
+                
+            // }
+            // &.right-sidebar{
+            // }
+        }
+        
+    }
+    
+    main{
+        &.main{
+            position: relative;
+            flex-grow: 1;
+            height: initial;
+            // @media screen and (max-width:1440px){
+            //     width: calc(100% - 400px);
+            // }
+            .main-card{
+                @include transition(all .5s ease-in-out);
+                &.table-card{
+                    padding:0 1rem;
+                    display: none;
+                    .table-card-header{
+                        .top-header{
+                            @include display-flex(flex);
+                            @include justify-content-between;
+                            @include align-items-start;
+                            padding:1rem 0;
+                            h5{
+                                color:$red-color;
+                                font-family: $body-fonts;
+                            }
+                            a{
+                                color:$primary-light;
+                                font-family:$avenir-heavy;
+                                font-size: .8125rem;
+                            }
+                        }
+                        .filter-content{
+                            margin-bottom:1rem;
+                            .filter-row{
+                                @include display-flex(flex);
+                                @include justify-content-between;
+                                @include align-items-center;
+                                @include flex-wrap(wrap);
+                                .buttons{
+                                    margin:0;
+                                    button{
+                                        padding:0;
+                                        &.is-bg{
+                                            padding:.5rem 1rem;
+                                        }
+                                        &.is-clear{
+                                            padding:0;
+                                        }
+                                        &:not(:last-child){
+                                            padding-left:1rem;
+                                        }
+                                        &:last-child{
+                                            color:$red-color;
+                                        }
+                                    }
+                                }
+                            }
+                            .filter-list{
+                                @include display-flex(flex);
+                                @include justify-content-start;
+                                @include align-items-center;
+                                @include flex-wrap(wrap);
+                                .form-group{
+                                    margin-bottom: 0;
+                                    label{
+                                        font-size: .775rem;
+                                    }
+                                    &:not(:last-child){
+                                        margin-right: .6125rem;
+                                    }
+                                    select{
+                                        font-size: .775rem;
+                                    }
+                                }
+                                
+                            }
+                            .view-list{
+                                @include display-flex(flex);
+                                @include justify-content-start;
+                                @include align-items-center;
+                                width:100%;
+                                margin-bottom: 1rem;
+                                @include flex-wrap(wrap);
+                                span{
+                                    text-transform: capitalize;
+                                    margin-right: 1rem;
+                                }
+                                .tab-list{
+                                    flex-grow: 1;
+                                    @include display-flex(flex);
+                                    @include justify-content-start;
+                                    @include align-items-center;
+                                    li{
+                                        a{
+                                            padding:.6125rem 1rem;
+                                            background-color: transparent;
+                                            @include radius(30px);
+                                            color:$primary-light;
+                                            text-transform: capitalize;
+                                            font-size: .875rem;
+                                            font-family: $avenir-heavy;
+                                        }
+                                        &.active,&:hover{
+                                            a{
+                                                background-color: $yellow-light;
+                                                color:$red-color;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                    }
+                    .table-card-body{
+                        .automation-table{
+                            background-color:$white-color;
+                            table{
+                                td,th{
+                                    padding:.6125rem;
+                                    font-size: .875rem;
+                                }
+                                thead{
+                                    background-color: $red-light;
+                                    .table-head{
+                                        @include display-flex(flex);
+                                        @include justify-content-start;
+                                        @include align-items-center;
+                                        font-size: .875rem;
+                                        font-family: $body-fonts;
+                                        font-weight: normal;
+                                        i{
+                                            margin-right: .6125rem;
+                                            font-size: 1rem;
+                                        }
+                                        @media #{$breakpoint-ls}{
+                                            min-width: 180px;
+                                        }
+                                    }
+                                }
+                                tbody{
+                                    td{
+                                        .organization{
+                                            @include display-flex(flex);
+                                            @include justify-content-start;
+                                            @include align-items-start;
+                                            @include transition(all .5s ease-in-out);
+                                            .organization-icon{
+                                                
+                                                span{
+                                                    width:28px;
+                                                    height: 28px;
+                                                    font-size: .6125rem;
+                                                    @include display-flex(flex);
+                                                    @include justify-content-center;
+                                                    @include align-items-center;
+                                                    @include flex-direction-column(center);
+                                                    @include radius(100%);
+                                                    color:$white-color;
+                                                    text-transform: uppercase;
+                                                    font-weight: 900;
+                                                    margin-right: .6125rem;
+                                                    
+                                                }
+    
+                                                &.is-green{
+                                                    span{
+                                                        background-color: $dark-green;
+                                                    }
+                                                }
+                                                &.is-red{
+                                                    span{
+                                                        background-color: $red-color;
+                                                    }
+                                                }
+                                                &.is-yellow{
+                                                    span{
+                                                        background-color: $secondary-color;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        b{
+                                            &.deployed{
+                                                color:$red-color;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            @media #{$breakpoint-ls}{
+                width:100%;
+            }
+            #map{
+                height: calc(100vh - 94px);
+            }
+            .leaflet-container{
+                height: calc(100vh - 94px);
+            }
+            .filter-bar{
+                position: absolute;
+                z-index: 1000;
+                left:1rem;
+                top:1rem;
+                right:0;
+                button.filter-button{
+                    height: 40px;
+                    min-width: initial;
+                    border:1px solid $border-color;
+                    background-color: $white-color;
+                    i{
+                        margin-right: .5rem;
+                    }
+                    &:focus,&:hover,&.active{
+                        background-color: $yellow-light;
+                        color:$red-color;
+                        outline: none;
+                        -webkit-outline:none;
+                        box-shadow: none;
+                        border-color: $yellow-color;
+                    }
+                }
+                .filter-content{
+                    background-color: $white-color;
+                    text-align: left;
+                    visibility: hidden;
+                    opacity: 0;
+                    @include transition(all 500ms ease);
+                    top: 120%;
+                    left: 0;
+                    right:auto;
+                    @include box-shadow(0 0px 20px rgba(166,166,166,.25));
+                    position: absolute;
+                    -webkit-transform-origin: top;
+                    transform-origin: top;
+                    -webkit-animation-fill-mode: forwards;
+                    animation-fill-mode: forwards;
+                    @include transform(scale(1,0));
+                    opacity: 0;
+                    @include radius(5px);
+                    margin:0;
+                    padding:1rem;
+                    .filter-row{
+                        @include display-flex(flex);
+                        @include justify-content-between;
+                        @include align-items-center;
+                        width:100%;
+                        .buttons{
+                            margin:0;
+                            @include display-flex(flex);
+                            @include justify-content-end;
+                            @include align-items-center;
+                            button{
+                                padding:0;
+                                &.is-bg{
+                                    padding:.5rem 1rem;
+                                }
+                                &.is-clear{
+                                    padding:0;
+                                }
+                                &:not(:last-child){
+                                    padding-left:1rem;
+                                }
+                            }
+                        }
+                    }
+                    .filter-list{
+                        
+                        @include display-flex(flex);
+                        @include justify-content-between;
+                        @include align-items-center;
+                        width:100%;
+                        @include flex-wrap(wrap);
+                        .form-group{
+                            margin-bottom: 0;
+                            label{
+                                font-size: .775rem;
+                            }
+                            &:not(:last-child){
+                                margin-right: .6125rem;
+                            }
+                            select{
+                                font-size: .775rem;
+                            }
+                        }
+                        .filter-row{
+                            @include display-flex(flex);
+                            @include justify-content-start;
+                            @include align-items-center;
+                            @include flex-wrap(wrap);
+                            flex-grow: 1;
+                        }
+                    }
+                    .view-list{
+                        @include display-flex(flex);
+                        @include justify-content-start;
+                        @include align-items-center;
+                        width:100%;
+                        margin-bottom: 1rem;
+                        @include flex-wrap(wrap);
+                        span{
+                            text-transform: capitalize;
+                            margin-right: 1rem;
+                        }
+                        .tab-list{
+                            flex-grow: 1;
+                            @include display-flex(flex);
+                            @include justify-content-start;
+                            @include align-items-center;
+                            li{
+                                a{
+                                    padding:.6125rem 1rem;
+                                    background-color: transparent;
+                                    @include radius(30px);
+                                    color:$primary-light;
+                                    text-transform: capitalize;
+                                    font-size: .775rem;
+                                    font-family: $avenir-heavy;
+                                }
+                                &.active,&:hover{
+                                    a{
+                                        background-color: $yellow-light;
+                                        color:$red-color;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                &.active{
+                    .filter-content{
+                        top:100%;
+                        opacity: 1;
+                        z-index: 1000;
+                        @include transform(scale(1,1));
+                        transition: transform 0.3s ease, opacity 0.2s ease .1s;
+                        -webkit-transition: -webkit-transform 0.3s ease, opacity 0.2s ease .1s;
+                        visibility: visible;
+                        
+                
+                    }
+                }
+            }
+            .leaflet-container{
+                .css-2b097c-container{
+                    width:100%;
+                    &:not(:last-child){
+                        margin-right: 1rem;
+                    }
+                }
+            }
+            .leaflet-control-container {
+                .leaflet-left {
+                    left: auto;
+                    right: 1rem;
+                    z-index: 999;
+                    .leaflet-control{
+                        margin: 0 !important;
+                    }
+              
+                    &.leaflet-top {
+                        top: auto;
+                        bottom: 4rem;
+              
+                    }
+              
+                    .leaflet-bar {
+                        border: none;
+                        box-shadow: none;
+                        border:1px solid $border-color;
+                        a {
+                            width: 34px;
+                            height: 30px;
+                            line-height: 30px;
+                            color: $red-color;
+                            @include transition(all .5s);
+                            border-color:$border-color;
+                            &:hover {
+                                background-color: $red-light;
+                                color: $red-color;
+                            }
+                        }
+                        
+              
+                    }
+                    
+                    .loc{
+                            width: 30px;
+                            height: 30px;
+                            line-height: 40px;
+                            color: $red-light;
+                            @include transition(all .5s linear);
+                            background-color: $white-color;
+                            text-align: center;
+                            border:0;
+                            margin-top:1.2rem !important;
+                            i{
+                                font-size: 1rem;
+                                color: $red-color; 
+                            }
+                            &:hover{
+                                cursor: pointer;
+                                background-color: $red-light;
+                                i{
+                                    color: $red-color;
+                                }
+                            }
+                    }
+                    &.leaflet-bottom {
+                        right: 5rem;
+                        bottom: 1rem;
+                    }
+              
+                }
+              
+                .leaflet-bottom {
+                    &.leaflet-right {
+                        right: 1rem;
+                        left: auto;
+                        top:2rem;
+                        bottom:auto;
+                        @include radius(2px);
+                        .leaflet-control-attribution {
+                          display: none;
+                        }
+              
+                        .leaflet-control {
+                            float: none;
+                            margin: 0;
+                            box-shadow: none;
+                            opacity: 1;
+                            @include radius(2px);
+                        }
+                    }
+                }
+              
+                .leaflet-control-layers-toggle {
+                    width: 33px;
+                    height: 30px;
+                    background-size: 12px 12px;
+                    box-shadow: none;
+                    opacity: 1;
+                }
+              }
+            
+        }
+        
+    }
+    &.expand-left-sidebar{
+        aside{
+            &.sidebar{
+                &.left-sidebar{
+                     width:0px;
+                     .sidebar-in{
+                         display: none;
+                     }
+                     .expand-button{
+                         right:-34px;
+                     }
+                }
+            }
+        }
+     }
+    &.expand-right-sidebar{
+         aside{
+             &.sidebar{
+                 &.right-sidebar{
+                      width:0px;
+                      .sidebar-in{
+                         display: none;
+                     }
+                      .expand-button{
+                          left:-34px;
+                      }
+                 }
+             }
+         }
+    }
+    &.active{
+        main{
+            .main-card.map-card{
+                display: none;
+            }
+            .main-card.table-card{
+                display: block;
+            }
+        }
+        aside{
+            &.sidebar{
+                &.right-sidebar{
+                    display:none;
+                };
+            }
+        }
+    }
+}

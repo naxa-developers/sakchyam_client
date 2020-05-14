@@ -1,0 +1,65 @@
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 24px;
+    margin:0;
+  
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+  
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px solid $yellow-color;
+      @include transition(.4s ease-in-out);
+      @include radius(30px);
+      background: $yellow-light;
+  
+      &::before {
+        position: absolute;
+        content: "";
+        // font-family: 'Material Icons';
+        height: 18px;
+        width: 18px;
+        left: 2px;
+        bottom:2px;
+        @include radius(50%);
+        background-color: $yellow-color;
+        color:$primary-color;
+        @include transition(.4s ease-in-out);
+        @include box-shadow(0 1px 6px rgba($border-color, 0.5));
+        text-transform: initial;
+      }
+  
+      .round {
+        @include radius(34px);
+  
+        &::before {
+          @include radius(50%);
+        }
+      }
+    }
+  
+    input:checked+.slider {
+      background-color: $green-light;
+      border: 1px solid $dark-green;
+    }
+  
+    input:checked+.slider:before {
+      -webkit-transform: translateX(12px);
+      -ms-transform: translateX(12px);
+      transform: translateX(12px);
+      background-color: $dark-green;
+    }
+  
+  }
+  

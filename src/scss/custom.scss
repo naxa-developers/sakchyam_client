@@ -202,6 +202,12 @@
 //   .apexcharts-legend-series:nth-child(1){
 //       display: none !important;
 //   }
+.active_automation{
+  
+    color: #000!important;
+    background-color: #ccc!important;
+}
+.content-mod{
   .apexcharts-legend-series:nth-child(0){
       display: none !important;
   }
@@ -251,15 +257,14 @@
 //   width: 2;
 //   text-decoration-color: red;
 // }
-.active_automation{
-  
-    color: #000!important;
-    background-color: #ccc!important;
-}
+
 
 .x-axislabel {
 font-weight: 900;
 }
 .apexcharts-inner .apexcharts-graphical {
   transform:translate(75.6875, 30) !important;
+}
+.apexcharts-svg .apexcharts-yaxis { transform: translate(55px, 10px);
+}
 }
