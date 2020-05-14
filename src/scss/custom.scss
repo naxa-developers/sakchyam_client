@@ -4,19 +4,7 @@
 //   width: 1000px;
 // }
 /*legend css*/
-/*legend css*/
-.dot {
-  height: 17px;
-  width: 17px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  display: inline-block;
-  border:solid 1px #c2c2c2;
-}
-.dot:hover{
-  border:solid 1px blue;
-}
-
+​
 .circle {
   background: rgba(72, 156, 234, 1);
   border-radius: 50%;
@@ -35,8 +23,19 @@
   color: white;
   font-size: 9px;
 }
-
-
+​
+.dot {
+  height: 13px;
+  width: 13px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block; 
+}
+​
+.dot:hover{
+  border: solid 1px #0000ff;
+}
+​
 .marker-cluster-large {
   background-color: #F1F1F1 !important;
   width: 35px !important;
@@ -72,7 +71,7 @@
 .marker-cluster span {
   line-height: 27px; 
 }
-
+​
 .leaflet-div-icon {
   background: none;
   border: none;
@@ -82,7 +81,7 @@
 .leaflet-popup{
     margin-left:1px;
 }
-
+​
 .MuiTabs-root {
   min-height: 20px !important;
 }
@@ -117,7 +116,7 @@
 .MuiAppBar-colorDefault {
   background-color: #ffffff !important;
 }
-
+​
 /* ios switch css start */
 .MuiTypography-root {
   z-index: 1002;
@@ -139,10 +138,10 @@
   background: white;
   padding: 5px;
 }
-
+​
 /*map legend css start*/
 .map-legend {
-  position: absolute;
+  position: relative;
   left: 0;
   bottom: 0;
   z-index: 999;
@@ -166,13 +165,16 @@
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   border-radius: 5px;
-  min-width: 306px;
+  min-width: 270px;
+  margin: 0px;
+  padding-left: .8125rem;
 }
 .map-legend ul.color-legend li {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 40px;
   flex: 0 0 40px;
   max-width: 40px;
+  list-style: none;
 }
 .map-legend ul.color-legend li .color {
   width: 100%;
@@ -200,6 +202,12 @@
 //   .apexcharts-legend-series:nth-child(1){
 //       display: none !important;
 //   }
+.active_automation{
+  
+    color: #000!important;
+    background-color: #ccc!important;
+}
+.content-mod{
   .apexcharts-legend-series:nth-child(0){
       display: none !important;
   }
@@ -249,15 +257,14 @@
 //   width: 2;
 //   text-decoration-color: red;
 // }
-.active_automation{
-  
-    color: #000!important;
-    background-color: #ccc!important;
-}
+
 
 .x-axislabel {
 font-weight: 900;
 }
 .apexcharts-inner .apexcharts-graphical {
   transform:translate(75.6875, 30) !important;
+}
+.apexcharts-svg .apexcharts-yaxis { transform: translate(55px, 10px);
+}
 }
