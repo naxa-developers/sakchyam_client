@@ -268,3 +268,22 @@ font-weight: 900;
 .apexcharts-svg .apexcharts-yaxis { transform: translate(55px, 10px);
 }
 }
+.loader{
+   
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(3, 3, 3, 0.5);
+  z-index: 1500;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+.loader img{
+  width:200px;
+  /* height: 50px; */
+
+}
