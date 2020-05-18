@@ -5,6 +5,13 @@ import {
   GET_AUTOMATION_DATA_BY_MUNICIPALITY,
   FILTER_AUTOMATION_DATA_FOR_VECTORTILES,
   FILTER_DISTRICT_FROM_PROVINCE_COLOR,
+  GET_DISTRICTDATA_BY_PROVINCE,
+  GET_MUNICIPALITYDATA_BY_DISTRICT,
+  GET_ALLPROVINCENAME_DATA,
+  GET_ALLDISTRICTNAME_DATA,
+  GET_ALLMUNICIPALITYNAME_DATA,
+  FILTER_PARTNERS_SELECT,
+  GET_SEARCHED_PARTNERS,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -14,6 +21,10 @@ const initialState = {
   automationDataByMunicipality: [],
   automationChoroplethData: [],
   automationLeftSidePartnerData: [],
+  automationRightSidePartnerData: [],
+  allProvinceName: [],
+  allDistrictName: [],
+  allMunicipalityName: [],
   dataLoading: true,
 };
 
@@ -29,6 +40,7 @@ const partnerForChoropleth = (state, action) => {
     ...state,
     automationAllDataByPartner: action.payload,
     automationLeftSidePartnerData: leftsideData,
+    automationRightSidePartnerData: action.payload,
   };
 };
 // const partnerForChoropleth = (state, action) => {
@@ -156,6 +168,55 @@ const filterDistrictFromProvinceColor = (state, action) => {
     dataLoading: false,
   };
 };
+
+const filterPartnerSelect = (state, action) => {
+  // console.log(action.payload, 'filterPartnerSelect');
+  return {
+    ...state,
+    automationRightSidePartnerData: action.payload,
+  };
+};
+
+const getProvinceData = (state, action) => {
+  return {
+    ...state,
+    allProvinceName: action.payload,
+  };
+};
+const getDistrictData = (state, action) => {
+  return {
+    ...state,
+    allDistrictName: action.payload,
+  };
+};
+const getMunicipalityData = (state, action) => {
+  return {
+    ...state,
+    allMunicipalityName: action.payload,
+  };
+};
+
+const districtDataFromProvince = (state, action) => {
+  console.log(action.payload);
+};
+const municipalityDataFromDistrict = (state, action) => {
+  console.log(action.payload);
+};
+
+const searchPartnersWithKeyword = (state, action) => {
+  console.log(action.payload, 'word');
+  const filteredLeftSideData = state.automationAllDataByPartner[0].partner_data.filter(
+    data => {
+      return data.partner_name
+        .toUpperCase()
+        .includes(action.payload.toUpperCase());
+    },
+  );
+  return {
+    ...state,
+    automationLeftSidePartnerData: filteredLeftSideData,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_AUTOMATION_DATA_BY_PARTNER:
@@ -170,6 +231,24 @@ export default function(state = initialState, action) {
       return filterAutomationDataForVectorTile(state, action);
     case FILTER_DISTRICT_FROM_PROVINCE_COLOR:
       return filterDistrictFromProvinceColor(state, action);
+
+    case GET_SEARCHED_PARTNERS:
+      return searchPartnersWithKeyword(state, action);
+
+    case FILTER_PARTNERS_SELECT:
+      return filterPartnerSelect(state, action);
+
+    case GET_ALLPROVINCENAME_DATA:
+      return getProvinceData(state, action);
+    case GET_ALLDISTRICTNAME_DATA:
+      return getDistrictData(state, action);
+    case GET_ALLMUNICIPALITYNAME_DATA:
+      return getMunicipalityData(state, action);
+
+    case GET_DISTRICTDATA_BY_PROVINCE:
+      return districtDataFromProvince(state, action);
+    case GET_MUNICIPALITYDATA_BY_DISTRICT:
+      return municipalityDataFromDistrict(state, action);
     // case TOGGLE_NULL_SUBMISSIONS_ANSWER:
     //   return toggleNullSubmission(state);
     default:

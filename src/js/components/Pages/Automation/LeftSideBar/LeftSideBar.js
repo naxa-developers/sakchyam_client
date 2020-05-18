@@ -86,20 +86,16 @@ class LeftSideBar extends Component {
                         role="tab"
                         className={
                           activeClickPartners.includes(
-                            data.partner_name,
+                            data.partner_id,
                           )
                             ? 'active'
                             : ''
                         }
                         onClick={() => {
-                          handleActiveClickPartners(
-                            data.partner_name,
-                          );
+                          handleActiveClickPartners(data.partner_id);
                         }}
                         onKeyPress={() => {
-                          handleActiveClickPartners(
-                            data.partner_name,
-                          );
+                          handleActiveClickPartners(data.partner_id);
                         }}
                       >
                         <div
