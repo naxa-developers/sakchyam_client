@@ -16,6 +16,7 @@ class RightSideBar extends Component {
       toggleRightSideBarButton,
       toggleTableViewButton,
     } = this.props;
+    const { partnersData } = this.props;
     return (
       <aside className="sidebar right-sidebar">
         <div className="sidebar-in">
@@ -52,7 +53,9 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Partner Institutions</h6>
-                      <span>2</span>
+                      <span>
+                        {partnersData && partnersData.total_partner}
+                      </span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -65,7 +68,9 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Branches</h6>
-                      <span>54</span>
+                      <span>
+                        {partnersData && partnersData.total_branch}
+                      </span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -76,7 +81,10 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Beneficiaries</h6>
-                      <span>112</span>
+                      <span>
+                        {partnersData &&
+                          partnersData.total_beneficiary}
+                      </span>
                     </div>
                     <div className="widget-icon">
                       <span>

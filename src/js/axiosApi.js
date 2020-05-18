@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.PUBLIC_URL}`,
-  timeout: 3600000,
+  // timeout: 150000,
   headers: {
     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
     'Content-Type': 'application/json',
@@ -20,16 +20,16 @@ axiosInstance.interceptors.response.use(
       error.response.statusText === 'Unauthorized'
     ) {
       const refreshToken = localStorage.getItem('refreshToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('userPermission');
+      // localStorage.removeItem('refreshToken');
+      // localStorage.removeItem('userToken');
+      // localStorage.removeItem('userPermission');
       console.log(refreshToken, 'reftoken');
       return axiosInstance
         .post('/api/v1/token/refresh/', { refresh: refreshToken })
         .then(response => {
           console.log(response, 'response');
           localStorage.setItem('userToken', response.data.access);
-          localStorage.setItem('refreshToken', response.data.refresh);
+          // localStorage.setItem('refreshToken', response.data.refresh);
 
           axiosInstance.defaults.headers.Authorization = `Bearer ${response.data.access}`;
           originalRequest.headers.Authorization = `Bearer ${response.data.access}`;

@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import LeftSideAutomationLoader from '../../../common/SkeletonLoading';
 
+function getClassName(i) {
+  if (i % 3 === 0) return 'is-red';
+  if (i % 3 === 1) return 'is-yellow';
+  return 'is-green';
+}
 class LeftSideBar extends Component {
   constructor(props) {
     super(props);
@@ -9,14 +15,22 @@ class LeftSideBar extends Component {
 
   render() {
     const {
-      automationDataByPartner,
+      automationLeftSidePartnerData,
       dataLoading,
     } = this.props.automationReducer;
+    // const a =
+    //   automationDataByPartner &&
+    //   automationDataByPartner.filter(data => {
+    //     return data.name.includes('Ch');
+    //   });
+    // console.log(a);
     const {
       activeClickPartners,
       handleActiveClickPartners,
       activeOutreachButton,
       toggleOutreachButton,
+      searchText,
+      handleSearchTextChange,
     } = this.props;
     return (
       <aside className="sidebar left-sidebar">
@@ -32,6 +46,10 @@ class LeftSideBar extends Component {
                 </span>
                 <input
                   type="search"
+                  value={searchText}
+                  onChange={e => {
+                    handleSearchTextChange(e);
+                  }}
                   className="form-control"
                   placeholder="search"
                 />
@@ -50,69 +68,87 @@ class LeftSideBar extends Component {
             </div>
           </div>
           <div className="aside-body">
-            <ul className="table-ranking-list">
-              {automationDataByPartner &&
-                automationDataByPartner.map(data => {
-                  let initials = data.name.match(/\b\w/g) || [];
-                  initials = (
-                    (initials.shift() || '') + (initials.pop() || '')
-                  ).toUpperCase();
-                  // console.log(data, 'data');
-                  return (
-                    <li
-                      role="tab"
-                      className={
-                        activeClickPartners.includes(data.name)
-                          ? 'active'
-                          : ''
-                      }
-                      onClick={() => {
-                        handleActiveClickPartners(data.name);
-                      }}
-                      onKeyPress={() => {
-                        handleActiveClickPartners(data.name);
-                      }}
-                    >
-                      <div className="organization-icon is-green">
-                        <span>{initials}</span>
-                      </div>
-                      <div className="organization-content">
-                        <h5>{data.name}</h5>
-                        <div className="icon-list">
-                          <div className="icons">
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                            <b>{data.num_tablet_deployed}</b>
+            {dataLoading ? (
+              <LeftSideAutomationLoader />
+            ) : (
+              <ul className="table-ranking-list">
+                {automationLeftSidePartnerData &&
+                  automationLeftSidePartnerData.map((data, i) => {
+                    let initials =
+                      data.partner_name.match(/\b\w/g) || [];
+                    initials = (
+                      (initials.shift() || '') +
+                      (initials.pop() || '')
+                    ).toUpperCase();
+                    // console.log(data, 'data');
+                    return (
+                      <li
+                        role="tab"
+                        className={
+                          activeClickPartners.includes(
+                            data.partner_name,
+                          )
+                            ? 'active'
+                            : ''
+                        }
+                        onClick={() => {
+                          handleActiveClickPartners(
+                            data.partner_name,
+                          );
+                        }}
+                        onKeyPress={() => {
+                          handleActiveClickPartners(
+                            data.partner_name,
+                          );
+                        }}
+                      >
+                        <div
+                          className={`organization-icon ${getClassName(
+                            i,
+                          )}`}
+                        >
+                          <span>{initials}</span>
+                        </div>
+                        <div className="organization-content">
+                          <h5>{data.partner_name}</h5>
+                          <div className="icon-list">
+                            <div className="icons">
+                              <i className="material-icons">
+                                tablet_mac
+                              </i>
+                              <b>{data.tablets_deployed}</b>
+                            </div>
+                            <div className="icons">
+                              <i className="material-icons">
+                                business
+                              </i>
+                              <b>{data.branch}</b>
+                            </div>
+                            <div className="icons">
+                              <i className="material-icons">people</i>
+                              <b>{data.beneficiary}</b>
+                            </div>
                           </div>
-                          <div className="icons">
-                            <i className="material-icons">business</i>
-                            <b>33</b>
-                          </div>
-                          <div className="icons">
-                            <i className="material-icons">people</i>
-                            <b>23</b>
+                          <div className="orgnization-info">
+                            <a href="#">
+                              Province
+                              <span>{data.province_covered}</span>
+                            </a>
+                            <a href="#">
+                              District
+                              <span>{data.district_covered}</span>
+                            </a>
+                            <a href="#">
+                              Local units
+                              <span>{data.municipality_covered}</span>
+                            </a>
                           </div>
                         </div>
-                        <div className="orgnization-info">
-                          <a href="#">
-                            Province
-                            <span>2</span>
-                          </a>
-                          <a href="#">
-                            District
-                            <span>22</span>
-                          </a>
-                          <a href="#">
-                            Local units
-                            <span>16</span>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-            </ul>
+                      </li>
+                    );
+                  })}
+              </ul>
+            )}
           </div>
         </div>
       </aside>

@@ -11,7 +11,7 @@ export const loginUser = data => dispatch => {
       .post('/api/v1/token/login/', data)
       .then(function(result) {
         const expireTime = new Date();
-        expireTime.setMinutes(expireTime.getMinutes() + 15);
+        expireTime.setHours(expireTime.getHours() + 24);
         const today = new Date();
         console.log(today.valueOf());
         console.log(expireTime.valueOf());
