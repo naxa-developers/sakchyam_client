@@ -3,7 +3,7 @@ import L from 'leaflet';
 import { connect } from 'react-redux';
 import MapComponent from './MapComponent/MapComponent';
 import {
-  getAutomationDataByPartner,
+  getAllAutomationDataByPartner,
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
   getAutomationDataByMunicipality,
@@ -15,6 +15,7 @@ import RightSideBar from './RightSideBar/RightSideBar';
 import TableViewComponent from './TableViewComponent/TableViewComponent';
 import FirstIcon from '../../../../img/marker.png';
 import SecondIcon from '../../../../img/firstaid.svg';
+import LeftSideAutomationLoader from '../../common/SkeletonLoading';
 
 export const activeIcon = new L.Icon({
   iconUrl: FirstIcon,
@@ -41,10 +42,12 @@ class MainAutomation extends Component {
     super(props);
     this.state = {
       activeClickPartners: [],
+      partnersData: null,
       activeOutreachButton: true,
       activeFilterButton: false,
       activeRightSideBar: true,
       activeTableView: false,
+      searchText: '',
       dataTypeLevel: 'municipality',
       vectorGridInputUrl:
         'https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
@@ -155,13 +158,45 @@ class MainAutomation extends Component {
   }
 
   componentDidMount() {
-    this.props.getAutomationDataByPartner();
+    this.props.getAllAutomationDataByPartner();
     this.props.getAutomationDataByMunicipality();
     this.props.getAutomationDataByProvince();
     this.props.getAutomationDataByDistrict();
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.automationReducer.automationAllDataByPartner !==
+      this.props.automationReducer.automationAllDataByPartner
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        partnersData: this.props.automationReducer
+          .automationAllDataByPartner[0],
+      });
+    }
+    if (prevState.searchText !== this.state.searchText) {
+      if (this.state.searchText.length === 0) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          partnersData: this.props.automationReducer
+            .automationDataByPartner,
+        });
+      } else {
+        const { partnersData } = this.state;
+        const a =
+          this.props.automationReducer.automationDataByPartner &&
+          this.props.automationReducer.automationDataByPartner.filter(
+            data => {
+              return data.name
+                .toUpperCase()
+                .includes(this.state.searchText.toUpperCase());
+            },
+          );
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ partnersData: a });
+      }
+    }
     const { activeClickPartners } = this.state;
     if (prevState.activeClickPartners !== activeClickPartners) {
       const mapLayers = this.mapRef.current.leafletElement._layers;
@@ -340,6 +375,10 @@ class MainAutomation extends Component {
     );
   };
 
+  handleSearchTextChange = e => {
+    this.setState({ searchText: e.target.value });
+  };
+
   render() {
     const {
       branchesCountOptions,
@@ -355,6 +394,8 @@ class MainAutomation extends Component {
       vectorGridKey,
       color,
       activeOutreachButton,
+      searchText,
+      partnersData,
     } = this.state;
     const {
       automationDataByPartner,
@@ -371,11 +412,15 @@ class MainAutomation extends Component {
           } ${activeTableView ? 'active' : ''}`}
         >
           <LeftSideBar
+            partnersData={partnersData}
+            searchText={searchText}
+            handleSearchTextChange={this.handleSearchTextChange}
             activeClickPartners={activeClickPartners}
             handleActiveClickPartners={this.handleActiveClickPartners}
             activeOutreachButton={activeOutreachButton}
             toggleOutreachButton={this.toggleOutreachButton}
           />
+
           <main className="main">
             <div className="main-card map-card">
               <div id="map" className="map">
@@ -522,6 +567,7 @@ class MainAutomation extends Component {
             />
           </main>
           <RightSideBar
+            partnersData={partnersData}
             tabletsDeployed={tabletsDeployed}
             branchesCountOptions={branchesCountOptions}
             areaChartOptions={areaChartOptions}
@@ -537,7 +583,7 @@ const mapStateToProps = ({ automationReducer }) => ({
   automationReducer,
 });
 export default connect(mapStateToProps, {
-  getAutomationDataByPartner,
+  getAllAutomationDataByPartner,
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
   getAutomationDataByMunicipality,

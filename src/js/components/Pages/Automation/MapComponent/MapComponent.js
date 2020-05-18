@@ -18,7 +18,7 @@ import VectorGrid from '../MapRelatedComponents/VectorGrid';
 import BaseLayers from '../MapRelatedComponents/BaselayersComponent';
 import MarkerClusterComponent from '../MapRelatedComponents/MarkerClusterComponent';
 import {
-  getAutomationDataByPartner,
+  getAllAutomationDataByPartner,
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
   getAutomationDataByMunicipality,
@@ -70,7 +70,7 @@ class MapComponent extends Component {
   }
 
   componentDidMount() {
-    // this.props.getAutomationDataByPartner();
+    // this.props.getAllAutomationDataByPartner();
 
     const map = this.props.mapRef.current.leafletElement;
     // const marker = L.marker([84, 27], { icon: greenIcon }).addTo(map);
@@ -444,7 +444,7 @@ class MapComponent extends Component {
             }}
           >
             <Loader
-              type="Audio"
+              type="BallTriangle"
               color="#c21c2e"
               height={100}
               width={100}
@@ -452,11 +452,12 @@ class MapComponent extends Component {
             />
             <label
               style={{
-                display: !dataLoading ? 'none' : 'block',
-                marginLeft: '15px',
+                display: dataLoading ? 'block' : 'none',
+                // marginLeft: '15px',
+                color: 'red',
               }}
             >
-              Loading...
+              Loading...Please Wait
             </label>
           </div>
         </Map>
@@ -469,7 +470,7 @@ const mapStateToProps = ({ automationReducer }) => ({
   automationReducer,
 });
 export default connect(mapStateToProps, {
-  getAutomationDataByPartner,
+  getAllAutomationDataByPartner,
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
   getAutomationDataByMunicipality,

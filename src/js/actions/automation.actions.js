@@ -9,10 +9,10 @@ import {
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 // import { successToast, errorToast } from '../utils/toastHandler';
-export const getAutomationDataByPartner = () => dispatch => {
+export const getAllAutomationDataByPartner = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('/api/v1/automation/automation-data-partner/')
+      .get('/api/v1/automation/automation-all/')
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -28,7 +28,7 @@ export const getAutomationDataByPartner = () => dispatch => {
 export const getAutomationDataByProvince = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('/api/v1/automation/automation-data-province/')
+      .get('/api/v1/adminlevel/province/')
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -51,7 +51,7 @@ export const getAutomationDataByProvince = () => dispatch => {
 export const getAutomationDataByDistrict = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('/api/v1/automation/automation-data-district/')
+      .get('/api/v1/adminlevel/district/')
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -81,7 +81,7 @@ export const getAutomationDataByMunicipality = () => dispatch => {
   const token = localStorage.getItem('userToken');
   axios
     .get(
-      `${process.env.PUBLIC_URL}/api/v1/automation/automation-data-municipality/`,
+      `${process.env.PUBLIC_URL}/api/v1/adminlevel/municipality/`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

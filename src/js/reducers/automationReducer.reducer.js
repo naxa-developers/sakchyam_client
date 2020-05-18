@@ -8,24 +8,27 @@ import {
 } from '../actions/index.actions';
 
 const initialState = {
-  automationDataByPartner: [],
+  automationAllDataByPartner: [],
   automationDataByProvince: [],
   automationDataByDistrict: [],
   automationDataByMunicipality: [],
   automationChoroplethData: [],
+  automationLeftSidePartnerData: [],
   dataLoading: true,
 };
 
 const partnerForChoropleth = (state, action) => {
   console.log(action.payload, 'payload');
-  const allData = [];
+  // const allData = [];
+  const leftsideData = action.payload[0].partner_data;
   // const choroplethData = action.payload.map(data => {
   //   allData.push({ id: data.id, count: data.num_tablet_deployed });
   //   return true;
   // });
   return {
     ...state,
-    automationDataByPartner: action.payload,
+    automationAllDataByPartner: action.payload,
+    automationLeftSidePartnerData: leftsideData,
   };
 };
 // const partnerForChoropleth = (state, action) => {
@@ -36,11 +39,11 @@ const partnerForChoropleth = (state, action) => {
 //   });
 //   return {
 //     ...state,
-//     automationDataByPartner: allData,
+//     automationAllDataByPartner: allData,
 //   };
 // };
 const partnerByProvinceForChoropleth = (state, action) => {
-  //   console.log(action.payload, 'payload');
+  console.log(action.payload, 'payload');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({ id: data.code, count: data.num_tablet_deployed });
@@ -58,7 +61,7 @@ const partnerByProvinceForChoropleth = (state, action) => {
   };
 };
 const partnerByDistrictForChoropleth = (state, action) => {
-  console.log('partnerDistrict GET');
+  // console.log('partnerDistrict GET');
   //   console.log(action.payload, 'payload');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
@@ -78,7 +81,7 @@ const partnerByDistrictForChoropleth = (state, action) => {
 };
 const partnerByMunicipalityForChoropleth = (state, action) => {
   // console.log(action.payload, 'payload');
-  console.log('GET Municipalit');
+  // console.log('GET Municipalit');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({ id: data.code, count: data.num_tablet_deployed });
@@ -104,7 +107,7 @@ const filterAutomationDataForVectorTile = (state, action) => {
   } = state;
 
   if (stateLevel === 'province') {
-    console.log('province reducer');
+    // console.log('province reducer');
     return {
       ...state,
       automationChoroplethData: automationDataByProvince,
@@ -112,7 +115,7 @@ const filterAutomationDataForVectorTile = (state, action) => {
     };
   }
   if (stateLevel === 'district') {
-    console.log('district reducer');
+    // console.log('district reducer');
     return {
       ...state,
       automationChoroplethData: automationDataByDistrict,
@@ -120,14 +123,14 @@ const filterAutomationDataForVectorTile = (state, action) => {
     };
   }
   if (stateLevel === 'municipality') {
-    console.log('municiplaity reducer');
+    // console.log('municiplaity reducer');
     return {
       ...state,
       automationChoroplethData: automationDataByMunicipality,
       dataLoading: false,
     };
   }
-  console.log('province  reducer');
+  // console.log('province  reducer');
   return {
     ...state,
     automationChoroplethData: automationDataByMunicipality,
@@ -136,7 +139,7 @@ const filterAutomationDataForVectorTile = (state, action) => {
 };
 const filterDistrictFromProvinceColor = (state, action) => {
   // console.log(action.payload, 'payload');
-  console.log('Color Reducer Filter');
+  // console.log('Color Reducer Filter');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({ id: data.code, count: data.num_tablet_deployed });

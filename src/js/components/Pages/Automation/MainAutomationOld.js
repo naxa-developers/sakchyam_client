@@ -3,7 +3,7 @@ import L from 'leaflet';
 import { connect } from 'react-redux';
 import MapComponent from './MapComponent/MapComponent';
 import {
-  getAutomationDataByPartner,
+  getAllAutomationDataByPartner,
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
   getAutomationDataByMunicipality,
@@ -40,7 +40,7 @@ class MainAutomation extends Component {
 
   componentDidMount() {
     this.props.getAutomationDataByMunicipality();
-    this.props.getAutomationDataByPartner();
+    this.props.getAllAutomationDataByPartner();
     this.props.getAutomationDataByProvince();
     this.props.getAutomationDataByDistrict();
   }
@@ -218,7 +218,7 @@ const mapStateToProps = ({ automationReducer }) => ({
   automationReducer,
 });
 export default connect(mapStateToProps, {
-  getAutomationDataByPartner,
+  getAllAutomationDataByPartner,
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
   getAutomationDataByMunicipality,
