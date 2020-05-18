@@ -223,6 +223,7 @@ class MapComponent extends Component {
       automationDataByProvince,
       automationChoroplethData,
       dataLoading,
+      automationLeftSidePartnerData,
     } = this.props.automationReducer;
     const {
       provinceBbox,
@@ -410,24 +411,22 @@ class MapComponent extends Component {
             iconColor="#FF0000"
             mode="circle" // options - circle, circleIcon, marker
           />
-          {randomGeojson &&
-            randomGeojson.features.map(data => {
+          {automationLeftSidePartnerData &&
+            automationLeftSidePartnerData.map(data => {
               return (
                 <Marker
                   onClick={() => {
-                    this.markerClickProvinceSelect(
-                      data.properties.name,
-                    );
+                    this.markerClickProvinceSelect(data.partner_id);
                   }}
-                  attribution={{ name: data.properties.name }}
-                  position={[
-                    data.geometry.coordinates[1],
-                    data.geometry.coordinates[0],
-                  ]}
+                  attribution={{
+                    name: data.partner_name,
+                    partner_id: data.partner_id,
+                  }}
+                  position={[data.lat, data.long]}
                   icon={activeIcon}
                 >
                   <Popup>
-                    {data.properties.name}
+                    {data.partner_name}
                     <br />
                     Easily customizable.
                   </Popup>

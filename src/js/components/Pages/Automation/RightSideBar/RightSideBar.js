@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import MapComponent from '../MapComponent/MapComponent';
 
@@ -9,6 +10,7 @@ class RightSideBar extends Component {
   }
 
   render() {
+    const { automationReducer } = this.props;
     const {
       tabletsDeployed,
       branchesCountOptions,
@@ -16,6 +18,7 @@ class RightSideBar extends Component {
       toggleRightSideBarButton,
       toggleTableViewButton,
     } = this.props;
+    console.log(automationReducer, 'autpo');
     const { partnersData } = this.props;
     return (
       <aside className="sidebar right-sidebar">
@@ -34,6 +37,7 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Tablets Deployed</h6>
                     </div>
+                    <label>Varun</label>
                     <div className="widget-icon">
                       <span>
                         <i className="material-icons">tablet_mac</i>
@@ -54,7 +58,12 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Partner Institutions</h6>
                       <span>
-                        {partnersData && partnersData.total_partner}
+                        {automationReducer.automationRightSidePartnerData &&
+                          automationReducer
+                            .automationRightSidePartnerData[0] &&
+                          automationReducer
+                            .automationRightSidePartnerData[0]
+                            .total_partner}
                       </span>
                     </div>
                     <div className="widget-icon">
@@ -69,7 +78,12 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Branches</h6>
                       <span>
-                        {partnersData && partnersData.total_branch}
+                        {automationReducer.automationRightSidePartnerData &&
+                          automationReducer
+                            .automationRightSidePartnerData[0] &&
+                          automationReducer
+                            .automationRightSidePartnerData[0]
+                            .total_branch}
                       </span>
                     </div>
                     <div className="widget-icon">
@@ -82,8 +96,12 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Beneficiaries</h6>
                       <span>
-                        {partnersData &&
-                          partnersData.total_beneficiary}
+                        {automationReducer.automationRightSidePartnerData &&
+                          automationReducer
+                            .automationRightSidePartnerData[0] &&
+                          automationReducer
+                            .automationRightSidePartnerData[0]
+                            .total_beneficiary}
                       </span>
                     </div>
                     <div className="widget-icon">
@@ -139,4 +157,7 @@ class RightSideBar extends Component {
   }
 }
 
-export default RightSideBar;
+const mapStateToProps = ({ automationReducer }) => ({
+  automationReducer,
+});
+export default connect(mapStateToProps, {})(RightSideBar);

@@ -7,7 +7,12 @@ import {
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
   getAutomationDataByMunicipality,
+  getProvinceData,
+  getDistrictData,
+  getMunicipalityData,
   filterAutomationDataForVectorTiles,
+  filterPartnerSelect,
+  getSearchedPartners,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
@@ -16,6 +21,9 @@ import TableViewComponent from './TableViewComponent/TableViewComponent';
 import FirstIcon from '../../../../img/marker.png';
 import SecondIcon from '../../../../img/firstaid.svg';
 import LeftSideAutomationLoader from '../../common/SkeletonLoading';
+import DropdownCheckbox from '../../common/DropdownCheckbox';
+
+const myIcon = L.divIcon({ className: 'marker1' });
 
 export const activeIcon = new L.Icon({
   iconUrl: FirstIcon,
@@ -43,7 +51,7 @@ class MainAutomation extends Component {
     this.state = {
       activeClickPartners: [],
       partnersData: null,
-      activeOutreachButton: true,
+      activeOutreachButton: false,
       activeFilterButton: false,
       activeRightSideBar: true,
       activeTableView: false,
@@ -54,6 +62,9 @@ class MainAutomation extends Component {
       vectorGridKey: '0',
       color: '',
       filteredProvinceChoropleth: '',
+      activeProvince: false,
+      activeDistrict: false,
+      activeMunicipality: false,
       branchesCountOptions: {
         series: [
           {
@@ -87,7 +98,7 @@ class MainAutomation extends Component {
           type: 'donut',
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
         },
 
         responsive: [
@@ -162,6 +173,9 @@ class MainAutomation extends Component {
     this.props.getAutomationDataByMunicipality();
     this.props.getAutomationDataByProvince();
     this.props.getAutomationDataByDistrict();
+    this.props.getProvinceData();
+    this.props.getDistrictData();
+    this.props.getMunicipalityData();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -178,44 +192,44 @@ class MainAutomation extends Component {
     if (prevState.searchText !== this.state.searchText) {
       if (this.state.searchText.length === 0) {
         // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          partnersData: this.props.automationReducer
-            .automationDataByPartner,
-        });
+        this.props.getSearchedPartners(this.state.searchText);
       } else {
-        const { partnersData } = this.state;
-        const a =
-          this.props.automationReducer.automationDataByPartner &&
-          this.props.automationReducer.automationDataByPartner.filter(
-            data => {
-              return data.name
-                .toUpperCase()
-                .includes(this.state.searchText.toUpperCase());
-            },
-          );
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ partnersData: a });
+        // const { partnersData } = this.state;
+        this.props.getSearchedPartners(this.state.searchText);
+        // const a =
+        //   this.props.automationReducer.automationDataByPartner &&
+        //   this.props.automationReducer.automationDataByPartner.filter(
+        //     data => {
+        //       return data.partners_name
+        //         .toUpperCase()
+        //         .includes(this.state.searchText.toUpperCase());
+        //     },
+        //   );
+        // // eslint-disable-next-line react/no-did-update-set-state
+        // this.setState({ partnersData: a });
       }
     }
     const { activeClickPartners } = this.state;
     if (prevState.activeClickPartners !== activeClickPartners) {
       const mapLayers = this.mapRef.current.leafletElement._layers;
       if (activeClickPartners.length === 0) {
+        this.props.filterPartnerSelect(activeClickPartners);
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
             value.options.attribution &&
-            value.options.attribution.name
+            value.options.attribution.partner_id
           ) {
             value.setIcon(activeIcon);
           }
         });
       } else {
+        this.props.filterPartnerSelect(activeClickPartners);
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
             value.options.attribution &&
-            value.options.attribution.name
+            value.options.attribution.partner_id
           ) {
             value.setIcon(inactiveIcon);
           }
@@ -226,8 +240,8 @@ class MainAutomation extends Component {
           if (
             value.options &&
             value.options.attribution &&
-            value.options.attribution.name &&
-            value.options.attribution.name === data
+            value.options.attribution.partner_id &&
+            value.options.attribution.partner_id === data
           ) {
             value.setIcon(activeIcon);
             value.openPopup();
@@ -379,6 +393,24 @@ class MainAutomation extends Component {
     this.setState({ searchText: e.target.value });
   };
 
+  handleProvinceDropdown = () => {
+    this.setState(prevState => ({
+      activeProvince: !prevState.activeProvince,
+    }));
+  };
+
+  handleDistrictDropdown = () => {
+    this.setState(prevState => ({
+      activeDistrict: !prevState.activeDistrict,
+    }));
+  };
+
+  handleMunicipalityDropdown = () => {
+    this.setState(prevState => ({
+      activeMunicipality: !prevState.activeMunicipality,
+    }));
+  };
+
   render() {
     const {
       branchesCountOptions,
@@ -396,12 +428,18 @@ class MainAutomation extends Component {
       activeOutreachButton,
       searchText,
       partnersData,
+      activeProvince,
+      activeDistrict,
+      activeMunicipality,
     } = this.state;
     const {
       automationDataByPartner,
       automationDataByProvince,
       automationChoroplethData,
       dataLoading,
+      allProvinceName,
+      allDistrictName,
+      allMunicipalityName,
     } = this.props.automationReducer;
     return (
       <div className="page-wrap page-100">
@@ -507,41 +545,120 @@ class MainAutomation extends Component {
                   </div>
                   <div className="filter-row">
                     <div className="filter-list">
-                      <div className="form-group">
-                        <select className="form-control">
-                          <option selected>select province</option>
-                          <option>province 1</option>
-                          <option>province 2</option>
-                          <option>province 3</option>
-                          <option>province 4</option>
-                          <option>province 5</option>
-                          <option>province 6</option>
-                          <option>province 7</option>
-                        </select>
+                      {/* <DropdownCheckbox /> */}
+                      <div
+                        className="select-dropdown"
+                        id="filter_dropdown"
+                        onClick={this.handleProvinceDropdown}
+                        onKeyDown={this.handleProvinceDropdown}
+                        role="tab"
+                        tabIndex="0"
+                      >
+                        <span
+                          className={`span-label ${
+                            activeProvince ? 'span-active' : ''
+                          } `}
+                        >
+                          Province
+                        </span>
+                        <ul
+                          className={`select-list ${
+                            activeProvince ? 'active' : ''
+                          }`}
+                          id="dropdown-list"
+                        >
+                          {allProvinceName &&
+                            allProvinceName.map(data => {
+                              return (
+                                <li className="checkbox">
+                                  <input
+                                    type="checkbox"
+                                    id="check_time5"
+                                  />
+                                  <label htmlFor="check_time5">
+                                    <i className="icon-ok-2" />
+                                    {data.name}
+                                  </label>
+                                </li>
+                              );
+                            })}
+                        </ul>
                       </div>
-                      <div className="form-group">
-                        <select className="form-control">
-                          <option selected>select province</option>
-                          <option>province 1</option>
-                          <option>province 2</option>
-                          <option>province 3</option>
-                          <option>province 4</option>
-                          <option>province 5</option>
-                          <option>province 6</option>
-                          <option>province 7</option>
-                        </select>
+                      <div
+                        className="select-dropdown"
+                        id="filter_dropdown"
+                        onClick={this.handleDistrictDropdown}
+                        onKeyDown={this.handleDistrictDropdown}
+                        role="tab"
+                        tabIndex="0"
+                      >
+                        <span
+                          className={`span-label ${
+                            activeDistrict ? 'span-active' : ''
+                          } `}
+                        >
+                          District
+                        </span>
+                        <ul
+                          className={`select-list ${
+                            activeDistrict ? 'active' : ''
+                          }`}
+                          id="dropdown-list"
+                        >
+                          {allDistrictName &&
+                            allDistrictName.map(data => {
+                              return (
+                                <li className="checkbox">
+                                  <input
+                                    type="checkbox"
+                                    id="check_time5"
+                                  />
+                                  <label htmlFor="check_time5">
+                                    <i className="icon-ok-2" />
+                                    {data.name}
+                                  </label>
+                                </li>
+                              );
+                            })}
+                        </ul>
                       </div>
-                      <div className="form-group">
-                        <select className="form-control">
-                          <option selected>select province</option>
-                          <option>province 1</option>
-                          <option>province 2</option>
-                          <option>province 3</option>
-                          <option>province 4</option>
-                          <option>province 5</option>
-                          <option>province 6</option>
-                          <option>province 7</option>
-                        </select>
+                      <div
+                        className="select-dropdown"
+                        id="filter_dropdown"
+                        onClick={this.handleMunicipalityDropdown}
+                        onKeyDown={this.handleMunicipalityDropdown}
+                        role="tab"
+                        tabIndex="0"
+                      >
+                        <span
+                          className={`span-label ${
+                            activeMunicipality ? 'span-active' : ''
+                          } `}
+                        >
+                          District
+                        </span>
+                        <ul
+                          className={`select-list ${
+                            activeMunicipality ? 'active' : ''
+                          }`}
+                          id="dropdown-list"
+                        >
+                          {allMunicipalityName &&
+                            allMunicipalityName.map(data => {
+                              return (
+                                <li className="checkbox">
+                                  <input
+                                    type="checkbox"
+                                    id="check_time5"
+                                  />
+                                  <label htmlFor="check_time5">
+                                    <i className="icon-ok-2" />
+                                    {data.name}
+                                  </label>
+                                </li>
+                              );
+                            })}
+                        </ul>
                       </div>
                     </div>
                     <div className="buttons is-end">
@@ -588,4 +705,9 @@ export default connect(mapStateToProps, {
   getAutomationDataByDistrict,
   getAutomationDataByMunicipality,
   filterAutomationDataForVectorTiles,
+  getProvinceData,
+  getDistrictData,
+  getMunicipalityData,
+  filterPartnerSelect,
+  getSearchedPartners,
 })(MainAutomation);
