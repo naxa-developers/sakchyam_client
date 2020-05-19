@@ -116,14 +116,31 @@ class RightSideBar extends Component {
             <div className="sidebar-widget">
               <h5>branches Count</h5>
               <div className="widget-body">
-                <div id="normal-chart">
+                {/* <div id="normal-chart">
                   <ReactApexChart
                     options={branchesCountOptions}
                     series={branchesCountOptions.series}
                     type="bar"
                     height="130"
-                    // width="10"
                   />
+                </div> */}
+                <div className="branch-list">
+                  <div className="branch">
+                    <div className="branch-bar">
+                      <div className="branch-content">
+                        <span>Chimek</span>
+                        <b>2667</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="branch">
+                    <div className="branch-bar">
+                      <div className="branch-content">
+                        <span>Sana kisan</span>
+                        <b>2667</b>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
