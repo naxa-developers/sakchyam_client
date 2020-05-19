@@ -197,14 +197,19 @@ const getMunicipalityData = (state, action) => {
 };
 
 const districtDataFromProvince = (state, action) => {
-  console.log(action.payload);
+  return {
+    ...state,
+    allDistrictName: action.payload,
+  };
 };
 const municipalityDataFromDistrict = (state, action) => {
-  console.log(action.payload);
+  return {
+    ...state,
+    allMunicipalityName: action.payload,
+  };
 };
 
 const searchPartnersWithKeyword = (state, action) => {
-  console.log(action.payload, 'word');
   const filteredLeftSideData = state.automationAllDataByPartner[0].partner_data.filter(
     data => {
       return data.partner_name

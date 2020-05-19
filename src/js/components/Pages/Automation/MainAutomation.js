@@ -13,6 +13,8 @@ import {
   filterAutomationDataForVectorTiles,
   filterPartnerSelect,
   getSearchedPartners,
+  getDistrictDataFromProvince,
+  getMunicipalityDataFromDistrict,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
@@ -50,6 +52,9 @@ class MainAutomation extends Component {
     super(props);
     this.state = {
       activeClickPartners: [],
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
       partnersData: null,
       activeOutreachButton: false,
       activeFilterButton: false,
@@ -179,6 +184,17 @@ class MainAutomation extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedProvince !== this.state.selectedProvince) {
+      this.props.getDistrictDataFromProvince(
+        this.state.selectedProvince,
+      );
+    }
+    if (prevState.selectedDistrict !== this.state.selectedDistrict) {
+      this.props.getMunicipalityDataFromDistrict(
+        this.state.selectedDistrict,
+      );
+    }
+
     if (
       prevProps.automationReducer.automationAllDataByPartner !==
       this.props.automationReducer.automationAllDataByPartner
@@ -411,6 +427,83 @@ class MainAutomation extends Component {
     }));
   };
 
+  handleProvinceAllCheck = event => {
+    const { allProvinceName } = this.props.automationReducer;
+    const provinceCheckboxes = document.getElementsByClassName(
+      'province_checkboxes',
+    );
+    if (event.target.checked) {
+      const a = allProvinceName.map(data => {
+        return data.id;
+      });
+      // console.log(provinceCheckboxes, 'checkboxes');
+      this.setState({ selectedProvince: a });
+    } else {
+      this.setState({ selectedProvince: [] });
+    }
+  };
+
+  handleProvinceSingleClick = value => {
+    const { selectedProvince } = this.state;
+    if (selectedProvince.includes(value)) {
+      const a = selectedProvince.filter(data => data !== value);
+      this.setState({ selectedProvince: a });
+    } else {
+      const b = selectedProvince.concat(value);
+      this.setState({ selectedProvince: b });
+    }
+  };
+
+  handleDistrictAllCheck = event => {
+    const { allDistrictName } = this.props.automationReducer;
+
+    if (event.target.checked) {
+      const a = allDistrictName.map(data => {
+        return data.id;
+      });
+      // console.log(provinceCheckboxes, 'checkboxes');
+      this.setState({ selectedDistrict: a });
+    } else {
+      this.setState({ selectedDistrict: [] });
+    }
+  };
+
+  handleDistrictSingleClick = value => {
+    const { selectedDistrict } = this.state;
+    if (selectedDistrict.includes(value)) {
+      const a = selectedDistrict.filter(data => data !== value);
+      this.setState({ selectedDistrict: a });
+    } else {
+      const b = selectedDistrict.concat(value);
+      this.setState({ selectedDistrict: b });
+    }
+  };
+
+  handleMunicipalityAllCheck = event => {
+    const { allMunicipalityName } = this.props.automationReducer;
+
+    if (event.target.checked) {
+      const a = allMunicipalityName.map(data => {
+        return data.id;
+      });
+      // console.log(provinceCheckboxes, 'checkboxes');
+      this.setState({ selectedMunicipality: a });
+    } else {
+      this.setState({ selectedMunicipality: [] });
+    }
+  };
+
+  handleMunicipalitySingleClick = value => {
+    const { selectedMunicipality } = this.state;
+    if (selectedMunicipality.includes(value)) {
+      const a = selectedMunicipality.filter(data => data !== value);
+      this.setState({ selectedMunicipality: a });
+    } else {
+      const b = selectedMunicipality.concat(value);
+      this.setState({ selectedMunicipality: b });
+    }
+  };
+
   render() {
     const {
       branchesCountOptions,
@@ -431,6 +524,9 @@ class MainAutomation extends Component {
       activeProvince,
       activeDistrict,
       activeMunicipality,
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
     } = this.state;
     const {
       automationDataByPartner,
@@ -549,15 +645,15 @@ class MainAutomation extends Component {
                       <div
                         className="select-dropdown"
                         id="filter_dropdown"
-                        onClick={this.handleProvinceDropdown}
-                        onKeyDown={this.handleProvinceDropdown}
-                        role="tab"
-                        tabIndex="0"
                       >
                         <span
                           className={`span-label ${
                             activeProvince ? 'span-active' : ''
                           } `}
+                          onClick={this.handleProvinceDropdown}
+                          onKeyDown={this.handleProvinceDropdown}
+                          role="tab"
+                          tabIndex="0"
                         >
                           Province
                         </span>
@@ -567,15 +663,34 @@ class MainAutomation extends Component {
                           }`}
                           id="dropdown-list"
                         >
+                          <li className="checkbox">
+                            <input
+                              type="checkbox"
+                              id="allProvinceCheck"
+                              onClick={this.handleProvinceAllCheck}
+                            />
+                            <label htmlFor="allProvinceCheck">
+                              <i className="icon-ok-2" />
+                              All
+                            </label>
+                          </li>
                           {allProvinceName &&
-                            allProvinceName.map(data => {
+                            allProvinceName.map((data, i) => {
                               return (
                                 <li className="checkbox">
                                   <input
                                     type="checkbox"
-                                    id="check_time5"
+                                    id={`check_time${i}`}
+                                    checked={selectedProvince.includes(
+                                      data.id,
+                                    )}
+                                    onClick={() => {
+                                      this.handleProvinceSingleClick(
+                                        data.id,
+                                      );
+                                    }}
                                   />
-                                  <label htmlFor="check_time5">
+                                  <label htmlFor={`check_time${i}`}>
                                     <i className="icon-ok-2" />
                                     {data.name}
                                   </label>
@@ -603,17 +718,38 @@ class MainAutomation extends Component {
                           className={`select-list ${
                             activeDistrict ? 'active' : ''
                           }`}
-                          id="dropdown-list"
+                          id="dropdown-list-district"
                         >
+                          <li className="checkbox">
+                            <input
+                              type="checkbox"
+                              id="allDistrictCheck"
+                              onClick={this.handleDistrictAllCheck}
+                            />
+                            <label htmlFor="allDistrictCheck">
+                              <i className="icon-ok-2" />
+                              All
+                            </label>
+                          </li>
                           {allDistrictName &&
-                            allDistrictName.map(data => {
+                            allDistrictName.map((data, i) => {
                               return (
                                 <li className="checkbox">
                                   <input
                                     type="checkbox"
-                                    id="check_time5"
+                                    id={`check_district${i}`}
+                                    checked={selectedDistrict.includes(
+                                      data.id,
+                                    )}
+                                    onClick={() => {
+                                      this.handleDistrictSingleClick(
+                                        data.id,
+                                      );
+                                    }}
                                   />
-                                  <label htmlFor="check_time5">
+                                  <label
+                                    htmlFor={`check_district${i}`}
+                                  >
                                     <i className="icon-ok-2" />
                                     {data.name}
                                   </label>
@@ -635,23 +771,44 @@ class MainAutomation extends Component {
                             activeMunicipality ? 'span-active' : ''
                           } `}
                         >
-                          District
+                          Municipality
                         </span>
                         <ul
                           className={`select-list ${
                             activeMunicipality ? 'active' : ''
                           }`}
-                          id="dropdown-list"
+                          id="dropdown-list-mun"
                         >
+                          <li className="checkbox">
+                            <input
+                              type="checkbox"
+                              id="allMunicipalityCheck"
+                              onClick={
+                                this.handleMunicipalityAllCheck
+                              }
+                            />
+                            <label htmlFor="allMunicipalityCheck">
+                              <i className="icon-ok-2" />
+                              All
+                            </label>
+                          </li>
                           {allMunicipalityName &&
-                            allMunicipalityName.map(data => {
+                            allMunicipalityName.map((data, i) => {
                               return (
                                 <li className="checkbox">
                                   <input
                                     type="checkbox"
-                                    id="check_time5"
+                                    id={`check_mun${i}`}
+                                    checked={selectedMunicipality.includes(
+                                      data.id,
+                                    )}
+                                    onClick={() => {
+                                      this.handleMunicipalitySingleClick(
+                                        data.id,
+                                      );
+                                    }}
                                   />
-                                  <label htmlFor="check_time5">
+                                  <label htmlFor={`check_mun${i}`}>
                                     <i className="icon-ok-2" />
                                     {data.name}
                                   </label>
@@ -710,4 +867,6 @@ export default connect(mapStateToProps, {
   getMunicipalityData,
   filterPartnerSelect,
   getSearchedPartners,
+  getDistrictDataFromProvince,
+  getMunicipalityDataFromDistrict,
 })(MainAutomation);

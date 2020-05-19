@@ -196,8 +196,13 @@ export const getMunicipalityData = () => dispatch => {
 };
 export const getDistrictDataFromProvince = provinceId => dispatch => {
   try {
+    const query = provinceId
+      .map(data => {
+        return `province_id=${data}`;
+      })
+      .join('&');
     const response = axiosInstance
-      .get(`/api/v1/adminlevel/district/?province_id=${provinceId}`)
+      .get(`/api/v1/adminlevel/district/?${query}`)
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -212,10 +217,13 @@ export const getDistrictDataFromProvince = provinceId => dispatch => {
 };
 export const getMunicipalityDataFromDistrict = districtId => dispatch => {
   try {
+    const query = districtId
+      .map(data => {
+        return `district_id=${data}`;
+      })
+      .join('&');
     const response = axiosInstance
-      .get(
-        `/api/v1/adminlevel/municipality/?district_id=${districtId}`,
-      )
+      .get(`/api/v1/adminlevel/municipality/?${query}`)
       .then(function(result) {
         // console.log(result, 'result');
 
