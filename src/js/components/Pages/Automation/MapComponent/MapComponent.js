@@ -426,9 +426,44 @@ class MapComponent extends Component {
                   icon={activeIcon}
                 >
                   <Popup>
-                    {data.partner_name}
-                    <br />
-                    Easily customizable.
+                    <li>
+                      <div className="organization-icon">
+                        <span>CH</span>
+                      </div>
+                      <div className="organization-content">
+                        <h5>{data.partner_name}</h5>
+                        <div className="icon-list">
+                          <div className="icons">
+                            <i className="material-icons">
+                              tablet_mac
+                            </i>
+                            <b>{data.tablets_deployed}</b>
+                          </div>
+                          <div className="icons">
+                            <i className="material-icons">business</i>
+                            <b>{data.branch}</b>
+                          </div>
+                          <div className="icons">
+                            <i className="material-icons">people</i>
+                            <b>{data.beneficiary}</b>
+                          </div>
+                        </div>
+                        <div className="orgnization-info">
+                          <a href="#">
+                            Province
+                            <span>{data.province_covered}</span>
+                          </a>
+                          <a href="#">
+                            District
+                            <span>{data.district_covered}</span>
+                          </a>
+                          <a href="#">
+                            Local units
+                            <span>{data.municipality_covered}</span>
+                          </a>
+                        </div>
+                      </div>
+                    </li>
                   </Popup>
                 </Marker>
               );
