@@ -9,6 +9,7 @@ input,textarea {
             color: $primary-light;
             font-size: .703rem;
             @include transition(all .4s ease-in-out);
+            text-transform: capitalize;
         }
 
         &:focus {

@@ -19,10 +19,10 @@
       left: 0;
       right: 0;
       bottom: 0;
-      border: 1px solid $yellow-color;
+      border: 1px solid $gray-light;
       @include transition(.4s ease-in-out);
       @include radius(30px);
-      background: $yellow-light;
+      background: $white-color;
   
       &::before {
         position: absolute;
@@ -33,7 +33,7 @@
         left: 2px;
         bottom:2px;
         @include radius(50%);
-        background-color: $yellow-color;
+        background-color: $gray-light;
         color:$primary-color;
         @include transition(.4s ease-in-out);
         @include box-shadow(0 1px 6px rgba($border-color, 0.5));
@@ -50,15 +50,15 @@
     }
   
     input:checked+.slider {
-      background-color: $green-light;
-      border: 1px solid $dark-green;
+      background-color: $yellow-light;
+      border: 1px solid $orange-color;
     }
   
     input:checked+.slider:before {
       -webkit-transform: translateX(12px);
       -ms-transform: translateX(12px);
       transform: translateX(12px);
-      background-color: $dark-green;
+      background-color: $orange-color;
     }
   
   }
