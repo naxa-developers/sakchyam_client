@@ -16,8 +16,8 @@ axiosInstance.interceptors.response.use(
 
     if (
       localStorage.getItem('refreshToken') &&
-      error.response.status === 401 &&
-      error.response.statusText === 'Unauthorized'
+      error.response.status === 401
+      // error.response.statusText === 'Unauthorized'
     ) {
       const refreshToken = localStorage.getItem('refreshToken');
       // localStorage.removeItem('refreshToken');
@@ -38,6 +38,7 @@ axiosInstance.interceptors.response.use(
         })
         .catch(err => {
           console.log(err);
+          console.log('err 401');
         });
     }
 
@@ -50,6 +51,8 @@ axiosInstance.interceptors.response.use(
       window.location.href = '/login';
     }
 
+    console.log('prom');
+    // window.location.href = '/login';
     // specific error handling done elsewhere
     // eslint-disable-next-line prefer-promise-reject-errors
     return Promise.reject({ ...error });

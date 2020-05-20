@@ -13,6 +13,10 @@ import {
   GET_ALLMUNICIPALITYNAME_DATA,
   FILTER_PARTNERS_SELECT,
   GET_SEARCHED_PARTNERS,
+  FILTER_PARTNERS_BY_FEDERAL,
+  GET_TABLE_DATA_BY_PARTNERS_SELECT,
+  GET_AUTOMATION_BRANCHES_TABLE_DATA,
+  GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -52,6 +56,7 @@ export const getAutomationDataByProvince = () => dispatch => {
       });
   } catch (err) {
     console.error(err);
+    console.log('e');
   }
 };
 
@@ -196,8 +201,13 @@ export const getMunicipalityData = () => dispatch => {
 };
 export const getDistrictDataFromProvince = provinceId => dispatch => {
   try {
+    const query = provinceId
+      .map(data => {
+        return `province_id=${data}`;
+      })
+      .join('&');
     const response = axiosInstance
-      .get(`/api/v1/adminlevel/district/?province_id=${provinceId}`)
+      .get(`/api/v1/adminlevel/district/?${query}`)
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -212,10 +222,13 @@ export const getDistrictDataFromProvince = provinceId => dispatch => {
 };
 export const getMunicipalityDataFromDistrict = districtId => dispatch => {
   try {
+    const query = districtId
+      .map(data => {
+        return `district_id=${data}`;
+      })
+      .join('&');
     const response = axiosInstance
-      .get(
-        `/api/v1/adminlevel/municipality/?district_id=${districtId}`,
-      )
+      .get(`/api/v1/adminlevel/municipality/?${query}`)
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -276,4 +289,204 @@ export const getSearchedPartners = keyword => dispatch => {
     type: GET_SEARCHED_PARTNERS,
     payload: keyword,
   });
+};
+
+export const getFilteredPartnersByFederal = federalSelect => dispatch => {
+  const provinceSelect = federalSelect.province
+    .map(data => {
+      return `province=${data}`;
+    })
+    .join('&');
+  const districtSelect = federalSelect.district
+    .map(data => {
+      return `district=${data}`;
+    })
+    .join('&');
+  const municipalitySelect = federalSelect.municipality
+    .map(data => {
+      return `municipality=${data}`;
+    })
+    .join('&');
+  console.log(federalSelect, 'fedSelect');
+  // console.log(provinceSelect, 'prov');
+  // console.log(districtSelect, 'dist');
+  // console.log(municipalitySelect, 'munic');
+  if (federalSelect.municipality.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-partner/?filter_type=fed&${municipalitySelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (federalSelect.district.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-partner/?filter_type=fed&${districtSelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-partner/?filter_type=fed&${provinceSelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
+
+export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
+  try {
+    const query = clickedPartner
+      .map(data => {
+        return `partner_id=${data}`;
+      })
+      .join('&');
+
+    const response = axiosInstance
+      .get(`api/v1/automation/automation-data/?${query}`)
+      .then(function(result) {
+        console.log(result, 'result');
+        return dispatch({
+          type: GET_TABLE_DATA_BY_PARTNERS_SELECT,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getBranchesTableData = () => dispatch => {
+  try {
+    const response = axiosInstance
+      .get(`api/v1/automation/automation-data/`)
+      .then(function(result) {
+        console.log(result, 'result');
+        return dispatch({
+          type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+// export const getBranchesTableDataByMunicipality = clickedMunicipality => dispatch => {
+//   try {
+//     const query = clickedMunicipality
+//       .map(data => {
+//         return `municipality_id=${data}`;
+//       })
+//       .join('&');
+//     const response = axiosInstance
+//       .get(`api/v1/automation/automation-data/?${query}`)
+//       .then(function(result) {
+//         return dispatch({
+//           type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_MUNICIPALITY,
+//           payload: result.data,
+//         });
+//       });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
+export const getBranchesTableDataByFed = federalSelect => dispatch => {
+  const provinceSelect = federalSelect.province
+    .map(data => {
+      return `province_id=${data}`;
+    })
+    .join('&');
+  const districtSelect = federalSelect.district
+    .map(data => {
+      return `district_id=${data}`;
+    })
+    .join('&');
+  const municipalitySelect = federalSelect.municipality
+    .map(data => {
+      return `municipality_id=${data}`;
+    })
+    .join('&');
+  console.log(federalSelect, 'fedSelect');
+  // console.log(provinceSelect, 'prov');
+  // console.log(districtSelect, 'dist');
+  // console.log(municipalitySelect, 'munic');
+  if (federalSelect.municipality.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-data/?${municipalitySelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (federalSelect.district.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(`api/v1/automation/automation-data/?${districtSelect}`)
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      const response = axiosInstance
+        .get(`api/v1/automation/automation-data/?${provinceSelect}`)
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 };

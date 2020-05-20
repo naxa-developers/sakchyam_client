@@ -13,43 +13,39 @@ import {
   filterAutomationDataForVectorTiles,
   filterPartnerSelect,
   getSearchedPartners,
+  getDistrictDataFromProvince,
+  getMunicipalityDataFromDistrict,
+  getFilteredPartnersByFederal,
+  getBranchesTableData,
+  getTableDataByPartnerSelect,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
 import TableViewComponent from './TableViewComponent/TableViewComponent';
-import FirstIcon from '../../../../img/marker.png';
-import SecondIcon from '../../../../img/firstaid.svg';
-import LeftSideAutomationLoader from '../../common/SkeletonLoading';
-import DropdownCheckbox from '../../common/DropdownCheckbox';
+import AllActiveIcon from '../../../../img/fullactive.png';
+import InactiveIcon from '../../../../img/inactive.png';
+// import DropdownCheckbox from '../../common/DropdownCheckbox';
 
 const myIcon = L.divIcon({ className: 'marker1' });
-
-export const activeIcon = new L.Icon({
-  iconUrl: FirstIcon,
-  iconRetinaUrl: FirstIcon,
-  iconAnchor: [5, 55],
-  popupAnchor: [10, -44],
-  iconSize: [25, 25],
-  shadowUrl: '../assets/marker-shadow.png',
-  shadowSize: [68, 95],
-  shadowAnchor: [20, 92],
+export const allActive = new L.Icon({
+  iconUrl: AllActiveIcon,
+  // iconRetinaUrl: AllActiveIcon,
+  iconSize: [35, 40],
 });
-export const inactiveIcon = new L.Icon({
-  iconUrl: SecondIcon,
-  iconRetinaUrl: SecondIcon,
-  iconAnchor: [5, 55],
-  popupAnchor: [10, -44],
-  iconSize: [25, 25],
-  shadowUrl: '../assets/marker-shadow.png',
-  shadowSize: [68, 95],
-  shadowAnchor: [20, 92],
+export const Inactive = new L.Icon({
+  iconUrl: InactiveIcon,
+  // iconRetinaUrl: InactiveIcon,
+  iconSize: [23, 22],
 });
 class MainAutomation extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeClickPartners: [],
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
       partnersData: null,
       activeOutreachButton: false,
       activeFilterButton: false,
@@ -93,27 +89,82 @@ class MainAutomation extends Component {
       },
       tabletsDeployed: {
         series: [44, 55],
+        // chartOptions: {
+        // labels: [],
+        // },
         chart: {
           width: 150,
           type: 'donut',
         },
-        dataLabels: {
-          enabled: true,
-        },
-
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                show: false,
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                name: {
+                  show: false,
+                  fontSize: '24px',
+                  fontFamily: 'Avenir book',
+                  fontWeight: 100,
+                  color: 'black',
+                  offsetY: 50,
+                  formatter(val) {
+                    return 'Totals';
+                  },
+                  value: {
+                    show: true,
+                  },
+                },
+                value: {
+                  show: true,
+                  fontSize: '24px',
+                  fontFamily: 'Avenir book',
+                  fontWeight: 100,
+                  color: '#d9202c',
+                  offsetY: 5,
+                  formatter(w) {
+                    return w.globals.seriesTotals.reduce((a, b) => {
+                      return a + b;
+                    }, 0);
+                  },
+                  value: {
+                    show: true,
+                  },
+                },
+                total: {
+                  show: true,
+                  showAlways: false,
+                  label: 'Total',
+                  fontSize: '24px',
+                  fontFamily: 'Avenir book',
+                  fontWeight: 100,
+                  color: '#d9202c',
+                  formatter(w) {
+                    return w.globals.seriesTotals.reduce((a, b) => {
+                      return a + b;
+                    }, 0);
+                  },
+                },
               },
             },
           },
-        ],
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        // responsive: [
+        //   {
+        //     breakpoint: 480,
+        //     options: {
+        //       chart: {
+        //         width: 200,
+        //       },
+        //       legend: {
+        //         show: false,
+        //       },
+        //     },
+        //   },
+        // ],
         legend: {
           show: false,
           position: 'right',
@@ -122,7 +173,17 @@ class MainAutomation extends Component {
         },
         fill: {
           opacity: 1,
-          colors: ['#E11D3F', '#489FA7'],
+          // colors: ['#E11D3F', '#489FA7'],
+        },
+        tooltip: {
+          // enabled: false,
+          followCursor: false,
+          fixed: {
+            enabled: true,
+            position: 'topRight',
+            offsetX: 100,
+            offsetY: 100,
+          },
         },
       },
       areaChartOptions: {
@@ -176,9 +237,95 @@ class MainAutomation extends Component {
     this.props.getProvinceData();
     this.props.getDistrictData();
     this.props.getMunicipalityData();
+    this.props.getBranchesTableData();
+    const provinceEl = document.getElementById(
+      'filter_dropdown_province',
+    );
+    const districtEl = document.getElementById(
+      'filter_dropdown_district',
+    );
+    const municipalityEl = document.getElementById(
+      'filter_dropdown_municipality',
+    );
+    // console.log(specifiedElement, 'ss');
+    document.addEventListener('click', async event => {
+      const isClickInside = provinceEl.contains(event.target);
+      if (!isClickInside) {
+        this.setState({
+          activeProvince: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    document.addEventListener('click', async event => {
+      const isClickInside = districtEl.contains(event.target);
+      if (!isClickInside) {
+        this.setState({
+          activeDistrict: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    document.addEventListener('click', async event => {
+      const isClickInside = municipalityEl.contains(event.target);
+      if (!isClickInside) {
+        this.setState({
+          activeMunicipality: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.automationReducer.automationRightSidePartnerData !==
+      this.props.automationReducer.automationRightSidePartnerData
+    ) {
+      const { tabletsDeployed } = this.state;
+      const {
+        automationRightSidePartnerData,
+      } = this.props.automationReducer;
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        tabletsDeployed: {
+          ...tabletsDeployed,
+          series: automationRightSidePartnerData[0].tabletsGraphData,
+          labels: automationRightSidePartnerData[0].tabletsGraphLabel,
+          // plotOptions: {
+          //   pie: {
+          //     donut: {
+          //       labels: {
+          //         ...tabletsDeployed.plotOptions.pie.donut.labels,
+          //         value: {
+          //           ...tabletsDeployed.plotOptions.pie.donut.labels
+          //             .value,
+          //           formatter(val) {
+          //             return automationRightSidePartnerData[0]
+          //               .total_branch;
+          //           },
+          //         },
+          //       },
+          //     },
+          //   },
+          // },
+        },
+      });
+    }
+    if (prevState.selectedProvince !== this.state.selectedProvince) {
+      this.props.getDistrictDataFromProvince(
+        this.state.selectedProvince,
+      );
+    }
+    if (prevState.selectedDistrict !== this.state.selectedDistrict) {
+      this.props.getMunicipalityDataFromDistrict(
+        this.state.selectedDistrict,
+      );
+    }
+
     if (
       prevProps.automationReducer.automationAllDataByPartner !==
       this.props.automationReducer.automationAllDataByPartner
@@ -214,24 +361,26 @@ class MainAutomation extends Component {
       const mapLayers = this.mapRef.current.leafletElement._layers;
       if (activeClickPartners.length === 0) {
         this.props.filterPartnerSelect(activeClickPartners);
+        this.props.getTableDataByPartnerSelect(activeClickPartners);
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
-            value.options.attribution &&
-            value.options.attribution.partner_id
+            value.options.properties &&
+            value.options.properties.partner_id
           ) {
-            value.setIcon(activeIcon);
+            value.setIcon(allActive);
           }
         });
       } else {
         this.props.filterPartnerSelect(activeClickPartners);
+        this.props.getTableDataByPartnerSelect(activeClickPartners);
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
-            value.options.attribution &&
-            value.options.attribution.partner_id
+            value.options.properties &&
+            value.options.properties.partner_id
           ) {
-            value.setIcon(inactiveIcon);
+            value.setIcon(Inactive);
           }
         });
       }
@@ -239,11 +388,11 @@ class MainAutomation extends Component {
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
-            value.options.attribution &&
-            value.options.attribution.partner_id &&
-            value.options.attribution.partner_id === data
+            value.options.properties &&
+            value.options.properties.partner_id &&
+            value.options.properties.partner_id === data
           ) {
-            value.setIcon(activeIcon);
+            value.setIcon(allActive);
             value.openPopup();
           }
         });
@@ -293,6 +442,13 @@ class MainAutomation extends Component {
   };
 
   toggleFilterButton = () => {
+    if (this.state.activeFilterButton) {
+      this.setState({
+        activeProvince: false,
+        activeDistrict: false,
+        activeMunicipality: false,
+      });
+    }
     this.setState(prevState => ({
       activeFilterButton: !prevState.activeFilterButton,
     }));
@@ -411,6 +567,105 @@ class MainAutomation extends Component {
     }));
   };
 
+  handleProvinceAllCheck = event => {
+    const { allProvinceName } = this.props.automationReducer;
+    const provinceCheckboxes = document.getElementsByClassName(
+      'province_checkboxes',
+    );
+    if (event.target.checked) {
+      const a = allProvinceName.map(data => {
+        return data.id;
+      });
+      // console.log(provinceCheckboxes, 'checkboxes');
+      this.setState({ selectedProvince: a });
+    } else {
+      this.setState({ selectedProvince: [] });
+    }
+  };
+
+  handleProvinceSingleClick = value => {
+    const { selectedProvince } = this.state;
+    if (selectedProvince.includes(value)) {
+      const a = selectedProvince.filter(data => data !== value);
+      this.setState({ selectedProvince: a });
+    } else {
+      const b = selectedProvince.concat(value);
+      this.setState({ selectedProvince: b });
+    }
+  };
+
+  handleDistrictAllCheck = event => {
+    const { allDistrictName } = this.props.automationReducer;
+
+    if (event.target.checked) {
+      const a = allDistrictName.map(data => {
+        return data.id;
+      });
+      // console.log(provinceCheckboxes, 'checkboxes');
+      this.setState({ selectedDistrict: a });
+    } else {
+      this.setState({ selectedDistrict: [] });
+    }
+  };
+
+  handleDistrictSingleClick = value => {
+    const { selectedDistrict } = this.state;
+    if (selectedDistrict.includes(value)) {
+      const a = selectedDistrict.filter(data => data !== value);
+      this.setState({ selectedDistrict: a });
+    } else {
+      const b = selectedDistrict.concat(value);
+      this.setState({ selectedDistrict: b });
+    }
+  };
+
+  handleMunicipalityAllCheck = event => {
+    const { allMunicipalityName } = this.props.automationReducer;
+
+    if (event.target.checked) {
+      const a = allMunicipalityName.map(data => {
+        return data.id;
+      });
+      // console.log(provinceCheckboxes, 'checkboxes');
+      this.setState({ selectedMunicipality: a });
+    } else {
+      this.setState({ selectedMunicipality: [] });
+    }
+  };
+
+  handleMunicipalitySingleClick = value => {
+    const { selectedMunicipality } = this.state;
+    if (selectedMunicipality.includes(value)) {
+      const a = selectedMunicipality.filter(data => data !== value);
+      this.setState({ selectedMunicipality: a });
+    } else {
+      const b = selectedMunicipality.concat(value);
+      this.setState({ selectedMunicipality: b });
+    }
+  };
+
+  applyClickForPartnerFilter = () => {
+    const {
+      selectedMunicipality,
+      selectedDistrict,
+      selectedProvince,
+    } = this.state;
+    this.props.getFilteredPartnersByFederal({
+      municipality: selectedMunicipality,
+      district: selectedDistrict,
+      province: selectedProvince,
+    });
+  };
+
+  handleResetButtonForFilter = () => {
+    this.props.getAllAutomationDataByPartner();
+    this.setState({
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
+    });
+  };
+
   render() {
     const {
       branchesCountOptions,
@@ -431,6 +686,9 @@ class MainAutomation extends Component {
       activeProvince,
       activeDistrict,
       activeMunicipality,
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
     } = this.state;
     const {
       automationDataByPartner,
@@ -548,16 +806,16 @@ class MainAutomation extends Component {
                       {/* <DropdownCheckbox /> */}
                       <div
                         className="select-dropdown"
-                        id="filter_dropdown"
-                        onClick={this.handleProvinceDropdown}
-                        onKeyDown={this.handleProvinceDropdown}
-                        role="tab"
-                        tabIndex="0"
+                        id="filter_dropdown_province"
                       >
                         <span
                           className={`span-label ${
                             activeProvince ? 'span-active' : ''
                           } `}
+                          onClick={this.handleProvinceDropdown}
+                          onKeyDown={this.handleProvinceDropdown}
+                          role="tab"
+                          tabIndex="0"
                         >
                           Province
                         </span>
@@ -567,15 +825,40 @@ class MainAutomation extends Component {
                           }`}
                           id="dropdown-list"
                         >
+                          <li className="checkbox">
+                            <input
+                              type="checkbox"
+                              id="allProvinceCheck"
+                              onClick={this.handleProvinceAllCheck}
+                              checked={
+                                selectedProvince.length ===
+                                allProvinceName.length
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <label htmlFor="allProvinceCheck">
+                              <i className="icon-ok-2" />
+                              All
+                            </label>
+                          </li>
                           {allProvinceName &&
-                            allProvinceName.map(data => {
+                            allProvinceName.map((data, i) => {
                               return (
                                 <li className="checkbox">
                                   <input
                                     type="checkbox"
-                                    id="check_time5"
+                                    id={`check_time${i}`}
+                                    checked={selectedProvince.includes(
+                                      data.id,
+                                    )}
+                                    onClick={() => {
+                                      this.handleProvinceSingleClick(
+                                        data.id,
+                                      );
+                                    }}
                                   />
-                                  <label htmlFor="check_time5">
+                                  <label htmlFor={`check_time${i}`}>
                                     <i className="icon-ok-2" />
                                     {data.name}
                                   </label>
@@ -586,7 +869,7 @@ class MainAutomation extends Component {
                       </div>
                       <div
                         className="select-dropdown"
-                        id="filter_dropdown"
+                        id="filter_dropdown_district"
                         onClick={this.handleDistrictDropdown}
                         onKeyDown={this.handleDistrictDropdown}
                         role="tab"
@@ -603,17 +886,44 @@ class MainAutomation extends Component {
                           className={`select-list ${
                             activeDistrict ? 'active' : ''
                           }`}
-                          id="dropdown-list"
+                          id="dropdown-list-district"
                         >
+                          <li className="checkbox">
+                            <input
+                              type="checkbox"
+                              id="allDistrictCheck"
+                              onClick={this.handleDistrictAllCheck}
+                              checked={
+                                selectedDistrict.length ===
+                                allDistrictName.length
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <label htmlFor="allDistrictCheck">
+                              <i className="icon-ok-2" />
+                              All
+                            </label>
+                          </li>
                           {allDistrictName &&
-                            allDistrictName.map(data => {
+                            allDistrictName.map((data, i) => {
                               return (
                                 <li className="checkbox">
                                   <input
                                     type="checkbox"
-                                    id="check_time5"
+                                    id={`check_district${i}`}
+                                    checked={selectedDistrict.includes(
+                                      data.id,
+                                    )}
+                                    onClick={() => {
+                                      this.handleDistrictSingleClick(
+                                        data.id,
+                                      );
+                                    }}
                                   />
-                                  <label htmlFor="check_time5">
+                                  <label
+                                    htmlFor={`check_district${i}`}
+                                  >
                                     <i className="icon-ok-2" />
                                     {data.name}
                                   </label>
@@ -624,7 +934,7 @@ class MainAutomation extends Component {
                       </div>
                       <div
                         className="select-dropdown"
-                        id="filter_dropdown"
+                        id="filter_dropdown_municipality"
                         onClick={this.handleMunicipalityDropdown}
                         onKeyDown={this.handleMunicipalityDropdown}
                         role="tab"
@@ -635,23 +945,50 @@ class MainAutomation extends Component {
                             activeMunicipality ? 'span-active' : ''
                           } `}
                         >
-                          District
+                          Municipality
                         </span>
                         <ul
                           className={`select-list ${
                             activeMunicipality ? 'active' : ''
                           }`}
-                          id="dropdown-list"
+                          id="dropdown-list-mun"
                         >
+                          <li className="checkbox">
+                            <input
+                              type="checkbox"
+                              id="allMunicipalityCheck"
+                              onClick={
+                                this.handleMunicipalityAllCheck
+                              }
+                              checked={
+                                selectedMunicipality.length ===
+                                allMunicipalityName.length
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <label htmlFor="allMunicipalityCheck">
+                              <i className="icon-ok-2" />
+                              All
+                            </label>
+                          </li>
                           {allMunicipalityName &&
-                            allMunicipalityName.map(data => {
+                            allMunicipalityName.map((data, i) => {
                               return (
                                 <li className="checkbox">
                                   <input
                                     type="checkbox"
-                                    id="check_time5"
+                                    id={`check_mun${i}`}
+                                    checked={selectedMunicipality.includes(
+                                      data.id,
+                                    )}
+                                    onClick={() => {
+                                      this.handleMunicipalitySingleClick(
+                                        data.id,
+                                      );
+                                    }}
                                   />
-                                  <label htmlFor="check_time5">
+                                  <label htmlFor={`check_mun${i}`}>
                                     <i className="icon-ok-2" />
                                     {data.name}
                                   </label>
@@ -665,12 +1002,14 @@ class MainAutomation extends Component {
                       <button
                         type="button"
                         className="common-button is-clear"
+                        onClick={this.handleResetButtonForFilter}
                       >
                         <i className="material-icons">refresh</i>
                       </button>
                       <button
                         type="button"
                         className="common-button is-clear"
+                        onClick={this.applyClickForPartnerFilter}
                       >
                         Apply
                       </button>
@@ -684,6 +1023,7 @@ class MainAutomation extends Component {
             />
           </main>
           <RightSideBar
+            activeRightSideBar={activeRightSideBar}
             partnersData={partnersData}
             tabletsDeployed={tabletsDeployed}
             branchesCountOptions={branchesCountOptions}
@@ -710,4 +1050,9 @@ export default connect(mapStateToProps, {
   getMunicipalityData,
   filterPartnerSelect,
   getSearchedPartners,
+  getDistrictDataFromProvince,
+  getMunicipalityDataFromDistrict,
+  getFilteredPartnersByFederal,
+  getBranchesTableData,
+  getTableDataByPartnerSelect,
 })(MainAutomation);

@@ -80,6 +80,7 @@
                                     margin:0;
                                     button{
                                         padding:0;
+                                        
                                         &.is-bg{
                                             padding:.5rem 1rem;
                                         }
@@ -252,17 +253,25 @@
                     min-width: initial;
                     border:1px solid $border-color;
                     background-color: $white-color;
+                    color:$primary-light;
+                    font-family:$avenir-heavy;
+                    text-transform: capitalize;
+                    border-radius: 0;
                     i{
                         margin-right: .5rem;
                     }
+                    span{
+                        font-size: .9375rem;
+                    }
                     &:focus,&:hover,&.active{
                         background-color: $yellow-light;
-                        color:$red-color;
+                        color:$orange-color;
                         outline: none;
                         -webkit-outline:none;
                         box-shadow: none;
-                        border-color: $yellow-color;
+                        border-color: $orange-color;
                     }
+                    
                 }
                 .filter-content{
                     background-color: $white-color;
@@ -364,7 +373,7 @@
                                 &.active,&:hover{
                                     a{
                                         background-color: $yellow-light;
-                                        color:$red-color;
+                                        color:$orange-color;
                                     }
                                 }
                             }
@@ -535,6 +544,48 @@
                 &.right-sidebar{
                     display:none;
                 };
+            }
+        }
+    }
+    .branch-list{
+        .branch{
+            @include display-flex(flex);
+            height: 2rem;
+            overflow: hidden;
+            font-size: .75rem;
+            background-color: $white-color;
+            border:1px solid $border-color;
+            border-radius: .25rem;
+            position: relative;
+            .branch-bar{
+                @include display-flex(flex);
+                @include justify-content-between;
+                @include align-items-center;
+                @include flex-direction-row(column);
+                color: $primary-light;
+                text-align: center;
+                background-color: $red-light;
+                transition: width .6s ease;
+                width:50%;
+            }
+            .branch-content{
+                position: absolute;
+                @include display-flex(flex);
+                @include justify-content-between;
+                @include align-items-center;
+                left:10px;
+                right: 10px;
+                top:50%;
+                @include transform(translateY(-50%));
+                span{
+                    font-size: .875rem;
+                }
+                b{
+                    font-family: $avenir-heavy;
+                }
+            }
+            &:not(:last-child){
+                margin-bottom: .6125rem;
             }
         }
     }

@@ -12,6 +12,10 @@ import {
   GET_ALLMUNICIPALITYNAME_DATA,
   FILTER_PARTNERS_SELECT,
   GET_SEARCHED_PARTNERS,
+  FILTER_PARTNERS_BY_FEDERAL,
+  GET_AUTOMATION_BRANCHES_TABLE_DATA,
+  GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
+  GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_PARTNER,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -22,10 +26,12 @@ const initialState = {
   automationChoroplethData: [],
   automationLeftSidePartnerData: [],
   automationRightSidePartnerData: [],
+  automationTableData: [],
   allProvinceName: [],
   allDistrictName: [],
   allMunicipalityName: [],
   dataLoading: true,
+  tableDataLoading: true,
 };
 
 const partnerForChoropleth = (state, action) => {
@@ -36,11 +42,23 @@ const partnerForChoropleth = (state, action) => {
   //   allData.push({ id: data.id, count: data.num_tablet_deployed });
   //   return true;
   // });
+  const partnerData = action.payload[0].partner_data.map(data => {
+    return data.branch;
+  });
+  const partnerName = action.payload[0].partner_data.map(data => {
+    return data.partner_name;
+  });
   return {
     ...state,
     automationAllDataByPartner: action.payload,
     automationLeftSidePartnerData: leftsideData,
-    automationRightSidePartnerData: action.payload,
+    automationRightSidePartnerData: {
+      0: {
+        ...action.payload[0],
+        tabletsGraphData: partnerData,
+        tabletsGraphLabel: partnerName,
+      },
+    },
   };
 };
 // const partnerForChoropleth = (state, action) => {
@@ -170,10 +188,40 @@ const filterDistrictFromProvinceColor = (state, action) => {
 };
 
 const filterPartnerSelect = (state, action) => {
-  // console.log(action.payload, 'filterPartnerSelect');
+  console.log(action.payload, 'filterPartnerSelect');
+  const { automationRightSidePartnerData } = state;
+  const partnerData = action.payload[0].partner_data.map(data => {
+    return data.branch;
+  });
+  const partnerName = action.payload[0].partner_data.map(data => {
+    return data.partner_name;
+  });
+  // console.log(
+  //   {
+  //     automationRightSidePartnerData: [action.payload[0]],
+  //   },
+  //   'a',
+  // );
+  // console.log(
+  //   {
+  //     automationRightSidePartnerData: {
+  //       0: {
+  //         ...action.payload[0],
+  //         tabletsGraphData: a,
+  //       },
+  //     },
+  //   },
+  //   'b',
+  // );
   return {
     ...state,
-    automationRightSidePartnerData: action.payload,
+    automationRightSidePartnerData: {
+      0: {
+        ...action.payload[0],
+        tabletsGraphData: partnerData,
+        tabletsGraphLabel: partnerName,
+      },
+    },
   };
 };
 
@@ -197,14 +245,19 @@ const getMunicipalityData = (state, action) => {
 };
 
 const districtDataFromProvince = (state, action) => {
-  console.log(action.payload);
+  return {
+    ...state,
+    allDistrictName: action.payload,
+  };
 };
 const municipalityDataFromDistrict = (state, action) => {
-  console.log(action.payload);
+  return {
+    ...state,
+    allMunicipalityName: action.payload,
+  };
 };
 
 const searchPartnersWithKeyword = (state, action) => {
-  console.log(action.payload, 'word');
   const filteredLeftSideData = state.automationAllDataByPartner[0].partner_data.filter(
     data => {
       return data.partner_name
@@ -215,6 +268,52 @@ const searchPartnersWithKeyword = (state, action) => {
   return {
     ...state,
     automationLeftSidePartnerData: filteredLeftSideData,
+  };
+};
+const filterPartnerByFederal = (state, action) => {
+  const leftsideData = action.payload[0].partner_data;
+  // const choroplethData = action.payload.map(data => {
+  //   allData.push({ id: data.id, count: data.num_tablet_deployed });
+  //   return true;
+  // });
+  const partnerData = action.payload[0].partner_data.map(data => {
+    return data.branch;
+  });
+  const partnerName = action.payload[0].partner_data.map(data => {
+    return data.partner_name;
+  });
+  return {
+    ...state,
+    automationAllDataByPartner: action.payload,
+    automationLeftSidePartnerData: leftsideData,
+    automationRightSidePartnerData: {
+      0: {
+        ...action.payload[0],
+        tabletsGraphData: partnerData,
+        tabletsGraphLabel: partnerName,
+      },
+    },
+  };
+};
+const getAutomationDataForTable = (state, action) => {
+  return {
+    ...state,
+    automationTableData: action.payload,
+    tableDataLoading: false,
+  };
+};
+const getAutomationDataForTableByFederal = (state, action) => {
+  return {
+    ...state,
+    automationTableData: action.payload,
+    tableDataLoading: false,
+  };
+};
+const getAutomationDataForTableByPartner = (state, action) => {
+  return {
+    ...state,
+    automationTableData: action.payload,
+    tableDataLoading: false,
   };
 };
 export default function(state = initialState, action) {
@@ -237,6 +336,8 @@ export default function(state = initialState, action) {
 
     case FILTER_PARTNERS_SELECT:
       return filterPartnerSelect(state, action);
+    case FILTER_PARTNERS_BY_FEDERAL:
+      return filterPartnerByFederal(state, action);
 
     case GET_ALLPROVINCENAME_DATA:
       return getProvinceData(state, action);
@@ -249,6 +350,13 @@ export default function(state = initialState, action) {
       return districtDataFromProvince(state, action);
     case GET_MUNICIPALITYDATA_BY_DISTRICT:
       return municipalityDataFromDistrict(state, action);
+
+    case GET_AUTOMATION_BRANCHES_TABLE_DATA:
+      return getAutomationDataForTable(state, action);
+    case GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL:
+      return getAutomationDataForTableByFederal(state, action);
+    case GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_PARTNER:
+      return getAutomationDataForTableByPartner(state, action);
     // case TOGGLE_NULL_SUBMISSIONS_ANSWER:
     //   return toggleNullSubmission(state);
     default:
