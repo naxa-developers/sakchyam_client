@@ -3,14 +3,14 @@ import { Map, Popup, Marker } from 'react-leaflet';
 import Loader from 'react-loader-spinner';
 import 'leaflet/dist/leaflet.css';
 
-import L from 'leaflet';
+import L, { CircleMarker } from 'leaflet';
 import 'react-leaflet-markercluster/dist/styles.min.css';
 import Axios from 'axios';
 import 'leaflet.featuregroup.subgroup';
 import '../../../../../library/canvasFlowmapLayer';
 import { connect } from 'react-redux';
 import randomGeojson from '../../../../../data/randomGeojson.json';
-import FirstIcon from '../../../../../img/marker.png';
+import ActiveIcon from '../../../../../img/fullactive.png';
 // import Select from 'react-select';
 // import Control from 'react-leaflet-control';
 import CsvFile from '../../../../../data/provincemerge.json';
@@ -40,14 +40,9 @@ import automationReducerReducer from '../../../../reducers/automationReducer.red
 //   popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
 // });
 export const activeIcon = new L.Icon({
-  iconUrl: FirstIcon,
-  iconRetinaUrl: FirstIcon,
-  iconAnchor: [5, 55],
-  popupAnchor: [10, -44],
-  iconSize: [25, 25],
-  shadowUrl: '../assets/marker-shadow.png',
-  shadowSize: [68, 95],
-  shadowAnchor: [20, 92],
+  iconUrl: ActiveIcon,
+  iconSize: [35, 40],
+  // iconAnchor: [17, 46],
 });
 class MapComponent extends Component {
   constructor(props) {
@@ -418,7 +413,7 @@ class MapComponent extends Component {
                   onClick={() => {
                     this.markerClickProvinceSelect(data.partner_id);
                   }}
-                  attribution={{
+                  properties={{
                     name: data.partner_name,
                     partner_id: data.partner_id,
                   }}
@@ -432,7 +427,7 @@ class MapComponent extends Component {
                       </div>
                       <div className="organization-content">
                         <h5>{data.partner_name}</h5>
-                        <div className="icon-list">
+                        {/* <div className="icon-list">
                           <div className="icons">
                             <i className="material-icons">
                               tablet_mac
@@ -461,7 +456,7 @@ class MapComponent extends Component {
                             Local units
                             <span>{data.municipality_covered}</span>
                           </a>
-                        </div>
+                        </div> */}
                       </div>
                     </li>
                   </Popup>

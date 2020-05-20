@@ -15,37 +15,28 @@ import {
   getSearchedPartners,
   getDistrictDataFromProvince,
   getMunicipalityDataFromDistrict,
+  getFilteredPartnersByFederal,
+  getBranchesTableData,
+  getTableDataByPartnerSelect,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
 import TableViewComponent from './TableViewComponent/TableViewComponent';
-import FirstIcon from '../../../../img/marker.png';
-import SecondIcon from '../../../../img/firstaid.svg';
-import LeftSideAutomationLoader from '../../common/SkeletonLoading';
-import DropdownCheckbox from '../../common/DropdownCheckbox';
+import AllActiveIcon from '../../../../img/fullactive.png';
+import InactiveIcon from '../../../../img/inactive.png';
+// import DropdownCheckbox from '../../common/DropdownCheckbox';
 
 const myIcon = L.divIcon({ className: 'marker1' });
-
-export const activeIcon = new L.Icon({
-  iconUrl: FirstIcon,
-  iconRetinaUrl: FirstIcon,
-  iconAnchor: [5, 55],
-  popupAnchor: [10, -44],
-  iconSize: [25, 25],
-  shadowUrl: '../assets/marker-shadow.png',
-  shadowSize: [68, 95],
-  shadowAnchor: [20, 92],
+export const allActive = new L.Icon({
+  iconUrl: AllActiveIcon,
+  // iconRetinaUrl: AllActiveIcon,
+  iconSize: [35, 40],
 });
-export const inactiveIcon = new L.Icon({
-  iconUrl: SecondIcon,
-  iconRetinaUrl: SecondIcon,
-  iconAnchor: [5, 55],
-  popupAnchor: [10, -44],
-  iconSize: [25, 25],
-  shadowUrl: '../assets/marker-shadow.png',
-  shadowSize: [68, 95],
-  shadowAnchor: [20, 92],
+export const Inactive = new L.Icon({
+  iconUrl: InactiveIcon,
+  // iconRetinaUrl: InactiveIcon,
+  iconSize: [23, 22],
 });
 class MainAutomation extends Component {
   constructor(props) {
@@ -98,27 +89,82 @@ class MainAutomation extends Component {
       },
       tabletsDeployed: {
         series: [44, 55],
+        // chartOptions: {
+        // labels: [],
+        // },
         chart: {
           width: 150,
           type: 'donut',
         },
-        dataLabels: {
-          enabled: true,
-        },
-
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                show: false,
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                name: {
+                  show: false,
+                  fontSize: '24px',
+                  fontFamily: 'Avenir book',
+                  fontWeight: 100,
+                  color: 'black',
+                  offsetY: 50,
+                  formatter(val) {
+                    return 'Totals';
+                  },
+                  value: {
+                    show: true,
+                  },
+                },
+                value: {
+                  show: true,
+                  fontSize: '24px',
+                  fontFamily: 'Avenir book',
+                  fontWeight: 100,
+                  color: '#d9202c',
+                  offsetY: 5,
+                  formatter(w) {
+                    return w.globals.seriesTotals.reduce((a, b) => {
+                      return a + b;
+                    }, 0);
+                  },
+                  value: {
+                    show: true,
+                  },
+                },
+                total: {
+                  show: true,
+                  showAlways: false,
+                  label: 'Total',
+                  fontSize: '24px',
+                  fontFamily: 'Avenir book',
+                  fontWeight: 100,
+                  color: '#d9202c',
+                  formatter(w) {
+                    return w.globals.seriesTotals.reduce((a, b) => {
+                      return a + b;
+                    }, 0);
+                  },
+                },
               },
             },
           },
-        ],
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        // responsive: [
+        //   {
+        //     breakpoint: 480,
+        //     options: {
+        //       chart: {
+        //         width: 200,
+        //       },
+        //       legend: {
+        //         show: false,
+        //       },
+        //     },
+        //   },
+        // ],
         legend: {
           show: false,
           position: 'right',
@@ -127,7 +173,17 @@ class MainAutomation extends Component {
         },
         fill: {
           opacity: 1,
-          colors: ['#E11D3F', '#489FA7'],
+          // colors: ['#E11D3F', '#489FA7'],
+        },
+        tooltip: {
+          // enabled: false,
+          followCursor: false,
+          fixed: {
+            enabled: true,
+            position: 'topRight',
+            offsetX: 100,
+            offsetY: 100,
+          },
         },
       },
       areaChartOptions: {
@@ -181,9 +237,84 @@ class MainAutomation extends Component {
     this.props.getProvinceData();
     this.props.getDistrictData();
     this.props.getMunicipalityData();
+    this.props.getBranchesTableData();
+    const provinceEl = document.getElementById(
+      'filter_dropdown_province',
+    );
+    const districtEl = document.getElementById(
+      'filter_dropdown_district',
+    );
+    const municipalityEl = document.getElementById(
+      'filter_dropdown_municipality',
+    );
+    // console.log(specifiedElement, 'ss');
+    document.addEventListener('click', async event => {
+      const isClickInside = provinceEl.contains(event.target);
+      if (!isClickInside) {
+        this.setState({
+          activeProvince: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    document.addEventListener('click', async event => {
+      const isClickInside = districtEl.contains(event.target);
+      if (!isClickInside) {
+        this.setState({
+          activeDistrict: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+    document.addEventListener('click', async event => {
+      const isClickInside = municipalityEl.contains(event.target);
+      if (!isClickInside) {
+        this.setState({
+          activeMunicipality: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.automationReducer.automationRightSidePartnerData !==
+      this.props.automationReducer.automationRightSidePartnerData
+    ) {
+      const { tabletsDeployed } = this.state;
+      const {
+        automationRightSidePartnerData,
+      } = this.props.automationReducer;
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        tabletsDeployed: {
+          ...tabletsDeployed,
+          series: automationRightSidePartnerData[0].tabletsGraphData,
+          labels: automationRightSidePartnerData[0].tabletsGraphLabel,
+          // plotOptions: {
+          //   pie: {
+          //     donut: {
+          //       labels: {
+          //         ...tabletsDeployed.plotOptions.pie.donut.labels,
+          //         value: {
+          //           ...tabletsDeployed.plotOptions.pie.donut.labels
+          //             .value,
+          //           formatter(val) {
+          //             return automationRightSidePartnerData[0]
+          //               .total_branch;
+          //           },
+          //         },
+          //       },
+          //     },
+          //   },
+          // },
+        },
+      });
+    }
     if (prevState.selectedProvince !== this.state.selectedProvince) {
       this.props.getDistrictDataFromProvince(
         this.state.selectedProvince,
@@ -230,24 +361,26 @@ class MainAutomation extends Component {
       const mapLayers = this.mapRef.current.leafletElement._layers;
       if (activeClickPartners.length === 0) {
         this.props.filterPartnerSelect(activeClickPartners);
+        this.props.getTableDataByPartnerSelect(activeClickPartners);
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
-            value.options.attribution &&
-            value.options.attribution.partner_id
+            value.options.properties &&
+            value.options.properties.partner_id
           ) {
-            value.setIcon(activeIcon);
+            value.setIcon(allActive);
           }
         });
       } else {
         this.props.filterPartnerSelect(activeClickPartners);
+        this.props.getTableDataByPartnerSelect(activeClickPartners);
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
-            value.options.attribution &&
-            value.options.attribution.partner_id
+            value.options.properties &&
+            value.options.properties.partner_id
           ) {
-            value.setIcon(inactiveIcon);
+            value.setIcon(Inactive);
           }
         });
       }
@@ -255,11 +388,11 @@ class MainAutomation extends Component {
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
-            value.options.attribution &&
-            value.options.attribution.partner_id &&
-            value.options.attribution.partner_id === data
+            value.options.properties &&
+            value.options.properties.partner_id &&
+            value.options.properties.partner_id === data
           ) {
-            value.setIcon(activeIcon);
+            value.setIcon(allActive);
             value.openPopup();
           }
         });
@@ -309,6 +442,13 @@ class MainAutomation extends Component {
   };
 
   toggleFilterButton = () => {
+    if (this.state.activeFilterButton) {
+      this.setState({
+        activeProvince: false,
+        activeDistrict: false,
+        activeMunicipality: false,
+      });
+    }
     this.setState(prevState => ({
       activeFilterButton: !prevState.activeFilterButton,
     }));
@@ -504,6 +644,28 @@ class MainAutomation extends Component {
     }
   };
 
+  applyClickForPartnerFilter = () => {
+    const {
+      selectedMunicipality,
+      selectedDistrict,
+      selectedProvince,
+    } = this.state;
+    this.props.getFilteredPartnersByFederal({
+      municipality: selectedMunicipality,
+      district: selectedDistrict,
+      province: selectedProvince,
+    });
+  };
+
+  handleResetButtonForFilter = () => {
+    this.props.getAllAutomationDataByPartner();
+    this.setState({
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
+    });
+  };
+
   render() {
     const {
       branchesCountOptions,
@@ -644,7 +806,7 @@ class MainAutomation extends Component {
                       {/* <DropdownCheckbox /> */}
                       <div
                         className="select-dropdown"
-                        id="filter_dropdown"
+                        id="filter_dropdown_province"
                       >
                         <span
                           className={`span-label ${
@@ -668,6 +830,12 @@ class MainAutomation extends Component {
                               type="checkbox"
                               id="allProvinceCheck"
                               onClick={this.handleProvinceAllCheck}
+                              checked={
+                                selectedProvince.length ===
+                                allProvinceName.length
+                                  ? true
+                                  : false
+                              }
                             />
                             <label htmlFor="allProvinceCheck">
                               <i className="icon-ok-2" />
@@ -701,7 +869,7 @@ class MainAutomation extends Component {
                       </div>
                       <div
                         className="select-dropdown"
-                        id="filter_dropdown"
+                        id="filter_dropdown_district"
                         onClick={this.handleDistrictDropdown}
                         onKeyDown={this.handleDistrictDropdown}
                         role="tab"
@@ -725,6 +893,12 @@ class MainAutomation extends Component {
                               type="checkbox"
                               id="allDistrictCheck"
                               onClick={this.handleDistrictAllCheck}
+                              checked={
+                                selectedDistrict.length ===
+                                allDistrictName.length
+                                  ? true
+                                  : false
+                              }
                             />
                             <label htmlFor="allDistrictCheck">
                               <i className="icon-ok-2" />
@@ -760,7 +934,7 @@ class MainAutomation extends Component {
                       </div>
                       <div
                         className="select-dropdown"
-                        id="filter_dropdown"
+                        id="filter_dropdown_municipality"
                         onClick={this.handleMunicipalityDropdown}
                         onKeyDown={this.handleMunicipalityDropdown}
                         role="tab"
@@ -785,6 +959,12 @@ class MainAutomation extends Component {
                               id="allMunicipalityCheck"
                               onClick={
                                 this.handleMunicipalityAllCheck
+                              }
+                              checked={
+                                selectedMunicipality.length ===
+                                allMunicipalityName.length
+                                  ? true
+                                  : false
                               }
                             />
                             <label htmlFor="allMunicipalityCheck">
@@ -822,12 +1002,14 @@ class MainAutomation extends Component {
                       <button
                         type="button"
                         className="common-button is-clear"
+                        onClick={this.handleResetButtonForFilter}
                       >
                         <i className="material-icons">refresh</i>
                       </button>
                       <button
                         type="button"
                         className="common-button is-clear"
+                        onClick={this.applyClickForPartnerFilter}
                       >
                         Apply
                       </button>
@@ -841,6 +1023,7 @@ class MainAutomation extends Component {
             />
           </main>
           <RightSideBar
+            activeRightSideBar={activeRightSideBar}
             partnersData={partnersData}
             tabletsDeployed={tabletsDeployed}
             branchesCountOptions={branchesCountOptions}
@@ -869,4 +1052,7 @@ export default connect(mapStateToProps, {
   getSearchedPartners,
   getDistrictDataFromProvince,
   getMunicipalityDataFromDistrict,
+  getFilteredPartnersByFederal,
+  getBranchesTableData,
+  getTableDataByPartnerSelect,
 })(MainAutomation);

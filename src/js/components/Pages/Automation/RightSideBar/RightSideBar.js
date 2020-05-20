@@ -17,6 +17,7 @@ class RightSideBar extends Component {
       areaChartOptions,
       toggleRightSideBarButton,
       toggleTableViewButton,
+      activeRightSideBar,
     } = this.props;
     console.log(automationReducer, 'autpo');
     const { partnersData } = this.props;
@@ -124,24 +125,39 @@ class RightSideBar extends Component {
                     height="130"
                   />
                 </div> */}
-                <div className="branch-list">
-                  <div className="branch">
-                    <div className="branch-bar">
-                      <div className="branch-content">
-                        <span>Chimek</span>
-                        <b>2667</b>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="branch">
-                    <div className="branch-bar">
-                      <div className="branch-content">
-                        <span>Sana kisan</span>
-                        <b>2667</b>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {automationReducer.automationRightSidePartnerData &&
+                  automationReducer
+                    .automationRightSidePartnerData[0] &&
+                  automationReducer.automationRightSidePartnerData[0].partner_data.map(
+                    data => {
+                      const totalBranch =
+                        automationReducer
+                          .automationRightSidePartnerData[0]
+                          .total_branch;
+                      const singlebranchValue = data.branch;
+                      const BranchpercentCalculate =
+                        (singlebranchValue / totalBranch) * 100;
+                      const branchPercent = Math.round(
+                        BranchpercentCalculate,
+                      );
+
+                      return (
+                        <div className="branch-list">
+                          <div className="branch">
+                            <div
+                              className="branch-bar"
+                              style={{ width: branchPercent }}
+                            >
+                              <div className="branch-content">
+                                <span>Chimek</span>
+                                <b>{singlebranchValue}</b>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    },
+                  )}
               </div>
             </div>
             <div className="sidebar-widget">
@@ -159,7 +175,11 @@ class RightSideBar extends Component {
             </div>
           </div>
         </div>
-        <div className="expand-button">
+        <div
+          className={`expand-button ${
+            activeRightSideBar ? '' : 'active'
+          }`}
+        >
           <button
             type="button"
             onClick={toggleRightSideBarButton}
