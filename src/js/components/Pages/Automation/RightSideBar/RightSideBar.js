@@ -124,6 +124,7 @@ class RightSideBar extends Component {
                     height="130"
                   />
                 </div> */}
+                <div  className="branch-list">
                 {automationReducer.automationRightSidePartnerData &&
                   automationReducer
                     .automationRightSidePartnerData[0] &&
@@ -141,22 +142,25 @@ class RightSideBar extends Component {
                       );
 
                       return (
-                        <div key={data.id} className="branch-list">
-                          <div className="branch">
-                            <div
-                              className="branch-bar"
+                        
+                          <div key={data.id} className="branch">
+                            <div className="branch-icon">
+                              <span>CH</span>
+                            </div>
+                            <div className="branch-bar" tooltip="chimek:27" flow="up"
                               style={{ width: branchPercent }}
                             >
-                              <div className="branch-content">
+                              {/* <div className="branch-content">
                                 <span>Chimek</span>
                                 <b>{singlebranchValue}</b>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
-                        </div>
+                        
                       );
                     },
                   )}
+                  </div>
               </div>
             </div>
             <div className="sidebar-widget">

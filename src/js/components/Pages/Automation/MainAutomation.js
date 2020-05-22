@@ -111,7 +111,7 @@ class MainAutomation extends Component {
                   fontSize: '24px',
                   fontFamily: 'Avenir book',
                   fontWeight: 100,
-                  color: 'black',
+                  color: '#fff',
                   offsetY: 50,
                   formatter(val) {
                     return 'Totals';
@@ -151,8 +151,28 @@ class MainAutomation extends Component {
                   },
                 },
               },
+              
             },
           },
+        },
+        tooltip: {
+          // enabled: false,
+          fillSeriesColor: false,
+          fontColor:'#fff',
+          style: {
+            fontSize: '12px',
+            fontColor:'#fff'
+          },
+          followCursor: false,
+          fixed: {
+            enabled: true,
+            position: 'topRight',
+            offsetX: 100,
+            offsetY: 100,
+          },
+          marker: {
+            show: false,
+        },
         },
         dataLabels: {
           enabled: false,
@@ -179,16 +199,6 @@ class MainAutomation extends Component {
         fill: {
           opacity: 1,
           // colors: ['#E11D3F', '#489FA7'],
-        },
-        tooltip: {
-          // enabled: false,
-          followCursor: false,
-          fixed: {
-            enabled: true,
-            position: 'topRight',
-            offsetX: 100,
-            offsetY: 100,
-          },
         },
       },
       areaChartOptions: {

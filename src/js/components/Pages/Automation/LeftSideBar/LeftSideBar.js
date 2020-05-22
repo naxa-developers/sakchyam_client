@@ -66,6 +66,10 @@ class LeftSideBar extends Component {
                 </label>
               </div>
             </div>
+            <div className="select-org">
+              <b className="counter"><span>2</span>items selected</b>
+              <span><i className="material-icons">refresh</i></span>
+            </div>
           </div>
           <div className="aside-body">
             {dataLoading ? (

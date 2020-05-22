@@ -18,7 +18,7 @@
     aside{
         &.sidebar{
             position: relative;
-            @include transition(width 1s ease);
+            @include transition(width .8s ease-in-out);
             width:400px;
             @media screen and (max-width:1440px){
                 width:320px;
@@ -29,6 +29,7 @@
             }
             .sidebar-in{
                 display: block;
+                
             }
             
             // &.left-sidebar{
@@ -80,18 +81,18 @@
                                     margin:0;
                                     button{
                                         padding:0;
-                                        
                                         &.is-bg{
                                             padding:.5rem 1rem;
                                         }
                                         &.is-clear{
                                             padding:0;
                                         }
+                                        &:last-child{
+                                            color:$orange-color;
+                                            font-family: $avenir-heavy;
+                                        }
                                         &:not(:last-child){
                                             padding-left:1rem;
-                                        }
-                                        &:last-child{
-                                            color:$red-color;
                                         }
                                     }
                                 }
@@ -101,6 +102,14 @@
                                 @include justify-content-start;
                                 @include align-items-center;
                                 @include flex-wrap(wrap);
+                                .select-dropdown{
+                                    .span-label{
+                                        @include radius(20px);
+                                        width:100%;
+                                        min-width: 160px;
+                                        font-family: $avenir-heavy;
+                                    }
+                                }
                                 .form-group{
                                     margin-bottom: 0;
                                     label{
@@ -125,6 +134,8 @@
                                 span{
                                     text-transform: capitalize;
                                     margin-right: 1rem;
+                                    font-size: .875rem;
+
                                 }
                                 .tab-list{
                                     flex-grow: 1;
@@ -311,6 +322,10 @@
                                 &.is-clear{
                                     padding:0;
                                 }
+                                &:last-child{
+                                    color:$orange-color;
+                                    font-family: $avenir-heavy;
+                                }
                                 &:not(:last-child){
                                     padding-left:1rem;
                                 }
@@ -324,6 +339,14 @@
                         @include align-items-center;
                         width:100%;
                         @include flex-wrap(wrap);
+                        .select-dropdown{
+                            .span-label{
+                                @include radius(20px);
+                                width:100%;
+                                min-width: 160px;
+                                font-family: $avenir-heavy;
+                            }
+                        }
                         .form-group{
                             margin-bottom: 0;
                             label{
@@ -354,6 +377,7 @@
                         span{
                             text-transform: capitalize;
                             margin-right: 1rem;
+                            font-size: .875rem;
                         }
                         .tab-list{
                             flex-grow: 1;
@@ -395,107 +419,7 @@
                     }
                 }
             }
-            .leaflet-container{
-                .css-2b097c-container{
-                    width:100%;
-                    &:not(:last-child){
-                        margin-right: 1rem;
-                    }
-                }
-            }
-            .leaflet-control-container {
-                .leaflet-left {
-                    left: auto;
-                    right: 1rem;
-                    z-index: 999;
-                    .leaflet-control{
-                        margin: 0 !important;
-                    }
-              
-                    &.leaflet-top {
-                        top: auto;
-                        bottom: 4rem;
-              
-                    }
-              
-                    .leaflet-bar {
-                        border: none;
-                        box-shadow: none;
-                        border:1px solid $border-color;
-                        a {
-                            width: 34px;
-                            height: 30px;
-                            line-height: 30px;
-                            color: $red-color;
-                            @include transition(all .5s);
-                            border-color:$border-color;
-                            &:hover {
-                                background-color: $red-light;
-                                color: $red-color;
-                            }
-                        }
-                        
-              
-                    }
-                    
-                    .loc{
-                            width: 30px;
-                            height: 30px;
-                            line-height: 40px;
-                            color: $red-light;
-                            @include transition(all .5s linear);
-                            background-color: $white-color;
-                            text-align: center;
-                            border:0;
-                            margin-top:1.2rem !important;
-                            i{
-                                font-size: 1rem;
-                                color: $red-color; 
-                            }
-                            &:hover{
-                                cursor: pointer;
-                                background-color: $red-light;
-                                i{
-                                    color: $red-color;
-                                }
-                            }
-                    }
-                    &.leaflet-bottom {
-                        right: 5rem;
-                        bottom: 1rem;
-                    }
-              
-                }
-              
-                .leaflet-bottom {
-                    &.leaflet-right {
-                        right: 1rem;
-                        left: auto;
-                        top:2rem;
-                        bottom:auto;
-                        @include radius(2px);
-                        .leaflet-control-attribution {
-                          display: none;
-                        }
-              
-                        .leaflet-control {
-                            float: none;
-                            margin: 0;
-                            box-shadow: none;
-                            opacity: 1;
-                            @include radius(2px);
-                        }
-                    }
-                }
-              
-                .leaflet-control-layers-toggle {
-                    width: 33px;
-                    height: 30px;
-                    background-size: 12px 12px;
-                    box-shadow: none;
-                    opacity: 1;
-                }
-              }
+            
             
         }
         
@@ -550,23 +474,41 @@
     .branch-list{
         .branch{
             @include display-flex(flex);
+            @include justify-content-start;
+            @include align-items-center;
             height: 2rem;
-            overflow: hidden;
+            // overflow: hidden;
             font-size: .75rem;
-            background-color: $white-color;
-            border:1px solid $border-color;
+            // background-color: $white-color;
+            // border:1px solid $border-color;
             border-radius: .25rem;
             position: relative;
+            .branch-icon{
+                padding-right: 1rem;
+                span{
+                    @include display-flex(flex);
+                    @include justify-content-center;
+                    @include align-items-center;
+                    @include flex-direction-column(column);
+                    width:30px;
+                    height: 30px;
+                    color:$white-color;
+                    background-color: $dark-green;
+                    @include radius(100%);
+                }
+            }
             .branch-bar{
-                @include display-flex(flex);
-                @include justify-content-between;
-                @include align-items-center;
-                @include flex-direction-row(column);
+                // @include display-flex(flex);
+                // @include justify-content-between;
+                // @include align-items-center;
+                // @include flex-direction-row(column);
                 color: $primary-light;
                 text-align: center;
-                background-color: $red-light;
+                background-color: $red-color;
                 transition: width .6s ease;
                 width:50%;
+                height: 30px;
+                @include radius(5px);
             }
             .branch-content{
                 position: absolute;
@@ -588,5 +530,250 @@
                 margin-bottom: .6125rem;
             }
         }
+    }
+    
+    .leaflet-container{
+        .css-2b097c-container{
+            width:100%;
+            &:not(:last-child){
+                margin-right: 1rem;
+            }
+        }
+    }
+    .leaflet-control-container {
+        .leaflet-left {
+            left: auto;
+            right: 1rem;
+            z-index: 999;
+            .leaflet-control{
+                margin: 0 !important;
+            }
+      
+            &.leaflet-top {
+                top: auto;
+                bottom: 4rem;
+      
+            }
+      
+            .leaflet-bar {
+                border: none;
+                box-shadow: none;
+                border:1px solid $border-color;
+                a {
+                    width: 34px;
+                    height: 30px;
+                    line-height: 30px;
+                    color: $red-color;
+                    @include transition(all .5s);
+                    border-color:$border-color;
+                    &:hover {
+                        background-color: $red-light;
+                        color: $red-color;
+                    }
+                }
+                
+      
+            }
+            
+            .loc{
+                    width: 30px;
+                    height: 30px;
+                    line-height: 40px;
+                    color: $red-light;
+                    @include transition(all .5s linear);
+                    background-color: $white-color;
+                    text-align: center;
+                    border:0;
+                    margin-top:1.2rem !important;
+                    i{
+                        font-size: 1rem;
+                        color: $red-color; 
+                    }
+                    &:hover{
+                        cursor: pointer;
+                        background-color: $red-light;
+                        i{
+                            color: $red-color;
+                        }
+                    }
+            }
+            &.leaflet-bottom {
+                right: 5rem;
+                bottom: 1rem;
+            }
+      
+        }
+      
+        .leaflet-bottom {
+            &.leaflet-right {
+                right: 1rem;
+                left: auto;
+                top:2rem;
+                bottom:auto;
+                @include radius(2px);
+                .leaflet-control-attribution {
+                  display: none;
+                }
+      
+                .leaflet-control {
+                    float: none;
+                    margin: 0;
+                    box-shadow: none;
+                    opacity: 1;
+                    @include radius(2px);
+                }
+            }
+        }
+      
+        .leaflet-control-layers-toggle {
+            width: 33px;
+            height: 30px;
+            background-size: 12px 12px;
+            box-shadow: none;
+            opacity: 1;
+        }
+      }
+    .leaflet-popup-content{
+        margin:0;
+        li{
+            @include display-flex(flex);
+            @include justify-content-start;
+            @include align-items-start;
+            @include radius(5px);
+            padding:.6125rem;
+            @include transition(all .5s ease-in-out);
+            border:0;
+            padding-top:.775rem;
+            .organization-icon{
+                
+                span{
+                    width:28px;
+                    height: 28px;
+                    @include display-flex(flex);
+                    @include justify-content-center;
+                    @include align-items-center;
+                    @include flex-direction-column(center);
+                    @include radius(100%);
+                    color:$white-color;
+                    text-transform: uppercase;
+                    font-size: .775rem;
+                    font-weight: 900;
+                    background-color: $dark-green;
+                    @media screen and (max-width:1440px){
+                        width:28px;
+                        height: 28px;
+                        font-size: .6125rem;
+                    }
+                    
+                }
+                &.is-green{
+                    span{
+                        background-color: $dark-green;
+                    }
+                }
+                &.is-red{
+                    span{
+                        background-color: $red-color;
+                    }
+                }
+                &.is-yellow{
+                    span{
+                        background-color: $secondary-color;
+                    }
+                }
+            }
+            .organization-content{
+                flex-grow: 1;
+                padding-left: .775rem;
+                @media screen and (max-width:1440px){
+                    padding-left: .5rem;
+                }
+                h5{
+                    font-weight: normal;
+                    font-family: $body-fonts;
+                    font-size: 0.95rem;
+                    line-height: 1.5;
+                    @media screen and (max-width:1440px){
+                        font-size: 1rem;
+                    }
+                }
+                .icon-list{
+                    @include display-flex(flex);
+                    @include justify-content-between;
+                    @include align-items-center;
+                    @include flex-wrap(wrap);
+                    margin:1rem 0 .775rem 0;
+                    .icons{
+                        @include display-flex(flex);
+                        @include justify-content-start;
+                        @include align-items-center;
+                        i{
+                            margin-right: .5rem;
+                            font-size:1.2rem ;
+                            color:$primary-light;
+                            
+                        }
+                        b{
+                            font-family: $avenir-heavy;
+                            font-size: .9375rem;
+                            color:$text-color;
+                        }
+                        @media screen and (max-width:1440px){
+                            font-size: .775rem;
+                            i{
+                                font-size: 1rem;
+                            }
+                        }
+                    }
+                }
+                .orgnization-info{
+                    @include display-flex(flex);
+                    @include justify-content-start;
+                    @include align-items-center;
+                    @include flex-wrap(wrap);
+                    a{
+                        font-size: .875rem;
+                        color:$primary-light;
+                        @media screen and (max-width:1440px){
+                            font-size: .6125rem;
+                        }
+                        span{
+                            font-family: $avenir-heavy;
+                            margin-left: .5rem;
+                            font-size: .9375rem;
+                            color:$text-color;
+                            @media screen and (max-width:1440px){
+                                margin-left:.35rem;
+                            }
+                        }
+                        &:not(:last-child){
+                            &::after{
+                                content:'|';
+                                display: inline-flex;
+                                margin:0 .5rem;
+                                @media screen and (max-width:1440px){
+                                    margin:0 .25rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            &:not(:last-child){
+                margin-bottom: .6125rem;
+            }
+            &:hover{
+                background-color: $yellow-light;
+                cursor: pointer;
+            }
+            &.active{
+                background-color: $yellow-light;
+                border-color: $orange-color;
+                cursor: pointer;
+            }
+        }
+    }
+    .leaflet-popup-content-wrapper{
+        background-color: rgba($white-color,.8);
     }
 }
