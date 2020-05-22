@@ -329,7 +329,7 @@ class TableViewComponent extends Component {
                     {allProvinceName &&
                       allProvinceName.map((data, i) => {
                         return (
-                          <li className="checkbox">
+                          <li key={data.id} className="checkbox">
                             <input
                               type="checkbox"
                               id={`check_time_table${i}`}
@@ -392,7 +392,7 @@ class TableViewComponent extends Component {
                     {allDistrictName &&
                       allDistrictName.map((data, i) => {
                         return (
-                          <li className="checkbox">
+                          <li key={data.id} className="checkbox">
                             <input
                               type="checkbox"
                               id={`check_district_table${i}`}
@@ -457,7 +457,7 @@ class TableViewComponent extends Component {
                     {allMunicipalityName &&
                       allMunicipalityName.map((data, i) => {
                         return (
-                          <li className="checkbox">
+                          <li key={data.id} className="checkbox">
                             <input
                               type="checkbox"
                               id={`check_mun_table${i}`}
@@ -540,13 +540,13 @@ class TableViewComponent extends Component {
                 </tr>
               </thead>
               <tbody>
-                {tableDataLoading ? (
-                  <TableViewSkeleton />
-                ) : (
-                  automationTableData &&
+                {// tableDataLoading ? (
+                //   <TableViewSkeleton />
+                // ) : (
+                automationTableData &&
                   automationTableData.map(data => {
                     return (
-                      <tr>
+                      <tr key={data.id}>
                         <td>
                           <b>{data.branch}</b>
                         </td>
@@ -571,7 +571,8 @@ class TableViewComponent extends Component {
                       </tr>
                     );
                   })
-                )}
+                // )
+                }
               </tbody>
             </table>
           </div>

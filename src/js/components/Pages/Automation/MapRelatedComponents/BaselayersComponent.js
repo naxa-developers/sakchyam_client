@@ -11,7 +11,7 @@ class BaseLayers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBaseLayer: "openstreet",
+            selectedBaseLayer: "mapbox",
         };
     }
     componentWillMount(){}
@@ -83,7 +83,7 @@ class BaseLayers extends Component {
             <BaseLayer checked={selectedBaseLayer === "mapbox"} name="Mapbox">
               <TileLayer
                 attribution="&amp;copy "
-                url="https://api.mapbox.com/styles/v1/upendraoli/cjuvfcfns1q8r1focd0rdlgqn/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidXBlbmRyYW9saSIsImEiOiJjaWYwcnFnNmYwMGY4dGZseWNwOTVtdW1tIn0.uhY72SyqmMJNTKa0bY-Oyw"
+                url="https://api.mapbox.com/styles/v1/naxa-np/cka9lr90s0tgp1is4gep38xi3/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibmF4YS1ucCIsImEiOiJja2E5bGp0ZDQwdHE4MnJxdnhmcGxsdGpuIn0.kB42E50iZFlFPcQiqQMClw"
                 maxZoom={20}
               />
             </BaseLayer>

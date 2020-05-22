@@ -83,6 +83,7 @@ class LeftSideBar extends Component {
                     // console.log(data, 'data');
                     return (
                       <li
+                        key={data.id}
                         role="tab"
                         className={
                           activeClickPartners.includes(

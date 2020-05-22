@@ -19,7 +19,7 @@ class RightSideBar extends Component {
       toggleTableViewButton,
       activeRightSideBar,
     } = this.props;
-    console.log(automationReducer, 'autpo');
+    // console.log(automationReducer, 'autpo');
     const { partnersData } = this.props;
     return (
       <aside className="sidebar right-sidebar">
@@ -38,7 +38,6 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Tablets Deployed</h6>
                     </div>
-                    <label>Varun</label>
                     <div className="widget-icon">
                       <span>
                         <i className="material-icons">tablet_mac</i>
@@ -142,7 +141,7 @@ class RightSideBar extends Component {
                       );
 
                       return (
-                        <div className="branch-list">
+                        <div key={data.id} className="branch-list">
                           <div className="branch">
                             <div
                               className="branch-bar"

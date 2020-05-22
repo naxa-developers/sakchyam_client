@@ -18,6 +18,8 @@ import {
   getFilteredPartnersByFederal,
   getBranchesTableData,
   getTableDataByPartnerSelect,
+  getFilteredPartnersByFederalWithClickedPartners,
+  partnerSelectWithOutreach,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
@@ -238,6 +240,7 @@ class MainAutomation extends Component {
     this.props.getDistrictData();
     this.props.getMunicipalityData();
     this.props.getBranchesTableData();
+
     const provinceEl = document.getElementById(
       'filter_dropdown_province',
     );
@@ -281,6 +284,12 @@ class MainAutomation extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { activeClickPartners, activeOutreachButton } = this.state;
+    // if (activeOutreachButton && activeClickPartners.length <= 0) {
+    //   this.props.getAllAutomationDataByPartner();
+    //   // alert('tung');
+    //   // this.props.partnerSelectWithOutreach(activeClickPartners);
+    // }
     if (
       prevProps.automationReducer.automationRightSidePartnerData !==
       this.props.automationReducer.automationRightSidePartnerData
@@ -356,7 +365,7 @@ class MainAutomation extends Component {
         // this.setState({ partnersData: a });
       }
     }
-    const { activeClickPartners } = this.state;
+    // const { activeClickPartners } = this.state;
     if (prevState.activeClickPartners !== activeClickPartners) {
       const mapLayers = this.mapRef.current.leafletElement._layers;
       if (activeClickPartners.length === 0) {
@@ -369,6 +378,7 @@ class MainAutomation extends Component {
             value.options.properties.partner_id
           ) {
             value.setIcon(allActive);
+            value.closePopup();
           }
         });
       } else {
@@ -412,19 +422,34 @@ class MainAutomation extends Component {
     //   this.props.filterAutomationDataForVectorTiles();
     // }
     if (
+      prevProps.automationReducer.getAutomationDataByMunicipality !==
+      this.props.automationReducer.getAutomationDataByMunicipality
+    ) {
+      this.props.filterAutomationDataForVectorTiles(
+        this.state.dataTypeLevel,
+      );
+    }
+    if (
       prevProps.automationReducer.automationChoroplethData !==
       automationChoroplethData
     ) {
-      console.log('if automationDataByProvince updated');
+      // console.log('if automationDataByProvince updated');
       this.getFilteredAutomationData();
       // this.getFilteredAutomationData();
       // console.log(a, 'aaaa');
     }
+    if (
+      prevProps.automationReducer.automationChoroplethData !==
+      this.props.automationReducer.automationChoroplethData
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ vectorGridKey: Math.random() });
+    }
   }
 
   handleActiveClickPartners = clicked => {
-    console.log(clicked, 'name');
-    const { activeClickPartners } = this.state;
+    // console.log(clicked, 'name');
+    const { activeClickPartners, activeOutreachButton } = this.state;
     if (activeClickPartners.includes(clicked)) {
       const removedPartnersFull = activeClickPartners.filter(function(
         partner,
@@ -438,6 +463,13 @@ class MainAutomation extends Component {
     } else {
       const joined = activeClickPartners.concat(clicked);
       this.setState({ activeClickPartners: joined });
+      if (joined.length > 0 && activeOutreachButton) {
+        this.props.partnerSelectWithOutreach(joined);
+      }
+      // } else {
+      //   this.props.getAllAutomationDataByPartner();
+      //   // this.props.getAutomationDataByMunicipality();
+      // }
     }
   };
 
@@ -470,6 +502,14 @@ class MainAutomation extends Component {
     this.setState(prevState => ({
       activeOutreachButton: !prevState.activeOutreachButton,
     }));
+    this.setState({ vectorGridKey: Math.random() });
+    const { activeClickPartners, activeOutreachButton } = this.state;
+
+    if (activeClickPartners.length > 0 && !activeOutreachButton) {
+      this.props.partnerSelectWithOutreach(activeClickPartners);
+    } else {
+      this.props.getAllAutomationDataByPartner();
+    }
   };
 
   handleStateLevel = clickedValue => {
@@ -509,7 +549,7 @@ class MainAutomation extends Component {
     const {
       automationReducer: { automationChoroplethData },
     } = this.props;
-    console.log(automationChoroplethData, 'sss');
+    // console.log(automationChoroplethData, 'sss');
     const a =
       automationChoroplethData &&
       automationChoroplethData.map(data => {
@@ -540,9 +580,9 @@ class MainAutomation extends Component {
         vectorGridKey: Math.random(),
       });
     }
-    console.log(
-      `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
-    );
+    // console.log(
+    //   `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
+    // );
   };
 
   handleSearchTextChange = e => {
@@ -649,12 +689,29 @@ class MainAutomation extends Component {
       selectedMunicipality,
       selectedDistrict,
       selectedProvince,
+      activeClickPartners,
+      activeOutreachButton,
     } = this.state;
-    this.props.getFilteredPartnersByFederal({
-      municipality: selectedMunicipality,
-      district: selectedDistrict,
-      province: selectedProvince,
-    });
+    if (activeClickPartners.length > 0) {
+      this.props.getFilteredPartnersByFederalWithClickedPartners(
+        {
+          municipality: selectedMunicipality,
+          district: selectedDistrict,
+          province: selectedProvince,
+        },
+        activeClickPartners,
+      );
+    } else {
+      if (activeOutreachButton) {
+        this.props.getAllAutomationDataByPartner();
+        // this.props.partnerSelectWithOutreach(activeClickPartners);
+      }
+      this.props.getFilteredPartnersByFederal({
+        municipality: selectedMunicipality,
+        district: selectedDistrict,
+        province: selectedProvince,
+      });
+    }
   };
 
   handleResetButtonForFilter = () => {
@@ -845,7 +902,10 @@ class MainAutomation extends Component {
                           {allProvinceName &&
                             allProvinceName.map((data, i) => {
                               return (
-                                <li className="checkbox">
+                                <li
+                                  key={data.id}
+                                  className="checkbox"
+                                >
                                   <input
                                     type="checkbox"
                                     id={`check_time${i}`}
@@ -975,7 +1035,10 @@ class MainAutomation extends Component {
                           {allMunicipalityName &&
                             allMunicipalityName.map((data, i) => {
                               return (
-                                <li className="checkbox">
+                                <li
+                                  key={data.id}
+                                  className="checkbox"
+                                >
                                   <input
                                     type="checkbox"
                                     id={`check_mun${i}`}
@@ -1055,4 +1118,6 @@ export default connect(mapStateToProps, {
   getFilteredPartnersByFederal,
   getBranchesTableData,
   getTableDataByPartnerSelect,
+  getFilteredPartnersByFederalWithClickedPartners,
+  partnerSelectWithOutreach,
 })(MainAutomation);
