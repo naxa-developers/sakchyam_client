@@ -17,6 +17,8 @@ import {
   GET_TABLE_DATA_BY_PARTNERS_SELECT,
   GET_AUTOMATION_BRANCHES_TABLE_DATA,
   GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
+  FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+  PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -56,7 +58,7 @@ export const getAutomationDataByProvince = () => dispatch => {
       });
   } catch (err) {
     console.error(err);
-    console.log('e');
+    // console.log('e');
   }
 };
 
@@ -77,36 +79,36 @@ export const getAutomationDataByDistrict = () => dispatch => {
   }
 };
 export const getAutomationDataByMunicipality = () => dispatch => {
-  // try {
-  //   const response = axiosInstance
-  //     .get('/api/v1/automation/automation-data-municipality/')
-  //     .then(function(result) {
-  //       // console.log(result, 'result');
-  //       return dispatch({
-  //         type: GET_AUTOMATION_DATA_BY_MUNICIPALITY,
-  //         payload: result.data,
-  //       });
-  //     });
-  // } catch (err) {
-  //   console.error(err);
-  // }
-  const token = localStorage.getItem('userToken');
-  axios
-    .get(
-      `${process.env.PUBLIC_URL}/api/v1/adminlevel/municipality/`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    )
-    .then(res => {
-      dispatch({
-        type: GET_AUTOMATION_DATA_BY_MUNICIPALITY,
-        payload: res.data,
+  try {
+    const response = axiosInstance
+      .get('api/v1/automation/automation-data/')
+      .then(function(result) {
+        // console.log(result, 'result');
+        return dispatch({
+          type: GET_AUTOMATION_DATA_BY_MUNICIPALITY,
+          payload: result.data,
+        });
       });
-    })
-    .catch(() => {});
+  } catch (err) {
+    console.error(err);
+  }
+  // const token = localStorage.getItem('userToken');
+  // axios
+  //   .get(
+  //     `${process.env.PUBLIC_URL}/api/v1/adminlevel/municipality/`,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     },
+  //   )
+  //   .then(res => {
+  //     dispatch({
+  //       type: GET_AUTOMATION_DATA_BY_MUNICIPALITY,
+  //       payload: res.data,
+  //     });
+  //   })
+  //   .catch(() => {});
 };
 export const filterAutomationDataForVectorTiles = dataLevel => dispatch => {
   return dispatch({
@@ -127,7 +129,7 @@ export const filterDistrictFromProvinceColor = dataCode => dispatch => {
       },
     )
     .then(res => {
-      console.log(res.data, 'datacolorfilter');
+      // console.log(res.data, 'datacolorfilter');
       dispatch({
         type: FILTER_DISTRICT_FROM_PROVINCE_COLOR,
         payload: res.data,
@@ -156,7 +158,7 @@ export const getProvinceData = () => dispatch => {
     const response = axiosInstance
       .get(`/api/v1/adminlevel/province/`)
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
 
         return dispatch({
           type: GET_ALLPROVINCENAME_DATA,
@@ -172,7 +174,7 @@ export const getDistrictData = () => dispatch => {
     const response = axiosInstance
       .get(`/api/v1/adminlevel/district/`)
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
 
         return dispatch({
           type: GET_ALLDISTRICTNAME_DATA,
@@ -188,7 +190,7 @@ export const getMunicipalityData = () => dispatch => {
     const response = axiosInstance
       .get(`/api/v1/adminlevel/municipality/`)
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
 
         return dispatch({
           type: GET_ALLMUNICIPALITYNAME_DATA,
@@ -264,7 +266,7 @@ export const filterPartnerSelect = partners => dispatch => {
         return `partner=${data}`;
       })
       .join('&');
-    console.log(query);
+    // console.log(query);
     try {
       const response = axiosInstance
         .get(
@@ -307,7 +309,7 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
       return `municipality=${data}`;
     })
     .join('&');
-  console.log(federalSelect, 'fedSelect');
+  // console.log(federalSelect, 'fedSelect');
   // console.log(provinceSelect, 'prov');
   // console.log(districtSelect, 'dist');
   // console.log(municipalitySelect, 'munic');
@@ -364,6 +366,88 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
     }
   }
 };
+export const getFilteredPartnersByFederalWithClickedPartners = (
+  federalSelect,
+  clickedPartner,
+) => dispatch => {
+  const partnerSelect = clickedPartner
+    .map(data => {
+      return `partner__partner__id=${data}`;
+    })
+    .join('&');
+  const provinceSelect = federalSelect.province
+    .map(data => {
+      return `province_id=${data}`;
+    })
+    .join('&');
+  const districtSelect = federalSelect.district
+    .map(data => {
+      return `district_id=${data}`;
+    })
+    .join('&');
+  const municipalitySelect = federalSelect.municipality
+    .map(data => {
+      return `municipality_id=${data}`;
+    })
+    .join('&');
+  // console.log(federalSelect, 'fedSelect');
+  // console.log(provinceSelect, 'prov');
+  // console.log(districtSelect, 'dist');
+  // console.log(municipalitySelect, 'munic');
+  if (federalSelect.municipality.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          // `api/v1/automation/automation-data/?province_id=2&partner__partner__id=12`,
+          `api/v1/automation/automation-data/?${municipalitySelect}&${partnerSelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (federalSelect.district.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-data/?${districtSelect}&${partnerSelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-data/?${provinceSelect}&${partnerSelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
 
 export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
   try {
@@ -376,7 +460,7 @@ export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
     const response = axiosInstance
       .get(`api/v1/automation/automation-data/?${query}`)
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
         return dispatch({
           type: GET_TABLE_DATA_BY_PARTNERS_SELECT,
           payload: result.data,
@@ -391,10 +475,30 @@ export const getBranchesTableData = () => dispatch => {
     const response = axiosInstance
       .get(`api/v1/automation/automation-data/`)
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
         return dispatch({
           type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
           payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const partnerSelectWithOutreach = selectedPartner => dispatch => {
+  try {
+    const query = selectedPartner
+      .map(data => {
+        return `partner__partner__id=${data}`;
+      })
+      .join('&');
+    const response = axiosInstance
+      .get(`api/v1/automation/automation-data/?${query}`)
+      .then(function(result) {
+        // console.log(result, 'result');
+        return dispatch({
+          type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
+          payload: { selectedPartner, result: result.data },
         });
       });
   } catch (err) {
@@ -437,7 +541,7 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
       return `municipality_id=${data}`;
     })
     .join('&');
-  console.log(federalSelect, 'fedSelect');
+  // console.log(federalSelect, 'fedSelect');
   // console.log(provinceSelect, 'prov');
   // console.log(districtSelect, 'dist');
   // console.log(municipalitySelect, 'munic');

@@ -16,6 +16,8 @@ import {
   GET_AUTOMATION_BRANCHES_TABLE_DATA,
   GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
   GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_PARTNER,
+  FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+  PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -32,10 +34,11 @@ const initialState = {
   allMunicipalityName: [],
   dataLoading: true,
   tableDataLoading: true,
+  filteredMapBoundaryData: [],
 };
 
 const partnerForChoropleth = (state, action) => {
-  console.log(action.payload, 'payload');
+  // console.log(action.payload, 'payload');
   // const allData = [];
   const leftsideData = action.payload[0].partner_data;
   // const choroplethData = action.payload.map(data => {
@@ -43,7 +46,7 @@ const partnerForChoropleth = (state, action) => {
   //   return true;
   // });
   const partnerData = action.payload[0].partner_data.map(data => {
-    return data.branch;
+    return data.tablets_deployed;
   });
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
@@ -73,9 +76,10 @@ const partnerForChoropleth = (state, action) => {
 //   };
 // };
 const partnerByProvinceForChoropleth = (state, action) => {
-  console.log(action.payload, 'payload');
+  // console.log(action.payload, 'payload');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
+    console.log(data, '12st');
     fullData.push({ id: data.code, count: data.num_tablet_deployed });
     return true;
   });
@@ -114,7 +118,10 @@ const partnerByMunicipalityForChoropleth = (state, action) => {
   // console.log('GET Municipalit');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
-    fullData.push({ id: data.code, count: data.num_tablet_deployed });
+    fullData.push({
+      id: data.mun_code,
+      count: data.num_tablet_deployed,
+    });
     return true;
   });
   // console.log(fullData, 'without Sort');
@@ -125,6 +132,7 @@ const partnerByMunicipalityForChoropleth = (state, action) => {
   return {
     ...state,
     automationDataByMunicipality: fullData,
+    automationChoroplethData: fullData,
     dataLoading: false,
   };
 };
@@ -188,10 +196,10 @@ const filterDistrictFromProvinceColor = (state, action) => {
 };
 
 const filterPartnerSelect = (state, action) => {
-  console.log(action.payload, 'filterPartnerSelect');
+  // console.log(action.payload, 'filterPartnerSelect');
   const { automationRightSidePartnerData } = state;
   const partnerData = action.payload[0].partner_data.map(data => {
-    return data.branch;
+    return data.tablets_deployed;
   });
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
@@ -277,7 +285,7 @@ const filterPartnerByFederal = (state, action) => {
   //   return true;
   // });
   const partnerData = action.payload[0].partner_data.map(data => {
-    return data.branch;
+    return data.tablets_deployed;
   });
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
@@ -299,23 +307,66 @@ const getAutomationDataForTable = (state, action) => {
   return {
     ...state,
     automationTableData: action.payload,
-    tableDataLoading: false,
+    // tableDataLoading: false,
   };
 };
 const getAutomationDataForTableByFederal = (state, action) => {
   return {
     ...state,
     automationTableData: action.payload,
-    tableDataLoading: false,
+    // tableDataLoading: false,
   };
 };
 const getAutomationDataForTableByPartner = (state, action) => {
   return {
     ...state,
     automationTableData: action.payload,
-    tableDataLoading: false,
+    // tableDataLoading: false,
   };
 };
+const filterPartnerByFederalwithClickedPartners = (state, action) => {
+  const a = action.payload.map(data => {
+    return { id: data.mun_code, count: data.num_tablet_deployed };
+  });
+  console.log(a, 'a');
+  return {
+    ...state,
+    filteredMapBoundaryData: action.payload,
+    automationChoroplethData: a,
+    // automationTableData: action.payload,
+    // tableDataLoading: false,
+  };
+};
+const partnerSelectWithOutreachGetPartnerChoropleth = (
+  state,
+  action,
+) => {
+  const a = action.payload.result.map(data => {
+    return { id: data.mun_code, count: data.num_tablet_deployed };
+  });
+  const allData = [];
+  // eslint-disable-next-line array-callback-return
+  // const c = action.payload.selectedPartner.map(partner => {
+  //   state.automationLeftSidePartnerData.filter(data => {
+  //     console.log(data.partner_id, 'id');
+  //     console.log(partner, 'partner');
+  //     return data.id === partner ? allData.push(data) : null;
+  //   });
+  // });
+  const c = state.automationLeftSidePartnerData.filter(
+    // eslint-disable-next-line camelcase
+    ({ partner_id }) =>
+      action.payload.selectedPartner.includes(partner_id),
+  );
+  return {
+    ...state,
+    automationChoroplethData: a,
+    // automationLeftSidePartnerData: c,
+    // automationTableData: action.payload,
+    // tableDataLoading: false,
+  };
+};
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_AUTOMATION_DATA_BY_PARTNER:
@@ -338,6 +389,8 @@ export default function(state = initialState, action) {
       return filterPartnerSelect(state, action);
     case FILTER_PARTNERS_BY_FEDERAL:
       return filterPartnerByFederal(state, action);
+    case FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS:
+      return filterPartnerByFederalwithClickedPartners(state, action);
 
     case GET_ALLPROVINCENAME_DATA:
       return getProvinceData(state, action);
@@ -357,6 +410,11 @@ export default function(state = initialState, action) {
       return getAutomationDataForTableByFederal(state, action);
     case GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_PARTNER:
       return getAutomationDataForTableByPartner(state, action);
+    case PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA:
+      return partnerSelectWithOutreachGetPartnerChoropleth(
+        state,
+        action,
+      );
     // case TOGGLE_NULL_SUBMISSIONS_ANSWER:
     //   return toggleNullSubmission(state);
     default:

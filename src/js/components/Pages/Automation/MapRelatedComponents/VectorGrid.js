@@ -71,7 +71,8 @@ class VectorGridComponent extends Component {
         var gradeCount = this.props.legendDivisions!=null && typeof(this.props.legendDivisions) == "number" && this.props.legendDivisions <= 20 && this.props.legendDivisions >= colorArrayLength?this.props.legendDivisions:7; //set default gradecount
         
         var fullRange = this.props.divisions && this.props.divisions.length>0?this.props.divisions:[];
-        var fullData = this.props.choroplethData!=null && this.props.choroplethData.length>0?this.props.choroplethData:defaultData.choroplethData;
+        // var fullData = this.props.choroplethData!=null && this.props.choroplethData.length>0?this.props.choroplethData:defaultData.choroplethData;
+        var fullData = this.props.choroplethData;
         
         this.props.choroplethData!=null && this.props.choroplethData.length>0?this.props.choroplethData.map(data1 => {
             data.push(data1.count);
@@ -237,9 +238,9 @@ class VectorGridComponent extends Component {
                 <VectorGrid {...options} ref={this.vectorGridRef}></VectorGrid>
                 <div style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
                 <div>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</div>
-                <div class="map-legend">
+                <div className="map-legend">
                             {/* <ScrollTab changetheme={this.props.changetheme}/> */}
-                            <ul class="color-legend">
+                            <ul className="color-legend">
                     {
                         this.state.grade && this.state.grade.map((grade,i) => {
                             var hideLastdiv = false;
@@ -251,8 +252,8 @@ class VectorGridComponent extends Component {
                             // return <div style={{display:"inline-block"}}><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block", marginLeft:"5px"}}></div> <span >{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
                             // uncomment this to add nice horizontal legend
                             return (
-                                <li>
-                                    <div style={{backgroundColor: hideLastdiv?"transparent":this.getLegendColor(grade+1)}} class="color color1"></div>
+                                <li key={Math.random()}>
+                                    <div style={{backgroundColor: hideLastdiv?"transparent":this.getLegendColor(grade+1)}} className="color color1"></div>
                                     <span style={{marginLeft: grade1.trim().length==1?-2:grade1.trim().length==2?-8:-12}}>{grade1}</span>
                                 </li>
                             )
@@ -261,7 +262,7 @@ class VectorGridComponent extends Component {
                         </ul>
                     </div>
                 </div>
-                <div ref={this.infoDivRef} class="infoDiv" style={{display:"none"}}></div>
+                <div ref={this.infoDivRef} className="infoDiv" style={{display:"none"}}></div>
             </div>
         )
     }

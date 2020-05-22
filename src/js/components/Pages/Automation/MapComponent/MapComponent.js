@@ -69,7 +69,7 @@ class MapComponent extends Component {
 
     const map = this.props.mapRef.current.leafletElement;
     // const marker = L.marker([84, 27], { icon: greenIcon }).addTo(map);
-    console.log(map, 'mapref');
+    // console.log(map, 'mapref');
 
     const geoJsonFeatureCollection = {
       type: 'FeatureCollection',
@@ -84,7 +84,7 @@ class MapComponent extends Component {
         };
       }),
     };
-    console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
+    // console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
 
     // const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
     //   geoJsonFeatureCollection,
@@ -175,38 +175,38 @@ class MapComponent extends Component {
     // this.props.filterAutomationDataForVectorTiles();
   }
 
-  fetchingForDropdown = name => {
-    const key =
-      name === 'province'
-        ? 'province_api'
-        : name === 'district'
-        ? 'district_api'
-        : name === 'municipality'
-        ? 'municipality_api'
-        : '';
-    const url = `https://iomapi.naxa.com.np/api/v1/${key}`;
-    const prvncDist =
-      name === 'district'
-        ? 'province'
-        : name === 'municipality'
-        ? 'district'
-        : '';
+  // fetchingForDropdown = name => {
+  //   const key =
+  //     name === 'province'
+  //       ? 'province_api'
+  //       : name === 'district'
+  //       ? 'district_api'
+  //       : name === 'municipality'
+  //       ? 'municipality_api'
+  //       : '';
+  //   const url = `https://iomapi.naxa.com.np/api/v1/${key}`;
+  //   const prvncDist =
+  //     name === 'district'
+  //       ? 'province'
+  //       : name === 'municipality'
+  //       ? 'district'
+  //       : '';
 
-    Axios.get(url).then(response => {
-      const array = [];
+  //   Axios.get(url).then(response => {
+  //     const array = [];
 
-      response.data.data.map(e => {
-        const object = {
-          value: e.id,
-          label: e.name,
-          [prvncDist]: e[prvncDist.toString()],
-        };
-        array.push(object);
-        return true;
-      });
-      this.setState({ [name]: array });
-    });
-  };
+  //     response.data.data.map(e => {
+  //       const object = {
+  //         value: e.id,
+  //         label: e.name,
+  //         [prvncDist]: e[prvncDist.toString()],
+  //       };
+  //       array.push(object);
+  //       return true;
+  //     });
+  //     this.setState({ [name]: array });
+  //   });
+  // };
 
   markerClickProvinceSelect = clickedValue => {
     this.props.handleActiveClickPartners(clickedValue);
@@ -282,7 +282,8 @@ class MapComponent extends Component {
     const inputDivisions =
       choroplethtype === 'province'
         ? []
-        : [0, 5, 10, 25, 50, 100, 150, 200, 400];
+        : [0, 2, 4, 6, 8, 10, 12, 14, 16];
+    // : [0, 5, 10, 25, 50, 100, 150, 200, 400];
 
     const inputStyle =
       choroplethtype === 'province'
@@ -348,6 +349,17 @@ class MapComponent extends Component {
           {/* <IosSwitch/> */}
           <BaseLayers initialbase="mapbox" />
           {/* {choroplethInputData&&choroplethInputData.length >0 &&  */}
+          {!activeOutreachButton && (
+            <VectorGrid
+              // changetheme={this.props.changetheme}
+              key={vectorGridKey}
+              mapRef={this.props.mapRef}
+              style={inputStyle} // Province style setting
+              // divisions={inputDivisions}
+              choroplethData={[]} //
+              vectorGridUrl={vectorGridInputUrl} // vectortile url setting
+            />
+          )}
           {activeOutreachButton &&
             automationChoroplethData &&
             filteredProvinceChoropleth && (
@@ -410,6 +422,7 @@ class MapComponent extends Component {
             automationLeftSidePartnerData.map(data => {
               return (
                 <Marker
+                  key={data.id}
                   onClick={() => {
                     this.markerClickProvinceSelect(data.partner_id);
                   }}
