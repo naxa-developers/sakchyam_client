@@ -18,6 +18,9 @@ import {
   GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_PARTNER,
   FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
   PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
+  SELECT_AUTOMATION_DATA_BY_PROVINCE,
+  SELECT_AUTOMATION_DATA_BY_DISTRICT,
+  SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -80,7 +83,7 @@ const partnerByProvinceForChoropleth = (state, action) => {
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     console.log(data, '12st');
-    fullData.push({ id: data.code, count: data.num_tablet_deployed });
+    fullData.push({ id: data.code, count: data.tablets_deployed });
     return true;
   });
   // console.log(fullData, 'without Sort');
@@ -99,7 +102,7 @@ const partnerByDistrictForChoropleth = (state, action) => {
   //   console.log(action.payload, 'payload');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
-    fullData.push({ id: data.code, count: data.num_tablet_deployed });
+    fullData.push({ id: data.code, count: data.tablets_deployed });
     return true;
   });
   // console.log(fullData, 'without Sort');
@@ -119,8 +122,8 @@ const partnerByMunicipalityForChoropleth = (state, action) => {
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({
-      id: data.mun_code,
-      count: data.num_tablet_deployed,
+      id: data.code,
+      count: data.tablets_deployed,
     });
     return true;
   });
@@ -180,7 +183,7 @@ const filterDistrictFromProvinceColor = (state, action) => {
   // console.log('Color Reducer Filter');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
-    fullData.push({ id: data.code, count: data.num_tablet_deployed });
+    fullData.push({ id: data.code, count: data.tablets_deployed });
     return true;
   });
   // console.log(fullData, 'without Sort');
@@ -326,7 +329,7 @@ const getAutomationDataForTableByPartner = (state, action) => {
 };
 const filterPartnerByFederalwithClickedPartners = (state, action) => {
   const a = action.payload.map(data => {
-    return { id: data.mun_code, count: data.num_tablet_deployed };
+    return { id: data.code, count: data.tablets_deployed };
   });
   console.log(a, 'a');
   return {
@@ -342,7 +345,7 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
   action,
 ) => {
   const a = action.payload.result.map(data => {
-    return { id: data.mun_code, count: data.num_tablet_deployed };
+    return { id: data.code, count: data.tablets_deployed };
   });
   const allData = [];
   // eslint-disable-next-line array-callback-return
@@ -366,6 +369,24 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
     // tableDataLoading: false,
   };
 };
+const selectProvinceForChoropleth = (state, action) => {
+  return {
+    ...state,
+    automationChoroplethData: state.automationDataByProvince,
+  };
+};
+const selectDistrictForChoropleth = (state, action) => {
+  return {
+    ...state,
+    automationChoroplethData: state.automationDataByDistrict,
+  };
+};
+const selectMunicipalityForChoropleth = (state, action) => {
+  return {
+    ...state,
+    automationChoroplethData: state.automationDataByMunicipality,
+  };
+};
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -377,6 +398,14 @@ export default function(state = initialState, action) {
       return partnerByDistrictForChoropleth(state, action);
     case GET_AUTOMATION_DATA_BY_MUNICIPALITY:
       return partnerByMunicipalityForChoropleth(state, action);
+
+    case SELECT_AUTOMATION_DATA_BY_PROVINCE:
+      return selectProvinceForChoropleth(state, action);
+    case SELECT_AUTOMATION_DATA_BY_DISTRICT:
+      return selectDistrictForChoropleth(state, action);
+    case SELECT_AUTOMATION_DATA_BY_MUNICIPALITY:
+      return selectMunicipalityForChoropleth(state, action);
+
     case FILTER_AUTOMATION_DATA_FOR_VECTORTILES:
       return filterAutomationDataForVectorTile(state, action);
     case FILTER_DISTRICT_FROM_PROVINCE_COLOR:

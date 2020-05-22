@@ -19,6 +19,9 @@ import {
   GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
   FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
   PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
+  SELECT_AUTOMATION_DATA_BY_PROVINCE,
+  SELECT_AUTOMATION_DATA_BY_DISTRICT,
+  SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -41,7 +44,7 @@ export const getAllAutomationDataByPartner = () => dispatch => {
 export const getAutomationDataByProvince = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('/api/v1/adminlevel/province/')
+      .get('api/v1/automation/map-data/?partner=0&province=0')
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -65,7 +68,7 @@ export const getAutomationDataByProvince = () => dispatch => {
 export const getAutomationDataByDistrict = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('/api/v1/adminlevel/district/')
+      .get('api/v1/automation/map-data/?partner=0&district=0')
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -81,7 +84,7 @@ export const getAutomationDataByDistrict = () => dispatch => {
 export const getAutomationDataByMunicipality = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('api/v1/automation/automation-data/')
+      .get('api/v1/automation/map-data/?partner=0&municipality=0')
       .then(function(result) {
         // console.log(result, 'result');
         return dispatch({
@@ -372,22 +375,22 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
 ) => dispatch => {
   const partnerSelect = clickedPartner
     .map(data => {
-      return `partner__partner__id=${data}`;
+      return `partner=${data}`;
     })
     .join('&');
   const provinceSelect = federalSelect.province
     .map(data => {
-      return `province_id=${data}`;
+      return `province=${data}`;
     })
     .join('&');
   const districtSelect = federalSelect.district
     .map(data => {
-      return `district_id=${data}`;
+      return `district=${data}`;
     })
     .join('&');
   const municipalitySelect = federalSelect.municipality
     .map(data => {
-      return `municipality_id=${data}`;
+      return `municipality=${data}`;
     })
     .join('&');
   // console.log(federalSelect, 'fedSelect');
@@ -399,7 +402,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
       const response = axiosInstance
         .get(
           // `api/v1/automation/automation-data/?province_id=2&partner__partner__id=12`,
-          `api/v1/automation/automation-data/?${municipalitySelect}&${partnerSelect}`,
+          `api/v1/automation/map-data/?${municipalitySelect}&${partnerSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -416,7 +419,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/automation-data/?${districtSelect}&${partnerSelect}`,
+          `api/v1/automation/map-data/?${districtSelect}&${partnerSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -433,7 +436,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/automation-data/?${provinceSelect}&${partnerSelect}`,
+          `api/v1/automation/map-data/?${provinceSelect}&${partnerSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -489,11 +492,11 @@ export const partnerSelectWithOutreach = selectedPartner => dispatch => {
   try {
     const query = selectedPartner
       .map(data => {
-        return `partner__partner__id=${data}`;
+        return `partner=${data}`;
       })
       .join('&');
     const response = axiosInstance
-      .get(`api/v1/automation/automation-data/?${query}`)
+      .get(`api/v1/automation/map-data/?${query}&municipality=0`)
       .then(function(result) {
         // console.log(result, 'result');
         return dispatch({
@@ -593,4 +596,20 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
       console.error(err);
     }
   }
+};
+
+export const selectChoroplethDataOfProvince = () => dispatch => {
+  return dispatch({
+    type: SELECT_AUTOMATION_DATA_BY_PROVINCE,
+  });
+};
+export const selectChoroplethDataOfDistrict = () => dispatch => {
+  return dispatch({
+    type: SELECT_AUTOMATION_DATA_BY_DISTRICT,
+  });
+};
+export const selectChoroplethDataOfMunicipality = () => dispatch => {
+  return dispatch({
+    type: SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
+  });
 };

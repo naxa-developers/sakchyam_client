@@ -20,6 +20,9 @@ import {
   getTableDataByPartnerSelect,
   getFilteredPartnersByFederalWithClickedPartners,
   partnerSelectWithOutreach,
+  selectChoroplethDataOfProvince,
+  selectChoroplethDataOfDistrict,
+  selectChoroplethDataOfMunicipality,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
@@ -449,7 +452,11 @@ class MainAutomation extends Component {
 
   handleActiveClickPartners = clicked => {
     // console.log(clicked, 'name');
-    const { activeClickPartners, activeOutreachButton } = this.state;
+    const {
+      activeClickPartners,
+      activeOutreachButton,
+      dataTypeLevel,
+    } = this.state;
     if (activeClickPartners.includes(clicked)) {
       const removedPartnersFull = activeClickPartners.filter(function(
         partner,
@@ -460,6 +467,16 @@ class MainAutomation extends Component {
       this.setState({
         activeClickPartners: removedPartnersFull,
       });
+      if (activeOutreachButton) {
+        if (dataTypeLevel === 'province') {
+          this.props.selectChoroplethDataOfProvince();
+        } else if (dataTypeLevel === 'district') {
+          this.props.selectChoroplethDataOfDistrict();
+        } else {
+          this.props.selectChoroplethDataOfMunicipality();
+        }
+        // this.props.partnerSelectWithOutreach(removedPartnersFull);
+      }
     } else {
       const joined = activeClickPartners.concat(clicked);
       this.setState({ activeClickPartners: joined });
@@ -934,6 +951,12 @@ class MainAutomation extends Component {
                         onKeyDown={this.handleDistrictDropdown}
                         role="tab"
                         tabIndex="0"
+                        style={
+                          activeOutreachButton === true &&
+                          dataTypeLevel === 'province'
+                            ? { display: 'none' }
+                            : { display: 'block' }
+                        }
                       >
                         <span
                           className={`span-label ${
@@ -999,6 +1022,13 @@ class MainAutomation extends Component {
                         onKeyDown={this.handleMunicipalityDropdown}
                         role="tab"
                         tabIndex="0"
+                        style={
+                          activeOutreachButton === true &&
+                          (dataTypeLevel === 'province' ||
+                            dataTypeLevel === 'district')
+                            ? { display: 'none' }
+                            : { display: 'block' }
+                        }
                       >
                         <span
                           className={`span-label ${
@@ -1120,4 +1150,7 @@ export default connect(mapStateToProps, {
   getTableDataByPartnerSelect,
   getFilteredPartnersByFederalWithClickedPartners,
   partnerSelectWithOutreach,
+  selectChoroplethDataOfProvince,
+  selectChoroplethDataOfDistrict,
+  selectChoroplethDataOfMunicipality,
 })(MainAutomation);
