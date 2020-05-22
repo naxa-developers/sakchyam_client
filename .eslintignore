@@ -11,4 +11,5 @@ BaselayersComponent.js
 VectorGrid.js
 Icons/
 canvasFlowmapLayer.js
+SmoothWheelZoom.js
 # /AutomaMainComponent.js

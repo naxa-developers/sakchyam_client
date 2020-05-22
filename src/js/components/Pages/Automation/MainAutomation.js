@@ -49,7 +49,9 @@ class MainAutomation extends Component {
     this.state = {
       activeClickPartners: [],
       selectedProvince: [],
+      selectedProvinceName: [],
       selectedDistrict: [],
+      selectedDistrictName: [],
       selectedMunicipality: [],
       partnersData: null,
       activeOutreachButton: false,
@@ -128,9 +130,12 @@ class MainAutomation extends Component {
                   color: '#d9202c',
                   offsetY: 5,
                   formatter(w) {
-                    return w.globals.seriesTotals.reduce((a, b) => {
-                      return a + b;
-                    }, 0);
+                    if (w.globals && w.globals.seriesTotals) {
+                      return w.globals.seriesTotals.reduce((a, b) => {
+                        return a + b;
+                      }, 0);
+                    }
+                    return null;
                   },
                   value: {
                     show: true,
@@ -151,17 +156,16 @@ class MainAutomation extends Component {
                   },
                 },
               },
-              
             },
           },
         },
         tooltip: {
           // enabled: false,
           fillSeriesColor: false,
-          fontColor:'#fff',
+          fontColor: '#fff',
           style: {
             fontSize: '12px',
-            fontColor:'#fff'
+            fontColor: '#fff',
           },
           followCursor: false,
           fixed: {
@@ -172,7 +176,7 @@ class MainAutomation extends Component {
           },
           marker: {
             show: false,
-        },
+          },
         },
         dataLabels: {
           enabled: false,
@@ -297,7 +301,7 @@ class MainAutomation extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { activeClickPartners, activeOutreachButton } = this.state;
+    const { activeClickPartners, activeTableView } = this.state;
     // if (activeOutreachButton && activeClickPartners.length <= 0) {
     //   this.props.getAllAutomationDataByPartner();
     //   // alert('tung');
@@ -383,7 +387,9 @@ class MainAutomation extends Component {
       const mapLayers = this.mapRef.current.leafletElement._layers;
       if (activeClickPartners.length === 0) {
         this.props.filterPartnerSelect(activeClickPartners);
-        this.props.getTableDataByPartnerSelect(activeClickPartners);
+        if (activeTableView) {
+          this.props.getTableDataByPartnerSelect(activeClickPartners);
+        }
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
@@ -396,7 +402,9 @@ class MainAutomation extends Component {
         });
       } else {
         this.props.filterPartnerSelect(activeClickPartners);
-        this.props.getTableDataByPartnerSelect(activeClickPartners);
+        if (activeTableView) {
+          this.props.getTableDataByPartnerSelect(activeClickPartners);
+        }
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
@@ -477,7 +485,7 @@ class MainAutomation extends Component {
       this.setState({
         activeClickPartners: removedPartnersFull,
       });
-      if (activeOutreachButton) {
+      if (removedPartnersFull.length < 1 && activeOutreachButton) {
         if (dataTypeLevel === 'province') {
           this.props.selectChoroplethDataOfProvince();
         } else if (dataTypeLevel === 'district') {
@@ -486,6 +494,8 @@ class MainAutomation extends Component {
           this.props.selectChoroplethDataOfMunicipality();
         }
         // this.props.partnerSelectWithOutreach(removedPartnersFull);
+      } else {
+        this.props.partnerSelectWithOutreach(removedPartnersFull);
       }
     } else {
       const joined = activeClickPartners.concat(clicked);
@@ -586,24 +596,29 @@ class MainAutomation extends Component {
   };
 
   handleProvinceClick = code => {
-    const { vectorGridInputUrl } = this.state;
-    const { dataTypeLevel } = this.props;
+    console.log(code, 'asasa');
+    const { vectorGridInputUrl, dataTypeLevel } = this.state;
     if (dataTypeLevel === 'province') {
-      const districtFilterUrl = `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`;
+      console.log('province');
+      const provinceFilterUrl = `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`;
       this.setState({
-        vectorGridInputUrl: districtFilterUrl,
+        vectorGridInputUrl: provinceFilterUrl,
         vectorGridKey: Math.random(),
+        dataTypeLevel: 'district',
       });
     } else if (dataTypeLevel === 'district') {
+      console.log('disrict');
       const districtFilterUrl = `https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&district_id=${code}`;
       this.setState({
         vectorGridInputUrl: districtFilterUrl,
         vectorGridKey: Math.random(),
+        dataTypeLevel: 'municipality',
       });
     } else if (dataTypeLevel === 'municipality') {
-      const districtFilterUrl = `https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}`;
+      console.log('municipality');
+      const municipalityFilterUrl = `https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}`;
       this.setState({
-        vectorGridInputUrl: districtFilterUrl,
+        vectorGridInputUrl: municipalityFilterUrl,
         vectorGridKey: Math.random(),
       });
     }
@@ -650,14 +665,24 @@ class MainAutomation extends Component {
     }
   };
 
-  handleProvinceSingleClick = value => {
-    const { selectedProvince } = this.state;
-    if (selectedProvince.includes(value)) {
-      const a = selectedProvince.filter(data => data !== value);
-      this.setState({ selectedProvince: a });
+  handleProvinceSingleClick = (id, name) => {
+    const { selectedProvince, selectedProvinceName } = this.state;
+    if (selectedProvince.includes(id)) {
+      const a = selectedProvince.filter(data => data !== id);
+      const filteredProvinceName = selectedProvinceName.filter(
+        data => data !== name,
+      );
+      this.setState({
+        selectedProvince: a,
+        selectedProvinceName: filteredProvinceName,
+      });
     } else {
-      const b = selectedProvince.concat(value);
-      this.setState({ selectedProvince: b });
+      const b = selectedProvince.concat(id);
+      const filteredProvinceName = selectedProvinceName.concat(name);
+      this.setState({
+        selectedProvince: b,
+        selectedProvinceName: filteredProvinceName,
+      });
     }
   };
 
@@ -675,14 +700,24 @@ class MainAutomation extends Component {
     }
   };
 
-  handleDistrictSingleClick = value => {
-    const { selectedDistrict } = this.state;
+  handleDistrictSingleClick = (value, name) => {
+    const { selectedDistrict, selectedDistrictName } = this.state;
     if (selectedDistrict.includes(value)) {
       const a = selectedDistrict.filter(data => data !== value);
-      this.setState({ selectedDistrict: a });
+      const filteredDistrictName = selectedDistrictName.filter(
+        data => data !== name,
+      );
+      this.setState({
+        selectedDistrict: a,
+        selectedDistrictName: filteredDistrictName,
+      });
     } else {
       const b = selectedDistrict.concat(value);
-      this.setState({ selectedDistrict: b });
+      const filteredDistrictName = selectedDistrictName.concat(name);
+      this.setState({
+        selectedDistrict: b,
+        selectedDistrictName: filteredDistrictName,
+      });
     }
   };
 
@@ -750,6 +785,11 @@ class MainAutomation extends Component {
     });
   };
 
+  refreshSelectedPartnerBtn = () => {
+    this.setState({ activeClickPartners: [] });
+    this.handleStateLevel(this.state.dataTypeLevel);
+  };
+
   render() {
     const {
       branchesCountOptions,
@@ -773,6 +813,7 @@ class MainAutomation extends Component {
       selectedProvince,
       selectedDistrict,
       selectedMunicipality,
+      selectedProvinceName,
     } = this.state;
     const {
       automationDataByPartner,
@@ -799,6 +840,7 @@ class MainAutomation extends Component {
             handleActiveClickPartners={this.handleActiveClickPartners}
             activeOutreachButton={activeOutreachButton}
             toggleOutreachButton={this.toggleOutreachButton}
+            refreshSelectedPartnerBtn={this.refreshSelectedPartnerBtn}
           />
 
           <main className="main">
@@ -901,7 +943,9 @@ class MainAutomation extends Component {
                           role="tab"
                           tabIndex="0"
                         >
-                          Province
+                          {selectedProvinceName.length === 0
+                            ? 'Select Province'
+                            : selectedProvinceName}
                         </span>
                         <ul
                           className={`select-list ${
@@ -942,6 +986,7 @@ class MainAutomation extends Component {
                                     onClick={() => {
                                       this.handleProvinceSingleClick(
                                         data.id,
+                                        data.name,
                                       );
                                     }}
                                   />
@@ -962,7 +1007,6 @@ class MainAutomation extends Component {
                         role="tab"
                         tabIndex="0"
                         style={
-                          activeOutreachButton === true &&
                           dataTypeLevel === 'province'
                             ? { display: 'none' }
                             : { display: 'block' }
@@ -1011,6 +1055,7 @@ class MainAutomation extends Component {
                                     onClick={() => {
                                       this.handleDistrictSingleClick(
                                         data.id,
+                                        data.name,
                                       );
                                     }}
                                   />
@@ -1033,9 +1078,8 @@ class MainAutomation extends Component {
                         role="tab"
                         tabIndex="0"
                         style={
-                          activeOutreachButton === true &&
-                          (dataTypeLevel === 'province' ||
-                            dataTypeLevel === 'district')
+                          dataTypeLevel === 'province' ||
+                          dataTypeLevel === 'district'
                             ? { display: 'none' }
                             : { display: 'block' }
                         }
@@ -1123,6 +1167,7 @@ class MainAutomation extends Component {
             </div>
             <TableViewComponent
               toggleTableViewButton={this.toggleTableViewButton}
+              activeTableView={activeTableView}
             />
           </main>
           <RightSideBar

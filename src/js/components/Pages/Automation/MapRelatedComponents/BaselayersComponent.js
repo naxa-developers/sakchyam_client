@@ -20,7 +20,7 @@ class BaseLayers extends Component {
         const { selectedBaseLayer} = this.state;
         return (
             <Pane name="tilelayer-pane" style={{ zIndex: 1 }}>
-          <LayersControl position="topleft">
+          <LayersControl position="bottomleft">
             <BaseLayer
               checked={selectedBaseLayer === "openstreet"}
               name="OpenStreetMap"

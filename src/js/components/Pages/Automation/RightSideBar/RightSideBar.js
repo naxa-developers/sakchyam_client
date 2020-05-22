@@ -124,30 +124,37 @@ class RightSideBar extends Component {
                     height="130"
                   />
                 </div> */}
-                <div  className="branch-list">
-                {automationReducer.automationRightSidePartnerData &&
-                  automationReducer
-                    .automationRightSidePartnerData[0] &&
-                  automationReducer.automationRightSidePartnerData[0].partner_data.map(
-                    data => {
-                      const totalBranch =
-                        automationReducer
-                          .automationRightSidePartnerData[0]
-                          .total_branch;
-                      const singlebranchValue = data.branch;
-                      const BranchpercentCalculate =
-                        (singlebranchValue / totalBranch) * 100;
-                      const branchPercent = Math.round(
-                        BranchpercentCalculate,
-                      );
-
-                      return (
-                        
+                <div className="branch-list">
+                  {automationReducer.automationRightSidePartnerData &&
+                    automationReducer
+                      .automationRightSidePartnerData[0] &&
+                    automationReducer.automationRightSidePartnerData[0].partner_data.map(
+                      data => {
+                        const totalBranch =
+                          automationReducer
+                            .automationRightSidePartnerData[0]
+                            .total_branch;
+                        const singlebranchValue = data.branch;
+                        const BranchpercentCalculate =
+                          (singlebranchValue / totalBranch) * 100;
+                        const branchPercent = Math.round(
+                          BranchpercentCalculate,
+                        );
+                        let initials =
+                          data.partner_name.match(/\b\w/g) || [];
+                        initials = (
+                          (initials.shift() || '') +
+                          (initials.pop() || '')
+                        ).toUpperCase();
+                        return (
                           <div key={data.id} className="branch">
                             <div className="branch-icon">
-                              <span>CH</span>
+                              <span>{initials}</span>
                             </div>
-                            <div className="branch-bar" tooltip="chimek:27" flow="up"
+                            <div
+                              className="branch-bar"
+                              tooltip={`${data.partner_name}:${data.branch}`}
+                              flow="up"
                               style={{ width: branchPercent }}
                             >
                               {/* <div className="branch-content">
@@ -156,11 +163,10 @@ class RightSideBar extends Component {
                               </div> */}
                             </div>
                           </div>
-                        
-                      );
-                    },
-                  )}
-                  </div>
+                        );
+                      },
+                    )}
+                </div>
               </div>
             </div>
             <div className="sidebar-widget">

@@ -105,9 +105,19 @@
                                 .select-dropdown{
                                     .span-label{
                                         @include radius(20px);
-                                        width:100%;
-                                        min-width: 160px;
+                                        // width:100%;
+                                        // min-width: 160px;
                                         font-family: $avenir-heavy;
+                                        // width: 77%;
+                                        // min-width: 160px;
+                                        // width: 77%;
+                                        // min-width: 160px;
+                                        width: 176px;
+                                        min-width: 160px;
+                                        // font-family: "Avenir Heavy";
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                        overflow: hidden;
                                     }
                                 }
                                 .form-group{
@@ -342,9 +352,17 @@
                         .select-dropdown{
                             .span-label{
                                 @include radius(20px);
-                                width:100%;
-                                min-width: 160px;
+                                // width:100%;
+                                // min-width: 160px;
                                 font-family: $avenir-heavy;
+                                // width: 77%;
+                                // min-width: 160px;
+                                width: 176px;
+                                min-width: 160px;
+                                // font-family: "Avenir Heavy";
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                overflow: hidden;
                             }
                         }
                         .form-group{
@@ -507,7 +525,7 @@
                 background-color: $red-color;
                 transition: width .6s ease;
                 width:50%;
-                height: 30px;
+                height: 22px;
                 @include radius(5px);
             }
             .branch-content{

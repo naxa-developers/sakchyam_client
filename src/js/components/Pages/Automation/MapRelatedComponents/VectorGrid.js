@@ -187,11 +187,17 @@ class VectorGridComponent extends Component {
             html+= level != "province"?`,</br><span style="    text-transform: capitalize;">${level=="district"?provName:e.layer.properties.name.toLowerCase()}`:"";
             html+= level != "province" && level != "district"?`, ${provName}</span></div>`:"";
             infoDiv.innerHTML = html;
+            // console.log(e.layer.options);
+            // const a= e.layer.options.opacity;
+
+            e.layer.setStyle({opacity:1});
         });
 
         province.on("mouseout",(e)=>{
             infoDiv.style.display = "none";
             infoDiv.innerHTML = "";
+            e.layer.setStyle({opacity:0.4});
+
         })
 
     }

@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Map, Popup, Marker } from 'react-leaflet';
 import Loader from 'react-loader-spinner';
 import 'leaflet/dist/leaflet.css';
-
+import Control from 'react-leaflet-control';
 import L, { CircleMarker } from 'leaflet';
 import 'react-leaflet-markercluster/dist/styles.min.css';
 import Axios from 'axios';
 import 'leaflet.featuregroup.subgroup';
 import '../../../../../library/canvasFlowmapLayer';
+import '../../../../../library/SmoothWheelZoom';
 import { connect } from 'react-redux';
 import randomGeojson from '../../../../../data/randomGeojson.json';
 import ActiveIcon from '../../../../../img/fullactive.png';
@@ -322,6 +323,9 @@ class MapComponent extends Component {
         </div> */}
         <Map
           doubleClickZoom={this.props.zoomControl}
+          scrollWheelZoom={false} // disable original zoom function
+          smoothWheelZoom // enable smooth zoom
+          smoothSensitivity={2}
           // closePopupOnClick={this.props.zoomControl}
           // dragging={this.props.zoomControl}
           // zoomSnap= {this.props.zoomControl}
@@ -352,6 +356,7 @@ class MapComponent extends Component {
           {!activeOutreachButton && (
             <VectorGrid
               // changetheme={this.props.changetheme}
+              handleProvinceClick={handleProvinceClick}
               key={vectorGridKey}
               mapRef={this.props.mapRef}
               style={inputStyle} // Province style setting
@@ -502,6 +507,15 @@ class MapComponent extends Component {
               Loading...Please Wait
             </label>
           </div>
+          <Control position="topleft">
+            <a
+              className="leaflet-control-layers-toggle"
+              href="#"
+              title="Layers"
+            >
+              Layer
+            </a>
+          </Control>
         </Map>
         {/* <ScrollTab changetheme={this.props.changetheme} /> */}
       </>
