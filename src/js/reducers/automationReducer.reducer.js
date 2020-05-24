@@ -183,7 +183,10 @@ const filterDistrictFromProvinceColor = (state, action) => {
   // console.log('Color Reducer Filter');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
-    fullData.push({ id: data.code, count: data.tablets_deployed });
+    fullData.push({
+      id: data.code,
+      count: data.tablets_deployed,
+    });
     return true;
   });
   // console.log(fullData, 'without Sort');

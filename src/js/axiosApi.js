@@ -13,7 +13,6 @@ axiosInstance.interceptors.response.use(
   response => response,
   error => {
     const originalRequest = error.config;
-
     if (
       localStorage.getItem('refreshToken') &&
       error.response.status === 401
@@ -23,11 +22,14 @@ axiosInstance.interceptors.response.use(
       // localStorage.removeItem('refreshToken');
       // localStorage.removeItem('userToken');
       // localStorage.removeItem('userPermission');
-      console.log(refreshToken, 'reftoken');
+      if (
+        error.response.data.detail === 'Token is invalid or expired'
+      ) {
+        window.location.href = '/login';
+      }
       return axiosInstance
         .post('/api/v1/token/refresh/', { refresh: refreshToken })
         .then(response => {
-          console.log(response, 'response');
           localStorage.setItem('userToken', response.data.access);
           // localStorage.setItem('refreshToken', response.data.refresh);
 
@@ -51,7 +53,6 @@ axiosInstance.interceptors.response.use(
       window.location.href = '/login';
     }
 
-    console.log('prom');
     // window.location.href = '/login';
     // specific error handling done elsewhere
     // eslint-disable-next-line prefer-promise-reject-errors

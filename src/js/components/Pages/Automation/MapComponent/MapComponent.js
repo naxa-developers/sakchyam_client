@@ -14,6 +14,7 @@ import randomGeojson from '../../../../../data/randomGeojson.json';
 import ActiveIcon from '../../../../../img/fullactive.png';
 // import Select from 'react-select';
 // import Control from 'react-leaflet-control';
+import TimelineChart from '../Chart/TimelineChart';
 import CsvFile from '../../../../../data/provincemerge.json';
 import VectorGrid from '../MapRelatedComponents/VectorGrid';
 import BaseLayers from '../MapRelatedComponents/BaselayersComponent';
@@ -507,6 +508,7 @@ class MapComponent extends Component {
               Loading...Please Wait
             </label>
           </div>
+          {/* <TimelineChart /> */}
           <Control position="topleft">
             <a
               className="leaflet-control-layers-toggle"

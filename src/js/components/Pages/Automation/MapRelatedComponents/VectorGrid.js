@@ -150,13 +150,18 @@ class VectorGridComponent extends Component {
             });
             circleLoad = false;
             province.on("click",(e)=>{
+                console.log(e.layer.properties.id);
                 this.props.handleProvinceClick(e.layer.properties.id);
-                this.props.filterDistrictFromProvinceColor(e.layer.properties.id);
+                
+                // this.props.filterDistrictFromProvinceColor(e.layer.properties.id);
                 // const a = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
                 // console.log(e.layer.properties.code);
                 // console.log(a,'a'); 
                 // console.log(`${a}&province_id=${e.layer.properties.code}`,'a'); 
             });
+            // province.on('hover',(e)=>{
+            //         alert('s');
+            // });
         }
     
     addMouseoverLayer = () =>{
@@ -164,7 +169,7 @@ class VectorGridComponent extends Component {
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
         province.on("mouseover",(e)=>{
-            // console.log(e, "ee")
+            console.log(map, "ee")
             infoDiv.style.display = "block";
             var provName = "";
             // console.log(provName, "provName")
@@ -189,14 +194,21 @@ class VectorGridComponent extends Component {
             infoDiv.innerHTML = html;
             // console.log(e.layer.options);
             // const a= e.layer.options.opacity;
-
+            L.popup()
+            .setContent(e.layer.properties.name)
+            .setLatLng(e.latlng)
+            .openOn(map)
             e.layer.setStyle({opacity:1});
+            // e.layer.setPopupContent('<label>Automation</label');
+            //     e.layer.openPopup();
         });
 
         province.on("mouseout",(e)=>{
             infoDiv.style.display = "none";
             infoDiv.innerHTML = "";
             e.layer.setStyle({opacity:0.4});
+            map.closePopup();
+
 
         })
 
