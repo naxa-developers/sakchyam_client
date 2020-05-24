@@ -43,12 +43,14 @@
         }
     }
     ul.select-list{
-        opacity: 0; 
+        opacity: 0;
+        display: none; 
         height: 286px;
         overflow-y: scroll;
         top: 140%;
         &.active{
             opacity: 1;
+            display: block;
             top: 110%;
         }
         position: absolute;

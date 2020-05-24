@@ -4,7 +4,6 @@
     aside{
         &.sidebar{
             position: relative;
-            
             .sidebar-in{
                 border:1px solid $bg-dark;
                 background-color: $bg-color;
@@ -59,6 +58,26 @@
                                     }
                                 }
                             }
+                        }
+                    }
+                    .select-org{
+                        @include display-flex(flex);
+                        @include justify-content-between;
+                        @include align-items-start;
+                        margin-top:10px;
+                        b{
+                            flex-grow: 1;
+                            font-family: $avenir-heavy;
+                            font-size:1.125rem;
+                            span{
+                                margin-right: .25rem;
+                            }
+                        }
+                        span{
+                            i{
+                                color:$orange-color;
+                            }
+                            cursor: pointer;
                         }
                     }
                 }
@@ -146,7 +165,7 @@
                                     font-weight: normal;
                                     font-family: $body-fonts;
                                     font-size: 1.25rem;
-                                    line-height: 1.5;
+                                    line-height: 1.3;
                                     @media screen and (max-width:1440px){
                                         font-size: 1rem;
                                     }
@@ -299,6 +318,7 @@
                     .apexcharts-canvas{
                         margin:0 auto;
                     }
+                    
                     #normal-chart{
                         .apexcharts-yaxis-label{
                                 width:32px;
@@ -383,7 +403,7 @@
                     right:-32px;
                 }
                 .aside-body{
-                    max-height: calc(100vh - 220px);
+                    max-height: calc(100vh - 264px);
                     height: 100vh;
                     @media #{$breakpoint-ls}{
                         height: auto;
@@ -419,7 +439,7 @@
                     }
                     .aside-body{
                         background-color: $white-color;
-                        max-height: calc(100vh - 160px);
+                        max-height: calc(100vh - 140px);
                         height: 100vh;
                         padding:10px 1rem;
                         @media #{$breakpoint-ls}{
@@ -434,144 +454,9 @@
     }
     
 }
-.leaflet-popup-content{
-    li{
-        @include display-flex(flex);
-        @include justify-content-start;
-        @include align-items-start;
-        background-color: $white-color;
-        @include radius(5px);
-        padding:.6125rem;
-        @include transition(all .5s ease-in-out);
-        border:1px solid $bg-dark;
-        padding-top:.775rem;
-        .organization-icon{
-            
-            span{
-                width:32px;
-                height: 32px;
-                @include display-flex(flex);
-                @include justify-content-center;
-                @include align-items-center;
-                @include flex-direction-column(center);
-                @include radius(100%);
-                color:$white-color;
-                text-transform: uppercase;
-                font-size: .775rem;
-                font-weight: 900;
-                background-color: $dark-green;
-                @media screen and (max-width:1440px){
-                    width:28px;
-                    height: 28px;
-                    font-size: .6125rem;
-                }
-                
-            }
-            &.is-green{
-                span{
-                    background-color: $dark-green;
-                }
-            }
-            &.is-red{
-                span{
-                    background-color: $red-color;
-                }
-            }
-            &.is-yellow{
-                span{
-                    background-color: $secondary-color;
-                }
-            }
-        }
-        .organization-content{
-            flex-grow: 1;
-            padding-left: .775rem;
-            @media screen and (max-width:1440px){
-                padding-left: .5rem;
-            }
-            h5{
-                font-weight: normal;
-                font-family: $body-fonts;
-                font-size: 0.95rem;
-                line-height: 1.5;
-                @media screen and (max-width:1440px){
-                    font-size: 1rem;
-                }
-            }
-            .icon-list{
-                @include display-flex(flex);
-                @include justify-content-between;
-                @include align-items-center;
-                @include flex-wrap(wrap);
-                margin:1rem 0 .775rem 0;
-                .icons{
-                    @include display-flex(flex);
-                    @include justify-content-start;
-                    @include align-items-center;
-                    i{
-                        margin-right: .5rem;
-                        font-size:1.2rem ;
-                        color:$primary-light;
-                        
-                    }
-                    b{
-                        font-family: $avenir-heavy;
-                        font-size: .9375rem;
-                        color:$text-color;
-                    }
-                    @media screen and (max-width:1440px){
-                        font-size: .775rem;
-                        i{
-                            font-size: 1rem;
-                        }
-                    }
-                }
-            }
-            .orgnization-info{
-                @include display-flex(flex);
-                @include justify-content-start;
-                @include align-items-center;
-                @include flex-wrap(wrap);
-                a{
-                    font-size: .875rem;
-                    color:$primary-light;
-                    @media screen and (max-width:1440px){
-                        font-size: .6125rem;
-                    }
-                    span{
-                        font-family: $avenir-heavy;
-                        margin-left: .5rem;
-                        font-size: .9375rem;
-                        color:$text-color;
-                        @media screen and (max-width:1440px){
-                            margin-left:.35rem;
-                        }
-                    }
-                    &:not(:last-child){
-                        &::after{
-                            content:'|';
-                            display: inline-flex;
-                            margin:0 .5rem;
-                            @media screen and (max-width:1440px){
-                                margin:0 .25rem;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        &:not(:last-child){
-            margin-bottom: .6125rem;
-        }
-        &:hover{
-            background-color: $yellow-light;
-            cursor: pointer;
-        }
-        &.active{
-            background-color: $yellow-light;
-            border-color: $orange-color;
-            cursor: pointer;
-        }
-    }
-}
+#motivation-pie .apexcharts-tooltip {
+    background: $heading-color;
+    color: $white-color;
+  }
+
 

@@ -30,6 +30,7 @@ class LeftSideBar extends Component {
       activeOutreachButton,
       toggleOutreachButton,
       searchText,
+      refreshSelectedPartnerBtn,
       handleSearchTextChange,
     } = this.props;
     return (
@@ -65,6 +66,23 @@ class LeftSideBar extends Component {
                   <span className="slider" />
                 </label>
               </div>
+            </div>
+            <div className="select-org">
+              <b className="counter">
+                <span>{activeClickPartners.length}</span>
+                items selected
+              </b>
+              <span>
+                <i
+                  role="button"
+                  tabIndex="0"
+                  onClick={refreshSelectedPartnerBtn}
+                  onKeyDown={refreshSelectedPartnerBtn}
+                  className="material-icons"
+                >
+                  refresh
+                </i>
+              </span>
             </div>
           </div>
           <div className="aside-body">
