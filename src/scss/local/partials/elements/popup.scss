@@ -3,11 +3,11 @@
         .modal{
             background-color: rgba($black-color, .3) !important;
             .modal-dialog{
-                max-width: 600px;
+                max-width: 800px;
                 .popup-block{
                     .popup-container{
                         width: 100%;
-                        padding: 63px 30px 30px 63px;
+                        padding: 80px 40px 40px 80px;
                         background: $red-light;
                         @include radius(3.75px);
                         .popup-content{
@@ -27,11 +27,11 @@
                             span.important{
                                 position: absolute;
                                 top: -7px;
-                                left: -26px;
+                                left: -40px;
                                 &:before{
                                     content: 'info';
                                     font-family: 'Material Icons';
-                                    font-size: 1.125rem;
+                                    font-size: 1.25rem;
                                     color: $red-color;
                                 }
                             }

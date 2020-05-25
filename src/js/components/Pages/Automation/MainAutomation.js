@@ -595,9 +595,13 @@ class MainAutomation extends Component {
         dataTypeLevel,
       );
       // this.setState({ vectorGridKey: Math.random() });
+    } else if (
+      activeClickPartners.length > 0 &&
+      activeOutreachButton
+    ) {
+      // this.setState({ vectorGridKey: Math.random() });
     } else {
       this.props.getAllAutomationDataByPartner();
-      // this.setState({ vectorGridKey: Math.random() });
     }
   };
 

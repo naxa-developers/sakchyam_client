@@ -124,7 +124,7 @@
                         font-family: $avenir-heavy;
                         font-size: 13px;
                         line-height: 16px;
-                        color: $red-color;
+                        color: $color-blue;
                     }
                     p{
                         margin-top: 5px;
@@ -143,7 +143,7 @@
                             background: $yellow-light;
                             @include transition(all .4s ease);
                             a{
-                                color: $red-color;
+                                color: $orange-color;
                             }
                         }
                         a{
@@ -272,7 +272,7 @@
                                 margin-left: 8px;
                             }
                             font-family: $avenir-heavy;
-                            font-size: 15px;
+                            font-size: 14px;
                             padding: 8px 16px 7px 45px;
                             line-height: 1.5rem;
                             color: $text-color;
@@ -451,7 +451,7 @@
                     position: absolute;
                     left: auto;
                     right: 0px;
-                    top: 4px;
+                    top: -34px;
                     @include display-flex(flex);
                     @include justify-content-center;
                     @include align-items-center;
@@ -459,8 +459,8 @@
                     border: .8px solid $primary-xs-light;
                     background: $white-color;
                     img{
-                        width: 24px;
-                        height: 24px;
+                        width: 22px;
+                        height: 22px;
                     }
                     &:hover{
                         cursor: pointer;
@@ -491,15 +491,24 @@
                             font-family: $body-fonts;
                             cursor: pointer;
                             @include transition(all .4s linear);
+                            transform: scale(1); 
+                            display: block;
                         }
                         &:hover{
                             cursor: pointer;
                             background: $yellow-light;
+                            a{
+                                color: $primary-color;
+                                transform: scale(1.05); 
+                                @include transition(all .4s linear);
+                            }
                         }
                         &.list-active{
                             background-color: $yellow-light;
                             a{
-                                color: $text-color;
+                                color: $primary-color;
+                                transform: scale(1.05); 
+                                @include transition(all .4s linear);
                             }
                         }
                     }
@@ -526,8 +535,8 @@
                     }
                     .slick-prev, .slick-next{
                         position: absolute;
-                        width: 40px;
-                        height: 40px;
+                        width: 37px;
+                        height: 37px;
                         top: 13rem;
                         bottom: auto;  
                         border: 0;
@@ -548,7 +557,7 @@
                             font-family: 'Material Icons';
                             content: 'keyboard_arrow_left';
                             color: $primary-light;
-                            font-size: 24px;
+                            font-size: 22px;
                             line-height: 1.813rem;
                         }
                     }
@@ -556,7 +565,7 @@
                         right: -5%;
                         left: auto;
                         &::before{
-                            font-size: 24px;
+                            font-size: 22px;
                             font-family: 'Material Icons';
                             content: 'keyboard_arrow_right';
                             color: $primary-light;
@@ -566,7 +575,7 @@
                 }
             }
             .info-content-footer{
-                background-color: $red-light;
+                background-color: $color-pink-light;
                 @include radius(10px);
                 padding: 19px 64px 18px;
                 margin-top: 20px;
@@ -583,7 +592,7 @@
                         font-family: 'Material Icons';
                         font-size: 1.5rem;
                         line-height: 1.813rem;
-                        color: #C2002F;
+                        color: $color-pink-dark;
                     }
                 }
                 p{

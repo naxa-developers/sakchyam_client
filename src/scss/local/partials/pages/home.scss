@@ -25,7 +25,7 @@
             .banner-title{
                 margin: 0 auto 1.25rem;                    
                 max-width: 950px;
-                color: $white-color;
+                color: $yellow-color;
                 text-transform: capitalize;
                 span.small{
                     text-transform: lowercase;
@@ -100,7 +100,7 @@
             }
             .tools-intro{
                 border: 1px solid $primary-xs-light;
-                background-color: $red-light;
+                background-color: $color-pink-light;
                 @include radius(5px);
                 padding: 40px 20px 120px;
                 // flex: 0 0 340px;
@@ -156,12 +156,10 @@
                         }
                     }
                     &.access_button{
-                        span{color: $red-bright;}
+                        span{color: $primary-color;}
                         &:hover{
-                            background-color: $red-color;
-                            span{
-                                color: $white-color;
-                            }
+                            background-color: $yellow-color;
+                            
                         }
                     }
                     span{
@@ -174,6 +172,10 @@
                     display: inline-block;
                     color: $primary-light;
                     cursor: pointer;
+                    span{
+                        color: $orange-color;
+                        text-decoration: underline;
+                    }
                     span.view{
                         color: $red-hover;
                         text-decoration: none;
@@ -197,7 +199,7 @@
         top: 180px;
         background: linear-gradient(289deg, $red-bright, $dark-red);
         h2{
-            color: $white-color;
+            color: $yellow-color;
         }
         p{
             color: $white-color;
@@ -212,10 +214,10 @@
             border: 0;
             background: $white-color;;
             a.span_heavy_15{
-                color: $red-color;
+                color: $primary-color;
             }
             &:hover{
-                background: $red-light;
+                background: $yellow-color;
             }
         }
         .data-sidebg{
@@ -471,10 +473,10 @@ footer{
         .info-points{
             margin-right: 120px;
             span.span_heavy_13{
-                color: $primary-light;
+                color: $color-blue;
                 display: block;
                 margin-bottom: 20px;
-                text-transform: capitalize;
+                text-transform: uppercase;
             }
             .flex-points-wrap{
                 @include display-flex(flex);
