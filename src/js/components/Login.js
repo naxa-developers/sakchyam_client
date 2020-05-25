@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogoWhite from '../../img/logo-white.png';
 import LogoIllustration from '../../img/Login-illustration.png';
@@ -93,9 +93,9 @@ class Login extends Component {
               <div className="login">
                 <div className="login-header">
                   <div className="logo">
-                    <a href="index.html">
+                    <Link to="/">
                       <img src={LogoWhite} alt="Louis Berger" />
-                    </a>
+                    </Link>
                   </div>
                   <div className="title">
                     <h3>
