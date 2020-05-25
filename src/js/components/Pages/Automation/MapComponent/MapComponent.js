@@ -508,7 +508,7 @@ class MapComponent extends Component {
               Loading...Please Wait
             </label>
           </div>
-          {/* <TimelineChart /> */}
+          <TimelineChart />
           <Control position="topleft">
             <a
               className="leaflet-control-layers-toggle"
