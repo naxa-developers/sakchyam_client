@@ -542,8 +542,8 @@
     }
     .leaflet-control-container {
         .leaflet-left {
-            left: auto;
-            right: 1rem;
+            left: 1rem;
+            right: auto;
             z-index: 999;
             .leaflet-control{
                 margin: 0 !important;
@@ -563,12 +563,14 @@
                     width: 34px;
                     height: 30px;
                     line-height: 30px;
-                    color: $red-color;
+                    color: $primary-light;
                     @include transition(all .5s);
                     border-color:$border-color;
+                    border-radius: 0;
                     &:hover {
-                        background-color: $red-light;
+                        background-color: $yellow-light;
                         color: $red-color;
+                        border-color: $red-color;
                     }
                 }
                 
@@ -610,7 +612,6 @@
                 left: auto;
                 top:2rem;
                 bottom:auto;
-                @include radius(2px);
                 .leaflet-control-attribution {
                   display: none;
                 }
@@ -620,7 +621,6 @@
                     margin: 0;
                     box-shadow: none;
                     opacity: 1;
-                    @include radius(2px);
                 }
             }
         }
@@ -632,146 +632,258 @@
             box-shadow: none;
             opacity: 1;
         }
-      }
-    .leaflet-popup-content{
-        margin:0;
-        li{
-            @include display-flex(flex);
-            @include justify-content-start;
-            @include align-items-start;
-            @include radius(5px);
-            padding:.6125rem;
-            @include transition(all .5s ease-in-out);
-            border:0;
-            padding-top:.775rem;
-            .organization-icon{
-                
-                span{
-                    width:28px;
-                    height: 28px;
-                    @include display-flex(flex);
-                    @include justify-content-center;
-                    @include align-items-center;
-                    @include flex-direction-column(center);
-                    @include radius(100%);
-                    color:$white-color;
-                    text-transform: uppercase;
-                    font-size: .775rem;
-                    font-weight: 900;
-                    background-color: $dark-green;
-                    @media screen and (max-width:1440px){
-                        width:28px;
-                        height: 28px;
-                        font-size: .6125rem;
-                    }
-                    
+        .map-layer-option{
+            position: relative;
+            margin-bottom:1rem;
+            a.leaflet-control-map-layer{
+                @include display-flex(flex);
+                @include justify-content-center;
+                @include align-items-center;
+                @include flex-direction-column(column);
+                width: 34px;
+                height: 30px;
+                color: $primary-light;
+                @include transition(all .5s);
+                border:1px solid $border-color;
+                border-radius: 0;
+                background: $white-color;
+                &:hover {
+                    background-color: $yellow-light;
+                    color: $red-color;
+                    border-color: $red-color;
                 }
-                &.is-green{
-                    span{
-                        background-color: $dark-green;
-                    }
+                img{
+                    max-width: 16px;
                 }
-                &.is-red{
-                    span{
-                        background-color: $red-color;
-                    }
-                }
-                &.is-yellow{
-                    span{
-                        background-color: $secondary-color;
+            }
+            .map-layer-list{
+                position: absolute;
+                left:100%;
+                top:0;
+                background-color: $white-color;
+                @include box-shadow(0 5px 15px rgba(0,0,0,.2));
+                li{
+                    a{
+                        display: block;
+                        padding:5px 10px;
+                        color:$primary-light;
+                        font-family: $avenir-heavy;
+                        @include transition(all .5s);
+                        text-transform: capitalize;
+                        &:hover{
+                            background-color: $red-light;
+                            
+                        }
                     }
                 }
             }
-            .organization-content{
-                flex-grow: 1;
-                padding-left: .775rem;
-                @media screen and (max-width:1440px){
-                    padding-left: .5rem;
-                }
-                h5{
-                    font-weight: normal;
-                    font-family: $body-fonts;
-                    font-size: 0.95rem;
-                    line-height: 1.5;
-                    @media screen and (max-width:1440px){
-                        font-size: 1rem;
+        }
+      }
+    .leaflet-popup-content{
+        margin:0;
+        width:280px !important;
+        ul{
+            li{
+                @include display-flex(flex);
+                @include justify-content-start;
+                @include align-items-start;
+                @include radius(5px);
+                padding:.6125rem;
+                @include transition(all .5s ease-in-out);
+                border:0;
+                padding-top:.775rem;
+                
+                .organization-icon{
+                    span{
+                        width:28px;
+                        height: 28px;
+                        @include display-flex(flex);
+                        @include justify-content-center;
+                        @include align-items-center;
+                        @include flex-direction-column(center);
+                        @include radius(100%);
+                        color:$white-color;
+                        text-transform: uppercase;
+                        font-size: .775rem;
+                        font-weight: 900;
+                        background-color: $dark-green;
+                        @media screen and (max-width:1440px){
+                            width:28px;
+                            height: 28px;
+                            font-size: .6125rem;
+                        }
+                        
+                    }
+                    &.is-green{
+                        span{
+                            background-color: $dark-green;
+                        }
+                    }
+                    &.is-red{
+                        span{
+                            background-color: $red-color;
+                        }
+                    }
+                    &.is-yellow{
+                        span{
+                            background-color: $secondary-color;
+                        }
                     }
                 }
-                .icon-list{
-                    @include display-flex(flex);
-                    @include justify-content-between;
-                    @include align-items-center;
-                    @include flex-wrap(wrap);
-                    margin:1rem 0 .775rem 0;
-                    .icons{
+                .organization-content{
+                    flex-grow: 1;
+                    padding-left: .775rem;
+                    @media screen and (max-width:1440px){
+                        padding-left: .5rem;
+                    }
+                    h5{
+                        font-weight: normal;
+                        font-family: $body-fonts;
+                        font-size: 0.95rem;
+                        line-height: 1.5;
+                        @media screen and (max-width:1440px){
+                            font-size: 1rem;
+                        }
+                    }
+                    
+                    
+                    .orgnization-info{
                         @include display-flex(flex);
                         @include justify-content-start;
                         @include align-items-center;
-                        i{
-                            margin-right: .5rem;
-                            font-size:1.2rem ;
+                        @include flex-wrap(wrap);
+                        a{
+                            font-size: .875rem;
                             color:$primary-light;
-                            
-                        }
-                        b{
-                            font-family: $avenir-heavy;
-                            font-size: .9375rem;
-                            color:$text-color;
-                        }
-                        @media screen and (max-width:1440px){
-                            font-size: .775rem;
-                            i{
-                                font-size: 1rem;
-                            }
-                        }
-                    }
-                }
-                .orgnization-info{
-                    @include display-flex(flex);
-                    @include justify-content-start;
-                    @include align-items-center;
-                    @include flex-wrap(wrap);
-                    a{
-                        font-size: .875rem;
-                        color:$primary-light;
-                        @media screen and (max-width:1440px){
-                            font-size: .6125rem;
-                        }
-                        span{
-                            font-family: $avenir-heavy;
-                            margin-left: .5rem;
-                            font-size: .9375rem;
-                            color:$text-color;
                             @media screen and (max-width:1440px){
-                                margin-left:.35rem;
+                                font-size: .6125rem;
                             }
-                        }
-                        &:not(:last-child){
-                            &::after{
-                                content:'|';
-                                display: inline-flex;
-                                margin:0 .5rem;
+                            span{
+                                font-family: $avenir-heavy;
+                                margin-left: .5rem;
+                                font-size: .9375rem;
+                                color:$text-color;
                                 @media screen and (max-width:1440px){
-                                    margin:0 .25rem;
+                                    margin-left:.35rem;
+                                }
+                            }
+                            &:not(:last-child){
+                                &::after{
+                                    content:'|';
+                                    display: inline-flex;
+                                    margin:0 .5rem;
+                                    @media screen and (max-width:1440px){
+                                        margin:0 .25rem;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            &:not(:last-child){
-                margin-bottom: .6125rem;
-            }
-            &:hover{
-                background-color: $yellow-light;
-                cursor: pointer;
-            }
-            &.active{
-                background-color: $yellow-light;
-                border-color: $orange-color;
-                cursor: pointer;
+                &:not(:last-child){
+                    margin-bottom: .6125rem;
+                }
+                &:hover{
+                    background-color: $yellow-light;
+                    cursor: pointer;
+                }
+                &.active{
+                    background-color: $yellow-light;
+                    border-color: $orange-color;
+                    cursor: pointer;
+                }
             }
         }
+        .icon-list{
+            @include display-flex(flex);
+            @include justify-content-between;
+            @include align-items-center;
+            @include flex-wrap(wrap);
+            margin:1rem 0 .775rem 0;
+            
+        }
+        .icons{
+            @include display-flex(flex);
+            @include justify-content-start;
+            @include align-items-center;
+            i{
+                margin-right: .5rem;
+                font-size:1.2rem ;
+                color:$primary-light;
+                
+            }
+            b{
+                font-family: $avenir-heavy;
+                font-size: .9375rem;
+                color:$text-color;
+            }
+            @media screen and (max-width:1440px){
+                font-size: .775rem;
+                i{
+                    font-size: 1rem;
+                }
+            }
+        }
+        .map-popup-view{
+            width: 100%;
+            .map-popup-view-header{
+                @include display-flex(flex);
+                @include justify-content-between;
+                @include align-items-center;
+                padding:.6125rem;
+                background-color: $red-light;
+                h5{
+                    @include line-clamp(1);
+                    font-size:1rem;
+                    
+                }
+            }
+            ul{
+                li{
+                    .organization-icon{
+                        margin-top: .35rem;
+                        span{
+                            width:12px;
+                            height: 12px;
+                        }
+                    }
+                    .organization-content{
+                        .org-header{
+                            @include display-flex(flex);
+                            @include justify-content-between;
+                            @include align-items-center;
+                            @include flex-wrap(nowrap);
+                            h5{
+                                @include line-clamp(1);
+                                max-width: 80px;
+                                font-family: $avenir-heavy;
+                            }
+                            .icon-list{
+                                @include justify-content-end;
+                                flex-grow: 1;
+                                margin:0;
+                                .icons{
+                                    &:not(:last-child){
+                                        padding-right: 1rem;
+                                    }
+                                }
+                            }
+                        }
+                        .branch-info-list{
+                            @include display-flex(flex);
+                            @include justify-content-between;
+                            @include align-items-center;
+                            padding-top: .6125rem;
+                        }
+                    }
+                    &:not(:last-child){
+                        border-bottom: 1px solid $border-color;
+                    }
+                }
+            }   
+        }
+        
+        
     }
     .leaflet-popup-content-wrapper{
         background-color: rgba($white-color,.8);

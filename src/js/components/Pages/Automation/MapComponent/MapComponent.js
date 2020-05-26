@@ -12,6 +12,8 @@ import '../../../../../library/SmoothWheelZoom';
 import { connect } from 'react-redux';
 import randomGeojson from '../../../../../data/randomGeojson.json';
 import ActiveIcon from '../../../../../img/fullactive.png';
+import mapIcon from '../../../../../img/map.png';
+import layersIcon from '../../../../../img/layers.png';
 // import Select from 'react-select';
 // import Control from 'react-leaflet-control';
 import TimelineChart from '../Chart/TimelineChart';
@@ -440,30 +442,42 @@ class MapComponent extends Component {
                   icon={activeIcon}
                 >
                   <Popup>
+                    
+                    <div className="map-popup-view">
+                      <div className="map-popup-view-header">
+                        <h5>Chure</h5>
+                        <div className="icons">
+                          <i className="material-icons">
+                            tablet_mac
+                          </i>
+                          <b>32</b>
+                        </div>
+                      </div>
+                    <ul>
                     <li>
                       <div className="organization-icon">
-                        <span>CH</span>
+                        <span></span>
                       </div>
                       <div className="organization-content">
-                        <h5>{data.partner_name}</h5>
-                        {/* <div className="icon-list">
+                      
+                        <div className="org-header">
+                          <h5>{data.partner_name}</h5>
+                        <div className="icon-list">
+                          <div className="icons">
+                            <i className="material-icons">business</i>
+                            <b>{data.branch}</b>
+                          </div>
                           <div className="icons">
                             <i className="material-icons">
                               tablet_mac
                             </i>
                             <b>{data.tablets_deployed}</b>
                           </div>
-                          <div className="icons">
-                            <i className="material-icons">business</i>
-                            <b>{data.branch}</b>
-                          </div>
-                          <div className="icons">
-                            <i className="material-icons">people</i>
-                            <b>{data.beneficiary}</b>
-                          </div>
                         </div>
-                        <div className="orgnization-info">
-                          <a href="#">
+                        </div>
+                        
+                        <div className="branch-info-list">
+                          {/* <a href="#">
                             Province
                             <span>{data.province_covered}</span>
                           </a>
@@ -474,10 +488,106 @@ class MapComponent extends Component {
                           <a href="#">
                             Local units
                             <span>{data.municipality_covered}</span>
+                          </a> */}
+                         <span>Branch1</span>
+                          <div className="icons">
+                            <i className="material-icons">
+                              tablet_mac
+                            </i>
+                            <b>{data.tablets_deployed}</b>
+                          </div>
+                        </div>
+                        <div className="branch-info-list">
+                          {/* <a href="#">
+                            Province
+                            <span>{data.province_covered}</span>
                           </a>
-                        </div> */}
+                          <a href="#">
+                            District
+                            <span>{data.district_covered}</span>
+                          </a>
+                          <a href="#">
+                            Local units
+                            <span>{data.municipality_covered}</span>
+                          </a> */}
+                         <span>Branch2</span>
+                          <div className="icons">
+                            <i className="material-icons">
+                              tablet_mac
+                            </i>
+                            <b>{data.tablets_deployed}</b>
+                          </div>
+                        </div>
                       </div>
                     </li>
+                    <li>
+                      <div className="organization-icon is-red">
+                        <span></span>
+                      </div>
+                      <div className="organization-content">
+                      
+                        <div className="org-header">
+                          <h5>{data.partner_name}</h5>
+                        <div className="icon-list">
+                          <div className="icons">
+                            <i className="material-icons">business</i>
+                            <b>{data.branch}</b>
+                          </div>
+                          <div className="icons">
+                            <i className="material-icons">
+                              tablet_mac
+                            </i>
+                            <b>{data.tablets_deployed}</b>
+                          </div>
+                        </div>
+                        </div>
+                        
+                        <div className="branch-info-list">
+                          {/* <a href="#">
+                            Province
+                            <span>{data.province_covered}</span>
+                          </a>
+                          <a href="#">
+                            District
+                            <span>{data.district_covered}</span>
+                          </a>
+                          <a href="#">
+                            Local units
+                            <span>{data.municipality_covered}</span>
+                          </a> */}
+                         <span>Branch1</span>
+                          <div className="icons">
+                            <i className="material-icons">
+                              tablet_mac
+                            </i>
+                            <b>{data.tablets_deployed}</b>
+                          </div>
+                        </div>
+                        <div className="branch-info-list">
+                          {/* <a href="#">
+                            Province
+                            <span>{data.province_covered}</span>
+                          </a>
+                          <a href="#">
+                            District
+                            <span>{data.district_covered}</span>
+                          </a>
+                          <a href="#">
+                            Local units
+                            <span>{data.municipality_covered}</span>
+                          </a> */}
+                         <span>Branch2</span>
+                          <div className="icons">
+                            <i className="material-icons">
+                              tablet_mac
+                            </i>
+                            <b>{data.tablets_deployed}</b>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    </ul>
+                    </div>
                   </Popup>
                 </Marker>
               );
@@ -510,13 +620,19 @@ class MapComponent extends Component {
           </div>
           <TimelineChart />
           <Control position="topleft">
+            <div className="map-layer-option">
             <a
-              className="leaflet-control-layers-toggle"
+              className="leaflet-control-map-layer"
               href="#"
-              title="Layers"
+              title="map layer"
             >
-              Layer
+              <img src={mapIcon} alt="map" />
             </a>
+            <ul className="map-layer-list">
+              <li><a href="">choropleth</a></li>
+              <li><a href="">branches</a></li>
+            </ul>
+            </div>
           </Control>
         </Map>
         {/* <ScrollTab changetheme={this.props.changetheme} /> */}
