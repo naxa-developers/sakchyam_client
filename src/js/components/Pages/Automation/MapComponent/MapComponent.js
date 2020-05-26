@@ -12,6 +12,8 @@ import '../../../../../library/SmoothWheelZoom';
 import { connect } from 'react-redux';
 import randomGeojson from '../../../../../data/randomGeojson.json';
 import ActiveIcon from '../../../../../img/fullactive.png';
+import mapIcon from '../../../../../img/map.png';
+import layersIcon from '../../../../../img/layers.png';
 // import Select from 'react-select';
 // import Control from 'react-leaflet-control';
 import TimelineChart from '../Chart/TimelineChart';
@@ -293,16 +295,16 @@ class MapComponent extends Component {
             fillColor: '#a3b7e3',
             fillOpacity: 0,
             weight: 1.5,
-            opacity: 1,
-            color: '#a3b7e3',
+            opacity: 0.1,
+            color: 'black',
             fill: true,
           }
         : {
             fillColor: 'white',
             fillOpacity: 0.7,
             weight: 1.5,
-            opacity: 0.4,
-            color: '#a3b7e3',
+            opacity: 0.1,
+            color: 'black',
             fill: true,
           };
 
@@ -440,6 +442,125 @@ class MapComponent extends Component {
                   icon={activeIcon}
                 >
                   <Popup>
+                    {/* <div className="map-popup-view">
+                      <div className="map-popup-view-header">
+                        <h5>Chure</h5>
+                        <div className="icons">
+                          <i className="material-icons">tablet_mac</i>
+                          <b>32</b>
+                        </div>
+                      </div>
+                      <ul>
+                        <li>
+                          <div className="organization-icon">
+                            <span />
+                          </div>
+                          <div className="organization-content">
+                            <div className="org-header">
+                              <h5>{data.partner_name}</h5>
+                              <div className="icon-list">
+                                <div className="icons">
+                                  <i className="material-icons">
+                                    business
+                                  </i>
+                                  <b>{data.branch}</b>
+                                </div>
+                                <div className="icons">
+                                  <i className="material-icons">
+                                    tablet_mac
+                                  </i>
+                                  <b>{data.tablets_deployed}</b>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="branch-info-list">
+                              <span>Branch1</span>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                            </div>
+                            <div className="branch-info-list">
+                              <span>Branch2</span>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="organization-icon is-red">
+                            <span />
+                          </div>
+                          <div className="organization-content">
+                            <div className="org-header">
+                              <h5>{data.partner_name}</h5>
+                              <div className="icon-list">
+                                <div className="icons">
+                                  <i className="material-icons">
+                                    business
+                                  </i>
+                                  <b>{data.branch}</b>
+                                </div>
+                                <div className="icons">
+                                  <i className="material-icons">
+                                    tablet_mac
+                                  </i>
+                                  <b>{data.tablets_deployed}</b>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="branch-info-list">
+                              <span>Branch1</span>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                            </div>
+                            <div className="branch-info-list">
+                              <span>Branch2</span>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <div className="map-view-footer">
+                        <div className="map-view-progress">
+                          <div
+                            className="progress-item is-red"
+                            style={{
+                              flex: '0 0 60%',
+                              maxWidth: '60%',
+                            }}
+                          />
+                          <div
+                            className="progress-item is-green"
+                            style={{
+                              flex: '0 0 40%',
+                              maxWidth: '40%',
+                            }}
+                          />
+                        </div>
+                        <div className="progress-value">
+                          <span className="red-value">60%</span>
+                          <span className="green-value">40%</span>
+                        </div>
+                      </div>
+                    </div> */}
                     <li>
                       <div className="organization-icon">
                         <span>CH</span>
@@ -510,13 +631,23 @@ class MapComponent extends Component {
           </div>
           <TimelineChart />
           <Control position="topleft">
-            <a
-              className="leaflet-control-layers-toggle"
-              href="#"
-              title="Layers"
-            >
-              Layer
-            </a>
+            <div className="map-layer-option">
+              <a
+                className="leaflet-control-map-layer"
+                href="#"
+                title="map layer"
+              >
+                <img src={mapIcon} alt="map" />
+              </a>
+              <ul className="map-layer-list">
+                <li>
+                  <a href="">choropleth</a>
+                </li>
+                <li>
+                  <a href="">branches</a>
+                </li>
+              </ul>
+            </div>
           </Control>
         </Map>
         {/* <ScrollTab changetheme={this.props.changetheme} /> */}

@@ -23,7 +23,7 @@ var provinceDefaultStyle = {
     fillOpacity: 0,
     weight: 1.5,
     opacity: 1,
-    color: "#a3b7e3",
+    color: "black",
     fill: true
   };
   
@@ -150,9 +150,16 @@ class VectorGridComponent extends Component {
             });
             circleLoad = false;
             province.on("click",(e)=>{
-                console.log(e.layer.properties.id);
-                this.props.handleProvinceClick(e.layer.properties.id);
-                
+                console.log(e.layer.properties.id,'id vectorgrid');
+                console.log(e.layer);
+                // console.log(e.latlng);
+                map.flyTo(e.latlng, 9,{
+                    animate: true,
+                    duration: 4 // in seconds
+                  });
+                this.props.handleProvinceClick(e.layer.properties.id,e.layer.properties.code);
+                e.layer.setStyle({opacity:1});
+
                 // this.props.filterDistrictFromProvinceColor(e.layer.properties.id);
                 // const a = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
                 // console.log(e.layer.properties.code);
@@ -170,35 +177,35 @@ class VectorGridComponent extends Component {
         map = this.props.mapRef.current.leafletElement;
         province.on("mouseover",(e)=>{
             console.log(map, "ee")
-            infoDiv.style.display = "block";
-            var provName = "";
-            // console.log(provName, "provName")
-            var level = "";
-            if(e.layer.properties.FIRST_PROV!=undefined && e.layer.properties.FIRST_PROV!=null){
-                level = "province";
-                provName = getProvinceName(e.layer.properties.id, "en")
-            }
-            else if(e.layer.properties.FIRST_DISTRICT!=undefined && e.layer.properties.FIRST_DISTRICT!=null){
-                level = "district"
-                provName = getProvinceName(e.layer.properties.provinceId, "en")
-            }
-            else {
-                level = "municipality"
-                provName = getProvinceName(e.layer.properties.provinceId, "en")
-            }
-            var html = `<div style="background: white;padding: 10px;"><span><b>${
-                level == "province"?provName:level == "district"?e.layer.properties.FIRST_DISTRICT:e.layer.properties.Name
-              }</b></span>`; 
-            html+= level != "province"?`,</br><span style="    text-transform: capitalize;">${level=="district"?provName:e.layer.properties.name.toLowerCase()}`:"";
-            html+= level != "province" && level != "district"?`, ${provName}</span></div>`:"";
-            infoDiv.innerHTML = html;
+            // infoDiv.style.display = "block";
+            // var provName = "";
+            // // console.log(provName, "provName")
+            // var level = "";
+            // if(e.layer.properties.FIRST_PROV!=undefined && e.layer.properties.FIRST_PROV!=null){
+            //     level = "province";
+            //     provName = getProvinceName(e.layer.properties.id, "en")
+            // }
+            // else if(e.layer.properties.FIRST_DISTRICT!=undefined && e.layer.properties.FIRST_DISTRICT!=null){
+            //     level = "district"
+            //     provName = getProvinceName(e.layer.properties.provinceId, "en")
+            // }
+            // else {
+            //     level = "municipality"
+            //     provName = getProvinceName(e.layer.properties.provinceId, "en")
+            // }
+            // var html = `<div style="background: white;padding: 10px;"><span><b>${
+            //     level == "province"?provName:level == "district"?e.layer.properties.FIRST_DISTRICT:e.layer.properties.Name
+            //   }</b></span>`; 
+            // html+= level != "province"?`,</br><span style="    text-transform: capitalize;">${level=="district"?provName:e.layer.properties.name.toLowerCase()}`:"";
+            // html+= level != "province" && level != "district"?`, ${provName}</span></div>`:"";
+            // infoDiv.innerHTML = html;
             // console.log(e.layer.options);
             // const a= e.layer.options.opacity;
             L.popup()
             .setContent(e.layer.properties.name)
             .setLatLng(e.latlng)
             .openOn(map)
-            e.layer.setStyle({opacity:1});
+            e.layer.setStyle({opacity:0.4});
             // e.layer.setPopupContent('<label>Automation</label');
             //     e.layer.openPopup();
         });
@@ -206,7 +213,7 @@ class VectorGridComponent extends Component {
         province.on("mouseout",(e)=>{
             infoDiv.style.display = "none";
             infoDiv.innerHTML = "";
-            e.layer.setStyle({opacity:0.4});
+            e.layer.setStyle({opacity:0.1});
             map.closePopup();
 
 

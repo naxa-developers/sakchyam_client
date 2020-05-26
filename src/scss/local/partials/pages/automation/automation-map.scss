@@ -1,0 +1,73 @@
+.chart-timeline{
+    position: absolute;
+    right: 10px;
+    bottom:0;
+    max-width: 500px;
+    max-height: 300px;
+    @include radius(5px);
+    z-index: 999;
+}
+.github-style{
+    @include display-flex(flex);
+    @include justify-content-start;
+    @include align-items-center;
+    margin-bottom: .6125rem;
+    img{
+        max-width: 70px;
+        padding:5px;
+        border:1px solid $border-color;
+        @include radius(4px);
+    }
+    .userdetails{
+        padding-left: .6125rem;
+        h5{
+            font-size: .875rem;
+        }
+    }
+}
+.map-color-legend{
+    left:60px !important;
+    h6{
+        text-transform: uppercase;
+        margin: .5rem 0;
+        font-size:.875rem;
+    }
+}
+.map-view-footer{
+    padding:1rem .6125rem;
+    background-color: $bg-color;
+    .map-view-progress{
+        @include display-flex(flex);
+        @include justify-content-between;
+        @include align-items-center;
+        .progress-item {
+            height: 16px;
+            &.is-red{
+                background-color: $red-color;
+            }
+            &.is-green{
+                background-color: $dark-green;
+            }
+            &:first-child{
+                border-radius: 24px 0 0 24px;
+            }
+            &:last-child{
+                border-radius:0 24px 24px 0;
+            }
+        }
+    }
+    .progress-value{
+        @include display-flex(flex);
+        @include justify-content-around;
+        @include align-items-center;
+        span{
+            font-family: $avenir-heavy;
+            &.red-value{
+                color:$red-color;
+            }
+            &.green-value{
+                color:$dark-green;
+            }
+        }
+    }
+}
