@@ -33,3 +33,41 @@
         font-size:.875rem;
     }
 }
+.map-view-footer{
+    padding:1rem .6125rem;
+    background-color: $bg-color;
+    .map-view-progress{
+        @include display-flex(flex);
+        @include justify-content-between;
+        @include align-items-center;
+        .progress-item {
+            height: 16px;
+            &.is-red{
+                background-color: $red-color;
+            }
+            &.is-green{
+                background-color: $dark-green;
+            }
+            &:first-child{
+                border-radius: 24px 0 0 24px;
+            }
+            &:last-child{
+                border-radius:0 24px 24px 0;
+            }
+        }
+    }
+    .progress-value{
+        @include display-flex(flex);
+        @include justify-content-around;
+        @include align-items-center;
+        span{
+            font-family: $avenir-heavy;
+            &.red-value{
+                color:$red-color;
+            }
+            &.green-value{
+                color:$dark-green;
+            }
+        }
+    }
+}

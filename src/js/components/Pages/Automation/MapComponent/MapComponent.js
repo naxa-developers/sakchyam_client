@@ -587,6 +587,20 @@ class MapComponent extends Component {
                       </div>
                     </li>
                     </ul>
+                    <div className="map-view-footer">
+                      <div className="map-view-progress">
+                        <div className="progress-item is-red" style={{flex:'0 0 60%',maxWidth:'60%'}}>
+
+                        </div>
+                        <div className="progress-item is-green" style={{flex:'0 0 40%',maxWidth:'40%'}}>
+
+                        </div>
+                      </div>
+                      <div className="progress-value">
+                        <span className="red-value">60%</span>
+                        <span className="green-value">40%</span>
+                      </div>
+                    </div>
                     </div>
                   </Popup>
                 </Marker>
