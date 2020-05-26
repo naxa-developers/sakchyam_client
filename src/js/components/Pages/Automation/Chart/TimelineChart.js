@@ -121,8 +121,12 @@ class TimelineChart extends React.Component {
 
   render() {
     return (
-      <div id="wrapper" className="chart-timeline">
-        <div id="chart-months">
+      <div
+        id="wrapper"
+        className="chart-timeline"
+        style={{ background: 'white', padding: '11px' }}
+      >
+        <div id="chart-months" style={{ display: 'none' }}>
           <ReactApexChart
             options={this.state.options}
             series={this.state.series}
@@ -131,7 +135,7 @@ class TimelineChart extends React.Component {
           />
         </div>
 
-        <div className="github-style">
+        {/* <div className="github-style">
           <img
             className="userimg"
             src="https://picsum.photos/200/200/?image=1031"
@@ -147,7 +151,7 @@ class TimelineChart extends React.Component {
               commits
             </h5>
           </div>
-        </div>
+        </div> */}
 
         <div id="chart-years">
           <ReactApexChart

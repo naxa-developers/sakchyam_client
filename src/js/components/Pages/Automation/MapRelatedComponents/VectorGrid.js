@@ -261,8 +261,8 @@ class VectorGridComponent extends Component {
         return (
             <div>
                 <VectorGrid {...options} ref={this.vectorGridRef}></VectorGrid>
-                <div className="map-color-legend" style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
-                <h6>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</h6>
+                <div style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
+                <div>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</div>
                 <div className="map-legend">
                             {/* <ScrollTab changetheme={this.props.changetheme}/> */}
                             <ul className="color-legend">

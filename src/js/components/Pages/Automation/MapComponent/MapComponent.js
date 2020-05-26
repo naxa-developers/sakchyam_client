@@ -442,42 +442,149 @@ class MapComponent extends Component {
                   icon={activeIcon}
                 >
                   <Popup>
-                    
-                    <div className="map-popup-view">
+                    {/* <div className="map-popup-view">
                       <div className="map-popup-view-header">
                         <h5>Chure</h5>
                         <div className="icons">
-                          <i className="material-icons">
-                            tablet_mac
-                          </i>
+                          <i className="material-icons">tablet_mac</i>
                           <b>32</b>
                         </div>
                       </div>
-                    <ul>
+                      <ul>
+                        <li>
+                          <div className="organization-icon">
+                            <span />
+                          </div>
+                          <div className="organization-content">
+                            <div className="org-header">
+                              <h5>{data.partner_name}</h5>
+                              <div className="icon-list">
+                                <div className="icons">
+                                  <i className="material-icons">
+                                    business
+                                  </i>
+                                  <b>{data.branch}</b>
+                                </div>
+                                <div className="icons">
+                                  <i className="material-icons">
+                                    tablet_mac
+                                  </i>
+                                  <b>{data.tablets_deployed}</b>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="branch-info-list">
+                              <span>Branch1</span>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                            </div>
+                            <div className="branch-info-list">
+                              <span>Branch2</span>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="organization-icon is-red">
+                            <span />
+                          </div>
+                          <div className="organization-content">
+                            <div className="org-header">
+                              <h5>{data.partner_name}</h5>
+                              <div className="icon-list">
+                                <div className="icons">
+                                  <i className="material-icons">
+                                    business
+                                  </i>
+                                  <b>{data.branch}</b>
+                                </div>
+                                <div className="icons">
+                                  <i className="material-icons">
+                                    tablet_mac
+                                  </i>
+                                  <b>{data.tablets_deployed}</b>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="branch-info-list">
+                              <span>Branch1</span>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                            </div>
+                            <div className="branch-info-list">
+                              <span>Branch2</span>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <div className="map-view-footer">
+                        <div className="map-view-progress">
+                          <div
+                            className="progress-item is-red"
+                            style={{
+                              flex: '0 0 60%',
+                              maxWidth: '60%',
+                            }}
+                          />
+                          <div
+                            className="progress-item is-green"
+                            style={{
+                              flex: '0 0 40%',
+                              maxWidth: '40%',
+                            }}
+                          />
+                        </div>
+                        <div className="progress-value">
+                          <span className="red-value">60%</span>
+                          <span className="green-value">40%</span>
+                        </div>
+                      </div>
+                    </div> */}
                     <li>
                       <div className="organization-icon">
-                        <span></span>
+                        <span>CH</span>
                       </div>
                       <div className="organization-content">
-                      
-                        <div className="org-header">
-                          <h5>{data.partner_name}</h5>
-                        <div className="icon-list">
+                        <h5>{data.partner_name}</h5>
+                        {/* <div className="icon-list">
+                          <div className="icons">
+                            <i className="material-icons">
+                              tablet_mac
+                            </i>
+                            <b>{data.tablets_deployed}</b>
+                          </div>
                           <div className="icons">
                             <i className="material-icons">business</i>
                             <b>{data.branch}</b>
                           </div>
                           <div className="icons">
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                            <b>{data.tablets_deployed}</b>
+                            <i className="material-icons">people</i>
+                            <b>{data.beneficiary}</b>
                           </div>
                         </div>
-                        </div>
-                        
-                        <div className="branch-info-list">
-                          {/* <a href="#">
+                        <div className="orgnization-info">
+                          <a href="#">
                             Province
                             <span>{data.province_covered}</span>
                           </a>
@@ -488,120 +595,10 @@ class MapComponent extends Component {
                           <a href="#">
                             Local units
                             <span>{data.municipality_covered}</span>
-                          </a> */}
-                         <span>Branch1</span>
-                          <div className="icons">
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                            <b>{data.tablets_deployed}</b>
-                          </div>
-                        </div>
-                        <div className="branch-info-list">
-                          {/* <a href="#">
-                            Province
-                            <span>{data.province_covered}</span>
                           </a>
-                          <a href="#">
-                            District
-                            <span>{data.district_covered}</span>
-                          </a>
-                          <a href="#">
-                            Local units
-                            <span>{data.municipality_covered}</span>
-                          </a> */}
-                         <span>Branch2</span>
-                          <div className="icons">
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                            <b>{data.tablets_deployed}</b>
-                          </div>
-                        </div>
+                        </div> */}
                       </div>
                     </li>
-                    <li>
-                      <div className="organization-icon is-red">
-                        <span></span>
-                      </div>
-                      <div className="organization-content">
-                      
-                        <div className="org-header">
-                          <h5>{data.partner_name}</h5>
-                        <div className="icon-list">
-                          <div className="icons">
-                            <i className="material-icons">business</i>
-                            <b>{data.branch}</b>
-                          </div>
-                          <div className="icons">
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                            <b>{data.tablets_deployed}</b>
-                          </div>
-                        </div>
-                        </div>
-                        
-                        <div className="branch-info-list">
-                          {/* <a href="#">
-                            Province
-                            <span>{data.province_covered}</span>
-                          </a>
-                          <a href="#">
-                            District
-                            <span>{data.district_covered}</span>
-                          </a>
-                          <a href="#">
-                            Local units
-                            <span>{data.municipality_covered}</span>
-                          </a> */}
-                         <span>Branch1</span>
-                          <div className="icons">
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                            <b>{data.tablets_deployed}</b>
-                          </div>
-                        </div>
-                        <div className="branch-info-list">
-                          {/* <a href="#">
-                            Province
-                            <span>{data.province_covered}</span>
-                          </a>
-                          <a href="#">
-                            District
-                            <span>{data.district_covered}</span>
-                          </a>
-                          <a href="#">
-                            Local units
-                            <span>{data.municipality_covered}</span>
-                          </a> */}
-                         <span>Branch2</span>
-                          <div className="icons">
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                            <b>{data.tablets_deployed}</b>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    </ul>
-                    <div className="map-view-footer">
-                      <div className="map-view-progress">
-                        <div className="progress-item is-red" style={{flex:'0 0 60%',maxWidth:'60%'}}>
-
-                        </div>
-                        <div className="progress-item is-green" style={{flex:'0 0 40%',maxWidth:'40%'}}>
-
-                        </div>
-                      </div>
-                      <div className="progress-value">
-                        <span className="red-value">60%</span>
-                        <span className="green-value">40%</span>
-                      </div>
-                    </div>
-                    </div>
                   </Popup>
                 </Marker>
               );
@@ -635,17 +632,21 @@ class MapComponent extends Component {
           <TimelineChart />
           <Control position="topleft">
             <div className="map-layer-option">
-            <a
-              className="leaflet-control-map-layer"
-              href="#"
-              title="map layer"
-            >
-              <img src={mapIcon} alt="map" />
-            </a>
-            <ul className="map-layer-list">
-              <li><a href="">choropleth</a></li>
-              <li><a href="">branches</a></li>
-            </ul>
+              <a
+                className="leaflet-control-map-layer"
+                href="#"
+                title="map layer"
+              >
+                <img src={mapIcon} alt="map" />
+              </a>
+              <ul className="map-layer-list">
+                <li>
+                  <a href="">choropleth</a>
+                </li>
+                <li>
+                  <a href="">branches</a>
+                </li>
+              </ul>
             </div>
           </Control>
         </Map>
