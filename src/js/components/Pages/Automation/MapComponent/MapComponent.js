@@ -293,16 +293,16 @@ class MapComponent extends Component {
             fillColor: '#a3b7e3',
             fillOpacity: 0,
             weight: 1.5,
-            opacity: 1,
-            color: '#a3b7e3',
+            opacity: 0.1,
+            color: 'black',
             fill: true,
           }
         : {
             fillColor: 'white',
             fillOpacity: 0.7,
             weight: 1.5,
-            opacity: 0.4,
-            color: '#a3b7e3',
+            opacity: 0.1,
+            color: 'black',
             fill: true,
           };
 

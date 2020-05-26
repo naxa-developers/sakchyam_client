@@ -404,6 +404,8 @@ class MainAutomation extends Component {
       if (this.state.searchText.length === 0) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.props.getSearchedPartners(this.state.searchText);
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ activeClickPartners: [] });
       } else {
         // const { partnersData } = this.state;
         this.props.getSearchedPartners(this.state.searchText);
@@ -657,8 +659,8 @@ class MainAutomation extends Component {
     this.setState({ filteredProvinceChoropleth: a });
   };
 
-  handleProvinceClick = code => {
-    console.log(code, 'asasa');
+  handleProvinceClick = (id, code) => {
+    console.log(id, 'asasa');
     const {
       vectorGridInputUrl,
       dataTypeLevel,
@@ -671,7 +673,7 @@ class MainAutomation extends Component {
         province: [code],
       });
       console.log('province');
-      const provinceFilterUrl = `https://dvsnaxa.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&id=${code}`;
+      const provinceFilterUrl = `https://dvsnaxa.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&id=${id}`;
       // const provinceFilterUrl2 = `https://dvsnaxa.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&province_id=2`;
       // const provinceFilterUrl = `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=1&province_id=2`;
       this.setState({
@@ -688,7 +690,7 @@ class MainAutomation extends Component {
         district: [code],
         province: [],
       });
-      const districtFilterUrl = `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&id=${code}`;
+      const districtFilterUrl = `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&id=${id}`;
       this.setState({
         vectorGridInputUrl: districtFilterUrl,
         vectorGridKey: Math.random(),
@@ -702,7 +704,7 @@ class MainAutomation extends Component {
       });
       console.log('municipality');
       console.log(code);
-      const municipalityFilterUrl = `https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&id=${code}`;
+      const municipalityFilterUrl = `https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&id=${id}`;
       this.setState({
         vectorGridInputUrl: municipalityFilterUrl,
         vectorGridKey: Math.random(),
@@ -947,6 +949,15 @@ class MainAutomation extends Component {
     this.setState({ activeClickPartners: [] });
     this.handleStateLevel(this.state.dataTypeLevel);
     this.props.getAllAutomationDataByPartner();
+    const bounds = [
+      [25.898761936567023, 80.00244140625001],
+      [30.732392734006083, 88.79150390625],
+    ];
+    const map = this.mapRef.current.leafletElement;
+    map.flyToBounds(bounds, {
+      animate: true,
+      duration: 4,
+    });
   };
 
   render() {
@@ -1162,11 +1173,11 @@ class MainAutomation extends Component {
                                     type="checkbox"
                                     id={`check_time${i}`}
                                     checked={selectedProvince.includes(
-                                      data.id,
+                                      data.code,
                                     )}
                                     onClick={() => {
                                       this.handleProvinceSingleClick(
-                                        data.id,
+                                        data.code,
                                         data.name,
                                       );
                                     }}
@@ -1249,11 +1260,11 @@ class MainAutomation extends Component {
                                     type="checkbox"
                                     id={`check_district${i}`}
                                     checked={selectedDistrict.includes(
-                                      data.id,
+                                      data.code,
                                     )}
                                     onClick={() => {
                                       this.handleDistrictSingleClick(
-                                        data.id,
+                                        data.code,
                                         data.name,
                                       );
                                     }}
@@ -1344,11 +1355,11 @@ class MainAutomation extends Component {
                                     type="checkbox"
                                     id={`check_mun${i}`}
                                     checked={selectedMunicipality.includes(
-                                      data.id,
+                                      data.code,
                                     )}
                                     onClick={() => {
                                       this.handleMunicipalitySingleClick(
-                                        data.id,
+                                        data.code,
                                         data.name,
                                       );
                                     }}
