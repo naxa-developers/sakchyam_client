@@ -442,7 +442,18 @@ class MapComponent extends Component {
                   icon={activeIcon}
                 >
                   <Popup>
-                    {/* <div className="map-popup-view">
+                    {/* <ul>
+                      <li>
+                        <div className="organization-icon">
+                          <span>CH</span>
+                        </div>
+                        <div className="organization-content">
+                          <h5>{data.partner_name}</h5>
+                        </div>
+                      </li>
+                    </ul> */}
+
+                    <div className="map-popup-view">
                       <div className="map-popup-view-header">
                         <h5>Chure</h5>
                         <div className="icons">
@@ -453,7 +464,7 @@ class MapComponent extends Component {
                       <ul>
                         <li>
                           <div className="organization-icon">
-                            <span />
+                            <span>CH</span>
                           </div>
                           <div className="organization-content">
                             <div className="org-header">
@@ -560,45 +571,15 @@ class MapComponent extends Component {
                           <span className="green-value">40%</span>
                         </div>
                       </div>
-                    </div> */}
-                    <li>
+                    </div>
+                    {/* <li>
                       <div className="organization-icon">
                         <span>CH</span>
                       </div>
                       <div className="organization-content">
                         <h5>{data.partner_name}</h5>
-                        {/* <div className="icon-list">
-                          <div className="icons">
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                            <b>{data.tablets_deployed}</b>
-                          </div>
-                          <div className="icons">
-                            <i className="material-icons">business</i>
-                            <b>{data.branch}</b>
-                          </div>
-                          <div className="icons">
-                            <i className="material-icons">people</i>
-                            <b>{data.beneficiary}</b>
-                          </div>
-                        </div>
-                        <div className="orgnization-info">
-                          <a href="#">
-                            Province
-                            <span>{data.province_covered}</span>
-                          </a>
-                          <a href="#">
-                            District
-                            <span>{data.district_covered}</span>
-                          </a>
-                          <a href="#">
-                            Local units
-                            <span>{data.municipality_covered}</span>
-                          </a>
-                        </div> */}
                       </div>
-                    </li>
+                    </li> */}
                   </Popup>
                 </Marker>
               );

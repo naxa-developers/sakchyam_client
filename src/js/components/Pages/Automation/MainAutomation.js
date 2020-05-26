@@ -545,7 +545,7 @@ class MainAutomation extends Component {
         selectedDistrict.length > 0 ||
         selectedMunicipality.length > 0
       ) {
-        alert('xiryo');
+        // alert('xiryo');
         this.props.getFilteredPartnersByFederalWithClickedPartners(
           {
             municipality: selectedMunicipality,
