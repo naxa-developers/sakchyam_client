@@ -202,7 +202,9 @@ class VectorGridComponent extends Component {
             // console.log(e.layer.options);
             // const a= e.layer.options.opacity;
             L.popup()
-            .setContent(e.layer.properties.name)
+            .setContent(
+                e.layer.properties.name
+            )
             .setLatLng(e.latlng)
             .openOn(map)
             e.layer.setStyle({opacity:0.4});
