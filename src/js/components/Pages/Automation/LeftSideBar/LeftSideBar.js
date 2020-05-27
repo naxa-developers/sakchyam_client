@@ -91,6 +91,10 @@ class LeftSideBar extends Component {
             ) : (
               <ul className="table-ranking-list">
                 {automationLeftSidePartnerData &&
+                automationLeftSidePartnerData.length < 1 ? (
+                  <h4 style={{ margin: '103px' }}>No Data</h4>
+                ) : (
+                  automationLeftSidePartnerData &&
                   automationLeftSidePartnerData.map((data, i) => {
                     let initials =
                       data.partner_name.match(/\b\w/g) || [];
@@ -161,7 +165,8 @@ class LeftSideBar extends Component {
                         </div>
                       </li>
                     );
-                  })}
+                  })
+                )}
               </ul>
             )}
           </div>
