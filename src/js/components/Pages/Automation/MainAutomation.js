@@ -23,6 +23,7 @@ import {
   selectChoroplethDataOfProvince,
   selectChoroplethDataOfDistrict,
   selectChoroplethDataOfMunicipality,
+  getTimelineData,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
@@ -47,6 +48,7 @@ class MainAutomation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isTileLoaded: false,
       activeClickPartners: [],
       selectedProvince: [],
       selectedProvinceName: [],
@@ -136,12 +138,12 @@ class MainAutomation extends Component {
                   color: '#d9202c',
                   offsetY: 5,
                   formatter(w) {
-                    if (w.globals && w.globals.seriesTotals) {
-                      return w.globals.seriesTotals.reduce((a, b) => {
-                        return a + b;
-                      }, 0);
-                    }
-                    return null;
+                    // if (w.globals && w.globals.seriesTotals) {
+                    return w.globals.seriesTotals.reduce((a, b) => {
+                      return a + b;
+                    }, 0);
+                    // }
+                    // return null;
                   },
                   value: {
                     show: true,
@@ -263,6 +265,7 @@ class MainAutomation extends Component {
     this.props.getDistrictData();
     this.props.getMunicipalityData();
     this.props.getBranchesTableData();
+    this.props.getTimelineData();
 
     const provinceEl = document.getElementById(
       'filter_dropdown_province',
@@ -313,6 +316,18 @@ class MainAutomation extends Component {
       dataTypeLevel,
     } = this.state;
     if (prevState.dataTypeLevel !== dataTypeLevel) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        selectedProvince: [],
+        selectedDistrict: [],
+        selectedMunicipality: [],
+        selectedProvinceName: [],
+        selectedDistrictName: [],
+        selectedMunicipalityName: [],
+        selectedProvinceDropdown: [],
+        selectedDistrictDropdown: [],
+        selectedMunicipalityDropdown: [],
+      });
       if (dataTypeLevel === 'province') {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
@@ -1016,12 +1031,21 @@ class MainAutomation extends Component {
     const map = this.mapRef.current.leafletElement;
     map.flyToBounds(bounds, {
       animate: true,
-      duration: 4,
+      duration: 3,
     });
+  };
+
+  handleTileLoad = () => {
+    this.setState({ isTileLoaded: true });
+  };
+
+  handleTileLoadEnd = () => {
+    this.setState({ isTileLoaded: false });
   };
 
   render() {
     const {
+      isTileLoaded,
       branchesCountOptions,
       areaChartOptions,
       tabletsDeployed,
@@ -1083,6 +1107,9 @@ class MainAutomation extends Component {
             <div className="main-card map-card">
               <div id="map" className="map">
                 <MapComponent
+                  isTileLoaded={isTileLoaded}
+                  handleTileLoad={this.handleTileLoad}
+                  handleTileLoadEnd={this.handleTileLoadEnd}
                   vectorGridInputUrl1={vectorGridInputUrl1}
                   vectorGridKey1={vectorGridKey1}
                   handleActiveClickPartners={
@@ -1234,8 +1261,8 @@ class MainAutomation extends Component {
                                   <input
                                     type="checkbox"
                                     id={`check_time${i}`}
-                                    checked={selectedProvinceDropdown.includes(
-                                      data.id,
+                                    checked={selectedProvince.includes(
+                                      data.code,
                                     )}
                                     onClick={() => {
                                       this.handleProvinceSingleClick(
@@ -1322,8 +1349,8 @@ class MainAutomation extends Component {
                                   <input
                                     type="checkbox"
                                     id={`check_district${i}`}
-                                    checked={selectedDistrictDropdown.includes(
-                                      data.id,
+                                    checked={selectedDistrict.includes(
+                                      data.code,
                                     )}
                                     onClick={() => {
                                       this.handleDistrictSingleClick(
@@ -1502,4 +1529,5 @@ export default connect(mapStateToProps, {
   selectChoroplethDataOfProvince,
   selectChoroplethDataOfDistrict,
   selectChoroplethDataOfMunicipality,
+  getTimelineData,
 })(MainAutomation);

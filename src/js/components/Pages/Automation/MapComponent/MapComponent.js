@@ -243,6 +243,7 @@ class MapComponent extends Component {
       color,
       handleProvinceClick,
       activeOutreachButton,
+      isTileLoaded,
     } = this.props;
     const position = [27.7, 85.4];
     const options = [
@@ -361,6 +362,7 @@ class MapComponent extends Component {
               // changetheme={this.props.changetheme}
               handleProvinceClick={handleProvinceClick}
               key={vectorGridKey}
+              handleTileLoad={this.props.handleTileLoad}
               mapRef={this.props.mapRef}
               style={inputStyle} // Province style setting
               // divisions={inputDivisions}
@@ -372,6 +374,9 @@ class MapComponent extends Component {
             automationChoroplethData &&
             filteredProvinceChoropleth && (
               <VectorGrid
+                handleTileLoadEnd={this.props.handleTileLoadEnd}
+                isTileLoaded={isTileLoaded}
+                handleTileLoad={this.props.handleTileLoad}
                 // changetheme={this.props.changetheme}
                 //   key={"0"}
                 // mapRef={this.props.mapRef}
@@ -391,7 +396,7 @@ class MapComponent extends Component {
                 key={vectorGridKey}
                 mapRef={this.props.mapRef}
                 style={inputStyle} // Province style setting
-                choroplethTitle="Automation Deployed"
+                choroplethTitle="Tablet Deployed"
                 // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
                 provinceCounts={
                   filteredProvinceChoropleth &&
@@ -598,11 +603,11 @@ class MapComponent extends Component {
               color="#c21c2e"
               height={100}
               width={100}
-              visible={dataLoading}
+              visible={!isTileLoaded}
             />
             <label
               style={{
-                display: dataLoading ? 'block' : 'none',
+                display: !isTileLoaded ? 'block' : 'none',
                 // marginLeft: '15px',
                 color: 'red',
               }}
@@ -610,7 +615,7 @@ class MapComponent extends Component {
               Loading...Please Wait
             </label>
           </div>
-          <TimelineChart />
+          {/* <TimelineChart /> */}
           <Control position="topleft">
             <div className="map-layer-option">
               <a

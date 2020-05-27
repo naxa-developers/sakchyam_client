@@ -21,6 +21,7 @@ import {
   SELECT_AUTOMATION_DATA_BY_PROVINCE,
   SELECT_AUTOMATION_DATA_BY_DISTRICT,
   SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
+  GET_TIMELINE_DATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -38,6 +39,7 @@ const initialState = {
   dataLoading: true,
   tableDataLoading: true,
   filteredMapBoundaryData: [],
+  timeLineData: [],
 };
 
 const partnerForChoropleth = (state, action) => {
@@ -48,12 +50,15 @@ const partnerForChoropleth = (state, action) => {
   //   allData.push({ id: data.id, count: data.num_tablet_deployed });
   //   return true;
   // });
-  const partnerData = action.payload[0].partner_data.map(data => {
+  let partnerData = action.payload[0].partner_data.map(data => {
     return data.tablets_deployed;
   });
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
   });
+  if (action.payload[0].partner_data.length < 1) {
+    partnerData = [0];
+  }
   return {
     ...state,
     automationAllDataByPartner: action.payload,
@@ -204,7 +209,7 @@ const filterDistrictFromProvinceColor = (state, action) => {
 const filterPartnerSelect = (state, action) => {
   // console.log(action.payload, 'filterPartnerSelect');
   const { automationRightSidePartnerData } = state;
-  const partnerData = action.payload[0].partner_data.map(data => {
+  let partnerData = action.payload[0].partner_data.map(data => {
     return data.tablets_deployed;
   });
   const partnerName = action.payload[0].partner_data.map(data => {
@@ -227,6 +232,9 @@ const filterPartnerSelect = (state, action) => {
   //   },
   //   'b',
   // );
+  if (action.payload[0].partner_data.length < 1) {
+    partnerData = [0];
+  }
   return {
     ...state,
     automationRightSidePartnerData: {
@@ -290,12 +298,15 @@ const filterPartnerByFederal = (state, action) => {
   //   allData.push({ id: data.id, count: data.num_tablet_deployed });
   //   return true;
   // });
-  const partnerData = action.payload[0].partner_data.map(data => {
+  let partnerData = action.payload[0].partner_data.map(data => {
     return data.tablets_deployed;
   });
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
   });
+  if (action.payload[0].partner_data.length < 1) {
+    partnerData = [0];
+  }
   return {
     ...state,
     automationAllDataByPartner: action.payload,
@@ -390,6 +401,12 @@ const selectMunicipalityForChoropleth = (state, action) => {
     automationChoroplethData: state.automationDataByMunicipality,
   };
 };
+const getTimelineData = (state, action) => {
+  return {
+    ...state,
+    timeLineData: action.payload,
+  };
+};
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -447,6 +464,8 @@ export default function(state = initialState, action) {
         state,
         action,
       );
+    case GET_TIMELINE_DATA:
+      return getTimelineData(state, action);
     // case TOGGLE_NULL_SUBMISSIONS_ANSWER:
     //   return toggleNullSubmission(state);
     default:

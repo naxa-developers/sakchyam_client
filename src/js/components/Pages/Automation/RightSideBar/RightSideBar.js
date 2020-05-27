@@ -172,13 +172,13 @@ class RightSideBar extends Component {
             <div className="sidebar-widget">
               <div className="widget-body">
                 <div id="area-chart">
-                  <ReactApexChart
+                  {/* <ReactApexChart
                     options={areaChartOptions}
                     series={areaChartOptions.series}
                     type="area"
                     // height="350"
                     // width="370"
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

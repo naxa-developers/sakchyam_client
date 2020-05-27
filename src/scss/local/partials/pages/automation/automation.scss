@@ -105,7 +105,11 @@
                                 .select-dropdown{
                                     .span-label{
                                         @include radius(20px);
-                                        width:100%;
+                                        // width:100%;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                        overflow: hidden;
+                                        width: 195px;
                                         min-width: 160px;
                                         font-family: $avenir-heavy;
                                     }
@@ -342,8 +346,14 @@
                         .select-dropdown{
                             .span-label{
                                 @include radius(20px);
-                                width:100%;
-                                min-width: 160px;
+                                // width:100%;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                // width: 195px;
+                                width: 148px;
+                                min-width: 106px;
+                                // min-width: 160px;
                                 font-family: $avenir-heavy;
                             }
                         }
@@ -551,7 +561,8 @@
       
             &.leaflet-top {
                 top: auto;
-                bottom: 4rem;
+                // bottom: 4rem;
+                bottom: 9rem;
       
             }
       
@@ -601,7 +612,8 @@
             }
             &.leaflet-bottom {
                 right: 5rem;
-                bottom: 1rem;
+                // bottom: 1rem;
+                bottom: 6rem;
             }
       
         }
@@ -640,8 +652,9 @@
                 @include justify-content-center;
                 @include align-items-center;
                 @include flex-direction-column(column);
-                width: 34px;
+                // width: 34px;
                 height: 30px;
+                width: 36px;
                 color: $primary-light;
                 @include transition(all .5s);
                 border:1px solid $border-color;
@@ -658,10 +671,15 @@
             }
             .map-layer-list{
                 position: absolute;
-                left:100%;
+                display: none;
+                // left:100%;
                 top:0;
+                left: 37px;
                 background-color: $white-color;
                 @include box-shadow(0 5px 15px rgba(0,0,0,.2));
+                &.active{
+                    display: block;
+                }
                 li{
                     a{
                         display: block;

@@ -112,6 +112,7 @@ class VectorGridComponent extends Component {
             Object.assign(newStyle, newStyle1)
             newStyle.fillColor = color;
             newStyle.fillOpacity = 0.7;
+            newStyle.color = 'red';
             // console.log(color, "color")
             // console.log(newStyle, "newStyle")
             setTimeout(() => {
@@ -155,7 +156,7 @@ class VectorGridComponent extends Component {
                 // console.log(e.latlng);
                 map.flyTo(e.latlng, 9,{
                     animate: true,
-                    duration: 4 // in seconds
+                    duration: 3 // in seconds
                   });
                 this.props.handleProvinceClick(e.layer.properties.id,e.layer.properties.code);
                 e.layer.setStyle({opacity:1});
@@ -170,12 +171,21 @@ class VectorGridComponent extends Component {
             //         alert('s');
             // });
         }
-    
+    vectorTileFullyLoaded=()=>{
+        province = this.vectorGridRef.current.leafletElement;
+        province.on("load",(e)=>{
+            this.props.handleTileLoad();
+        });
+        // province.on("tileloadstart",(e)=>{
+        //     this.props.handleTileLoadEnd();
+
+        // })
+    }
     addMouseoverLayer = () =>{
         province = this.vectorGridRef.current.leafletElement;
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
-        province.on("mouseover",(e)=>{
+            province.on("mouseover",(e)=>{
             console.log(map, "ee")
             // infoDiv.style.display = "block";
             // var provName = "";
@@ -235,6 +245,7 @@ class VectorGridComponent extends Component {
         this.changeGrades();
         this.label();
         this.addMouseoverLayer();
+        this.vectorTileFullyLoaded();
 
     }
 

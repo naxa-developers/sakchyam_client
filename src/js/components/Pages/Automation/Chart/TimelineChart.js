@@ -25,6 +25,12 @@ class TimelineChart extends React.Component {
             autoSelected: 'pan',
           },
           events: {
+            dataPointSelection(e, chart, opts) {
+              console.log(e, opts);
+            },
+            selection(chartContext, { xaxis, yaxis }) {
+              console.log('sss');
+            },
             mounted(chart) {
               const commitsEl = document.querySelector(
                 '.cmeta span.commits',
@@ -64,9 +70,11 @@ class TimelineChart extends React.Component {
         yaxis: {
           show: false,
           tickAmount: 3,
+          forceNiceScale: true,
         },
         xaxis: {
           type: 'datetime',
+          forceNiceScale: true,
         },
       },
 
@@ -81,6 +89,17 @@ class TimelineChart extends React.Component {
           height: 200,
           type: 'area',
           background: '#F6F8FA',
+          events: {
+            dataPointSelection(e, chart, opts) {
+              console.log(e, opts);
+            },
+            selection(chartContext, { xaxis, yaxis }) {
+              console.log('dddd');
+              console.log(chartContext, 'chartContext');
+              console.log(xaxis, 'x');
+              console.log(yaxis, 'y');
+            },
+          },
           toolbar: {
             autoSelected: 'selection',
           },
@@ -114,6 +133,11 @@ class TimelineChart extends React.Component {
         },
         xaxis: {
           type: 'datetime',
+          forceNiceScale: true,
+        },
+        yaxis: {
+          show: true,
+          // forceNiceScale: true,
         },
       },
     };
@@ -126,7 +150,7 @@ class TimelineChart extends React.Component {
         className="chart-timeline"
         style={{ background: 'white', padding: '11px' }}
       >
-        <div id="chart-months" style={{ display: 'none' }}>
+        <div id="chart-months" style={{ display: 'block' }}>
           <ReactApexChart
             options={this.state.options}
             series={this.state.series}
@@ -135,7 +159,7 @@ class TimelineChart extends React.Component {
           />
         </div>
 
-        {/* <div className="github-style">
+        <div className="github-style">
           <img
             className="userimg"
             src="https://picsum.photos/200/200/?image=1031"
@@ -151,7 +175,7 @@ class TimelineChart extends React.Component {
               commits
             </h5>
           </div>
-        </div> */}
+        </div>
 
         <div id="chart-years">
           <ReactApexChart

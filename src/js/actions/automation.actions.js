@@ -22,6 +22,7 @@ import {
   SELECT_AUTOMATION_DATA_BY_PROVINCE,
   SELECT_AUTOMATION_DATA_BY_DISTRICT,
   SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
+  GET_TIMELINE_DATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -661,4 +662,19 @@ export const selectChoroplethDataOfMunicipality = () => dispatch => {
   return dispatch({
     type: SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
   });
+};
+export const getTimelineData = () => dispatch => {
+  try {
+    const response = axiosInstance
+      .get(`api/v1/automation/timeline/`)
+      .then(function(result) {
+        // console.log(result, 'result');
+        return dispatch({
+          type: GET_TIMELINE_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
 };
