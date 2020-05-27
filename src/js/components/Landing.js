@@ -227,7 +227,7 @@ class Landing extends Component {
                           </li>
                         </ul>                    
                       </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("") ?
+                      {permissions && permissions[0] && permissions[0].permission.includes("view_automation") ?
                         <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
                         permissions && permissions[0] && permissions[0].email 
