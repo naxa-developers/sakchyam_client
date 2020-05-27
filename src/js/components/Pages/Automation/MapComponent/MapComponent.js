@@ -447,7 +447,7 @@ class MapComponent extends Component {
                   icon={activeIcon}
                 >
                   <Popup>
-                    {/* <ul>
+                    <ul>
                       <li>
                         <div className="organization-icon">
                           <span>CH</span>
@@ -456,9 +456,9 @@ class MapComponent extends Component {
                           <h5>{data.partner_name}</h5>
                         </div>
                       </li>
-                    </ul> */}
+                    </ul>
 
-                    <div className="map-popup-view">
+                    {/* <div className="map-popup-view">
                       <div className="map-popup-view-header">
                         <h5>Chure</h5>
                         <div className="icons">
@@ -576,7 +576,7 @@ class MapComponent extends Component {
                           <span className="green-value">40%</span>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     {/* <li>
                       <div className="organization-icon">
                         <span>CH</span>
