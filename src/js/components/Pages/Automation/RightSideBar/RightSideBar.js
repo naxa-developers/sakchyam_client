@@ -27,6 +27,9 @@ class RightSideBar extends Component {
   }
 
   render() {
+    const {
+      automationReducer: { automationLeftSidePartnerData },
+    } = this.props;
     const { automationReducer } = this.props;
     const {
       tabletsDeployed,
@@ -35,6 +38,7 @@ class RightSideBar extends Component {
       toggleRightSideBarButton,
       toggleTableViewButton,
       activeRightSideBar,
+      activeClickPartners,
     } = this.props;
     const a =
       automationReducer.automationRightSidePartnerData &&
@@ -44,9 +48,28 @@ class RightSideBar extends Component {
           return data.branch;
         },
       );
-    const maxBranchValue = Math.max(a && [...a]);
 
-    // console.log(a, 'aaaa');
+    const maxBranchValue = a && Math.max(...a);
+    const selectedPartnerList =
+      automationLeftSidePartnerData &&
+      automationLeftSidePartnerData.filter((data, i) => {
+        // console.log(data.partner_id, 'data id');
+        // console.log(
+        //   activeClickPartners && activeClickPartners[0],
+        //   'clickedParters',
+        // );
+        const b = activeClickPartners && activeClickPartners;
+        // console.log(b, 'b');
+        // console.log(
+        //   data.partner_id.includes(
+        //     activeClickPartners && activeClickPartners,
+        //   ),
+        //   'clickedParters',
+        // );
+        // return true;
+        return b.includes(data.partner_id);
+      });
+    // console.log(selectedPartnerList, 'selectedParnterList');
     // console.log(maxBranchValue, 'bbbb');
     // console.log(automationReducer, 'autpo');
     const { partnersData } = this.props;
@@ -143,6 +166,77 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget">
+              <h5>Selected Partner</h5>
+              <div className="widget-body">
+                {selectedPartnerList &&
+                  selectedPartnerList.map((data, i) => {
+                    let initials =
+                      data.partner_name.match(/\b\w/g) || [];
+                    initials = (
+                      (initials.shift() || '') +
+                      (initials.pop() || '')
+                    ).toUpperCase();
+                    console.log(data, 'data');
+                    return (
+                      <li
+                        key={data.id}
+                        role="tab"
+                        className="selectedPartner"
+                        // onClick={() => {
+                        //   handleActiveClickPartners(data.partner_id);
+                        // }}
+                        // onKeyPress={() => {
+                        //   handleActiveClickPartners(data.partner_id);
+                        // }}
+                      >
+                        <div
+                          className={`organization-icon ${getClassName(
+                            data.id,
+                          )}`}
+                        >
+                          <span>{initials}</span>
+                        </div>
+                        <div className="organization-content">
+                          <h5>{data.partner_name}</h5>
+                          <div className="icon-list">
+                            <div className="icons">
+                              <i className="material-icons">
+                                tablet_mac
+                              </i>
+                              <b>{data.tablets_deployed}</b>
+                            </div>
+                            <div className="icons">
+                              <i className="material-icons">
+                                business
+                              </i>
+                              <b>{data.branch}</b>
+                            </div>
+                            <div className="icons">
+                              <i className="material-icons">people</i>
+                              <b>{data.beneficiary}</b>
+                            </div>
+                          </div>
+                          <div className="orgnization-info">
+                            <a href="#">
+                              Province
+                              <span>{data.province_covered}</span>
+                            </a>
+                            <a href="#">
+                              District
+                              <span>{data.district_covered}</span>
+                            </a>
+                            <a href="#">
+                              Local units
+                              <span>{data.municipality_covered}</span>
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
+              </div>
+            </div>
+            <div className="sidebar-widget">
               <h5>branches Count</h5>
               <div className="widget-body">
                 {/* <div id="normal-chart">
@@ -165,7 +259,7 @@ class RightSideBar extends Component {
                             .total_branch;
                         const singlebranchValue = data.branch;
                         const BranchpercentCalculate =
-                          (singlebranchValue / totalBranch) * 100;
+                          (singlebranchValue / maxBranchValue) * 100;
                         const branchPercent = Math.round(
                           BranchpercentCalculate,
                         );
@@ -179,7 +273,7 @@ class RightSideBar extends Component {
                           <div key={data.id} className="branch">
                             <div
                               className={`branch-icon ${getClassName(
-                                i,
+                                data.id,
                               )}`}
                             >
                               <span>{initials}</span>
@@ -188,7 +282,7 @@ class RightSideBar extends Component {
                               className="branch-bar"
                               tooltip={`${data.partner_name}:${data.branch}`}
                               flow="up"
-                              style={{ width: branchPercent }}
+                              style={{ width: `${branchPercent}%` }}
                             >
                               {/* <div className="branch-content">
                                 <span>Chimek</span>
@@ -202,19 +296,19 @@ class RightSideBar extends Component {
                 </div>
               </div>
             </div>
-            <div className="sidebar-widget">
+            {/* <div className="sidebar-widget">
               <div className="widget-body">
                 <div id="area-chart">
-                  {/* <ReactApexChart
+                  <ReactApexChart
                     options={areaChartOptions}
                     series={areaChartOptions.series}
                     type="area"
                     // height="350"
                     // width="370"
-                  /> */}
+                  />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div

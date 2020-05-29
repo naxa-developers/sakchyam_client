@@ -36,6 +36,7 @@ class LeftSideBar extends Component {
     //     return data.name.includes('Ch');
     //   });
     // console.log(a);
+
     const {
       activeClickPartners,
       handleActiveClickPartners,
@@ -135,14 +136,14 @@ class LeftSideBar extends Component {
                       >
                         <div
                           className={`organization-icon ${getClassName(
-                            i,
+                            data.id,
                           )}`}
                         >
                           <span>{initials}</span>
                         </div>
                         <div className="organization-content">
                           <h5>{data.partner_name}</h5>
-                          <div className="icon-list">
+                          {/* <div className="icon-list">
                             <div className="icons">
                               <i className="material-icons">
                                 tablet_mac
@@ -173,7 +174,7 @@ class LeftSideBar extends Component {
                               Local units
                               <span>{data.municipality_covered}</span>
                             </a>
-                          </div>
+                          </div> */}
                         </div>
                       </li>
                     );
