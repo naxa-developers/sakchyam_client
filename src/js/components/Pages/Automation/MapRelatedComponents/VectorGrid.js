@@ -14,7 +14,7 @@ var vt_label_province = L.featureGroup();
 var labelcount = 0;
 var province;
 var circleLoad = true;
-
+// var count = 0;
 const defaultData = {
     choroplethData: [{id:1, count:1}, {id:2, count:2}, {id:3, count:3}, {id:4, count:4}, {id:5, count:5}, {id:6, count:6}, {id:7, count:7}],
 }
@@ -44,7 +44,9 @@ class VectorGridComponent extends Component {
               ],
             choroplethTitle: "dataCategory1",
             grade: [],
-            legendColors: []
+            legendColors: [],
+            bbox:[0,0,0,0],
+            count: 0,
         };
         this.vectorGridRef = React.createRef();
         this.infoDivRef = React.createRef();
@@ -175,6 +177,16 @@ class VectorGridComponent extends Component {
         province = this.vectorGridRef.current.leafletElement;
         province.on("load",(e)=>{
             this.props.handleTileLoad();
+            const a = this.state.bbox.map(data=>{return parseFloat(data)});
+            const b = [[a[0],a[1]],[a[2],a[3]]];
+            // console.log(b,'b');
+            // if(this.mapRef && this.mapRef.current){
+                const map =this.props.mapRef.current.leafletElement;
+                if(this.props.vectorGridFirstLoad === true){
+                    console.log(b,'fitbound Up');
+                    map.fitBounds(b);
+                } 
+                this.props.handleVectorGridFirstLoad();
         });
         // province.on("tileloadstart",(e)=>{
         //     this.props.handleTileLoadEnd();
@@ -186,7 +198,7 @@ class VectorGridComponent extends Component {
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
             province.on("mouseover",(e)=>{
-            console.log(map, "ee")
+            // console.log(map, "ee")
             // infoDiv.style.display = "block";
             // var provName = "";
             // // console.log(provName, "provName")
@@ -211,9 +223,66 @@ class VectorGridComponent extends Component {
             // infoDiv.innerHTML = html;
             // console.log(e.layer.options);
             // const a= e.layer.options.opacity;
+        
+        
             L.popup()
             .setContent(
-                e.layer.properties.name
+                `<div class="leaflet-popup-content" style="width: 281px;">
+                    <div class="map-popup-view">
+                        <div class="map-popup-view-header">
+                            <h5>Chure</h5>
+                            <div class="icons">
+                            <i class="material-icons">tablet_mac</i><b>32</b>
+                            </div>
+                        </div>
+                        <ul>
+                        <li>
+                            <div class="organization-icon"><span>CH</span></div>
+                                <div class="organization-content">
+                                    <div class="org-header">
+                                        <h5>Mahila Samudayik Laghubitta</h5>
+                                            <div class="icon-list">
+                                                <div class="icons"><i class="material-icons">business</i><b>23</b>
+                                                </div>
+                                                    <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+                                                </div>
+                                            </div>
+                                            <div class="branch-info-list"><span>Branch1</span>
+                                                <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+                                            </div>
+                                            <div class="branch-info-list"><span>Branch2</span>
+                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="organization-icon is-red"><span></span></div>
+                                <div class="organization-content">
+                                    <div class="org-header"><h5>Mahila Samudayik Laghubitta</h5>
+                                        <div class="icon-list">
+                                        <div class="icons"><i class="material-icons">business</i><b>23</b></div>
+                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+                                    </div>
+                                </div>
+                                    <div class="branch-info-list"><span>Branch1</span>
+                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+                                    </div>
+                                    <div class="branch-info-list"><span>Branch2</span>
+                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+                                    </div>
+                            </div>
+                        </li>
+                    </ul>
+                <div class="map-view-footer">
+                    <div class="map-view-progress">
+                        <div class="progress-item is-red" style="flex: 0 0 60%; max-width: 60%;"></div>
+                        <div class="progress-item is-green" style="flex: 0 0 40%; max-width: 40%;"></div>
+                    </div>
+                <div class="progress-value"><span class="red-value">60%</span><span class="green-value">40%</span></div>
+            </div>
+        </div>
+    </div>`
             )
             .setLatLng(e.latlng)
             .openOn(map)
@@ -249,21 +318,92 @@ class VectorGridComponent extends Component {
 
     }
 
-    componentDidUpdate(prevProps, prevState){    
-    }
+    componentDidUpdate(prevProps, prevState){
+        // console.log(JSON.stringify(prevProps.automationReducer.automationChoroplethData),'old props');
+        // console.log(JSON.stringify(this.props.automationReducer.automationChoroplethData),'new props');
 
+       if(prevProps.automationReducer.automationChoroplethData !== this.props.automationReducer.automationChoroplethData){
+        // console.log(this.props.automationReducer.automationChoroplethData,'did update change');   
+        this.changeGrades();
+       }
+       if(prevProps.activeOutreachButton !== this.props.activeOutreachButton){
+           this.changeGrades();
+       }
+        // }
+    }
+    // fitBoundonMap=(bboxArray)=>{
+    //     // map.fitBounds(bboxArray).extend;    
+    //     this.state.bbox.extend(bboxArray);
+    //     console.log(this.state.bbox);
+    // }
+
+    extendBounds=(boundingbox)=>{
+        let minX=boundingbox[0];
+        let minY=boundingbox[1];
+        let maxX=boundingbox[2];
+        let maxY=boundingbox[3];
+        const {bbox,count}=this.state;
+        if(count===0){
+            this.setState({bbox: [boundingbox[0],boundingbox[1],boundingbox[2],boundingbox[3]]});
+            this.setState({count:1});
+        }
+        // // if(bbox[0] !== 0 && boundingbox[0] !== 0){
+        //     console.log(boundingbox[0],'boundingbox[0]');
+        //     console.log(boundingbox[1],'boundingbox[1]');
+        //     console.log(boundingbox[2],'boundingbox[2]');
+        //     console.log(boundingbox[3],'boundingbox[3]');
+            minX = bbox[0] > boundingbox[0] ? boundingbox[0] : bbox[0];
+        // }
+        // if(bbox[1] !== 0 && boundingbox[1] !== 0){
+            minY = bbox[1] > boundingbox[1] ? boundingbox[1] : bbox[1] 
+
+        // }
+        // if(bbox[2] !== 0 && boundingbox[2] !== 0){
+        
+            maxX = bbox[2] < boundingbox[2] ? boundingbox[2] : bbox[2]; 
+        // }
+        // if(bbox[3] !== 0 && boundingbox[3] !== 0){
+            maxY = bbox[3] < boundingbox[3] ? boundingbox[3] : bbox[3];
+        // }
+        //   console.log(bbox[0],'bbox[0]');
+        //     console.log(bbox[1],'bbox[1]');
+        //     console.log(bbox[2],'bbox[2]');
+        //     console.log(bbox[3],'bbox[3]');
+        if(minX!==0 && minY!== 0 && maxX!== 0 && maxY!==0){
+                // console.log('Inside Setstate')
+            this.setState({bbox: [minX,minY,maxX,maxY]});
+        }
+
+    }
     render() {
+        // console.log(this.props.automationReducer.automationChoroplethData,'choropleth Data');
         const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
         // console.log(provinceUrl,"provinceUrl")
         var style = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
+        var currentComponent= this;
         // console.log(this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle, "defaultstyle")
         const options = {
             type: 'protobuf',
             // tooltip: (feature) =>{
-            //     console.log(feature, "feature  ")
-            // },
-            getFeatureId: function (feature) {
-                //console.log(feature, "feature  ")
+                //     console.log(feature, "feature  ")
+                // },
+                getFeatureId: function (feature) {
+                    // console.log(feature,"feature  ")
+                let bboxString= feature.properties.bbox;
+                var bboxArray= bboxString.split(",");
+                // console.log(bboxArray,'bboxaray')
+                const a = bboxArray.map(data=>{return parseFloat(data)});
+                const b = [a[1],a[0],a[3],a[2]];
+                currentComponent.extendBounds(b);
+                
+                // var corner1 = L.latLng(40.712, -74.227),
+                // corner2 = L.latLng(40.774, -74.125),
+                // bounds = L.latLngBounds(corner1, corner2);
+
+                // console.log(b,'b');
+                // console.log(bboxArray);
+                
+                // currentComponent.fitBoundonMap(bboxArray);
                 return feature.properties.code;
             },
             url: provinceUrl,

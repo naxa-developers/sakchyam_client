@@ -362,3 +362,30 @@ font-weight: 900;
   background-image: url('../img/layer.png');
   background-size: 19px 19px !important;
 }
+#chart-years{
+  padding-left: 20px;
+}
+.play-btn{
+  top: 47px;
+  left: 2px;
+  position: absolute;
+ img{
+  &:hover{
+    background-color: #fce495;
+  }
+  border: 2px solid blue;
+ }
+ 
+}
+.pause-btn{
+  top: 47px;
+  left: 2px;
+  position: absolute;
+ img{
+  &:hover{
+    background-color: #fce495;
+  }
+  border: 2px solid blue;
+ }
+ 
+}
