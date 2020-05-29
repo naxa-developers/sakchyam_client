@@ -48,6 +48,20 @@ const partnerForChoropleth = (state, action) => {
   // console.log(action.payload, 'payload');
   // const allData = [];
   const leftsideData = action.payload[0].partner_data;
+  leftsideData.sort(function(a, b) {
+    const nameA = a.partner_name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.partner_name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+  // console.log(leftsideData);
   // const choroplethData = action.payload.map(data => {
   //   allData.push({ id: data.id, count: data.num_tablet_deployed });
   //   return true;
@@ -211,6 +225,19 @@ const filterDistrictFromProvinceColor = (state, action) => {
 const filterPartnerSelect = (state, action) => {
   // console.log(action.payload, 'filterPartnerSelect');
   const { automationRightSidePartnerData } = state;
+  action.payload[0].partner_data.sort(function(a, b) {
+    const nameA = a.partner_name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.partner_name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
   let partnerData = action.payload[0].partner_data.map(data => {
     return data.tablets_deployed;
   });
@@ -300,6 +327,19 @@ const filterPartnerByFederal = (state, action) => {
   //   allData.push({ id: data.id, count: data.num_tablet_deployed });
   //   return true;
   // });
+  leftsideData.sort(function(a, b) {
+    const nameA = a.partner_name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.partner_name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
   let partnerData = action.payload[0].partner_data.map(data => {
     return data.tablets_deployed;
   });
@@ -412,6 +452,8 @@ const getTimelineData = (state, action) => {
 const timeLineFilter = (state, action) => {
   const minRange = action.payload.min;
   const maxRange = action.payload.max;
+  // console.log(minRange, 'minRange');
+  // console.log(maxRange, 'maxRange');
   const markerData = state.automationAllDataByPartner;
   // console.log(markerData, 'MarkerData');
   const filteredDataByYear =
