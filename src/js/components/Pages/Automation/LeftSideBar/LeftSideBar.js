@@ -3,8 +3,20 @@ import { connect } from 'react-redux';
 import LeftSideAutomationLoader from '../../../common/SkeletonLoading';
 
 function getClassName(i) {
-  if (i % 3 === 0) return 'is-red';
-  if (i % 3 === 1) return 'is-yellow';
+  if (i % 12 === 0) return 'is-color1';
+  if (i % 12 === 1) return 'is-color2';
+  if (i % 12 === 2) return 'is-color3';
+  if (i % 12 === 3) return 'is-color4';
+  if (i % 12 === 4) return 'is-color5';
+  if (i % 12 === 5) return 'is-color6';
+  if (i % 12 === 6) return 'is-color7';
+  if (i % 12 === 7) return 'is-color8';
+  if (i % 12 === 8) return 'is-color9';
+  if (i % 12 === 9) return 'is-color10';
+  if (i % 12 === 10) return 'is-color11';
+  if (i % 12 === 11) return 'is-color12';
+  if (i % 12 === 12) return 'is-color13';
+  if (i % 12 === 13) return 'is-color14';
   return 'is-green';
 }
 class LeftSideBar extends Component {

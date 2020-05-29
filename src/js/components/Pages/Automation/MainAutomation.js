@@ -100,7 +100,7 @@ class MainAutomation extends Component {
         },
         fill: {
           opacity: 1,
-          colors: ['#E11D3F'],
+          colors: ['#fff000'],
         },
       },
       tabletsDeployed: {
@@ -211,7 +211,32 @@ class MainAutomation extends Component {
         },
         fill: {
           opacity: 1,
-          // colors: ['#E11D3F', '#489FA7'],
+          colors: [
+            '#e69109',
+            '#63a4ff',
+            '#8629ff',
+            '#e553ed',
+            '#f2575f',
+            '#915e0d',
+            '#a1970d',
+            '#4f7d14',
+            '#07aba1',
+            '#1d4c8f',
+            '#491991',
+            '#610766',
+            '#6e0208',
+            '#f07818',
+            '#7F95D1',
+            '#FF82A9',
+            '#FFC0BE',
+            '#f0e111',
+            '#9ff035',
+            '#34ede1',
+            // '#D13F31',
+            // '#DEDBA7',
+            // '#72B095',
+            // '#a1bd93',
+          ],
         },
       },
       areaChartOptions: {
@@ -1257,7 +1282,7 @@ class MainAutomation extends Component {
 
   refreshSelectedPartnerBtn = () => {
     this.setState({ activeClickPartners: [] });
-    this.handleStateLevel(this.state.dataTypeLevel);
+    // this.handleStateLevel(this.state.dataTypeLevel);
     this.props.getAllAutomationDataByPartner();
     const bounds = [
       [25.898761936567023, 80.00244140625001],

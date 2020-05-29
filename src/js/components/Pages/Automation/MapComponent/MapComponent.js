@@ -318,7 +318,7 @@ class MapComponent extends Component {
             color: 'black',
             fill: true,
           };
-
+    // console.log('map component', activeOutreachButton);
     // console.log(vectorGridInputUrl, 'url');
     // console.log(automationDataByProvince, 'data');
     // console.log(filteredProvinceChoropleth, 'filterProvince');
@@ -376,7 +376,6 @@ class MapComponent extends Component {
               vectorGridFirstLoad={vectorGridFirstLoad}
               // changetheme={this.props.changetheme}
               handleProvinceClick={handleProvinceClick}
-              key={vectorGridKey}
               handleTileLoad={this.props.handleTileLoad}
               mapRef={this.props.mapRef}
               style={inputStyle} // Province style setting
@@ -424,8 +423,29 @@ class MapComponent extends Component {
                 } // province counts for circles at center of province
                 mode="choropleth" // options- choropleth, provinceCircles, both
                 choroplethData={automationChoroplethData} //
-                // color={color} // single color gradient
+                color="#007078" // single color gradient
                 // legendDivisions = {10} //no of divisions in legend
+                // colorArray={[
+                //   '#96ceb4',
+                //   '#ffeead',
+                //   '#d9534f',
+                //   '#ffad60',
+                //   '#fad3cf',
+                //   '#a696c8',
+                //   '#2470a0',
+                //   '#060608',
+                //   '#5e412f',
+                //   '#fcebb6',
+                //   '#78c0a8',
+                //   '#f07818',
+                //   '#7F95D1',
+                //   '#FF82A9',
+                //   '#FFC0BE',
+                //   '#D13F31',
+                //   '#DEDBA7',
+                //   '#72B095',
+                //   '#a1bd93',
+                // ]} // multi color custom gradient
                 // colorArray={[
                 //   '#FFF3D4',
                 //   '#FED976',
@@ -635,7 +655,7 @@ class MapComponent extends Component {
               Loading...Please Wait
             </label>
           </div>
-          <TimelineChart />
+          {!activeOutreachButton ? <TimelineChart /> : null}
           <Control position="topleft">
             <div className="map-layer-option">
               <a

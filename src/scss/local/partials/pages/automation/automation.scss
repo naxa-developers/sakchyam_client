@@ -495,6 +495,107 @@
             position: relative;
             .branch-icon{
                 padding-right: 1rem;
+                &.is-color1{
+                    span{
+                        background-color: #e69109;
+                    }
+                }
+               
+                &.is-color2{
+                    span{
+                        background-color: #63a4ff;
+                    }
+                }
+                &.is-color3{
+                    span{
+                        background-color: #8629ff;
+                    }
+                }
+                &.is-color4{
+                    span{
+                        background-color: #e553ed;
+                    }
+                }
+                &.is-color5{
+                    span{
+                        background-color: #f2575f;
+                    }
+                }
+                &.is-color6{
+                    span{
+                        background-color: #915e0d;
+                    }
+                }
+                &.is-color7{
+                    span{
+                        background-color: #a1970d;
+                    }
+                }
+                &.is-color8{
+                    span{
+                        background-color: #4f7d14;
+                    }
+                }
+                &.is-color9{
+                    span{
+                        background-color: #07aba1;
+                    }
+                }
+                &.is-color10{
+                    span{
+                        background-color: #1d4c8f;
+                    }
+                }
+                &.is-color11{
+                    span{
+                        background-color: #491991;
+                    }
+                }
+                &.is-color12{
+                    span{
+                        background-color: #610766;
+                    }
+                }
+                &.is-color13{
+                    span{
+                        background-color: #6e0208;
+                    }
+                }
+                &.is-color14{
+                    span{
+                        background-color: #f07818;
+                    }
+                }
+                &.is-color15{
+                    span{
+                        background-color: #7F95D1;
+                    }
+                }
+                &.is-color16{
+                    span{
+                        background-color: #FF82A9;
+                    }
+                }
+                &.is-color17{
+                    span{
+                        background-color: #FFC0BE;
+                    }
+                }
+                &.is-color18{
+                    span{
+                        background-color: #f0e111;
+                    }
+                }
+                &.is-color19{
+                    span{
+                        background-color: #9ff035;
+                    }
+                }
+                &.is-color20{
+                    span{
+                        background-color: #34ede1;
+                    }
+                }
                 span{
                     @include display-flex(flex);
                     @include justify-content-center;
@@ -503,8 +604,9 @@
                     width:30px;
                     height: 30px;
                     color:$white-color;
-                    background-color: $dark-green;
+                    // background-color: $dark-green;
                     @include radius(100%);
+                    
                 }
             }
             .branch-bar{
