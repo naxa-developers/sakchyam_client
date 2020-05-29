@@ -23,6 +23,7 @@ import {
   SELECT_AUTOMATION_DATA_BY_DISTRICT,
   SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
   GET_TIMELINE_DATA,
+  TIMELINE_FILTER,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -677,4 +678,10 @@ export const getTimelineData = () => dispatch => {
   } catch (err) {
     console.error(err);
   }
+};
+export const filterTimeline = (min, max) => dispatch => {
+  return dispatch({
+    type: TIMELINE_FILTER,
+    payload: { min, max },
+  });
 };

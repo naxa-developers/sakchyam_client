@@ -1,3 +1,4 @@
+import { marker } from 'leaflet';
 import {
   GET_AUTOMATION_DATA_BY_PARTNER,
   GET_AUTOMATION_DATA_BY_PROVINCE,
@@ -22,6 +23,7 @@ import {
   SELECT_AUTOMATION_DATA_BY_DISTRICT,
   SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
   GET_TIMELINE_DATA,
+  TIMELINE_FILTER,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -87,7 +89,7 @@ const partnerByProvinceForChoropleth = (state, action) => {
   // console.log(action.payload, 'payload');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
-    console.log(data, '12st');
+    // console.log(data, '12st');
     fullData.push({ id: data.code, count: data.tablets_deployed });
     return true;
   });
@@ -345,7 +347,7 @@ const filterPartnerByFederalwithClickedPartners = (state, action) => {
   const a = action.payload.map(data => {
     return { id: data.code, count: data.tablets_deployed };
   });
-  console.log(a, 'a');
+  // console.log(a, 'a');
   return {
     ...state,
     filteredMapBoundaryData: action.payload,
@@ -407,6 +409,24 @@ const getTimelineData = (state, action) => {
     timeLineData: action.payload,
   };
 };
+const timeLineFilter = (state, action) => {
+  const minRange = action.payload.min;
+  const maxRange = action.payload.max;
+  const markerData = state.automationAllDataByPartner;
+  // console.log(markerData, 'MarkerData');
+  const filteredDataByYear =
+    markerData &&
+    markerData[0] &&
+    markerData[0].partner_data.filter(data => {
+      const dataDate = new Date(`${data.date}`).getTime();
+      return dataDate >= minRange && dataDate <= maxRange;
+    });
+  // console.log(a, 'a');
+  return {
+    ...state,
+    automationLeftSidePartnerData: filteredDataByYear,
+  };
+};
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -466,6 +486,8 @@ export default function(state = initialState, action) {
       );
     case GET_TIMELINE_DATA:
       return getTimelineData(state, action);
+    case TIMELINE_FILTER:
+      return timeLineFilter(state, action);
     // case TOGGLE_NULL_SUBMISSIONS_ANSWER:
     //   return toggleNullSubmission(state);
     default:

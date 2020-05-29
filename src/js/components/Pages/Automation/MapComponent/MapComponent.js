@@ -179,6 +179,13 @@ class MapComponent extends Component {
     // this.props.filterAutomationDataForVectorTiles();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // if (prevProps.vectorGridKey !== this.props.vectorGridKey) {
+    //   console.log('xxx');
+    //   // eslint-disable-next-line react/no-did-update-set-state
+    //   this.props.handleVectorGridFirstLoad();
+    // }
+  }
   // fetchingForDropdown = name => {
   //   const key =
   //     name === 'province'
@@ -244,7 +251,10 @@ class MapComponent extends Component {
       handleProvinceClick,
       activeOutreachButton,
       isTileLoaded,
+      vectorGridFirstLoad,
     } = this.props;
+    // console.log(vectorGridFirstLoad, 'vect');
+
     const position = [27.7, 85.4];
     const options = [
       { value: 'chocolate', label: 'Chocolate' },
@@ -359,6 +369,11 @@ class MapComponent extends Component {
           {/* {choroplethInputData&&choroplethInputData.length >0 &&  */}
           {!activeOutreachButton && (
             <VectorGrid
+              activeOutreachButton={activeOutreachButton}
+              handleVectorGridFirstLoad={
+                this.props.handleVectorGridFirstLoad
+              }
+              vectorGridFirstLoad={vectorGridFirstLoad}
               // changetheme={this.props.changetheme}
               handleProvinceClick={handleProvinceClick}
               key={vectorGridKey}
@@ -374,6 +389,11 @@ class MapComponent extends Component {
             automationChoroplethData &&
             filteredProvinceChoropleth && (
               <VectorGrid
+                activeOutreachButton={activeOutreachButton}
+                handleVectorGridFirstLoad={
+                  this.handleVectorGridFirstLoad
+                }
+                vectorGridFirstLoad={vectorGridFirstLoad}
                 handleTileLoadEnd={this.props.handleTileLoadEnd}
                 isTileLoaded={isTileLoaded}
                 handleTileLoad={this.props.handleTileLoad}
@@ -615,7 +635,7 @@ class MapComponent extends Component {
               Loading...Please Wait
             </label>
           </div>
-          {/* <TimelineChart /> */}
+          <TimelineChart />
           <Control position="topleft">
             <div className="map-layer-option">
               <a

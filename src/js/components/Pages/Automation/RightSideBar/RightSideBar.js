@@ -19,6 +19,18 @@ class RightSideBar extends Component {
       toggleTableViewButton,
       activeRightSideBar,
     } = this.props;
+    const a =
+      automationReducer.automationRightSidePartnerData &&
+      automationReducer.automationRightSidePartnerData[0] &&
+      automationReducer.automationRightSidePartnerData[0].partner_data.map(
+        data => {
+          return data.branch;
+        },
+      );
+    const maxBranchValue = Math.max(a && [...a]);
+
+    // console.log(a, 'aaaa');
+    // console.log(maxBranchValue, 'bbbb');
     // console.log(automationReducer, 'autpo');
     const { partnersData } = this.props;
     return (
