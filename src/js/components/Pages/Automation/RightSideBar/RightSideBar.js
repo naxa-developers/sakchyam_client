@@ -3,6 +3,23 @@ import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import MapComponent from '../MapComponent/MapComponent';
 
+function getClassName(i) {
+  if (i % 12 === 0) return 'is-color1';
+  if (i % 12 === 1) return 'is-color2';
+  if (i % 12 === 2) return 'is-color3';
+  if (i % 12 === 3) return 'is-color4';
+  if (i % 12 === 4) return 'is-color5';
+  if (i % 12 === 5) return 'is-color6';
+  if (i % 12 === 6) return 'is-color7';
+  if (i % 12 === 7) return 'is-color8';
+  if (i % 12 === 8) return 'is-color9';
+  if (i % 12 === 9) return 'is-color10';
+  if (i % 12 === 10) return 'is-color11';
+  if (i % 12 === 11) return 'is-color12';
+  if (i % 12 === 12) return 'is-color13';
+  if (i % 12 === 13) return 'is-color14';
+  return 'is-green';
+}
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -141,7 +158,7 @@ class RightSideBar extends Component {
                     automationReducer
                       .automationRightSidePartnerData[0] &&
                     automationReducer.automationRightSidePartnerData[0].partner_data.map(
-                      data => {
+                      (data, i) => {
                         const totalBranch =
                           automationReducer
                             .automationRightSidePartnerData[0]
@@ -160,7 +177,11 @@ class RightSideBar extends Component {
                         ).toUpperCase();
                         return (
                           <div key={data.id} className="branch">
-                            <div className="branch-icon">
+                            <div
+                              className={`branch-icon ${getClassName(
+                                i,
+                              )}`}
+                            >
                               <span>{initials}</span>
                             </div>
                             <div
