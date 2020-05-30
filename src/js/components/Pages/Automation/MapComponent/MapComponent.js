@@ -46,6 +46,7 @@ import { getCenterBboxDistrict } from '../MapRelatedComponents/DistrictFunction'
 //   shadowAnchor: [4, 62], // the same for the shadow
 //   popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
 // });
+let i = 1;
 export const activeIcon = new L.Icon({
   iconUrl: ActiveIcon,
   iconSize: [35, 40],
@@ -68,8 +69,8 @@ class MapComponent extends Component {
       SelectedProvince: null,
       SelectedDistrict: null,
       SelectedMunicipality: null,
-      minValue: '',
-      maxValue: '',
+      minValue: '1/1/2015',
+      maxValue: '1/1/2020',
       key: 1,
       playClick: false,
     };
@@ -144,7 +145,20 @@ class MapComponent extends Component {
     this.props.handleActiveClickPartners(clickedValue);
   };
 
-  changeKey = (min, max) => {
+  getYear = minDate => {
+    const d = new Date(minDate);
+
+    const day = d.getDate();
+    const month = d.getMonth()+1; // Since getMonth() returns month from 0-11 not 1-12
+    const year = d.getFullYear();
+
+    const dateStr = `${month}/${day}/${year}`;
+    // time = dateStr;
+    //console.log(time ,"time returns")
+    // this.setState({ time: dateStr });
+    return dateStr;
+  };
+  playBtn = (min, max) => {
     // this.setState({ key: Math.random() });
     // this.setState({ playSelected: true });
     // const startDate = min;
@@ -154,11 +168,12 @@ class MapComponent extends Component {
     // const minDate = parseInt(minDate)
 
     this.setState({
-      // minValue: min,
-      // maxValue: max,
-      key: Math.random(),
-      // playClick: true,
+       minValue: this.getYear(min),
+       maxValue: this.getYear(max),
+      key: i,
+      playClick: true,
     });
+    i++;
     // global.timerId = null;
   };
 
@@ -791,7 +806,7 @@ class MapComponent extends Component {
           {!activeOutreachButton ? (
             <TimelineChart
               // key={Math.random()}
-              key={key}
+              // key={this.state.key}
               minValue={minValue}
               maxValue={maxValue}
               changeKey={this.changeKey}

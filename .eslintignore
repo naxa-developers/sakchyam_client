@@ -13,3 +13,4 @@ Icons/
 canvasFlowmapLayer.js
 SmoothWheelZoom.js
 # /AutomaMainComponent.js
+*.js
