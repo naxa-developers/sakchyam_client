@@ -104,7 +104,7 @@ class MainAutomation extends Component {
         },
       },
       tabletsDeployed: {
-        series: [44, 55],
+        series: [0, 0],
         // chartOptions: {
         // labels: [],
         // },
@@ -237,6 +237,20 @@ class MainAutomation extends Component {
             // '#72B095',
             // '#a1bd93',
           ],
+          // colors: [
+          //   function({ value, seriesIndex, w }) {
+          //     console.log(value, 'value');
+          //     console.log(seriesIndex, 'seriesIndex');
+          //     console.log(w, 'w');
+          //     // if (value < 55) {
+          //     //   return '#7E36AF';
+          //     // }
+          //     // if (value >= 55 && value < 80) {
+          //     //   return '#164666';
+          //     // }
+          //     // return '#D9534F';
+          //   },
+          // ],
         },
       },
       areaChartOptions: {
@@ -1757,6 +1771,7 @@ class MainAutomation extends Component {
             />
           </main>
           <RightSideBar
+            activeClickPartners={activeClickPartners}
             activeRightSideBar={activeRightSideBar}
             partnersData={partnersData}
             tabletsDeployed={tabletsDeployed}

@@ -43,6 +43,7 @@ import automationReducerReducer from '../../../../reducers/automationReducer.red
 //   shadowAnchor: [4, 62], // the same for the shadow
 //   popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
 // });
+let i = 1;
 export const activeIcon = new L.Icon({
   iconUrl: ActiveIcon,
   iconSize: [35, 40],
@@ -65,6 +66,10 @@ class MapComponent extends Component {
       SelectedProvince: null,
       SelectedDistrict: null,
       SelectedMunicipality: null,
+      minValue: '1/1/2015',
+      maxValue: '1/1/2020',
+      key: 1,
+      playClick: false,
     };
   }
 
@@ -223,6 +228,38 @@ class MapComponent extends Component {
     this.props.handleActiveClickPartners(clickedValue);
   };
 
+  getYear = minDate => {
+    const d = new Date(minDate);
+
+    const day = d.getDate();
+    const month = d.getMonth()+1; // Since getMonth() returns month from 0-11 not 1-12
+    const year = d.getFullYear();
+
+    const dateStr = `${month}/${day}/${year}`;
+    // time = dateStr;
+    //console.log(time ,"time returns")
+    // this.setState({ time: dateStr });
+    return dateStr;
+  };
+  playBtn = (min, max) => {
+    // this.setState({ key: Math.random() });
+    // this.setState({ playSelected: true });
+    // const startDate = min;
+    // const endDate = max;
+    // const time = min;
+    // console.log(min, max);
+    // const minDate = parseInt(minDate)
+
+    this.setState({
+       minValue: this.getYear(min),
+       maxValue: this.getYear(max),
+      key: i,
+      playClick: true,
+    });
+    i++;
+    // global.timerId = null;
+  };
+
   render() {
     const {
       automationDataByPartner,
@@ -241,6 +278,10 @@ class MapComponent extends Component {
       SelectedDistrict,
       SelectedMunicipality,
       provinceAllData,
+      minValue,
+      maxValue,
+      key,
+      playClick,
     } = this.state;
     const {
       dataTypeLevel,
@@ -426,25 +467,26 @@ class MapComponent extends Component {
                 color="#007078" // single color gradient
                 // legendDivisions = {10} //no of divisions in legend
                 // colorArray={[
-                //   '#96ceb4',
-                //   '#ffeead',
-                //   '#d9534f',
-                //   '#ffad60',
-                //   '#fad3cf',
-                //   '#a696c8',
-                //   '#2470a0',
-                //   '#060608',
-                //   '#5e412f',
-                //   '#fcebb6',
-                //   '#78c0a8',
+                //   '#e69109',
+                //   '#63a4ff',
+                //   '#8629ff',
+                //   '#e553ed',
+                //   '#f2575f',
+                //   '#915e0d',
+                //   '#a1970d',
+                //   '#4f7d14',
+                //   '#07aba1',
+                //   '#1d4c8f',
+                //   '#491991',
+                //   '#610766',
+                //   '#6e0208',
                 //   '#f07818',
                 //   '#7F95D1',
                 //   '#FF82A9',
                 //   '#FFC0BE',
-                //   '#D13F31',
-                //   '#DEDBA7',
-                //   '#72B095',
-                //   '#a1bd93',
+                //   '#f0e111',
+                //   '#9ff035',
+                //   '#34ede1',
                 // ]} // multi color custom gradient
                 // colorArray={[
                 //   '#FFF3D4',
@@ -655,7 +697,15 @@ class MapComponent extends Component {
               Loading...Please Wait
             </label>
           </div>
-          {!activeOutreachButton ? <TimelineChart /> : null}
+          {!activeOutreachButton ? (
+            <TimelineChart
+              // key={Math.random()}
+              // key={this.state.key}
+              minValue={minValue}
+              maxValue={maxValue}
+              playBtn={this.playBtn}
+            />
+          ) : null}
           <Control position="topleft">
             <div className="map-layer-option">
               <a

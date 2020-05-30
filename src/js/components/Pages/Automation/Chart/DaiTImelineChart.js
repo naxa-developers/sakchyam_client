@@ -18,6 +18,8 @@ class TimelineChart extends Component {
       // data: [],
       playSelected: false,
       // time: '1/1/2015',
+      minDate: '1/1/2015',
+      maxDate: '1/1/2020',
       minCurrent: '',
       maxCurrent: '',
       // categories: [],
@@ -25,8 +27,8 @@ class TimelineChart extends Component {
   }
 
   plotChart = (seriesData, minVal, maxVal) => {
-    //console.log(minVal, 'minVal');
-    //console.log(maxVal, 'maxVal');
+    console.log(minVal, 'minVal');
+    console.log(maxVal, 'maxVal');
     const that = this;
     const optionsLine = {
       series: [
@@ -36,13 +38,12 @@ class TimelineChart extends Component {
         },
       ],
       chart: {
-        id: "chart1",
-        type: 'area',
+        id: 'chart1',
         height: 100,
         events: {
-        //   dataPointSelection(e, chart, opts) {
-        //     console.log(e, opts);
-        //   },
+          dataPointSelection(e, chart, opts) {
+            console.log(e, opts);
+          },
           selection(chartContext, { xaxis, yaxis }) {
             that.props.filterTimeline(xaxis.min, xaxis.max);
             that.setState({
@@ -57,6 +58,7 @@ class TimelineChart extends Component {
         },
         brush: {
           enabled: true,
+          target: 'chart1',
         },
         selection: {
           enabled: true,
@@ -67,7 +69,7 @@ class TimelineChart extends Component {
         },
       },
       fill: {
-        type: 'gradient',
+        type: 'solid',
         gradient: {
           opacityFrom: 0.61,
           opacityTo: 0.1,
@@ -89,7 +91,7 @@ class TimelineChart extends Component {
       xaxis: {
         type: 'datetime',
         forceNiceScale: true,
-        tickPlacement: 'between',
+        // tickPlacement: 'on',
         labels: {
           rotate: -45,
           // hideOverlappingLabels: true,
@@ -107,8 +109,10 @@ class TimelineChart extends Component {
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 400,
             cssClass: 'apexcharts-xaxis-label',
-          }
+          },
+          min: '1/1/2015',
         },
+        // tickPlacement: 'between',
       },
       yaxis: {
         show: false,
@@ -122,7 +126,6 @@ class TimelineChart extends Component {
   componentWillMount() {} // componentwillmount
 
   componentDidMount() {
-    console.log(this.props.minValue, "didmount min val")
     setTimeout(() => {
       // this.setState({
       //   data: githubdata.series,
@@ -131,8 +134,8 @@ class TimelineChart extends Component {
       const defaultMax = new Date('1 Jan 2020').getTime();
       const options = this.plotChart(
         githubdata.series,
-        new Date(this.props.minValue).getTime(),
-        new Date(this.props.maxValue).getTime(),
+        defaultMin,
+        defaultMax,
       );
       global.chart = new ApexCharts(
         document.querySelector('#timelineChart'),
@@ -149,83 +152,88 @@ class TimelineChart extends Component {
     const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
     const year = d.getFullYear() + 1;
 
-    const dateStr = `${month}/${day}/${year}`;
+    const dateStr = `${day}/${month}/${year}`;
     time = dateStr;
-    console.log(time ,"time returns")
     // this.setState({ time: dateStr });
     return dateStr;
   };
-
-  updateChart = (minValue, maxValue) => {
-    time = minValue;
-    global.timerId = setInterval(() => {
-      
-      console.log(time, 'didupdate min val');
-      console.log(new Date(time), 'didupdate min val');
-      console.log(new Date(maxValue), 'didupdate max val');
-      console.log("once")
-      if (new Date(time).getTime() < new Date(maxValue).getTime()) {
-        const minval = new Date(minValue).getTime();
-        const maxval = new Date(this.getAddedYear(time)).getTime();
-        //console.log(minval, maxval);
-        ApexCharts.exec('chart1', 'updateOptions', {
-        //global.chart.updateOptions({
-          chart: {
-            selection: {
-              //enabled: false,
-              events: {
-                selection(chartContext, { xaxis, yaxis }) {
-                  // that.props.playBtn(xaxis.min, xaxis.max);
-                },
-              },
-              xaxis: {
-                min: minval,
-                max: maxval,
-              },
-            },
-          },
-        });
-        // this.setState(prevState => ({
-        //   optionsLine: {
-        //     ...prevState.optionsLine,
-        //     chart: {
-        //       ...prevState.optionsLine.chart,
-        //       selection: {
-        //         ...prevState.optionsLine.chart.selection,
-        //         xaxis: {
-        //           ...prevState.optionsLine.chart.selection.xaxis,
-        //           min: new Date(this.props.minValue).getTime(),
-        //           max: new Date(this.getAddedYear(time)).getTime(),
-        //         },
-        //       },
-        //     },
-        //   },
-        // }));
-      } else {
-        console.log('clear');
-        clearInterval(global.timerId);
-        //this.setState({ playSelected: false });
-      }
-    }, 1200);
-  }
 
   componentDidUpdate(prevProps, prevStates) {
     if (
       prevProps.minValue !== this.props.minValue ||
       prevProps.maxValue !== this.props.maxValue
     ) {
-      //this.updateChart(this.props.minValue, this.props.maxValue);
+      time = this.props.minValue;
+      console.log('didupdate');
+      // const { time } = this.state;
+      console.log(global.chart);
+      // global.chart.addEventListener('click', function() {
+      //   console.log('selected');
+      // });
+      console.log(time, 'time');
+      console.log(this.props.minValue, 'maxValue');
+      console.log(this.props.maxValue, 'maxValue');
+      global.timerId = setInterval(() => {
+        // while (time !== this.props.maxVal) {
+        // const { time, endDate } = this.props;
+        if (new Date(time).getTime() < this.props.maxValue) {
+          console.log(time);
+          // console.log(this.state.time);
+          // console.log(this.props.minValue, 'minValue');
+          // console.log(this.props.maxValue, 'maxVal');
+          // console.log('inside if');
+          // console.log(time, 'time');
+          // console.log(endDate, 'endDate');
+          const minval = new Date(this.props.minValue).getTime();
+          const maxval = new Date(this.getAddedYear(time)).getTime();
+          console.log(minval, maxval);
+          // this.plotChart(this.state.data, minval, maxval);
+          global.chart.updateOptions({
+            chart: {
+              selection: {
+                // enabled: false,
+                xaxis: {
+                  min: minval,
+                  max: maxval,
+                },
+              },
+            },
+          });
+          // this.setState(prevState => ({
+          //   optionsLine: {
+          //     ...prevState.optionsLine,
+          //     chart: {
+          //       ...prevState.optionsLine.chart,
+          //       selection: {
+          //         ...prevState.optionsLine.chart.selection,
+          //         xaxis: {
+          //           ...prevState.optionsLine.chart.selection.xaxis,
+          //           min: new Date(this.props.minValue).getTime(),
+          //           max: new Date(this.getAddedYear(time)).getTime(),
+          //         },
+          //       },
+          //     },
+          //   },
+          // }));
+        } else {
+          console.log('clear');
+          clearInterval(global.timerId);
+          // this.setState({ playSelected: false });
+        }
+      }, 1200);
     }
   } // componentdidupdate
 
   render() {
     const {
       playSelected,
+      minDate,
+      maxDate,
       minCurrent,
       maxCurrent,
     } = this.state;
-    // console.log(this.props.minValue, 'minValue render');
-    // console.log(this.props.maxValue, 'maxValue Render');
+    console.log(this.props.minValue, 'minValue render');
+    console.log(this.props.maxValue, 'maxValue Render');
     return (
       <div
         id="wrapper"
@@ -235,18 +243,13 @@ class TimelineChart extends Component {
         <a
           onClick={() => {
             time = '1/1/2015';
-            //console.log(new Date(minCurrent), 'onClick maxValue');
-            //console.log(new Date(this.props.minValue), ' Current min Value');
+            console.log(this.props.maxValue, 'onClick maxValue');
             // global.chart.render();
-            //console.log(this.props.minValue, 'onClick minValue');
+            console.log(this.props.minValue, 'onClick minValue');
             this.props.playBtn(minCurrent, maxCurrent);
-            setTimeout(() => {
-              this.updateChart(this.props.minValue, this.props.maxValue);
-            }, 200);
-            
             // this.setState({ key: Math.random() });
           }}
-          //key={this.props.key}
+          key={this.props.key}
           className="play-btn"
           href="#"
           title="Play"
@@ -265,7 +268,7 @@ class TimelineChart extends Component {
             !playSelected ? { display: 'none' } : { display: 'block' }
           }
         /> */}
-        <div id="timelineChart" style={{ marginLeft: '20px' }}/>
+        <div id="timelineChart" style={{ marginLeft: '20px' }} />
       </div>
     );
   }
