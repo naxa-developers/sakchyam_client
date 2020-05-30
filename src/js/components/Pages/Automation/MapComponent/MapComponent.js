@@ -809,8 +809,8 @@ class MapComponent extends Component {
               // key={this.state.key}
               minValue={minValue}
               maxValue={maxValue}
-              changeKey={this.changeKey}
-            />
+              playBtn={this.playBtn}
+            /> 
           ) : null}
           <Control position="topleft">
             <div className="map-layer-option">
