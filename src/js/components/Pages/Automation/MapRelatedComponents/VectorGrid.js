@@ -4,7 +4,7 @@ import VectorGridDefault from 'react-leaflet-vectorgrid';
 import {connect} from 'react-redux';
 // import ScrollTab from './ScrollTab';
 const VectorGrid = withLeaflet(VectorGridDefault);
-import {label_Vector_Tiles, calculateRange, handleZoom, choroplethColorArray, getProvinceName} from "./Functions";
+import {label_Vector_Tiles, calculateRange, handleZoom, choroplethColorArray, getProvinceName,getCenterBboxMunicipality} from "./Functions";
 import { filterDistrictFromProvinceColor } from "../../../../actions/automation.actions";
 
 // import './Developers_css/vectorgrid.css';
@@ -230,7 +230,7 @@ class VectorGridComponent extends Component {
                 `<div class="leaflet-popup-content" style="width: 281px;">
                     <div class="map-popup-view">
                         <div class="map-popup-view-header">
-                            <h5>Chure</h5>
+                            <h5>${e.layer.properties.name}</h5>
                             <div class="icons">
                             <i class="material-icons">tablet_mac</i><b>32</b>
                             </div>
@@ -389,6 +389,10 @@ class VectorGridComponent extends Component {
                 // },
                 getFeatureId: function (feature) {
                     // console.log(feature,"feature  ")
+                    if(feature.properties.name ==="Shivaraj"){
+                        // console.log(feature,'checkkkkkk')
+
+                    }
                 let bboxString= feature.properties.bbox;
                 var bboxArray= bboxString.split(",");
                 // console.log(bboxArray,'bboxaray')
@@ -411,6 +415,7 @@ class VectorGridComponent extends Component {
             subdomains: 'abcd',
             key: 'abcdefghi01234567890',
         };
+        // console.log(this.vectorGridRef.current && this.vectorGridRef.current.props.getFeatureId(function (feature) {}),'vectorRef')
         return (
             <div>
                 <VectorGrid {...options} ref={this.vectorGridRef}></VectorGrid>

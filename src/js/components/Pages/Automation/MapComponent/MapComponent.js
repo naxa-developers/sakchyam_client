@@ -1,5 +1,6 @@
+/* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
-import { Map, Popup, Marker } from 'react-leaflet';
+import { Map, Popup, Marker, Pane } from 'react-leaflet';
 import Loader from 'react-loader-spinner';
 import 'leaflet/dist/leaflet.css';
 import Control from 'react-leaflet-control';
@@ -29,6 +30,8 @@ import {
   filterAutomationDataForVectorTiles,
 } from '../../../../actions/automation.actions';
 import automationReducerReducer from '../../../../reducers/automationReducer.reducer';
+import { getCenterBboxMunicipality } from '../MapRelatedComponents/MunicipalityFunction';
+import { getCenterBboxDistrict } from '../MapRelatedComponents/DistrictFunction';
 // import ScrollTab from './ScrollTab';
 // import IosSwitch from '../../Includes/IosSwitch';
 
@@ -74,93 +77,8 @@ class MapComponent extends Component {
 
   componentDidMount() {
     // this.props.getAllAutomationDataByPartner();
-
-    const map = this.props.mapRef.current.leafletElement;
-    // const marker = L.marker([84, 27], { icon: greenIcon }).addTo(map);
-    // console.log(map, 'mapref');
-
-    const geoJsonFeatureCollection = {
-      type: 'FeatureCollection',
-      features: CsvFile.map(function(datum) {
-        return {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [datum.s_lon, datum.s_lat],
-          },
-          properties: datum,
-        };
-      }),
-    };
-    // console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
-
-    // const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
-    //   geoJsonFeatureCollection,
-    //   {
-    //     originAndDestinationFieldIds: {
-    //       originUniqueIdField: 's_city_id',
-    //       originGeometry: {
-    //         x: 's_lon',
-    //         y: 's_lat',
-    //       },
-    //       destinationUniqueIdField: 'e_city_id',
-    //       destinationGeometry: {
-    //         x: 'e_lon',
-    //         y: 'e_lat',
-    //       },
-    //     },
-    //     pathDisplayMode: 'selection',
-    //     animationStarted: true,
-    //     animationEasingFamily: 'Cubic',
-    //     animationEasingType: 'In',
-    //     animationDuration: 2000,
-    //   },
-    // ).addTo(map);
-    // oneToManyFlowmapLayer.on('click', function(e) {
-    //   if (e.sharedOriginFeatures.length) {
-    //     oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-    //       e.sharedOriginFeatures,
-    //       'SELECTION_NEW',
-    //     );
-    //   }
-    //   if (e.sharedDestinationFeatures.length) {
-    //     oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-    //       e.sharedDestinationFeatures,
-    //       'SELECTION_NEW',
-    //     );
-    //   }
-    // });
-
-    // // immediately select an origin point for Bezier path display,
-    // // instead of waiting for the first user click event to fire
-    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
-    //   's_city_id',
-    //   373,
-    //   true,
-    //   'SELECTION_NEW',
-    // );
-
-    // since this demo is using the optional "pathDisplayMode" as "selection",
-    // it is up to the developer to wire up a click or mouseover listener
-    // and then call the "selectFeaturesForPathDisplay()" method to inform the layer
-    // which Bezier paths need to be drawn
-    // oneToManyFlowmapLayer.on('click', function(e) {
-    //   if (e.sharedOriginFeatures.length) {
-    //     oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-    //       e.sharedOriginFeatures,
-    //       'SELECTION_NEW',
-    //     );
-    //   }
-    //   if (e.sharedDestinationFeatures.length) {
-    //     oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-    //       e.sharedDestinationFeatures,
-    //       'SELECTION_NEW',
-    //     );
-    //   }
-    // });
-
-    // // immediately select a few origin points for Bezier path display,
-    // // instead of waiting for the first user click event to fire
+    // immediately select a few origin points for Bezier path display,
+    // instead of waiting for the first user click event to fire
     // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
     //   's_city_id',
     //   562,
@@ -179,7 +97,6 @@ class MapComponent extends Component {
     //   true,
     //   'SELECTION_ADD',
     // );
-
     // this.props.filterAutomationDataForVectorTiles();
   }
 
@@ -227,7 +144,7 @@ class MapComponent extends Component {
     this.props.handleActiveClickPartners(clickedValue);
   };
 
-  playBtn = (min, max) => {
+  changeKey = (min, max) => {
     // this.setState({ key: Math.random() });
     // this.setState({ playSelected: true });
     // const startDate = min;
@@ -237,13 +154,197 @@ class MapComponent extends Component {
     // const minDate = parseInt(minDate)
 
     this.setState({
-      minValue: min,
-      maxValue: max,
+      // minValue: min,
+      // maxValue: max,
       key: Math.random(),
-      playClick: true,
+      // playClick: true,
     });
     // global.timerId = null;
   };
+
+  toggleMapChange = () => {
+    this.setState(prevState => ({
+      activeMapControl: !prevState.activeMapControl,
+    }));
+    console.log(
+      this.props.automationReducer.automationAllDataByPartner[0]
+        .partner_data,
+    );
+    // const a = this.props.automationReducer.automationAllDataByPartner[0].partner_data.map(
+    //   partner => {
+
+    const a = this.props.automationReducer.automationTableData.map(
+      branch => {
+        console.log('inside If ');
+        // eslint-disable-next-line no-param-reassign
+        // branch.s_lat = partner.lat;
+        // // eslint-disable-next-line no-param-reassign
+        // branch.s_long = partner.long;
+        // console.log(branch.municipality, 'branchLat0');
+        // console.log(
+        //   getCenterBboxMunicipality(branch.municipality.trim()),
+        //   'branchLat',
+        // );
+        const trimelat = getCenterBboxMunicipality(
+          branch.municipality.trim(),
+        ).center;
+        const trimelong = getCenterBboxMunicipality(
+          branch.municipality.trim(),
+        ).center;
+        // eslint-disable-next-line prefer-destructuring
+        branch.des_long = trimelong ? trimelong[0] : null;
+        // console.log(trimelong[0], 'trim');
+        // console.log(timelong[0]);
+        // eslint-disable-next-line prefer-destructuring
+        branch.des_lat = trimelong ? trimelong[1] : null;
+        // }
+        return true;
+      },
+      console.log(
+        this.props.automationReducer.automationTableData,
+        'tableData',
+      ),
+    );
+
+    const map = this.props.mapRef.current.leafletElement;
+    // const marker = L.marker([84, 27], { icon: greenIcon }).addTo(map);
+    // console.log(map, 'mapref');
+
+    const geoJsonFeatureCollection = {
+      type: 'FeatureCollection',
+      features: this.props.automationReducer.automationTableData.map(
+        function(datum) {
+          return {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [datum.longitude, datum.latitude],
+            },
+            properties: datum,
+          };
+        },
+      ),
+    };
+    console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
+    map.createPane('migration_pane').style.zIndex = 900;
+    // map.createPane('migration_pane').style.zIndex = 600;
+
+    const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
+      geoJsonFeatureCollection,
+      {
+        // pane: 'migration_pane',
+        originAndDestinationFieldIds: {
+          originUniqueIdField: 'partner_id',
+          originGeometry: {
+            x: 'longitude',
+            y: 'latitude',
+          },
+          destinationUniqueIdField: 'id',
+          destinationGeometry: {
+            x: 'des_long',
+            y: 'des_lat',
+          },
+        },
+        style(geoJsonFeature) {
+          // console.log(layer, 'inside');
+          // use leaflet's path styling options
+
+          // since the GeoJSON feature properties are modified by the layer,
+          // developers can rely on the "isOrigin" property to set different
+          // symbols for origin vs destination CircleMarker stylings
+
+          if (geoJsonFeature.properties.isOrigin) {
+            return {
+              renderer: L.canvas({
+                pane: 'migration_pane',
+                // tolerance: 15,
+                // padding: 0.2,
+              }), // recommended to use your own L.canvas()
+              radius: 8,
+              weight: 1,
+              opacity: 1,
+              color: '#ff0000',
+              fillColor: '#ff0000',
+              fillOpacity: 1,
+            };
+          }
+          return {
+            // renderer: canvasRenderer,
+            radius: 2.5,
+            weight: 0.25,
+            opacity: 0,
+            color: 'rgb(17, 142, 170)',
+            fillColor: 'rgb(17, 142, 170)',
+            fillOpacity: 0,
+          };
+        },
+        pathDisplayMode: 'selection',
+        animationStarted: true,
+        animationEasingFamily: 'Cubic',
+        animationEasingType: 'In',
+        animationDuration: 2000,
+      },
+    ).addTo(map);
+    oneToManyFlowmapLayer.on('click', function(e) {
+      if (e.sharedOriginFeatures.length) {
+        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+          e.sharedOriginFeatures,
+          'SELECTION_NEW',
+        );
+      }
+      if (e.sharedDestinationFeatures.length) {
+        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+          e.sharedDestinationFeatures,
+          'SELECTION_NEW',
+        );
+      }
+    });
+    map.getPane('overlayPane').style.zIndex = 600;
+    console.log(oneToManyFlowmapLayer, 'mig layer');
+    // immediately select an origin point for Bezier path display,
+    // instead of waiting for the first user click event to fire
+    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+    //   'partner_id',
+    //   373,
+    //   true,
+    //   'SELECTION_NEW',
+    // );
+
+    // since this demo is using the optional "pathDisplayMode" as "selection",
+    // it is up to the developer to wire up a click or mouseover listener
+    // and then call the "selectFeaturesForPathDisplay()" method to inform the layer
+    // which Bezier paths need to be drawn
+    oneToManyFlowmapLayer.on('click', function(e) {
+      if (e.sharedOriginFeatures.length) {
+        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+          e.sharedOriginFeatures,
+          'SELECTION_NEW',
+        );
+      }
+      if (e.sharedDestinationFeatures.length) {
+        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+          e.sharedDestinationFeatures,
+          'SELECTION_NEW',
+        );
+      }
+    });
+  };
+
+  // console.log(this.props.automationReducer.automationTableData);
+  // console.log(
+  //   this.vectorGridRef.current.leafletElement,
+  //   'vectorgrid',
+  // );
+  // console.log(getCenterBboxMunicipality('Chitwan'), 'getCNETE');
+  // console.log(
+  //   getCenterBboxMunicipality([
+  //     'Chitwan',
+  //     'Kathmandu',
+  //     'Bhaktapur',
+  //   ]),
+  //   'multiple',
+  // );
+  // };
 
   render() {
     const {
@@ -267,6 +368,7 @@ class MapComponent extends Component {
       maxValue,
       key,
       playClick,
+      activeMapControl,
     } = this.state;
     const {
       dataTypeLevel,
@@ -278,6 +380,7 @@ class MapComponent extends Component {
       activeOutreachButton,
       isTileLoaded,
       vectorGridFirstLoad,
+      mapType,
     } = this.props;
     // console.log(vectorGridFirstLoad, 'vect');
 
@@ -498,10 +601,12 @@ class MapComponent extends Component {
             iconColor="#FF0000"
             mode="circle" // options - circle, circleIcon, marker
           />
+          {/* <Pane name="partner_marker" style={{ zIndex: 400 }}> */}
           {automationLeftSidePartnerData &&
             automationLeftSidePartnerData.map(data => {
               return (
                 <Marker
+                  // pane="migration_pane"
                   key={data.id}
                   onClick={() => {
                     this.markerClickProvinceSelect(data.partner_id);
@@ -656,6 +761,7 @@ class MapComponent extends Component {
                 </Marker>
               );
             })}
+          {/* </Pane> */}
           <div
             id="center_loader"
             style={{
@@ -685,10 +791,10 @@ class MapComponent extends Component {
           {!activeOutreachButton ? (
             <TimelineChart
               // key={Math.random()}
-              // key={key}
+              key={key}
               minValue={minValue}
               maxValue={maxValue}
-              playBtn={this.playBtn}
+              changeKey={this.changeKey}
             />
           ) : null}
           <Control position="topleft">
@@ -697,15 +803,49 @@ class MapComponent extends Component {
                 className="leaflet-control-map-layer"
                 href="#"
                 title="map layer"
+                onClick={this.toggleMapChange}
               >
                 <img src={mapIcon} alt="map" />
               </a>
-              <ul className="map-layer-list">
-                <li>
-                  <a href="">choropleth</a>
+              <ul
+                className="map-layer-list"
+                style={
+                  activeMapControl
+                    ? { display: 'block' }
+                    : { display: 'none' }
+                }
+              >
+                <li
+                  className={mapType === 'choropleth' ? 'active' : ''}
+                >
+                  <a
+                    role="tab"
+                    tabIndex="0"
+                    onClick={() => {
+                      this.props.handleMapTypeChange('choropleth');
+                    }}
+                    onKeyUp={() => {
+                      this.props.handleMapTypeChange('choropleth');
+                    }}
+                  >
+                    choropleth
+                  </a>
                 </li>
-                <li>
-                  <a href="">branches</a>
+                <li
+                  className={mapType === 'branches' ? 'active' : ''}
+                >
+                  <a
+                    role="tab"
+                    tabIndex="0"
+                    onClick={() => {
+                      this.props.handleMapTypeChange('branches');
+                    }}
+                    onKeyDown={() => {
+                      this.props.handleMapTypeChange('branches');
+                    }}
+                  >
+                    branches
+                  </a>
                 </li>
               </ul>
             </div>

@@ -142,6 +142,10 @@ class TimelineChart extends Component {
         options,
       );
       global.chart.render();
+      global.chart.addEventListener('click', function() {
+        alert('selected');
+        // this.setState({});
+      });
     }, 500);
   }
 
@@ -158,71 +162,65 @@ class TimelineChart extends Component {
     return dateStr;
   };
 
-  componentDidUpdate(prevProps, prevStates) {
-    if (
-      prevProps.minValue !== this.props.minValue ||
-      prevProps.maxValue !== this.props.maxValue
-    ) {
-      time = this.props.minValue;
-      console.log('didupdate');
-      // const { time } = this.state;
-      console.log(global.chart);
-      // global.chart.addEventListener('click', function() {
-      //   console.log('selected');
-      // });
-      console.log(time, 'time');
-      console.log(this.props.minValue, 'maxValue');
-      console.log(this.props.maxValue, 'maxValue');
-      global.timerId = setInterval(() => {
-        // while (time !== this.props.maxVal) {
-        // const { time, endDate } = this.props;
-        if (new Date(time).getTime() < this.props.maxValue) {
-          console.log(time);
-          // console.log(this.state.time);
-          // console.log(this.props.minValue, 'minValue');
-          // console.log(this.props.maxValue, 'maxVal');
-          // console.log('inside if');
-          // console.log(time, 'time');
-          // console.log(endDate, 'endDate');
-          const minval = new Date(this.props.minValue).getTime();
-          const maxval = new Date(this.getAddedYear(time)).getTime();
-          console.log(minval, maxval);
-          // this.plotChart(this.state.data, minval, maxval);
-          global.chart.updateOptions({
-            chart: {
-              selection: {
-                // enabled: false,
-                xaxis: {
-                  min: minval,
-                  max: maxval,
-                },
+  playBtn = () => {
+    const maxV = '1/1/2020';
+    const minV = '1/1/2015';
+
+    if (new Date(time).getTime() >= new Date(maxV).getTime()) {
+      time = '1/1/2015';
+      this.props.changeKey();
+    }
+    global.timerId = setInterval(() => {
+      // while (time !== this.props.maxVal) {
+      // const { time, endDate } = this.props;
+      if (new Date(time).getTime() < new Date(maxV).getTime()) {
+        console.log(time);
+        // console.log(this.state.time);
+        // console.log(this.props.minValue, 'minValue');
+        // console.log(this.props.maxValue, 'maxVal');
+        // console.log('inside if');
+        // console.log(time, 'time');
+        // console.log(endDate, 'endDate');
+        const minval = new Date(minV).getTime();
+        const maxval = new Date(this.getAddedYear(time)).getTime();
+        console.log(minval, maxval);
+        // this.plotChart(this.state.data, minval, maxval);
+        global.chart.updateOptions({
+          chart: {
+            selection: {
+              // enabled: false,
+              xaxis: {
+                min: minval,
+                max: maxval,
               },
             },
-          });
-          // this.setState(prevState => ({
-          //   optionsLine: {
-          //     ...prevState.optionsLine,
-          //     chart: {
-          //       ...prevState.optionsLine.chart,
-          //       selection: {
-          //         ...prevState.optionsLine.chart.selection,
-          //         xaxis: {
-          //           ...prevState.optionsLine.chart.selection.xaxis,
-          //           min: new Date(this.props.minValue).getTime(),
-          //           max: new Date(this.getAddedYear(time)).getTime(),
-          //         },
-          //       },
-          //     },
-          //   },
-          // }));
-        } else {
-          console.log('clear');
-          clearInterval(global.timerId);
-          // this.setState({ playSelected: false });
-        }
-      }, 1200);
-    }
-  } // componentdidupdate
+          },
+        });
+        // this.setState(prevState => ({
+        //   optionsLine: {
+        //     ...prevState.optionsLine,
+        //     chart: {
+        //       ...prevState.optionsLine.chart,
+        //       selection: {
+        //         ...prevState.optionsLine.chart.selection,
+        //         xaxis: {
+        //           ...prevState.optionsLine.chart.selection.xaxis,
+        //           min: new Date(this.props.minValue).getTime(),
+        //           max: new Date(this.getAddedYear(time)).getTime(),
+        //         },
+        //       },
+        //     },
+        //   },
+        // }));
+      } else {
+        console.log('clear');
+        clearInterval(global.timerId);
+        // this.setState({ playSelected: false });
+      }
+    }, 1200);
+  };
+
+  componentDidUpdate(prevProps, prevStates) {} // componentdidupdate
 
   render() {
     const {
@@ -231,6 +229,7 @@ class TimelineChart extends Component {
       maxDate,
       minCurrent,
       maxCurrent,
+      key,
     } = this.state;
     console.log(this.props.minValue, 'minValue render');
     console.log(this.props.maxValue, 'maxValue Render');
@@ -242,12 +241,7 @@ class TimelineChart extends Component {
       >
         <a
           onClick={() => {
-            time = '1/1/2015';
-            console.log(this.props.maxValue, 'onClick maxValue');
-            // global.chart.render();
-            console.log(this.props.minValue, 'onClick minValue');
-            this.props.playBtn(minCurrent, maxCurrent);
-            // this.setState({ key: Math.random() });
+            this.playBtn();
           }}
           key={this.props.key}
           className="play-btn"

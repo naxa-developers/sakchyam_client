@@ -24,6 +24,7 @@ import {
   selectChoroplethDataOfDistrict,
   selectChoroplethDataOfMunicipality,
   getTimelineData,
+  filterAutomationByState,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
@@ -48,6 +49,7 @@ class MainAutomation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mapType: 'choropleth',
       isTileLoaded: false,
       activeClickPartners: [],
       selectedProvince: [],
@@ -306,6 +308,7 @@ class MainAutomation extends Component {
     this.props.getMunicipalityData();
     this.props.getBranchesTableData();
     this.props.getTimelineData();
+    this.props.filterAutomationByState();
 
     const provinceEl = document.getElementById(
       'filter_dropdown_province',
@@ -1317,6 +1320,10 @@ class MainAutomation extends Component {
     this.setState({ isTileLoaded: false });
   };
 
+  handleMapTypeChange = type => {
+    this.setState({ mapType: type });
+  };
+
   render() {
     const {
       vectorGridFirstLoad,
@@ -1349,6 +1356,7 @@ class MainAutomation extends Component {
       vectorGridKey1,
       selectedProvinceDropdown,
       selectedDistrictDropdown,
+      mapType,
     } = this.state;
     const {
       automationDataByPartner,
@@ -1382,6 +1390,8 @@ class MainAutomation extends Component {
             <div className="main-card map-card">
               <div id="map" className="map">
                 <MapComponent
+                  mapType={mapType}
+                  handleMapTypeChange={this.handleMapTypeChange}
                   vectorGridFirstLoad={vectorGridFirstLoad}
                   handleVectorGridFirstLoad={
                     this.handleVectorGridFirstLoad
@@ -1810,4 +1820,5 @@ export default connect(mapStateToProps, {
   selectChoroplethDataOfDistrict,
   selectChoroplethDataOfMunicipality,
   getTimelineData,
+  filterAutomationByState,
 })(MainAutomation);
