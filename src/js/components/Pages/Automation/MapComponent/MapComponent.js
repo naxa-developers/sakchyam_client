@@ -704,7 +704,7 @@ class MapComponent extends Component {
               minValue={minValue}
               maxValue={maxValue}
               playBtn={this.playBtn}
-            />
+            /> 
           ) : null}
           <Control position="topleft">
             <div className="map-layer-option">
