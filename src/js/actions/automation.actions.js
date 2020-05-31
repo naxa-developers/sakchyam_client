@@ -734,7 +734,7 @@ export const filterAutomationByState = () => dispatch => {
         `api/v1/automation/table-data/?filter_type=partner&partner=32&partner=16&province=1`,
       )
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
         return dispatch({
           type: FILTER_AUTOMATION_BY_PROVINCE,
           payload: result.data,

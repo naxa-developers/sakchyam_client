@@ -176,7 +176,7 @@ class RightSideBar extends Component {
                       (initials.shift() || '') +
                       (initials.pop() || '')
                     ).toUpperCase();
-                    console.log(data, 'data');
+                    // console.log(data, 'data');
                     return (
                       <li
                         key={data.id}

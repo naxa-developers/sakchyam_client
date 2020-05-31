@@ -122,7 +122,7 @@ class TimelineChart extends Component {
   componentWillMount() {} // componentwillmount
 
   componentDidMount() {
-    console.log(this.props.minValue, 'didmount min val');
+    // console.log(this.props.minValue, 'didmount min val');
     setTimeout(() => {
       // this.setState({
       //   data: githubdata.series,
@@ -155,7 +155,7 @@ class TimelineChart extends Component {
 
     const dateStr = `${month}/${day}/${year}`;
     time = dateStr;
-    console.log(time, 'time returns');
+    // console.log(time, 'time returns');
     // this.setState({ time: dateStr });
     return dateStr;
   };
@@ -163,10 +163,10 @@ class TimelineChart extends Component {
   updateChart = (minValue, maxValue) => {
     time = minValue;
     global.timerId = setInterval(() => {
-      console.log(time, 'didupdate min val');
-      console.log(new Date(time), 'didupdate min val');
-      console.log(new Date(maxValue), 'didupdate max val');
-      console.log('once');
+      // console.log(time, 'didupdate min val');
+      // console.log(new Date(time), 'didupdate min val');
+      // console.log(new Date(maxValue), 'didupdate max val');
+      // console.log('once');
       if (new Date(time).getTime() < new Date(maxValue).getTime()) {
         const minval = new Date(minValue).getTime();
         const maxval = new Date(this.getAddedYear(time)).getTime();
@@ -205,7 +205,7 @@ class TimelineChart extends Component {
         //   },
         // }));
       } else {
-        console.log('clear');
+        // console.log('clear');
         clearInterval(global.timerId);
         // this.setState({ playSelected: false });
       }

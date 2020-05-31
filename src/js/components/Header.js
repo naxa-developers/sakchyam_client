@@ -51,7 +51,7 @@ class Header extends Component {
     const permissionData = localStorage.getItem('userPermission');
     const permissionObject = JSON.parse(permissionData);
     this.setState({ permissions: permissionObject });
-    console.log(permissionObject, 'permission');
+    // console.log(permissionObject, 'permission');
     if (this.props.disableScroll) {
       // this.headerUpdate();
 
