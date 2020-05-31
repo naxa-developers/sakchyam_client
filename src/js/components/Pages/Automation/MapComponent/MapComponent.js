@@ -149,15 +149,16 @@ class MapComponent extends Component {
     const d = new Date(minDate);
 
     const day = d.getDate();
-    const month = d.getMonth()+1; // Since getMonth() returns month from 0-11 not 1-12
+    const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
     const year = d.getFullYear();
 
     const dateStr = `${month}/${day}/${year}`;
     // time = dateStr;
-    //console.log(time ,"time returns")
+    // console.log(time ,"time returns")
     // this.setState({ time: dateStr });
     return dateStr;
   };
+
   playBtn = (min, max) => {
     // this.setState({ key: Math.random() });
     // this.setState({ playSelected: true });
@@ -168,12 +169,12 @@ class MapComponent extends Component {
     // const minDate = parseInt(minDate)
 
     this.setState({
-       minValue: this.getYear(min),
-       maxValue: this.getYear(max),
+      minValue: this.getYear(min),
+      maxValue: this.getYear(max),
       key: i,
       playClick: true,
     });
-    i++;
+    i += 1;
     // global.timerId = null;
   };
 
@@ -810,7 +811,7 @@ class MapComponent extends Component {
               minValue={minValue}
               maxValue={maxValue}
               playBtn={this.playBtn}
-            /> 
+            />
           ) : null}
           <Control position="topleft">
             <div className="map-layer-option">
