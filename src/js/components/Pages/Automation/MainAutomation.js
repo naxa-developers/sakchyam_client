@@ -1,7 +1,10 @@
+/* eslint-disable new-cap */
+/* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import L from 'leaflet';
 import { connect } from 'react-redux';
 import MapComponent from './MapComponent/MapComponent';
+import { getCenterBboxMunicipality } from './MapRelatedComponents/MunicipalityFunction';
 import {
   getAllAutomationDataByPartner,
   getAutomationDataByProvince,
@@ -24,6 +27,7 @@ import {
   selectChoroplethDataOfDistrict,
   selectChoroplethDataOfMunicipality,
   getTimelineData,
+  filterAutomationByState,
 } from '../../../actions/automation.actions';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
@@ -48,6 +52,16 @@ class MainAutomation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mapType: 'choropleth',
+      migrationArray: [
+        // {
+        //   from: [85, 27],
+        //   to: [85.5, 28],
+        //   labels: ['Los Angeles', 'San Francisco'],
+        //   color: '#ff3a31',
+        //   value: 15,
+        // },
+      ],
       isTileLoaded: false,
       activeClickPartners: [],
       selectedProvince: [],
@@ -306,6 +320,7 @@ class MainAutomation extends Component {
     this.props.getMunicipalityData();
     this.props.getBranchesTableData();
     this.props.getTimelineData();
+    this.props.filterAutomationByState();
 
     const provinceEl = document.getElementById(
       'filter_dropdown_province',
@@ -421,6 +436,7 @@ class MainAutomation extends Component {
           ...tabletsDeployed,
           series: automationRightSidePartnerData[0].tabletsGraphData,
           labels: automationRightSidePartnerData[0].tabletsGraphLabel,
+          // color: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
           // plotOptions: {
           //   pie: {
           //     donut: {
@@ -490,9 +506,10 @@ class MainAutomation extends Component {
         selectedProvince,
         selectedDistrict,
         selectedMunicipality,
+        mapType,
       } = this.state;
       const mapLayers = this.mapRef.current.leafletElement._layers;
-      console.log(mapLayers && mapLayers._url, 'layers');
+      // console.log(mapLayers && mapLayers._url, 'layers');
       // Object.entries(mapLayers).forEach(([key, value]) => {
       //   // if (value._url) {
       //   //   console.log(value._url);
@@ -500,6 +517,9 @@ class MainAutomation extends Component {
       //   // }
       // });
       if (activeClickPartners.length === 0) {
+        if (mapType === 'branches') {
+          global.migrationLayer.hide();
+        }
         this.props.filterPartnerSelect(activeClickPartners);
         if (activeTableView) {
           this.props.getTableDataByPartnerSelect(activeClickPartners);
@@ -515,6 +535,63 @@ class MainAutomation extends Component {
           }
         });
       } else {
+        const array = [];
+        global.a = this.props.automationReducer.automationTableData;
+        global.a.map(branch => {
+          // console.log('inside If ');
+          // eslint-disable-next-line no-param-reassign
+          // branch.s_lat = partner.lat;
+          // // eslint-disable-next-line no-param-reassign
+          // branch.s_long = partner.long;
+          // console.log(branch.municipality, 'branchLat0');
+          // console.log(
+          //   getCenterBboxMunicipality(branch.municipality.trim()),
+          //   'branchLat',
+          // );
+          const trimelat = getCenterBboxMunicipality(
+            branch.municipality.trim(),
+          ).center;
+          const trimelong = getCenterBboxMunicipality(
+            branch.municipality.trim(),
+          ).center;
+          // eslint-disable-next-line prefer-destructuring
+          branch.des_long = trimelong ? trimelong[0] : null;
+          // console.log(trimelong[0], 'trim');
+          // console.log(timelong[0]);
+          // eslint-disable-next-line prefer-destructuring
+          branch.des_lat = trimelong ? trimelong[1] : null;
+          // }
+          return true;
+        });
+        // global.a = this.props.automationReducer.automationTableData;
+        const x = this.state.activeClickPartners.map(
+          clickedPartners => {
+            global.a.map(data => {
+              // console.log(data);
+              if (data.des_lat !== null) {
+                if (data.partner_id === clickedPartners) {
+                  // console.log('inside 2 if');
+                  array.push({
+                    from: [data.longitude, data.latitude],
+                    to: [data.des_long, data.des_lat],
+                    labels: [data.partner, data.branch],
+                    color: '#ff3a31',
+                    value: 15,
+                  });
+                }
+              }
+              return true;
+            });
+            return true;
+          },
+        );
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ migrationArray: array });
+        if (mapType === 'branches') {
+          global.migrationLayer.setData(array);
+          global.migrationLayer.show();
+        }
+        // eslint-disable-next-line new-cap
         if (
           selectedProvince.length > 0 ||
           selectedDistrict.length > 0 ||
@@ -607,7 +684,13 @@ class MainAutomation extends Component {
       selectedDistrict,
       selectedProvince,
     } = this.state;
+
+    // const partner = 'Janautthan Laghubitta Bittiya Sanstha';
+
+    // console.log(this.mapRef.current.leafletElement, 'mapRef');
     if (activeClickPartners.includes(clicked)) {
+      // console.log('if');
+      // global.migrationLayer.hide();
       const removedPartnersFull = activeClickPartners.filter(function(
         partner,
       ) {
@@ -647,6 +730,8 @@ class MainAutomation extends Component {
         );
       }
     } else {
+      // console.log('else');
+
       const joined = activeClickPartners.concat(clicked);
       this.setState({ activeClickPartners: joined });
       if (joined.length > 0 && activeOutreachButton) {
@@ -781,7 +866,7 @@ class MainAutomation extends Component {
   };
 
   handleProvinceClick = (id, code) => {
-    console.log(id, 'asasa');
+    // console.log(id, 'asasa');
     const {
       vectorGridInputUrl,
       dataTypeLevel,
@@ -1317,6 +1402,23 @@ class MainAutomation extends Component {
     this.setState({ isTileLoaded: false });
   };
 
+  handleMapTypeChange = type => {
+    if (type === 'branches') {
+      const map = this.mapRef.current.leafletElement;
+      global.migrationLayer = new L.migrationLayer({
+        map,
+        data: this.state.migrationArray,
+        pulseRadius: 0,
+        arcWidth: 0,
+        arcLabel: false,
+      });
+      global.migrationLayer.addTo(map);
+    } else {
+      global.migrationLayer.destroy();
+    }
+    this.setState({ mapType: type });
+  };
+
   render() {
     const {
       vectorGridFirstLoad,
@@ -1349,6 +1451,7 @@ class MainAutomation extends Component {
       vectorGridKey1,
       selectedProvinceDropdown,
       selectedDistrictDropdown,
+      mapType,
     } = this.state;
     const {
       automationDataByPartner,
@@ -1382,6 +1485,8 @@ class MainAutomation extends Component {
             <div className="main-card map-card">
               <div id="map" className="map">
                 <MapComponent
+                  mapType={mapType}
+                  handleMapTypeChange={this.handleMapTypeChange}
                   vectorGridFirstLoad={vectorGridFirstLoad}
                   handleVectorGridFirstLoad={
                     this.handleVectorGridFirstLoad
@@ -1624,7 +1729,10 @@ class MainAutomation extends Component {
                           {allDistrictName &&
                             allDistrictName.map((data, i) => {
                               return (
-                                <li className="checkbox">
+                                <li
+                                  key={data.id}
+                                  className="checkbox"
+                                >
                                   <input
                                     type="checkbox"
                                     id={`check_district${i}`}
@@ -1810,4 +1918,5 @@ export default connect(mapStateToProps, {
   selectChoroplethDataOfDistrict,
   selectChoroplethDataOfMunicipality,
   getTimelineData,
+  filterAutomationByState,
 })(MainAutomation);

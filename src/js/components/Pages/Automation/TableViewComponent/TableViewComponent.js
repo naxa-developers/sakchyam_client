@@ -8,6 +8,23 @@ import {
 } from '../../../../actions/automation.actions';
 import TableViewSkeleton from '../../../common/TableViewSkeleton';
 
+function getClassName(i) {
+  if (i % 12 === 0) return 'is-color1';
+  if (i % 12 === 1) return 'is-color2';
+  if (i % 12 === 2) return 'is-color3';
+  if (i % 12 === 3) return 'is-color4';
+  if (i % 12 === 4) return 'is-color5';
+  if (i % 12 === 5) return 'is-color6';
+  if (i % 12 === 6) return 'is-color7';
+  if (i % 12 === 7) return 'is-color8';
+  if (i % 12 === 8) return 'is-color9';
+  if (i % 12 === 9) return 'is-color10';
+  if (i % 12 === 10) return 'is-color11';
+  if (i % 12 === 11) return 'is-color12';
+  if (i % 12 === 12) return 'is-color13';
+  if (i % 12 === 13) return 'is-color14';
+  return 'is-green';
+}
 class TableViewComponent extends Component {
   constructor(props) {
     super(props);
@@ -15,9 +32,15 @@ class TableViewComponent extends Component {
       tableProvinceDropdown: false,
       tableDistrictDropdown: false,
       tableMunicipalityDropdown: false,
+      tableSelectedProvinceDropdown: [],
+      tableSelectedDistrictDropdown: [],
+      tableSelectedMunicipalityDropdown: [],
       tableSelectedProvince: [],
       tableSelectedDistrict: [],
       tableSelectedMunicipality: [],
+      tableSelectedProvinceName: [],
+      tableSelectedDistrictName: [],
+      tableSelectedMunicipalityName: [],
       tableDataTypeLevel: 'municipality',
     };
   }
@@ -88,21 +111,57 @@ class TableViewComponent extends Component {
       const a = allProvinceName.map(data => {
         return data.id;
       });
+      const provinceNames = allProvinceName.map(data => {
+        return data.name;
+      });
+      const provinceNamesDropdown = allProvinceName.map(data => {
+        return data.code;
+      });
       // console.log(provinceCheckboxes, 'checkboxes');
-      this.setState({ tableSelectedProvince: a });
+      this.setState({
+        tableSelectedProvince: a,
+        tableSelectedProvinceDropdown: provinceNamesDropdown,
+        tableSelectedProvinceName: provinceNames,
+      });
     } else {
-      this.setState({ tableSelectedProvince: [] });
+      this.setState({
+        tableSelectedProvince: [],
+        tableSelectedProvinceDropdown: [],
+        tableSelectedProvinceName: [],
+      });
     }
   };
 
-  handleProvinceSingleClick = value => {
-    const { tableSelectedProvince } = this.state;
+  handleProvinceSingleClick = (value, id, name) => {
+    const {
+      tableSelectedProvince,
+      tableSelectedProvinceDropdown,
+      tableSelectedProvinceName,
+    } = this.state;
     if (tableSelectedProvince.includes(value)) {
       const a = tableSelectedProvince.filter(data => data !== value);
-      this.setState({ tableSelectedProvince: a });
+      const filteredProvinceName = tableSelectedProvinceName.filter(
+        data => data !== name,
+      );
+      const d = tableSelectedProvinceDropdown.filter(
+        data => data !== id,
+      );
+      this.setState({
+        tableSelectedProvince: a,
+        tableSelectedProvinceDropdown: d,
+        tableSelectedProvinceName: filteredProvinceName,
+      });
     } else {
       const b = tableSelectedProvince.concat(value);
-      this.setState({ tableSelectedProvince: b });
+      const c = tableSelectedProvinceDropdown.concat(id);
+      const filteredProvinceName = tableSelectedProvinceName.concat(
+        name,
+      );
+      this.setState({
+        tableSelectedProvince: b,
+        tableSelectedProvinceDropdown: c,
+        tableSelectedProvinceName: filteredProvinceName,
+      });
     }
   };
 
@@ -113,21 +172,57 @@ class TableViewComponent extends Component {
       const a = allDistrictName.map(data => {
         return data.id;
       });
+      const districtNames = allDistrictName.map(data => {
+        return data.name;
+      });
+      const districtNamesDropdown = allDistrictName.map(data => {
+        return data.code;
+      });
       // console.log(provinceCheckboxes, 'checkboxes');
-      this.setState({ tableSelectedDistrict: a });
+      this.setState({
+        tableSelectedDistrict: a,
+        tableSelectedDistrictDropdown: districtNamesDropdown,
+        tableSelectedDistrictName: districtNames,
+      });
     } else {
-      this.setState({ tableSelectedDistrict: [] });
+      this.setState({
+        tableSelectedDistrict: [],
+        tableSelectedDistrictDropdown: [],
+        tableSelectedDistrictName: [],
+      });
     }
   };
 
-  handleDistrictSingleClick = value => {
-    const { tableSelectedDistrict } = this.state;
+  handleDistrictSingleClick = (value, id, name) => {
+    const {
+      tableSelectedDistrict,
+      tableSelectedDistrictDropdown,
+      tableSelectedDistrictName,
+    } = this.state;
     if (tableSelectedDistrict.includes(value)) {
       const a = tableSelectedDistrict.filter(data => data !== value);
-      this.setState({ tableSelectedDistrict: a });
+      const d = tableSelectedDistrictDropdown.filter(
+        data => data !== id,
+      );
+      const filteredDistrictName = tableSelectedDistrictName.filter(
+        data => data !== name,
+      );
+      this.setState({
+        tableSelectedDistrict: a,
+        tableSelectedDistrictDropdown: d,
+        tableSelectedDistrictName: filteredDistrictName,
+      });
     } else {
       const b = tableSelectedDistrict.concat(value);
-      this.setState({ tableSelectedDistrict: b });
+      const c = tableSelectedDistrictDropdown.concat(id);
+      const filteredDistrictName = tableSelectedDistrictName.concat(
+        name,
+      );
+      this.setState({
+        tableSelectedDistrict: b,
+        tableSelectedDistrictDropdown: c,
+        tableSelectedDistrictName: filteredDistrictName,
+      });
     }
   };
 
@@ -138,23 +233,61 @@ class TableViewComponent extends Component {
       const a = allMunicipalityName.map(data => {
         return data.id;
       });
+      const MunicipalityNames = allMunicipalityName.map(data => {
+        return data.name;
+      });
+      const MunicipalityNamesDropdown = allMunicipalityName.map(
+        data => {
+          return data.code;
+        },
+      );
       // console.log(provinceCheckboxes, 'checkboxes');
-      this.setState({ tableSelectedMunicipality: a });
+      this.setState({
+        tableSelectedMunicipality: a,
+        tableSelectedMunicipalityDropdown: MunicipalityNamesDropdown,
+        tableSelectedMunicipalityName: MunicipalityNames,
+      });
     } else {
-      this.setState({ tableSelectedMunicipality: [] });
+      this.setState({
+        tableSelectedMunicipality: [],
+        tableSelectedMunicipalityDropdown: [],
+        tableSelectedMunicipalityName: [],
+      });
     }
   };
 
-  handleMunicipalitySingleClick = value => {
-    const { tableSelectedMunicipality } = this.state;
+  handleMunicipalitySingleClick = (value, id, name) => {
+    const {
+      tableSelectedMunicipality,
+      tableSelectedMunicipalityDropdown,
+      tableSelectedMunicipalityName,
+    } = this.state;
     if (tableSelectedMunicipality.includes(value)) {
       const a = tableSelectedMunicipality.filter(
         data => data !== value,
       );
-      this.setState({ tableSelectedMunicipality: a });
+      const d = tableSelectedMunicipalityDropdown.filter(
+        data => data !== id,
+      );
+      const filteredMunicipalityName = tableSelectedMunicipalityName.filter(
+        data => data !== name,
+      );
+      this.setState({
+        tableSelectedMunicipality: a,
+        tableSelectedMunicipalityDropdown: d,
+        tableSelectedMunicipalityName: filteredMunicipalityName,
+      });
     } else {
       const b = tableSelectedMunicipality.concat(value);
-      this.setState({ tableSelectedMunicipality: b });
+      const c = tableSelectedMunicipalityDropdown.concat(id);
+      const filteredMunicipalityName = tableSelectedMunicipalityName.concat(
+        name,
+      );
+      this.setState({
+        tableSelectedMunicipality: b,
+        tableSelectedMunicipalityDropdown: c,
+        tableSelectedMunicipalityName: filteredMunicipalityName,
+      });
     }
   };
 
@@ -173,7 +306,7 @@ class TableViewComponent extends Component {
       this.state.tableSelectedProvince
     ) {
       this.props.getDistrictDataFromProvince(
-        this.state.tableSelectedProvince,
+        this.state.tableSelectedProvinceDropdown,
       );
     }
     if (
@@ -181,19 +314,34 @@ class TableViewComponent extends Component {
       this.state.tableSelectedDistrict
     ) {
       this.props.getMunicipalityDataFromDistrict(
-        this.state.tableSelectedDistrict,
+        this.state.tableSelectedDistrictDropdown,
       );
+    }
+
+    if (
+      prevState.tableDataTypeLevel !== this.state.tableDataTypeLevel
+    ) {
+      if (this.state.tableDataTypeLevel === 'municipality') {
+        this.props.getBranchesTableData('municipality');
+      }
+      if (this.state.tableDataTypeLevel === 'district') {
+        this.props.getBranchesTableData('district');
+      }
+      if (this.state.tableDataTypeLevel === 'province') {
+        this.props.getBranchesTableData('province');
+      }
     }
   }
 
   applyClickForPartnerFilter = () => {
     const {
       tableSelectedMunicipality,
+      tableSelectedMunicipalityDropdown,
       tableSelectedDistrict,
       tableSelectedProvince,
     } = this.state;
     this.props.getBranchesTableDataByFed({
-      municipality: tableSelectedMunicipality,
+      municipality: tableSelectedMunicipalityDropdown,
       district: tableSelectedDistrict,
       province: tableSelectedProvince,
     });
@@ -208,6 +356,10 @@ class TableViewComponent extends Component {
     });
   };
 
+  toggleDataState = state => {
+    this.setState({ tableDataTypeLevel: state });
+  };
+
   render() {
     const {
       tableProvinceDropdown,
@@ -217,6 +369,12 @@ class TableViewComponent extends Component {
       tableSelectedDistrict,
       tableSelectedMunicipality,
       tableDataTypeLevel,
+      tableSelectedProvinceDropdown,
+      tableSelectedDistrictDropdown,
+      tableSelectedMunicipalityDropdown,
+      tableSelectedProvinceName,
+      tableSelectedDistrictName,
+      tableSelectedMunicipalityName,
     } = this.state;
     const {
       allProvinceName,
@@ -245,10 +403,10 @@ class TableViewComponent extends Component {
                     tableDataTypeLevel === 'province' ? 'active' : ''
                   }`}
                   onClick={() => {
-                    this.handleStateLevel('province');
+                    this.toggleDataState('province');
                   }}
                   onKeyPress={() => {
-                    this.handleStateLevel('province');
+                    this.toggleDataState('province');
                   }}
                 >
                   <a href="#">Province</a>
@@ -259,10 +417,10 @@ class TableViewComponent extends Component {
                     tableDataTypeLevel === 'district' ? 'active' : ''
                   }`}
                   onClick={() => {
-                    this.handleStateLevel('district');
+                    this.toggleDataState('district');
                   }}
                   onKeyPress={() => {
-                    this.handleStateLevel('district');
+                    this.toggleDataState('district');
                   }}
                 >
                   <a href="#">District</a>
@@ -275,10 +433,10 @@ class TableViewComponent extends Component {
                       : ''
                   }`}
                   onClick={() => {
-                    this.handleStateLevel('municipality');
+                    this.toggleDataState('municipality');
                   }}
                   onKeyPress={() => {
-                    this.handleStateLevel('municipality');
+                    this.toggleDataState('municipality');
                   }}
                 >
                   <a href="#">Municipality</a>
@@ -291,6 +449,17 @@ class TableViewComponent extends Component {
                 <div
                   className="select-dropdown"
                   id="filter_dropdown_province_table"
+                  tooltip={
+                    tableSelectedProvinceName.length === 0
+                      ? ''
+                      : `${
+                          tableSelectedProvinceName.length ===
+                          allProvinceName.length
+                            ? 'All'
+                            : tableSelectedProvinceName
+                        }`
+                  }
+                  flow="up"
                 >
                   <span
                     className={`span-label ${
@@ -300,8 +469,21 @@ class TableViewComponent extends Component {
                     onKeyDown={this.handleProvinceDropdown}
                     role="tab"
                     tabIndex="0"
+                    style={
+                      tableDataTypeLevel === 'province' ||
+                      tableDataTypeLevel === 'district'
+                        ? { display: 'none' }
+                        : { display: 'block' }
+                    }
                   >
-                    Province
+                    {tableSelectedProvinceName.length === 0
+                      ? 'Select Province'
+                      : `${
+                          tableSelectedProvinceName.length ===
+                          allProvinceName.length
+                            ? 'All'
+                            : tableSelectedProvinceName
+                        }`}
                   </span>
                   <ul
                     className={`select-list ${
@@ -334,11 +516,13 @@ class TableViewComponent extends Component {
                               type="checkbox"
                               id={`check_time_table${i}`}
                               checked={tableSelectedProvince.includes(
-                                data.id,
+                                data.code,
                               )}
                               onClick={() => {
                                 this.handleProvinceSingleClick(
+                                  data.code,
                                   data.id,
+                                  data.name,
                                 );
                               }}
                             />
@@ -358,13 +542,31 @@ class TableViewComponent extends Component {
                   onKeyDown={this.handleDistrictDropdown}
                   role="tab"
                   tabIndex="0"
+                  tooltip={
+                    tableSelectedDistrictName.length === 0
+                      ? ''
+                      : `${
+                          tableSelectedDistrictName.length ===
+                          allDistrictName.length
+                            ? 'All'
+                            : tableSelectedDistrictName
+                        }`
+                  }
+                  flow="up"
                 >
                   <span
                     className={`span-label ${
                       tableDistrictDropdown ? 'span-active' : ''
                     } `}
                   >
-                    District
+                    {tableSelectedDistrictName.length === 0
+                      ? 'Select District'
+                      : `${
+                          tableSelectedDistrictName.length ===
+                          allDistrictName.length
+                            ? 'All'
+                            : tableSelectedDistrictName
+                        }`}
                   </span>
                   <ul
                     className={`select-list ${
@@ -397,11 +599,13 @@ class TableViewComponent extends Component {
                               type="checkbox"
                               id={`check_district_table${i}`}
                               checked={tableSelectedDistrict.includes(
-                                data.id,
+                                data.code,
                               )}
                               onClick={() => {
                                 this.handleDistrictSingleClick(
                                   data.id,
+                                  data.code,
+                                  data.name,
                                 );
                               }}
                             />
@@ -429,7 +633,14 @@ class TableViewComponent extends Component {
                       tableMunicipalityDropdown ? 'span-active' : ''
                     } `}
                   >
-                    Municipality
+                    {tableSelectedMunicipalityName.length === 0
+                      ? 'Select Municipality'
+                      : `${
+                          tableSelectedMunicipalityName.length ===
+                          allMunicipalityName.length
+                            ? 'All'
+                            : tableSelectedMunicipalityName
+                        }`}
                   </span>
                   <ul
                     className={`select-list ${
@@ -461,12 +672,14 @@ class TableViewComponent extends Component {
                             <input
                               type="checkbox"
                               id={`check_mun_table${i}`}
-                              checked={tableSelectedMunicipality.includes(
-                                data.id,
+                              checked={tableSelectedMunicipalityDropdown.includes(
+                                data.code,
                               )}
                               onClick={() => {
                                 this.handleMunicipalitySingleClick(
                                   data.id,
+                                  data.code,
+                                  data.name,
                                 );
                               }}
                             />
@@ -545,6 +758,11 @@ class TableViewComponent extends Component {
                 // ) : (
                 automationTableData &&
                   automationTableData.map(data => {
+                    let initials = data.partner.match(/\b\w/g) || [];
+                    initials = (
+                      (initials.shift() || '') +
+                      (initials.pop() || '')
+                    ).toUpperCase();
                     return (
                       <tr key={data.id}>
                         <td>
@@ -553,20 +771,18 @@ class TableViewComponent extends Component {
                         <td>
                           <div className="organization">
                             <div className="organization-icon is-yellow">
-                              <span>sk</span>
+                              <span>{initials}</span>
                             </div>
                             <div className="organization-content">
-                              <b>Sana Kisan</b>
+                              <b>{data.partner}</b>
                             </div>
                           </div>
                         </td>
-                        <td>2</td>
-                        <td>Pyuthan</td>
-                        <td>Rural Municipality</td>
+                        <td>{data.province}</td>
+                        <td>{data.district}</td>
+                        <td>{data.municipality}</td>
                         <td>
-                          <b className="deployed">
-                            {data.num_tablet_deployed}
-                          </b>
+                          <b className="deployed">{data.tablets}</b>
                         </td>
                       </tr>
                     );

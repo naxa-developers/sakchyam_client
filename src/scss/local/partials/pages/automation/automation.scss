@@ -783,6 +783,10 @@
                     display: block;
                 }
                 li{
+                   &.active{
+                        background-color: $red-light;
+                        
+                    }
                     a{
                         display: block;
                         padding:5px 10px;
@@ -790,6 +794,7 @@
                         font-family: $avenir-heavy;
                         @include transition(all .5s);
                         text-transform: capitalize;
+                        
                         &:hover{
                             background-color: $red-light;
                             

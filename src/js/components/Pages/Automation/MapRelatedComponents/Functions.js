@@ -1,4 +1,6 @@
 import gradStop from 'gradstop';
+import districtData from '../../../../../data/district.json'
+import municipalityData from '../../../../../data/municipality.json'
 import React from "react";
 // import ReactDOMServer from 'react-dom/server';
 // import HospitalIcon from './Icons/HealthFacilityIcon';
@@ -221,4 +223,17 @@ export const handleZoom = (map, province, vt_label_province) => {
         } else if (zoom <= 7.5 && map.hasLayer(province)) {
             map.addLayer(vt_label_province);
         }
+}
+
+export const getCenterBboxDistrict=(id,multiple_id)=>{
+    const a = districtData.map(data=>{
+        if(id === data.name){
+            var bboxArray= data.bbox.split(",");
+                // console.log(bboxArray,'bboxaray')
+            const a = bboxArray.map(data=>{return parseFloat(data)});
+            const b = [a[1],a[0],a[3],a[2]];
+            return {name:data.name,center:[data.centroid_x,data.centroid_y],bbox:b}
+        }
+    })
+
 }

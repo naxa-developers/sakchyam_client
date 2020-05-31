@@ -24,6 +24,7 @@ import {
   SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
   GET_TIMELINE_DATA,
   TIMELINE_FILTER,
+  FILTER_AUTOMATION_BY_PROVINCE,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -486,19 +487,55 @@ export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
     console.error(err);
   }
 };
-export const getBranchesTableData = () => dispatch => {
-  try {
-    const response = axiosInstance
-      .get(`api/v1/automation/automation-data/`)
-      .then(function(result) {
-        // console.log(result, 'result');
-        return dispatch({
-          type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
-          payload: result.data,
+export const getBranchesTableData = statelevel => dispatch => {
+  if (statelevel === 'province') {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/table-data/?filter_type=partner&partner=0&province=0`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+          return dispatch({
+            type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
+            payload: result.data,
+          });
         });
-      });
-  } catch (err) {
-    console.error(err);
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (statelevel === 'district') {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/table-data/?filter_type=partner&partner=0&district=0`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+          return dispatch({
+            type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/table-data/?filter_type=partner&partner=0&municipality=0`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+          return dispatch({
+            type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
   }
 };
 export const partnerSelectWithOutreach = (
@@ -582,17 +619,17 @@ export const partnerSelectWithOutreach = (
 export const getBranchesTableDataByFed = federalSelect => dispatch => {
   const provinceSelect = federalSelect.province
     .map(data => {
-      return `province_id=${data}`;
+      return `province=${data}`;
     })
     .join('&');
   const districtSelect = federalSelect.district
     .map(data => {
-      return `district_id=${data}`;
+      return `district=${data}`;
     })
     .join('&');
   const municipalitySelect = federalSelect.municipality
     .map(data => {
-      return `municipality_id=${data}`;
+      return `municipality=${data}`;
     })
     .join('&');
   // console.log(federalSelect, 'fedSelect');
@@ -603,7 +640,7 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/automation-data/?${municipalitySelect}`,
+          `api/v1/automation/table-data/?filter_type=partner&partner=0&${municipalitySelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -619,7 +656,9 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
   } else if (federalSelect.district.length > 0) {
     try {
       const response = axiosInstance
-        .get(`api/v1/automation/automation-data/?${districtSelect}`)
+        .get(
+          `api/v1/automation/table-data/?filter_type=partner&partner=0&${districtSelect}`,
+        )
         .then(function(result) {
           // console.log(result, 'result');
 
@@ -634,7 +673,9 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
   } else {
     try {
       const response = axiosInstance
-        .get(`api/v1/automation/automation-data/?${provinceSelect}`)
+        .get(
+          `api/v1/automation/table-data/?filter_type=partner&partner=0&${provinceSelect}`,
+        )
         .then(function(result) {
           // console.log(result, 'result');
 
@@ -684,4 +725,22 @@ export const filterTimeline = (min, max) => dispatch => {
     type: TIMELINE_FILTER,
     payload: { min, max },
   });
+};
+
+export const filterAutomationByState = () => dispatch => {
+  try {
+    const response = axiosInstance
+      .get(
+        `api/v1/automation/table-data/?filter_type=partner&partner=32&partner=16&province=1`,
+      )
+      .then(function(result) {
+        // console.log(result, 'result');
+        return dispatch({
+          type: FILTER_AUTOMATION_BY_PROVINCE,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
 };
