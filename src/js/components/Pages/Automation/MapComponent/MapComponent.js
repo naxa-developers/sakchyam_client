@@ -8,7 +8,8 @@ import L, { CircleMarker } from 'leaflet';
 import 'react-leaflet-markercluster/dist/styles.min.css';
 import Axios from 'axios';
 import 'leaflet.featuregroup.subgroup';
-import '../../../../../library/canvasFlowmapLayer';
+// import '../../../../../library/canvasFlowmapLayer';
+import '../../../../../library/leaflet.migrationLayer';
 import '../../../../../library/SmoothWheelZoom';
 import { connect } from 'react-redux';
 import randomGeojson from '../../../../../data/randomGeojson.json';
@@ -226,125 +227,125 @@ class MapComponent extends Component {
     // const marker = L.marker([84, 27], { icon: greenIcon }).addTo(map);
     // console.log(map, 'mapref');
 
-    const geoJsonFeatureCollection = {
-      type: 'FeatureCollection',
-      features: this.props.automationReducer.automationTableData.map(
-        function(datum) {
-          return {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [datum.longitude, datum.latitude],
-            },
-            properties: datum,
-          };
-        },
-      ),
-    };
-    console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
-    map.createPane('migration_pane').style.zIndex = 900;
-    // map.createPane('migration_pane').style.zIndex = 600;
+  //   const geoJsonFeatureCollection = {
+  //     type: 'FeatureCollection',
+  //     features: this.props.automationReducer.automationTableData.map(
+  //       function(datum) {
+  //         return {
+  //           type: 'Feature',
+  //           geometry: {
+  //             type: 'Point',
+  //             coordinates: [datum.longitude, datum.latitude],
+  //           },
+  //           properties: datum,
+  //         };
+  //       },
+  //     ),
+  //   };
+  //   console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
+  //   map.createPane('migration_pane').style.zIndex = 900;
+  //   // map.createPane('migration_pane').style.zIndex = 600;
 
-    const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
-      geoJsonFeatureCollection,
-      {
-        // pane: 'migration_pane',
-        originAndDestinationFieldIds: {
-          originUniqueIdField: 'partner_id',
-          originGeometry: {
-            x: 'longitude',
-            y: 'latitude',
-          },
-          destinationUniqueIdField: 'id',
-          destinationGeometry: {
-            x: 'des_long',
-            y: 'des_lat',
-          },
-        },
-        style(geoJsonFeature) {
-          // console.log(layer, 'inside');
-          // use leaflet's path styling options
+  //   const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
+  //     geoJsonFeatureCollection,
+  //     {
+  //       // pane: 'migration_pane',
+  //       originAndDestinationFieldIds: {
+  //         originUniqueIdField: 'partner_id',
+  //         originGeometry: {
+  //           x: 'longitude',
+  //           y: 'latitude',
+  //         },
+  //         destinationUniqueIdField: 'id',
+  //         destinationGeometry: {
+  //           x: 'des_long',
+  //           y: 'des_lat',
+  //         },
+  //       },
+  //       style(geoJsonFeature) {
+  //         // console.log(layer, 'inside');
+  //         // use leaflet's path styling options
 
-          // since the GeoJSON feature properties are modified by the layer,
-          // developers can rely on the "isOrigin" property to set different
-          // symbols for origin vs destination CircleMarker stylings
+  //         // since the GeoJSON feature properties are modified by the layer,
+  //         // developers can rely on the "isOrigin" property to set different
+  //         // symbols for origin vs destination CircleMarker stylings
 
-          if (geoJsonFeature.properties.isOrigin) {
-            return {
-              renderer: L.canvas({
-                pane: 'migration_pane',
-                // tolerance: 15,
-                // padding: 0.2,
-              }), // recommended to use your own L.canvas()
-              radius: 8,
-              weight: 1,
-              opacity: 1,
-              color: '#ff0000',
-              fillColor: '#ff0000',
-              fillOpacity: 1,
-            };
-          }
-          return {
-            // renderer: canvasRenderer,
-            radius: 2.5,
-            weight: 0.25,
-            opacity: 0,
-            color: 'rgb(17, 142, 170)',
-            fillColor: 'rgb(17, 142, 170)',
-            fillOpacity: 0,
-          };
-        },
-        pathDisplayMode: 'selection',
-        animationStarted: true,
-        animationEasingFamily: 'Cubic',
-        animationEasingType: 'In',
-        animationDuration: 2000,
-      },
-    ).addTo(map);
-    oneToManyFlowmapLayer.on('click', function(e) {
-      if (e.sharedOriginFeatures.length) {
-        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-          e.sharedOriginFeatures,
-          'SELECTION_NEW',
-        );
-      }
-      if (e.sharedDestinationFeatures.length) {
-        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-          e.sharedDestinationFeatures,
-          'SELECTION_NEW',
-        );
-      }
-    });
-    map.getPane('overlayPane').style.zIndex = 600;
-    console.log(oneToManyFlowmapLayer, 'mig layer');
-    // immediately select an origin point for Bezier path display,
-    // instead of waiting for the first user click event to fire
-    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
-    //   'partner_id',
-    //   373,
-    //   true,
-    //   'SELECTION_NEW',
-    // );
+  //         if (geoJsonFeature.properties.isOrigin) {
+  //           return {
+  //             renderer: L.canvas({
+  //               pane: 'migration_pane',
+  //               // tolerance: 15,
+  //                padding: 0.2,
+  //             }), // recommended to use your own L.canvas()
+  //             radius: 8,
+  //             weight: 1,
+  //             opacity: 1,
+  //             color: '#ff0000',
+  //             fillColor: '#ff0000',
+  //             fillOpacity: 1,
+  //           };
+  //         }
+  //         return {
+  //           // renderer: canvasRenderer,
+  //           radius: 2.5,
+  //           weight: 0.25,
+  //           opacity: 0,
+  //           color: 'rgb(17, 142, 170)',
+  //           fillColor: 'rgb(17, 142, 170)',
+  //           fillOpacity: 0,
+  //         };
+  //       },
+  //       pathDisplayMode: 'selection',
+  //       animationStarted: true,
+  //       animationEasingFamily: 'Cubic',
+  //       animationEasingType: 'In',
+  //       animationDuration: 2000,
+  //     },
+  //   ).addTo(map);
+  //   oneToManyFlowmapLayer.on('click', function(e) {
+  //     if (e.sharedOriginFeatures.length) {
+  //       oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+  //         e.sharedOriginFeatures,
+  //         'SELECTION_NEW',
+  //       );
+  //     }
+  //     if (e.sharedDestinationFeatures.length) {
+  //       oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+  //         e.sharedDestinationFeatures,
+  //         'SELECTION_NEW',
+  //       );
+  //     }
+  //   });
+  //   map.getPane('overlayPane').style.zIndex = 600;
+  //   console.log(oneToManyFlowmapLayer, 'mig layer');
+  //   // immediately select an origin point for Bezier path display,
+  //   // instead of waiting for the first user click event to fire
+  //   // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+  //   //   'partner_id',
+  //   //   373,
+  //   //   true,
+  //   //   'SELECTION_NEW',
+  //   // );
 
-    // since this demo is using the optional "pathDisplayMode" as "selection",
-    // it is up to the developer to wire up a click or mouseover listener
-    // and then call the "selectFeaturesForPathDisplay()" method to inform the layer
-    // which Bezier paths need to be drawn
-    oneToManyFlowmapLayer.on('click', function(e) {
-      if (e.sharedOriginFeatures.length) {
-        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-          e.sharedOriginFeatures,
-          'SELECTION_NEW',
-        );
-      }
-      if (e.sharedDestinationFeatures.length) {
-        oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-          e.sharedDestinationFeatures,
-          'SELECTION_NEW',
-        );
-      }
-    });
-  };
+  //   // since this demo is using the optional "pathDisplayMode" as "selection",
+  //   // it is up to the developer to wire up a click or mouseover listener
+  //   // and then call the "selectFeaturesForPathDisplay()" method to inform the layer
+  //   // which Bezier paths need to be drawn
+  //   oneToManyFlowmapLayer.on('click', function(e) {
+  //     if (e.sharedOriginFeatures.length) {
+  //       oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+  //         e.sharedOriginFeatures,
+  //         'SELECTION_NEW',
+  //       );
+  //     }
+  //     if (e.sharedDestinationFeatures.length) {
+  //       oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
+  //         e.sharedDestinationFeatures,
+  //         'SELECTION_NEW',
+  //       );
+  //     }
+  //   });
+  // };
 
   // console.log(this.props.automationReducer.automationTableData);
   // console.log(
@@ -360,7 +361,25 @@ class MapComponent extends Component {
   //   ]),
   //   'multiple',
   // );
-  // };
+
+  var data = [{"from":[85,27],"to":[85.5,28],"labels":["Los Angeles","San Francisco"],"color":"#ff3a31","value":15}];
+
+  var migrationLayer = new L.migrationLayer({
+    map: map,
+    data: data,
+    pulseRadius:0,
+    arcWidth:0,
+    arcLabel:true,
+  })
+  migrationLayer.addTo(map)
+
+//migrationLayer.pause();
+setTimeout(() => {
+  migrationLayer.hide();
+}, 5000);
+
+
+   };
 
   render() {
     const {
