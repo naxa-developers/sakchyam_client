@@ -362,11 +362,34 @@ class MapComponent extends Component {
   //   'multiple',
   // );
 
-  var data = [{"from":[85,27],"to":[85.5,28],"labels":["Los Angeles","San Francisco"],"color":"#ff3a31","value":15}];
+
+  var demodata = [{"from":[85,27],"to":[85.5,28],"labels":["Los Angeles","San Francisco"],"color":"#ff3a31","value":15}];
+
+  const partner = 'Janautthan Laghubitta Bittiya Sanstha';
+  const array = [];
+  const x = this.props.automationReducer.automationTableData.map(
+    data => {
+      if (data.des_lat !== null) {
+        if (data.partner.trim() === partner.trim()) {
+          console.log('inside 2 if');
+          array.push({
+            from: [data.longitude, data.latitude],
+            to: [data.des_long, data.des_lat],
+            labels: [data.partner, data.branch],
+            color: '#ff3a31',
+            value: 15,
+          });
+        }
+      }
+      return true;
+    },
+  );
+
+
 
   var migrationLayer = new L.migrationLayer({
     map: map,
-    data: data,
+    data: array,
     pulseRadius:0,
     arcWidth:0,
     arcLabel:true,
