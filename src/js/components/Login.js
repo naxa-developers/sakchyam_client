@@ -9,6 +9,7 @@ import {
   loginUser,
   getUserPermissions,
 } from '../actions/authentication.actions';
+import Loading from './common/Loading';
 
 class Login extends Component {
   constructor(props) {
@@ -16,10 +17,12 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
+      loginLoading: false,
     };
   }
 
   handleSubmit = e => {
+    this.setState({ loginLoading: true });
     e.preventDefault();
     this.props.loginUser(this.state);
     // this.props.getUserPermissions();
@@ -35,6 +38,16 @@ class Login extends Component {
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.authenticationReducer.isLoggedIn !==
+      this.props.authenticationReducer.isLoggedIn
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ loginLoading: false });
+    }
   }
 
   componentWillUnmount() {
@@ -83,10 +96,14 @@ class Login extends Component {
     if (redirectToReferrer === true) {
       return <Redirect to="/" />;
     }
-    const { username, password } = this.state;
+    const { username, password, loginLoading } = this.state;
 
     return (
       <div className="login-page">
+        <Loading
+          loaderState={loginLoading}
+          text="Signing In...Please Wait"
+        />
         <div className="container-fluid p-0">
           <div className="login-wrapper">
             <aside className="login-sidebar">

@@ -188,7 +188,7 @@ class VectorGridComponent extends Component {
                     console.log(b,'fitbound Up');
                     // map.fitBounds(b);
                 } 
-                this.props.handleVectorGridFirstLoad();
+                // this.props.handleVectorGridFirstLoad();
         });
         // province.on("tileloadstart",(e)=>{
         //     this.props.handleTileLoadEnd();
@@ -243,7 +243,7 @@ class VectorGridComponent extends Component {
             // date(pin):2016
             // tablets_deployed(pin):863
         const {automationAllDataByPartner}= this.props.automationReducer;
-        console.log(automationAllDataByPartner,'data of Partners');
+        // console.log(automationAllDataByPartner,'data of Partners');
         const popupHtml =automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.map(data=>{
             return (
                 `<li>
@@ -369,44 +369,44 @@ class VectorGridComponent extends Component {
     //     console.log(this.state.bbox);
     // }
 
-    extendBounds=(boundingbox)=>{
-        let minX=boundingbox[0];
-        let minY=boundingbox[1];
-        let maxX=boundingbox[2];
-        let maxY=boundingbox[3];
-        const {bbox,count}=this.state;
-        if(count===0){
-            this.setState({bbox: [boundingbox[0],boundingbox[1],boundingbox[2],boundingbox[3]]});
-            this.setState({count:1});
-        }
-        // // if(bbox[0] !== 0 && boundingbox[0] !== 0){
-        //     console.log(boundingbox[0],'boundingbox[0]');
-        //     console.log(boundingbox[1],'boundingbox[1]');
-        //     console.log(boundingbox[2],'boundingbox[2]');
-        //     console.log(boundingbox[3],'boundingbox[3]');
-            minX = bbox[0] > boundingbox[0] ? boundingbox[0] : bbox[0];
-        // }
-        // if(bbox[1] !== 0 && boundingbox[1] !== 0){
-            minY = bbox[1] > boundingbox[1] ? boundingbox[1] : bbox[1] 
+    // extendBounds=(boundingbox)=>{
+    //     let minX=boundingbox[0];
+    //     let minY=boundingbox[1];
+    //     let maxX=boundingbox[2];
+    //     let maxY=boundingbox[3];
+    //     const {bbox,count}=this.state;
+    //     if(count===0){
+    //         this.setState({bbox: [boundingbox[0],boundingbox[1],boundingbox[2],boundingbox[3]]});
+    //         this.setState({count:1});
+    //     }
+    //     // // if(bbox[0] !== 0 && boundingbox[0] !== 0){
+    //     //     console.log(boundingbox[0],'boundingbox[0]');
+    //     //     console.log(boundingbox[1],'boundingbox[1]');
+    //     //     console.log(boundingbox[2],'boundingbox[2]');
+    //     //     console.log(boundingbox[3],'boundingbox[3]');
+    //         minX = bbox[0] > boundingbox[0] ? boundingbox[0] : bbox[0];
+    //     // }
+    //     // if(bbox[1] !== 0 && boundingbox[1] !== 0){
+    //         minY = bbox[1] > boundingbox[1] ? boundingbox[1] : bbox[1] 
 
-        // }
-        // if(bbox[2] !== 0 && boundingbox[2] !== 0){
+    //     // }
+    //     // if(bbox[2] !== 0 && boundingbox[2] !== 0){
         
-            maxX = bbox[2] < boundingbox[2] ? boundingbox[2] : bbox[2]; 
-        // }
-        // if(bbox[3] !== 0 && boundingbox[3] !== 0){
-            maxY = bbox[3] < boundingbox[3] ? boundingbox[3] : bbox[3];
-        // }
-        //   console.log(bbox[0],'bbox[0]');
-        //     console.log(bbox[1],'bbox[1]');
-        //     console.log(bbox[2],'bbox[2]');
-        //     console.log(bbox[3],'bbox[3]');
-        if(minX!==0 && minY!== 0 && maxX!== 0 && maxY!==0){
-                // console.log('Inside Setstate')
-            this.setState({bbox: [minX,minY,maxX,maxY]});
-        }
+    //         maxX = bbox[2] < boundingbox[2] ? boundingbox[2] : bbox[2]; 
+    //     // }
+    //     // if(bbox[3] !== 0 && boundingbox[3] !== 0){
+    //         maxY = bbox[3] < boundingbox[3] ? boundingbox[3] : bbox[3];
+    //     // }
+    //     //   console.log(bbox[0],'bbox[0]');
+    //     //     console.log(bbox[1],'bbox[1]');
+    //     //     console.log(bbox[2],'bbox[2]');
+    //     //     console.log(bbox[3],'bbox[3]');
+    //     if(minX!==0 && minY!== 0 && maxX!== 0 && maxY!==0){
+    //             // console.log('Inside Setstate')
+    //         this.setState({bbox: [minX,minY,maxX,maxY]});
+    //     }
 
-    }
+    // }
     render() {
         // console.log(this.props.automationReducer.automationChoroplethData,'choropleth Data');
         const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";

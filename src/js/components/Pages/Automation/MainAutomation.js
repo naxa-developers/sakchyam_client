@@ -586,11 +586,12 @@ class MainAutomation extends Component {
           //   'branchLat',
           // );
           const trimelat = getCenterBboxMunicipality(
-            branch.municipality.trim(),
+            branch.municipality_code,
           ).center;
           const trimelong = getCenterBboxMunicipality(
-            branch.municipality.trim(),
+            branch.municipality_code,
           ).center;
+          // console.log(trimelong, 'trimmed');
           // eslint-disable-next-line prefer-destructuring
           branch.des_long = trimelong ? trimelong[0] : null;
           // console.log(trimelong[0], 'trim');
@@ -601,7 +602,7 @@ class MainAutomation extends Component {
           return true;
         });
         // global.a = this.props.automationReducer.automationTableData;
-
+        // console.log(global.a, 'Array Before Data');
         const x = this.state.activeClickPartners.map(
           clickedPartners => {
             global.a.map(data => {
@@ -613,6 +614,7 @@ class MainAutomation extends Component {
                     from: [data.longitude, data.latitude],
                     to: [data.des_long, data.des_lat],
                     labels: [data.partner, data.branch],
+                    // color: '#ff3a31',
                     color: getPartnerColor(data.partner_id),
                     value: 15,
                   });
@@ -626,6 +628,7 @@ class MainAutomation extends Component {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ migrationArray: array });
         if (mapType === 'branches') {
+          console.log(array, 'array Migration');
           global.migrationLayer.setData(array);
           global.migrationLayer.show();
         }
@@ -859,7 +862,7 @@ class MainAutomation extends Component {
     if (clickedValue === 'province') {
       this.setState({
         vectorGridInputUrl:
-          'https://dvsnaxa.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
+          'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
         // vectorGridKey: '0',
         color: '#55b110',
       });
@@ -867,7 +870,7 @@ class MainAutomation extends Component {
     } else if (clickedValue === 'district') {
       this.setState({
         vectorGridInputUrl:
-          'https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
+          'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
         // vectorGridKey: '1',
         color: '#FF0000',
       });
@@ -875,23 +878,23 @@ class MainAutomation extends Component {
     } else if (clickedValue === 'municipality') {
       this.setState({
         vectorGridInputUrl:
-          'https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
+          'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
         // 'https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Municipality@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
         // vectorGridKey: '2',
         color: '#FF000',
       });
       this.props.filterAutomationDataForVectorTiles(clickedValue);
     }
-    this.setState({
-      selectedProvince: [],
-      selectedProvinceName: [],
-      selectedProvinceDropdown: [],
-      selectedDistrict: [],
-      selectedDistrictName: [],
-      selectedDistrictDropdown: [],
-      selectedMunicipality: [],
-      selectedMunicipalityName: [],
-    });
+    // this.setState({
+    //   selectedProvince: [],
+    //   selectedProvinceName: [],
+    //   selectedProvinceDropdown: [],
+    //   selectedDistrict: [],
+    //   selectedDistrictName: [],
+    //   selectedDistrictDropdown: [],
+    //   selectedMunicipality: [],
+    //   selectedMunicipalityName: [],
+    // });
     this.setState({ dataTypeLevel: clickedValue });
     this.props.partnerSelectWithOutreach(
       activeClickPartners,
@@ -929,9 +932,9 @@ class MainAutomation extends Component {
     //     province: [code],
     //   });
     //   console.log('province');
-    //   const provinceFilterUrl = `https://dvsnaxa.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&code=${id}`;
-    //   // const provinceFilterUrl2 = `https://dvsnaxa.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&province_id=2`;
-    //   // const provinceFilterUrl = `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=1&province_id=2`;
+    //   const provinceFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&code=${id}`;
+    //   // const provinceFilterUrl2 = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&province_id=2`;
+    //   // const provinceFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=1&province_id=2`;
     //   this.setState({
     //     vectorGridInputUrl: provinceFilterUrl,
     //     // vectorGridInputUrl1: provinceFilterUrl2,
@@ -946,7 +949,7 @@ class MainAutomation extends Component {
     //     district: [code],
     //     province: [],
     //   });
-    //   const districtFilterUrl = `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&id=${id}`;
+    //   const districtFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&id=${id}`;
     //   this.setState({
     //     vectorGridInputUrl: districtFilterUrl,
     //     vectorGridKey: Math.random(),
@@ -960,7 +963,7 @@ class MainAutomation extends Component {
     //   });
     //   console.log('municipality');
     //   console.log(code);
-    //   const municipalityFilterUrl = `https://dvsnaxa.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${id}`;
+    //   const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${id}`;
     //   this.setState({
     //     vectorGridInputUrl: municipalityFilterUrl,
     //     vectorGridKey: Math.random(),
@@ -1058,7 +1061,7 @@ class MainAutomation extends Component {
       }
     }
     // console.log(
-    //   `https://dvsnaxa.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
+    //   `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
     // );
   };
 
@@ -1280,7 +1283,14 @@ class MainAutomation extends Component {
     // ];
     // const map = this.mapRef.current.leafletElement;
     // map.fitBounds(bounds);
-    this.setState({ vectorGridFirstLoad: true });
+    // this.setState({ vectorGridFirstLoad: true });
+    if (
+      selectedMunicipality.length < 1 ||
+      selectedDistrict.length < 1 ||
+      (selectedProvince.length < 1 && activeClickPartners.length < 1)
+    ) {
+      this.handleStateLevel(this.state.dataTypeLevel);
+    }
     // console.log(province, 'prov');
     if (dataTypeLevel === 'municipality') {
       // if (selectedMunicipality.length > 0) {
@@ -1525,7 +1535,19 @@ class MainAutomation extends Component {
       selectedDistrictDropdown: [],
       selectedMunicipality: [],
       selectedMunicipalityName: [],
+      vectorGridKey: Math.random(),
     });
+    const map = this.mapRef.current.leafletElement;
+    // console.log(extendedValue, 'bbox');
+    const bounds = [
+      [30.441792349047404, 87.91087222877736],
+      [25.504959616615796, 80.4671531221034],
+    ];
+    map.flyToBounds(bounds, {
+      animate: true,
+      duration: 2,
+    });
+    this.handleStateLevel(this.state.dataTypeLevel);
     this.props.partnerSelectWithOutreach(
       this.state.activeClickPartners,
     );
@@ -1569,6 +1591,7 @@ class MainAutomation extends Component {
         arcLabel: false,
       });
       global.migrationLayer.addTo(map);
+      console.log(global.migrationLayer, 'migration');
     } else {
       global.migrationLayer.destroy();
     }
