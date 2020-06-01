@@ -61,9 +61,13 @@ class MapComponent extends Component {
       provinceAllData: [],
       selectedBaseLayer: 'harje',
       bounds: [
-        [25.898761936567023, 80.00244140625001],
-        [30.732392734006083, 88.79150390625],
+        [30.441792349047404, 87.91087222877736],
+        [25.504959616615796, 80.4671531221034],
       ],
+      // bounds: [
+      //   [0, 0],
+      //   [0, 0],
+      // ],
       province: null,
       district: null,
       municipality: null,
@@ -102,45 +106,7 @@ class MapComponent extends Component {
     // this.props.filterAutomationDataForVectorTiles();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // if (prevProps.vectorGridKey !== this.props.vectorGridKey) {
-    //   console.log('xxx');
-    //   // eslint-disable-next-line react/no-did-update-set-state
-    //   this.props.handleVectorGridFirstLoad();
-    // }
-  }
-  // fetchingForDropdown = name => {
-  //   const key =
-  //     name === 'province'
-  //       ? 'province_api'
-  //       : name === 'district'
-  //       ? 'district_api'
-  //       : name === 'municipality'
-  //       ? 'municipality_api'
-  //       : '';
-  //   const url = `https://iomapi.naxa.com.np/api/v1/${key}`;
-  //   const prvncDist =
-  //     name === 'district'
-  //       ? 'province'
-  //       : name === 'municipality'
-  //       ? 'district'
-  //       : '';
-
-  //   Axios.get(url).then(response => {
-  //     const array = [];
-
-  //     response.data.data.map(e => {
-  //       const object = {
-  //         value: e.id,
-  //         label: e.name,
-  //         [prvncDist]: e[prvncDist.toString()],
-  //       };
-  //       array.push(object);
-  //       return true;
-  //     });
-  //     this.setState({ [name]: array });
-  //   });
-  // };
+  componentDidUpdate(prevProps, prevState) {}
 
   markerClickProvinceSelect = clickedValue => {
     this.props.handleActiveClickPartners(clickedValue);
@@ -161,14 +127,6 @@ class MapComponent extends Component {
   };
 
   playBtn = (min, max) => {
-    // this.setState({ key: Math.random() });
-    // this.setState({ playSelected: true });
-    // const startDate = min;
-    // const endDate = max;
-    // const time = min;
-    // console.log(min, max);
-    // const minDate = parseInt(minDate)
-
     this.setState({
       minValue: this.getYear(min),
       maxValue: this.getYear(max),
@@ -195,6 +153,10 @@ class MapComponent extends Component {
     //   migrationLayer.hide();
     // }, 5000);
   };
+
+  // onMapMoveEnd = e => {
+  //   console.log('new bounds ', e.target.getBounds());
+  // };
 
   render() {
     const {
@@ -329,12 +291,13 @@ class MapComponent extends Component {
           // scrollWheelZoom={this.props.zoomControl}
           // preferCanvas
           animate
-          zoom={8}
+          // zoom={9}
           maxZoom={18}
           attributionControl
           zoomControl
           // doubleClickZoom
           // scrollWheelZoom
+          // onMoveend={this.onMapMoveEnd}
           bounds={this.state.bounds}
           ref={this.props.mapRef}
           center={position}
@@ -348,6 +311,7 @@ class MapComponent extends Component {
           {/* {choroplethInputData&&choroplethInputData.length >0 &&  */}
           {!activeOutreachButton && (
             <VectorGrid
+              dataTypeLevel={dataTypeLevel}
               activeOutreachButton={activeOutreachButton}
               handleVectorGridFirstLoad={
                 this.props.handleVectorGridFirstLoad
@@ -367,6 +331,7 @@ class MapComponent extends Component {
             automationChoroplethData &&
             filteredProvinceChoropleth && (
               <VectorGrid
+                dataTypeLevel={dataTypeLevel}
                 activeOutreachButton={activeOutreachButton}
                 handleVectorGridFirstLoad={
                   this.handleVectorGridFirstLoad
