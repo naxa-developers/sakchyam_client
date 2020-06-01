@@ -417,9 +417,9 @@ class VectorGridComponent extends Component {
         const options = {
             type: 'protobuf',
             // tooltip: (feature) =>{
-                //     console.log(feature, "feature  ")
                 // },
                 getFeatureId: function (feature) {
+                        console.log(feature, "feature  ")
 
                 // let bboxString= feature.properties.bbox;
                 // var bboxArray= bboxString.split(",");
