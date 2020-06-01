@@ -316,6 +316,7 @@ class MapComponent extends Component {
               handleVectorGridFirstLoad={
                 this.props.handleVectorGridFirstLoad
               }
+              vectorGridKey={vectorGridKey}
               vectorGridFirstLoad={vectorGridFirstLoad}
               // changetheme={this.props.changetheme}
               handleProvinceClick={handleProvinceClick}

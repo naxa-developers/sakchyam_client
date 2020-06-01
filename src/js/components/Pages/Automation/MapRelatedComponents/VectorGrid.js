@@ -200,7 +200,6 @@ class VectorGridComponent extends Component {
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
             province.on("mouseover",(e)=>{
-                            map.closePopup();
 
             // console.log(map, "ee")
             // infoDiv.style.display = "block";
@@ -321,6 +320,8 @@ class VectorGridComponent extends Component {
             infoDiv.style.display = "none";
             infoDiv.innerHTML = "";
             e.layer.setStyle({opacity:0.1});
+            map.closePopup();
+
 
 
         })
@@ -355,6 +356,9 @@ class VectorGridComponent extends Component {
            this.changeGrades();
        }
        if(prevProps.dataTypeLevel !== this.props.dataTypeLevel){
+           this.changeGrades();
+       }
+       if(prevProps.vectorGridInputUrl !== this.props.vectorGridInputUrl){
            this.changeGrades();
        }
         // }
@@ -442,7 +446,7 @@ class VectorGridComponent extends Component {
         // console.log(this.vectorGridRef.current && this.vectorGridRef.current.props.getFeatureId(function (feature) {}),'vectorRef')
         return (
             <div>
-                <VectorGrid {...options} ref={this.vectorGridRef}></VectorGrid>
+                <VectorGrid {...options} ref={this.vectorGridRef} key={this.props.vectorGridKey}></VectorGrid>
                 <div style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
                 <div>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</div>
                 <div className="map-legend">
