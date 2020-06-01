@@ -20,6 +20,15 @@ function getClassName(i) {
   if (i % 12 === 13) return 'is-color14';
   return 'is-green';
 }
+
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -108,7 +117,16 @@ class RightSideBar extends Component {
                 <ul className="widget-list">
                   <li>
                     <div className="widget-content">
-                      <h6>Partner Institutions</h6>
+                      <h6>
+                        {automationReducer.automationRightSidePartnerData &&
+                        automationReducer
+                          .automationRightSidePartnerData[0] &&
+                        automationReducer
+                          .automationRightSidePartnerData[0]
+                          .total_partner > 1
+                          ? 'Partner Institutions'
+                          : 'Partner Institution'}
+                      </h6>
                       <span>
                         {automationReducer.automationRightSidePartnerData &&
                           automationReducer
@@ -151,9 +169,11 @@ class RightSideBar extends Component {
                         {automationReducer.automationRightSidePartnerData &&
                           automationReducer
                             .automationRightSidePartnerData[0] &&
-                          automationReducer
-                            .automationRightSidePartnerData[0]
-                            .total_beneficiary}
+                          numberWithCommas(
+                            automationReducer
+                              .automationRightSidePartnerData[0]
+                              .total_beneficiary,
+                          )}
                       </span>
                     </div>
                     <div className="widget-icon">
@@ -166,8 +186,15 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget">
-              <h5>Selected Partner</h5>
+              <h5>
+                {selectedPartnerList && selectedPartnerList.length > 1
+                  ? 'Selected Partners'
+                  : 'Selected Partner'}
+              </h5>
               <div className="widget-body">
+                {selectedPartnerList &&
+                  selectedPartnerList.length === 0 &&
+                  'No Partner Selected'}
                 {selectedPartnerList &&
                   selectedPartnerList.map((data, i) => {
                     let initials =
@@ -213,7 +240,10 @@ class RightSideBar extends Component {
                             </div>
                             <div className="icons">
                               <i className="material-icons">people</i>
-                              <b>{data.beneficiary}</b>
+                              <b>
+                                {data.beneficiary &&
+                                  numberWithCommas(data.beneficiary)}
+                              </b>
                             </div>
                           </div>
                           <div className="orgnization-info">

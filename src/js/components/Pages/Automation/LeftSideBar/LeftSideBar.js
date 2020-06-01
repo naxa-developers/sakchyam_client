@@ -19,6 +19,7 @@ function getClassName(i) {
   if (i % 12 === 13) return 'is-color14';
   return 'is-green';
 }
+
 class LeftSideBar extends Component {
   constructor(props) {
     super(props);

@@ -44,6 +44,23 @@ const initialState = {
   timeLineData: [],
 };
 
+function getPartnerColor(i) {
+  if (i % 12 === 0) return '#e69109';
+  if (i % 12 === 1) return '#63a4ff';
+  if (i % 12 === 2) return '#8629ff';
+  if (i % 12 === 3) return '#e553ed';
+  if (i % 12 === 4) return '#f2575f';
+  if (i % 12 === 5) return '#915e0d';
+  if (i % 12 === 6) return '#a1970d';
+  if (i % 12 === 7) return '#4f7d14';
+  if (i % 12 === 8) return '#07aba1';
+  if (i % 12 === 9) return '#1d4c8f';
+  if (i % 12 === 10) return '#491991';
+  if (i % 12 === 11) return '#610766';
+  if (i % 12 === 12) return '#6e0208';
+  if (i % 12 === 13) return '#f07818';
+  return 'green';
+}
 const partnerForChoropleth = (state, action) => {
   // console.log(action.payload, 'payload');
   // const allData = [];
@@ -72,6 +89,9 @@ const partnerForChoropleth = (state, action) => {
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
   });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
   if (action.payload[0].partner_data.length < 1) {
     partnerData = [0];
   }
@@ -84,6 +104,7 @@ const partnerForChoropleth = (state, action) => {
         ...action.payload[0],
         tabletsGraphData: partnerData,
         tabletsGraphLabel: partnerName,
+        tabletsGraphColor: partnerColor,
       },
     },
   };
@@ -244,6 +265,9 @@ const filterPartnerSelect = (state, action) => {
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
   });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
   // console.log(
   //   {
   //     automationRightSidePartnerData: [action.payload[0]],
@@ -271,6 +295,7 @@ const filterPartnerSelect = (state, action) => {
         ...action.payload[0],
         tabletsGraphData: partnerData,
         tabletsGraphLabel: partnerName,
+        tabletsGraphColor: partnerColor,
       },
     },
   };
@@ -346,6 +371,9 @@ const filterPartnerByFederal = (state, action) => {
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
   });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
   if (action.payload[0].partner_data.length < 1) {
     partnerData = [0];
   }
@@ -358,6 +386,7 @@ const filterPartnerByFederal = (state, action) => {
         ...action.payload[0],
         tabletsGraphData: partnerData,
         tabletsGraphLabel: partnerName,
+        tabletsGraphColor: partnerColor,
       },
     },
   };
@@ -366,7 +395,7 @@ const getAutomationDataForTable = (state, action) => {
   return {
     ...state,
     automationTableData: action.payload,
-    // tableDataLoading: false,
+    tableDataLoading: false,
   };
 };
 const getAutomationDataForTableByFederal = (state, action) => {

@@ -107,6 +107,7 @@ class VectorGridComponent extends Component {
     }
 
     setChoroplethStyle = (layer, values) =>{
+        // console.log(layer,'choropleth')
         values.map((value) => {
             var color = this.getLegendColor(value.count);
             var newStyle= {};
@@ -153,8 +154,8 @@ class VectorGridComponent extends Component {
             });
             circleLoad = false;
             province.on("click",(e)=>{
-                console.log(e.layer.properties.id,'id vectorgrid');
-                console.log(e.layer);
+                // console.log(e.layer.properties.id,'id vectorgrid');
+                // console.log(e.layer);
                 // console.log(e.latlng);
                 map.flyTo(e.latlng, 9,{
                     animate: true,
@@ -181,10 +182,11 @@ class VectorGridComponent extends Component {
             const b = [[a[0],a[1]],[a[2],a[3]]];
             // console.log(b,'b');
             // if(this.mapRef && this.mapRef.current){
+                global.maps =this.props.mapRef.current.leafletElement;
                 const map =this.props.mapRef.current.leafletElement;
                 if(this.props.vectorGridFirstLoad === true){
                     console.log(b,'fitbound Up');
-                    map.fitBounds(b);
+                    // map.fitBounds(b);
                 } 
                 this.props.handleVectorGridFirstLoad();
         });
@@ -198,6 +200,7 @@ class VectorGridComponent extends Component {
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
             province.on("mouseover",(e)=>{
+
             // console.log(map, "ee")
             // infoDiv.style.display = "block";
             // var provName = "";
@@ -223,8 +226,48 @@ class VectorGridComponent extends Component {
             // infoDiv.innerHTML = html;
             // console.log(e.layer.options);
             // const a= e.layer.options.opacity;
-        
-        
+            // total_tablet(pin):3316
+            // total_branch(pin):889
+            // total_partner(pin):12
+            // total_beneficiary(pin):590324
+            // id(pin):4
+            // partner_id(pin):3
+            // partner_name(pin):"Chhimek Laghubitta Bittiya Sanstha"
+            // district_covered(pin):65
+            // province_covered(pin):7
+            // municipality_covered(pin):136
+            // branch(pin):162
+            // beneficiary(pin):752
+            // lat(pin):27.695951
+            // long(pin):85.338666
+            // date(pin):2016
+            // tablets_deployed(pin):863
+        const {automationAllDataByPartner}= this.props.automationReducer;
+        console.log(automationAllDataByPartner,'data of Partners');
+        const popupHtml =automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.map(data=>{
+            return (
+                `<li>
+                    <div class="organization-icon"><span></span></div>
+                        <div class="organization-content">
+                            <div class="org-header">
+                                <h5>${data.partner_name}</h5>
+                                    <div class="icon-list">
+                                        <div class="icons"><i class="material-icons">business</i><b>23</b>
+                                        </div>
+                                            <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b></div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </li>`)
+        });
+                        //             <div class="branch-info-list"><span>Branch1</span>
+                        //                 <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b></div>
+                        //             </div>
+                        //             <div class="branch-info-list"><span>Branch2</span>
+                        //         <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b>
+                        //     </div>
+                        // </div>
+        this.props.activeOutreachButton && 
             L.popup()
             .setContent(
                 `<div class="leaflet-popup-content" style="width: 281px;">
@@ -232,56 +275,21 @@ class VectorGridComponent extends Component {
                         <div class="map-popup-view-header">
                             <h5>${e.layer.properties.name}</h5>
                             <div class="icons">
-                            <i class="material-icons">tablet_mac</i><b>32</b>
+                            <i class="material-icons">tablet_mac</i><b>${automationAllDataByPartner[0] && automationAllDataByPartner[0].total_tablet}</b>
                             </div>
                         </div>
-                        <ul>
-                        <li>
-                            <div class="organization-icon"><span>CH</span></div>
-                                <div class="organization-content">
-                                    <div class="org-header">
-                                        <h5>Mahila Samudayik Laghubitta</h5>
-                                            <div class="icon-list">
-                                                <div class="icons"><i class="material-icons">business</i><b>23</b>
-                                                </div>
-                                                    <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                                </div>
-                                            </div>
-                                            <div class="branch-info-list"><span>Branch1</span>
-                                                <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                            </div>
-                                            <div class="branch-info-list"><span>Branch2</span>
-                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="organization-icon is-red"><span></span></div>
-                                <div class="organization-content">
-                                    <div class="org-header"><h5>Mahila Samudayik Laghubitta</h5>
-                                        <div class="icon-list">
-                                        <div class="icons"><i class="material-icons">business</i><b>23</b></div>
-                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                    </div>
-                                </div>
-                                    <div class="branch-info-list"><span>Branch1</span>
-                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                    </div>
-                                    <div class="branch-info-list"><span>Branch2</span>
-                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                    </div>
-                            </div>
-                        </li>
-                    </ul>
-                <div class="map-view-footer">
+                        <ul style="height:230px;overflow-y: scroll">
+                        ${popupHtml}
+                        
+                        </ul>
+                        <div class="map-view-footer">
                     <div class="map-view-progress">
                         <div class="progress-item is-red" style="flex: 0 0 60%; max-width: 60%;"></div>
                         <div class="progress-item is-green" style="flex: 0 0 40%; max-width: 40%;"></div>
-                    </div>
+                        </div>
                 <div class="progress-value"><span class="red-value">60%</span><span class="green-value">40%</span></div>
             </div>
-        </div>
+            </div>
     </div>`
             )
             .setLatLng(e.latlng)
@@ -290,12 +298,30 @@ class VectorGridComponent extends Component {
             // e.layer.setPopupContent('<label>Automation</label');
             //     e.layer.openPopup();
         });
+            // <li>
+            //     <div class="organization-icon is-red"><span></span></div>
+            //         <div class="organization-content">
+            //             <div class="org-header"><h5>Mahila Samudayik Laghubitta</h5>
+            //                 <div class="icon-list">
+            //                 <div class="icons"><i class="material-icons">business</i><b>23</b></div>
+            //                 <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+            //             </div>
+            //         </div>
+            //             <div class="branch-info-list"><span>Branch1</span>
+            //                 <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+            //             </div>
+            //             <div class="branch-info-list"><span>Branch2</span>
+            //                 <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+            //             </div>
+            //     </div>
+            // </li>
 
         province.on("mouseout",(e)=>{
             infoDiv.style.display = "none";
             infoDiv.innerHTML = "";
             e.layer.setStyle({opacity:0.1});
             map.closePopup();
+
 
 
         })
@@ -327,6 +353,12 @@ class VectorGridComponent extends Component {
         this.changeGrades();
        }
        if(prevProps.activeOutreachButton !== this.props.activeOutreachButton){
+           this.changeGrades();
+       }
+       if(prevProps.dataTypeLevel !== this.props.dataTypeLevel){
+           this.changeGrades();
+       }
+       if(prevProps.vectorGridInputUrl !== this.props.vectorGridInputUrl){
            this.changeGrades();
        }
         // }
@@ -388,17 +420,13 @@ class VectorGridComponent extends Component {
                 //     console.log(feature, "feature  ")
                 // },
                 getFeatureId: function (feature) {
-                    // console.log(feature,"feature  ")
-                    if(feature.properties.name ==="Shivaraj"){
-                        // console.log(feature,'checkkkkkk')
 
-                    }
-                let bboxString= feature.properties.bbox;
-                var bboxArray= bboxString.split(",");
-                // console.log(bboxArray,'bboxaray')
-                const a = bboxArray.map(data=>{return parseFloat(data)});
-                const b = [a[1],a[0],a[3],a[2]];
-                currentComponent.extendBounds(b);
+                // let bboxString= feature.properties.bbox;
+                // var bboxArray= bboxString.split(",");
+                // // console.log(bboxArray,'bboxaray')
+                // const a = bboxArray.map(data=>{return parseFloat(data)});
+                // const b = [a[1],a[0],a[3],a[2]];
+                // currentComponent.extendBounds(b);
                 
                 // var corner1 = L.latLng(40.712, -74.227),
                 // corner2 = L.latLng(40.774, -74.125),
@@ -418,7 +446,7 @@ class VectorGridComponent extends Component {
         // console.log(this.vectorGridRef.current && this.vectorGridRef.current.props.getFeatureId(function (feature) {}),'vectorRef')
         return (
             <div>
-                <VectorGrid {...options} ref={this.vectorGridRef}></VectorGrid>
+                <VectorGrid {...options} ref={this.vectorGridRef} key={this.props.vectorGridKey}></VectorGrid>
                 <div style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
                 <div>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</div>
                 <div className="map-legend">
