@@ -1362,7 +1362,7 @@ class MainAutomation extends Component {
             return `province_id_id=${data}`;
           })
           .join('&');
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
+        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
         this.setState({
           vectorGridInputUrl: municipalityFilterUrl,
           vectorGridKey: Math.random(),
@@ -1382,6 +1382,21 @@ class MainAutomation extends Component {
       //   });
       // } else
       if (selectedDistrict.length > 0) {
+        const combinedBbox = [];
+        // console.log(selectedDistrict, 'selectedDistrict');
+        const getBboxValue = getCenterBboxDistrict(selectedDistrict);
+        // console.log(getBboxValue, 'bboxValue');
+        getBboxValue.map(data => {
+          combinedBbox.push(data.bbox);
+          return true;
+        });
+        const extendedValue = extendBounds(combinedBbox);
+        const map = this.mapRef.current.leafletElement;
+        // console.log(extendedValue, 'bbox');
+        map.flyToBounds(extendedValue, {
+          animate: true,
+          duration: 2,
+        });
         const query = selectedDistrict
           .map(data => {
             return `code=${data}`;
@@ -1393,12 +1408,26 @@ class MainAutomation extends Component {
           vectorGridKey: Math.random(),
         });
       } else if (selectedProvince.length > 0) {
+        const combinedBbox = [];
+        // console.log(selectedProvince, 'selectedProvine');
+        const getBboxValue = getCenterBboxProvince(selectedProvince);
+        getBboxValue.map(data => {
+          combinedBbox.push(data.bbox);
+          return true;
+        });
+        const extendedValue = extendBounds(combinedBbox);
+        const map = this.mapRef.current.leafletElement;
+        // console.log(extendedValue, 'bbox');
+        map.flyToBounds(extendedValue, {
+          animate: true,
+          duration: 2,
+        });
         const query = selectedProvince
           .map(data => {
             return `province_id_id=${data}`;
           })
           .join('&');
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
+        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
         this.setState({
           vectorGridInputUrl: municipalityFilterUrl,
           vectorGridKey: Math.random(),
@@ -1406,6 +1435,20 @@ class MainAutomation extends Component {
       }
     } else if (dataTypeLevel === 'province') {
       if (selectedProvince.length > 0) {
+        const combinedBbox = [];
+        // console.log(selectedProvince, 'selectedProvine');
+        const getBboxValue = getCenterBboxProvince(selectedProvince);
+        getBboxValue.map(data => {
+          combinedBbox.push(data.bbox);
+          return true;
+        });
+        const extendedValue = extendBounds(combinedBbox);
+        const map = this.mapRef.current.leafletElement;
+        // console.log(extendedValue, 'bbox');
+        map.flyToBounds(extendedValue, {
+          animate: true,
+          duration: 2,
+        });
         const query = selectedProvince
           .map(data => {
             return `code=${data}`;
