@@ -416,7 +416,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
       const response = axiosInstance
         .get(
           // `api/v1/automation/automation-data/?province_id=2&partner__partner__id=12`,
-          `api/v1/automation/map-data/?${partnerSelect}&${municipalitySelect}`,
+          `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${municipalitySelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -433,7 +433,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/map-data/?${partnerSelect}&${districtSelect}`,
+          `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${districtSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -450,7 +450,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/map-data/?${partnerSelect}&${provinceSelect}`,
+          `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${provinceSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -465,6 +465,91 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
     }
   }
 };
+// export const getFilteredPartnersByFederalWithClickedPartners = (
+//   federalSelect,
+//   clickedPartner,
+// ) => dispatch => {
+//   let partnerSelect = 'partner=0';
+//   if (clickedPartner.length > 0) {
+//     partnerSelect = clickedPartner
+//       .map(data => {
+//         return `partner=${data}`;
+//       })
+//       .join('&');
+//   }
+//   const provinceSelect = federalSelect.province
+//     .map(data => {
+//       return `province=${data}`;
+//     })
+//     .join('&');
+//   const districtSelect = federalSelect.district
+//     .map(data => {
+//       return `district=${data}`;
+//     })
+//     .join('&');
+//   const municipalitySelect = federalSelect.municipality
+//     .map(data => {
+//       return `municipality=${data}`;
+//     })
+//     .join('&');
+//   // console.log(federalSelect, 'fedSelect');
+//   // console.log(provinceSelect, 'prov');
+//   // console.log(districtSelect, 'dist');
+//   // console.log(municipalitySelect, 'munic');
+//   if (federalSelect.municipality.length > 0) {
+//     try {
+//       const response = axiosInstance
+//         .get(
+//           // `api/v1/automation/automation-data/?province_id=2&partner__partner__id=12`,
+//           `api/v1/automation/map-data/?${partnerSelect}&${municipalitySelect}`,
+//         )
+//         .then(function(result) {
+//           // console.log(result, 'result');
+
+//           return dispatch({
+//             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+//             payload: result.data,
+//           });
+//         });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   } else if (federalSelect.district.length > 0) {
+//     try {
+//       const response = axiosInstance
+//         .get(
+//           `api/v1/automation/map-data/?${partnerSelect}&${districtSelect}`,
+//         )
+//         .then(function(result) {
+//           // console.log(result, 'result');
+
+//           return dispatch({
+//             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+//             payload: result.data,
+//           });
+//         });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   } else {
+//     try {
+//       const response = axiosInstance
+//         .get(
+//           `api/v1/automation/map-data/?${partnerSelect}&${provinceSelect}`,
+//         )
+//         .then(function(result) {
+//           // console.log(result, 'result');
+
+//           return dispatch({
+//             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+//             payload: result.data,
+//           });
+//         });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }
+// };
 
 export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
   try {

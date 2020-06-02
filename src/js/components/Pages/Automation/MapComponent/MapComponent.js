@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import { Map, Popup, Marker, Pane } from 'react-leaflet';
-import Loader from 'react-loader-spinner';
 import 'leaflet/dist/leaflet.css';
 import Control from 'react-leaflet-control';
 import L, { CircleMarker } from 'leaflet';
@@ -12,6 +11,7 @@ import 'leaflet.featuregroup.subgroup';
 import '../../../../../library/leaflet.migrationLayer';
 import '../../../../../library/SmoothWheelZoom';
 import { connect } from 'react-redux';
+import Loading from '../../../common/Loading';
 import randomGeojson from '../../../../../data/randomGeojson.json';
 import ActiveIcon from '../../../../../img/fullactive.png';
 import mapIcon from '../../../../../img/map.png';
@@ -165,6 +165,8 @@ class MapComponent extends Component {
       automationChoroplethData,
       dataLoading,
       automationLeftSidePartnerData,
+      automationTableData,
+      tableDataLoading,
     } = this.props.automationReducer;
     const {
       provinceBbox,
@@ -578,32 +580,9 @@ class MapComponent extends Component {
               );
             })}
           {/* </Pane> */}
-          <div
-            id="center_loader"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              zIndex: 999,
-            }}
-          >
-            <Loader
-              type="BallTriangle"
-              color="#c21c2e"
-              height={100}
-              width={100}
-              visible={!isTileLoaded}
-            />
-            <label
-              style={{
-                display: !isTileLoaded ? 'block' : 'none',
-                // marginLeft: '15px',
-                color: 'red',
-              }}
-            >
-              Loading...Please Wait
-            </label>
-          </div>
+          <Loading
+            loaderState={tableDataLoading && tableDataLoading}
+          />
           {!activeOutreachButton ? (
             <TimelineChart
               // key={Math.random()}

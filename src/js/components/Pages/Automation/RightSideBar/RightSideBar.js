@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import MapComponent from '../MapComponent/MapComponent';
+import Loading from '../../../common/Loading';
 
 function getClassName(i) {
   if (i % 12 === 0) return 'is-color1';
@@ -48,6 +48,7 @@ class RightSideBar extends Component {
       toggleTableViewButton,
       activeRightSideBar,
       activeClickPartners,
+      rightSideBarLoader,
     } = this.props;
     const a =
       automationReducer.automationRightSidePartnerData &&
@@ -115,6 +116,7 @@ class RightSideBar extends Component {
                   />
                 </div>
                 <ul className="widget-list">
+                  <Loading loaderState={rightSideBarLoader} />
                   <li>
                     <div className="widget-content">
                       <h6>
