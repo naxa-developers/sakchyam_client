@@ -302,6 +302,19 @@ const filterPartnerSelect = (state, action) => {
 };
 
 const getProvinceData = (state, action) => {
+  function GetSortOrder(prop) {
+    return function(a, b) {
+      if (a[prop] > b[prop]) {
+        return 1;
+      }
+      if (a[prop] < b[prop]) {
+        return -1;
+      }
+      return 0;
+    };
+  }
+  console.log(action.payload);
+  action.payload.sort(GetSortOrder('code'));
   return {
     ...state,
     allProvinceName: action.payload,
@@ -413,18 +426,63 @@ const getAutomationDataForTableByPartner = (state, action) => {
   };
 };
 const filterPartnerByFederalwithClickedPartners = (state, action) => {
-  const a = action.payload.map(data => {
-    return { id: data.code, count: data.tablets_deployed };
+  const leftsideData = action.payload[0].partner_data;
+  // const choroplethData = action.payload.map(data => {
+  //   allData.push({ id: data.id, count: data.num_tablet_deployed });
+  //   return true;
+  // });
+  leftsideData.sort(function(a, b) {
+    const nameA = a.partner_name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.partner_name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
   });
-  // console.log(a, 'a');
+  let partnerData = action.payload[0].partner_data.map(data => {
+    return data.tablets_deployed;
+  });
+  const partnerName = action.payload[0].partner_data.map(data => {
+    return data.partner_name;
+  });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
+  if (action.payload[0].partner_data.length < 1) {
+    partnerData = [0];
+  }
   return {
     ...state,
-    filteredMapBoundaryData: action.payload,
-    automationChoroplethData: a,
-    // automationTableData: action.payload,
-    // tableDataLoading: false,
+    automationAllDataByPartner: action.payload,
+    // automationLeftSidePartnerData: leftsideData,
+    automationRightSidePartnerData: {
+      0: {
+        ...action.payload[0],
+        tabletsGraphData: partnerData,
+        tabletsGraphLabel: partnerName,
+        tabletsGraphColor: partnerColor,
+      },
+    },
   };
 };
+// const filterPartnerByFederalwithClickedPartners = (state, action) => {
+//   const a = action.payload.map(data => {
+//     return { id: data.code, count: data.tablets_deployed };
+//   });
+//   // console.log(a, 'a');
+//   return {
+//     ...state,
+//     filteredMapBoundaryData: action.payload,
+//     automationChoroplethData: a,
+//     // automationTableData: action.payload,
+//     // tableDataLoading: false,
+//   };
+// };
 const partnerSelectWithOutreachGetPartnerChoropleth = (
   state,
   action,

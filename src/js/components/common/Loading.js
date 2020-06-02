@@ -2,15 +2,13 @@ import React from 'react';
 import Loader from 'react-loader-spinner';
 
 const Loading = ({ loaderState, text }) => {
-  console.log(loaderState, 'state');
-  console.log(text, 'text');
   return (
     <div
       id="center_loader"
       style={{
         position: 'absolute',
-        top: '50%',
-        left: '50%',
+        top: '36%',
+        left: '37%',
         zIndex: 999,
       }}
     >

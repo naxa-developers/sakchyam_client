@@ -359,6 +359,7 @@ class VectorGridComponent extends Component {
            this.changeGrades();
        }
        if(prevProps.vectorGridInputUrl !== this.props.vectorGridInputUrl){
+        //    console.log('url changed')
            this.changeGrades();
        }
         // }
@@ -408,8 +409,10 @@ class VectorGridComponent extends Component {
 
     // }
     render() {
+        // console.log(this.props.vectorGridUrl,'render url')
         // console.log(this.props.automationReducer.automationChoroplethData,'choropleth Data');
-        const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
+        // const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
+        const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl;
         // console.log(provinceUrl,"provinceUrl")
         var style = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
         var currentComponent= this;
@@ -419,7 +422,7 @@ class VectorGridComponent extends Component {
             // tooltip: (feature) =>{
                 // },
                 getFeatureId: function (feature) {
-                        console.log(feature, "feature  ")
+                        // console.log(feature, "feature  ")
 
                 // let bboxString= feature.properties.bbox;
                 // var bboxArray= bboxString.split(",");
@@ -446,7 +449,7 @@ class VectorGridComponent extends Component {
         // console.log(this.vectorGridRef.current && this.vectorGridRef.current.props.getFeatureId(function (feature) {}),'vectorRef')
         return (
             <div>
-                <VectorGrid {...options} ref={this.vectorGridRef} key={this.props.vectorGridKey}></VectorGrid>
+                <VectorGrid {...options} ref={this.vectorGridRef} key={this.props.vectorGridKey} ></VectorGrid>
                 <div style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
                 <div>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</div>
                 <div className="map-legend">
