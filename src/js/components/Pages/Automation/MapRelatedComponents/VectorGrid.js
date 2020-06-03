@@ -197,7 +197,7 @@ class VectorGridComponent extends Component {
     }
     addMouseoverLayer = () =>{
         province = this.vectorGridRef.current.leafletElement;
-        console.log(province.getAllLayers());
+        // console.log(province.getAllLayers());
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
             province.on("mouseover",(e)=>{
