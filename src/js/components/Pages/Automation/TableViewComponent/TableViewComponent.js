@@ -751,6 +751,7 @@ class TableViewComponent extends Component {
                   id="btnExport"
                   type="button"
                   onClick={this.exportTableToExcel}
+                  className="common-button is-border"
                 >
                   EXPORT
                 </button>

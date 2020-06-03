@@ -666,7 +666,13 @@ class MainAutomation extends Component {
             value.options.properties.partner_id === data
           ) {
             value.setIcon(allActive);
-            value.openPopup();
+            if (
+              selectedMunicipality.length < 1 &&
+              selectedDistrict.length < 1 &&
+              selectedProvince.length < 1
+            ) {
+              value.openPopup();
+            }
           }
         });
         return true;
@@ -1883,6 +1889,7 @@ class MainAutomation extends Component {
         >
           <LeftSideBar
             partnersData={partnersData}
+            activeTableView={activeTableView}
             searchText={searchText}
             handleSearchTextChange={this.handleSearchTextChange}
             activeClickPartners={activeClickPartners}

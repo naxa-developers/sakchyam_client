@@ -642,6 +642,26 @@
                 margin-bottom: .6125rem;
             }
         }
+        [tooltip]::after {
+            min-width: 140px;
+            // max-width: 30em;
+            white-space: initial;
+            // overflow: hidden;
+            text-overflow: initial;
+            max-width: 140px;
+            background: $white-color;
+            color: $heading-color;
+            opacity: 1;
+            font-family: $avenir-heavy;
+            line-height: 1.2;
+          }
+          /* FLOW: DOWN */
+        [tooltip][flow^="down"]::before {
+            border-bottom-color: $white-color;
+        }
+        [tooltip][flow^="up"]::before {
+            border-top-color: $white-color;
+          }
     }
     
     .leaflet-container{
