@@ -560,7 +560,9 @@ export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
       .join('&');
 
     const response = axiosInstance
-      .get(`api/v1/automation/automation-data/?${query}`)
+      .get(
+        `api/v1/automation/table-data/?filter_type=partner&${query}`,
+      )
       .then(function(result) {
         // console.log(result, 'result');
         return dispatch({
@@ -701,22 +703,53 @@ export const partnerSelectWithOutreach = (
 //   }
 // };
 
-export const getBranchesTableDataByFed = federalSelect => dispatch => {
-  const provinceSelect = federalSelect.province
-    .map(data => {
-      return `province=${data}`;
-    })
-    .join('&');
-  const districtSelect = federalSelect.district
-    .map(data => {
-      return `district=${data}`;
-    })
-    .join('&');
-  const municipalitySelect = federalSelect.municipality
-    .map(data => {
-      return `municipality=${data}`;
-    })
-    .join('&');
+export const getBranchesTableDataByFed = (
+  federalSelect,
+  partnerSelect,
+) => dispatch => {
+  // console.log(federalSelect, 'fedselect');
+  // console.log(partnerSelect, 'partnersekle');
+  let partners = 'partner=0';
+  let provinceSelect = 'province=0';
+  let districtSelect = 'district=0';
+  let municipalitySelect = 'municipality=0';
+  if (partnerSelect.length > 0) {
+    partners = partnerSelect
+      .map(data => {
+        return `partner=${data}`;
+      })
+      .join('&');
+  }
+  if (
+    federalSelect.province.length > 0 &&
+    federalSelect.province.length < 15
+  ) {
+    provinceSelect = federalSelect.province
+      .map(data => {
+        return `province=${data}`;
+      })
+      .join('&');
+  }
+  if (
+    federalSelect.district.length > 0 &&
+    federalSelect.district.length < 15
+  ) {
+    districtSelect = federalSelect.district
+      .map(data => {
+        return `district=${data}`;
+      })
+      .join('&');
+  }
+  if (
+    federalSelect.municipality.length > 0 &&
+    federalSelect.municipality.length < 15
+  ) {
+    municipalitySelect = federalSelect.municipality
+      .map(data => {
+        return `municipality=${data}`;
+      })
+      .join('&');
+  }
   // console.log(federalSelect, 'fedSelect');
   // console.log(provinceSelect, 'prov');
   // console.log(districtSelect, 'dist');
@@ -725,7 +758,7 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&${municipalitySelect}`,
+          `api/v1/automation/table-data/?filter_type=partner&${partners}&${municipalitySelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -742,7 +775,24 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&${districtSelect}`,
+          `api/v1/automation/table-data/?filter_type=partner&${partners}&${districtSelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (federalSelect.province.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/table-data/?filter_type=partner&${partners}&${provinceSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -759,7 +809,7 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&${provinceSelect}`,
+          `api/v1/automation/table-data/?filter_type=partner&partner=0&province=0`,
         )
         .then(function(result) {
           // console.log(result, 'result');

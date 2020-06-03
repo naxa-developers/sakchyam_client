@@ -42,6 +42,7 @@ const initialState = {
   tableDataLoading: true,
   filteredMapBoundaryData: [],
   timeLineData: [],
+  popupData: [],
 };
 
 function getPartnerColor(i) {

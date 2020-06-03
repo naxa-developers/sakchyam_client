@@ -219,7 +219,53 @@ class VectorGridComponent extends Component {
         // console.log(province.options);
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
-            province.on("mouseover",(e)=>{
+        province.on("mouseover",(e)=>{
+            const {automationAllDataByPartner}= this.props.automationReducer;
+            const{activeClickPartners}=this.props;
+            console.log(e.layer);
+            let b=[];
+            const c=[];
+            const v=[];
+            console.log(this.props.automationReducer.automationTableData);
+            if(activeClickPartners.length>0){
+                b = activeClickPartners;
+                activeClickPartners.map(x=>{
+                    this.props.automationReducer.automationTableData.filter(data=>{
+                    if(data.partner_id=== x && data.municipality_code=== parseInt(e.layer.properties.code)){
+                        v.push(data)
+                    }
+                });
+            });
+                console.log(v,'v');
+            }else{
+                this.props.automationReducer.automationTableData.map(data=>{
+                    if(data.municipality_code=== parseInt(e.layer.properties.code)){
+                        b.push({partner_id:data.partner_id, tablets:data.tablets})
+                    }
+                })
+            }
+            console.log(b,'beforefilter');
+            b.map(data=>{
+                automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(function(e) {
+                    // console.log(data,'data');
+                    // console.log(e,'e');
+                    if(e.partner_id === data.partner_id){
+                        e.single_tablets = data.tablets;
+                        c.push(e);
+                    }
+                })
+            })
+            // var result = 
+              
+              console.log(c)
+            // const d= b.map(filteredPartnerId=>{
+            //     automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(data=>{
+            //         console.log(data,'data');
+            //         return filteredPartnerId === data.partner_id;
+            //     })
+            // })
+            // console.log(automationAllDataByPartner[0],'afterfilter');
+            // if(e.layer.properties.municipality_code === )
                 // console.log(e.layer);
             // console.log(map, "ee")
             // infoDiv.style.display = "block";
@@ -262,9 +308,9 @@ class VectorGridComponent extends Component {
             // long(pin):85.338666
             // date(pin):2016
             // tablets_deployed(pin):863
-        const {automationAllDataByPartner}= this.props.automationReducer;
+       
         // console.log(automationAllDataByPartner,'data of Partners');
-        const popupHtml =automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.map(data=>{
+        const popupHtml =c && c.map(data=>{
             return (
                 `<li>
                     <div class="organization-icon"><span></span></div>
@@ -272,9 +318,9 @@ class VectorGridComponent extends Component {
                             <div class="org-header">
                                 <h5>${data.partner_name}</h5>
                                     <div class="icon-list">
-                                        <div class="icons"><i class="material-icons">business</i><b>23</b>
+                                        <div class="icons"><i class="material-icons">business</i><b>${data.branch}</b>
                                         </div>
-                                            <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b></div>
+                                            <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.single_tablets}</b></div>
                                         </div>
                                     </div>
                                     </div>
@@ -297,7 +343,7 @@ class VectorGridComponent extends Component {
                             <i class="material-icons">tablet_mac</i><b>${automationAllDataByPartner[0] && automationAllDataByPartner[0].total_tablet}</b>
                             </div>
                         </div>
-                        <ul style="height:230px;overflow-y: scroll">
+                        <ul style="height:112px;overflow-y: scroll">
                         ${popupHtml}
                         
                         </ul>
@@ -437,6 +483,7 @@ class VectorGridComponent extends Component {
         var currentComponent= this;
         // console.log(this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle, "defaultstyle")
         const province=this.vectorGridRef && this.vectorGridRef.current &&this.vectorGridRef.current.leafletElement
+        province && province.bindPopup('<label>BindPopup</label');
         // console.log(,'ref')
         const options = {
             // updateWhenIdle:true,
@@ -469,6 +516,12 @@ class VectorGridComponent extends Component {
             vectorTileLayerStyles: {default: style},
             subdomains: 'abcd',
             key: 'abcdefghi32223',
+            rendererFactory: L.canvas.tile,
+            interactive:true,
+            // rendererFactory: L.canvas..extend({
+            //     _handleMouseHover: function (e, point){ 
+            //         console.log(e,'eeee');
+            //     }})
         };
         // console.log(this.vectorGridRef.current && this.vectorGridRef.current.props.getFeatureId(function (feature) {}),'vectorRef')
         return (

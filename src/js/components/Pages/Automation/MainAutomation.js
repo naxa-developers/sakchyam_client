@@ -553,9 +553,9 @@ class MainAutomation extends Component {
           global.migrationLayer.hide();
         }
         this.props.filterPartnerSelect(activeClickPartners);
-        if (activeTableView) {
-          this.props.getTableDataByPartnerSelect(activeClickPartners);
-        }
+        // if (activeTableView) {
+        //   this.props.getTableDataByPartnerSelect(activeClickPartners);
+        // }
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
@@ -645,9 +645,9 @@ class MainAutomation extends Component {
         } else {
           this.props.filterPartnerSelect(activeClickPartners);
         }
-        if (activeTableView) {
-          this.props.getTableDataByPartnerSelect(activeClickPartners);
-        }
+        // if (activeTableView) {
+        //   this.props.getTableDataByPartnerSelect(activeClickPartners);
+        // }
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
@@ -1913,6 +1913,7 @@ class MainAutomation extends Component {
             <div className="main-card map-card">
               <div id="map" className="map">
                 <MapComponent
+                  activeClickPartners={activeClickPartners}
                   dataTypeLevel={dataTypeLevel}
                   mapType={mapType}
                   handleMapTypeChange={this.handleMapTypeChange}
@@ -2304,6 +2305,7 @@ class MainAutomation extends Component {
             <TableViewComponent
               toggleTableViewButton={this.toggleTableViewButton}
               activeTableView={activeTableView}
+              activeClickPartners={activeClickPartners}
             />
           </main>
           <RightSideBar

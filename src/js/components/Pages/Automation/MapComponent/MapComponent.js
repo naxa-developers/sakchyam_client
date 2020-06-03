@@ -195,6 +195,7 @@ class MapComponent extends Component {
       isTileLoaded,
       vectorGridFirstLoad,
       mapType,
+      activeClickPartners,
     } = this.props;
     // console.log(vectorGridFirstLoad, 'vect');
 
@@ -335,6 +336,7 @@ class MapComponent extends Component {
             automationChoroplethData &&
             filteredProvinceChoropleth && ( */}
           <VectorGrid
+            activeClickPartners={activeClickPartners}
             dataTypeLevel={dataTypeLevel}
             activeOutreachButton={activeOutreachButton}
             handleVectorGridFirstLoad={this.handleVectorGridFirstLoad}
@@ -372,18 +374,18 @@ class MapComponent extends Component {
             } //
             color="#007078" // single color gradient
             // legendDivisions = {10} //no of divisions in legend
-            colorArray={[
-              '#2b580c',
-              '#639a67',
-              '#d8ebb5',
-              '#d9bf77',
-              '#2b580c',
-              '#639a67',
-              '#d8ebb5',
-              '#d9bf77',
-              '#d8ebb5',
-              '#d9bf77',
-            ]}
+            // colorArray={[
+            //   '#2b580c',
+            //   '#639a67',
+            //   '#d8ebb5',
+            //   '#d9bf77',
+            //   '#2b580c',
+            //   '#639a67',
+            //   '#d8ebb5',
+            //   '#d9bf77',
+            //   '#d8ebb5',
+            //   '#d9bf77',
+            // ]}
             // colorArray={[
             //   '#e69109',
             //   '#63a4ff',
