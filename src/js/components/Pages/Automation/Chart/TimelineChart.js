@@ -140,7 +140,7 @@ class TimelineChart extends Component {
       );
       global.chart.render();
       global.chart.addEventListener('click', function() {
-        alert('selected');
+        // alert('selected');
         // this.setState({});
       });
     }, 500);
