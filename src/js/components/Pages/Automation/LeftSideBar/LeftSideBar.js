@@ -70,7 +70,14 @@ class LeftSideBar extends Component {
                   placeholder="search"
                 />
               </div>
-              <div className="inline-group">
+              <div
+                style={
+                  activeTableView
+                    ? { display: 'none' }
+                    : { display: 'block' }
+                }
+                className="inline-group"
+              >
                 <b>Outreach</b>
                 <label className="switch">
                   <input

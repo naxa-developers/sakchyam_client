@@ -295,6 +295,7 @@ class MapComponent extends Component {
           animate
           // zoom={9}
           maxZoom={18}
+          minZoom={5}
           attributionControl
           zoomControl
           // doubleClickZoom
@@ -311,7 +312,7 @@ class MapComponent extends Component {
           {/* <IosSwitch/> */}
           <BaseLayers initialbase="mapbox" />
           {/* {choroplethInputData&&choroplethInputData.length >0 &&  */}
-          {!activeOutreachButton && (
+          {/* {!activeOutreachButton && (
             <VectorGrid
               dataTypeLevel={dataTypeLevel}
               activeOutreachButton={activeOutreachButton}
@@ -329,87 +330,98 @@ class MapComponent extends Component {
               choroplethData={[]} //
               vectorGridUrl={vectorGridInputUrl} // vectortile url setting
             />
-          )}
-          {activeOutreachButton &&
+          )} */}
+          {/* {activeOutreachButton &&
             automationChoroplethData &&
-            filteredProvinceChoropleth && (
-              <VectorGrid
-                dataTypeLevel={dataTypeLevel}
-                activeOutreachButton={activeOutreachButton}
-                handleVectorGridFirstLoad={
-                  this.handleVectorGridFirstLoad
-                }
-                vectorGridFirstLoad={vectorGridFirstLoad}
-                handleTileLoadEnd={this.props.handleTileLoadEnd}
-                isTileLoaded={isTileLoaded}
-                handleTileLoad={this.props.handleTileLoad}
-                // changetheme={this.props.changetheme}
-                //   key={"0"}
-                // mapRef={this.props.mapRef}
-                // style={inputStyle} // Province style setting
-                //   provinceCounts={[20, 12, 30, 4, 5, 26, 17]} //province counts for circles at center of province
-                // choroplethData={choroplethInputData} //
-                // color="#0000FF" //single color gradient - to make this active dont pass colorArray
-                // legendDivisions = {10} //no of divisions in legend
-                // colorArray={colors} // multi color custom gradient
-                // divisions = {inputDivisions}
-                // label = {true}
-                legend
-                // choroplethTitle = {"Covid Cases"}
-                // vectorGridUrl={vectorGridInputUrl} // vectortile url setting
-                handleProvinceClick={handleProvinceClick}
-                changetheme={this.props.changetheme}
-                key={vectorGridKey}
-                mapRef={this.props.mapRef}
-                style={inputStyle} // Province style setting
-                choroplethTitle="Tablet Deployed"
-                // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
-                provinceCounts={
-                  filteredProvinceChoropleth &&
-                  filteredProvinceChoropleth
-                } // province counts for circles at center of province
-                mode="choropleth" // options- choropleth, provinceCircles, both
-                choroplethData={automationChoroplethData} //
-                color="#007078" // single color gradient
-                // legendDivisions = {10} //no of divisions in legend
-                // colorArray={[
-                //   '#e69109',
-                //   '#63a4ff',
-                //   '#8629ff',
-                //   '#e553ed',
-                //   '#f2575f',
-                //   '#915e0d',
-                //   '#a1970d',
-                //   '#4f7d14',
-                //   '#07aba1',
-                //   '#1d4c8f',
-                //   '#491991',
-                //   '#610766',
-                //   '#6e0208',
-                //   '#f07818',
-                //   '#7F95D1',
-                //   '#FF82A9',
-                //   '#FFC0BE',
-                //   '#f0e111',
-                //   '#9ff035',
-                //   '#34ede1',
-                // ]} // multi color custom gradient
-                // colorArray={[
-                //   '#FFF3D4',
-                //   '#FED976',
-                //   '#FEB24C',
-                //   '#FD8D3C',
-                //   '#FC4E2A',
-                //   '#E31A1C',
-                //   '#BD0026',
-                //   '#800026',
-                // ]} // multi color custom gradient
-                divisions={inputDivisions}
-                // divisions={[0, 5, 10, 15, 20]}
-                // choroplethTitle = {"New Choropleth"}
-                vectorGridUrl={vectorGridInputUrl} // vectortile url setting
-              />
-            )}
+            filteredProvinceChoropleth && ( */}
+          <VectorGrid
+            dataTypeLevel={dataTypeLevel}
+            activeOutreachButton={activeOutreachButton}
+            handleVectorGridFirstLoad={this.handleVectorGridFirstLoad}
+            vectorGridFirstLoad={vectorGridFirstLoad}
+            handleTileLoadEnd={this.props.handleTileLoadEnd}
+            isTileLoaded={isTileLoaded}
+            handleTileLoad={this.props.handleTileLoad}
+            // changetheme={this.props.changetheme}
+            //   key={"0"}
+            // mapRef={this.props.mapRef}
+            // style={inputStyle} // Province style setting
+            //   provinceCounts={[20, 12, 30, 4, 5, 26, 17]} //province counts for circles at center of province
+            // choroplethData={choroplethInputData} //
+            // color="#0000FF" //single color gradient - to make this active dont pass colorArray
+            // legendDivisions = {10} //no of divisions in legend
+            // colorArray={colors} // multi color custom gradient
+            // divisions = {inputDivisions}
+            // label = {true}
+            legend={!activeOutreachButton ? false : true}
+            // choroplethTitle = {"Covid Cases"}
+            // vectorGridUrl={vectorGridInputUrl} // vectortile url setting
+            handleProvinceClick={handleProvinceClick}
+            changetheme={this.props.changetheme}
+            key={vectorGridKey}
+            mapRef={this.props.mapRef}
+            style={inputStyle} // Province style setting
+            choroplethTitle="Tablet Deployed"
+            // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
+            // provinceCounts={
+            //   filteredProvinceChoropleth && filteredProvinceChoropleth
+            // } // province counts for circles at center of province
+            mode="choropleth" // options- choropleth, provinceCircles, both
+            choroplethData={
+              !activeOutreachButton ? [] : automationChoroplethData
+            } //
+            color="#007078" // single color gradient
+            // legendDivisions = {10} //no of divisions in legend
+            colorArray={[
+              '#2b580c',
+              '#639a67',
+              '#d8ebb5',
+              '#d9bf77',
+              '#2b580c',
+              '#639a67',
+              '#d8ebb5',
+              '#d9bf77',
+              '#d8ebb5',
+              '#d9bf77',
+            ]}
+            // colorArray={[
+            //   '#e69109',
+            //   '#63a4ff',
+            //   '#8629ff',
+            //   '#e553ed',
+            //   '#f2575f',
+            //   '#915e0d',
+            //   '#a1970d',
+            //   '#4f7d14',
+            //   '#07aba1',
+            //   '#1d4c8f',
+            //   '#491991',
+            //   '#610766',
+            //   '#6e0208',
+            //   '#f07818',
+            //   '#7F95D1',
+            //   '#FF82A9',
+            //   '#FFC0BE',
+            //   '#f0e111',
+            //   '#9ff035',
+            //   '#34ede1',
+            // ]} // multi color custom gradient
+            // colorArray={[
+            //   '#FFF3D4',
+            //   '#FED976',
+            //   '#FEB24C',
+            //   '#FD8D3C',
+            //   '#FC4E2A',
+            //   '#E31A1C',
+            //   '#BD0026',
+            //   '#800026',
+            // ]} // multi color custom gradient
+            divisions={inputDivisions}
+            // divisions={[0, 5, 10, 15, 20]}
+            // choroplethTitle = {"New Choropleth"}
+            vectorGridUrl={vectorGridInputUrl} // vectortile url setting
+          />
+          {/* )} */}
           {/* } */}
           <MarkerClusterComponent
             mapRef={this.props.mapRef}
@@ -580,9 +592,7 @@ class MapComponent extends Component {
               );
             })}
           {/* </Pane> */}
-          <Loading
-            loaderState={tableDataLoading && tableDataLoading}
-          />
+          <Loading loaderState={dataLoading && dataLoading} />
           {!activeOutreachButton ? (
             <TimelineChart
               // key={Math.random()}
@@ -592,8 +602,22 @@ class MapComponent extends Component {
               playBtn={this.playBtn}
             />
           ) : null}
+
           <Control position="topleft">
-            <div className="map-layer-option">
+            <div
+              className="map-layer-option"
+              style={
+                tableDataLoading
+                  ? {
+                      opacity: 0.3,
+                      pointerEvents: 'none',
+                    }
+                  : {
+                      opacity: 1,
+                      pointerEvents: 'auto',
+                    }
+              }
+            >
               <a
                 className="leaflet-control-map-layer"
                 href="#"

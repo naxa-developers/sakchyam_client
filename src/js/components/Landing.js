@@ -182,8 +182,8 @@ class Landing extends Component {
                         <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
                         <ul className="lists">
                           <li className="span_heavy_15">Impact</li>
-                          <li className="span_heavy_15">outcome</li>  
-                          <li className="span_heavy_15">output</li>
+                          <li className="span_heavy_15">Outcome</li>  
+                          <li className="span_heavy_15">Output</li>
                         </ul>                        
                       </div>
                       {permissions && permissions[0] && permissions[0].permission.includes("view_logentry") ?
@@ -218,13 +218,13 @@ class Landing extends Component {
                         <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
                         <ul className="lists">
                           <li className="span_heavy_15">Partner Organisation</li>
-                          <li className="span_heavy_15">Project Intervention</li>  
-                          <li className="span_heavy_15">Outreach Beneficiaries</li>
-                          <li className="span_heavy_15">
+                          <li className="span_heavy_15">Automation Outreach</li>  
+                          {/* <li className="span_heavy_15">Outreach Beneficiaries</li> */}
+                          {/* <li className="span_heavy_15">
                             <span>and</span>
                             {' '}
                             Benefits
-                          </li>
+                          </li> */}
                         </ul>                    
                       </div>
                       {permissions && permissions[0] && permissions[0].permission.includes("view_automation") ?

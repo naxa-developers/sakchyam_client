@@ -125,7 +125,11 @@ const partnerByProvinceForChoropleth = (state, action) => {
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     // console.log(data, '12st');
-    fullData.push({ id: data.code, count: data.tablets_deployed });
+    fullData.push({
+      id: data.code,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
+    });
     return true;
   });
   // console.log(fullData, 'without Sort');
@@ -144,7 +148,11 @@ const partnerByDistrictForChoropleth = (state, action) => {
   //   console.log(action.payload, 'payload');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
-    fullData.push({ id: data.code, count: data.tablets_deployed });
+    fullData.push({
+      id: data.code,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
+    });
     return true;
   });
   // console.log(fullData, 'without Sort');
@@ -165,7 +173,8 @@ const partnerByMunicipalityForChoropleth = (state, action) => {
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({
       id: data.code,
-      count: data.tablets_deployed,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
     });
     return true;
   });
@@ -227,7 +236,8 @@ const filterDistrictFromProvinceColor = (state, action) => {
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({
       id: data.code,
-      count: data.tablets_deployed,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
     });
     return true;
   });
@@ -488,7 +498,11 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
   action,
 ) => {
   const a = action.payload.result.map(data => {
-    return { id: data.code, count: data.tablets_deployed };
+    return {
+      id: data.code,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
+    };
   });
   const allData = [];
   // eslint-disable-next-line array-callback-return

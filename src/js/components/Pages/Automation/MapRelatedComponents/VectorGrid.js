@@ -113,14 +113,32 @@ class VectorGridComponent extends Component {
             var newStyle= {};
             var newStyle1 = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
             Object.assign(newStyle, newStyle1)
-            newStyle.fillColor = color;
-            newStyle.fillOpacity = 0.7;
+            // newStyle.fillOpacity = 0.7;
+            // console.log(value,'value1st');
+            if(value.count!== 0){
+                newStyle.fillColor = color;
+                newStyle.fillOpacity = 0.7;
+                newStyle.activechoropleth = true;
+            
+            
+                setTimeout(() => {
+                    layer.setFeatureStyle(value.id, newStyle);
+                }, 100);
+            
+            }else{
+                newStyle.fillColor = 'white';
+                newStyle.fillOpacity = 0.7;
+                // console.log(value,'value2nd');
+                // newStyle.fillColor = '';
+                newStyle.activechoropleth = false;
+                setTimeout(() => {
+                    layer.setFeatureStyle(value.id, newStyle);
+                }, 100);
+            }
             // newStyle.color = 'red';
             // console.log(color, "color")
             // console.log(newStyle, "newStyle")
-            setTimeout(() => {
-                layer.setFeatureStyle(value.id, newStyle);
-            }, 100);
+            
         })
     }
 
@@ -135,6 +153,7 @@ class VectorGridComponent extends Component {
     label= () => {
         province = this.vectorGridRef.current.leafletElement;
             map = this.props.mapRef.current.leafletElement;
+            // console.log(map,'mapref')
             if(circleLoad == true){
                 var feature = {properties:{}}
                 this.state.provinceCenters.map((data, i) => {
@@ -185,7 +204,7 @@ class VectorGridComponent extends Component {
                 global.maps =this.props.mapRef.current.leafletElement;
                 const map =this.props.mapRef.current.leafletElement;
                 if(this.props.vectorGridFirstLoad === true){
-                    console.log(b,'fitbound Up');
+                    // console.log(b,'fitbound Up');
                     // map.fitBounds(b);
                 } 
                 // this.props.handleVectorGridFirstLoad();
@@ -197,11 +216,11 @@ class VectorGridComponent extends Component {
     }
     addMouseoverLayer = () =>{
         province = this.vectorGridRef.current.leafletElement;
-        // console.log(province.getAllLayers());
+        // console.log(province.options);
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
             province.on("mouseover",(e)=>{
-
+                // console.log(e.layer);
             // console.log(map, "ee")
             // infoDiv.style.display = "block";
             // var provName = "";
@@ -267,8 +286,8 @@ class VectorGridComponent extends Component {
                         //         <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b>
                         //     </div>
                         // </div>
-        this.props.activeOutreachButton && 
-            L.popup()
+        this.props.activeOutreachButton && e.layer.options.activechoropleth=== true &&
+            L.popup({keepInView: false,autoPan:false})
             .setContent(
                 `<div class="leaflet-popup-content" style="width: 281px;">
                     <div class="map-popup-view">
@@ -320,7 +339,7 @@ class VectorGridComponent extends Component {
             infoDiv.style.display = "none";
             infoDiv.innerHTML = "";
             e.layer.setStyle({opacity:0.1});
-            map.closePopup();
+            // map.closePopup();
 
 
 
@@ -417,13 +436,18 @@ class VectorGridComponent extends Component {
         var style = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
         var currentComponent= this;
         // console.log(this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle, "defaultstyle")
+        const province=this.vectorGridRef && this.vectorGridRef.current &&this.vectorGridRef.current.leafletElement
+        // console.log(,'ref')
         const options = {
+            // updateWhenIdle:true,
+            
             type: 'protobuf',
             // tooltip: (feature) =>{
                 // },
                 getFeatureId: function (feature) {
                         // console.log(feature, "feature  ")
-
+                        // console.log(layer, "feature  ")
+                    province && province.setFeatureStyle(parseInt(feature.properties.code),style);
                 // let bboxString= feature.properties.bbox;
                 // var bboxArray= bboxString.split(",");
                 // // console.log(bboxArray,'bboxaray')
@@ -444,12 +468,12 @@ class VectorGridComponent extends Component {
             url: provinceUrl,
             vectorTileLayerStyles: {default: style},
             subdomains: 'abcd',
-            key: 'abcdefghi01234567890',
+            key: 'abcdefghi32223',
         };
         // console.log(this.vectorGridRef.current && this.vectorGridRef.current.props.getFeatureId(function (feature) {}),'vectorRef')
         return (
             <div>
-                <VectorGrid {...options} ref={this.vectorGridRef} key={this.props.vectorGridKey} ></VectorGrid>
+                <VectorGrid updateWhenZooming={false} updateWhenIdle={false} {...options} ref={this.vectorGridRef} ></VectorGrid>
                 <div style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
                 <div>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</div>
                 <div className="map-legend">
