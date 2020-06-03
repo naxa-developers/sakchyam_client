@@ -383,6 +383,8 @@ class VectorGridComponent extends Component {
         var currentComponent= this;
         // console.log(this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle, "defaultstyle")
         const options = {
+            rendererFactory: L.canvas.tile,
+            interactive:true,
             type: 'protobuf',
             // tooltip: (feature) =>{
                 //     console.log(feature, "feature  ")
