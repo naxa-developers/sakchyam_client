@@ -46,6 +46,7 @@ class LeftSideBar extends Component {
       searchText,
       refreshSelectedPartnerBtn,
       handleSearchTextChange,
+      activeTableView,
     } = this.props;
     return (
       <aside className="sidebar left-sidebar">
