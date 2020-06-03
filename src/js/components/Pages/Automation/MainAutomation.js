@@ -553,9 +553,9 @@ class MainAutomation extends Component {
           global.migrationLayer.hide();
         }
         this.props.filterPartnerSelect(activeClickPartners);
-        if (activeTableView) {
-          this.props.getTableDataByPartnerSelect(activeClickPartners);
-        }
+        // if (activeTableView) {
+        //   this.props.getTableDataByPartnerSelect(activeClickPartners);
+        // }
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
@@ -625,6 +625,7 @@ class MainAutomation extends Component {
         if (mapType === 'branches') {
           console.log(array, 'array Migration');
           global.migrationLayer.setData(array);
+          global.migrationLayer.pause();
           global.migrationLayer.show();
         }
         // eslint-disable-next-line new-cap
@@ -644,9 +645,9 @@ class MainAutomation extends Component {
         } else {
           this.props.filterPartnerSelect(activeClickPartners);
         }
-        if (activeTableView) {
-          this.props.getTableDataByPartnerSelect(activeClickPartners);
-        }
+        // if (activeTableView) {
+        //   this.props.getTableDataByPartnerSelect(activeClickPartners);
+        // }
         Object.entries(mapLayers).forEach(([key, value]) => {
           if (
             value.options &&
@@ -716,6 +717,12 @@ class MainAutomation extends Component {
     }
   }
 
+  handleVectorGridKeyChange = () => {
+    this.setState({
+      vectorGridKey: Math.random(),
+    });
+  };
+
   handleActiveClickPartners = clicked => {
     // console.log(clicked, 'name');
     const {
@@ -726,6 +733,7 @@ class MainAutomation extends Component {
       selectedDistrict,
       selectedProvince,
     } = this.state;
+    // this.handleVectorGridKeyChange();
     if (activeOutreachButton) {
       this.setState({ rightSideBarLoader: true });
     }
@@ -1826,6 +1834,7 @@ class MainAutomation extends Component {
         pulseRadius: 0,
         arcWidth: 0,
         arcLabel: false,
+        // pulseRadius:0
       });
       global.migrationLayer.addTo(map);
       console.log(global.migrationLayer, 'migration');
@@ -1878,6 +1887,7 @@ class MainAutomation extends Component {
       allProvinceName,
       allDistrictName,
       allMunicipalityName,
+      tableDataLoading,
     } = this.props.automationReducer;
     return (
       <div className="page-wrap page-100">
@@ -1903,6 +1913,7 @@ class MainAutomation extends Component {
             <div className="main-card map-card">
               <div id="map" className="map">
                 <MapComponent
+                  activeClickPartners={activeClickPartners}
                   dataTypeLevel={dataTypeLevel}
                   mapType={mapType}
                   handleMapTypeChange={this.handleMapTypeChange}
@@ -2294,9 +2305,11 @@ class MainAutomation extends Component {
             <TableViewComponent
               toggleTableViewButton={this.toggleTableViewButton}
               activeTableView={activeTableView}
+              activeClickPartners={activeClickPartners}
             />
           </main>
           <RightSideBar
+            tableDataLoading={tableDataLoading}
             rightSideBarLoader={rightSideBarLoader}
             activeClickPartners={activeClickPartners}
             activeRightSideBar={activeRightSideBar}

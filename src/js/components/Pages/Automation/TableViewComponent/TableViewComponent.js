@@ -351,11 +351,15 @@ class TableViewComponent extends Component {
       tableSelectedDistrict,
       tableSelectedProvince,
     } = this.state;
-    this.props.getBranchesTableDataByFed({
-      municipality: tableSelectedMunicipalityDropdown,
-      district: tableSelectedDistrict,
-      province: tableSelectedProvince,
-    });
+    const { activeClickPartners } = this.props;
+    this.props.getBranchesTableDataByFed(
+      {
+        municipality: tableSelectedMunicipalityDropdown,
+        district: tableSelectedDistrict,
+        province: tableSelectedProvince,
+      },
+      activeClickPartners,
+    );
   };
 
   handleResetButtonForFilter = () => {
@@ -445,7 +449,7 @@ class TableViewComponent extends Component {
           </div>
 
           <div className="filter-content">
-            <div className="view-list">
+            {/* <div className="view-list">
               <span>view by</span>
               <ul className="tab-list">
                 <li
@@ -493,7 +497,7 @@ class TableViewComponent extends Component {
                   <a href="#">Municipality</a>
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div className="filter-row">
               <div className="filter-list">
                 {/* <DropdownCheckbox /> */}

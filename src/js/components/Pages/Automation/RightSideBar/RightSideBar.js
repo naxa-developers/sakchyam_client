@@ -49,6 +49,7 @@ class RightSideBar extends Component {
       activeRightSideBar,
       activeClickPartners,
       rightSideBarLoader,
+      tableDataLoading,
     } = this.props;
     const a =
       automationReducer.automationRightSidePartnerData &&
@@ -88,7 +89,21 @@ class RightSideBar extends Component {
         <div className="sidebar-in">
           <div className="right-sidebar-header">
             <h5>Result</h5>
-            <a onClick={toggleTableViewButton} href="#">
+            <a
+              style={
+                tableDataLoading
+                  ? {
+                      opacity: 0.3,
+                      pointerEvents: 'none',
+                    }
+                  : {
+                      opacity: 1,
+                      pointerEvents: 'auto',
+                    }
+              }
+              onClick={toggleTableViewButton}
+              href="#"
+            >
               View on table
             </a>
           </div>

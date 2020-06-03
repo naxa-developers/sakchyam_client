@@ -113,14 +113,32 @@ class VectorGridComponent extends Component {
             var newStyle= {};
             var newStyle1 = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
             Object.assign(newStyle, newStyle1)
-            newStyle.fillColor = color;
-            newStyle.fillOpacity = 0.7;
+            // newStyle.fillOpacity = 0.7;
+            // console.log(value,'value1st');
+            if(value.count!== 0){
+                newStyle.fillColor = color;
+                newStyle.fillOpacity = 0.7;
+                newStyle.activechoropleth = true;
+            
+            
+                setTimeout(() => {
+                    layer.setFeatureStyle(value.id, newStyle);
+                }, 100);
+            
+            }else{
+                newStyle.fillColor = 'white';
+                newStyle.fillOpacity = 0.7;
+                // console.log(value,'value2nd');
+                // newStyle.fillColor = '';
+                newStyle.activechoropleth = false;
+                setTimeout(() => {
+                    layer.setFeatureStyle(value.id, newStyle);
+                }, 100);
+            }
             // newStyle.color = 'red';
             // console.log(color, "color")
             // console.log(newStyle, "newStyle")
-            setTimeout(() => {
-                layer.setFeatureStyle(value.id, newStyle);
-            }, 100);
+            
         })
     }
 
@@ -135,6 +153,7 @@ class VectorGridComponent extends Component {
     label= () => {
         province = this.vectorGridRef.current.leafletElement;
             map = this.props.mapRef.current.leafletElement;
+            // console.log(map,'mapref')
             if(circleLoad == true){
                 var feature = {properties:{}}
                 this.state.provinceCenters.map((data, i) => {
@@ -185,7 +204,7 @@ class VectorGridComponent extends Component {
                 global.maps =this.props.mapRef.current.leafletElement;
                 const map =this.props.mapRef.current.leafletElement;
                 if(this.props.vectorGridFirstLoad === true){
-                    console.log(b,'fitbound Up');
+                    // console.log(b,'fitbound Up');
                     // map.fitBounds(b);
                 } 
                 // this.props.handleVectorGridFirstLoad();
@@ -197,11 +216,57 @@ class VectorGridComponent extends Component {
     }
     addMouseoverLayer = () =>{
         province = this.vectorGridRef.current.leafletElement;
-        // console.log(province.getAllLayers());
+        // console.log(province.options);
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
-            province.on("mouseover",(e)=>{
-
+        province.on("mouseover",(e)=>{
+            const {automationAllDataByPartner}= this.props.automationReducer;
+            const{activeClickPartners}=this.props;
+            console.log(e.layer);
+            let b=[];
+            const c=[];
+            const v=[];
+            console.log(this.props.automationReducer.automationTableData);
+            if(activeClickPartners.length>0){
+                b = activeClickPartners;
+                activeClickPartners.map(x=>{
+                    this.props.automationReducer.automationTableData.filter(data=>{
+                    if(data.partner_id=== x && data.municipality_code=== parseInt(e.layer.properties.code)){
+                        v.push(data)
+                    }
+                });
+            });
+                console.log(v,'v');
+            }else{
+                this.props.automationReducer.automationTableData.map(data=>{
+                    if(data.municipality_code=== parseInt(e.layer.properties.code)){
+                        b.push({partner_id:data.partner_id, tablets:data.tablets})
+                    }
+                })
+            }
+            console.log(b,'beforefilter');
+            b.map(data=>{
+                automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(function(e) {
+                    // console.log(data,'data');
+                    // console.log(e,'e');
+                    if(e.partner_id === data.partner_id){
+                        e.single_tablets = data.tablets;
+                        c.push(e);
+                    }
+                })
+            })
+            // var result = 
+              
+              console.log(c)
+            // const d= b.map(filteredPartnerId=>{
+            //     automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(data=>{
+            //         console.log(data,'data');
+            //         return filteredPartnerId === data.partner_id;
+            //     })
+            // })
+            // console.log(automationAllDataByPartner[0],'afterfilter');
+            // if(e.layer.properties.municipality_code === )
+                // console.log(e.layer);
             // console.log(map, "ee")
             // infoDiv.style.display = "block";
             // var provName = "";
@@ -243,9 +308,9 @@ class VectorGridComponent extends Component {
             // long(pin):85.338666
             // date(pin):2016
             // tablets_deployed(pin):863
-        const {automationAllDataByPartner}= this.props.automationReducer;
+       
         // console.log(automationAllDataByPartner,'data of Partners');
-        const popupHtml =automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.map(data=>{
+        const popupHtml =c && c.map(data=>{
             return (
                 `<li>
                     <div class="organization-icon"><span></span></div>
@@ -253,9 +318,9 @@ class VectorGridComponent extends Component {
                             <div class="org-header">
                                 <h5>${data.partner_name}</h5>
                                     <div class="icon-list">
-                                        <div class="icons"><i class="material-icons">business</i><b>23</b>
+                                        <div class="icons"><i class="material-icons">business</i><b>${data.branch}</b>
                                         </div>
-                                            <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b></div>
+                                            <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.single_tablets}</b></div>
                                         </div>
                                     </div>
                                     </div>
@@ -267,8 +332,8 @@ class VectorGridComponent extends Component {
                         //         <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b>
                         //     </div>
                         // </div>
-        this.props.activeOutreachButton && 
-            L.popup()
+        this.props.activeOutreachButton && e.layer.options.activechoropleth=== true &&
+            L.popup({keepInView: false,autoPan:false})
             .setContent(
                 `<div class="leaflet-popup-content" style="width: 281px;">
                     <div class="map-popup-view">
@@ -278,7 +343,7 @@ class VectorGridComponent extends Component {
                             <i class="material-icons">tablet_mac</i><b>${automationAllDataByPartner[0] && automationAllDataByPartner[0].total_tablet}</b>
                             </div>
                         </div>
-                        <ul style="height:230px;overflow-y: scroll">
+                        <ul style="height:112px;overflow-y: scroll">
                         ${popupHtml}
                         
                         </ul>
@@ -320,7 +385,7 @@ class VectorGridComponent extends Component {
             infoDiv.style.display = "none";
             infoDiv.innerHTML = "";
             e.layer.setStyle({opacity:0.1});
-            map.closePopup();
+            // map.closePopup();
 
 
 
@@ -417,13 +482,19 @@ class VectorGridComponent extends Component {
         var style = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
         var currentComponent= this;
         // console.log(this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle, "defaultstyle")
+        const province=this.vectorGridRef && this.vectorGridRef.current &&this.vectorGridRef.current.leafletElement
+        province && province.bindPopup('<label>BindPopup</label');
+        // console.log(,'ref')
         const options = {
+            // updateWhenIdle:true,
+            
             type: 'protobuf',
             // tooltip: (feature) =>{
                 // },
                 getFeatureId: function (feature) {
                         // console.log(feature, "feature  ")
-
+                        // console.log(layer, "feature  ")
+                    province && province.setFeatureStyle(parseInt(feature.properties.code),style);
                 // let bboxString= feature.properties.bbox;
                 // var bboxArray= bboxString.split(",");
                 // // console.log(bboxArray,'bboxaray')
@@ -444,12 +515,18 @@ class VectorGridComponent extends Component {
             url: provinceUrl,
             vectorTileLayerStyles: {default: style},
             subdomains: 'abcd',
-            key: 'abcdefghi01234567890',
+            key: 'abcdefghi32223',
+            rendererFactory: L.canvas.tile,
+            interactive:true,
+            // rendererFactory: L.canvas..extend({
+            //     _handleMouseHover: function (e, point){ 
+            //         console.log(e,'eeee');
+            //     }})
         };
         // console.log(this.vectorGridRef.current && this.vectorGridRef.current.props.getFeatureId(function (feature) {}),'vectorRef')
         return (
             <div>
-                <VectorGrid {...options} ref={this.vectorGridRef} key={this.props.vectorGridKey} ></VectorGrid>
+                <VectorGrid updateWhenZooming={false} updateWhenIdle={false} {...options} ref={this.vectorGridRef} ></VectorGrid>
                 <div style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
                 <div>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</div>
                 <div className="map-legend">
