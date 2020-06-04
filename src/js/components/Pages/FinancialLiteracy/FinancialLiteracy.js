@@ -5,11 +5,21 @@ import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
+import {
+  getFinancialData,
+  getFinancialProgram,
+} from '../../../actions/financial.actions';
 
 class FinancialLiteracy extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    this.props.getFinancialData();
+    this.props.getFinancialProgram();
+    // this.props.financialReducer.financial_data
   }
 
   render() {
@@ -595,11 +605,10 @@ class FinancialLiteracy extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FinancialLiteracy);
+const mapStateToProps = ({ financialReducer }) => ({
+  financialReducer,
+});
+export default connect(mapStateToProps, {
+  getFinancialData,
+  getFinancialProgram,
+})(FinancialLiteracy);
