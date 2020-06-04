@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, browserHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogoWhite from '../../img/logo-white.png';
 import LogoIllustration from '../../img/Login-illustration.png';
@@ -25,6 +25,11 @@ class Login extends Component {
     this.setState({ loginLoading: true });
     e.preventDefault();
     this.props.loginUser(this.state);
+
+    // browserHistory.push({
+    //   pathname: '/yourpath',
+    //   state: { history },
+    // });
     // this.props.getUserPermissions();
   };
 
@@ -45,8 +50,11 @@ class Login extends Component {
       prevProps.authenticationReducer.isLoggedIn !==
       this.props.authenticationReducer.isLoggedIn
     ) {
+      // const { history } = this.props.location.state;
+      // history.push(this.props.location.pathname);
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ loginLoading: false });
+      // const { afterLogin } = this.props.location.state;
     }
   }
 
@@ -94,6 +102,13 @@ class Login extends Component {
     } = this.props;
 
     if (redirectToReferrer === true) {
+      if (
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.afterLogin
+      ) {
+        return <Redirect to={this.props.location.state.afterLogin} />;
+      }
       return <Redirect to="/" />;
     }
     const { username, password, loginLoading } = this.state;

@@ -886,6 +886,7 @@ class MainAutomation extends Component {
         // } else {
 
         // }
+        const map = this.mapRef.current.leafletElement;
         if (selectedMunicipality.length > 0) {
           const combinedBbox = [];
           console.log(selectedMunicipality, 'selectedMunicipality');
@@ -898,7 +899,6 @@ class MainAutomation extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          const map = this.mapRef.current.leafletElement;
           // console.log(extendedValue, 'bbox');
           map.flyToBounds(extendedValue, {
             animate: true,
@@ -926,7 +926,6 @@ class MainAutomation extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          const map = this.mapRef.current.leafletElement;
           // console.log(extendedValue, 'bbox');
           map.flyToBounds(extendedValue, {
             animate: true,
@@ -953,7 +952,6 @@ class MainAutomation extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          const map = this.mapRef.current.leafletElement;
           // console.log(extendedValue, 'bbox');
           map.flyToBounds(extendedValue, {
             animate: true,
@@ -1834,6 +1832,7 @@ class MainAutomation extends Component {
         pulseRadius: 0,
         arcWidth: 0,
         arcLabel: false,
+        playAnimation: false,
         // pulseRadius:0
       });
       global.migrationLayer.addTo(map);

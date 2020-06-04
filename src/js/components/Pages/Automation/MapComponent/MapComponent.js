@@ -81,7 +81,14 @@ class MapComponent extends Component {
     };
   }
 
+  moveEnd = () => {
+    setTimeout(() => {
+      global.migrationLayer.pause();
+    }, 500);
+  };
+
   componentDidMount() {
+    // const map = this.props.mapRef.current.leafletElement;
     // this.props.getAllAutomationDataByPartner();
     // immediately select a few origin points for Bezier path display,
     // instead of waiting for the first user click event to fire
@@ -281,6 +288,8 @@ class MapComponent extends Component {
         </div> */}
         <Map
           doubleClickZoom={this.props.zoomControl}
+          onMoveEnd={this.moveEnd}
+          onZoomEnd={this.moveEnd}
           scrollWheelZoom={false} // disable original zoom function
           smoothWheelZoom // enable smooth zoom
           smoothSensitivity={2}
