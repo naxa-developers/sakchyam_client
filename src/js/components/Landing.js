@@ -201,8 +201,10 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].email ?
                        null : 
                        <>
-                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
-                         <Link to="/login" className="span_book_14">
+                         <Link to={{pathname: '/login',state: {afterLogin: '/logframe'}}}>
+                           <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                         </Link>
+                         <Link to={{pathname: '/login',state: {afterLogin: '/logframe'}}} className="span_book_14">
                            <span className="view">Log in</span>
                            to get an access!
                          </Link>
@@ -242,8 +244,10 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].email ?
                        null : 
                        <>
-                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
-                         <Link to="/login" className="span_book_14">
+                         <Link to={{pathname: '/login',state: {afterLogin: '/automation'}}}>
+                           <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
+                         </Link>
+                         <Link to={{pathname: '/login',state: {afterLogin: '/automation'}}} className="span_book_14">
                            <span className="view">Log in</span>
                            to get an access!
                          </Link>
@@ -384,8 +388,8 @@ class Landing extends Component {
                           </li>
                         </ul>
                       </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("") ?
-                        <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
+                      {permissions && permissions[0] && permissions[0].permission.includes("view_automation") ?
+                        <Link to="/financial"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
                         :
                         permissions && permissions[0] && permissions[0].email 
                         ? 
@@ -399,8 +403,8 @@ class Landing extends Component {
                       {permissions && permissions[0] && permissions[0].email ?
                        null : 
                        <>
-                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
-                         <Link to="/login" className="span_book_14">
+                         <Link to={{pathname: '/login',state: {afterLogin: '/financial'}}}><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
+                         <Link to={{pathname: '/login',state: {afterLogin: '/financial'}}} className="span_book_14">
                            <span className="view">Log in</span>
                            to get an access!
                          </Link>

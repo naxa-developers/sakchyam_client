@@ -221,29 +221,66 @@ class VectorGridComponent extends Component {
         map = this.props.mapRef.current.leafletElement;
         province.on("mouseover",(e)=>{
             const {automationAllDataByPartner}= this.props.automationReducer;
-            const{activeClickPartners}=this.props;
-            console.log(e.layer);
+            const{activeClickPartners,dataTypeLevel}=this.props;
+            // console.log(e.layer);
             let b=[];
             const c=[];
             const v=[];
-            console.log(this.props.automationReducer.automationTableData);
-            if(activeClickPartners.length>0){
-                b = activeClickPartners;
-                activeClickPartners.map(x=>{
-                    this.props.automationReducer.automationTableData.filter(data=>{
-                    if(data.partner_id=== x && data.municipality_code=== parseInt(e.layer.properties.code)){
-                        v.push(data)
-                    }
+            if(dataTypeLevel=== 'municipality'){
+                if(activeClickPartners.length>0){
+                    activeClickPartners.map(x=>{
+                        this.props.automationReducer.automationTableData.filter(data=>{
+                        if(data.partner_id=== x && data.municipality_code=== parseInt(e.layer.properties.code)){
+                            b.push(data)
+                        }
+                    });
                 });
-            });
-                console.log(v,'v');
-            }else{
-                this.props.automationReducer.automationTableData.map(data=>{
-                    if(data.municipality_code=== parseInt(e.layer.properties.code)){
-                        b.push({partner_id:data.partner_id, tablets:data.tablets})
-                    }
-                })
+                console.log(b,'b');
+                }else{
+                    this.props.automationReducer.automationTableData.map(data=>{
+                        if(data.municipality_code=== parseInt(e.layer.properties.code)){
+                            b.push({partner_id:data.partner_id, tablets:data.tablets})
+                        }
+                    })
+                }
+            }else if (dataTypeLevel=== 'district'){
+                if(activeClickPartners.length>0){
+                    activeClickPartners.map(x=>{
+                        this.props.automationReducer.automationTableData.filter(data=>{
+                        if(data.partner_id=== x && data.district_code=== parseInt(e.layer.properties.code)){
+                            b.push(data)
+                        }
+                    });
+                });
+                console.log(b,'b');
+                }else{
+                    this.props.automationReducer.automationTableData.map(data=>{
+                        if(data.district_code=== parseInt(e.layer.properties.code)){
+                            b.push({partner_id:data.partner_id, tablets:data.tablets})
+                        }
+                    })
+                }
+            }else if (dataTypeLevel=== 'province'){
+                if(activeClickPartners.length>0){
+                    activeClickPartners.map(x=>{
+                        this.props.automationReducer.automationTableData.filter(data=>{
+                        if(data.partner_id=== x && data.province_code=== parseInt(e.layer.properties.code)){
+                            b.push(data)
+                        }
+                    });
+                });
+                console.log(b,'b');
+                }else{
+                    this.props.automationReducer.automationTableData.map(data=>{
+                        if(data.province_code=== parseInt(e.layer.properties.code)){
+                            b.push({partner_id:data.partner_id, tablets:data.tablets})
+                        }
+                    })
+                }
             }
+            // console.log(this.props.automationReducer.automationTableData);
+            
+            
             console.log(b,'beforefilter');
             b.map(data=>{
                 automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(function(e) {
@@ -308,9 +345,15 @@ class VectorGridComponent extends Component {
             // long(pin):85.338666
             // date(pin):2016
             // tablets_deployed(pin):863
-       
-        // console.log(automationAllDataByPartner,'data of Partners');
+
+            //TOTAL BRANCH 
+            // <div class="icons"><i class="material-icons">business</i><b>${data.branch}</b>
+            // </div>
+        
+            // console.log(automationAllDataByPartner,'data of Partners');
+        let total_tablets= 0;
         const popupHtml =c && c.map(data=>{
+            total_tablets += data.single_tablets;
             return (
                 `<li>
                     <div class="organization-icon"><span></span></div>
@@ -318,8 +361,7 @@ class VectorGridComponent extends Component {
                             <div class="org-header">
                                 <h5>${data.partner_name}</h5>
                                     <div class="icon-list">
-                                        <div class="icons"><i class="material-icons">business</i><b>${data.branch}</b>
-                                        </div>
+                                        
                                             <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.single_tablets}</b></div>
                                         </div>
                                     </div>
@@ -340,7 +382,7 @@ class VectorGridComponent extends Component {
                         <div class="map-popup-view-header">
                             <h5>${e.layer.properties.name}</h5>
                             <div class="icons">
-                            <i class="material-icons">tablet_mac</i><b>${automationAllDataByPartner[0] && automationAllDataByPartner[0].total_tablet}</b>
+                            <i class="material-icons">tablet_mac</i><b>${total_tablets}</b>
                             </div>
                         </div>
                         <ul style="height:112px;overflow-y: scroll">
@@ -350,9 +392,10 @@ class VectorGridComponent extends Component {
                         <div class="map-view-footer">
                     <div class="map-view-progress">
                         <div class="progress-item is-red" style="flex: 0 0 60%; max-width: 60%;"></div>
-                        <div class="progress-item is-green" style="flex: 0 0 40%; max-width: 40%;"></div>
+                        <div class="progress-item is-green" style="flex: 0 0 20%; max-width: 20%;"></div>
+                        <div class="progress-item is-color5" style="flex: 0 0 20%; max-width: 20%;"></div>
                         </div>
-                <div class="progress-value"><span class="red-value">60%</span><span class="green-value">40%</span></div>
+                <div class="progress-value"><span class="red-value">60%</span><span class="green-value">20%</span><span class="is-color5">20%</span></div>
             </div>
             </div>
     </div>`
@@ -483,7 +526,7 @@ class VectorGridComponent extends Component {
         var currentComponent= this;
         // console.log(this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle, "defaultstyle")
         const province=this.vectorGridRef && this.vectorGridRef.current &&this.vectorGridRef.current.leafletElement
-        province && province.bindPopup('<label>BindPopup</label');
+        // province && province.bindPopup('<label>BindPopup</label');
         // console.log(,'ref')
         const options = {
             // updateWhenIdle:true,
@@ -516,7 +559,7 @@ class VectorGridComponent extends Component {
             vectorTileLayerStyles: {default: style},
             subdomains: 'abcd',
             key: 'abcdefghi32223',
-            rendererFactory: L.canvas.tile,
+            // rendererFactory: L.canvas.tile,
             interactive:true,
             // rendererFactory: L.canvas..extend({
             //     _handleMouseHover: function (e, point){ 
