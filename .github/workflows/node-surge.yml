@@ -30,4 +30,4 @@ jobs:
       with:
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         BUILD_DIRECTORY: ${{ secrets.BUILD_DIRECTORY }}
-        DOMAIN_NAME: pr-${{env.PULL_NUMBER}}-varicon-naxa.surge.sh
+        DOMAIN_NAME: pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh
