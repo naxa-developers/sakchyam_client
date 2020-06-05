@@ -9,7 +9,7 @@ import axiosInstance from '../axiosApi';
 export const getPartnersList = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('/api/v1/automation/automation-all/')
+      .get('/api/v1/financial/partner/')
       .then(function(result) {
         return dispatch({
           type: GET_PARTNERS_LIST,
@@ -29,7 +29,7 @@ export const getFinancialData = () => dispatch => {
           return data.partner_id;
         });
         const removedDuplicate = [...new Set(partnerIds)];
-        console.log(removedDuplicate);
+        // console.log(removedDuplicate);
         return dispatch({
           type: GET_FINANCIAL_DATA,
           payload: result.data,

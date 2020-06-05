@@ -10,6 +10,7 @@ import {
   getFinancialData,
   getFinancialProgram,
 } from '../../../actions/financial.actions';
+import HorizontalChart from './Charts/HorizontalChart';
 
 class FinancialLiteracy extends Component {
   constructor(props) {
@@ -46,6 +47,7 @@ class FinancialLiteracy extends Component {
       this.setState({
         checkedPartnerItems: joined,
         // isAllPartnerSelected: true,
+        // isAllPartnerSelected: true,
       });
     } else {
       const filteredData = checkedPartnerItems.filter(
@@ -53,6 +55,7 @@ class FinancialLiteracy extends Component {
       );
       this.setState({
         checkedPartnerItems: filteredData,
+        isAllPartnerSelected: false,
       });
     }
   };
@@ -114,7 +117,9 @@ class FinancialLiteracy extends Component {
       const filteredData = selectedProgram.filter(
         data => data !== clickedValue,
       );
-      this.setState({ selectedProgram: filteredData });
+      this.setState({
+        selectedProgram: filteredData,
+      });
     } else {
       const addedProgram = selectedProgram.concat(clickedValue);
       this.setState({ selectedProgram: addedProgram });
@@ -154,6 +159,7 @@ class FinancialLiteracy extends Component {
           }
         >
           <LeftSideBar
+            isAllPartnerSelected={isAllPartnerSelected}
             handleSelectedProgram={this.handleSelectedProgram}
             selectedProgram={selectedProgram}
             partnerType={partnerType}
@@ -227,7 +233,9 @@ class FinancialLiteracy extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            {/* <HorizontalChart /> */}
+                          </div>
                         </div>
                       </div>
                       <div className="col-xl-6">
