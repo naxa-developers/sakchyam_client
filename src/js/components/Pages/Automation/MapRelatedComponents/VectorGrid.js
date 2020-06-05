@@ -219,6 +219,17 @@ class VectorGridComponent extends Component {
         // console.log(province.options);
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
+//         let data = [{id:1,name:'john'},{id:2,name:'raj'},{id:3,name:'harry'},{id:4,name:'varun'},{id:1,name:'sahil'},{id:2,name:'rohit'}];
+// let groupedObj= {};
+// data.forEach(function(c){
+//     if(groupedObj[c.id]){
+//         groupedObj[c.id].names.push(c.name);
+//     }else{
+//     groupedObj[c.id]={id:c.id,names:[c.name]}
+//     }
+
+// });
+
         province.on("mouseover",(e)=>{
             const {automationAllDataByPartner}= this.props.automationReducer;
             const{activeClickPartners,dataTypeLevel}=this.props;
