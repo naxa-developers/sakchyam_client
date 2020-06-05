@@ -10,6 +10,7 @@ import {
   getFinancialData,
   getFinancialProgram,
 } from '../../../actions/financial.actions';
+import HorizontalChart from './Charts/HorizontalChart';
 
 class FinancialLiteracy extends Component {
   constructor(props) {
@@ -29,11 +30,12 @@ class FinancialLiteracy extends Component {
     this.props.getPartnersList();
     this.props.getFinancialData();
     this.props.getFinancialProgram();
-    // this.props.financialReducer.financial_data
   }
 
   handleRightSidebarShow = () => {
-    this.setState({ showRightSidebar: !this.state.showRightSidebar });
+    this.setState(prevState => ({
+      showRightSidebar: !prevState.showRightSidebar,
+    }));
   };
 
   handlePartnerChange = e => {
@@ -45,6 +47,7 @@ class FinancialLiteracy extends Component {
       this.setState({
         checkedPartnerItems: joined,
         // isAllPartnerSelected: true,
+        // isAllPartnerSelected: true,
       });
     } else {
       const filteredData = checkedPartnerItems.filter(
@@ -52,6 +55,7 @@ class FinancialLiteracy extends Component {
       );
       this.setState({
         checkedPartnerItems: filteredData,
+        isAllPartnerSelected: false,
       });
     }
   };
@@ -113,7 +117,9 @@ class FinancialLiteracy extends Component {
       const filteredData = selectedProgram.filter(
         data => data !== clickedValue,
       );
-      this.setState({ selectedProgram: filteredData });
+      this.setState({
+        selectedProgram: filteredData,
+      });
     } else {
       const addedProgram = selectedProgram.concat(clickedValue);
       this.setState({ selectedProgram: addedProgram });
@@ -153,6 +159,7 @@ class FinancialLiteracy extends Component {
           }
         >
           <LeftSideBar
+            isAllPartnerSelected={isAllPartnerSelected}
             handleSelectedProgram={this.handleSelectedProgram}
             selectedProgram={selectedProgram}
             partnerType={partnerType}
@@ -226,7 +233,9 @@ class FinancialLiteracy extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            {/* <HorizontalChart /> */}
+                          </div>
                         </div>
                       </div>
                       <div className="col-xl-6">

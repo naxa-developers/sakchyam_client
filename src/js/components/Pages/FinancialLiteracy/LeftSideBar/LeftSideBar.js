@@ -21,6 +21,7 @@ class LeftSideBar extends Component {
         partnerType,
         selectedProgram,
         handleSelectedProgram,
+        isAllPartnerSelected,
       },
     } = this;
     return (
@@ -75,6 +76,7 @@ class LeftSideBar extends Component {
                         id="all_partner"
                         type="checkbox"
                         name="Initiative"
+                        checked={isAllPartnerSelected}
                         onClick={handlePartnerParentCheckbox}
                       />
                       <label htmlFor="all_partner">All</label>
@@ -82,8 +84,7 @@ class LeftSideBar extends Component {
                   </div>
                   <ul className="checkbox-list">
                     {partnersList &&
-                      partnersList.partner_data &&
-                      partnersList.partner_data.map(data => {
+                      partnersList.map(data => {
                         return (
                           <li key={data.id}>
                             <a href="#">
