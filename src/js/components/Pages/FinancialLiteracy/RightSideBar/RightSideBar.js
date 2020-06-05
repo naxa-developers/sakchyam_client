@@ -1,13 +1,32 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isHovered: false,
+      hoverID: 1,
+    };
   }
 
+  handleHover = id => {
+    this.setState(prevState => ({
+      isHovered: !prevState.isHovered,
+      hoverID: id,
+    }));
+  };
+
+  handleUnhover = () => {
+    this.setState({ isHovered: false, hoverID: 1 });
+  };
+
   render() {
+    const { financialProgram } = this.props.financialReducer;
+    // console.log(financialProgram);
+
     const { showRightSidebar, handleRightSidebarShow } = this.props;
+    const { isHovered, hoverID } = this.state;
     return (
       <aside className="sidebar right-sidebar literacy-right-sidebar">
         <div className="sidebar-in">
@@ -170,7 +189,42 @@ class RightSideBar extends Component {
               <h5>Initiative Timeline</h5>
               <div className="widget-body">
                 <ul className="timeline">
-                  <li className="active">
+                  {financialProgram &&
+                    financialProgram.map((item, index) => {
+                      const date = new Date(item.date);
+                      if (item.total !== 0) {
+                        return (
+                          <li
+                            key={item.id}
+                            className={
+                              hoverID === index ? 'active' : ''
+                            }
+                          >
+                            <div className="date-time">
+                              <time>{date.getFullYear()}</time>
+                              <b>
+                                {date.toDateString().split(' ')[1]}
+                              </b>
+                            </div>
+                            <div
+                              onMouseEnter={() =>
+                                this.handleHover(index)
+                              }
+                              onMouseLeave={() =>
+                                this.handleUnhover(index)
+                              }
+                              className="timeline-content "
+                            >
+                              <div className="timeline-text">
+                                {item.name}
+                              </div>
+                            </div>
+                          </li>
+                        );
+                      }
+                      return null;
+                    })}
+                  {/* <li className="active">
                     <div className="date-time">
                       <time>2015</time>
                       <b>Jun</b>
@@ -202,7 +256,7 @@ class RightSideBar extends Component {
                         Year-round 12 module Financial Literacy
                       </div>
                     </div>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
@@ -228,4 +282,7 @@ class RightSideBar extends Component {
   }
 }
 
-export default RightSideBar;
+const mapStateToProps = ({ financialReducer }) => ({
+  financialReducer,
+});
+export default connect(mapStateToProps, {})(RightSideBar);

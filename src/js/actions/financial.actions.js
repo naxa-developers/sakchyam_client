@@ -45,8 +45,6 @@ export const getFinancialProgram = () => dispatch => {
     const response = axiosInstance
       .get('/api/v1/financial/program/')
       .then(function(result) {
-        console.log('res', result);
-
         return dispatch({
           type: GET_FINANCIAL_PROGRAM,
           payload: result.data,

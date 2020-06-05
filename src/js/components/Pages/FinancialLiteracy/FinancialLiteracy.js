@@ -29,11 +29,12 @@ class FinancialLiteracy extends Component {
     this.props.getPartnersList();
     this.props.getFinancialData();
     this.props.getFinancialProgram();
-    // this.props.financialReducer.financial_data
   }
 
   handleRightSidebarShow = () => {
-    this.setState({ showRightSidebar: !this.state.showRightSidebar });
+    this.setState(prevState => ({
+      showRightSidebar: !prevState.showRightSidebar,
+    }));
   };
 
   handlePartnerChange = e => {
