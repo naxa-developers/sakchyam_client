@@ -25,7 +25,33 @@ class RightSideBar extends Component {
     const { financialProgram } = this.props.financialReducer;
     // console.log(financialProgram);
 
-    const { showRightSidebar, handleRightSidebarShow } = this.props;
+    // let totalCount = 0;
+    // financialProgram.map(item => {
+    //   totalCount += item.total;
+    // });
+
+    const colors = [
+      'is-red',
+      'is-orange',
+      'is-blue',
+      'is-pink',
+      'is-other',
+    ];
+
+    let maxValue = 0;
+    financialProgram.map(item => {
+      if (maxValue < item.total) {
+        maxValue = item.total;
+      }
+    });
+
+    const {
+      showRightSidebar,
+      handleRightSidebarShow,
+      selectedProgram,
+      checkedPartnerItems,
+    } = this.props;
+
     const { isHovered, hoverID } = this.state;
     return (
       <aside className="sidebar right-sidebar literacy-right-sidebar">
@@ -53,7 +79,7 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Partner Institutions</h6>
-                      <span>54</span>
+                      <span>{checkedPartnerItems.length}</span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -64,7 +90,7 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Program Initiative</h6>
-                      <span>112</span>
+                      <span>{selectedProgram.length}</span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -76,9 +102,44 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget program-widget">
-              <h5>branches Count</h5>
+              <h5>Branches Count</h5>
               <div className="widget-body">
-                <div className="program-list">
+                {financialProgram &&
+                  financialProgram.map(item => {
+                    // colors.map(color => {
+                    const width = (item.total * 100) / maxValue;
+
+                    if (item.total !== 0) {
+                      return (
+                        <div className="program-list">
+                          <div className="program-info">
+                            <div className="info-in">
+                              <h5>{item.name}</h5>
+                              <div className="program-text">
+                                <i className="material-icons">
+                                  business
+                                </i>
+                                <span>{item.code}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="program">
+                            <div
+                              className="program-bar is-red"
+                              tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
+                              flow="up"
+                              style={{ width: `${width}%` }}
+                            >
+                              {item.total}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                    // });
+                  })}
+
+                {/* <div className="program-list">
                   <div className="program-info">
                     <div className="info-in">
                       <h5>PGT</h5>
@@ -182,7 +243,7 @@ class RightSideBar extends Component {
                       197298
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="sidebar-widget timeline-widget">
@@ -192,7 +253,7 @@ class RightSideBar extends Component {
                   {financialProgram &&
                     financialProgram.map((item, index) => {
                       const date = new Date(item.date);
-                      if (item.total !== 0) {
+                      if (item.total === 0) {
                         return (
                           <li
                             key={item.id}

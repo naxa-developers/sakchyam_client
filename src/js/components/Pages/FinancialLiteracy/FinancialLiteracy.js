@@ -788,6 +788,8 @@ class FinancialLiteracy extends Component {
           </main>
           <RightSideBar
             showRightSidebar={showRightSidebar}
+            selectedProgram={selectedProgram}
+            checkedPartnerItems={checkedPartnerItems}
             handleRightSidebarShow={this.handleRightSidebarShow}
           />
         </div>
