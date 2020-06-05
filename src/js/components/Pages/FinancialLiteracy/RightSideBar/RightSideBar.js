@@ -7,6 +7,7 @@ class RightSideBar extends Component {
   }
 
   render() {
+    const { showRightSidebar, handleRightSidebarShow } = this.props;
     return (
       <aside className="sidebar right-sidebar literacy-right-sidebar">
         <div className="sidebar-in">
@@ -207,10 +208,17 @@ class RightSideBar extends Component {
             </div>
           </div>
         </div>
-        <div className="expand-button">
+        <div
+          className={
+            showRightSidebar
+              ? 'expand-button'
+              : 'expand-button active'
+          }
+        >
           <button
             type="button"
             className="common-button is-clear close-all"
+            onClick={handleRightSidebarShow}
           >
             <i className="material-icons">chevron_right</i>
           </button>

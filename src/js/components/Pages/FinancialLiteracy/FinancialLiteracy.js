@@ -13,7 +13,9 @@ import {
 class FinancialLiteracy extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showRightSidebar: true,
+    };
   }
 
   componentDidMount() {
@@ -22,11 +24,22 @@ class FinancialLiteracy extends Component {
     // this.props.financialReducer.financial_data
   }
 
+  handleRightSidebarShow = () => {
+    this.setState({ showRightSidebar: !this.state.showRightSidebar });
+  };
+
   render() {
+    const { showRightSidebar } = this.state;
     return (
       <>
         <Header />
-        <div className="automation-wrapper literacy-wrapper">
+        <div
+          className={
+            showRightSidebar
+              ? 'automation-wrapper literacy-wrapper'
+              : 'automation-wrapper literacy-wrapper expand-right-sidebar'
+          }
+        >
           <LeftSideBar />
           <main className="main">
             <div className="main-card map-card" />
@@ -598,7 +611,10 @@ class FinancialLiteracy extends Component {
               </div>
             </div>
           </main>
-          <RightSideBar />
+          <RightSideBar
+            showRightSidebar={showRightSidebar}
+            handleRightSidebarShow={this.handleRightSidebarShow}
+          />
         </div>
       </>
     );
