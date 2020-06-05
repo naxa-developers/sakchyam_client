@@ -43,6 +43,7 @@ class RightSideBar extends Component {
       if (maxValue < item.total) {
         maxValue = item.total;
       }
+      return true;
     });
 
     const {
@@ -136,6 +137,8 @@ class RightSideBar extends Component {
                         </div>
                       );
                     }
+                    return false;
+
                     // });
                   })}
 
@@ -268,12 +271,12 @@ class RightSideBar extends Component {
                               </b>
                             </div>
                             <div
-                              onMouseEnter={() =>
-                                this.handleHover(index)
-                              }
-                              onMouseLeave={() =>
-                                this.handleUnhover(index)
-                              }
+                              onMouseEnter={() => {
+                                this.handleHover(index);
+                              }}
+                              onMouseLeave={() => {
+                                this.handleUnhover(index);
+                              }}
                               className="timeline-content "
                             >
                               <div className="timeline-text">
