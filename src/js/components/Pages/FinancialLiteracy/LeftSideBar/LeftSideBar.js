@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -7,6 +8,21 @@ class LeftSideBar extends Component {
   }
 
   render() {
+    const {
+      partnersList,
+      financialProgram,
+    } = this.props.financialReducer;
+    const {
+      // state: {},
+      props: {
+        handlePartnerChange,
+        handlePartnerParentCheckbox,
+        handlePartnerType,
+        partnerType,
+        selectedProgram,
+        handleSelectedProgram,
+      },
+    } = this;
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -20,10 +36,30 @@ class LeftSideBar extends Component {
               <h6 className="title">Partner Type</h6>
               <div className="widget-body">
                 <div className="widget-tag partner-tag">
-                  <a href="#">
+                  <a
+                    onClick={() => {
+                      handlePartnerType('Microfinance');
+                    }}
+                    className={
+                      partnerType.includes('Microfinance')
+                        ? 'active'
+                        : ''
+                    }
+                    href="#"
+                  >
                     <span>Microfinance</span>
                   </a>
-                  <a href="#">
+                  <a
+                    onClick={() => {
+                      handlePartnerType('Commercial');
+                    }}
+                    className={
+                      partnerType.includes('Commercial')
+                        ? 'active'
+                        : ''
+                    }
+                    href="#"
+                  >
                     <span>Commercial Bank</span>
                   </a>
                 </div>
@@ -36,98 +72,37 @@ class LeftSideBar extends Component {
                   <div className="checklist-header">
                     <div className="custom-checkbox">
                       <input
-                        id="Initiative"
+                        id="all_partner"
                         type="checkbox"
                         name="Initiative"
+                        onClick={handlePartnerParentCheckbox}
                       />
-                      <label htmlFor="Initiative">All</label>
+                      <label htmlFor="all_partner">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    <li>
-                      <a href="#">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">
-                            <span> VLBS Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">
-                            <span> Unique Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">
-                            <span> Nirdhan Utthan Laghubitta</span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">
-                            <span> Kisan Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">
-                            <span> Chhimek Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">
-                            <span> Sahara Cooperative </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
+                    {partnersList &&
+                      partnersList.partner_data &&
+                      partnersList.partner_data.map(data => {
+                        return (
+                          <li key={data.id}>
+                            <a href="#">
+                              <div className="custom-checkbox">
+                                <input
+                                  id={data.partner_id}
+                                  className="partner_checkbox"
+                                  type="checkbox"
+                                  name={data.partner_name}
+                                  onClick={handlePartnerChange}
+                                />
+                                <label htmlFor={data.partner_id}>
+                                  <span>{data.partner_name}</span>
+                                </label>
+                              </div>
+                            </a>
+                          </li>
+                        );
+                      })}
                   </ul>
                 </div>
               </div>
@@ -136,11 +111,27 @@ class LeftSideBar extends Component {
               <h6 className="title">Program Initiative</h6>
               <div className="widget-body">
                 <div className="widget-tag Program-tag">
-                  <a href="#">
-                    <small className="icon is-red" />
-                    <span>PGT</span>
-                  </a>
-                  <a href="#" className="active">
+                  {financialProgram &&
+                    financialProgram.map(data => {
+                      return (
+                        <a
+                          onClick={() => {
+                            handleSelectedProgram(data.code);
+                          }}
+                          className={
+                            selectedProgram.includes(data.code)
+                              ? 'active'
+                              : ''
+                          }
+                          href="#"
+                        >
+                          <small className="icon is-red" />
+                          <span>{data.name}</span>
+                        </a>
+                      );
+                    })}
+
+                  {/* <a href="#" className="active">
                     <small className="icon is-orange" />
                     <span>Centre meeting</span>
                   </a>
@@ -159,7 +150,7 @@ class LeftSideBar extends Component {
                   <a href="#">
                     <small className="icon is-other" />
                     <span>others</span>
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>
@@ -184,4 +175,7 @@ class LeftSideBar extends Component {
   }
 }
 
-export default LeftSideBar;
+const mapStateToProps = ({ financialReducer }) => ({
+  financialReducer,
+});
+export default connect(mapStateToProps, {})(LeftSideBar);

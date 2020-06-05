@@ -1,26 +1,39 @@
 import {
   GET_FINANCIAL_DATA,
   GET_FINANCIAL_PROGRAM,
+  GET_PARTNERS_LIST,
 } from '../actions/index.actions';
 
-const initialState = { financial_data: [], financial_program: [] };
+const initialState = {
+  partnersList: [],
+  financialData: [],
+  financialProgram: [],
+};
 
+const getPartnersList = (state, action) => {
+  return {
+    ...state,
+    partnersList: action.payload[0],
+  };
+};
 const getFinancialData = (state, action) => {
   return {
     ...state,
-    financial_data: action.payload,
+    financialData: action.payload,
   };
 };
 
 const getFinancialProgram = (state, action) => {
   return {
     ...state,
-    financial_program: action.payload,
+    financialProgram: action.payload,
   };
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case GET_PARTNERS_LIST:
+      return getPartnersList(state, action);
     case GET_FINANCIAL_DATA:
       return getFinancialData(state, action);
     case GET_FINANCIAL_PROGRAM:

@@ -6,6 +6,7 @@ import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
 import {
+  getPartnersList,
   getFinancialData,
   getFinancialProgram,
 } from '../../../actions/financial.actions';
@@ -13,38 +14,190 @@ import {
 class FinancialLiteracy extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      partnerType: [],
+      checkedPartnerItems: [],
+      isAllPartnerSelected: false,
+      selectedProgram: [],
+      visualizationType: 'Visualisation',
+      activeSortBy: false,
+    };
   }
 
   componentDidMount() {
+    this.props.getPartnersList();
     this.props.getFinancialData();
     this.props.getFinancialProgram();
     // this.props.financialReducer.financial_data
   }
 
+  handlePartnerChange = e => {
+    const item = e.target.id;
+    const isProjectChecked = e.target.checked;
+    const { checkedPartnerItems } = this.state;
+    if (isProjectChecked === true) {
+      const joined = checkedPartnerItems.concat(item);
+      this.setState({
+        checkedPartnerItems: joined,
+        // isAllPartnerSelected: true,
+      });
+    } else {
+      const filteredData = checkedPartnerItems.filter(
+        data => data !== item,
+      );
+      this.setState({
+        checkedPartnerItems: filteredData,
+      });
+    }
+  };
+
+  handlePartnerParentCheckbox = e => {
+    // e.stopPropagation();
+    const { checkedPartnerItems, isAllPartnerSelected } = this.state;
+    if (isAllPartnerSelected) {
+      const allPartnerElement = document.getElementsByClassName(
+        'partner_checkbox',
+      );
+
+      for (let i = 0; i < allPartnerElement.length; i += 1) {
+        allPartnerElement[i].checked = false;
+      }
+      this.setState({
+        checkedPartnerItems: [],
+        isAllPartnerSelected: false,
+      });
+    } else {
+      this.setState({
+        isAllPartnerSelected: true,
+      });
+      if (e.target.checked === true) {
+        const allPartnerElement = document.getElementsByClassName(
+          'partner_checkbox',
+        );
+
+        for (let i = 0; i < allPartnerElement.length; i += 1) {
+          allPartnerElement[i].checked = true;
+          checkedPartnerItems.push(allPartnerElement[i].id);
+        }
+        this.setState({
+          checkedPartnerItems,
+        });
+        // this.setState({
+        //   checkedProgressItems: joined,
+        // });
+      }
+    }
+  };
+
+  handlePartnerType = clickedValue => {
+    const { partnerType } = this.state;
+    if (partnerType.includes(clickedValue)) {
+      const filteredData = partnerType.filter(
+        data => data !== clickedValue,
+      );
+      this.setState({ partnerType: filteredData });
+    } else {
+      const addedPartnerType = partnerType.concat(clickedValue);
+      this.setState({ partnerType: addedPartnerType });
+    }
+  };
+
+  handleSelectedProgram = clickedValue => {
+    const { selectedProgram } = this.state;
+    if (selectedProgram.includes(clickedValue)) {
+      const filteredData = selectedProgram.filter(
+        data => data !== clickedValue,
+      );
+      this.setState({ selectedProgram: filteredData });
+    } else {
+      const addedProgram = selectedProgram.concat(clickedValue);
+      this.setState({ selectedProgram: addedProgram });
+    }
+  };
+
+  handleVisualizationType = clicked => {
+    this.setState({ visualizationType: clicked });
+  };
+
+  toggleSortBy = () => {
+    this.setState(prevState => ({
+      activeSortBy: !prevState.activeSortBy,
+    }));
+  };
+
   render() {
+    const {
+      state: {
+        checkedPartnerItems,
+        isAllPartnerSelected,
+        partnerType,
+        selectedProgram,
+        visualizationType,
+        activeSortBy,
+      },
+    } = this;
     return (
       <>
         <Header />
         <div className="automation-wrapper literacy-wrapper">
-          <LeftSideBar />
+          <LeftSideBar
+            handleSelectedProgram={this.handleSelectedProgram}
+            selectedProgram={selectedProgram}
+            partnerType={partnerType}
+            handlePartnerType={this.handlePartnerType}
+            handlePartnerChange={this.handlePartnerChange}
+            handlePartnerParentCheckbox={
+              this.handlePartnerParentCheckbox
+            }
+          />
           <main className="main">
             <div className="main-card map-card" />
             <div className="main-card literacy-main-card">
               <div className="literacy-tab">
                 <ul>
-                  <li>
-                    <a href="#">Visualisation</a>
+                  <li
+                    className={
+                      visualizationType === 'Visualisation'
+                        ? 'active'
+                        : ''
+                    }
+                  >
+                    <a
+                      href="#visualisation"
+                      onClick={() => {
+                        this.handleVisualizationType('Visualisation');
+                      }}
+                    >
+                      Visualisation
+                    </a>
                   </li>
-                  <li className="active">
-                    <a href="#">data</a>
+                  <li
+                    className={
+                      visualizationType === 'Data' ? 'active' : ''
+                    }
+                  >
+                    <a
+                      href="#data"
+                      onClick={() => {
+                        this.handleVisualizationType('Data');
+                      }}
+                    >
+                      data
+                    </a>
                   </li>
                 </ul>
               </div>
 
               <div className="literacy-tab-content">
                 <div className="literacy-tab-item">
-                  <div className="graph-view">
+                  <div
+                    className="graph-view"
+                    style={
+                      visualizationType === 'Visualisation'
+                        ? { display: 'block' }
+                        : { display: 'none' }
+                    }
+                  >
                     <div className="row">
                       <div className="col-xl-6">
                         <div className="card">
@@ -105,7 +258,11 @@ class FinancialLiteracy extends Component {
                 </div>
                 <div
                   className="literacy-tab-item"
-                  style={{ display: 'none' }}
+                  style={
+                    visualizationType === 'Data'
+                      ? { display: 'block' }
+                      : { display: 'none' }
+                  }
                 >
                   <div className="table-card">
                     <div className="table-card-header">
@@ -118,11 +275,21 @@ class FinancialLiteracy extends Component {
                                 className="select-dropdown"
                                 id="duration_id"
                               >
-                                <span className="span-label span-dropdown">
+                                <span
+                                  role="tab"
+                                  tabIndex="0"
+                                  onClick={this.toggleSortBy}
+                                  onKeyDown={this.toggleSortBy}
+                                  className="span-label span-dropdown"
+                                >
                                   All
                                 </span>
                                 <ul
-                                  className="select-list"
+                                  className={`select-list ${
+                                    activeSortBy === true
+                                      ? 'active'
+                                      : ''
+                                  }`}
                                   id="dropdown-list"
                                 >
                                   <li className="checkbox">
@@ -609,6 +776,7 @@ const mapStateToProps = ({ financialReducer }) => ({
   financialReducer,
 });
 export default connect(mapStateToProps, {
+  getPartnersList,
   getFinancialData,
   getFinancialProgram,
 })(FinancialLiteracy);
