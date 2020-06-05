@@ -40,10 +40,13 @@ class HorizontalChart extends Component {
     const options = {
       chart: {
         type: 'bar',
-        height: 430,
+        height: 2000,
       },
       plotOptions: {
         bar: {
+          barHeight: '100%',
+          columnWidth: '100%',
+          distributed: false,
           horizontal: true,
           dataLabels: {
             position: 'top',
@@ -55,7 +58,7 @@ class HorizontalChart extends Component {
       legend: { show: false },
       colors: ['#c21c2e', '#f36c00', '#40a8be', '#de2693'],
       dataLabels: {
-        enabled: false,
+        enabled: true,
         offsetX: -6,
         style: {
           fontSize: '12px',
@@ -68,8 +71,17 @@ class HorizontalChart extends Component {
         colors: ['#fff'],
       },
       xaxis: {
+        show: false,
+        offsetX: 0,
+        labels: {
+          show: false,
+        },
         type: 'category',
         categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
+      },
+      yaxis: {
+        offsetY: 0,
+        // show: false,
       },
     };
     this.setState({ options, series });
@@ -89,9 +101,17 @@ class HorizontalChart extends Component {
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
-      this.setState({
-        series: this.props.financialReducer.filteredByProgram,
-      });
+      this.setState(preState => ({
+        series: this.props.financialReducer.filteredByProgram.series,
+        options: {
+          ...preState.options,
+          xaxis: {
+            ...preState.options.xaxis,
+            categories: this.props.financialReducer.filteredByProgram
+              .label,
+          },
+        },
+      }));
     }
   }
 
@@ -102,7 +122,7 @@ class HorizontalChart extends Component {
           options={this.state.options}
           series={this.state.series}
           type="bar"
-          height={430}
+          height={2000}
         />
       </div>
     );

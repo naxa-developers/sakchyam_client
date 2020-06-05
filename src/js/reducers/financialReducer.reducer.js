@@ -3,6 +3,7 @@ import {
   GET_FINANCIAL_DATA,
   GET_FINANCIAL_PROGRAM,
   GET_PARTNERS_LIST,
+  FILTER_FINANCIAL_DATA_FOR_GRAPH,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -33,26 +34,32 @@ const getFinancialData = (state, action) => {
     // names must be equal
     return 0;
   });
-  // const groupedObj = {};
+
+  const label = action.payload.map(data => {
+    return data.partner_id;
+  });
+  const removedDuplicateLabel = [...new Set(label)];
+  console.log(removedDuplicateLabel);
+  // const groupedObjForLabel = {};
   // action.payload.forEach(function(c) {
-  //   if (groupedObj[c.program_id]) {
-  //     groupedObj[c.program_id].names.push(c.);
+  //   if (groupedObjForLabel[c.partner_id]) {
+  //     groupedObjForLabel[c.partner_id].names.push(c);
   //   } else {
-  //     groupedObj[c.program_id] = {
-  //       programId: c.program_id,
+  //     groupedObjForLabel[c.partner_id] = {
+  //       programId: c.partner_id,
   //       names: [c],
   //     };
   //   }
   // });
-  // console.log(groupedObj, 'grouped');
+  // console.log(groupedObjForLabel, 'groupedLabel');
   const groupedObj = {};
   action.payload.forEach(function(c) {
     if (groupedObj[c.program_id]) {
-      groupedObj[c.program_id].data.push(c.single_count);
+      groupedObj[c.program_id].data.push(c.value);
     } else {
       groupedObj[c.program_id] = {
-        programId: c.program_id,
-        data: [c.single_count],
+        name: c.program_id,
+        data: [c.value],
       };
     }
   });
@@ -114,7 +121,11 @@ const getFinancialData = (state, action) => {
   return {
     ...state,
     financialData: action.payload,
-    filteredByProgram: allProgramData,
+    extractedFinancialData: groupedObj,
+    filteredByProgram: {
+      series: allProgramData,
+      label: removedDuplicateLabel,
+    },
   };
 };
 
@@ -122,6 +133,12 @@ const getFinancialProgram = (state, action) => {
   return {
     ...state,
     financialProgram: action.payload,
+  };
+};
+const filterFinancialDataForGraph = (state, action) => {
+  return {
+    ...state,
+    // financialProgram: action.payload,
   };
 };
 
@@ -133,6 +150,8 @@ export default function(state = initialState, action) {
       return getFinancialData(state, action);
     case GET_FINANCIAL_PROGRAM:
       return getFinancialProgram(state, action);
+    case FILTER_FINANCIAL_DATA_FOR_GRAPH:
+      return filterFinancialDataForGraph(state, action);
     default:
       return state;
   }

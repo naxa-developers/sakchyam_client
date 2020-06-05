@@ -3,6 +3,7 @@ import {
   GET_FINANCIAL_DATA,
   GET_FINANCIAL_PROGRAM,
   GET_PARTNERS_LIST,
+  FILTER_FINANCIAL_DATA_FOR_GRAPH,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -55,4 +56,16 @@ export const getFinancialProgram = () => dispatch => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const filterFinancialDataForGraph = (
+  selectedPartners,
+  selectedProgram,
+) => dispatch => {
+  console.log(selectedPartners, 'selectedPartners');
+  console.log(selectedProgram, 'selectedProgram');
+  return dispatch({
+    type: FILTER_FINANCIAL_DATA_FOR_GRAPH,
+    payload: { selectedPartners, selectedProgram },
+  });
 };

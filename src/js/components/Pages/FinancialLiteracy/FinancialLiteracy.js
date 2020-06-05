@@ -9,6 +9,7 @@ import {
   getPartnersList,
   getFinancialData,
   getFinancialProgram,
+  filterFinancialDataForGraph,
 } from '../../../actions/financial.actions';
 import HorizontalChart from './Charts/HorizontalChart';
 
@@ -136,6 +137,14 @@ class FinancialLiteracy extends Component {
     }));
   };
 
+  applyClick = () => {
+    const { checkedPartnerItems, selectedProgram } = this.state;
+    this.props.filterFinancialDataForGraph(
+      checkedPartnerItems,
+      selectedProgram,
+    );
+  };
+
   render() {
     const {
       state: {
@@ -159,6 +168,7 @@ class FinancialLiteracy extends Component {
           }
         >
           <LeftSideBar
+            applyClick={this.applyClick}
             isAllPartnerSelected={isAllPartnerSelected}
             handleSelectedProgram={this.handleSelectedProgram}
             selectedProgram={selectedProgram}
@@ -234,7 +244,15 @@ class FinancialLiteracy extends Component {
                             </div>
                           </div>
                           <div className="card-body">
-                            {/* <HorizontalChart /> */}
+                            <div
+                              className="container"
+                              style={{
+                                height: '445px',
+                                overflowY: 'scroll',
+                              }}
+                            >
+                              <HorizontalChart />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -803,4 +821,5 @@ export default connect(mapStateToProps, {
   getPartnersList,
   getFinancialData,
   getFinancialProgram,
+  filterFinancialDataForGraph,
 })(FinancialLiteracy);

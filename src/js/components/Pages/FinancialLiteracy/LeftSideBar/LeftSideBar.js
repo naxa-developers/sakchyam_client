@@ -22,6 +22,7 @@ class LeftSideBar extends Component {
         selectedProgram,
         handleSelectedProgram,
         isAllPartnerSelected,
+        applyClick,
       },
     } = this;
     return (
@@ -163,6 +164,7 @@ class LeftSideBar extends Component {
                 reset
               </button>
               <button
+                onClick={applyClick}
                 type="button"
                 className="common-button is-bg is-disable"
               >
