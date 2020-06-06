@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 import Header from '../../Header';
 import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
+
 import {
   getPartnersList,
   getFinancialData,
@@ -12,6 +15,7 @@ import {
   filterFinancialDataForGraph,
 } from '../../../actions/financial.actions';
 import HorizontalChart from './Charts/HorizontalChart';
+import DonutChart from './Charts/DonutChart';
 
 class FinancialLiteracy extends Component {
   constructor(props) {
@@ -40,7 +44,7 @@ class FinancialLiteracy extends Component {
   };
 
   handlePartnerChange = e => {
-    const item = e.target.id;
+    const item = parseInt(e.target.id, 10);
     const isProjectChecked = e.target.checked;
     const { checkedPartnerItems } = this.state;
     if (isProjectChecked === true) {
@@ -137,6 +141,36 @@ class FinancialLiteracy extends Component {
     }));
   };
 
+  downloadPng = () => {
+    // document.querySelector('.info-header-bottom').style.display =
+    //   'none';
+    // document
+    //   .querySelector('.download-dropdown')
+    //   .classList.remove('active');
+    setTimeout(() => {
+      html2canvas(document.querySelector('#horizontal-chart'), {
+        // logging: true,
+        // letterRendering: 1,
+        allowTaint: true,
+        // scale: window.devicePixelRatio,
+        // windowWidth: window.innerWidth,
+        // windowHeight: window.innerHeight + 120,
+        // x: 20,
+        // y: 70,
+        // width: window.innerWidth + 40,
+        // height: window.innerHeight + 40,
+        // foreignObjectRendering: true,
+        // useCORS: true,
+      }).then(canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, 'Dashboard.png');
+        });
+      });
+    }, 500);
+
+    // this.setState({ downloadActive: false });
+  };
+
   applyClick = () => {
     const { checkedPartnerItems, selectedProgram } = this.state;
     this.props.filterFinancialDataForGraph(
@@ -229,16 +263,22 @@ class FinancialLiteracy extends Component {
                   >
                     <div className="row">
                       <div className="col-xl-6">
-                        <div className="card">
+                        <div className="card" id="card-horizontal">
                           <div className="card-header">
                             <h5>
                               Contribution of program initiatives
                             </h5>
                             <div className="header-icons">
-                              <span className="">
+                              <span
+                                onClick={this.downloadPng}
+                                onKeyDown={this.downloadPng}
+                                className=""
+                                role="tab"
+                                tabIndex="0"
+                              >
                                 <img src={DownloadIcon} alt="open" />
                               </span>
-                              <span className="">
+                              <span>
                                 <img src={ExpandIcon} alt="open" />
                               </span>
                             </div>
@@ -257,7 +297,7 @@ class FinancialLiteracy extends Component {
                         </div>
                       </div>
                       <div className="col-xl-6">
-                        <div className="card">
+                        <div className="card" id="chart-donut">
                           <div className="card-header">
                             <h5>
                               Contribution of program initiatives
@@ -271,7 +311,9 @@ class FinancialLiteracy extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            <DonutChart />
+                          </div>
                         </div>
                       </div>
                       <div className="col-xl-12">

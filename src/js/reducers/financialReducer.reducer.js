@@ -11,6 +11,7 @@ const initialState = {
   financialData: [],
   financialProgram: [],
   filteredByProgram: [],
+  filteredByProgramDefault: [],
 };
 
 const getPartnersList = (state, action) => {
@@ -34,12 +35,12 @@ const getFinancialData = (state, action) => {
     // names must be equal
     return 0;
   });
-
+  console.log(action.payload, 'maindata');
   const label = action.payload.map(data => {
     return data.partner_id;
   });
   const removedDuplicateLabel = [...new Set(label)];
-  console.log(removedDuplicateLabel);
+  // console.log(removedDuplicateLabel);
   // const groupedObjForLabel = {};
   // action.payload.forEach(function(c) {
   //   if (groupedObjForLabel[c.partner_id]) {
@@ -52,7 +53,33 @@ const getFinancialData = (state, action) => {
   //   }
   // });
   // console.log(groupedObjForLabel, 'groupedLabel');
+
+  const result = [
+    ...new Map(action.payload.map(x => [x.partner_id, x])).values(),
+  ];
+
+  console.log(result);
+  const a = [];
+  result.map(data => {
+    if (data.partner_type) {
+      a.push(data);
+    }
+    return true;
+  });
+  console.log(a, 'a');
   const groupedObj = {};
+  const ObjByProgram = {};
+  result.forEach(function(c, i) {
+    if (ObjByProgram[c.partner_type]) {
+      ObjByProgram[c.partner_type].data.push(c);
+    } else {
+      ObjByProgram[c.partner_type] = {
+        programId: c.partner_type,
+        data: [c],
+      };
+    }
+  });
+  console.log(ObjByProgram, 'ObjbyProgram');
   action.payload.forEach(function(c) {
     if (groupedObj[c.program_id]) {
       groupedObj[c.program_id].data.push(c.value);
@@ -90,18 +117,20 @@ const getFinancialData = (state, action) => {
   // console.log(allPartnersLabel, 'allPartnersLabel');
   // console.log(allProgramData, 'allProgramData');
 
-  // const groupedObj = {};
-  // action.payload.forEach(function(c) {
-  //   if (groupedObj[c.partner_id]) {
-  //     groupedObj[c.partner_id].names.push(c);
-  //   } else {
-  //     groupedObj[c.partner_id] = {
-  //       partnerId: c.partner_id,
-  //       names: [c],
-  //     };
-  //   }
-  // });
-  // console.log(groupedObj, 'grouped');
+  const partnerIdObj = {};
+  action.payload.forEach(function(c) {
+    if (partnerIdObj[c.partner_type]) {
+      // if (partnerIdObj[c.partner_type].names.length < 1) {
+      partnerIdObj[c.partner_type].names.push(c);
+      // }
+    } else {
+      partnerIdObj[c.partner_type] = {
+        partnerId: c.partner_type,
+        names: [c],
+      };
+    }
+  });
+  console.log(partnerIdObj, 'grouped');
 
   // // eslint-disable-next-line no-restricted-syntax
   // const allProgramData = [];
@@ -118,10 +147,15 @@ const getFinancialData = (state, action) => {
   // console.log(allPartnersLabel, 'allPartnersLabel');
   // console.log(allProgramData, 'allProgramData');
   // );
+  // console.log(allProgramData, 'series');
   return {
     ...state,
     financialData: action.payload,
-    extractedFinancialData: groupedObj,
+    // extractedFinancialData: ObjByProgram,
+    filteredByProgramDefault: {
+      series: allProgramData,
+      label: removedDuplicateLabel,
+    },
     filteredByProgram: {
       series: allProgramData,
       label: removedDuplicateLabel,
@@ -136,8 +170,83 @@ const getFinancialProgram = (state, action) => {
   };
 };
 const filterFinancialDataForGraph = (state, action) => {
+  const { selectedPartners, selectedProgram } = action.payload;
+  console.log(selectedProgram, 'selectedProgram');
+  const data = state.financialData;
+  let filteredLabel = [];
+  let filteredSeries = [];
+  // const a= action.payload.
+  if (selectedPartners.length < 1 && selectedProgram.length < 1) {
+    filteredLabel = state.filteredByProgramDefault.label;
+    filteredSeries = state.filteredByProgramDefault.series;
+  } else if (
+    selectedPartners.length > 0 &&
+    selectedProgram.length < 1
+  ) {
+    const filteredData = data.filter(i =>
+      selectedPartners.includes(i.partner_id),
+    );
+
+    filteredData.map(filtData => {
+      // console.log(filtered)
+      if (!filteredLabel.includes(filtData.partner_id)) {
+        filteredLabel.push(filtData.partner_id);
+      }
+      filteredSeries.push({
+        name: filtData.program_id,
+        data: [filtData.value],
+      });
+      return true;
+    });
+  } else if (
+    selectedPartners.length < 1 &&
+    selectedProgram.length > 0
+  ) {
+    const filteredData = data.filter(i =>
+      selectedProgram.includes(i.program_id),
+    );
+    console.log(filteredData, 'filteredData');
+    filteredData.map(filtData => {
+      // console.log(filtered)
+      if (!filteredLabel.includes(filtData.partner_id)) {
+        filteredLabel.push(filtData.partner_id);
+      }
+      filteredSeries.push({
+        name: filtData.program_id,
+        data: [filtData.value],
+      });
+      return true;
+    });
+  } else if (
+    selectedPartners.length > 0 &&
+    selectedProgram.length > 0
+  ) {
+    const filteredData = data.filter(i =>
+      selectedPartners.includes(i.partner_id),
+    );
+    console.log(filteredData, 'filteredData');
+    const anotherFilter = filteredData.filter(j =>
+      selectedProgram.includes(j.program_id),
+    );
+    console.log(anotherFilter, 'anotherFilter');
+    anotherFilter.map(filtData => {
+      // console.log(filtered)
+      if (!filteredLabel.includes(filtData.partner_id)) {
+        filteredLabel.push(filtData.partner_id);
+      }
+      filteredSeries.push({
+        name: filtData.program_id,
+        data: [filtData.value],
+      });
+      return true;
+    });
+  }
   return {
     ...state,
+    filteredByProgram: {
+      series: filteredSeries,
+      label: filteredLabel,
+    },
     // financialProgram: action.payload,
   };
 };

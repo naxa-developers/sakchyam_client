@@ -118,10 +118,10 @@ class LeftSideBar extends Component {
                       return (
                         <a
                           onClick={() => {
-                            handleSelectedProgram(data.code);
+                            handleSelectedProgram(data.id);
                           }}
                           className={
-                            selectedProgram.includes(data.code)
+                            selectedProgram.includes(data.id)
                               ? 'active'
                               : ''
                           }

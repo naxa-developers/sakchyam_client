@@ -92,9 +92,19 @@
 }
 
 .literacy-tab-content {
+    #card-horizontal
+    {
+        width: 560px;
+        height: 600px;
+    }
+    #chart-donut{
+        height: 380px;
+        width: 560px;
+    }
     .card {
         margin-top: 2rem;
-
+        
+        
         .card-header {
             background-color: $white-color;
             border: none;

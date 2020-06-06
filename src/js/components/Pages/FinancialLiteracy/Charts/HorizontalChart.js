@@ -12,6 +12,7 @@ class HorizontalChart extends Component {
     this.state = {
       series: [],
       options: {},
+      height: 1400,
     };
   }
 
@@ -40,7 +41,7 @@ class HorizontalChart extends Component {
     const options = {
       chart: {
         type: 'bar',
-        height: 2000,
+        // height: 2000,
       },
       plotOptions: {
         bar: {
@@ -97,32 +98,51 @@ class HorizontalChart extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { filteredByProgram } = this.props.financialReducer;
     if (
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
-      this.setState(preState => ({
-        series: this.props.financialReducer.filteredByProgram.series,
-        options: {
-          ...preState.options,
-          xaxis: {
-            ...preState.options.xaxis,
-            categories: this.props.financialReducer.filteredByProgram
-              .label,
+      if (
+        filteredByProgram.series[0].data.length > 10 ||
+        filteredByProgram.series.length > 10
+      ) {
+        this.setState(preState => ({
+          height: 1800,
+          series: filteredByProgram.series,
+          options: {
+            ...preState.options,
+            xaxis: {
+              ...preState.options.xaxis,
+              categories: filteredByProgram.label,
+            },
           },
-        },
-      }));
+        }));
+      } else {
+        this.setState(preState => ({
+          height: 200,
+          series: filteredByProgram.series,
+          options: {
+            ...preState.options,
+            xaxis: {
+              ...preState.options.xaxis,
+              categories: filteredByProgram.label,
+            },
+          },
+        }));
+      }
     }
   }
 
   render() {
+    const { height } = this.state;
     return (
       <div id="horizontal-chart">
         <ReactApexChart
           options={this.state.options}
           series={this.state.series}
           type="bar"
-          height={2000}
+          height={height}
         />
       </div>
     );

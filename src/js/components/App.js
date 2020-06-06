@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   // Redirect,
@@ -40,6 +40,7 @@ class App extends Component {
           />
           <Route path="/login" component={Login} />
           <Route path="/" component={Landing} />
+          <Route component={Landing} />
         </Switch>
       </Router>
     );
