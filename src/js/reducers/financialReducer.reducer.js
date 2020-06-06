@@ -53,7 +53,6 @@ const getFinancialData = (state, action) => {
 
   const sankeyData = { nodes, links };
 
-  // console.log(action.payload);
   action.payload.sort(function(a, b) {
     const nameA = a.partner_id; // ignore upper and lowercase
     const nameB = b.partner_id; // ignore upper and lowercase
@@ -67,30 +66,16 @@ const getFinancialData = (state, action) => {
     // names must be equal
     return 0;
   });
-  console.log(action.payload, 'maindata');
   const label = action.payload.map(data => {
     return data.partner_id;
   });
   const removedDuplicateLabel = [...new Set(label)];
-  // console.log(removedDuplicateLabel);
-  // const groupedObjForLabel = {};
-  // action.payload.forEach(function(c) {
-  //   if (groupedObjForLabel[c.partner_id]) {
-  //     groupedObjForLabel[c.partner_id].names.push(c);
-  //   } else {
-  //     groupedObjForLabel[c.partner_id] = {
-  //       programId: c.partner_id,
-  //       names: [c],
-  //     };
-  //   }
-  // });
-  // console.log(groupedObjForLabel, 'groupedLabel');
 
   const result = [
     ...new Map(action.payload.map(x => [x.partner_id, x])).values(),
   ];
 
-  console.log(result);
+  // console.log(result);
   const a = [];
   result.map(data => {
     if (data.partner_type) {
@@ -98,7 +83,7 @@ const getFinancialData = (state, action) => {
     }
     return true;
   });
-  console.log(a, 'a');
+  // console.log(a, 'a');
   const groupedObj = {};
   const ObjByProgram = {};
   result.forEach(function(c, i) {
@@ -111,7 +96,7 @@ const getFinancialData = (state, action) => {
       };
     }
   });
-  console.log(ObjByProgram, 'ObjbyProgram');
+  // console.log(ObjByProgram, 'ObjbyProgram');
   action.payload.forEach(function(c) {
     if (groupedObj[c.program_id]) {
       groupedObj[c.program_id].data.push(c.value);
@@ -126,60 +111,27 @@ const getFinancialData = (state, action) => {
   // console.log(groupedObj, 'grouped');
   const allProgramData = [];
   for (const [key, value] of Object.entries(groupedObj)) {
-    // console.log(value, 'value');
-    // console.log(key, 'key');
-    // allPartnersLabel.push(key);
-    // value.names.map(data => {
     allProgramData.push(value);
-    // return true;
   }
-  // console.log(allProgramData, 'all Data');
-
-  // const allProgramData = [];
-  // const allPartnersLabel = [];
-  // for (const [key, value] of Object.entries(groupedObj)) {
-  //   // console.log(value, 'value');
-  //   // console.log(key, 'key');
-  //   // allPartnersLabel.push(key);
-  //   value.names.map(data => {
-  //     allProgramData.push(data.value);
-  //     return true;
-  //   });
-  // }
-  // console.log(allPartnersLabel, 'allPartnersLabel');
-  // console.log(allProgramData, 'allProgramData');
-
   const partnerIdObj = {};
+  let v = 0;
   action.payload.forEach(function(c) {
-    if (partnerIdObj[c.partner_type]) {
-      // if (partnerIdObj[c.partner_type].names.length < 1) {
-      partnerIdObj[c.partner_type].names.push(c);
+    v += 1;
+    if (partnerIdObj[c.partner_type.split(' ').join('_')]) {
+      // if (
+      //   partnerIdObj[c.partner_type.split(' ').join('_')].names
+      //     .length < 1
+      // ) {
+      partnerIdObj[c.partner_type.split(' ').join('_')].names.push(c);
       // }
     } else {
-      partnerIdObj[c.partner_type] = {
-        partnerId: c.partner_type,
+      partnerIdObj[c.partner_type.split(' ').join('_')] = {
+        partnerId: c.partner_type.split(' ').join('_'),
         names: [c],
       };
     }
   });
-  console.log(partnerIdObj, 'grouped');
 
-  // // eslint-disable-next-line no-restricted-syntax
-  // const allProgramData = [];
-  // const allPartnersLabel = [];
-  // for (const [key, value] of Object.entries(groupedObj)) {
-  //   // console.log(value, 'value');
-  //   // console.log(key, 'key');
-  //   allPartnersLabel.push(key);
-  //   value.names.map(data => {
-  //     allProgramData.push(data.value);
-  //     return true;
-  //   });
-  // }
-  // console.log(allPartnersLabel, 'allPartnersLabel');
-  // console.log(allProgramData, 'allProgramData');
-  // );
-  // console.log(allProgramData, 'series');
   return {
     ...state,
     sankeyData,
