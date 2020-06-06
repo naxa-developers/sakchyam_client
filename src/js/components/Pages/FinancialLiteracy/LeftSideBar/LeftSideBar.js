@@ -42,12 +42,16 @@ class LeftSideBar extends Component {
                     onClick={() => {
                       handlePartnerType('Microfinance');
                     }}
+                    onKeyDown={() => {
+                      handlePartnerType('Microfinance');
+                    }}
                     className={
                       partnerType.includes('Microfinance')
                         ? 'active'
                         : ''
                     }
-                    href="#"
+                    role="tab"
+                    tabIndex="0"
                   >
                     <span>Microfinance</span>
                   </a>
@@ -55,12 +59,16 @@ class LeftSideBar extends Component {
                     onClick={() => {
                       handlePartnerType('Commercial');
                     }}
+                    onKeyDown={() => {
+                      handlePartnerType('Commercial');
+                    }}
                     className={
                       partnerType.includes('Commercial')
                         ? 'active'
                         : ''
                     }
-                    href="#"
+                    tabIndex="0"
+                    role="tab"
                   >
                     <span>Commercial Bank</span>
                   </a>
@@ -88,7 +96,7 @@ class LeftSideBar extends Component {
                       partnersList.map(data => {
                         return (
                           <li key={data.id}>
-                            <a href="#">
+                            <a>
                               <div className="custom-checkbox">
                                 <input
                                   id={data.partner_id}
@@ -120,12 +128,16 @@ class LeftSideBar extends Component {
                           onClick={() => {
                             handleSelectedProgram(data.id);
                           }}
+                          onKeyDown={() => {
+                            handleSelectedProgram(data.id);
+                          }}
                           className={
                             selectedProgram.includes(data.id)
                               ? 'active'
                               : ''
                           }
-                          href="#"
+                          tabIndex="0"
+                          role="tab"
                         >
                           <small className="icon is-red" />
                           <span>{data.name}</span>

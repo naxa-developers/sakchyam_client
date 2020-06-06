@@ -227,8 +227,13 @@ class FinancialLiteracy extends Component {
                     }
                   >
                     <a
-                      href="#visualisation"
+                      // href="#visualisation"
+                      role="tab"
+                      tabIndex="0"
                       onClick={() => {
+                        this.handleVisualizationType('Visualisation');
+                      }}
+                      onKeyDown={() => {
                         this.handleVisualizationType('Visualisation');
                       }}
                     >
@@ -241,8 +246,12 @@ class FinancialLiteracy extends Component {
                     }
                   >
                     <a
-                      href="#data"
+                      role="tab"
+                      tabIndex="0"
                       onClick={() => {
+                        this.handleVisualizationType('Data');
+                      }}
+                      onKeyDown={() => {
                         this.handleVisualizationType('Data');
                       }}
                     >
