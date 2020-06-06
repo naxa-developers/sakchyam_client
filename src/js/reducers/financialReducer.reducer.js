@@ -12,6 +12,7 @@ const initialState = {
   financialProgram: [],
   filteredByProgram: [],
   filteredByProgramDefault: [],
+  sankeyData: {},
 };
 
 const getPartnersList = (state, action) => {
@@ -21,6 +22,37 @@ const getPartnersList = (state, action) => {
   };
 };
 const getFinancialData = (state, action) => {
+  const financialData = action.payload;
+
+  const nodes = [];
+  const links = [];
+  financialData.map(item => {
+    const obj1 = nodes.find(obj => obj.id === item.program_id);
+    const obj2 = nodes.find(obj => obj.id === item.partner_id);
+    if (!obj1) {
+      nodes.push({
+        id: item.program_id,
+        color: 'hsl(41, 70%, 50%)',
+      });
+    }
+    if (!obj2) {
+      nodes.push({
+        id: item.partner_id,
+        color: 'hsl(40, 74%, 55%)',
+      });
+    }
+    if (item.program_id !== item.partner_id && item.value !== 0) {
+      links.push({
+        source: item.partner_id,
+        target: item.program_id,
+        value: item.value,
+      });
+    }
+    return true;
+  });
+
+  const sankeyData = { nodes, links };
+
   // console.log(action.payload);
   action.payload.sort(function(a, b) {
     const nameA = a.partner_id; // ignore upper and lowercase
@@ -150,6 +182,7 @@ const getFinancialData = (state, action) => {
   // console.log(allProgramData, 'series');
   return {
     ...state,
+    sankeyData,
     financialData: action.payload,
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
