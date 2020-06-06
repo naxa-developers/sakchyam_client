@@ -12,6 +12,7 @@ import {
   filterFinancialDataForGraph,
 } from '../../../actions/financial.actions';
 import HorizontalChart from './Charts/HorizontalChart';
+import SankeyDiagram from './Charts/SankeyDiagram';
 
 class FinancialLiteracy extends Component {
   constructor(props) {
@@ -289,7 +290,9 @@ class FinancialLiteracy extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            <SankeyDiagram />
+                          </div>
                         </div>
                       </div>
                     </div>
