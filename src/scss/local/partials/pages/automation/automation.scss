@@ -52,200 +52,7 @@
             .main-card{
                 @include transition(all .5s ease-in-out);
                 &.table-card{
-                    padding:0 1rem;
                     display: none;
-                    .table-card-header{
-                        .top-header{
-                            @include display-flex(flex);
-                            @include justify-content-between;
-                            @include align-items-start;
-                            padding:1rem 0;
-                            h5{
-                                color:$red-color;
-                                font-family: $body-fonts;
-                            }
-                            a{
-                                color:$primary-light;
-                                font-family:$avenir-heavy;
-                                font-size: .8125rem;
-                            }
-                        }
-                        .filter-content{
-                            margin-bottom:1rem;
-                            .filter-row{
-                                @include display-flex(flex);
-                                @include justify-content-between;
-                                @include align-items-center;
-                                @include flex-wrap(wrap);
-                                .buttons{
-                                    margin:0;
-                                    button{
-                                        padding:0;
-                                        &.is-bg{
-                                            padding:.5rem 1rem;
-                                        }
-                                        &.is-clear{
-                                            padding:0;
-                                        }
-                                        &:last-child{
-                                            color:$orange-color;
-                                            font-family: $avenir-heavy;
-                                        }
-                                        &:not(:last-child){
-                                            padding-left:1rem;
-                                        }
-                                    }
-                                }
-                            }
-                            .filter-list{
-                                @include display-flex(flex);
-                                @include justify-content-start;
-                                @include align-items-center;
-                                @include flex-wrap(wrap);
-                                .select-dropdown{
-                                    .span-label{
-                                        @include radius(20px);
-                                        // width:100%;
-                                        text-overflow: ellipsis;
-                                        white-space: nowrap;
-                                        overflow: hidden;
-                                        width: 195px;
-                                        min-width: 160px;
-                                        font-family: $avenir-heavy;
-                                    }
-                                }
-                                .form-group{
-                                    margin-bottom: 0;
-                                    label{
-                                        font-size: .775rem;
-                                    }
-                                    &:not(:last-child){
-                                        margin-right: .6125rem;
-                                    }
-                                    select{
-                                        font-size: .775rem;
-                                    }
-                                }
-                                
-                            }
-                            .view-list{
-                                @include display-flex(flex);
-                                @include justify-content-start;
-                                @include align-items-center;
-                                width:100%;
-                                margin-bottom: 1rem;
-                                @include flex-wrap(wrap);
-                                span{
-                                    text-transform: capitalize;
-                                    margin-right: 1rem;
-                                    font-size: .875rem;
-
-                                }
-                                .tab-list{
-                                    flex-grow: 1;
-                                    @include display-flex(flex);
-                                    @include justify-content-start;
-                                    @include align-items-center;
-                                    li{
-                                        a{
-                                            padding:.6125rem 1rem;
-                                            background-color: transparent;
-                                            @include radius(30px);
-                                            color:$primary-light;
-                                            text-transform: capitalize;
-                                            font-size: .875rem;
-                                            font-family: $avenir-heavy;
-                                        }
-                                        &.active,&:hover{
-                                            a{
-                                                background-color: $yellow-light;
-                                                color:$red-color;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            
-                        }
-                    }
-                    .table-card-body{
-                        .automation-table{
-                            background-color:$white-color;
-                            table{
-                                td,th{
-                                    padding:.6125rem;
-                                    font-size: .875rem;
-                                }
-                                thead{
-                                    background-color: $red-light;
-                                    .table-head{
-                                        @include display-flex(flex);
-                                        @include justify-content-start;
-                                        @include align-items-center;
-                                        font-size: .875rem;
-                                        font-family: $body-fonts;
-                                        font-weight: normal;
-                                        i{
-                                            margin-right: .6125rem;
-                                            font-size: 1rem;
-                                        }
-                                        @media #{$breakpoint-ls}{
-                                            min-width: 180px;
-                                        }
-                                    }
-                                }
-                                tbody{
-                                    td{
-                                        .organization{
-                                            @include display-flex(flex);
-                                            @include justify-content-start;
-                                            @include align-items-start;
-                                            @include transition(all .5s ease-in-out);
-                                            .organization-icon{
-                                                
-                                                span{
-                                                    width:28px;
-                                                    height: 28px;
-                                                    font-size: .6125rem;
-                                                    @include display-flex(flex);
-                                                    @include justify-content-center;
-                                                    @include align-items-center;
-                                                    @include flex-direction-column(center);
-                                                    @include radius(100%);
-                                                    color:$white-color;
-                                                    text-transform: uppercase;
-                                                    font-weight: 900;
-                                                    margin-right: .6125rem;
-                                                    
-                                                }
-    
-                                                &.is-green{
-                                                    span{
-                                                        background-color: $dark-green;
-                                                    }
-                                                }
-                                                &.is-red{
-                                                    span{
-                                                        background-color: $red-color;
-                                                    }
-                                                }
-                                                &.is-yellow{
-                                                    span{
-                                                        background-color: $secondary-color;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        b{
-                                            &.deployed{
-                                                color:$red-color;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
             @media #{$breakpoint-ls}{
@@ -429,7 +236,356 @@
                     }
                 }
             }
-            
+            .table-card{
+                padding:0 1rem;
+                @media #{$breakpoint-ls} {
+                    padding: 0;
+                    margin-top:1rem;
+                }
+                .table-card-header{
+                    .top-header{
+                        @include display-flex(flex);
+                        @include justify-content-between;
+                        @include align-items-start;
+                        padding:1rem 0;
+                        h5{
+                            color:$red-color;
+                            font-family: $body-fonts;
+                        }
+                        a{
+                            color:$primary-light;
+                            font-family:$avenir-heavy;
+                            font-size: .8125rem;
+                        }
+                    }
+                    .filter-content{
+                        margin-bottom:1rem;
+                        strong{
+                            text-transform: capitalize;
+                            margin-right: .6125rem;
+                        }
+                        .export-button{
+                            width:40px;
+                            height: 40px;
+                            @include display-flex(flex);
+                            @include justify-content-center;
+                            @include align-items-center;
+                            @include flex-direction-column(column);
+                            background-color: $white-color;
+                            border:1px solid $border-color;
+                            margin-left: 1rem;
+                            cursor: pointer;
+                        }
+                        .span-label.span-dropdown{
+                            background-color: $white-color;
+                        }
+                        .filter-row{
+                            @include display-flex(flex);
+                            @include justify-content-between;
+                            @include align-items-center;
+                            @include flex-wrap(wrap);
+                            .buttons{
+                                margin:0;
+                                button{
+                                    padding:0;
+                                    &.is-bg{
+                                        padding:.5rem 1rem;
+                                    }
+                                    &.is-clear{
+                                        padding:0;
+                                    }
+                                    &:last-child{
+                                        color:$orange-color;
+                                        font-family: $avenir-heavy;
+                                    }
+                                    &:not(:last-child){
+                                        padding-left:1rem;
+                                    }
+                                }
+                            }
+                        }
+                        .filter-list{
+                            @include display-flex(flex);
+                            @include justify-content-start;
+                            @include align-items-center;
+                            @include flex-wrap(wrap);
+                            .select-dropdown{
+                                .span-label{
+                                    @include radius(20px);
+                                    // width:100%;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    width: 195px;
+                                    min-width: 160px;
+                                    font-family: $avenir-heavy;
+                                }
+                            }
+                            .form-group{
+                                margin-bottom: 0;
+                                label{
+                                    font-size: .775rem;
+                                }
+                                &:not(:last-child){
+                                    margin-right: .6125rem;
+                                }
+                                select{
+                                    font-size: .775rem;
+                                }
+                            }
+                            
+                        }
+                        .view-list{
+                            @include display-flex(flex);
+                            @include justify-content-start;
+                            @include align-items-center;
+                            width:100%;
+                            margin-bottom: 1rem;
+                            @include flex-wrap(wrap);
+                            span{
+                                text-transform: capitalize;
+                                margin-right: 1rem;
+                                font-size: .875rem;
+    
+                            }
+                            .tab-list{
+                                flex-grow: 1;
+                                @include display-flex(flex);
+                                @include justify-content-start;
+                                @include align-items-center;
+                                li{
+                                    a{
+                                        padding:.6125rem 1rem;
+                                        background-color: transparent;
+                                        @include radius(30px);
+                                        color:$primary-light;
+                                        text-transform: capitalize;
+                                        font-size: .875rem;
+                                        font-family: $avenir-heavy;
+                                    }
+                                    &.active,&:hover{
+                                        a{
+                                            background-color: $yellow-light;
+                                            color:$red-color;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                .table-card-body{
+                    .automation-table{
+                        background-color:$white-color;
+                        table{
+                            td,th{
+                                padding:.6125rem;
+                                font-size: .875rem;
+                            }
+                            thead{
+                                background-color: $red-light;
+                                .table-head{
+                                    @include display-flex(flex);
+                                    @include justify-content-start;
+                                    @include align-items-center;
+                                    font-size: .875rem;
+                                    font-family: $body-fonts;
+                                    font-weight: normal;
+                                    i{
+                                        margin-right: .6125rem;
+                                        font-size: 1rem;
+                                    }
+                                    @media #{$breakpoint-ls}{
+                                        min-width: 180px;
+                                    }
+                                }
+                            }
+                            tbody{
+                                tr{
+                                    &.form-header{
+                                        h5{
+                                            @include display-flex(flex);
+                                            @include justify-content-start;
+                                            @include align-items-center;
+                                            font-family: $avenir-heavy;
+                                            font-size: .775rem;
+                                            text-transform: uppercase;
+                                            
+                                            span{
+                                                padding-left: .5rem;
+                                            }
+                                        }
+                                        &.active{
+                                            
+                                            h5{
+                                                color:$color-blue;
+                                                i{
+                                                    @include transform(rotate(180deg));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                td{
+                                    .organization{
+                                        @include display-flex(flex);
+                                        @include justify-content-start;
+                                        @include align-items-start;
+                                        @include transition(all .5s ease-in-out);
+                                        .organization-icon{
+                                            
+                                            span{
+                                                width:28px;
+                                                height: 28px;
+                                                font-size: .6125rem;
+                                                @include display-flex(flex);
+                                                @include justify-content-center;
+                                                @include align-items-center;
+                                                @include flex-direction-column(center);
+                                                @include radius(100%);
+                                                color:$white-color;
+                                                text-transform: uppercase;
+                                                font-weight: 900;
+                                                margin-right: .6125rem;
+                                                
+                                            }
+    
+                                            &.is-green{
+                                                span{
+                                                    background-color: $dark-green;
+                                                }
+                                            }
+                                            &.is-red{
+                                                span{
+                                                    background-color: $red-color;
+                                                }
+                                            }
+                                            &.is-yellow{
+                                                span{
+                                                    background-color: $secondary-color;
+                                                }
+                                            }
+                                            &.is-color1{
+                                                span{
+                                                    background-color: #e69109;
+                                                }
+                                            }
+                                           
+                                            &.is-color2{
+                                                span{
+                                                    background-color: #63a4ff;
+                                                }
+                                            }
+                                            &.is-color3{
+                                                span{
+                                                    background-color: #8629ff;
+                                                }
+                                            }
+                                            &.is-color4{
+                                                span{
+                                                    background-color: #e553ed;
+                                                }
+                                            }
+                                            &.is-color5{
+                                                span{
+                                                    background-color: #f2575f;
+                                                }
+                                            }
+                                            &.is-color6{
+                                                span{
+                                                    background-color: #915e0d;
+                                                }
+                                            }
+                                            &.is-color7{
+                                                span{
+                                                    background-color: #a1970d;
+                                                }
+                                            }
+                                            &.is-color8{
+                                                span{
+                                                    background-color: #4f7d14;
+                                                }
+                                            }
+                                            &.is-color9{
+                                                span{
+                                                    background-color: #07aba1;
+                                                }
+                                            }
+                                            &.is-color10{
+                                                span{
+                                                    background-color: #1d4c8f;
+                                                }
+                                            }
+                                            &.is-color11{
+                                                span{
+                                                    background-color: #491991;
+                                                }
+                                            }
+                                            &.is-color12{
+                                                span{
+                                                    background-color: #610766;
+                                                }
+                                            }
+                                            &.is-color13{
+                                                span{
+                                                    background-color: #6e0208;
+                                                }
+                                            }
+                                            &.is-color14{
+                                                span{
+                                                    background-color: #f07818;
+                                                }
+                                            }
+                                            &.is-color15{
+                                                span{
+                                                    background-color: #7F95D1;
+                                                }
+                                            }
+                                            &.is-color16{
+                                                span{
+                                                    background-color: #FF82A9;
+                                                }
+                                            }
+                                            &.is-color17{
+                                                span{
+                                                    background-color: #FFC0BE;
+                                                }
+                                            }
+                                            &.is-color18{
+                                                span{
+                                                    background-color: #f0e111;
+                                                }
+                                            }
+                                            &.is-color19{
+                                                span{
+                                                    background-color: #9ff035;
+                                                }
+                                            }
+                                            &.is-color20{
+                                                span{
+                                                    background-color: #34ede1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    b{
+                                        &.deployed{
+                                            color:$red-color;
+                                        }
+                                    }
+                                    span{
+                                        &.total-count{
+                                            color:$red-color;
+                                            font-family: $avenir-heavy;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+              }
             
         }
         
@@ -872,6 +1028,107 @@
                     &.is-yellow{
                         span{
                             background-color: $secondary-color;
+                        }
+                    }
+                    &.is-color1{
+                        span{
+                            background-color: #e69109;
+                        }
+                    }
+                   
+                    &.is-color2{
+                        span{
+                            background-color: #63a4ff;
+                        }
+                    }
+                    &.is-color3{
+                        span{
+                            background-color: #8629ff;
+                        }
+                    }
+                    &.is-color4{
+                        span{
+                            background-color: #e553ed;
+                        }
+                    }
+                    &.is-color5{
+                        span{
+                            background-color: #f2575f;
+                        }
+                    }
+                    &.is-color6{
+                        span{
+                            background-color: #915e0d;
+                        }
+                    }
+                    &.is-color7{
+                        span{
+                            background-color: #a1970d;
+                        }
+                    }
+                    &.is-color8{
+                        span{
+                            background-color: #4f7d14;
+                        }
+                    }
+                    &.is-color9{
+                        span{
+                            background-color: #07aba1;
+                        }
+                    }
+                    &.is-color10{
+                        span{
+                            background-color: #1d4c8f;
+                        }
+                    }
+                    &.is-color11{
+                        span{
+                            background-color: #491991;
+                        }
+                    }
+                    &.is-color12{
+                        span{
+                            background-color: #610766;
+                        }
+                    }
+                    &.is-color13{
+                        span{
+                            background-color: #6e0208;
+                        }
+                    }
+                    &.is-color14{
+                        span{
+                            background-color: #f07818;
+                        }
+                    }
+                    &.is-color15{
+                        span{
+                            background-color: #7F95D1;
+                        }
+                    }
+                    &.is-color16{
+                        span{
+                            background-color: #FF82A9;
+                        }
+                    }
+                    &.is-color17{
+                        span{
+                            background-color: #FFC0BE;
+                        }
+                    }
+                    &.is-color18{
+                        span{
+                            background-color: #f0e111;
+                        }
+                    }
+                    &.is-color19{
+                        span{
+                            background-color: #9ff035;
+                        }
+                    }
+                    &.is-color20{
+                        span{
+                            background-color: #34ede1;
                         }
                     }
                 }

@@ -1,0 +1,193 @@
+@import "literacy-sidebar";
+@import "timeline";
+
+.automation-wrapper {
+    aside {
+        &.sidebar {
+            &.literacy-sidebar {
+                width: 320px;
+
+                @media #{$breakpoint-xxl} {
+                    width: 350px;
+                }
+
+
+                @media #{$breakpoint-ls} {
+                    @include flex(0 0 100%);
+                    width: 100%;
+                }
+            }
+
+            &.literacy-right-sidebar {
+                @media #{$breakpoint-xxl} {
+                    width: 350px;
+                }
+
+                @media #{$breakpoint-ls} {
+                    @include flex(0 0 100%);
+                    width: 100%;
+                }
+
+            }
+        }
+
+    }
+
+    main {
+        &.main {
+            position: relative;
+            flex-grow: 1;
+            height: initial;
+        }
+
+        .literacy-main-card {
+            padding: 1rem;
+
+            @media #{$breakpoint-ls} {
+                padding: 0;
+            }
+        }
+    }
+
+
+}
+
+.literacy-tab {
+    ul {
+        @include display-flex(flex);
+        @include justify-content-start;
+        @include align-items-center;
+        background-color: $yellow-light;
+        border: 1px solid $border-color;
+        @include radius(24px);
+        max-width: 200px;
+        padding: 5px;
+
+        li {
+            padding: 5px 15px;
+            @include radius(24px);
+            @include transition(all .4s ease-in-out);
+
+            a {
+                color: $primary-light;
+                display: block;
+                font-family: $avenir-heavy;
+                text-transform: capitalize;
+
+                @media #{$breakpoint-xxl} {
+                    font-size: .875rem;
+                }
+            }
+
+            &.active,
+            &:hover {
+                background-color: $orange-color;
+
+                a {
+                    color: $white-color;
+                }
+            }
+        }
+    }
+}
+
+.literacy-tab-content {
+    #card-horizontal
+    {
+        width: 560px;
+        height: 600px;
+    }
+    #chart-donut{
+        height: 380px;
+        width: 560px;
+    }
+    .card {
+        margin-top: 2rem;
+        
+        
+        .card-header {
+            background-color: $white-color;
+            border: none;
+            @include display-flex(flex);
+            @include justify-content-between;
+            @include align-items-center;
+
+            h5 {
+                @include line-clamp(1);
+                max-width: 320px;
+                font-family: $body-fonts;
+                color: $red-color;
+                font-size: 1.25rem;
+
+                @media #{$breakpoint-xxl} {
+                    font-size: .875rem;
+                }
+            }
+
+            .header-icons {
+                @include display-flex(flex);
+                @include justify-content-end;
+                @include align-items-center;
+
+                span {
+                    cursor: pointer;
+
+                    &:not(:first-child) {
+                        margin-left: .6125rem;
+                    }
+
+                    img {
+                        max-width: 18px;
+                    }
+                }
+            }
+        }
+    }
+    .graph-view{
+        overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+            max-height: calc(100vh - 176px);
+            padding:0 15px;
+
+            &::-webkit-scrollbar {
+                width: 4px;
+                background: $border-color;
+                @include radius(4px);
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: $border-color;
+                @include radius(4px);
+            }
+
+            &::-webkit-scrollbar-thumb {
+                @include radius(4px);
+                background: $border-color;
+            }
+    }
+    .table-card {
+        .table-card-body {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+            max-height: calc(100vh - 232px);
+
+            &::-webkit-scrollbar {
+                width: 4px;
+                background: $border-color;
+                @include radius(4px);
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: $border-color;
+                @include radius(4px);
+            }
+
+            &::-webkit-scrollbar-thumb {
+                @include radius(4px);
+                background: $border-color;
+            }
+        }
+    }
+}
