@@ -631,9 +631,12 @@ class MapComponent extends Component {
             >
               <a
                 className="leaflet-control-map-layer"
-                href="#"
+                // href="#"
+                role="tab"
+                tabIndex="0"
                 title="map layer"
                 onClick={this.toggleMapChange}
+                onKeyDown={this.toggleMapChange}
               >
                 <img src={mapIcon} alt="map" />
               </a>

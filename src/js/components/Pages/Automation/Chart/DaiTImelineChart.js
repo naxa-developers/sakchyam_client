@@ -253,9 +253,18 @@ class TimelineChart extends Component {
             this.props.playBtn(minCurrent, maxCurrent);
             // this.setState({ key: Math.random() });
           }}
+          onKeyDown={() => {
+            time = '1/1/2015';
+            // console.log(this.props.maxValue, 'onClick maxValue');
+            // global.chart.render();
+            // console.log(this.props.minValue, 'onClick minValue');
+            this.props.playBtn(minCurrent, maxCurrent);
+            // this.setState({ key: Math.random() });
+          }}
           key={this.props.key}
           className="play-btn"
-          href="#"
+          role="tab"
+          tabIndex="0"
           title="Play"
           style={
             playSelected ? { display: 'none' } : { display: 'block' }
@@ -264,9 +273,11 @@ class TimelineChart extends Component {
           <img src={playIcon} alt="map" />
         </a>
         <a
+          role="tab"
+          tabIndex="0"
           onClick={this.pauseBtn}
+          onKeyDown={this.pauseBtn}
           className="pause-btn"
-          href="#"
           title="Pause"
           style={
             !playSelected ? { display: 'none' } : { display: 'block' }

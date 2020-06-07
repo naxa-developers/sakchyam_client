@@ -12,6 +12,7 @@ const initialState = {
   financialProgram: [],
   filteredByProgram: [],
   filteredByProgramDefault: [],
+  filteredByPartnerType: {},
   sankeyData: {},
 };
 
@@ -27,6 +28,8 @@ const getFinancialData = (state, action) => {
   const nodes = [];
   const links = [];
   financialData.map(item => {
+    // console.log(obj.id);
+    // console.log(item.partner_id);
     const obj1 = nodes.find(obj => obj.id === item.program_id);
     const obj2 = nodes.find(obj => obj.id === item.partner_id);
     if (!obj1) {
@@ -53,6 +56,7 @@ const getFinancialData = (state, action) => {
 
   const sankeyData = { nodes, links };
 
+  // console.log(action.payload);
   action.payload.sort(function(a, b) {
     const nameA = a.partner_id; // ignore upper and lowercase
     const nameB = b.partner_id; // ignore upper and lowercase
@@ -66,10 +70,24 @@ const getFinancialData = (state, action) => {
     // names must be equal
     return 0;
   });
+  // console.log(action.payload, 'maindata');
   const label = action.payload.map(data => {
     return data.partner_id;
   });
   const removedDuplicateLabel = [...new Set(label)];
+  // console.log(removedDuplicateLabel);
+  // const groupedObjForLabel = {};
+  // action.payload.forEach(function(c) {
+  //   if (groupedObjForLabel[c.partner_id]) {
+  //     groupedObjForLabel[c.partner_id].names.push(c);
+  //   } else {
+  //     groupedObjForLabel[c.partner_id] = {
+  //       programId: c.partner_id,
+  //       names: [c],
+  //     };
+  //   }
+  // });
+  // console.log(groupedObjForLabel, 'groupedLabel');
 
   const result = [
     ...new Map(action.payload.map(x => [x.partner_id, x])).values(),
@@ -86,7 +104,7 @@ const getFinancialData = (state, action) => {
   // console.log(a, 'a');
   const groupedObj = {};
   const ObjByProgram = {};
-  result.forEach(function(c, i) {
+  a.forEach(function(c, i) {
     if (ObjByProgram[c.partner_type]) {
       ObjByProgram[c.partner_type].data.push(c);
     } else {
@@ -111,27 +129,81 @@ const getFinancialData = (state, action) => {
   // console.log(groupedObj, 'grouped');
   const allProgramData = [];
   for (const [key, value] of Object.entries(groupedObj)) {
+    // console.log(value, 'value');
+    // console.log(key, 'key');
+    // allPartnersLabel.push(key);
+    // value.names.map(data => {
     allProgramData.push(value);
+    // return true;
   }
-  const partnerIdObj = {};
-  let v = 0;
-  action.payload.forEach(function(c) {
-    v += 1;
-    if (partnerIdObj[c.partner_type.split(' ').join('_')]) {
-      // if (
-      //   partnerIdObj[c.partner_type.split(' ').join('_')].names
-      //     .length < 1
-      // ) {
-      partnerIdObj[c.partner_type.split(' ').join('_')].names.push(c);
-      // }
-    } else {
-      partnerIdObj[c.partner_type.split(' ').join('_')] = {
-        partnerId: c.partner_type.split(' ').join('_'),
-        names: [c],
-      };
+  // console.log(allProgramData, 'all Data');
+
+  // const allProgramData = [];
+  // const allPartnersLabel = [];
+  // for (const [key, value] of Object.entries(groupedObj)) {
+  //   // console.log(value, 'value');
+  //   // console.log(key, 'key');
+  //   // allPartnersLabel.push(key);
+  //   value.names.map(data => {
+  //     allProgramData.push(data.value);
+  //     return true;
+  //   });
+  // }
+  // console.log(allPartnersLabel, 'allPartnersLabel');
+  // console.log(allProgramData, 'allProgramData');
+
+  const commercial = [];
+  const microfinancial = [];
+  a.forEach(function(c) {
+    if (c.partner_type === 'Microfinance Institutions') {
+      microfinancial.push(c);
+    } else if (
+      c.partner_type === 'Commercial Bank and Other Partners'
+    ) {
+      commercial.push(c);
     }
   });
+  console.log(commercial, 'commercial');
+  console.log(microfinancial, 'microfinancial');
 
+  const totalCommercialBenef = commercial.reduce(function(x, b) {
+    return x + b.single_count;
+  }, 0);
+  const totalMicroBenef = microfinancial.reduce(function(x, b) {
+    return x + b.single_count;
+  }, 0);
+  console.log(totalCommercialBenef, 'totalComm');
+  console.log(totalMicroBenef, 'totalMicroBenef');
+  // action.payload.forEach(function(c) {
+  //   if (partnerIdObj[c.partner_type]) {
+  //     // if (partnerIdObj[c.partner_type].names.length < 1) {
+  //     partnerIdObj[c.partner_type].names.push(c);
+  //     // }
+  //   } else {
+  //     partnerIdObj[c.partner_type] = {
+  //       partnerId: c.partner_type,
+  //       names: [c],
+  //     };
+  //   }
+  // });
+  // console.log(partnerIdObj, 'grouped');
+
+  // // eslint-disable-next-line no-restricted-syntax
+  // const allProgramData = [];
+  // const allPartnersLabel = [];
+  // for (const [key, value] of Object.entries(groupedObj)) {
+  //   // console.log(value, 'value');
+  //   // console.log(key, 'key');
+  //   allPartnersLabel.push(key);
+  //   value.names.map(data => {
+  //     allProgramData.push(data.value);
+  //     return true;
+  //   });
+  // }
+  // console.log(allPartnersLabel, 'allPartnersLabel');
+  // console.log(allProgramData, 'allProgramData');
+  // );
+  // console.log(allProgramData, 'series');
   return {
     ...state,
     sankeyData,
@@ -144,6 +216,13 @@ const getFinancialData = (state, action) => {
     filteredByProgram: {
       series: allProgramData,
       label: removedDuplicateLabel,
+    },
+    filteredByPartnerType: {
+      series: [totalCommercialBenef, totalMicroBenef],
+      label: [
+        'Commercial Bank and Other Partners',
+        'Microfinance Institutions',
+      ],
     },
   };
 };

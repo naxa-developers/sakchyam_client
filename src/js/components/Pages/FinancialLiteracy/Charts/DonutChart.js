@@ -1,11 +1,14 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
+let total = '';
 class DonutChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      series: [],
+      //   series: [],
       options: {},
       height: 1400,
     };
@@ -18,6 +21,7 @@ class DonutChart extends Component {
         width: 150,
         type: 'donut',
       },
+      //   labels: ['a', 'b'],
       plotOptions: {
         pie: {
           donut: {
@@ -51,13 +55,13 @@ class DonutChart extends Component {
                   //     return a + b;
                   //   }, 0);
                   // }
-                  //   if (typeof w === 'number') {
-                  //     // if (!total) {
-                  //     total = w;
-                  //     // }
-                  //     return w;
-                  //   }
-                  //   return total;
+                  if (typeof w === 'number') {
+                    // if (!total) {
+                    total = w;
+                    // }
+                    return w;
+                  }
+                  return total;
                   // return null;
                 },
                 value: {
@@ -85,10 +89,10 @@ class DonutChart extends Component {
       tooltip: {
         // enabled: false,
         fillSeriesColor: false,
-        fontColor: '#fff',
+        fontColor: 'white',
         style: {
           fontSize: '12px',
-          fontColor: '#fff',
+          fontColor: 'white',
         },
         followCursor: false,
         fixed: {
@@ -153,24 +157,54 @@ class DonutChart extends Component {
         ],
       },
     };
-    this.setState({ series, options });
+    this.setState({ options });
   };
 
   componentDidMount() {
     this.plotChart();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      label,
+    } = this.props.financialReducer.filteredByPartnerType;
+    if (
+      prevProps.financialReducer.filteredByPartnerType !==
+      this.props.financialReducer.filteredByPartnerType
+    ) {
+      console.log(label, 'label');
+      this.setState(preState => ({
+        options: {
+          ...preState.options,
+          labels: label,
+        },
+      }));
+    }
+  }
+
   render() {
-    const { series, options, height } = this.state;
+    const {
+      series,
+      label,
+    } = this.props.financialReducer.filteredByPartnerType;
+    // console.log(series, 'series');
+    const { options, height } = this.state;
     return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="donut"
-        height="250"
-      />
+      <div>
+        {series && series && (
+          <ReactApexChart
+            options={options}
+            series={series && series}
+            type="donut"
+            height="250"
+          />
+        )}
+      </div>
     );
   }
 }
 
-export default DonutChart;
+const mapStateToProps = ({ financialReducer }) => ({
+  financialReducer,
+});
+export default connect(mapStateToProps, {})(DonutChart);

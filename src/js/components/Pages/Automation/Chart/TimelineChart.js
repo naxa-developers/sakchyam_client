@@ -238,9 +238,27 @@ class TimelineChart extends Component {
 
             // this.setState({ key: Math.random() });
           }}
+          onKeyDown={() => {
+            time = '1/1/2015';
+            // console.log(new Date(minCurrent), 'onClick maxValue');
+            // console.log(new Date(this.props.minValue), ' Current min Value');
+            // global.chart.render();
+            // console.log(this.props.minValue, 'onClick minValue');
+            this.props.playBtn(minCurrent, maxCurrent);
+            this.setState({ playSelected: true });
+            setTimeout(() => {
+              this.updateChart(
+                this.props.minValue,
+                this.props.maxValue,
+              );
+            }, 200);
+
+            // this.setState({ key: Math.random() });
+          }}
+          role="tab"
+          tabIndex="0"
           // key={this.props.key}
           className="play-btn"
-          href="#"
           title="Play"
           style={
             playSelected ? { display: 'none' } : { display: 'block' }
@@ -250,8 +268,10 @@ class TimelineChart extends Component {
         </a>
         <a
           onClick={this.pauseBtn}
+          onKeyDown={this.pauseBtn}
+          role="tab"
+          tabIndex="0"
           className="pause-btn"
-          href="#"
           title="Pause"
           style={
             !playSelected ? { display: 'none' } : { display: 'block' }

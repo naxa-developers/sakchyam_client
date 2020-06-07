@@ -1970,7 +1970,7 @@ class MainAutomation extends Component {
                           this.handleStateLevel('province');
                         }}
                       >
-                        <a href="#">Province</a>
+                        <a>Province</a>
                       </li>
                       <li
                         role="tab"
@@ -1984,7 +1984,7 @@ class MainAutomation extends Component {
                           this.handleStateLevel('district');
                         }}
                       >
-                        <a href="#">District</a>
+                        <a>District</a>
                       </li>
                       <li
                         role="tab"
@@ -2000,7 +2000,7 @@ class MainAutomation extends Component {
                           this.handleStateLevel('municipality');
                         }}
                       >
-                        <a href="#">Municipality</a>
+                        <a>Municipality</a>
                       </li>
                     </ul>
                   </div>
