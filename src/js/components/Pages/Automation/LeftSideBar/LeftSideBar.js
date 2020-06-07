@@ -19,6 +19,7 @@ function getClassName(i) {
   if (i % 12 === 13) return 'is-color14';
   return 'is-green';
 }
+
 class LeftSideBar extends Component {
   constructor(props) {
     super(props);
@@ -45,6 +46,7 @@ class LeftSideBar extends Component {
       searchText,
       refreshSelectedPartnerBtn,
       handleSearchTextChange,
+      activeTableView,
     } = this.props;
     return (
       <aside className="sidebar left-sidebar">
@@ -68,7 +70,14 @@ class LeftSideBar extends Component {
                   placeholder="search"
                 />
               </div>
-              <div className="inline-group">
+              <div
+                style={
+                  activeTableView
+                    ? { display: 'none' }
+                    : { display: 'block' }
+                }
+                className="inline-group"
+              >
                 <b>Outreach</b>
                 <label className="switch">
                   <input

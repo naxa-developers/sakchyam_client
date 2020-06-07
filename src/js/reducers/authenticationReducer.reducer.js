@@ -13,20 +13,22 @@ const initialState = {
   login: [],
   redirectToReferrer: false,
   permissions: null,
+  isLoggedIn: false,
   //   logDataGraph: [],
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOGIN_USER:
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...state,
         login: action.payload,
+        isLoggedIn: true,
         // logDataGraph: action.payload,
       };
     case USER_PERMISSIONS:
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...state,
         permissions: action.payload,

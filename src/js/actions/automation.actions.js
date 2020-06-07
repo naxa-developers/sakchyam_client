@@ -416,7 +416,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
       const response = axiosInstance
         .get(
           // `api/v1/automation/automation-data/?province_id=2&partner__partner__id=12`,
-          `api/v1/automation/map-data/?${partnerSelect}&${municipalitySelect}`,
+          `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${municipalitySelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -433,7 +433,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/map-data/?${partnerSelect}&${districtSelect}`,
+          `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${districtSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -450,7 +450,7 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/map-data/?${partnerSelect}&${provinceSelect}`,
+          `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${provinceSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -465,6 +465,91 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
     }
   }
 };
+// export const getFilteredPartnersByFederalWithClickedPartners = (
+//   federalSelect,
+//   clickedPartner,
+// ) => dispatch => {
+//   let partnerSelect = 'partner=0';
+//   if (clickedPartner.length > 0) {
+//     partnerSelect = clickedPartner
+//       .map(data => {
+//         return `partner=${data}`;
+//       })
+//       .join('&');
+//   }
+//   const provinceSelect = federalSelect.province
+//     .map(data => {
+//       return `province=${data}`;
+//     })
+//     .join('&');
+//   const districtSelect = federalSelect.district
+//     .map(data => {
+//       return `district=${data}`;
+//     })
+//     .join('&');
+//   const municipalitySelect = federalSelect.municipality
+//     .map(data => {
+//       return `municipality=${data}`;
+//     })
+//     .join('&');
+//   // console.log(federalSelect, 'fedSelect');
+//   // console.log(provinceSelect, 'prov');
+//   // console.log(districtSelect, 'dist');
+//   // console.log(municipalitySelect, 'munic');
+//   if (federalSelect.municipality.length > 0) {
+//     try {
+//       const response = axiosInstance
+//         .get(
+//           // `api/v1/automation/automation-data/?province_id=2&partner__partner__id=12`,
+//           `api/v1/automation/map-data/?${partnerSelect}&${municipalitySelect}`,
+//         )
+//         .then(function(result) {
+//           // console.log(result, 'result');
+
+//           return dispatch({
+//             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+//             payload: result.data,
+//           });
+//         });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   } else if (federalSelect.district.length > 0) {
+//     try {
+//       const response = axiosInstance
+//         .get(
+//           `api/v1/automation/map-data/?${partnerSelect}&${districtSelect}`,
+//         )
+//         .then(function(result) {
+//           // console.log(result, 'result');
+
+//           return dispatch({
+//             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+//             payload: result.data,
+//           });
+//         });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   } else {
+//     try {
+//       const response = axiosInstance
+//         .get(
+//           `api/v1/automation/map-data/?${partnerSelect}&${provinceSelect}`,
+//         )
+//         .then(function(result) {
+//           // console.log(result, 'result');
+
+//           return dispatch({
+//             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
+//             payload: result.data,
+//           });
+//         });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }
+// };
 
 export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
   try {
@@ -475,7 +560,9 @@ export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
       .join('&');
 
     const response = axiosInstance
-      .get(`api/v1/automation/automation-data/?${query}`)
+      .get(
+        `api/v1/automation/table-data/?filter_type=partner&${query}`,
+      )
       .then(function(result) {
         // console.log(result, 'result');
         return dispatch({
@@ -616,22 +703,53 @@ export const partnerSelectWithOutreach = (
 //   }
 // };
 
-export const getBranchesTableDataByFed = federalSelect => dispatch => {
-  const provinceSelect = federalSelect.province
-    .map(data => {
-      return `province=${data}`;
-    })
-    .join('&');
-  const districtSelect = federalSelect.district
-    .map(data => {
-      return `district=${data}`;
-    })
-    .join('&');
-  const municipalitySelect = federalSelect.municipality
-    .map(data => {
-      return `municipality=${data}`;
-    })
-    .join('&');
+export const getBranchesTableDataByFed = (
+  federalSelect,
+  partnerSelect,
+) => dispatch => {
+  // console.log(federalSelect, 'fedselect');
+  // console.log(partnerSelect, 'partnersekle');
+  let partners = 'partner=0';
+  let provinceSelect = 'province=0';
+  let districtSelect = 'district=0';
+  let municipalitySelect = 'municipality=0';
+  if (partnerSelect.length > 0) {
+    partners = partnerSelect
+      .map(data => {
+        return `partner=${data}`;
+      })
+      .join('&');
+  }
+  if (
+    federalSelect.province.length > 0 &&
+    federalSelect.province.length < 15
+  ) {
+    provinceSelect = federalSelect.province
+      .map(data => {
+        return `province=${data}`;
+      })
+      .join('&');
+  }
+  if (
+    federalSelect.district.length > 0 &&
+    federalSelect.district.length < 15
+  ) {
+    districtSelect = federalSelect.district
+      .map(data => {
+        return `district=${data}`;
+      })
+      .join('&');
+  }
+  if (
+    federalSelect.municipality.length > 0 &&
+    federalSelect.municipality.length < 15
+  ) {
+    municipalitySelect = federalSelect.municipality
+      .map(data => {
+        return `municipality=${data}`;
+      })
+      .join('&');
+  }
   // console.log(federalSelect, 'fedSelect');
   // console.log(provinceSelect, 'prov');
   // console.log(districtSelect, 'dist');
@@ -640,7 +758,7 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&${municipalitySelect}`,
+          `api/v1/automation/table-data/?filter_type=partner&${partners}&${municipalitySelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -657,7 +775,24 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&${districtSelect}`,
+          `api/v1/automation/table-data/?filter_type=partner&${partners}&${districtSelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (federalSelect.province.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/table-data/?filter_type=partner&${partners}&${provinceSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -674,7 +809,7 @@ export const getBranchesTableDataByFed = federalSelect => dispatch => {
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&${provinceSelect}`,
+          `api/v1/automation/table-data/?filter_type=partner&partner=0&province=0`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -734,7 +869,7 @@ export const filterAutomationByState = () => dispatch => {
         `api/v1/automation/table-data/?filter_type=partner&partner=32&partner=16&province=1`,
       )
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
         return dispatch({
           type: FILTER_AUTOMATION_BY_PROVINCE,
           payload: result.data,

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -7,6 +8,7 @@ import {
   getMunicipalityDataFromDistrict,
 } from '../../../../actions/automation.actions';
 import TableViewSkeleton from '../../../common/TableViewSkeleton';
+import Loading from '../../../common/Loading';
 
 function getClassName(i) {
   if (i % 12 === 0) return 'is-color1';
@@ -42,6 +44,7 @@ class TableViewComponent extends Component {
       tableSelectedDistrictName: [],
       tableSelectedMunicipalityName: [],
       tableDataTypeLevel: 'municipality',
+      isLoading: false,
     };
   }
 
@@ -293,6 +296,13 @@ class TableViewComponent extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { tableSelectedMunicipality } = this.state;
+    if (
+      prevProps.automationReducer.automationTableData !==
+      this.props.automationReducer.automationTableData
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ isLoading: false });
+    }
     // if (
     //   prevState.tableSelectedMunicipality !==
     //   this.state.tableSelectedMunicipality
@@ -334,17 +344,22 @@ class TableViewComponent extends Component {
   }
 
   applyClickForPartnerFilter = () => {
+    this.setState({ isLoading: true });
     const {
       tableSelectedMunicipality,
       tableSelectedMunicipalityDropdown,
       tableSelectedDistrict,
       tableSelectedProvince,
     } = this.state;
-    this.props.getBranchesTableDataByFed({
-      municipality: tableSelectedMunicipalityDropdown,
-      district: tableSelectedDistrict,
-      province: tableSelectedProvince,
-    });
+    const { activeClickPartners } = this.props;
+    this.props.getBranchesTableDataByFed(
+      {
+        municipality: tableSelectedMunicipalityDropdown,
+        district: tableSelectedDistrict,
+        province: tableSelectedProvince,
+      },
+      activeClickPartners,
+    );
   };
 
   handleResetButtonForFilter = () => {
@@ -358,6 +373,39 @@ class TableViewComponent extends Component {
 
   toggleDataState = state => {
     this.setState({ tableDataTypeLevel: state });
+  };
+
+  exportTableToExcel = () => {
+    // let downloadLink;
+    const dataType = 'application/vnd.ms-excel';
+    const tableSelect = document.getElementById('table_id');
+    const tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    const FullDate = new Date();
+    const date = `${FullDate.getFullYear()}/${FullDate.getDay()}/${FullDate.getMonth()}`;
+    // console.log(date, 'date');
+    // Specify file name
+    const filename = `automationData${date}.xls`;
+
+    // Create download link element
+    const downloadLink = document.createElement('a');
+
+    document.body.appendChild(downloadLink);
+
+    if (navigator.msSaveOrOpenBlob) {
+      const blob = new Blob(['\ufeff', tableHTML], {
+        type: dataType,
+      });
+      navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+      // Create a link to the file
+      downloadLink.href = `data:${dataType}, ${tableHTML}`;
+
+      // Setting the file name
+      downloadLink.download = filename;
+
+      // triggering the function
+      downloadLink.click();
+    }
   };
 
   render() {
@@ -375,6 +423,7 @@ class TableViewComponent extends Component {
       tableSelectedProvinceName,
       tableSelectedDistrictName,
       tableSelectedMunicipalityName,
+      isLoading,
     } = this.state;
     const {
       allProvinceName,
@@ -386,6 +435,11 @@ class TableViewComponent extends Component {
     const { toggleTableViewButton } = this.props;
     return (
       <div className="main-card table-card">
+        <iframe
+          id="txtArea1"
+          title="table"
+          style={{ display: 'none' }}
+        />
         <div className="table-card-header">
           <div className="top-header">
             <h5>Result</h5>
@@ -393,8 +447,9 @@ class TableViewComponent extends Component {
               View on map
             </a>
           </div>
+
           <div className="filter-content">
-            <div className="view-list">
+            {/* <div className="view-list">
               <span>view by</span>
               <ul className="tab-list">
                 <li
@@ -442,7 +497,7 @@ class TableViewComponent extends Component {
                   <a href="#">Municipality</a>
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div className="filter-row">
               <div className="filter-list">
                 {/* <DropdownCheckbox /> */}
@@ -554,6 +609,8 @@ class TableViewComponent extends Component {
                   }
                   flow="up"
                 >
+                  <Loading loaderState={isLoading} />
+
                   <span
                     className={`span-label ${
                       tableDistrictDropdown ? 'span-active' : ''
@@ -695,6 +752,14 @@ class TableViewComponent extends Component {
               </div>
               <div className="buttons is-end">
                 <button
+                  id="btnExport"
+                  type="button"
+                  onClick={this.exportTableToExcel}
+                  className="common-button is-border"
+                >
+                  EXPORT
+                </button>
+                <button
                   type="button"
                   className="common-button is-clear"
                   onClick={this.handleResetButtonForFilter}
@@ -714,7 +779,7 @@ class TableViewComponent extends Component {
         </div>
         <div className="table-card-body">
           <div className="table-responsive automation-table">
-            <table className="table">
+            <table className="table" id="table_id">
               <thead>
                 <tr>
                   <th>
@@ -757,6 +822,11 @@ class TableViewComponent extends Component {
                 //   <TableViewSkeleton />
                 // ) : (
                 automationTableData &&
+                automationTableData.length < 1 ? (
+                  <div>
+                    <h3>No Data</h3>
+                  </div>
+                ) : (
                   automationTableData.map(data => {
                     let initials = data.partner.match(/\b\w/g) || [];
                     initials = (
@@ -787,6 +857,7 @@ class TableViewComponent extends Component {
                       </tr>
                     );
                   })
+                )
                 // )
                 }
               </tbody>

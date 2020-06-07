@@ -107,19 +107,38 @@ class VectorGridComponent extends Component {
     }
 
     setChoroplethStyle = (layer, values) =>{
+        // console.log(layer,'choropleth')
         values.map((value) => {
             var color = this.getLegendColor(value.count);
             var newStyle= {};
             var newStyle1 = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
             Object.assign(newStyle, newStyle1)
-            newStyle.fillColor = color;
-            newStyle.fillOpacity = 0.7;
+            // newStyle.fillOpacity = 0.7;
+            // console.log(value,'value1st');
+            if(value.count!== 0){
+                newStyle.fillColor = color;
+                newStyle.fillOpacity = 0.7;
+                newStyle.activechoropleth = true;
+            
+            
+                setTimeout(() => {
+                    layer.setFeatureStyle(value.id, newStyle);
+                }, 100);
+            
+            }else{
+                newStyle.fillColor = 'white';
+                newStyle.fillOpacity = 0.7;
+                // console.log(value,'value2nd');
+                // newStyle.fillColor = '';
+                newStyle.activechoropleth = false;
+                setTimeout(() => {
+                    layer.setFeatureStyle(value.id, newStyle);
+                }, 100);
+            }
             // newStyle.color = 'red';
             // console.log(color, "color")
             // console.log(newStyle, "newStyle")
-            setTimeout(() => {
-                layer.setFeatureStyle(value.id, newStyle);
-            }, 100);
+            
         })
     }
 
@@ -134,6 +153,7 @@ class VectorGridComponent extends Component {
     label= () => {
         province = this.vectorGridRef.current.leafletElement;
             map = this.props.mapRef.current.leafletElement;
+            // console.log(map,'mapref')
             if(circleLoad == true){
                 var feature = {properties:{}}
                 this.state.provinceCenters.map((data, i) => {
@@ -153,8 +173,8 @@ class VectorGridComponent extends Component {
             });
             circleLoad = false;
             province.on("click",(e)=>{
-                console.log(e.layer.properties.id,'id vectorgrid');
-                console.log(e.layer);
+                // console.log(e.layer.properties.id,'id vectorgrid');
+                // console.log(e.layer);
                 // console.log(e.latlng);
                 map.flyTo(e.latlng, 9,{
                     animate: true,
@@ -181,12 +201,13 @@ class VectorGridComponent extends Component {
             const b = [[a[0],a[1]],[a[2],a[3]]];
             // console.log(b,'b');
             // if(this.mapRef && this.mapRef.current){
+                global.maps =this.props.mapRef.current.leafletElement;
                 const map =this.props.mapRef.current.leafletElement;
                 if(this.props.vectorGridFirstLoad === true){
-                    console.log(b,'fitbound Up');
-                    map.fitBounds(b);
+                    // console.log(b,'fitbound Up');
+                    // map.fitBounds(b);
                 } 
-                this.props.handleVectorGridFirstLoad();
+                // this.props.handleVectorGridFirstLoad();
         });
         // province.on("tileloadstart",(e)=>{
         //     this.props.handleTileLoadEnd();
@@ -195,9 +216,57 @@ class VectorGridComponent extends Component {
     }
     addMouseoverLayer = () =>{
         province = this.vectorGridRef.current.leafletElement;
+        // console.log(province.options);
         var infoDiv = this.infoDivRef.current;
         map = this.props.mapRef.current.leafletElement;
-            province.on("mouseover",(e)=>{
+        province.on("mouseover",(e)=>{
+            const {automationAllDataByPartner}= this.props.automationReducer;
+            const{activeClickPartners}=this.props;
+            console.log(e.layer);
+            let b=[];
+            const c=[];
+            const v=[];
+            console.log(this.props.automationReducer.automationTableData);
+            if(activeClickPartners.length>0){
+                b = activeClickPartners;
+                activeClickPartners.map(x=>{
+                    this.props.automationReducer.automationTableData.filter(data=>{
+                    if(data.partner_id=== x && data.municipality_code=== parseInt(e.layer.properties.code)){
+                        v.push(data)
+                    }
+                });
+            });
+                console.log(v,'v');
+            }else{
+                this.props.automationReducer.automationTableData.map(data=>{
+                    if(data.municipality_code=== parseInt(e.layer.properties.code)){
+                        b.push({partner_id:data.partner_id, tablets:data.tablets})
+                    }
+                })
+            }
+            console.log(b,'beforefilter');
+            b.map(data=>{
+                automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(function(e) {
+                    // console.log(data,'data');
+                    // console.log(e,'e');
+                    if(e.partner_id === data.partner_id){
+                        e.single_tablets = data.tablets;
+                        c.push(e);
+                    }
+                })
+            })
+            // var result = 
+              
+              console.log(c)
+            // const d= b.map(filteredPartnerId=>{
+            //     automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(data=>{
+            //         console.log(data,'data');
+            //         return filteredPartnerId === data.partner_id;
+            //     })
+            // })
+            // console.log(automationAllDataByPartner[0],'afterfilter');
+            // if(e.layer.properties.municipality_code === )
+                // console.log(e.layer);
             // console.log(map, "ee")
             // infoDiv.style.display = "block";
             // var provName = "";
@@ -223,65 +292,69 @@ class VectorGridComponent extends Component {
             // infoDiv.innerHTML = html;
             // console.log(e.layer.options);
             // const a= e.layer.options.opacity;
-        
-        
-            L.popup()
+            // total_tablet(pin):3316
+            // total_branch(pin):889
+            // total_partner(pin):12
+            // total_beneficiary(pin):590324
+            // id(pin):4
+            // partner_id(pin):3
+            // partner_name(pin):"Chhimek Laghubitta Bittiya Sanstha"
+            // district_covered(pin):65
+            // province_covered(pin):7
+            // municipality_covered(pin):136
+            // branch(pin):162
+            // beneficiary(pin):752
+            // lat(pin):27.695951
+            // long(pin):85.338666
+            // date(pin):2016
+            // tablets_deployed(pin):863
+       
+        // console.log(automationAllDataByPartner,'data of Partners');
+        const popupHtml =c && c.map(data=>{
+            return (
+                `<li>
+                    <div class="organization-icon"><span></span></div>
+                        <div class="organization-content">
+                            <div class="org-header">
+                                <h5>${data.partner_name}</h5>
+                                    <div class="icon-list">
+                                        <div class="icons"><i class="material-icons">business</i><b>${data.branch}</b>
+                                        </div>
+                                            <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.single_tablets}</b></div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </li>`)});
+                        //             <div class="branch-info-list"><span>Branch1</span>
+                        //                 <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b></div>
+                        //             </div>
+                        //             <div class="branch-info-list"><span>Branch2</span>
+                        //         <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b>
+                        //     </div>
+                        // </div>
+        this.props.activeOutreachButton && e.layer.options.activechoropleth=== true &&
+            L.popup({keepInView: false,autoPan:false})
             .setContent(
                 `<div class="leaflet-popup-content" style="width: 281px;">
                     <div class="map-popup-view">
                         <div class="map-popup-view-header">
                             <h5>${e.layer.properties.name}</h5>
                             <div class="icons">
-                            <i class="material-icons">tablet_mac</i><b>32</b>
+                            <i class="material-icons">tablet_mac</i><b>${automationAllDataByPartner[0] && automationAllDataByPartner[0].total_tablet}</b>
                             </div>
                         </div>
-                        <ul>
-                        <li>
-                            <div class="organization-icon"><span>CH</span></div>
-                                <div class="organization-content">
-                                    <div class="org-header">
-                                        <h5>Mahila Samudayik Laghubitta</h5>
-                                            <div class="icon-list">
-                                                <div class="icons"><i class="material-icons">business</i><b>23</b>
-                                                </div>
-                                                    <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                                </div>
-                                            </div>
-                                            <div class="branch-info-list"><span>Branch1</span>
-                                                <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                            </div>
-                                            <div class="branch-info-list"><span>Branch2</span>
-                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="organization-icon is-red"><span></span></div>
-                                <div class="organization-content">
-                                    <div class="org-header"><h5>Mahila Samudayik Laghubitta</h5>
-                                        <div class="icon-list">
-                                        <div class="icons"><i class="material-icons">business</i><b>23</b></div>
-                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                    </div>
-                                </div>
-                                    <div class="branch-info-list"><span>Branch1</span>
-                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                    </div>
-                                    <div class="branch-info-list"><span>Branch2</span>
-                                        <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
-                                    </div>
-                            </div>
-                        </li>
-                    </ul>
-                <div class="map-view-footer">
+                        <ul style="height:112px;overflow-y: scroll">
+                        ${popupHtml}
+                        
+                        </ul>
+                        <div class="map-view-footer">
                     <div class="map-view-progress">
                         <div class="progress-item is-red" style="flex: 0 0 60%; max-width: 60%;"></div>
                         <div class="progress-item is-green" style="flex: 0 0 40%; max-width: 40%;"></div>
-                    </div>
+                        </div>
                 <div class="progress-value"><span class="red-value">60%</span><span class="green-value">40%</span></div>
             </div>
-        </div>
+            </div>
     </div>`
             )
             .setLatLng(e.latlng)
@@ -290,12 +363,30 @@ class VectorGridComponent extends Component {
             // e.layer.setPopupContent('<label>Automation</label');
             //     e.layer.openPopup();
         });
+            // <li>
+            //     <div class="organization-icon is-red"><span></span></div>
+            //         <div class="organization-content">
+            //             <div class="org-header"><h5>Mahila Samudayik Laghubitta</h5>
+            //                 <div class="icon-list">
+            //                 <div class="icons"><i class="material-icons">business</i><b>23</b></div>
+            //                 <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+            //             </div>
+            //         </div>
+            //             <div class="branch-info-list"><span>Branch1</span>
+            //                 <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+            //             </div>
+            //             <div class="branch-info-list"><span>Branch2</span>
+            //                 <div class="icons"><i class="material-icons">tablet_mac</i><b>83</b></div>
+            //             </div>
+            //     </div>
+            // </li>
 
         province.on("mouseout",(e)=>{
             infoDiv.style.display = "none";
             infoDiv.innerHTML = "";
             e.layer.setStyle({opacity:0.1});
-            map.closePopup();
+            // map.closePopup();
+
 
 
         })
@@ -329,6 +420,13 @@ class VectorGridComponent extends Component {
        if(prevProps.activeOutreachButton !== this.props.activeOutreachButton){
            this.changeGrades();
        }
+       if(prevProps.dataTypeLevel !== this.props.dataTypeLevel){
+           this.changeGrades();
+       }
+       if(prevProps.vectorGridInputUrl !== this.props.vectorGridInputUrl){
+        //    console.log('url changed')
+           this.changeGrades();
+       }
         // }
     }
     // fitBoundonMap=(bboxArray)=>{
@@ -337,70 +435,72 @@ class VectorGridComponent extends Component {
     //     console.log(this.state.bbox);
     // }
 
-    extendBounds=(boundingbox)=>{
-        let minX=boundingbox[0];
-        let minY=boundingbox[1];
-        let maxX=boundingbox[2];
-        let maxY=boundingbox[3];
-        const {bbox,count}=this.state;
-        if(count===0){
-            this.setState({bbox: [boundingbox[0],boundingbox[1],boundingbox[2],boundingbox[3]]});
-            this.setState({count:1});
-        }
-        // // if(bbox[0] !== 0 && boundingbox[0] !== 0){
-        //     console.log(boundingbox[0],'boundingbox[0]');
-        //     console.log(boundingbox[1],'boundingbox[1]');
-        //     console.log(boundingbox[2],'boundingbox[2]');
-        //     console.log(boundingbox[3],'boundingbox[3]');
-            minX = bbox[0] > boundingbox[0] ? boundingbox[0] : bbox[0];
-        // }
-        // if(bbox[1] !== 0 && boundingbox[1] !== 0){
-            minY = bbox[1] > boundingbox[1] ? boundingbox[1] : bbox[1] 
+    // extendBounds=(boundingbox)=>{
+    //     let minX=boundingbox[0];
+    //     let minY=boundingbox[1];
+    //     let maxX=boundingbox[2];
+    //     let maxY=boundingbox[3];
+    //     const {bbox,count}=this.state;
+    //     if(count===0){
+    //         this.setState({bbox: [boundingbox[0],boundingbox[1],boundingbox[2],boundingbox[3]]});
+    //         this.setState({count:1});
+    //     }
+    //     // // if(bbox[0] !== 0 && boundingbox[0] !== 0){
+    //     //     console.log(boundingbox[0],'boundingbox[0]');
+    //     //     console.log(boundingbox[1],'boundingbox[1]');
+    //     //     console.log(boundingbox[2],'boundingbox[2]');
+    //     //     console.log(boundingbox[3],'boundingbox[3]');
+    //         minX = bbox[0] > boundingbox[0] ? boundingbox[0] : bbox[0];
+    //     // }
+    //     // if(bbox[1] !== 0 && boundingbox[1] !== 0){
+    //         minY = bbox[1] > boundingbox[1] ? boundingbox[1] : bbox[1] 
 
-        // }
-        // if(bbox[2] !== 0 && boundingbox[2] !== 0){
+    //     // }
+    //     // if(bbox[2] !== 0 && boundingbox[2] !== 0){
         
-            maxX = bbox[2] < boundingbox[2] ? boundingbox[2] : bbox[2]; 
-        // }
-        // if(bbox[3] !== 0 && boundingbox[3] !== 0){
-            maxY = bbox[3] < boundingbox[3] ? boundingbox[3] : bbox[3];
-        // }
-        //   console.log(bbox[0],'bbox[0]');
-        //     console.log(bbox[1],'bbox[1]');
-        //     console.log(bbox[2],'bbox[2]');
-        //     console.log(bbox[3],'bbox[3]');
-        if(minX!==0 && minY!== 0 && maxX!== 0 && maxY!==0){
-                // console.log('Inside Setstate')
-            this.setState({bbox: [minX,minY,maxX,maxY]});
-        }
+    //         maxX = bbox[2] < boundingbox[2] ? boundingbox[2] : bbox[2]; 
+    //     // }
+    //     // if(bbox[3] !== 0 && boundingbox[3] !== 0){
+    //         maxY = bbox[3] < boundingbox[3] ? boundingbox[3] : bbox[3];
+    //     // }
+    //     //   console.log(bbox[0],'bbox[0]');
+    //     //     console.log(bbox[1],'bbox[1]');
+    //     //     console.log(bbox[2],'bbox[2]');
+    //     //     console.log(bbox[3],'bbox[3]');
+    //     if(minX!==0 && minY!== 0 && maxX!== 0 && maxY!==0){
+    //             // console.log('Inside Setstate')
+    //         this.setState({bbox: [minX,minY,maxX,maxY]});
+    //     }
 
-    }
+    // }
     render() {
+        // console.log(this.props.vectorGridUrl,'render url')
         // console.log(this.props.automationReducer.automationChoroplethData,'choropleth Data');
-        const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
+        // const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl != "" && typeof(this.props.vectorGridUrl) == "string"?this.props.vectorGridUrl:"https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Province@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf";
+        const provinceUrl = this.props.vectorGridUrl && this.props.vectorGridUrl;
         // console.log(provinceUrl,"provinceUrl")
         var style = this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle;
         var currentComponent= this;
         // console.log(this.props.style && this.props.style != null?this.props.style:provinceDefaultStyle, "defaultstyle")
+        const province=this.vectorGridRef && this.vectorGridRef.current &&this.vectorGridRef.current.leafletElement
+        province && province.bindPopup('<label>BindPopup</label');
+        // console.log(,'ref')
         const options = {
-            rendererFactory: L.canvas.tile,
-            interactive:true,
+            // updateWhenIdle:true,
+            
             type: 'protobuf',
             // tooltip: (feature) =>{
-                //     console.log(feature, "feature  ")
                 // },
                 getFeatureId: function (feature) {
-                    // console.log(feature,"feature  ")
-                    if(feature.properties.name ==="Shivaraj"){
-                        // console.log(feature,'checkkkkkk')
-
-                    }
-                let bboxString= feature.properties.bbox;
-                var bboxArray= bboxString.split(",");
-                // console.log(bboxArray,'bboxaray')
-                const a = bboxArray.map(data=>{return parseFloat(data)});
-                const b = [a[1],a[0],a[3],a[2]];
-                currentComponent.extendBounds(b);
+                        // console.log(feature, "feature  ")
+                        // console.log(layer, "feature  ")
+                    province && province.setFeatureStyle(parseInt(feature.properties.code),style);
+                // let bboxString= feature.properties.bbox;
+                // var bboxArray= bboxString.split(",");
+                // // console.log(bboxArray,'bboxaray')
+                // const a = bboxArray.map(data=>{return parseFloat(data)});
+                // const b = [a[1],a[0],a[3],a[2]];
+                // currentComponent.extendBounds(b);
                 
                 // var corner1 = L.latLng(40.712, -74.227),
                 // corner2 = L.latLng(40.774, -74.125),
@@ -415,12 +515,18 @@ class VectorGridComponent extends Component {
             url: provinceUrl,
             vectorTileLayerStyles: {default: style},
             subdomains: 'abcd',
-            key: 'abcdefghi01234567890',
+            key: 'abcdefghi32223',
+            rendererFactory: L.canvas.tile,
+            interactive:true,
+            // rendererFactory: L.canvas..extend({
+            //     _handleMouseHover: function (e, point){ 
+            //         console.log(e,'eeee');
+            //     }})
         };
         // console.log(this.vectorGridRef.current && this.vectorGridRef.current.props.getFeatureId(function (feature) {}),'vectorRef')
         return (
             <div>
-                <VectorGrid {...options} ref={this.vectorGridRef}></VectorGrid>
+                <VectorGrid updateWhenZooming={false} updateWhenIdle={false} {...options} ref={this.vectorGridRef} ></VectorGrid>
                 <div style={{position: "absolute", display:  this.props.legend?"flex":"none", flexDirection: "column", zIndex: 1999, background: "white", padding: 5, bottom: 0, margin: 5,maxWidth: "358px",width: "520px"}}>
                 <div>{this.props.choroplethTitle?this.props.choroplethTitle:"Legend"}</div>
                 <div className="map-legend">

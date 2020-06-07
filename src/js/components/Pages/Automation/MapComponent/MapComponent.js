@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import { Map, Popup, Marker, Pane } from 'react-leaflet';
-import Loader from 'react-loader-spinner';
 import 'leaflet/dist/leaflet.css';
 import Control from 'react-leaflet-control';
 import L, { CircleMarker } from 'leaflet';
@@ -12,6 +11,7 @@ import 'leaflet.featuregroup.subgroup';
 import '../../../../../library/leaflet.migrationLayer';
 import '../../../../../library/SmoothWheelZoom';
 import { connect } from 'react-redux';
+import Loading from '../../../common/Loading';
 import randomGeojson from '../../../../../data/randomGeojson.json';
 import ActiveIcon from '../../../../../img/fullactive.png';
 import mapIcon from '../../../../../img/map.png';
@@ -61,9 +61,13 @@ class MapComponent extends Component {
       provinceAllData: [],
       selectedBaseLayer: 'harje',
       bounds: [
-        [25.898761936567023, 80.00244140625001],
-        [30.732392734006083, 88.79150390625],
+        [30.441792349047404, 87.91087222877736],
+        [25.504959616615796, 80.4671531221034],
       ],
+      // bounds: [
+      //   [0, 0],
+      //   [0, 0],
+      // ],
       province: null,
       district: null,
       municipality: null,
@@ -102,45 +106,7 @@ class MapComponent extends Component {
     // this.props.filterAutomationDataForVectorTiles();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // if (prevProps.vectorGridKey !== this.props.vectorGridKey) {
-    //   console.log('xxx');
-    //   // eslint-disable-next-line react/no-did-update-set-state
-    //   this.props.handleVectorGridFirstLoad();
-    // }
-  }
-  // fetchingForDropdown = name => {
-  //   const key =
-  //     name === 'province'
-  //       ? 'province_api'
-  //       : name === 'district'
-  //       ? 'district_api'
-  //       : name === 'municipality'
-  //       ? 'municipality_api'
-  //       : '';
-  //   const url = `https://iomapi.naxa.com.np/api/v1/${key}`;
-  //   const prvncDist =
-  //     name === 'district'
-  //       ? 'province'
-  //       : name === 'municipality'
-  //       ? 'district'
-  //       : '';
-
-  //   Axios.get(url).then(response => {
-  //     const array = [];
-
-  //     response.data.data.map(e => {
-  //       const object = {
-  //         value: e.id,
-  //         label: e.name,
-  //         [prvncDist]: e[prvncDist.toString()],
-  //       };
-  //       array.push(object);
-  //       return true;
-  //     });
-  //     this.setState({ [name]: array });
-  //   });
-  // };
+  componentDidUpdate(prevProps, prevState) {}
 
   markerClickProvinceSelect = clickedValue => {
     this.props.handleActiveClickPartners(clickedValue);
@@ -150,31 +116,24 @@ class MapComponent extends Component {
     const d = new Date(minDate);
 
     const day = d.getDate();
-    const month = d.getMonth()+1; // Since getMonth() returns month from 0-11 not 1-12
+    const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
     const year = d.getFullYear();
 
     const dateStr = `${month}/${day}/${year}`;
     // time = dateStr;
-    //console.log(time ,"time returns")
+    // console.log(time ,"time returns")
     // this.setState({ time: dateStr });
     return dateStr;
   };
-  playBtn = (min, max) => {
-    // this.setState({ key: Math.random() });
-    // this.setState({ playSelected: true });
-    // const startDate = min;
-    // const endDate = max;
-    // const time = min;
-    // console.log(min, max);
-    // const minDate = parseInt(minDate)
 
+  playBtn = (min, max) => {
     this.setState({
-       minValue: this.getYear(min),
-       maxValue: this.getYear(max),
+      minValue: this.getYear(min),
+      maxValue: this.getYear(max),
       key: i,
       playClick: true,
     });
-    i++;
+    i += 1;
     // global.timerId = null;
   };
 
@@ -182,226 +141,22 @@ class MapComponent extends Component {
     this.setState(prevState => ({
       activeMapControl: !prevState.activeMapControl,
     }));
-    console.log(
-      this.props.automationReducer.automationAllDataByPartner[0]
-        .partner_data,
-    );
+    // console.log(
+    //   this.props.automationReducer.automationAllDataByPartner[0]
+    //     .partner_data,
+    // );
     // const a = this.props.automationReducer.automationAllDataByPartner[0].partner_data.map(
     //   partner => {
 
-    const a = this.props.automationReducer.automationTableData.map(
-      branch => {
-        console.log('inside If ');
-        // eslint-disable-next-line no-param-reassign
-        // branch.s_lat = partner.lat;
-        // // eslint-disable-next-line no-param-reassign
-        // branch.s_long = partner.long;
-        // console.log(branch.municipality, 'branchLat0');
-        // console.log(
-        //   getCenterBboxMunicipality(branch.municipality.trim()),
-        //   'branchLat',
-        // );
-        const trimelat = getCenterBboxMunicipality(
-          branch.municipality.trim(),
-        ).center;
-        const trimelong = getCenterBboxMunicipality(
-          branch.municipality.trim(),
-        ).center;
-        // eslint-disable-next-line prefer-destructuring
-        branch.des_long = trimelong ? trimelong[0] : null;
-        // console.log(trimelong[0], 'trim');
-        // console.log(timelong[0]);
-        // eslint-disable-next-line prefer-destructuring
-        branch.des_lat = trimelong ? trimelong[1] : null;
-        // }
-        return true;
-      },
-      console.log(
-        this.props.automationReducer.automationTableData,
-        'tableData',
-      ),
-    );
+    // migrationLayer.pause();
+    // setTimeout(() => {
+    //   migrationLayer.hide();
+    // }, 5000);
+  };
 
-    const map = this.props.mapRef.current.leafletElement;
-    // const marker = L.marker([84, 27], { icon: greenIcon }).addTo(map);
-    // console.log(map, 'mapref');
-
-  //   const geoJsonFeatureCollection = {
-  //     type: 'FeatureCollection',
-  //     features: this.props.automationReducer.automationTableData.map(
-  //       function(datum) {
-  //         return {
-  //           type: 'Feature',
-  //           geometry: {
-  //             type: 'Point',
-  //             coordinates: [datum.longitude, datum.latitude],
-  //           },
-  //           properties: datum,
-  //         };
-  //       },
-  //     ),
-  //   };
-  //   console.log(geoJsonFeatureCollection, 'geoJsonFeatureCollection');
-  //   map.createPane('migration_pane').style.zIndex = 900;
-  //   // map.createPane('migration_pane').style.zIndex = 600;
-
-  //   const oneToManyFlowmapLayer = L.canvasFlowmapLayer(
-  //     geoJsonFeatureCollection,
-  //     {
-  //       // pane: 'migration_pane',
-  //       originAndDestinationFieldIds: {
-  //         originUniqueIdField: 'partner_id',
-  //         originGeometry: {
-  //           x: 'longitude',
-  //           y: 'latitude',
-  //         },
-  //         destinationUniqueIdField: 'id',
-  //         destinationGeometry: {
-  //           x: 'des_long',
-  //           y: 'des_lat',
-  //         },
-  //       },
-  //       style(geoJsonFeature) {
-  //         // console.log(layer, 'inside');
-  //         // use leaflet's path styling options
-
-  //         // since the GeoJSON feature properties are modified by the layer,
-  //         // developers can rely on the "isOrigin" property to set different
-  //         // symbols for origin vs destination CircleMarker stylings
-
-  //         if (geoJsonFeature.properties.isOrigin) {
-  //           return {
-  //             renderer: L.canvas({
-  //               pane: 'migration_pane',
-  //               // tolerance: 15,
-  //                padding: 0.2,
-  //             }), // recommended to use your own L.canvas()
-  //             radius: 8,
-  //             weight: 1,
-  //             opacity: 1,
-  //             color: '#ff0000',
-  //             fillColor: '#ff0000',
-  //             fillOpacity: 1,
-  //           };
-  //         }
-  //         return {
-  //           // renderer: canvasRenderer,
-  //           radius: 2.5,
-  //           weight: 0.25,
-  //           opacity: 0,
-  //           color: 'rgb(17, 142, 170)',
-  //           fillColor: 'rgb(17, 142, 170)',
-  //           fillOpacity: 0,
-  //         };
-  //       },
-  //       pathDisplayMode: 'selection',
-  //       animationStarted: true,
-  //       animationEasingFamily: 'Cubic',
-  //       animationEasingType: 'In',
-  //       animationDuration: 2000,
-  //     },
-  //   ).addTo(map);
-  //   oneToManyFlowmapLayer.on('click', function(e) {
-  //     if (e.sharedOriginFeatures.length) {
-  //       oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-  //         e.sharedOriginFeatures,
-  //         'SELECTION_NEW',
-  //       );
-  //     }
-  //     if (e.sharedDestinationFeatures.length) {
-  //       oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-  //         e.sharedDestinationFeatures,
-  //         'SELECTION_NEW',
-  //       );
-  //     }
-  //   });
-  //   map.getPane('overlayPane').style.zIndex = 600;
-  //   console.log(oneToManyFlowmapLayer, 'mig layer');
-  //   // immediately select an origin point for Bezier path display,
-  //   // instead of waiting for the first user click event to fire
-  //   // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
-  //   //   'partner_id',
-  //   //   373,
-  //   //   true,
-  //   //   'SELECTION_NEW',
-  //   // );
-
-  //   // since this demo is using the optional "pathDisplayMode" as "selection",
-  //   // it is up to the developer to wire up a click or mouseover listener
-  //   // and then call the "selectFeaturesForPathDisplay()" method to inform the layer
-  //   // which Bezier paths need to be drawn
-  //   oneToManyFlowmapLayer.on('click', function(e) {
-  //     if (e.sharedOriginFeatures.length) {
-  //       oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-  //         e.sharedOriginFeatures,
-  //         'SELECTION_NEW',
-  //       );
-  //     }
-  //     if (e.sharedDestinationFeatures.length) {
-  //       oneToManyFlowmapLayer.selectFeaturesForPathDisplay(
-  //         e.sharedDestinationFeatures,
-  //         'SELECTION_NEW',
-  //       );
-  //     }
-  //   });
+  // onMapMoveEnd = e => {
+  //   console.log('new bounds ', e.target.getBounds());
   // };
-
-  // console.log(this.props.automationReducer.automationTableData);
-  // console.log(
-  //   this.vectorGridRef.current.leafletElement,
-  //   'vectorgrid',
-  // );
-  // console.log(getCenterBboxMunicipality('Chitwan'), 'getCNETE');
-  // console.log(
-  //   getCenterBboxMunicipality([
-  //     'Chitwan',
-  //     'Kathmandu',
-  //     'Bhaktapur',
-  //   ]),
-  //   'multiple',
-  // );
-
-
-  var demodata = [{"from":[85,27],"to":[85.5,28],"labels":["Los Angeles","San Francisco"],"color":"#ff3a31","value":15}];
-
-  const partner = 'Janautthan Laghubitta Bittiya Sanstha';
-  const array = [];
-  const x = this.props.automationReducer.automationTableData.map(
-    data => {
-      if (data.des_lat !== null) {
-        if (data.partner.trim() === partner.trim()) {
-          console.log('inside 2 if');
-          array.push({
-            from: [data.longitude, data.latitude],
-            to: [data.des_long, data.des_lat],
-            labels: [data.partner, data.branch],
-            color: '#ff3a31',
-            value: 15,
-          });
-        }
-      }
-      return true;
-    },
-  );
-
-
-
-  var migrationLayer = new L.migrationLayer({
-    map: map,
-    data: array,
-    pulseRadius:0,
-    arcWidth:0,
-    arcLabel:true,
-  })
-  migrationLayer.addTo(map)
-
-//migrationLayer.pause();
-setTimeout(() => {
-  migrationLayer.hide();
-}, 5000);
-
-
-   };
 
   render() {
     const {
@@ -410,6 +165,8 @@ setTimeout(() => {
       automationChoroplethData,
       dataLoading,
       automationLeftSidePartnerData,
+      automationTableData,
+      tableDataLoading,
     } = this.props.automationReducer;
     const {
       provinceBbox,
@@ -438,6 +195,7 @@ setTimeout(() => {
       isTileLoaded,
       vectorGridFirstLoad,
       mapType,
+      activeClickPartners,
     } = this.props;
     // console.log(vectorGridFirstLoad, 'vect');
 
@@ -536,12 +294,14 @@ setTimeout(() => {
           // scrollWheelZoom={this.props.zoomControl}
           // preferCanvas
           animate
-          zoom={8}
+          // zoom={9}
           maxZoom={18}
+          minZoom={5}
           attributionControl
           zoomControl
           // doubleClickZoom
           // scrollWheelZoom
+          // onMoveend={this.onMapMoveEnd}
           bounds={this.state.bounds}
           ref={this.props.mapRef}
           center={position}
@@ -553,12 +313,14 @@ setTimeout(() => {
           {/* <IosSwitch/> */}
           <BaseLayers initialbase="mapbox" />
           {/* {choroplethInputData&&choroplethInputData.length >0 &&  */}
-          {!activeOutreachButton && (
+          {/* {!activeOutreachButton && (
             <VectorGrid
+              dataTypeLevel={dataTypeLevel}
               activeOutreachButton={activeOutreachButton}
               handleVectorGridFirstLoad={
                 this.props.handleVectorGridFirstLoad
               }
+              vectorGridKey={vectorGridKey}
               vectorGridFirstLoad={vectorGridFirstLoad}
               // changetheme={this.props.changetheme}
               handleProvinceClick={handleProvinceClick}
@@ -569,86 +331,99 @@ setTimeout(() => {
               choroplethData={[]} //
               vectorGridUrl={vectorGridInputUrl} // vectortile url setting
             />
-          )}
-          {activeOutreachButton &&
+          )} */}
+          {/* {activeOutreachButton &&
             automationChoroplethData &&
-            filteredProvinceChoropleth && (
-              <VectorGrid
-                activeOutreachButton={activeOutreachButton}
-                handleVectorGridFirstLoad={
-                  this.handleVectorGridFirstLoad
-                }
-                vectorGridFirstLoad={vectorGridFirstLoad}
-                handleTileLoadEnd={this.props.handleTileLoadEnd}
-                isTileLoaded={isTileLoaded}
-                handleTileLoad={this.props.handleTileLoad}
-                // changetheme={this.props.changetheme}
-                //   key={"0"}
-                // mapRef={this.props.mapRef}
-                // style={inputStyle} // Province style setting
-                //   provinceCounts={[20, 12, 30, 4, 5, 26, 17]} //province counts for circles at center of province
-                // choroplethData={choroplethInputData} //
-                // color="#0000FF" //single color gradient - to make this active dont pass colorArray
-                // legendDivisions = {10} //no of divisions in legend
-                // colorArray={colors} // multi color custom gradient
-                // divisions = {inputDivisions}
-                // label = {true}
-                legend
-                // choroplethTitle = {"Covid Cases"}
-                // vectorGridUrl={vectorGridInputUrl} // vectortile url setting
-                handleProvinceClick={handleProvinceClick}
-                changetheme={this.props.changetheme}
-                key={vectorGridKey}
-                mapRef={this.props.mapRef}
-                style={inputStyle} // Province style setting
-                choroplethTitle="Tablet Deployed"
-                // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
-                provinceCounts={
-                  filteredProvinceChoropleth &&
-                  filteredProvinceChoropleth
-                } // province counts for circles at center of province
-                mode="choropleth" // options- choropleth, provinceCircles, both
-                choroplethData={automationChoroplethData} //
-                color="#007078" // single color gradient
-                // legendDivisions = {10} //no of divisions in legend
-                // colorArray={[
-                //   '#e69109',
-                //   '#63a4ff',
-                //   '#8629ff',
-                //   '#e553ed',
-                //   '#f2575f',
-                //   '#915e0d',
-                //   '#a1970d',
-                //   '#4f7d14',
-                //   '#07aba1',
-                //   '#1d4c8f',
-                //   '#491991',
-                //   '#610766',
-                //   '#6e0208',
-                //   '#f07818',
-                //   '#7F95D1',
-                //   '#FF82A9',
-                //   '#FFC0BE',
-                //   '#f0e111',
-                //   '#9ff035',
-                //   '#34ede1',
-                // ]} // multi color custom gradient
-                // colorArray={[
-                //   '#FFF3D4',
-                //   '#FED976',
-                //   '#FEB24C',
-                //   '#FD8D3C',
-                //   '#FC4E2A',
-                //   '#E31A1C',
-                //   '#BD0026',
-                //   '#800026',
-                // ]} // multi color custom gradient
-                divisions={inputDivisions}
-                // divisions={[0, 5, 10, 15, 20]}
-                // choroplethTitle = {"New Choropleth"}
-                vectorGridUrl={vectorGridInputUrl} // vectortile url setting
-              />
-            )}
+            filteredProvinceChoropleth && ( */}
+          <VectorGrid
+            activeClickPartners={activeClickPartners}
+            dataTypeLevel={dataTypeLevel}
+            activeOutreachButton={activeOutreachButton}
+            handleVectorGridFirstLoad={this.handleVectorGridFirstLoad}
+            vectorGridFirstLoad={vectorGridFirstLoad}
+            handleTileLoadEnd={this.props.handleTileLoadEnd}
+            isTileLoaded={isTileLoaded}
+            handleTileLoad={this.props.handleTileLoad}
+            // changetheme={this.props.changetheme}
+            //   key={"0"}
+            // mapRef={this.props.mapRef}
+            // style={inputStyle} // Province style setting
+            //   provinceCounts={[20, 12, 30, 4, 5, 26, 17]} //province counts for circles at center of province
+            // choroplethData={choroplethInputData} //
+            // color="#0000FF" //single color gradient - to make this active dont pass colorArray
+            // legendDivisions = {10} //no of divisions in legend
+            // colorArray={colors} // multi color custom gradient
+            // divisions = {inputDivisions}
+            // label = {true}
+            legend={!activeOutreachButton ? false : true}
+            // choroplethTitle = {"Covid Cases"}
+            // vectorGridUrl={vectorGridInputUrl} // vectortile url setting
+            handleProvinceClick={handleProvinceClick}
+            changetheme={this.props.changetheme}
+            key={vectorGridKey}
+            mapRef={this.props.mapRef}
+            style={inputStyle} // Province style setting
+            choroplethTitle="Tablet Deployed"
+            // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
+            // provinceCounts={
+            //   filteredProvinceChoropleth && filteredProvinceChoropleth
+            // } // province counts for circles at center of province
+            mode="choropleth" // options- choropleth, provinceCircles, both
+            choroplethData={
+              !activeOutreachButton ? [] : automationChoroplethData
+            } //
+            color="#007078" // single color gradient
+            // legendDivisions = {10} //no of divisions in legend
+            // colorArray={[
+            //   '#2b580c',
+            //   '#639a67',
+            //   '#d8ebb5',
+            //   '#d9bf77',
+            //   '#2b580c',
+            //   '#639a67',
+            //   '#d8ebb5',
+            //   '#d9bf77',
+            //   '#d8ebb5',
+            //   '#d9bf77',
+            // ]}
+            // colorArray={[
+            //   '#e69109',
+            //   '#63a4ff',
+            //   '#8629ff',
+            //   '#e553ed',
+            //   '#f2575f',
+            //   '#915e0d',
+            //   '#a1970d',
+            //   '#4f7d14',
+            //   '#07aba1',
+            //   '#1d4c8f',
+            //   '#491991',
+            //   '#610766',
+            //   '#6e0208',
+            //   '#f07818',
+            //   '#7F95D1',
+            //   '#FF82A9',
+            //   '#FFC0BE',
+            //   '#f0e111',
+            //   '#9ff035',
+            //   '#34ede1',
+            // ]} // multi color custom gradient
+            // colorArray={[
+            //   '#FFF3D4',
+            //   '#FED976',
+            //   '#FEB24C',
+            //   '#FD8D3C',
+            //   '#FC4E2A',
+            //   '#E31A1C',
+            //   '#BD0026',
+            //   '#800026',
+            // ]} // multi color custom gradient
+            divisions={inputDivisions}
+            // divisions={[0, 5, 10, 15, 20]}
+            // choroplethTitle = {"New Choropleth"}
+            vectorGridUrl={vectorGridInputUrl} // vectortile url setting
+          />
+          {/* )} */}
           {/* } */}
           <MarkerClusterComponent
             mapRef={this.props.mapRef}
@@ -819,32 +594,7 @@ setTimeout(() => {
               );
             })}
           {/* </Pane> */}
-          <div
-            id="center_loader"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              zIndex: 999,
-            }}
-          >
-            <Loader
-              type="BallTriangle"
-              color="#c21c2e"
-              height={100}
-              width={100}
-              visible={!isTileLoaded}
-            />
-            <label
-              style={{
-                display: !isTileLoaded ? 'block' : 'none',
-                // marginLeft: '15px',
-                color: 'red',
-              }}
-            >
-              Loading...Please Wait
-            </label>
-          </div>
+          <Loading loaderState={dataLoading && dataLoading} />
           {!activeOutreachButton ? (
             <TimelineChart
               // key={Math.random()}
@@ -852,10 +602,24 @@ setTimeout(() => {
               minValue={minValue}
               maxValue={maxValue}
               playBtn={this.playBtn}
-            /> 
+            />
           ) : null}
+
           <Control position="topleft">
-            <div className="map-layer-option">
+            <div
+              className="map-layer-option"
+              style={
+                tableDataLoading
+                  ? {
+                      opacity: 0.3,
+                      pointerEvents: 'none',
+                    }
+                  : {
+                      opacity: 1,
+                      pointerEvents: 'auto',
+                    }
+              }
+            >
               <a
                 className="leaflet-control-map-layer"
                 href="#"

@@ -42,8 +42,26 @@ const initialState = {
   tableDataLoading: true,
   filteredMapBoundaryData: [],
   timeLineData: [],
+  popupData: [],
 };
 
+function getPartnerColor(i) {
+  if (i % 12 === 0) return '#e69109';
+  if (i % 12 === 1) return '#63a4ff';
+  if (i % 12 === 2) return '#8629ff';
+  if (i % 12 === 3) return '#e553ed';
+  if (i % 12 === 4) return '#f2575f';
+  if (i % 12 === 5) return '#915e0d';
+  if (i % 12 === 6) return '#a1970d';
+  if (i % 12 === 7) return '#4f7d14';
+  if (i % 12 === 8) return '#07aba1';
+  if (i % 12 === 9) return '#1d4c8f';
+  if (i % 12 === 10) return '#491991';
+  if (i % 12 === 11) return '#610766';
+  if (i % 12 === 12) return '#6e0208';
+  if (i % 12 === 13) return '#f07818';
+  return 'green';
+}
 const partnerForChoropleth = (state, action) => {
   // console.log(action.payload, 'payload');
   // const allData = [];
@@ -72,6 +90,9 @@ const partnerForChoropleth = (state, action) => {
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
   });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
   if (action.payload[0].partner_data.length < 1) {
     partnerData = [0];
   }
@@ -84,6 +105,7 @@ const partnerForChoropleth = (state, action) => {
         ...action.payload[0],
         tabletsGraphData: partnerData,
         tabletsGraphLabel: partnerName,
+        tabletsGraphColor: partnerColor,
       },
     },
   };
@@ -104,7 +126,11 @@ const partnerByProvinceForChoropleth = (state, action) => {
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     // console.log(data, '12st');
-    fullData.push({ id: data.code, count: data.tablets_deployed });
+    fullData.push({
+      id: data.code,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
+    });
     return true;
   });
   // console.log(fullData, 'without Sort');
@@ -123,7 +149,11 @@ const partnerByDistrictForChoropleth = (state, action) => {
   //   console.log(action.payload, 'payload');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
-    fullData.push({ id: data.code, count: data.tablets_deployed });
+    fullData.push({
+      id: data.code,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
+    });
     return true;
   });
   // console.log(fullData, 'without Sort');
@@ -144,7 +174,8 @@ const partnerByMunicipalityForChoropleth = (state, action) => {
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({
       id: data.code,
-      count: data.tablets_deployed,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
     });
     return true;
   });
@@ -206,7 +237,8 @@ const filterDistrictFromProvinceColor = (state, action) => {
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({
       id: data.code,
-      count: data.tablets_deployed,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
     });
     return true;
   });
@@ -244,6 +276,9 @@ const filterPartnerSelect = (state, action) => {
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
   });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
   // console.log(
   //   {
   //     automationRightSidePartnerData: [action.payload[0]],
@@ -271,12 +306,26 @@ const filterPartnerSelect = (state, action) => {
         ...action.payload[0],
         tabletsGraphData: partnerData,
         tabletsGraphLabel: partnerName,
+        tabletsGraphColor: partnerColor,
       },
     },
   };
 };
 
 const getProvinceData = (state, action) => {
+  function GetSortOrder(prop) {
+    return function(a, b) {
+      if (a[prop] > b[prop]) {
+        return 1;
+      }
+      if (a[prop] < b[prop]) {
+        return -1;
+      }
+      return 0;
+    };
+  }
+  console.log(action.payload);
+  action.payload.sort(GetSortOrder('code'));
   return {
     ...state,
     allProvinceName: action.payload,
@@ -346,6 +395,9 @@ const filterPartnerByFederal = (state, action) => {
   const partnerName = action.payload[0].partner_data.map(data => {
     return data.partner_name;
   });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
   if (action.payload[0].partner_data.length < 1) {
     partnerData = [0];
   }
@@ -358,6 +410,7 @@ const filterPartnerByFederal = (state, action) => {
         ...action.payload[0],
         tabletsGraphData: partnerData,
         tabletsGraphLabel: partnerName,
+        tabletsGraphColor: partnerColor,
       },
     },
   };
@@ -366,7 +419,7 @@ const getAutomationDataForTable = (state, action) => {
   return {
     ...state,
     automationTableData: action.payload,
-    // tableDataLoading: false,
+    tableDataLoading: false,
   };
 };
 const getAutomationDataForTableByFederal = (state, action) => {
@@ -384,24 +437,73 @@ const getAutomationDataForTableByPartner = (state, action) => {
   };
 };
 const filterPartnerByFederalwithClickedPartners = (state, action) => {
-  const a = action.payload.map(data => {
-    return { id: data.code, count: data.tablets_deployed };
+  const leftsideData = action.payload[0].partner_data;
+  // const choroplethData = action.payload.map(data => {
+  //   allData.push({ id: data.id, count: data.num_tablet_deployed });
+  //   return true;
+  // });
+  leftsideData.sort(function(a, b) {
+    const nameA = a.partner_name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.partner_name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
   });
-  // console.log(a, 'a');
+  let partnerData = action.payload[0].partner_data.map(data => {
+    return data.tablets_deployed;
+  });
+  const partnerName = action.payload[0].partner_data.map(data => {
+    return data.partner_name;
+  });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
+  if (action.payload[0].partner_data.length < 1) {
+    partnerData = [0];
+  }
   return {
     ...state,
-    filteredMapBoundaryData: action.payload,
-    automationChoroplethData: a,
-    // automationTableData: action.payload,
-    // tableDataLoading: false,
+    automationAllDataByPartner: action.payload,
+    // automationLeftSidePartnerData: leftsideData,
+    automationRightSidePartnerData: {
+      0: {
+        ...action.payload[0],
+        tabletsGraphData: partnerData,
+        tabletsGraphLabel: partnerName,
+        tabletsGraphColor: partnerColor,
+      },
+    },
   };
 };
+// const filterPartnerByFederalwithClickedPartners = (state, action) => {
+//   const a = action.payload.map(data => {
+//     return { id: data.code, count: data.tablets_deployed };
+//   });
+//   // console.log(a, 'a');
+//   return {
+//     ...state,
+//     filteredMapBoundaryData: action.payload,
+//     automationChoroplethData: a,
+//     // automationTableData: action.payload,
+//     // tableDataLoading: false,
+//   };
+// };
 const partnerSelectWithOutreachGetPartnerChoropleth = (
   state,
   action,
 ) => {
   const a = action.payload.result.map(data => {
-    return { id: data.code, count: data.tablets_deployed };
+    return {
+      id: data.code,
+      count:
+        data.tablets_deployed === null ? 0 : data.tablets_deployed,
+    };
   });
   const allData = [];
   // eslint-disable-next-line array-callback-return
