@@ -385,6 +385,15 @@ class VectorGridComponent extends Component {
                         //         <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets_deployed}</b>
                         //     </div>
                         // </div>
+
+
+                //                             <div class="map-view-progress">
+                //         <div class="progress-item is-red" style="flex: 0 0 60%; max-width: 60%;"></div>
+                //         <div class="progress-item is-green" style="flex: 0 0 20%; max-width: 20%;"></div>
+                //         <div class="progress-item is-color5" style="flex: 0 0 20%; max-width: 20%;"></div>
+                //     </div>
+                // <div class="progress-value"><span class="red-value">60%</span><span class="green-value">20%</span><span class="is-color5">20%</span></div>
+            
         this.props.activeOutreachButton && e.layer.options.activechoropleth=== true &&
             L.popup({keepInView: false,autoPan:false})
             .setContent(
@@ -401,13 +410,7 @@ class VectorGridComponent extends Component {
                         
                         </ul>
                         <div class="map-view-footer">
-                    <div class="map-view-progress">
-                        <div class="progress-item is-red" style="flex: 0 0 60%; max-width: 60%;"></div>
-                        <div class="progress-item is-green" style="flex: 0 0 20%; max-width: 20%;"></div>
-                        <div class="progress-item is-color5" style="flex: 0 0 20%; max-width: 20%;"></div>
-                        </div>
-                <div class="progress-value"><span class="red-value">60%</span><span class="green-value">20%</span><span class="is-color5">20%</span></div>
-            </div>
+</div>
             </div>
     </div>`
             )

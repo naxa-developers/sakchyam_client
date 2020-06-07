@@ -2,7 +2,7 @@
 export const githubdata = {
   series: [
     {
-      x: new Date('2015').getTime(),
+      x: new Date('2015-1-1').getTime(),
       // a: 306,
       // d: 33,
       y: 13,

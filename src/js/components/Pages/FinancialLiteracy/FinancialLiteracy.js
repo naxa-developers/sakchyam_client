@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
@@ -13,6 +14,7 @@ import {
   getFinancialData,
   getFinancialProgram,
   filterFinancialDataForGraph,
+  filterPartnersByType,
 } from '../../../actions/financial.actions';
 import HorizontalChart from './Charts/HorizontalChart';
 import DonutChart from './Charts/DonutChart';
@@ -23,7 +25,10 @@ class FinancialLiteracy extends Component {
     super(props);
     this.state = {
       showRightSidebar: true,
-      partnerType: [],
+      partnerType: [
+        'Microfinance Institutions',
+        'Commercial Bank and Other Partners',
+      ],
       checkedPartnerItems: [],
       isAllPartnerSelected: false,
       selectedProgram: [],
@@ -179,6 +184,13 @@ class FinancialLiteracy extends Component {
       selectedProgram,
     );
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.partnerType !== this.state.partnerType) {
+      this.props.filterPartnersByType(this.state.partnerType);
+      this.setState({ checkedPartnerItems: [] });
+    }
+  }
 
   render() {
     const {
@@ -878,4 +890,5 @@ export default connect(mapStateToProps, {
   getFinancialData,
   getFinancialProgram,
   filterFinancialDataForGraph,
+  filterPartnersByType,
 })(FinancialLiteracy);

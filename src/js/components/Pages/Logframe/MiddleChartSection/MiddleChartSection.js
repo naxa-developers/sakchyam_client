@@ -1096,7 +1096,7 @@ class MiddleChartSection extends Component {
     // console.log(active)
     return (
       <div className="info-content">
-        <a href="#sidebar-toggle" className="toggle_button">
+        <a className="toggle_button">
           <i className="material-icons">keyboard_backspace</i>
         </a>
         <div className="info-content-wrap">
@@ -1363,7 +1363,8 @@ class MiddleChartSection extends Component {
           </div>
           <div className="info-slider">
             <a
-              href="#/"
+              role="tab"
+              tabIndex="0"
               id="downloadDropdown"
               className="download-icon-image"
               // onClick={this.downloadPng}

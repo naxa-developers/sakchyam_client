@@ -4,6 +4,7 @@ import {
   GET_FINANCIAL_PROGRAM,
   GET_PARTNERS_LIST,
   FILTER_FINANCIAL_DATA_FOR_GRAPH,
+  FILTER_PARTNERS_BY_TYPE,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -65,5 +66,11 @@ export const filterFinancialDataForGraph = (
   return dispatch({
     type: FILTER_FINANCIAL_DATA_FOR_GRAPH,
     payload: { selectedPartners, selectedProgram },
+  });
+};
+export const filterPartnersByType = selectedPartnerType => dispatch => {
+  return dispatch({
+    type: FILTER_PARTNERS_BY_TYPE,
+    payload: selectedPartnerType,
   });
 };

@@ -562,7 +562,9 @@ const timeLineFilter = (state, action) => {
     markerData &&
     markerData[0] &&
     markerData[0].partner_data.filter(data => {
-      const dataDate = new Date(`${data.date}`).getTime();
+      // console.log(data, 'data');
+      const dataDate = new Date(`${data.full_data}`).getTime();
+      console.log(dataDate, 'timelineData');
       return dataDate >= minRange && dataDate <= maxRange;
     });
   // console.log(a, 'a');

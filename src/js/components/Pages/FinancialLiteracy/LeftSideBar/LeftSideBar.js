@@ -11,6 +11,7 @@ class LeftSideBar extends Component {
     const {
       partnersList,
       financialProgram,
+      filteredPartnersList,
     } = this.props.financialReducer;
     const {
       // state: {},
@@ -40,13 +41,15 @@ class LeftSideBar extends Component {
                 <div className="widget-tag partner-tag">
                   <a
                     onClick={() => {
-                      handlePartnerType('Microfinance');
+                      handlePartnerType('Microfinance Institutions');
                     }}
                     onKeyDown={() => {
-                      handlePartnerType('Microfinance');
+                      handlePartnerType('Microfinance Institutions');
                     }}
                     className={
-                      partnerType.includes('Microfinance')
+                      partnerType.includes(
+                        'Microfinance Institutions',
+                      )
                         ? 'active'
                         : ''
                     }
@@ -57,13 +60,19 @@ class LeftSideBar extends Component {
                   </a>
                   <a
                     onClick={() => {
-                      handlePartnerType('Commercial');
+                      handlePartnerType(
+                        'Commercial Bank and Other Partners',
+                      );
                     }}
                     onKeyDown={() => {
-                      handlePartnerType('Commercial');
+                      handlePartnerType(
+                        'Commercial Bank and Other Partners',
+                      );
                     }}
                     className={
-                      partnerType.includes('Commercial')
+                      partnerType.includes(
+                        'Commercial Bank and Other Partners',
+                      )
                         ? 'active'
                         : ''
                     }
@@ -92,8 +101,8 @@ class LeftSideBar extends Component {
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {partnersList &&
-                      partnersList.map(data => {
+                    {filteredPartnersList &&
+                      filteredPartnersList.map(data => {
                         return (
                           <li key={data.id}>
                             <a>

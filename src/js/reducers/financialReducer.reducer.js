@@ -4,10 +4,17 @@ import {
   GET_FINANCIAL_PROGRAM,
   GET_PARTNERS_LIST,
   FILTER_FINANCIAL_DATA_FOR_GRAPH,
+  FILTER_PARTNERS_BY_TYPE,
 } from '../actions/index.actions';
 
+function getFilteredCodes(array, key, value) {
+  return array.filter(function(e) {
+    return e[key] === value;
+  });
+}
 const initialState = {
   partnersList: [],
+  filteredPartnersList: [],
   financialData: [],
   financialProgram: [],
   filteredByProgram: [],
@@ -20,6 +27,7 @@ const getPartnersList = (state, action) => {
   return {
     ...state,
     partnersList: action.payload,
+    filteredPartnersList: action.payload,
   };
 };
 const getFinancialData = (state, action) => {
@@ -233,7 +241,10 @@ const getFinancialProgram = (state, action) => {
     financialProgram: action.payload,
   };
 };
+
 const filterFinancialDataForGraph = (state, action) => {
+  const microfinance = 'Microfinance Institutions';
+  const commercial = 'Commercial Bank and Other Partners';
   const { selectedPartners, selectedProgram } = action.payload;
   console.log(selectedProgram, 'selectedProgram');
   const data = state.financialData;
@@ -244,13 +255,21 @@ const filterFinancialDataForGraph = (state, action) => {
     filteredLabel = state.filteredByProgramDefault.label;
     filteredSeries = state.filteredByProgramDefault.series;
   } else if (
+    // Partner is selected and Program is not selected
     selectedPartners.length > 0 &&
     selectedProgram.length < 1
   ) {
+    const filteredCodes = getFilteredCodes(
+      data,
+      'partner_type',
+      microfinance,
+    );
+
+    console.log(filteredCodes, 'filterCodes');
     const filteredData = data.filter(i =>
       selectedPartners.includes(i.partner_id),
     );
-
+    console.log(filteredData, 'filteredData');
     filteredData.map(filtData => {
       // console.log(filtered)
       if (!filteredLabel.includes(filtData.partner_id)) {
@@ -262,6 +281,12 @@ const filterFinancialDataForGraph = (state, action) => {
       });
       return true;
     });
+
+    // const filtered = filteredData.map(datax => {
+    //   return datax.single_count;
+    // });
+    // const result = Array.from(new Set(filtered));
+    // console.log(result, 'result ');
   } else if (
     selectedPartners.length < 1 &&
     selectedProgram.length > 0
@@ -314,7 +339,27 @@ const filterFinancialDataForGraph = (state, action) => {
     // financialProgram: action.payload,
   };
 };
-
+const filterPartnersByType = (state, action) => {
+  const allPartnersData = state.partnersList;
+  console.log(action.payload, 'payload');
+  console.log(allPartnersData, 'state');
+  let filteredCodes = [];
+  if (action.payload.length > 1) {
+    filteredCodes = allPartnersData;
+  } else {
+    filteredCodes = getFilteredCodes(
+      allPartnersData,
+      'partner_type',
+      action.payload[0],
+    );
+  }
+  // console.log(filteredCodes, 'filteredTypesss');
+  return {
+    ...state,
+    filteredPartnersList: filteredCodes,
+    // partnersList: action.payload,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERS_LIST:
@@ -325,6 +370,8 @@ export default function(state = initialState, action) {
       return getFinancialProgram(state, action);
     case FILTER_FINANCIAL_DATA_FOR_GRAPH:
       return filterFinancialDataForGraph(state, action);
+    case FILTER_PARTNERS_BY_TYPE:
+      return filterPartnersByType(state, action);
     default:
       return state;
   }

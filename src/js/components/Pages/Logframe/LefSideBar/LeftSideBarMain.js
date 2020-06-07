@@ -82,7 +82,7 @@ class LeftSidebarMain extends Component {
                 onKeyPress={() => handleActiveListItem(data.name)}
               >
                 <div className="li-wrap">
-                  <a href="#/">{data.name}</a>
+                  <a>{data.name}</a>
                   <p>{data.title}</p>
                 </div>
               </li>
@@ -99,8 +99,10 @@ class LeftSidebarMain extends Component {
         >
           <a
             onClick={backNavigationClick}
+            onKeyDown={backNavigationClick}
+            tabIndex="0"
+            role="tab"
             className="previous-nav"
-            href="#previous"
           >
             <i className="material-icons">keyboard_arrow_left</i>
             Back
@@ -127,7 +129,7 @@ class LeftSidebarMain extends Component {
                       onClick={() => handleSubCatClick(data.name)}
                       onKeyPress={() => handleSubCatClick(data.name)}
                     >
-                      <a href="#/">
+                      <a>
                         {indicatorNumber}: {data.title}
                       </a>
                     </li>
