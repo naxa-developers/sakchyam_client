@@ -38,6 +38,15 @@ class FinancialLiteracy extends Component {
     this.props.getFinancialProgram();
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.financialReducer.filterFinancialDataForGraph !==
+      this.props.financialReducer.filterFinancialDataForGraph
+    ) {
+      this.props.filterFinancialDataForGraph();
+    }
+  }
+
   handleRightSidebarShow = () => {
     this.setState(prevState => ({
       showRightSidebar: !prevState.showRightSidebar,
