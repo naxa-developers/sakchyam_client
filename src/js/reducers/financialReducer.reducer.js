@@ -13,6 +13,7 @@ function getFilteredCodes(array, key, value) {
   });
 }
 const initialState = {
+  allTableData: [],
   partnersList: [],
   filteredPartnersList: [],
   financialData: [],
@@ -146,19 +147,23 @@ const getFinancialData = (state, action) => {
   });
   const removedDuplicateLabel = [...new Set(label)];
   // console.log(removedDuplicateLabel);
-  // const groupedObjForLabel = {};
-  // action.payload.forEach(function(c) {
-  //   if (groupedObjForLabel[c.partner_id]) {
-  //     groupedObjForLabel[c.partner_id].names.push(c);
-  //   } else {
-  //     groupedObjForLabel[c.partner_id] = {
-  //       programId: c.partner_id,
-  //       names: [c],
-  //     };
-  //   }
-  // });
-  // console.log(groupedObjForLabel, 'groupedLabel');
-
+  const groupedObjForLabel = {};
+  action.payload.forEach(function(c) {
+    if (groupedObjForLabel[c.partner_id]) {
+      groupedObjForLabel[c.partner_id].names.push(c);
+    } else {
+      groupedObjForLabel[c.partner_id] = {
+        partner_name: c.partner_name,
+        names: [c],
+      };
+    }
+  });
+  console.log(groupedObjForLabel, 'groupedLabel');
+  const tableDatas = [];
+  Object.entries(groupedObjForLabel).map(([key, data]) => {
+    return tableDatas.push(data);
+  });
+  console.log(tableDatas, 'tableDatas');
   const result = [
     ...new Map(action.payload.map(x => [x.partner_id, x])).values(),
   ];
@@ -184,7 +189,7 @@ const getFinancialData = (state, action) => {
       };
     }
   });
-  // console.log(ObjByProgram, 'ObjbyProgram');
+  console.log(ObjByProgram, 'ObjbyProgram');
   action.payload.forEach(function(c) {
     // console.log(c, 'c');
     if (groupedObj[c.program_id]) {
@@ -296,10 +301,24 @@ const getFinancialData = (state, action) => {
         'Microfinance Institutions',
       ],
     },
+    allTableData: tableDatas,
   };
 };
 
 const getFinancialProgram = (state, action) => {
+  action.payload.sort(function(a, b) {
+    const nameA = a.id; // ignore upper and lowercase
+    const nameB = b.id; // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
   return {
     ...state,
     financialProgram: action.payload,
@@ -523,7 +542,7 @@ const filterFinancialDataForGraph = (state, action) => {
     },
     sankeyData: newSankeyData,
     treeMapData: newTreeMapData,
-    financialProgram: action.payload,
+    // financialProgram: action.payload,
   };
 };
 const filterPartnersByType = (state, action) => {
