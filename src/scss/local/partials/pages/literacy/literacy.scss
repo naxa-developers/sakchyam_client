@@ -5,22 +5,22 @@
     aside {
         &.sidebar {
             &.literacy-sidebar {
-                width: 320px;
-
+                @include flex(0 0 320px);
+                max-width: 320px;
                 @media #{$breakpoint-xxl} {
-                    width: 350px;
+                    @include flex(0 0 280px);
+                    max-width: 280px;
                 }
-
-
                 @media #{$breakpoint-ls} {
                     @include flex(0 0 100%);
-                    width: 100%;
+                    max-width: 100%;
                 }
             }
 
             &.literacy-right-sidebar {
                 @media #{$breakpoint-xxl} {
-                    width: 350px;
+                    @include flex(0 0 300px);
+                    max-width: 300px;
                 }
 
                 @media #{$breakpoint-ls} {
@@ -73,7 +73,7 @@
                 display: block;
                 font-family: $avenir-heavy;
                 text-transform: capitalize;
-
+                cursor: pointer;
                 @media #{$breakpoint-xxl} {
                     font-size: .875rem;
                 }
@@ -190,4 +190,14 @@
             }
         }
     }
+}
+.apexcharts-tooltip{
+    max-width: 200px;
+    white-space: initial;;
+    flex-wrap: wrap;
+    overflow: initial;
+    background-color: $white-color;
+}
+.apexcharts-tooltip-text-value{
+    color:$primary-color;
 }

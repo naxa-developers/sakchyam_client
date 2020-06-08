@@ -19,13 +19,16 @@
         &.sidebar{
             position: relative;
             @include transition(width .8s ease-in-out);
-            width:400px;
+            @include flex(0 0 400px);
+            max-width: 400px;
             @media screen and (max-width:1440px){
-                width:320px;
+                @include flex(0 0 300px);
+                max-width: 300px;
+                width:100%;
             }
             @media #{$breakpoint-ls}{
                 @include flex(0 0 100%);
-                width:100%;
+                max-width:100%;
             }
             .sidebar-in{
                 display: block;
@@ -594,7 +597,8 @@
         aside{
             &.sidebar{
                 &.left-sidebar{
-                     width:0px;
+                     @include flex(0 0 0);
+                     max-width: 0;
                      .sidebar-in{
                          display: none;
                      }
@@ -609,7 +613,8 @@
          aside{
              &.sidebar{
                  &.right-sidebar{
-                      width:0px;
+                    @include flex(0 0 0);
+                    max-width: 0;
                       .sidebar-in{
                          display: none;
                      }
