@@ -77,6 +77,7 @@
   },
   "dependencies": {
     "@nivo/sankey": "^0.62.0",
+    "@nivo/treemap": "^0.62.0",
     "apexcharts": "^3.19.2",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",

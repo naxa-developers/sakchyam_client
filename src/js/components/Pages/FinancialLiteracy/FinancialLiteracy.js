@@ -19,6 +19,7 @@ import {
 import HorizontalChart from './Charts/HorizontalChart';
 import DonutChart from './Charts/DonutChart';
 import SankeyDiagram from './Charts/SankeyDiagram';
+import TreeMapDiagram from './Charts/TreeMapDiagram';
 
 class FinancialLiteracy extends Component {
   constructor(props) {
@@ -341,6 +342,26 @@ class FinancialLiteracy extends Component {
                           </div>
                           <div className="card-body">
                             <DonutChart />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-xl-6">
+                        <div className="card" id="">
+                          <div className="card-header">
+                            <h5>
+                              Contribution of program initiatives
+                            </h5>
+                            <div className="header-icons">
+                              <span className="">
+                                <img src={DownloadIcon} alt="open" />
+                              </span>
+                              <span className="">
+                                <img src={ExpandIcon} alt="open" />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="card-body">
+                            <TreeMapDiagram />
                           </div>
                         </div>
                       </div>

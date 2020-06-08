@@ -8,12 +8,9 @@ class SankeyDiagram extends Component {
     this.state = {};
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { financialData } = this.props.financialReducer;
-  }
-
   render() {
     const { sankeyData } = this.props.financialReducer;
+    // console.log('sankeyData', sankeyData);
     return (
       <div style={{ height: '700px', width: 'auto' }}>
         {Object.entries(sankeyData).length !== 0 && (

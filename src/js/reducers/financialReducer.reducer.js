@@ -21,6 +21,31 @@ const initialState = {
   filteredByProgramDefault: [],
   filteredByPartnerType: {},
   sankeyData: {},
+  treeMapData: {},
+};
+
+// Function to filter TreeMap Data
+const filterTreeMapData = data => {
+  const arr = [];
+
+  data.map(item => {
+    const obj = arr.find(objt => objt.name === item.program_id);
+    if (!obj) {
+      arr.push({
+        name: item.program_id,
+        loc: item.value,
+      });
+    }
+    if (obj) {
+      const objIndex = arr.findIndex(i => i.name === item.program_id);
+      arr[objIndex].loc += item.value;
+    }
+    return true;
+  });
+  return {
+    name: 'program',
+    children: arr,
+  };
 };
 
 // Funtion to filter Sankey Data
@@ -67,7 +92,6 @@ const getPartnersList = (state, action) => {
 };
 const getFinancialData = (state, action) => {
   const financialData = action.payload;
-
   const nodes = [];
   const links = [];
   financialData.map(item => {
@@ -96,6 +120,29 @@ const getFinancialData = (state, action) => {
     }
     return true;
   });
+  // console.log(state, 'state');
+
+  financialData.map((item, index) => {
+    state.financialProgram.map(p => {
+      if (p.id === item.program_id) {
+        financialData[index] = {
+          ...item,
+          program_name: p.name,
+        };
+      }
+    });
+  });
+  financialData.map((item, index) => {
+    state.partnersList.map(i => {
+      if (i.partner_id === item.partner_id) {
+        financialData[index] = {
+          ...item,
+          partner_name: i.partner_name,
+        };
+      }
+    });
+  });
+
   // const nodes = [];
   // const links = [];
   // financialData.map(item => {
@@ -126,6 +173,7 @@ const getFinancialData = (state, action) => {
   // const sankeyData = { nodes, links };
 
   const sankeyData = filterSankeyData(financialData);
+  const treeMapData = filterTreeMapData(financialData);
 
   // console.log(action.payload);
   action.payload.sort(function(a, b) {
@@ -143,7 +191,7 @@ const getFinancialData = (state, action) => {
   });
   // console.log(action.payload, 'maindata');
   const label = action.payload.map(data => {
-    return data.partner_id;
+    return data.partner_name;
   });
   const removedDuplicateLabel = [...new Set(label)];
   // console.log(removedDuplicateLabel);
@@ -278,6 +326,7 @@ const getFinancialData = (state, action) => {
   return {
     ...state,
     sankeyData,
+    treeMapData,
     financialData: action.payload,
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
@@ -315,11 +364,13 @@ const filterFinancialDataForGraph = (state, action) => {
   let filteredSeries = [];
 
   let newSankeyData = data;
+  let newTreeMapData;
 
   if (selectedPartners.length < 1 && selectedProgram.length < 1) {
     filteredLabel = state.filteredByProgramDefault.label;
     filteredSeries = state.filteredByProgramDefault.series;
     newSankeyData = filterSankeyData(data);
+    newTreeMapData = filterTreeMapData(data);
   } else if (
     // Partner is selected and Program is not selected
     selectedPartners.length > 0 &&
@@ -352,6 +403,7 @@ const filterFinancialDataForGraph = (state, action) => {
     // const result = Array.from(new Set(filtered));
     // console.log(result, 'result ');
     newSankeyData = filterSankeyData(filteredData);
+    newTreeMapData = filterTreeMapData(filteredData);
   } else if (
     selectedPartners.length < 1 &&
     selectedProgram.length > 0
@@ -370,6 +422,7 @@ const filterFinancialDataForGraph = (state, action) => {
       return true;
     });
     newSankeyData = filterSankeyData(filteredData);
+    newTreeMapData = filterTreeMapData(filteredData);
   } else if (
     selectedPartners.length > 0 &&
     selectedProgram.length > 0
@@ -397,6 +450,7 @@ const filterFinancialDataForGraph = (state, action) => {
         selectedPartners.includes(i.partner_id),
     );
     newSankeyData = filterSankeyData(filteredDataSankey);
+    newTreeMapData = filterTreeMapData(filteredDataSankey);
   }
 
   // const { selectedPartners, selectedProgram } = action.payload;
@@ -479,6 +533,8 @@ const filterFinancialDataForGraph = (state, action) => {
   // financialProgram: action.payload,
   // };
 
+  // console.log('newTreeMapData', newTreeMapData);
+
   return {
     ...state,
     filteredByProgram: {
@@ -486,6 +542,7 @@ const filterFinancialDataForGraph = (state, action) => {
       label: filteredLabel,
     },
     sankeyData: newSankeyData,
+    treeMapData: newTreeMapData,
     // financialProgram: action.payload,
   };
 };
