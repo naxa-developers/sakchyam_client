@@ -188,26 +188,10 @@ class TimelineChart extends Component {
             },
           },
         });
-        // this.setState(prevState => ({
-        //   optionsLine: {
-        //     ...prevState.optionsLine,
-        //     chart: {
-        //       ...prevState.optionsLine.chart,
-        //       selection: {
-        //         ...prevState.optionsLine.chart.selection,
-        //         xaxis: {
-        //           ...prevState.optionsLine.chart.selection.xaxis,
-        //           min: new Date(this.props.minValue).getTime(),
-        //           max: new Date(this.getAddedYear(time)).getTime(),
-        //         },
-        //       },
-        //     },
-        //   },
-        // }));
       } else {
         // console.log('clear');
         clearInterval(global.timerId);
-        // this.setState({ playSelected: false });
+        this.setState({ playSelected: false });
       }
     }, 1200);
   };
@@ -221,6 +205,11 @@ class TimelineChart extends Component {
     }
   } // componentdidupdate
 
+  pauseBtn = () => {
+    clearInterval(global.timerId);
+    this.setState({ playSelected: false });
+  };
+
   render() {
     const { playSelected, minCurrent, maxCurrent, key } = this.state;
     // console.log(this.props.minValue, 'minValue render');
@@ -229,7 +218,7 @@ class TimelineChart extends Component {
       <div
         id="wrapper"
         className="chart-timeline"
-        style={{ background: 'white', padding: '11px' }}
+        style={{ background: 'white' }}
       >
         <a
           onClick={() => {
@@ -239,6 +228,7 @@ class TimelineChart extends Component {
             // global.chart.render();
             // console.log(this.props.minValue, 'onClick minValue');
             this.props.playBtn(minCurrent, maxCurrent);
+            this.setState({ playSelected: true });
             setTimeout(() => {
               this.updateChart(
                 this.props.minValue,
@@ -248,9 +238,27 @@ class TimelineChart extends Component {
 
             // this.setState({ key: Math.random() });
           }}
+          onKeyDown={() => {
+            time = '1/1/2015';
+            // console.log(new Date(minCurrent), 'onClick maxValue');
+            // console.log(new Date(this.props.minValue), ' Current min Value');
+            // global.chart.render();
+            // console.log(this.props.minValue, 'onClick minValue');
+            this.props.playBtn(minCurrent, maxCurrent);
+            this.setState({ playSelected: true });
+            setTimeout(() => {
+              this.updateChart(
+                this.props.minValue,
+                this.props.maxValue,
+              );
+            }, 200);
+
+            // this.setState({ key: Math.random() });
+          }}
+          role="tab"
+          tabIndex="0"
           // key={this.props.key}
           className="play-btn"
-          href="#"
           title="Play"
           style={
             playSelected ? { display: 'none' } : { display: 'block' }
@@ -258,15 +266,19 @@ class TimelineChart extends Component {
         >
           <img src={playIcon} alt="map" />
         </a>
-        {/* <a
+        <a
           onClick={this.pauseBtn}
+          onKeyDown={this.pauseBtn}
+          role="tab"
+          tabIndex="0"
           className="pause-btn"
-          href="#"
           title="Pause"
           style={
             !playSelected ? { display: 'none' } : { display: 'block' }
           }
-        /> */}
+        >
+          <img src={pauseIcon} alt="pause" />
+        </a>
         <div id="timelineChart" style={{ marginLeft: '20px' }} />
       </div>
     );

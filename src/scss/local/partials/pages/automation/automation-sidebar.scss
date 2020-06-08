@@ -28,6 +28,9 @@
                             text-transform: capitalize;
                             padding:.25rem 1rem;
                             margin-bottom: .6125rem;
+                            @media #{$breakpoint-xxl} {
+                                font-size:1rem;
+                            }
                         }
                     }
                     .search-bar{
@@ -778,7 +781,7 @@
                     }
                     .aside-body{
                         background-color: $white-color;
-                        max-height: calc(100vh - 140px);
+                        max-height: calc(100vh - 135px);
                         height: 100vh;
                         padding:10px 1rem;
                         @media #{$breakpoint-ls}{

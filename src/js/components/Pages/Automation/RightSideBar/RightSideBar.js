@@ -102,7 +102,9 @@ class RightSideBar extends Component {
                     }
               }
               onClick={toggleTableViewButton}
-              href="#"
+              onKeyDown={toggleTableViewButton}
+              role="tab"
+              tabIndex="0"
             >
               View on table
             </a>
@@ -264,15 +266,15 @@ class RightSideBar extends Component {
                             </div>
                           </div>
                           <div className="orgnization-info">
-                            <a href="#">
+                            <a>
                               Province
                               <span>{data.province_covered}</span>
                             </a>
-                            <a href="#">
+                            <a>
                               District
                               <span>{data.district_covered}</span>
                             </a>
-                            <a href="#">
+                            <a>
                               Local units
                               <span>{data.municipality_covered}</span>
                             </a>
