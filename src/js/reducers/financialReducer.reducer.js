@@ -29,15 +29,17 @@ const filterTreeMapData = data => {
   const arr = [];
 
   data.map(item => {
-    const obj = arr.find(objt => objt.name === item.program_id);
+    const obj = arr.find(objt => objt.id === item.program_id);
     if (!obj) {
       arr.push({
-        name: item.program_id,
+        id: item.program_id,
+        name: item.program_name,
+        // namee: item.program_name,
         loc: item.value,
       });
     }
     if (obj) {
-      const objIndex = arr.findIndex(i => i.name === item.program_id);
+      const objIndex = arr.findIndex(i => i.id === item.program_id);
       arr[objIndex].loc += item.value;
     }
     return true;
@@ -92,35 +94,6 @@ const getPartnersList = (state, action) => {
 };
 const getFinancialData = (state, action) => {
   const financialData = action.payload;
-  const nodes = [];
-  const links = [];
-  financialData.map(item => {
-    // console.log(obj.id);
-    // console.log(item.partner_id);
-    const obj1 = nodes.find(obj => obj.id === item.program_id);
-    const obj2 = nodes.find(obj => obj.id === item.partner_id);
-    if (!obj1) {
-      nodes.push({
-        id: item.program_id,
-        color: 'hsl(41, 70%, 50%)',
-      });
-    }
-    if (!obj2) {
-      nodes.push({
-        id: item.partner_id,
-        color: 'hsl(40, 74%, 55%)',
-      });
-    }
-    if (item.program_id !== item.partner_id && item.value !== 0) {
-      links.push({
-        source: item.partner_id,
-        target: item.program_id,
-        value: item.value,
-      });
-    }
-    return true;
-  });
-  // console.log(state, 'state');
 
   financialData.map((item, index) => {
     state.financialProgram.map(p => {
@@ -147,34 +120,7 @@ const getFinancialData = (state, action) => {
     return true;
   });
 
-  // const nodes = [];
-  // const links = [];
-  // financialData.map(item => {
-  //   const obj1 = nodes.find(obj => obj.id === item.program_id);
-  //   const obj2 = nodes.find(obj => obj.id === item.partner_id);
-  //   if (!obj1) {
-  //     nodes.push({
-  //       id: item.program_id,
-  //       color: 'hsl(41, 70%, 50%)',
-  //     });
-  //   }
-  //   if (!obj2) {
-  //     nodes.push({
-  //       id: item.partner_id,
-  //       color: 'hsl(40, 74%, 55%)',
-  //     });
-  //   }
-  //   if (item.program_id !== item.partner_id && item.value !== 0) {
-  //     links.push({
-  //       source: item.partner_id,
-  //       target: item.program_id,
-  //       value: item.value,
-  //     });
-  //   }
-  //   return true;
-  // });
-
-  // const sankeyData = { nodes, links };
+  console.log(financialData, 'required');
 
   const sankeyData = filterSankeyData(financialData);
   const treeMapData = filterTreeMapData(financialData);
@@ -547,7 +493,7 @@ const filterFinancialDataForGraph = (state, action) => {
     },
     sankeyData: newSankeyData,
     treeMapData: newTreeMapData,
-    // financialProgram: action.payload,
+    financialProgram: action.payload,
   };
 };
 const filterPartnersByType = (state, action) => {
