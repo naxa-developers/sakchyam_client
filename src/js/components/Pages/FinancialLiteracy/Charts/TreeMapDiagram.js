@@ -9,6 +9,10 @@ class TreeMapDiagram extends Component {
     this.state = {};
   }
 
+  onProgramClick = e => {
+    console.log('onClick', e);
+  };
+
   render() {
     const { treeMapData } = this.props.financialReducer;
 
@@ -40,6 +44,7 @@ class TreeMapDiagram extends Component {
             animate
             motionStiffness={90}
             motionDamping={11}
+            onClick={this.onProgramClick}
           />
         )}
       </div>
