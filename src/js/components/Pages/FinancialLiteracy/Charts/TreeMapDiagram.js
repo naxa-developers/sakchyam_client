@@ -9,23 +9,70 @@ class TreeMapDiagram extends Component {
     this.state = {};
   }
 
-  render() {
-    const { treeMapData } = this.props.financialReducer;
+  onProgramClick = e => {
+    const updatedTreeMapData = this.generateTreeMapData(e.data.id);
+    this.setState({
+      treeMapData: updatedTreeMapData,
+    });
+  };
 
-    console.log('treeMapdiagram component', treeMapData);
+  generateTreeMapData = id => {
+    const arr = [];
+    this.state.financialData.map(item => {
+      if (id === item.program_id) {
+        arr.push({
+          id: item.partner_id,
+          name: item.partner_name,
+          loc: item.value,
+        });
+        return true;
+      }
+      return true;
+    });
+    console.log(arr, 'arr');
+    return { name: 'program1', children: arr };
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      treeMapData,
+      financialData,
+    } = this.props.financialReducer;
+    console.log(this.props.financialReducer, 'financialReducer');
+    if (
+      prevProps.financialReducer.treeMapData !==
+      this.props.financialReducer.treeMapData
+    ) {
+      this.setState({ treeMapData });
+    }
+    if (
+      prevProps.financialReducer.financialData !==
+      this.props.financialReducer.financialData
+    ) {
+      this.setState({ financialData });
+    }
+
+    return true;
+  }
+
+  render() {
+    // const { treeMapData } = this.props.financialReducer;
+    const { treeMapData } = this.state;
+
+    console.log('treeMapdiagram component', this.state.treeMapData);
 
     return (
       <div style={{ height: '500px', width: '500px' }}>
-        {Object.entries(treeMapData).length !== 0 && (
+        {treeMapData && Object.entries(treeMapData).length !== 0 && (
           <ResponsiveTreeMap
             root={treeMapData}
             // root={root.root}
-            identity="name"
+            identity="id"
             value="loc"
             innerPadding={3}
             outerPadding={3}
             margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            label="loc"
+            label="id"
             labelFormat=".0s"
             labelSkipSize={12}
             labelTextColor={{
@@ -40,6 +87,7 @@ class TreeMapDiagram extends Component {
             animate
             motionStiffness={90}
             motionDamping={11}
+            onClick={this.onProgramClick}
           />
         )}
       </div>
