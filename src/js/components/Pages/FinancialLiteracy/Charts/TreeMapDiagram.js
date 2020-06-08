@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { ResponsiveTreeMap } from '@nivo/treemap';
 import { connect } from 'react-redux';
