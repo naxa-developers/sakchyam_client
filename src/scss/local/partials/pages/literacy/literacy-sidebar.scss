@@ -58,6 +58,7 @@
                                     margin-bottom: .5rem;
                                     @include transition(all .5s ease-in-out);
                                     text-transform: capitalize;
+                                    cursor: pointer;
 
                                     &:not(:last-child) {
                                         margin-right: .6125rem;
