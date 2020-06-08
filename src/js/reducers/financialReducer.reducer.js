@@ -130,7 +130,9 @@ const getFinancialData = (state, action) => {
           program_name: p.name,
         };
       }
+      return true;
     });
+    return true;
   });
   financialData.map((item, index) => {
     state.partnersList.map(i => {
@@ -140,7 +142,9 @@ const getFinancialData = (state, action) => {
           partner_name: i.partner_name,
         };
       }
+      return true;
     });
+    return true;
   });
 
   // const nodes = [];
