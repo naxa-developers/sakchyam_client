@@ -100,6 +100,10 @@ module.exports = env => {
         // new DashboardPlugin(),
         // new Dotenv(),
       ],
+      // devServer: {
+      //   inline: true,
+      //   port: 3000,
+      // },
       devtool: PLATFORM === 'production' ? '' : 'eval-source-map',
     },
   ]);

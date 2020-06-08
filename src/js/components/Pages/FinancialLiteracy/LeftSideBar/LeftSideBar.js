@@ -132,26 +132,28 @@ class LeftSideBar extends Component {
                 <div className="widget-tag Program-tag">
                   {financialProgram &&
                     financialProgram.map(data => {
-                      return (
-                        <a
-                          onClick={() => {
-                            handleSelectedProgram(data.id);
-                          }}
-                          onKeyDown={() => {
-                            handleSelectedProgram(data.id);
-                          }}
-                          className={
-                            selectedProgram.includes(data.id)
-                              ? 'active'
-                              : ''
-                          }
-                          tabIndex="0"
-                          role="tab"
-                        >
-                          <small className="icon is-red" />
-                          <span>{data.name}</span>
-                        </a>
-                      );
+                      if (data.total !== 0)
+                        return (
+                          <a
+                            onClick={() => {
+                              handleSelectedProgram(data.id);
+                            }}
+                            onKeyDown={() => {
+                              handleSelectedProgram(data.id);
+                            }}
+                            className={
+                              selectedProgram.includes(data.id)
+                                ? 'active'
+                                : ''
+                            }
+                            tabIndex="0"
+                            role="tab"
+                          >
+                            <small className="icon is-red" />
+                            <span>{data.name}</span>
+                          </a>
+                        );
+                      return null;
                     })}
 
                   {/* <a href="#" className="active">

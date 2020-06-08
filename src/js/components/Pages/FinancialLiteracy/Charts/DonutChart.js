@@ -24,7 +24,11 @@ class DonutChart extends Component {
       //   labels: ['a', 'b'],
       plotOptions: {
         pie: {
+          customScale: 0.8,
           donut: {
+            // customScale: 0.8,
+            // size: 200,
+            // size: '5%',
             labels: {
               show: true,
               name: {
@@ -165,12 +169,10 @@ class DonutChart extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      label,
-    } = this.props.financialReducer.filteredByPartnerType;
+    const { label } = this.props.financialReducer.pieData;
     if (
-      prevProps.financialReducer.filteredByPartnerType !==
-      this.props.financialReducer.filteredByPartnerType
+      prevProps.financialReducer.pieData !==
+      this.props.financialReducer.pieData
     ) {
       console.log(label, 'label');
       this.setState(preState => ({
@@ -183,10 +185,7 @@ class DonutChart extends Component {
   }
 
   render() {
-    const {
-      series,
-      label,
-    } = this.props.financialReducer.filteredByPartnerType;
+    const { series, label } = this.props.financialReducer.pieData;
     // console.log(series, 'series');
     const { options, height } = this.state;
     return (

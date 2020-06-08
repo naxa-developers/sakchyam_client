@@ -22,6 +22,7 @@ const initialState = {
   filteredByPartnerType: {},
   sankeyData: {},
   treeMapData: {},
+  pieData: [],
 };
 
 // Function to filter TreeMap Data
@@ -175,7 +176,7 @@ const getFinancialData = (state, action) => {
   // });
 
   // const sankeyData = { nodes, links };
-
+  console.log(financialData, 'financialData');
   const sankeyData = filterSankeyData(financialData);
   const treeMapData = filterTreeMapData(financialData);
 
@@ -239,17 +240,18 @@ const getFinancialData = (state, action) => {
   });
   // console.log(ObjByProgram, 'ObjbyProgram');
   action.payload.forEach(function(c) {
+    // console.log(c, 'c');
     if (groupedObj[c.program_id]) {
       groupedObj[c.program_id].data.push(c.value);
     } else {
       groupedObj[c.program_id] = {
-        name: c.program_id,
+        name: c.program_name,
         data: [c.value],
       };
     }
   });
 
-  // console.log(groupedObj, 'grouped');
+  console.log(groupedObj, 'grouped');
   const allProgramData = [];
   for (const [key, value] of Object.entries(groupedObj)) {
     // console.log(value, 'value');
@@ -341,7 +343,7 @@ const getFinancialData = (state, action) => {
       series: allProgramData,
       label: removedDuplicateLabel,
     },
-    filteredByPartnerType: {
+    pieData: {
       series: [totalCommercialBenef, totalMicroBenef],
       label: [
         'Commercial Bank and Other Partners',
@@ -366,6 +368,8 @@ const filterFinancialDataForGraph = (state, action) => {
   const data = state.financialData;
   let filteredLabel = [];
   let filteredSeries = [];
+  const filteredMicroFinance = [];
+  const filteredCommercial = [];
 
   let newSankeyData = data;
   let newTreeMapData;
@@ -391,6 +395,7 @@ const filterFinancialDataForGraph = (state, action) => {
       selectedPartners.includes(i.partner_id),
     );
     filteredData.map(filtData => {
+      // console.log(filtData, 'filtData');
       if (!filteredLabel.includes(filtData.partner_id)) {
         filteredLabel.push(filtData.partner_id);
       }
@@ -400,7 +405,16 @@ const filterFinancialDataForGraph = (state, action) => {
       });
       return true;
     });
-
+    filteredData.map(filtData => {
+      if (filtData.partner_type === microfinance) {
+        filteredMicroFinance.push(filtData);
+      } else if (filtData.partner_type === commercial) {
+        filteredCommercial.push(filtData);
+      }
+      return true;
+    });
+    console.log(filteredMicroFinance, 'filteredMicroFinanceData');
+    console.log(filteredCommercial, 'filteredCommercial');
     // const filtered = filteredData.map(datax => {
     //   return datax.single_count;
     // });
@@ -538,12 +552,28 @@ const filterFinancialDataForGraph = (state, action) => {
   // };
 
   // console.log('newTreeMapData', newTreeMapData);
-
+  const totalCommercialBenef = filteredCommercial.reduce(function(
+    x,
+    b,
+  ) {
+    return x + b.value;
+  },
+  0);
+  const totalMicroBenef = filteredMicroFinance.reduce(function(x, b) {
+    return x + b.value;
+  }, 0);
   return {
     ...state,
     filteredByProgram: {
       series: filteredSeries,
       label: filteredLabel,
+    },
+    pieData: {
+      series: [totalCommercialBenef, totalMicroBenef],
+      label: [
+        'Commercial Bank and Other Partners',
+        'Microfinance Institutions',
+      ],
     },
     sankeyData: newSankeyData,
     treeMapData: newTreeMapData,
