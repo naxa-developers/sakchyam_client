@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import Axios from 'axios';
 import { connect } from 'react-redux';
+
 import Loading from '../../../common/Loading';
 import randomGeojson from '../../../../../data/randomGeojson.json';
 import ActiveIcon from '../../../../../img/fullactive.png';
@@ -12,8 +13,6 @@ import layersIcon from '../../../../../img/layers.png';
 import TimelineChart from '../Chart/TimelineChart';
 import CsvFile from '../../../../../data/provincemerge.json';
 
-import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/src/css/mapbox-gl.css'
 import '../MapRelatedComponents/MapRelatedCss/VectorTileMapbox.css';
 import Choropleth from '../MapRelatedComponents/VectorTileMapbox';
 import MarkerCluster from '../MapRelatedComponents/MarkerClusterMapbox';
@@ -27,6 +26,7 @@ import {
 import automationReducerReducer from '../../../../reducers/automationReducer.reducer';
 import { getCenterBboxMunicipality } from '../MapRelatedComponents/MunicipalityFunction';
 import { getCenterBboxDistrict } from '../MapRelatedComponents/DistrictFunction';
+import MigrationLines from '../MapRelatedComponents/MigrationMapBox';
 // import ScrollTab from './ScrollTab';
 // import IosSwitch from '../../Includes/IosSwitch';
 
@@ -42,16 +42,16 @@ import { getCenterBboxDistrict } from '../MapRelatedComponents/DistrictFunction'
 //   popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
 // });
 let i = 1;
-export const activeIcon = new L.Icon({
-  iconUrl: ActiveIcon,
-  iconSize: [35, 40],
-  // iconAnchor: [17, 46],
-});
+// export const activeIcon = new L.Icon({
+//   iconUrl: ActiveIcon,
+//   iconSize: [35, 40],
+//   // iconAnchor: [17, 46],
+// });
 class MapComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      map: null,
+      // map: null,
       provinceBbox: [],
       provinceAllData: [],
       selectedBaseLayer: 'harje',
@@ -82,17 +82,16 @@ class MapComponent extends Component {
     }, 500);
   };
 
-
-  addMap = () => {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvbWF0dXBlbiIsImEiOiJja2E5bDFwb2swdHNyMnNvenZxa2Vpeml2In0.fCStqdwmFYFP-cUvb5vMCw';
-    const map = new mapboxgl.Map({
-    container: 'mapBoxMap',
-    style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-    center: [84.0,27.5], // starting position [lng, lat]
-    zoom: 5 // starting zoom
-    });
-    this.setState({map:map});
-  }
+  // addMap = () => {
+  //   mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvbWF0dXBlbiIsImEiOiJja2E5bDFwb2swdHNyMnNvenZxa2Vpeml2In0.fCStqdwmFYFP-cUvb5vMCw';
+  //   global.map = new mapboxgl.Map({
+  //   container: 'mapBoxMap',
+  //   style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+  //   center: [84.0,27.5], // starting position [lng, lat]
+  //   zoom: 5 // starting zoom
+  //   });
+  //   this.setState({map:global.map});
+  // }
 
   componentDidMount() {
     // const map = this.props.mapRef.current.leafletElement;
@@ -118,8 +117,8 @@ class MapComponent extends Component {
     //   'SELECTION_ADD',
     // );
     // this.props.filterAutomationDataForVectorTiles();
-    this.addMap();
-    console.log("entered")
+    // this.addMap();
+    // console.log('entered');
   }
 
   componentDidUpdate(prevProps, prevState) {}
@@ -199,6 +198,7 @@ class MapComponent extends Component {
       key,
       playClick,
       activeMapControl,
+      bounds,
     } = this.state;
     const {
       dataTypeLevel,
@@ -212,6 +212,10 @@ class MapComponent extends Component {
       vectorGridFirstLoad,
       mapType,
       activeClickPartners,
+      map,
+      handleActiveClickPartners,
+      filteredByPartner,
+      migrationArray,
     } = this.props;
     // console.log(vectorGridFirstLoad, 'vect');
 
@@ -283,33 +287,40 @@ class MapComponent extends Component {
     // console.log(automationDataByProvince, 'data');
     // console.log(filteredProvinceChoropleth, 'filterProvince');
     // console.log(randomGeojson, 'geojson');
-    console.log(automationChoroplethData)
+    // console.log(automationChoroplethData);
     return (
-        <div id="mapBoxMap">
-        {this.state.map && <div><Choropleth 
-            map = {this.state.map}
-            choroplethData = {
+      <div id="mapBoxMap">
+        {map && (
+          <div>
+            <Choropleth
+              handleActiveClickPartners={handleActiveClickPartners}
+              activeClickPartners={activeClickPartners}
+              activeOutreachButton={activeOutreachButton}
+              dataTypeLevel={dataTypeLevel}
+              map={map}
+              choroplethData={
                 !activeOutreachButton ? [] : automationChoroplethData
               }
-            // maxValue = {this.state.maxValue}
-            divisions = {inputDivisions}
-            //label = {true}
-            color = "#0000FF"
-            // colorArray = {["#fff3d4", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"]}
-            vectorTileUrl = {vectorGridInputUrl}
-        >
-        </Choropleth>
-        {/* <MarkerCluster
-          map = {this.state.map}
-          geojsonData = {this.state.geojsonData}
-        /> */}
-        {/* <MigrationLines
-          map ={this.state.map}
-          migrationData = {this.state.migrationData}
-        /> */}
-        </div>
-        }
-    </div>
+              // maxValue = {this.state.maxValue}
+              divisions={inputDivisions}
+              // label = {true}
+              color="#0000FF"
+              // colorArray = {["#fff3d4", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"]}
+              vectorTileUrl={vectorGridInputUrl}
+            />
+            <MarkerCluster
+              filteredByPartner={filteredByPartner}
+              handleActiveClickPartners={handleActiveClickPartners}
+              map={map}
+              geojsonData={automationLeftSidePartnerData}
+            />
+            <MigrationLines
+              map={map}
+              migrationData={migrationArray}
+            />
+          </div>
+        )}
+      </div>
     );
   }
 }

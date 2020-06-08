@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import L from 'leaflet';
 import { connect } from 'react-redux';
+import mapboxgl from 'mapbox-gl';
 import MapComponent from './MapComponent/MapComponentMapbox';
 import { getCenterBboxMunicipality } from './MapRelatedComponents/MunicipalityFunction';
 import {
@@ -38,6 +39,8 @@ import InactiveIcon from '../../../../img/inactive.png';
 import { getCenterBboxProvince } from './MapRelatedComponents/ProvinceFunction';
 import { extendBounds } from './MapRelatedComponents/extendBbox';
 import { getCenterBboxDistrict } from './MapRelatedComponents/DistrictFunction';
+import 'mapbox-gl/src/css/mapbox-gl.css';
+
 // import DropdownCheckbox from '../../common/DropdownCheckbox';
 let total = '';
 const count = 0;
@@ -74,6 +77,7 @@ class MainAutomation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      map: null,
       mapType: 'choropleth',
       migrationArray: [],
       rightSideBarLoader: false,
@@ -331,10 +335,24 @@ class MainAutomation extends Component {
       },
     };
 
-    this.mapRef = React.createRef();
+    // this.mapRef = React.createRef();
   }
 
+  addMap = () => {
+    mapboxgl.accessToken =
+      'pk.eyJ1IjoiZ2VvbWF0dXBlbiIsImEiOiJja2E5bDFwb2swdHNyMnNvenZxa2Vpeml2In0.fCStqdwmFYFP-cUvb5vMCw';
+    const map = new mapboxgl.Map({
+      container: 'mapBoxMap',
+      style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+      center: [84.0, 27.5], // starting position [lng, lat]
+      zoom: 5, // starting zoom
+    });
+    // console.log(map, 'map');
+    this.setState({ map });
+  };
+
   componentDidMount() {
+    this.addMap();
     this.props.getAllAutomationDataByPartner();
     this.props.getAutomationDataByMunicipality();
     this.props.getAutomationDataByProvince();
@@ -539,8 +557,9 @@ class MainAutomation extends Component {
         selectedMunicipality,
         mapType,
       } = this.state;
-      const mapLayers = this.mapRef.current.leafletElement._layers;
-      global.map = this.mapRef.current.leafletElement;
+
+      // const mapLayers = this.mapRef.current.leafletElement._layers;
+      // global.map = this.mapRef.current.leafletElement;
       // console.log(mapLayers && mapLayers._url, 'layers');
       // Object.entries(mapLayers).forEach(([key, value]) => {
       //   // if (value._url) {
@@ -550,25 +569,27 @@ class MainAutomation extends Component {
       // });
       if (activeClickPartners.length === 0) {
         if (mapType === 'branches') {
-          global.migrationLayer.hide();
+          // global.migrationLayer.hide();
         }
         this.props.filterPartnerSelect(activeClickPartners);
         // if (activeTableView) {
         //   this.props.getTableDataByPartnerSelect(activeClickPartners);
         // }
-        Object.entries(mapLayers).forEach(([key, value]) => {
-          if (
-            value.options &&
-            value.options.properties &&
-            value.options.properties.partner_id
-          ) {
-            value.setIcon(allActive);
-            value.closePopup();
-          }
-        });
+        // Object.entries(mapLayers).forEach(([key, value]) => {
+        //   if (
+        //     value.options &&
+        //     value.options.properties &&
+        //     value.options.properties.partner_id
+        //   ) {
+        //     value.setIcon(allActive);
+        //     value.closePopup();
+        //   }
+        // });
       } else {
         const array = [];
         global.a = this.props.automationReducer.automationTableData;
+        console.log(global.a, 'global a ');
+
         global.a.map(branch => {
           // console.log('inside If ');
           // eslint-disable-next-line no-param-reassign
@@ -600,18 +621,22 @@ class MainAutomation extends Component {
         // console.log(global.a, 'Array Before Data');
         const x = this.state.activeClickPartners.map(
           clickedPartners => {
+            console.log(clickedPartners, 'clicked');
             global.a.map(data => {
               // console.log(data);
               if (data.des_lat !== null) {
                 if (data.partner_id === clickedPartners) {
                   // console.log('inside 2 if');
                   array.push({
-                    from: [data.longitude, data.latitude],
-                    to: [data.des_long, data.des_lat],
-                    labels: [data.partner, data.branch],
+                    origin: [data.longitude, data.latitude],
+                    destination: [data.des_long, data.des_lat],
+                    // size: 2,
+                    originName: data.partner,
+                    destinationName: data.branch,
+                    // labels: [data.partner, data.branch],
                     // color: '#ff3a31',
-                    color: getPartnerColor(data.partner_id),
-                    value: 15,
+                    // color: getPartnerColor(data.partner_id),
+                    size: 2,
                   });
                 }
               }
@@ -620,13 +645,14 @@ class MainAutomation extends Component {
             return true;
           },
         );
+        console.log(array, 'array');
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ migrationArray: array });
         if (mapType === 'branches') {
-          console.log(array, 'array Migration');
-          global.migrationLayer.setData(array);
-          global.migrationLayer.pause();
-          global.migrationLayer.show();
+          // console.log(array, 'array Migration');
+          // global.migrationLayer.setData(array);
+          // global.migrationLayer.pause();
+          // global.migrationLayer.show();
         }
         // eslint-disable-next-line new-cap
         if (
@@ -648,36 +674,36 @@ class MainAutomation extends Component {
         // if (activeTableView) {
         //   this.props.getTableDataByPartnerSelect(activeClickPartners);
         // }
-        Object.entries(mapLayers).forEach(([key, value]) => {
-          if (
-            value.options &&
-            value.options.properties &&
-            value.options.properties.partner_id
-          ) {
-            value.setIcon(Inactive);
-          }
-        });
+        // Object.entries(mapLayers).forEach(([key, value]) => {
+        //   if (
+        //     value.options &&
+        //     value.options.properties &&
+        //     value.options.properties.partner_id
+        //   ) {
+        //     value.setIcon(Inactive);
+        //   }
+        // });
       }
-      activeClickPartners.map(data => {
-        Object.entries(mapLayers).forEach(([key, value]) => {
-          if (
-            value.options &&
-            value.options.properties &&
-            value.options.properties.partner_id &&
-            value.options.properties.partner_id === data
-          ) {
-            value.setIcon(allActive);
-            if (
-              selectedMunicipality.length < 1 &&
-              selectedDistrict.length < 1 &&
-              selectedProvince.length < 1
-            ) {
-              value.openPopup();
-            }
-          }
-        });
-        return true;
-      });
+      // activeClickPartners.map(data => {
+      //   Object.entries(mapLayers).forEach(([key, value]) => {
+      //     if (
+      //       value.options &&
+      //       value.options.properties &&
+      //       value.options.properties.partner_id &&
+      //       value.options.properties.partner_id === data
+      //     ) {
+      //       value.setIcon(allActive);
+      //       if (
+      //         selectedMunicipality.length < 1 &&
+      //         selectedDistrict.length < 1 &&
+      //         selectedProvince.length < 1
+      //       ) {
+      //         value.openPopup();
+      //       }
+      //     }
+      //   });
+      //   return true;
+      // });
     }
     const {
       automationReducer: {
@@ -723,8 +749,7 @@ class MainAutomation extends Component {
     });
   };
 
-  handleActiveClickPartners = clicked => {
-    // console.log(clicked, 'name');
+  filteredByPartner = clicked => {
     const {
       activeClickPartners,
       activeOutreachButton,
@@ -733,16 +758,10 @@ class MainAutomation extends Component {
       selectedDistrict,
       selectedProvince,
     } = this.state;
-    // this.handleVectorGridKeyChange();
-    if (activeOutreachButton) {
-      this.setState({ rightSideBarLoader: true });
-    }
-    // const partner = 'Janautthan Laghubitta Bittiya Sanstha';
-
-    // console.log(this.mapRef.current.leafletElement, 'mapRef');
     if (activeClickPartners.includes(clicked)) {
       // console.log('if');
       // global.migrationLayer.hide();
+
       const removedPartnersFull = activeClickPartners.filter(function(
         partner,
       ) {
@@ -783,7 +802,16 @@ class MainAutomation extends Component {
       }
     } else {
       // console.log('else');
-
+      // if (!global.activeMarkerArray.includes(clicked)) {
+      //   // console.log('If')
+      //   global.activeMarkerArray.push(`${clicked}_marker`);
+      // } else {
+      //   const index = global.activeMarkerArray.indexOf(
+      //     `${clicked}_marker`,
+      //   );
+      //   // console.log(index,'index');
+      //   global.activeMarkerArray.splice(index, 1);
+      // }
       const joined = activeClickPartners.concat(clicked);
       this.setState({ activeClickPartners: joined });
       if (joined.length > 0 && activeOutreachButton) {
@@ -809,6 +837,37 @@ class MainAutomation extends Component {
       //   // this.props.getAutomationDataByMunicipality();
       // }
     }
+  };
+
+  handleActiveClickPartners = clicked => {
+    // console.log(clicked, 'name');
+    const {
+      activeClickPartners,
+      activeOutreachButton,
+      dataTypeLevel,
+      selectedMunicipality,
+      selectedDistrict,
+      selectedProvince,
+    } = this.state;
+    if (!global.activeMarkerArray.includes(clicked)) {
+      // console.log('If')
+      global.activeMarkerArray.push(`${clicked}_marker`);
+    } else {
+      const index = global.activeMarkerArray.indexOf(
+        `${clicked}_marker`,
+      );
+      // console.log(index,'index');
+      global.activeMarkerArray.splice(index, 1);
+    }
+    console.log(global.activeMarkerArray, 'activeMarker');
+    this.handleVectorGridKeyChange();
+    this.filteredByPartner(clicked);
+    if (activeOutreachButton) {
+      this.setState({ rightSideBarLoader: true });
+    }
+    // const partner = 'Janautthan Laghubitta Bittiya Sanstha';
+
+    // console.log(this.mapRef.current.leafletElement, 'mapRef');
   };
 
   toggleFilterButton = () => {
@@ -886,7 +945,10 @@ class MainAutomation extends Component {
         // } else {
 
         // }
-        const map = this.mapRef.current.leafletElement;
+        // const map = this.mapRef.current.leafletElement;
+        const { map } = this.state;
+        // console.log(extendedValue, 'bbox');
+
         if (selectedMunicipality.length > 0) {
           const combinedBbox = [];
           console.log(selectedMunicipality, 'selectedMunicipality');
@@ -900,10 +962,7 @@ class MainAutomation extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           // console.log(extendedValue, 'bbox');
-          map.flyToBounds(extendedValue, {
-            animate: true,
-            duration: 2,
-          });
+          map.fitBounds(extendedValue);
           const query = selectedMunicipality
             .map(data => {
               return `code=${data}`;
@@ -927,10 +986,7 @@ class MainAutomation extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           // console.log(extendedValue, 'bbox');
-          map.flyToBounds(extendedValue, {
-            animate: true,
-            duration: 2,
-          });
+          map.fitBounds(extendedValue);
           const query = selectedDistrict
             .map(data => {
               return `district_id_id=${data}`;
@@ -953,10 +1009,7 @@ class MainAutomation extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           // console.log(extendedValue, 'bbox');
-          map.flyToBounds(extendedValue, {
-            animate: true,
-            duration: 2,
-          });
+          map.fitBounds(extendedValue);
           const query = selectedProvince
             .map(data => {
               return `province_id_id=${data}`;
@@ -993,12 +1046,10 @@ class MainAutomation extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          const map = this.mapRef.current.leafletElement;
+          // const map = this.mapRef.current.leafletElement;
+          const { map } = this.state;
           // console.log(extendedValue, 'bbox');
-          map.flyToBounds(extendedValue, {
-            animate: true,
-            duration: 2,
-          });
+          map.fitBounds(extendedValue);
           const query = selectedDistrict
             .map(data => {
               return `code=${data}`;
@@ -1020,12 +1071,10 @@ class MainAutomation extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          const map = this.mapRef.current.leafletElement;
+          const { map } = this.state;
+          // const map = this.mapRef.current.leafletElement;
           // console.log(extendedValue, 'bbox');
-          map.flyToBounds(extendedValue, {
-            animate: true,
-            duration: 2,
-          });
+          map.fitBounds(extendedValue);
           const query = selectedProvince
             .map(data => {
               return `province_id_id=${data}`;
@@ -1049,12 +1098,10 @@ class MainAutomation extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          const map = this.mapRef.current.leafletElement;
+          const { map } = this.state;
+          // const map = this.mapRef.current.leafletElement;
           // console.log(extendedValue, 'bbox');
-          map.flyToBounds(extendedValue, {
-            animate: true,
-            duration: 2,
-          });
+          map.fitBounds(extendedValue);
           const query = selectedProvince
             .map(data => {
               return `code=${data}`;
@@ -1526,12 +1573,10 @@ class MainAutomation extends Component {
           return true;
         });
         const extendedValue = extendBounds(combinedBbox);
-        const map = this.mapRef.current.leafletElement;
+        const { map } = this.state;
+        // const map = this.mapRef.current.leafletElement;
         // console.log(extendedValue, 'bbox');
-        map.flyToBounds(extendedValue, {
-          animate: true,
-          duration: 2,
-        });
+        map.fitBounds(extendedValue);
         const query = selectedMunicipality
           .map(data => {
             return `code=${data}`;
@@ -1552,12 +1597,10 @@ class MainAutomation extends Component {
           return true;
         });
         const extendedValue = extendBounds(combinedBbox);
-        const map = this.mapRef.current.leafletElement;
+        const { map } = this.state;
+        // const map = this.mapRef.current.leafletElement;
         // console.log(extendedValue, 'bbox');
-        map.flyToBounds(extendedValue, {
-          animate: true,
-          duration: 2,
-        });
+        map.fitBounds(extendedValue);
         const query = selectedDistrict
           .map(data => {
             return `district_id_id=${data}`;
@@ -1577,12 +1620,15 @@ class MainAutomation extends Component {
           return true;
         });
         const extendedValue = extendBounds(combinedBbox);
-        const map = this.mapRef.current.leafletElement;
-        // console.log(extendedValue, 'bbox');
-        map.flyToBounds(extendedValue, {
-          animate: true,
-          duration: 2,
-        });
+        const { map } = this.state;
+        map.fitBounds(extendedValue);
+        // const map = this.mapRef.current.leafletElement;
+        // // console.log(extendedValue, 'bbox');
+        // map.flyToBounds(extendedValue, {
+        //   animate: true,
+        //   duration: 2,
+        // });
+
         const query = selectedProvince
           .map(data => {
             return `province_id_id=${data}`;
@@ -1617,12 +1663,9 @@ class MainAutomation extends Component {
           return true;
         });
         const extendedValue = extendBounds(combinedBbox);
-        const map = this.mapRef.current.leafletElement;
+        const { map } = this.state;
         // console.log(extendedValue, 'bbox');
-        map.flyToBounds(extendedValue, {
-          animate: true,
-          duration: 2,
-        });
+        map.fitBounds(extendBounds);
         const query = selectedDistrict
           .map(data => {
             return `code=${data}`;
@@ -1642,12 +1685,9 @@ class MainAutomation extends Component {
           return true;
         });
         const extendedValue = extendBounds(combinedBbox);
-        const map = this.mapRef.current.leafletElement;
+        const { map } = this.state;
         // console.log(extendedValue, 'bbox');
-        map.flyToBounds(extendedValue, {
-          animate: true,
-          duration: 2,
-        });
+        map.fitBounds(extendedValue);
         const query = selectedProvince
           .map(data => {
             return `province_id_id=${data}`;
@@ -1669,12 +1709,9 @@ class MainAutomation extends Component {
           return true;
         });
         const extendedValue = extendBounds(combinedBbox);
-        const map = this.mapRef.current.leafletElement;
+        const { map } = this.state;
         // console.log(extendedValue, 'bbox');
-        map.flyToBounds(extendedValue, {
-          animate: true,
-          duration: 2,
-        });
+        map.fitBounds(extendedValue);
         const query = selectedProvince
           .map(data => {
             return `code=${data}`;
@@ -1780,20 +1817,19 @@ class MainAutomation extends Component {
     //   });
     //   this.props.filterAutomationDataForVectorTiles(clickedValue);
     // }
-    const map = this.mapRef.current.leafletElement;
+    // const map = this.mapRef.current.leafletElement;
     // console.log(extendedValue, 'bbox');
     // this.handleStateLevel(this.state.dataTypeLevel);
     this.props.partnerSelectWithOutreach(
       this.state.activeClickPartners,
     );
     const bounds = [
-      [30.84603378690058, 88.45810947185424],
-      [25.21816603999243, 79.96658480384404],
+      [88.45810947185424, 30.84603378690058],
+      [79.96658480384404, 25.21816603999243],
     ];
-    map.flyToBounds(bounds, {
-      animate: true,
-      duration: 3,
-    });
+    const { map } = this.state;
+    // console.log(extendedValue, 'bbox');
+    map.fitBounds(bounds);
   };
 
   refreshSelectedPartnerBtn = () => {
@@ -1801,14 +1837,12 @@ class MainAutomation extends Component {
     // this.handleStateLevel(this.state.dataTypeLevel);
     this.props.getAllAutomationDataByPartner();
     const bounds = [
-      [30.84603378690058, 88.45810947185424],
-      [25.21816603999243, 79.96658480384404],
+      [88.45810947185424, 30.84603378690058],
+      [79.96658480384404, 25.21816603999243],
     ];
-    const map = this.mapRef.current.leafletElement;
-    map.flyToBounds(bounds, {
-      animate: true,
-      duration: 3,
-    });
+    const { map } = this.state;
+    // console.log(extendedValue, 'bbox');
+    map.fitBounds(bounds);
     // map.on('moveend', function() {
     //   // alert(map.getBounds());
     //   console.log(map.getBounds());
@@ -1825,7 +1859,8 @@ class MainAutomation extends Component {
 
   handleMapTypeChange = type => {
     if (type === 'branches') {
-      const map = this.mapRef.current.leafletElement;
+      // const map = this.mapRef.current.leafletElement;
+      const { map } = this.state;
       global.migrationLayer = new L.migrationLayer({
         map,
         data: this.state.migrationArray,
@@ -1877,6 +1912,8 @@ class MainAutomation extends Component {
       selectedDistrictDropdown,
       mapType,
       rightSideBarLoader,
+      map,
+      migrationArray,
     } = this.state;
     const {
       automationDataByPartner,
@@ -1912,6 +1949,9 @@ class MainAutomation extends Component {
             <div className="main-card map-card">
               <div id="map" className="map">
                 <MapComponent
+                  migrationArray={migrationArray}
+                  filteredByPartner={this.filteredByPartner}
+                  map={map}
                   activeClickPartners={activeClickPartners}
                   dataTypeLevel={dataTypeLevel}
                   mapType={mapType}
@@ -1970,7 +2010,7 @@ class MainAutomation extends Component {
                           this.handleStateLevel('province');
                         }}
                       >
-                        <a href="#">Province</a>
+                        <a>Province</a>
                       </li>
                       <li
                         role="tab"
@@ -1984,7 +2024,7 @@ class MainAutomation extends Component {
                           this.handleStateLevel('district');
                         }}
                       >
-                        <a href="#">District</a>
+                        <a>District</a>
                       </li>
                       <li
                         role="tab"
@@ -2000,7 +2040,7 @@ class MainAutomation extends Component {
                           this.handleStateLevel('municipality');
                         }}
                       >
-                        <a href="#">Municipality</a>
+                        <a>Municipality</a>
                       </li>
                     </ul>
                   </div>

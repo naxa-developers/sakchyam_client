@@ -13,5 +13,7 @@ Icons/
 canvasFlowmapLayer.js
 SmoothWheelZoom.js
 leaflet.migrationLayer.js
+MarkerClusterMapbox.js
+VectorTileMapbox.js
 # /AutomaMainComponent.js
-*.js
+# *.js

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import mapboxgl from 'mapbox-gl'
+import ActiveIcon from '../../../../../img/fullactive.png';
+import InactiveIcon from '../../../../../img/inactive.png';
+
 
 import {label_Vector_Tiles, calculateRange, handleZoom, choroplethColorArray, getProvinceName} from "./Functions";
 
@@ -8,24 +11,89 @@ class MarkerCluster extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeMarkers:[],
     };
   }
 
   plotMarkerIcons = (map, geojsonData) => {
-    map.on('load', function() {
-        geojsonData.features.forEach(function(marker) {
+    const that = this;
+    // console.log('plotmarkerIcon function Inside')
+    // console.log('inside FUnction')
+    // console.log(geojsonData,'geojsonData')
+    
+    // map.on('load', function() {
+      // console.log('onLoad Map');
+        geojsonData.forEach(function(marker) {
+          // console.log('geojsonData FOreach');
+          // console.log(marker,'marker geojsonData');
             // create a HTML element for each feature
             var el = document.createElement('div');
-            el.className = 'marker';
-
-            new mapboxgl.Marker(el)
-            .setLngLat(marker.geometry.coordinates)
+            el.className='marker';
+            el.id = marker.partner_id+'_marker';
+            el.style.backgroundImage =`url(${ActiveIcon})`;
+            global.activeMarkerArray = that.state.activeMarkers;
+            el.addEventListener('click', function(e) {
+              that.props.filteredByPartner(parseInt(e.target.id.split('_')[0]));
+              console.log(e.target.id,'target it');
+              // activeMarkerArray.map(activeMarker=>{
+                // console.log(!activeMarkerArray.includes(el.styleid),'activeMarker');
+                if(!global.activeMarkerArray.includes(e.target.id)){
+                  // console.log('If')
+                  global.activeMarkerArray.push(e.target.id);
+                }else{
+                  var index = global.activeMarkerArray.indexOf(e.target.id)
+                  // console.log(index,'index');
+                  global.activeMarkerArray.splice(index,1);
+                }
+                // });
+                console.log(global.activeMarkerArray,'activeMarkerARray');
+                // activeMarkerArray.push(e);
+               
+              // console.log(e,'e')
+              const allMarker = document.getElementsByClassName('marker');
+              var i;
+              for (i = 0; i < allMarker.length; i++) {
+                allMarker[i].style.backgroundImage=`url(${InactiveIcon})`;
+                allMarker[i].style.width='25px';
+                allMarker[i].style.height='25px';
+                
+                
+                // set "marker" as the class for each of those elements
+                // allMarker[i].classList.remove("marker"); // set "marker" as the class for each of those elements
+              }
+              // that.props.handleActiveClickPartners(marker.partner_id);
+              // document.
+              // e.target.classList.add('marker');
+              // e.target.classList.remove('inactive_marker');
+              // e.target.style.backgroundImage = `url(${ActiveIcon})`;
+              // window.alert(marker.partner_name);
+              global.activeMarkerArray.map(marker=>{
+                document.getElementById(marker).style.backgroundImage= `url(${ActiveIcon})`;
+                document.getElementById(marker).style.height= `40px`;
+                document.getElementById(marker).style.width= `40px`;
+                // marker.style.width='20px';
+              })
+            });
+            
+            const markers =new mapboxgl.Marker(el,{"promoteId": {"default": marker.id}})
+            .setLngLat([marker.long,marker.lat])
             .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-              .setHTML('<h3>' + marker.properties.name + '</h3><p>' + marker.properties.name + '</p>'))
+              .setHTML(` <ul>
+              <li>
+                <div className="organization-icon">
+                  <span>CH</span>
+                </div>
+                <div className="organization-content">
+                  <h5>${marker.partner_name}</h5>
+                </div>
+              </li>
+            </ul>`))
             .addTo(map);
-        
+            // console.log(markers,'marker');
+            // console.log(el,'el');
+            // console.log(map,'map');
           })
-    })
+    // })
   }
 
   plotMarkerCluster = (map, geojsonData) =>{
@@ -382,16 +450,24 @@ var colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c'];
   componentDidMount() {
       
     const map = this.props.map;
+    console.log(map,'props map');
     const geojsonData = this.props.geojsonData;
-    this.plotMarkerIcons(map, geojsonData);
-    this.plotMarkerCluster(map, geojsonData);
-    this.plotMarkerClusterWithPie(map, geojsonData)
+    // this.plotMarkerIcons(map, geojsonData);
+    // this.plotMarkerCluster(map, geojsonData);
+    // this.plotMarkerClusterWithPie(map, geojsonData)
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if(prevProps.geojsonData !== this.props.geojsonData){
+      console.log(this.props.geojsonData);
+      console.log(this.props.map,'mapEle');
+      console.log('did update');
+      this.plotMarkerIcons(this.props.map, this.props.geojsonData);
+    }
   }
 
   render() {
+    console.log('markerClusterMapbox')
     return (
         <div></div>
     )
