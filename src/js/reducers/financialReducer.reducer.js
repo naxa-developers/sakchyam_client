@@ -23,6 +23,41 @@ const initialState = {
   sankeyData: {},
 };
 
+// Funtion to filter Sankey Data
+const filterSankeyData = data => {
+  const nodes = [];
+  const links = [];
+  data.map(item => {
+    if (item.program_id !== item.partner_id) {
+      const obj1 = nodes.find(obj => obj.id === item.program_id);
+      const obj2 = nodes.find(obj => obj.id === item.partner_id);
+      if (!obj1) {
+        nodes.push({
+          id: item.program_id,
+          color: 'hsl(41, 70%, 50%)',
+        });
+      }
+      if (!obj2) {
+        nodes.push({
+          id: item.partner_id,
+          color: 'hsl(40, 74%, 55%)',
+        });
+      }
+      if (item.value !== 0) {
+        links.push({
+          source: item.partner_id,
+          target: item.program_id,
+          value: item.value,
+        });
+      }
+    }
+    return true;
+  });
+
+  const sankeyData = { nodes, links };
+  return sankeyData;
+};
+
 const getPartnersList = (state, action) => {
   return {
     ...state,
@@ -61,8 +96,36 @@ const getFinancialData = (state, action) => {
     }
     return true;
   });
+  // const nodes = [];
+  // const links = [];
+  // financialData.map(item => {
+  //   const obj1 = nodes.find(obj => obj.id === item.program_id);
+  //   const obj2 = nodes.find(obj => obj.id === item.partner_id);
+  //   if (!obj1) {
+  //     nodes.push({
+  //       id: item.program_id,
+  //       color: 'hsl(41, 70%, 50%)',
+  //     });
+  //   }
+  //   if (!obj2) {
+  //     nodes.push({
+  //       id: item.partner_id,
+  //       color: 'hsl(40, 74%, 55%)',
+  //     });
+  //   }
+  //   if (item.program_id !== item.partner_id && item.value !== 0) {
+  //     links.push({
+  //       source: item.partner_id,
+  //       target: item.program_id,
+  //       value: item.value,
+  //     });
+  //   }
+  //   return true;
+  // });
 
-  const sankeyData = { nodes, links };
+  // const sankeyData = { nodes, links };
+
+  const sankeyData = filterSankeyData(financialData);
 
   // console.log(action.payload);
   action.payload.sort(function(a, b) {
@@ -246,14 +309,17 @@ const filterFinancialDataForGraph = (state, action) => {
   const microfinance = 'Microfinance Institutions';
   const commercial = 'Commercial Bank and Other Partners';
   const { selectedPartners, selectedProgram } = action.payload;
-  console.log(selectedProgram, 'selectedProgram');
+
   const data = state.financialData;
   let filteredLabel = [];
   let filteredSeries = [];
-  // const a= action.payload.
+
+  let newSankeyData = data;
+
   if (selectedPartners.length < 1 && selectedProgram.length < 1) {
     filteredLabel = state.filteredByProgramDefault.label;
     filteredSeries = state.filteredByProgramDefault.series;
+    newSankeyData = filterSankeyData(data);
   } else if (
     // Partner is selected and Program is not selected
     selectedPartners.length > 0 &&
@@ -269,9 +335,7 @@ const filterFinancialDataForGraph = (state, action) => {
     const filteredData = data.filter(i =>
       selectedPartners.includes(i.partner_id),
     );
-    console.log(filteredData, 'filteredData');
     filteredData.map(filtData => {
-      // console.log(filtered)
       if (!filteredLabel.includes(filtData.partner_id)) {
         filteredLabel.push(filtData.partner_id);
       }
@@ -287,6 +351,7 @@ const filterFinancialDataForGraph = (state, action) => {
     // });
     // const result = Array.from(new Set(filtered));
     // console.log(result, 'result ');
+    newSankeyData = filterSankeyData(filteredData);
   } else if (
     selectedPartners.length < 1 &&
     selectedProgram.length > 0
@@ -294,9 +359,7 @@ const filterFinancialDataForGraph = (state, action) => {
     const filteredData = data.filter(i =>
       selectedProgram.includes(i.program_id),
     );
-    console.log(filteredData, 'filteredData');
     filteredData.map(filtData => {
-      // console.log(filtered)
       if (!filteredLabel.includes(filtData.partner_id)) {
         filteredLabel.push(filtData.partner_id);
       }
@@ -306,6 +369,7 @@ const filterFinancialDataForGraph = (state, action) => {
       });
       return true;
     });
+    newSankeyData = filterSankeyData(filteredData);
   } else if (
     selectedPartners.length > 0 &&
     selectedProgram.length > 0
@@ -313,11 +377,9 @@ const filterFinancialDataForGraph = (state, action) => {
     const filteredData = data.filter(i =>
       selectedPartners.includes(i.partner_id),
     );
-    console.log(filteredData, 'filteredData');
     const anotherFilter = filteredData.filter(j =>
       selectedProgram.includes(j.program_id),
     );
-    console.log(anotherFilter, 'anotherFilter');
     anotherFilter.map(filtData => {
       // console.log(filtered)
       if (!filteredLabel.includes(filtData.partner_id)) {
@@ -329,13 +391,101 @@ const filterFinancialDataForGraph = (state, action) => {
       });
       return true;
     });
+    const filteredDataSankey = data.filter(
+      i =>
+        selectedProgram.includes(i.program_id) &&
+        selectedPartners.includes(i.partner_id),
+    );
+    newSankeyData = filterSankeyData(filteredDataSankey);
   }
+
+  // const { selectedPartners, selectedProgram } = action.payload;
+  // console.log(selectedProgram, 'selectedProgram');
+  // const data = state.financialData;
+  // let filteredLabel = [];
+  // let filteredSeries = [];
+  // // const a= action.payload.
+  // if (selectedPartners.length < 1 && selectedProgram.length < 1) {
+  //   filteredLabel = state.filteredByProgramDefault.label;
+  //   filteredSeries = state.filteredByProgramDefault.series;
+  // } else if (
+  //   selectedPartners.length > 0 &&
+  //   selectedProgram.length < 1
+  // ) {
+  //   const filteredData = data.filter(i =>
+  //     selectedPartners.includes(i.partner_id),
+  //   );
+
+  //   filteredData.map(filtData => {
+  //     // console.log(filtered)
+  //     if (!filteredLabel.includes(filtData.partner_id)) {
+  //       filteredLabel.push(filtData.partner_id);
+  //     }
+  //     filteredSeries.push({
+  //       name: filtData.program_id,
+  //       data: [filtData.value],
+  //     });
+  //     return true;
+  //   });
+  // } else if (
+  //   selectedPartners.length < 1 &&
+  //   selectedProgram.length > 0
+  // ) {
+  //   const filteredData = data.filter(i =>
+  //     selectedProgram.includes(i.program_id),
+  //   );
+  //   console.log(filteredData, 'filteredData');
+  //   filteredData.map(filtData => {
+  //     // console.log(filtered)
+  //     if (!filteredLabel.includes(filtData.partner_id)) {
+  //       filteredLabel.push(filtData.partner_id);
+  //     }
+  //     filteredSeries.push({
+  //       name: filtData.program_id,
+  //       data: [filtData.value],
+  //     });
+  //     return true;
+  //   });
+  // } else if (
+  //   selectedPartners.length > 0 &&
+  //   selectedProgram.length > 0
+  // ) {
+  //   const filteredData = data.filter(i =>
+  //     selectedPartners.includes(i.partner_id),
+  //   );
+  //   console.log(filteredData, 'filteredData');
+  //   const anotherFilter = filteredData.filter(j =>
+  //     selectedProgram.includes(j.program_id),
+  //   );
+  //   console.log(anotherFilter, 'anotherFilter');
+  //   anotherFilter.map(filtData => {
+  //     // console.log(filtered)
+  //     if (!filteredLabel.includes(filtData.partner_id)) {
+  //       filteredLabel.push(filtData.partner_id);
+  //     }
+  //     filteredSeries.push({
+  //       name: filtData.program_id,
+  //       data: [filtData.value],
+  //     });
+  //     return true;
+  //   });
+  // }
+  // return {
+  //   ...state,
+  //   filteredByProgram: {
+  //     series: filteredSeries,
+  //     label: filteredLabel,
+  //   },
+  // financialProgram: action.payload,
+  // };
+
   return {
     ...state,
     filteredByProgram: {
       series: filteredSeries,
       label: filteredLabel,
     },
+    sankeyData: newSankeyData,
     // financialProgram: action.payload,
   };
 };

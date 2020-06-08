@@ -43,6 +43,19 @@ class FinancialLiteracy extends Component {
     this.props.getFinancialProgram();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.financialReducer.filterFinancialDataForGraph !==
+      this.props.financialReducer.filterFinancialDataForGraph
+    ) {
+      this.props.filterFinancialDataForGraph();
+    }
+    if (prevState.partnerType !== this.state.partnerType) {
+      this.props.filterPartnersByType(this.state.partnerType);
+      this.setState({ checkedPartnerItems: [] });
+    }
+  }
+
   handleRightSidebarShow = () => {
     this.setState(prevState => ({
       showRightSidebar: !prevState.showRightSidebar,
@@ -184,13 +197,6 @@ class FinancialLiteracy extends Component {
       selectedProgram,
     );
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.partnerType !== this.state.partnerType) {
-      this.props.filterPartnersByType(this.state.partnerType);
-      this.setState({ checkedPartnerItems: [] });
-    }
-  }
 
   render() {
     const {
