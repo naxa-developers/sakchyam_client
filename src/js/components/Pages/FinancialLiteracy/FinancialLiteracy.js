@@ -200,7 +200,7 @@ class FinancialLiteracy extends Component {
         // foreignObjectRendering: true,
         // useCORS: true,
       }).then(canvas => {
-        canvas.toBlob(function(blob) {
+        canvas.toBlob(function (blob) {
           saveAs(blob, 'Dashboard.png');
         });
       });
@@ -364,10 +364,9 @@ class FinancialLiteracy extends Component {
                           </div>
                           <div className="card-body">
                             <div
-                              className="container"
+                              className="horizontal-chart"
                               style={{
                                 height: '445px',
-                                overflowY: 'scroll',
                               }}
                             >
                               <HorizontalChart />
@@ -392,10 +391,25 @@ class FinancialLiteracy extends Component {
                           </div>
                           <div className="card-body">
                             <DonutChart />
+                            <div className="pie-legend">
+                              <div className="legend-list">
+                                <h5><small></small><span>microfinance</span></h5>
+                                <div className="legend-count">
+                                    <b className="numeric">295,098</b>
+                                    <b className="percent">34.6%</b>
+                                </div>
+                              </div>
+                              <div className="legend-list">
+                                <h5><small></small><span>microfinance</span></h5>
+                                <div className="legend-count">
+                                    <b className="numeric">295,098</b>
+                                    <b className="percent">34.6%</b>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="col-xl-6">
+
                         <div className="card" id="">
                           <div className="card-header">
                             <h5>
@@ -419,8 +433,9 @@ class FinancialLiteracy extends Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-xl-12">
-                        <div className="card">
+                    </div>
+                      
+                      <div className="card">
                           <div className="card-header">
                             <h5>
                               Contribution of program initiatives
@@ -438,10 +453,9 @@ class FinancialLiteracy extends Component {
                             <SankeyDiagram />
                           </div>
                         </div>
-                      </div>
+                      
                     </div>
                   </div>
-                </div>
                 <div
                   className="literacy-tab-item"
                   style={

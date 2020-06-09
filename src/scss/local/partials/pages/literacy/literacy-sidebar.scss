@@ -9,6 +9,15 @@
                     border-right: 1px solid $border-color;
                     background-color: $white-color;
 
+                    .aside-header{
+                        button{
+                            margin:0;
+                        }
+                        @media #{$breakpoint-md-desktop} {
+                            padding: .5rem;
+                            
+                        }
+                    }
                 }
 
                 .aside-body {
@@ -27,10 +36,13 @@
                         @media #{$breakpoint-xxl} {
                             padding: 1rem;
                         }
+                        @media #{$breakpoint-md-desktop} {
+                            padding: .5rem;
+                        }
                         h6.title {
                             font-family: $body-fonts;
                             font-size: .875rem;
-                            margin-bottom: 1rem;
+                            margin-bottom: .6125rem;
                         }
 
                         .widget-body {
@@ -118,6 +130,9 @@
 
                         &:not(:last-child) {
                             margin-bottom: 1rem;
+                            @media #{$breakpoint-xxl} {
+                                margin: 0;
+                            }
                         }
 
                         &.partner-institue {
@@ -128,6 +143,9 @@
 
                                 @media #{$breakpoint-xxl} {
                                     padding: 0 1rem;
+                                }
+                                @media #{$breakpoint-md-desktop} {
+                                    padding: 0;
                                 }
                             }
 
@@ -226,8 +244,8 @@
 
                                 .program-info {
                                     padding-right: 1rem;
-                                    @include flex(0 0 130px);
-                                    max-width: 130px;
+                                    @include flex(0 0 68px);
+                                    max-width: 68px;
                                     @include display-flex(flex);
                                     @include justify-content-end;
                                     @include align-items-end;
@@ -235,6 +253,8 @@
                                     .info-in {
                                         h5 {
                                             margin: 0 !important;
+                                            word-break: break-all;
+                                            word-wrap: break-word;
                                         }
 
                                         i {
@@ -254,8 +274,8 @@
 
                                     @media #{$breakpoint-xxl} {
                                         padding-right: .6125rem;
-                                        flex: 0 0 64px;
-                                        max-width: 64px;
+                                        flex: 0 0 60px;
+                                        max-width: 60px;
 
                                         .info-in {
                                             h5 {
