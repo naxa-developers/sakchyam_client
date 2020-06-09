@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ResponsiveSankey } from '@nivo/sankey';
 import { connect } from 'react-redux';
+import data from './sankey.data';
 
 class SankeyDiagram extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class SankeyDiagram extends Component {
     const { sankeyData } = this.props.financialReducer;
     // console.log('sankeyData', sankeyData);
     return (
-      <div style={{ height: '700px', width: 'auto' }}>
+      <div style={{ height: '800px', width: 'auto' }}>
         {Object.entries(sankeyData).length !== 0 && (
           <ResponsiveSankey
             data={sankeyData}

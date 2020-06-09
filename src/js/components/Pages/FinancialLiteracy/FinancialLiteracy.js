@@ -40,8 +40,8 @@ class FinancialLiteracy extends Component {
 
   componentDidMount() {
     this.props.getPartnersList();
-    this.props.getFinancialData();
     this.props.getFinancialProgram();
+    this.props.getFinancialData();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -361,7 +361,11 @@ class FinancialLiteracy extends Component {
                             </div>
                           </div>
                           <div className="card-body">
-                            <TreeMapDiagram />
+                            <TreeMapDiagram
+                              checkedPartnerItems={
+                                this.state.checkedPartnerItems
+                              }
+                            />
                           </div>
                         </div>
                       </div>

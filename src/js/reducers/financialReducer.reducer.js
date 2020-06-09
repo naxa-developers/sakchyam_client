@@ -35,7 +35,6 @@ const filterTreeMapData = data => {
       arr.push({
         id: item.program_id,
         name: item.program_name,
-        // namee: item.program_name,
         loc: item.value,
       });
     }
@@ -57,24 +56,36 @@ const filterSankeyData = data => {
   const links = [];
   data.map(item => {
     if (item.program_id !== item.partner_id) {
-      const obj1 = nodes.find(obj => obj.id === item.program_id);
-      const obj2 = nodes.find(obj => obj.id === item.partner_id);
+      const obj1 = nodes.find(obj => obj.id === item.program_name);
+      const obj2 = nodes.find(obj => obj.id === item.partner_name);
+      const obj3 = nodes.find(obj => obj.id === item.partner_type);
       if (!obj1) {
         nodes.push({
-          id: item.program_id,
+          id: item.program_name,
           color: 'hsl(41, 70%, 50%)',
         });
       }
       if (!obj2) {
         nodes.push({
-          id: item.partner_id,
+          id: item.partner_name,
+          color: 'hsl(40, 74%, 55%)',
+        });
+      }
+      if (!obj3) {
+        nodes.push({
+          id: item.partner_type,
           color: 'hsl(40, 74%, 55%)',
         });
       }
       if (item.value !== 0) {
         links.push({
-          source: item.partner_id,
-          target: item.program_id,
+          source: item.partner_type,
+          target: item.partner_name,
+          value: item.value,
+        });
+        links.push({
+          source: item.partner_name,
+          target: item.program_name,
           value: item.value,
         });
       }
@@ -523,7 +534,7 @@ const filterFinancialDataForGraph = (state, action) => {
     },
     sankeyData: newSankeyData,
     treeMapData: newTreeMapData,
-    financialProgram: action.payload,
+    // financialProgram: action.payload,
   };
 };
 const filterPartnersByType = (state, action) => {
