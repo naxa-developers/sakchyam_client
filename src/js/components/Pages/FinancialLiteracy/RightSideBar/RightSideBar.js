@@ -31,17 +31,17 @@ class RightSideBar extends Component {
     let totalBeneficiaries = 0;
 
     financialData.map(item => {
-      const obj = tempArr.find(
-        obj => obj.partner_id === item.partner_id,
-      );
+      const obj = tempArr.find(x => x.partner_id === item.partner_id);
       if (!obj) {
         this.props.checkedPartnerItems.map(i => {
           if (item.partner_id === i) {
             tempArr.push(item);
             totalBeneficiaries += item.single_count;
           }
+          return true;
         });
       }
+      return true;
     });
 
     const colors = [
