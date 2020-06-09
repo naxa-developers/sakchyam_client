@@ -9,6 +9,7 @@ class TreeMapDiagram extends Component {
     super(props);
     this.state = {};
   }
+
   componentDidUpdate(prevProps, prevState) {
     const {
       treeMapData,
@@ -48,17 +49,17 @@ class TreeMapDiagram extends Component {
             loc: item.value,
           });
           return true;
-        } else {
-          this.props.checkedPartnerItems.map(i => {
-            if (item.partner_id === i) {
-              arr.push({
-                id: item.partner_id,
-                name: item.partner_name,
-                loc: item.value,
-              });
-            }
-          });
         }
+        this.props.checkedPartnerItems.map(i => {
+          if (item.partner_id === i) {
+            arr.push({
+              id: item.partner_id,
+              name: item.partner_name,
+              loc: item.value,
+            });
+          }
+          return true;
+        });
       }
       return true;
     });
@@ -74,7 +75,7 @@ class TreeMapDiagram extends Component {
 
   render() {
     // const { treeMapData } = this.props.financialReducer;
-    const { treeMapData } = this.state;
+    const { treeMapData, checkedPartnerItems } = this.state;
 
     console.log('treeMapdiagram component', this.state.treeMapData);
 
