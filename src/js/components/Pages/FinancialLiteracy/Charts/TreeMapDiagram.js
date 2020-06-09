@@ -9,37 +9,12 @@ class TreeMapDiagram extends Component {
     super(props);
     this.state = {};
   }
-
-  onProgramClick = e => {
-    const updatedTreeMapData = this.generateTreeMapData(e.data.id);
-    this.setState({
-      treeMapData: updatedTreeMapData,
-    });
-  };
-
-  generateTreeMapData = id => {
-    const arr = [];
-    this.state.financialData.map(item => {
-      if (id === item.program_id) {
-        arr.push({
-          id: item.partner_id,
-          name: item.partner_name,
-          loc: item.value,
-        });
-        return true;
-      }
-      return true;
-    });
-    console.log(arr, 'arr');
-    return { name: 'program1', children: arr };
-  };
-
   componentDidUpdate(prevProps, prevState) {
     const {
       treeMapData,
       financialData,
+      checkedPartnerItems,
     } = this.props.financialReducer;
-    console.log(this.props.financialReducer, 'financialReducer');
     if (
       prevProps.financialReducer.treeMapData !==
       this.props.financialReducer.treeMapData
@@ -52,9 +27,50 @@ class TreeMapDiagram extends Component {
     ) {
       this.setState({ financialData });
     }
+    if (
+      prevProps.financialReducer.checkedPartnerItems !==
+      this.props.financialReducer.checkedPartnerItems
+    ) {
+      this.setState({ checkedPartnerItems });
+    }
 
     return true;
   }
+
+  generateTreeMapData = id => {
+    const arr = [];
+    this.state.financialData.map(item => {
+      if (id === item.program_id) {
+        if (this.props.checkedPartnerItems.length === 0) {
+          arr.push({
+            id: item.partner_id,
+            name: item.partner_name,
+            loc: item.value,
+          });
+          return true;
+        } else {
+          this.props.checkedPartnerItems.map(i => {
+            if (item.partner_id === i) {
+              arr.push({
+                id: item.partner_id,
+                name: item.partner_name,
+                loc: item.value,
+              });
+            }
+          });
+        }
+      }
+      return true;
+    });
+    return { name: 'program1', children: arr };
+  };
+
+  onProgramClick = e => {
+    const updatedTreeMapData = this.generateTreeMapData(e.data.id);
+    this.setState({
+      treeMapData: updatedTreeMapData,
+    });
+  };
 
   render() {
     // const { treeMapData } = this.props.financialReducer;
@@ -68,13 +84,13 @@ class TreeMapDiagram extends Component {
           <ResponsiveTreeMap
             root={treeMapData}
             // root={root.root}
-            identity="id"
+            identity="name"
             value="loc"
             innerPadding={3}
             outerPadding={3}
             margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            label="id"
-            labelFormat=".0s"
+            label="name"
+            // labelFormat=".0s"
             labelSkipSize={12}
             labelTextColor={{
               from: 'color',
