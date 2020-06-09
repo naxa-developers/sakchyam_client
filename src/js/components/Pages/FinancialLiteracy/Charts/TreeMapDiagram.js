@@ -92,8 +92,8 @@ class TreeMapDiagram extends Component {
             innerPadding={3}
             outerPadding={3}
             margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            label="loc"
-            labelFormat=".0s"
+            label="name"
+            // labelFormat=".0s"
             labelSkipSize={12}
             labelTextColor={{
               from: 'color',

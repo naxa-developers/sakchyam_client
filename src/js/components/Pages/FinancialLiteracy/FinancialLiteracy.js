@@ -21,21 +21,20 @@ import DonutChart from './Charts/DonutChart';
 import SankeyDiagram from './Charts/SankeyDiagram';
 import TreeMapDiagram from './Charts/TreeMapDiagram';
 import TableData from './TableData/TableData';
+import Modal from './Modal';
 
 class FinancialLiteracy extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showRightSidebar: true,
-      partnerType: [
-        'Microfinance Institutions',
-        'Commercial Bank and Other Partners',
-      ],
+      partnerType: [],
       checkedPartnerItems: [],
       isAllPartnerSelected: false,
       selectedProgram: [],
       visualizationType: 'Visualisation',
       activeSortBy: false,
+      activeModal: false,
     };
   }
 
@@ -200,6 +199,12 @@ class FinancialLiteracy extends Component {
     );
   };
 
+  handleModal = () => {
+    this.setState(prevState => ({
+      activeModal: !prevState.activeModal,
+    }));
+  };
+
   render() {
     const {
       state: {
@@ -210,11 +215,13 @@ class FinancialLiteracy extends Component {
         visualizationType,
         activeSortBy,
         showRightSidebar,
+        activeModal,
       },
     } = this;
     return (
       <>
         <Header />
+
         <div
           className={
             showRightSidebar
@@ -222,6 +229,25 @@ class FinancialLiteracy extends Component {
               : 'automation-wrapper literacy-wrapper expand-right-sidebar'
           }
         >
+          <Modal
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={() => {
+              return (
+                <div className="card-body">
+                  <div
+                    className="container"
+                    style={{
+                      height: '445px',
+                      overflowY: 'scroll',
+                    }}
+                  >
+                    <HorizontalChart />
+                  </div>
+                </div>
+              );
+            }}
+          />
           <LeftSideBar
             applyClick={this.applyClick}
             isAllPartnerSelected={isAllPartnerSelected}
@@ -308,7 +334,12 @@ class FinancialLiteracy extends Component {
                               >
                                 <img src={DownloadIcon} alt="open" />
                               </span>
-                              <span>
+                              <span
+                                role="tab"
+                                tabIndex="0"
+                                onClick={this.handleModal}
+                                onKeyDown={this.handleModal}
+                              >
                                 <img src={ExpandIcon} alt="open" />
                               </span>
                             </div>
