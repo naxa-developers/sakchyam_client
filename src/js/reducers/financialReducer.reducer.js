@@ -78,11 +78,16 @@ const filterSankeyData = data => {
         });
       }
       if (item.value !== 0) {
-        links.push({
-          source: item.partner_type,
-          target: item.partner_id,
-          value: item.value,
-        });
+        const obj4 = links.find(
+          obj => obj.target === item.partner_id,
+        );
+        if (!obj4) {
+          links.push({
+            source: item.partner_type,
+            target: item.partner_id,
+            value: item.value,
+          });
+        }
         links.push({
           source: item.partner_id,
           target: item.program_id,

@@ -22,13 +22,27 @@ class RightSideBar extends Component {
   };
 
   render() {
-    const { financialProgram } = this.props.financialReducer;
-    // console.log(financialProgram);
+    const {
+      financialProgram,
+      financialData,
+    } = this.props.financialReducer;
 
-    // let totalCount = 0;
-    // financialProgram.map(item => {
-    //   totalCount += item.total;
-    // });
+    const tempArr = [];
+    let totalBeneficiaries = 0;
+
+    financialData.map(item => {
+      const obj = tempArr.find(
+        obj => obj.partner_id === item.partner_id,
+      );
+      if (!obj) {
+        this.props.checkedPartnerItems.map(i => {
+          if (item.partner_id === i) {
+            tempArr.push(item);
+            totalBeneficiaries += item.single_count;
+          }
+        });
+      }
+    });
 
     const colors = [
       'is-red',
@@ -67,7 +81,7 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Total Beneficiaries</h6>
-                      <span>2</span>
+                      <span>{totalBeneficiaries}</span>
                     </div>
                     <div className="widget-icon">
                       <span>
