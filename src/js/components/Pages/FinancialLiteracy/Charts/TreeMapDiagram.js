@@ -39,6 +39,7 @@ class TreeMapDiagram extends Component {
 
   generateTreeMapData = id => {
     const arr = [];
+    console.log(this.state.financialData, 'financialData1');
     this.state.financialData.map(item => {
       if (id === item.program_id) {
         if (this.props.checkedPartnerItems.length === 0) {
@@ -62,6 +63,7 @@ class TreeMapDiagram extends Component {
       }
       return true;
     });
+    console.log(arr, 'myarr');
     return { name: 'program1', children: arr };
   };
 
@@ -84,13 +86,13 @@ class TreeMapDiagram extends Component {
           <ResponsiveTreeMap
             root={treeMapData}
             // root={root.root}
-            identity="name"
+            identity="id"
             value="loc"
             innerPadding={3}
             outerPadding={3}
             margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            label="name"
-            // labelFormat=".0s"
+            label="loc"
+            labelFormat=".0s"
             labelSkipSize={12}
             labelTextColor={{
               from: 'color',

@@ -34,7 +34,7 @@ const filterTreeMapData = data => {
     if (!obj) {
       arr.push({
         id: item.program_id,
-        name: item.program_name,
+        // name: item.program_name,
         loc: item.value,
       });
     }
@@ -56,18 +56,18 @@ const filterSankeyData = data => {
   const links = [];
   data.map(item => {
     if (item.program_id !== item.partner_id) {
-      const obj1 = nodes.find(obj => obj.id === item.program_name);
-      const obj2 = nodes.find(obj => obj.id === item.partner_name);
+      const obj1 = nodes.find(obj => obj.id === item.program_id);
+      const obj2 = nodes.find(obj => obj.id === item.partner_id);
       const obj3 = nodes.find(obj => obj.id === item.partner_type);
       if (!obj1) {
         nodes.push({
-          id: item.program_name,
+          id: item.program_id,
           color: 'hsl(41, 70%, 50%)',
         });
       }
       if (!obj2) {
         nodes.push({
-          id: item.partner_name,
+          id: item.partner_id,
           color: 'hsl(40, 74%, 55%)',
         });
       }
@@ -80,12 +80,12 @@ const filterSankeyData = data => {
       if (item.value !== 0) {
         links.push({
           source: item.partner_type,
-          target: item.partner_name,
+          target: item.partner_id,
           value: item.value,
         });
         links.push({
-          source: item.partner_name,
-          target: item.program_name,
+          source: item.partner_id,
+          target: item.program_id,
           value: item.value,
         });
       }
