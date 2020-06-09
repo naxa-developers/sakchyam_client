@@ -7,6 +7,31 @@ import {
   FILTER_PARTNERS_BY_TYPE,
 } from '../actions/index.actions';
 
+function colorPicker(i) {
+  if (i % 20 === 0) return '#91664E';
+  if (i % 20 === 1) return '#13A8BE';
+  if (i % 20 === 2) return '#FF6D00';
+  if (i % 20 === 3) return '#DE2693';
+  if (i % 20 === 4) return '#B1B424';
+  if (i % 20 === 5) return '#2196F3';
+  if (i % 20 === 6) return '#4CE2A7';
+  if (i % 20 === 7) return '#1967A0';
+  if (i % 20 === 8) return '#00C853';
+  if (i % 20 === 9) return '#651FFF';
+  if (i % 20 === 10) return '#B71DE1';
+  if (i % 20 === 11) return '#FFCD00';
+  if (i % 20 === 12) return '#E11D3F';
+  if (i % 20 === 13) return '#FF1500';
+  if (i % 20 === 14) return '#C5E11D';
+  if (i % 20 === 15) return '#CDACF2';
+  if (i % 20 === 16) return 'AFDE0E';
+  if (i % 20 === 17) return '#FF5576';
+  if (i % 20 === 18) return '#BFEDF5';
+  if (i % 20 === 19) return '#E0CBAB';
+  if (i % 20 === 20) return '#FF5E00';
+  return '#FFD400';
+}
+
 function getFilteredCodes(array, key, value) {
   return array.filter(function(e) {
     return e[key] === value;
@@ -223,6 +248,7 @@ const getFinancialData = (state, action) => {
     } else {
       groupedObj[c.program_id] = {
         name: c.program_name,
+        id: c.program_id,
         data: [c.value],
       };
     }
@@ -238,8 +264,12 @@ const getFinancialData = (state, action) => {
     allProgramData.push(value);
     // return true;
   }
-  // console.log(allProgramData, 'all Data');
-
+  console.log(allProgramData, 'all Data');
+  const allProgramColor = [];
+  for (const [key, value] of Object.entries(groupedObj)) {
+    allProgramColor.push(colorPicker(value.id));
+  }
+  console.log(allProgramColor, 'allProgramColor');
   // const allProgramData = [];
   // const allPartnersLabel = [];
   // for (const [key, value] of Object.entries(groupedObj)) {
@@ -315,10 +345,12 @@ const getFinancialData = (state, action) => {
     filteredByProgramDefault: {
       series: allProgramData,
       label: multiLineLabel,
+      color: allProgramColor,
     },
     filteredByProgram: {
       series: allProgramData,
       label: multiLineLabel,
+      color: allProgramColor,
     },
     pieData: {
       series: [totalCommercialBenef, totalMicroBenef],

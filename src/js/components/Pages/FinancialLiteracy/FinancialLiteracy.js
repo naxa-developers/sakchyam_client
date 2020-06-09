@@ -23,6 +23,24 @@ import TreeMapDiagram from './Charts/TreeMapDiagram';
 import TableData from './TableData/TableData';
 import Modal from './Modal';
 
+function colorPicker(i) {
+  if (i % 12 === 0) return '#E11D3F';
+  if (i % 12 === 1) return '#FF6D00';
+  if (i % 12 === 2) return '#13A8BE';
+  if (i % 12 === 3) return '#DE2693';
+  if (i % 12 === 4) return '#B1B424';
+  if (i % 12 === 5) return '#2196F3';
+  if (i % 12 === 6) return '#4CE2A7';
+  if (i % 12 === 7) return '#1967A0';
+  if (i % 12 === 8) return '#FFCD00';
+  if (i % 12 === 9) return '#651FFF';
+  if (i % 12 === 10) return '#B71DE1';
+  if (i % 12 === 11) return '#00C853';
+  if (i % 12 === 12) return '#91664E';
+  if (i % 12 === 13) return '#FF1500';
+  if (i % 12 === 13) return '#C5E11D';
+  return 'green';
+}
 class FinancialLiteracy extends Component {
   constructor(props) {
     super(props);

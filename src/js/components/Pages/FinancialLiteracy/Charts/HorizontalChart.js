@@ -124,6 +124,7 @@ class HorizontalChart extends Component {
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
               categories: filteredByProgram.label,
@@ -136,6 +137,7 @@ class HorizontalChart extends Component {
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
               categories: filteredByProgram.label,
