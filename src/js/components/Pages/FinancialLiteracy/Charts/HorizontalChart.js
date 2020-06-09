@@ -42,6 +42,9 @@ class HorizontalChart extends Component {
       chart: {
         type: 'bar',
         // height: 2000,
+        toolbar: {
+          show: false,
+        },
       },
       plotOptions: {
         bar: {
@@ -72,17 +75,26 @@ class HorizontalChart extends Component {
         colors: ['#fff'],
       },
       xaxis: {
-        show: false,
+        floating: false,
+        position: 'top',
+        show: true,
         offsetX: 0,
         labels: {
-          show: false,
+          show: true,
         },
         type: 'category',
         categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
       },
       yaxis: {
+        // tooltip: {
+        //   enabled: true,
+        // },
         offsetY: 0,
-        // show: false,
+        show: true,
+        labels: {
+          show: true,
+          hideOverlappingLabels: true,
+        },
       },
     };
     this.setState({ options, series });

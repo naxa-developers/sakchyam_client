@@ -235,15 +235,15 @@ class FinancialLiteracy extends Component {
             component={() => {
               return (
                 <div className="card-body">
-                  <div
+                  {/* <div
                     className="container"
                     style={{
                       height: '445px',
                       overflowY: 'scroll',
                     }}
-                  >
-                    <HorizontalChart />
-                  </div>
+                  > */}
+                  <SankeyDiagram />
+                  {/* </div> */}
                 </div>
               );
             }}

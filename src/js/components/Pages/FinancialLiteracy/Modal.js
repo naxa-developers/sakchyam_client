@@ -38,7 +38,7 @@ const Modal = props => {
                     data-toggle="modal"
                     data-target="#exampleModalCenter"
                   />
-                  {component}
+                  {component()}
                   {/* <span className="important" /> */}
                   {/* <p className="span_book_15">
                     {filteredDynamicData &&

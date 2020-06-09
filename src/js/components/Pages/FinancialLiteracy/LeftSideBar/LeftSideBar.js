@@ -189,7 +189,7 @@ class LeftSideBar extends Component {
               <button
                 onClick={applyClick}
                 type="button"
-                className="common-button is-bg is-disable"
+                className="common-button is-bg"
               >
                 apply
               </button>

@@ -92,22 +92,22 @@ class DonutChart extends Component {
       },
       tooltip: {
         // enabled: false,
-        fillSeriesColor: false,
-        fontColor: 'white',
-        style: {
-          fontSize: '12px',
-          fontColor: 'white',
-        },
-        followCursor: false,
-        fixed: {
-          enabled: true,
-          position: 'topRight',
-          offsetX: 100,
-          offsetY: 100,
-        },
-        marker: {
-          show: false,
-        },
+        // fillSeriesColor: false,
+        // fontColor: 'white',
+        // style: {
+        //   fontSize: '12px',
+        //   fontColor: 'white',
+        // },
+        // followCursor: false,
+        // fixed: {
+        //   enabled: true,
+        //   position: 'topRight',
+        //   offsetX: 100,
+        //   offsetY: 100,
+        // },
+        // marker: {
+        //   show: false,
+        // },
       },
       dataLabels: {
         enabled: false,

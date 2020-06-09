@@ -163,10 +163,16 @@ const getFinancialData = (state, action) => {
   });
   // console.log(action.payload, 'maindata');
   const label = allData.map(data => {
+    console.log(data.partner_name, 'logggg');
     return data.partner_name;
   });
   const removedDuplicateLabel = [...new Set(label)];
-  // console.log(removedDuplicateLabel);
+  const multiLineLabel = [];
+
+  removedDuplicateLabel.map(data => {
+    return multiLineLabel.push(data.split(' '));
+  });
+  console.log(multiLineLabel, 'multiLine');
   const groupedObjForLabel = {};
   allData.forEach(function(c) {
     if (groupedObjForLabel[c.partner_id]) {
@@ -308,11 +314,11 @@ const getFinancialData = (state, action) => {
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
       series: allProgramData,
-      label: removedDuplicateLabel,
+      label: multiLineLabel,
     },
     filteredByProgram: {
       series: allProgramData,
-      label: removedDuplicateLabel,
+      label: multiLineLabel,
     },
     pieData: {
       series: [totalCommercialBenef, totalMicroBenef],
@@ -381,11 +387,11 @@ const filterFinancialDataForGraph = (state, action) => {
     );
     filteredData.map(filtData => {
       // console.log(filtData, 'filtData');
-      if (!filteredLabel.includes(filtData.partner_id)) {
-        filteredLabel.push(filtData.partner_id);
+      if (!filteredLabel.includes(filtData.partner_name)) {
+        filteredLabel.push(filtData.partner_name);
       }
       filteredSeries.push({
-        name: filtData.program_id,
+        name: filtData.program_name,
         data: [filtData.value],
       });
       return true;
@@ -415,11 +421,11 @@ const filterFinancialDataForGraph = (state, action) => {
       selectedProgram.includes(i.program_id),
     );
     filteredData.map(filtData => {
-      if (!filteredLabel.includes(filtData.partner_id)) {
-        filteredLabel.push(filtData.partner_id);
+      if (!filteredLabel.includes(filtData.partner_name)) {
+        filteredLabel.push(filtData.partner_name);
       }
       filteredSeries.push({
-        name: filtData.program_id,
+        name: filtData.program_name,
         data: [filtData.value],
       });
       return true;
@@ -438,11 +444,11 @@ const filterFinancialDataForGraph = (state, action) => {
     );
     anotherFilter.map(filtData => {
       // console.log(filtered)
-      if (!filteredLabel.includes(filtData.partner_id)) {
-        filteredLabel.push(filtData.partner_id);
+      if (!filteredLabel.includes(filtData.partner_name)) {
+        filteredLabel.push(filtData.partner_name);
       }
       filteredSeries.push({
-        name: filtData.program_id,
+        name: filtData.program_name,
         data: [filtData.value],
       });
       return true;
