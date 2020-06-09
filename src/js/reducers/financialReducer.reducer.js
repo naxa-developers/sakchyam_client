@@ -35,7 +35,7 @@ const filterTreeMapData = data => {
     if (!obj) {
       arr.push({
         id: item.program_id,
-        // name: item.program_name,
+        name: item.program_name,
         loc: item.value,
       });
     }
@@ -57,18 +57,18 @@ const filterSankeyData = data => {
   const links = [];
   data.map(item => {
     if (item.program_id !== item.partner_id) {
-      const obj1 = nodes.find(obj => obj.id === item.program_id);
-      const obj2 = nodes.find(obj => obj.id === item.partner_id);
+      const obj1 = nodes.find(obj => obj.id === item.program_name);
+      const obj2 = nodes.find(obj => obj.id === item.partner_name);
       const obj3 = nodes.find(obj => obj.id === item.partner_type);
       if (!obj1) {
         nodes.push({
-          id: item.program_id,
+          id: item.program_name,
           color: 'hsl(41, 70%, 50%)',
         });
       }
       if (!obj2) {
         nodes.push({
-          id: item.partner_id,
+          id: item.partner_name,
           color: 'hsl(40, 74%, 55%)',
         });
       }
@@ -79,14 +79,19 @@ const filterSankeyData = data => {
         });
       }
       if (item.value !== 0) {
+        const obj4 = links.find(
+          obj => obj.target === item.partner_name,
+        );
+        if (!obj4) {
+          links.push({
+            source: item.partner_type,
+            target: item.partner_name,
+            value: item.value,
+          });
+        }
         links.push({
-          source: item.partner_type,
-          target: item.partner_id,
-          value: item.value,
-        });
-        links.push({
-          source: item.partner_id,
-          target: item.program_id,
+          source: item.partner_name,
+          target: item.program_name,
           value: item.value,
         });
       }
@@ -106,10 +111,14 @@ const getPartnersList = (state, action) => {
   };
 };
 const getFinancialData = (state, action) => {
-  const financialData = action.payload;
+  const { partnerList, programList, allData } = action.payload;
+  console.log(partnerList, 'partnerlist');
+  console.log(programList, 'programlist');
+  console.log(allData, 'allData');
+  const financialData = allData;
 
   financialData.map((item, index) => {
-    state.financialProgram.map(p => {
+    programList.map(p => {
       if (p.id === item.program_id) {
         financialData[index] = {
           ...item,
@@ -121,7 +130,7 @@ const getFinancialData = (state, action) => {
     return true;
   });
   financialData.map((item, index) => {
-    state.partnersList.map(i => {
+    partnerList.map(i => {
       if (i.partner_id === item.partner_id) {
         financialData[index] = {
           ...item,
@@ -139,7 +148,7 @@ const getFinancialData = (state, action) => {
   const treeMapData = filterTreeMapData(financialData);
 
   // console.log(action.payload);
-  action.payload.sort(function(a, b) {
+  allData.sort(function(a, b) {
     const nameA = a.partner_id; // ignore upper and lowercase
     const nameB = b.partner_id; // ignore upper and lowercase
     if (nameA < nameB) {
@@ -153,13 +162,13 @@ const getFinancialData = (state, action) => {
     return 0;
   });
   // console.log(action.payload, 'maindata');
-  const label = action.payload.map(data => {
+  const label = allData.map(data => {
     return data.partner_name;
   });
   const removedDuplicateLabel = [...new Set(label)];
   // console.log(removedDuplicateLabel);
   const groupedObjForLabel = {};
-  action.payload.forEach(function(c) {
+  allData.forEach(function(c) {
     if (groupedObjForLabel[c.partner_id]) {
       groupedObjForLabel[c.partner_id].names.push(c);
     } else {
@@ -176,7 +185,7 @@ const getFinancialData = (state, action) => {
   });
   console.log(tableDatas, 'tableDatas');
   const result = [
-    ...new Map(action.payload.map(x => [x.partner_id, x])).values(),
+    ...new Map(allData.map(x => [x.partner_id, x])).values(),
   ];
 
   // console.log(result);
@@ -201,7 +210,7 @@ const getFinancialData = (state, action) => {
     }
   });
   console.log(ObjByProgram, 'ObjbyProgram');
-  action.payload.forEach(function(c) {
+  allData.forEach(function(c) {
     // console.log(c, 'c');
     if (groupedObj[c.program_id]) {
       groupedObj[c.program_id].data.push(c.value);
@@ -295,7 +304,7 @@ const getFinancialData = (state, action) => {
     ...state,
     sankeyData,
     treeMapData,
-    financialData: action.payload,
+    financialData: allData,
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
       series: allProgramData,
@@ -561,6 +570,7 @@ const filterPartnersByType = (state, action) => {
   console.log(action.payload, 'payload');
   console.log(allPartnersData, 'state');
   let filteredCodes = [];
+
   if (action.payload.length > 1) {
     filteredCodes = allPartnersData;
   } else {
@@ -569,6 +579,9 @@ const filterPartnersByType = (state, action) => {
       'partner_type',
       action.payload[0],
     );
+  }
+  if (action.payload < 1) {
+    filteredCodes = allPartnersData;
   }
   // console.log(filteredCodes, 'filteredTypesss');
   return {
