@@ -9,6 +9,7 @@ class TreeMapDiagram extends Component {
     super(props);
     this.state = {};
   }
+
   componentDidUpdate(prevProps, prevState) {
     const {
       treeMapData,
@@ -49,17 +50,17 @@ class TreeMapDiagram extends Component {
             loc: item.value,
           });
           return true;
-        } else {
-          this.props.checkedPartnerItems.map(i => {
-            if (item.partner_id === i) {
-              arr.push({
-                id: item.partner_id,
-                name: item.partner_name,
-                loc: item.value,
-              });
-            }
-          });
         }
+        this.props.checkedPartnerItems.map(i => {
+          if (item.partner_id === i) {
+            arr.push({
+              id: item.partner_id,
+              name: item.partner_name,
+              loc: item.value,
+            });
+          }
+          return true;
+        });
       }
       return true;
     });
@@ -76,7 +77,7 @@ class TreeMapDiagram extends Component {
 
   render() {
     // const { treeMapData } = this.props.financialReducer;
-    const { treeMapData } = this.state;
+    const { treeMapData, checkedPartnerItems } = this.state;
 
     console.log('treeMapdiagram component', this.state.treeMapData);
 
@@ -91,8 +92,8 @@ class TreeMapDiagram extends Component {
             innerPadding={3}
             outerPadding={3}
             margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            label="loc"
-            labelFormat=".0s"
+            label="name"
+            // labelFormat=".0s"
             labelSkipSize={12}
             labelTextColor={{
               from: 'color',

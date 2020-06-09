@@ -20,21 +20,21 @@ import HorizontalChart from './Charts/HorizontalChart';
 import DonutChart from './Charts/DonutChart';
 import SankeyDiagram from './Charts/SankeyDiagram';
 import TreeMapDiagram from './Charts/TreeMapDiagram';
+import TableData from './TableData/TableData';
+import Modal from './Modal';
 
 class FinancialLiteracy extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showRightSidebar: true,
-      partnerType: [
-        'Microfinance Institutions',
-        'Commercial Bank and Other Partners',
-      ],
+      partnerType: [],
       checkedPartnerItems: [],
       isAllPartnerSelected: false,
       selectedProgram: [],
       visualizationType: 'Visualisation',
       activeSortBy: false,
+      activeModal: false,
     };
   }
 
@@ -199,6 +199,12 @@ class FinancialLiteracy extends Component {
     );
   };
 
+  handleModal = () => {
+    this.setState(prevState => ({
+      activeModal: !prevState.activeModal,
+    }));
+  };
+
   render() {
     const {
       state: {
@@ -209,11 +215,13 @@ class FinancialLiteracy extends Component {
         visualizationType,
         activeSortBy,
         showRightSidebar,
+        activeModal,
       },
     } = this;
     return (
       <>
         <Header />
+
         <div
           className={
             showRightSidebar
@@ -221,6 +229,25 @@ class FinancialLiteracy extends Component {
               : 'automation-wrapper literacy-wrapper expand-right-sidebar'
           }
         >
+          <Modal
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={() => {
+              return (
+                <div className="card-body">
+                  <div
+                    className="container"
+                    style={{
+                      height: '445px',
+                      overflowY: 'scroll',
+                    }}
+                  >
+                    <HorizontalChart />
+                  </div>
+                </div>
+              );
+            }}
+          />
           <LeftSideBar
             applyClick={this.applyClick}
             isAllPartnerSelected={isAllPartnerSelected}
@@ -307,7 +334,12 @@ class FinancialLiteracy extends Component {
                               >
                                 <img src={DownloadIcon} alt="open" />
                               </span>
-                              <span>
+                              <span
+                                role="tab"
+                                tabIndex="0"
+                                onClick={this.handleModal}
+                                onKeyDown={this.handleModal}
+                              >
                                 <img src={ExpandIcon} alt="open" />
                               </span>
                             </div>
@@ -400,503 +432,10 @@ class FinancialLiteracy extends Component {
                       : { display: 'none' }
                   }
                 >
-                  <div className="table-card">
-                    <div className="table-card-header">
-                      <div className="filter-content">
-                        <div className="filter-row">
-                          <div className="filter-list">
-                            <strong>sort by</strong>
-                            <div className="form-group">
-                              <div
-                                className="select-dropdown"
-                                id="duration_id"
-                              >
-                                <span
-                                  role="tab"
-                                  tabIndex="0"
-                                  onClick={this.toggleSortBy}
-                                  onKeyDown={this.toggleSortBy}
-                                  className="span-label span-dropdown"
-                                >
-                                  All
-                                </span>
-                                <ul
-                                  className={`select-list ${
-                                    activeSortBy === true
-                                      ? 'active'
-                                      : ''
-                                  }`}
-                                  id="dropdown-list"
-                                >
-                                  <li className="checkbox">
-                                    <input
-                                      type="checkbox"
-                                      id="check_time"
-                                    />
-                                    <label htmlFor="check_time">
-                                      <i className="icon-ok-2" />
-                                      All
-                                    </label>
-                                  </li>
-                                  <li className="checkbox">
-                                    <input
-                                      type="checkbox"
-                                      id="check_time"
-                                    />
-                                    <label htmlFor="check_time">
-                                      <i className="icon-ok-2" />
-                                      Milestone Year 1
-                                    </label>
-                                  </li>
-                                  <li className="checkbox">
-                                    <input
-                                      type="checkbox"
-                                      id="check_time2"
-                                    />
-                                    <label htmlFor="check_time2">
-                                      Milestone Year 2
-                                    </label>
-                                  </li>
-                                  <li className="checkbox">
-                                    <input
-                                      type="checkbox"
-                                      id="check_time3"
-                                    />
-                                    <label htmlFor="check_time3">
-                                      Milestone Year 3
-                                    </label>
-                                  </li>
-                                  <li className="checkbox">
-                                    <input
-                                      type="checkbox"
-                                      id="check_time4"
-                                    />
-                                    <label htmlFor="check_time4">
-                                      Milestone Year 4
-                                    </label>
-                                  </li>
-                                  <li className="checkbox">
-                                    <input
-                                      type="checkbox"
-                                      id="check_time5"
-                                    />
-                                    <label htmlFor="check_time5">
-                                      Milestone Year 5
-                                    </label>
-                                  </li>
-                                  <li className="checkbox">
-                                    <input
-                                      type="checkbox"
-                                      id="check_time6"
-                                    />
-                                    <label htmlFor="check_time6">
-                                      Milestone Year 6
-                                    </label>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="search-bar">
-                            <div className="search-wrap">
-                              <span className="search-icon">
-                                <i className="material-icons">
-                                  search
-                                </i>
-                              </span>
-                              <input
-                                type="search"
-                                className="form-control"
-                                placeholder="search"
-                              />
-                            </div>
-                            <div className="export-button">
-                              <i className="material-icons">
-                                get_app
-                              </i>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="table-card-body">
-                      <div className="table-responsive automation-table">
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th>
-                                <div className="table-head">
-                                  <i className="material-icons">
-                                    location_city
-                                  </i>
-                                  <span>Partner Institutions</span>
-                                </div>
-                              </th>
-                              <th>
-                                <div className="table-head">
-                                  <span>PGT</span>
-                                </div>
-                              </th>
-                              <th>
-                                <div className="table-head">
-                                  <span>center meeting</span>
-                                </div>
-                              </th>
-                              <th>
-                                <div className="table-head">
-                                  <span>IVR</span>
-                                </div>
-                              </th>
-                              <th>
-                                <div className="table-head">
-                                  <span>Tab</span>
-                                </div>
-                              </th>
-                              <th>
-                                <div className="table-head">
-                                  <span>Street Drama</span>
-                                </div>
-                              </th>
-                              <th>
-                                <div className="table-head">
-                                  <span>others</span>
-                                </div>
-                              </th>
-                              <th>
-                                <div className="table-head">
-                                  <span>Total count</span>
-                                </div>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="form-header active">
-                              <td colSpan="8">
-                                <h5>
-                                  <i className="material-icons">
-                                    arrow_drop_down
-                                  </i>
-                                  <span>Microfinance</span>
-                                </h5>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="form-header">
-                              <td colSpan="8">
-                                <h5>
-                                  <i className="material-icons">
-                                    arrow_drop_down
-                                  </i>
-                                  <span>
-                                    Commercial Bank & Others
-                                  </span>
-                                </h5>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                            <tr className="data">
-                              <td>
-                                <div className="organization">
-                                  <div className="organization-icon is-green">
-                                    <span>ch</span>
-                                  </div>
-                                  <div className="organization-content">
-                                    <b>Sana Kisan</b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td> 11,935 </td>
-                              <td> 11,935 </td>
-                              <td> 7,703 </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span>-</span>
-                              </td>
-                              <td>
-                                <span> 1,442 </span>
-                              </td>
-                              <td>
-                                <span className="total-count">
-                                  {' '}
-                                  11,935
-                                </span>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
+                  <TableData
+                    activeSortBy={activeSortBy}
+                    toggleSortBy={this.toggleSortBy}
+                  />
                 </div>
               </div>
             </div>

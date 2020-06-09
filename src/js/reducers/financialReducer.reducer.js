@@ -13,6 +13,7 @@ function getFilteredCodes(array, key, value) {
   });
 }
 const initialState = {
+  allTableData: [],
   partnersList: [],
   filteredPartnersList: [],
   financialData: [],
@@ -34,7 +35,7 @@ const filterTreeMapData = data => {
     if (!obj) {
       arr.push({
         id: item.program_id,
-        // name: item.program_name,
+        name: item.program_name,
         loc: item.value,
       });
     }
@@ -110,10 +111,14 @@ const getPartnersList = (state, action) => {
   };
 };
 const getFinancialData = (state, action) => {
-  const financialData = action.payload;
+  const { partnerList, programList, allData } = action.payload;
+  console.log(partnerList, 'partnerlist');
+  console.log(programList, 'programlist');
+  console.log(allData, 'allData');
+  const financialData = allData;
 
   financialData.map((item, index) => {
-    state.financialProgram.map(p => {
+    programList.map(p => {
       if (p.id === item.program_id) {
         financialData[index] = {
           ...item,
@@ -125,7 +130,7 @@ const getFinancialData = (state, action) => {
     return true;
   });
   financialData.map((item, index) => {
-    state.partnersList.map(i => {
+    partnerList.map(i => {
       if (i.partner_id === item.partner_id) {
         financialData[index] = {
           ...item,
@@ -143,7 +148,7 @@ const getFinancialData = (state, action) => {
   const treeMapData = filterTreeMapData(financialData);
 
   // console.log(action.payload);
-  action.payload.sort(function(a, b) {
+  allData.sort(function(a, b) {
     const nameA = a.partner_id; // ignore upper and lowercase
     const nameB = b.partner_id; // ignore upper and lowercase
     if (nameA < nameB) {
@@ -157,26 +162,30 @@ const getFinancialData = (state, action) => {
     return 0;
   });
   // console.log(action.payload, 'maindata');
-  const label = action.payload.map(data => {
+  const label = allData.map(data => {
     return data.partner_name;
   });
   const removedDuplicateLabel = [...new Set(label)];
   // console.log(removedDuplicateLabel);
-  // const groupedObjForLabel = {};
-  // action.payload.forEach(function(c) {
-  //   if (groupedObjForLabel[c.partner_id]) {
-  //     groupedObjForLabel[c.partner_id].names.push(c);
-  //   } else {
-  //     groupedObjForLabel[c.partner_id] = {
-  //       programId: c.partner_id,
-  //       names: [c],
-  //     };
-  //   }
-  // });
-  // console.log(groupedObjForLabel, 'groupedLabel');
-
+  const groupedObjForLabel = {};
+  allData.forEach(function(c) {
+    if (groupedObjForLabel[c.partner_id]) {
+      groupedObjForLabel[c.partner_id].names.push(c);
+    } else {
+      groupedObjForLabel[c.partner_id] = {
+        partner_name: c.partner_name,
+        names: [c],
+      };
+    }
+  });
+  console.log(groupedObjForLabel, 'groupedLabel');
+  const tableDatas = [];
+  Object.entries(groupedObjForLabel).map(([key, data]) => {
+    return tableDatas.push(data);
+  });
+  console.log(tableDatas, 'tableDatas');
   const result = [
-    ...new Map(action.payload.map(x => [x.partner_id, x])).values(),
+    ...new Map(allData.map(x => [x.partner_id, x])).values(),
   ];
 
   // console.log(result);
@@ -200,8 +209,8 @@ const getFinancialData = (state, action) => {
       };
     }
   });
-  // console.log(ObjByProgram, 'ObjbyProgram');
-  action.payload.forEach(function(c) {
+  console.log(ObjByProgram, 'ObjbyProgram');
+  allData.forEach(function(c) {
     // console.log(c, 'c');
     if (groupedObj[c.program_id]) {
       groupedObj[c.program_id].data.push(c.value);
@@ -295,7 +304,7 @@ const getFinancialData = (state, action) => {
     ...state,
     sankeyData,
     treeMapData,
-    financialData: action.payload,
+    financialData: allData,
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
       series: allProgramData,
@@ -312,10 +321,24 @@ const getFinancialData = (state, action) => {
         'Microfinance Institutions',
       ],
     },
+    allTableData: tableDatas,
   };
 };
 
 const getFinancialProgram = (state, action) => {
+  action.payload.sort(function(a, b) {
+    const nameA = a.id; // ignore upper and lowercase
+    const nameB = b.id; // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
   return {
     ...state,
     financialProgram: action.payload,
@@ -547,6 +570,7 @@ const filterPartnersByType = (state, action) => {
   console.log(action.payload, 'payload');
   console.log(allPartnersData, 'state');
   let filteredCodes = [];
+
   if (action.payload.length > 1) {
     filteredCodes = allPartnersData;
   } else {
@@ -555,6 +579,9 @@ const filterPartnersByType = (state, action) => {
       'partner_type',
       action.payload[0],
     );
+  }
+  if (action.payload < 1) {
+    filteredCodes = allPartnersData;
   }
   // console.log(filteredCodes, 'filteredTypesss');
   return {

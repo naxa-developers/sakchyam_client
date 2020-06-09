@@ -14,4 +14,4 @@ canvasFlowmapLayer.js
 SmoothWheelZoom.js
 leaflet.migrationLayer.js
 # /AutomaMainComponent.js
-*.js
+# *.js
