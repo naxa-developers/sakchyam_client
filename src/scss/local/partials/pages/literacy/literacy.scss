@@ -11,6 +11,10 @@
                     @include flex(0 0 280px);
                     max-width: 280px;
                 }
+                @media #{$breakpoint-md-desktop} {
+                    @include flex(0 0 230px);
+                    max-width: 230px;
+                }
                 @media #{$breakpoint-ls} {
                     @include flex(0 0 100%);
                     max-width: 100%;
@@ -21,6 +25,10 @@
                 @media #{$breakpoint-xxl} {
                     @include flex(0 0 300px);
                     max-width: 300px;
+                }
+                @media #{$breakpoint-md-desktop} {
+                    @include flex(0 0 250px);
+                    max-width: 250px;
                 }
 
                 @media #{$breakpoint-ls} {
@@ -41,8 +49,6 @@
         }
 
         .literacy-main-card {
-            padding: 1rem;
-
             @media #{$breakpoint-ls} {
                 padding: 0;
             }
@@ -53,6 +59,8 @@
 }
 
 .literacy-tab {
+    padding-left:1rem;
+    padding-top: 1rem;
     ul {
         @include display-flex(flex);
         @include justify-content-start;
@@ -92,19 +100,8 @@
 }
 
 .literacy-tab-content {
-    // #card-horizontal
-    // {
-    //     width: 560px;
-    //     height: 600px;
-    // }
-    // #chart-donut{
-    //     height: 380px;
-    //     width: 560px;
-    // }
     .card {
-        margin-top: 2rem;
-        
-        
+        margin-top: 1.5rem;
         .card-header {
             background-color: $white-color;
             border: none;
@@ -165,6 +162,11 @@
                 @include radius(4px);
                 background: $border-color;
             }
+            .card{
+                .card-body{
+                    padding:0 .6125rem 1rem .6125rem;
+                }
+            }
     }
     .table-card {
         .table-card-body {
@@ -191,6 +193,27 @@
         }
     }
 }
+.horizontal-chart{
+    overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+
+            &::-webkit-scrollbar {
+                width: 4px;
+                background: $border-color;
+                @include radius(4px);
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: $border-color;
+                @include radius(4px);
+            }
+
+            &::-webkit-scrollbar-thumb {
+                @include radius(4px);
+                background: $border-color;
+            }
+}
 .apexcharts-tooltip{
     max-width: 200px;
     white-space: initial;;
@@ -200,4 +223,43 @@
 }
 .apexcharts-tooltip-text-value{
     color:$primary-color;
+}
+.pie-legend{
+    
+    .legend-list{
+        @include display-flex(flex);
+        @include justify-content-between;
+        @include align-items-center;
+        h5{
+            @include display-flex(flex);
+            @include justify-content-start;
+            @include align-items-center;
+            @include flex-wrap(wrap);
+            flex-grow: 1;
+            padding-right: 1rem;
+            small{
+                width:10px;
+                height: 10px;
+                @include radius(100%);
+                background-color: $orange-color;
+                margin-right: .6125rem;
+            }
+            span{
+                font-family: $body-fonts;
+                text-transform: capitalize;
+                font-size: .875rem;
+            }
+        }
+        .legend-count{
+            @include display-flex(flex);
+            @include justify-content-end;
+            @include align-items-center;
+            b{
+                font-family: $avenir-heavy;
+                &:not(:first-child){
+                    margin-left: 3rem;
+                }
+            }
+        }
+    }
 }
