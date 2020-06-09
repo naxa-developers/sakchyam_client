@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
-import Slider from 'react-slick';
 import CustomChart from '../CustomChart';
 import {
   getIndicatorsGraphData,
@@ -1386,7 +1385,7 @@ class MiddleChartSection extends Component {
     };
     return (
       <div className="info-content">
-        <a href="#sidebar-toggle" className="toggle_button">
+        <a className="toggle_button">
           <i className="material-icons">keyboard_backspace</i>
         </a>
         <div className="info-content-wrap">
@@ -1660,7 +1659,7 @@ class MiddleChartSection extends Component {
             </span>
           </div>
           <div className="info-slider">
-            <a href="#/" className="download-icon-image">
+            <a className="download-icon-image">
               <img src="./img/save_alt.svg" alt="" />
             </a>
             <ul className="download-dropdown">

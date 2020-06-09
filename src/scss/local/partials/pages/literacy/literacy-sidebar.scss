@@ -1,0 +1,400 @@
+.automation-wrapper {
+    aside {
+        &.sidebar {
+            position: relative;
+
+            &.literacy-sidebar {
+                .sidebar-in {
+                    border: none;
+                    border-right: 1px solid $border-color;
+                    background-color: $white-color;
+
+                }
+
+                .aside-body {
+                    padding: 0;
+                    max-height: calc(100vh - 175px);
+                    height: 100vh;
+
+                    @media #{$breakpoint-ls} {
+                        height: auto;
+                        max-height: initial;
+                        overflow-y: initial;
+                    }
+
+                    .sidebar-widget {
+                        padding: 1rem 1.2rem;
+                        @media #{$breakpoint-xxl} {
+                            padding: 1rem;
+                        }
+                        h6.title {
+                            font-family: $body-fonts;
+                            font-size: .875rem;
+                            margin-bottom: 1rem;
+                        }
+
+                        .widget-body {
+                            background-color: transparent;
+                            border: none;
+                            padding: 0;
+
+
+                            .widget-tag {
+                                @include display-flex(flex);
+                                @include justify-content-start;
+                                @include align-items-center;
+                                @include flex-wrap(wrap);
+
+                                a {
+                                    @include display-flex(flex);
+                                    @include justify-content-center;
+                                    @include align-items-center;
+                                    color: $heading-color;
+                                    font-size: .875rem;
+                                    padding: 5px 10px;
+                                    border: 1px solid $border-color;
+                                    @include radius(20px);
+                                    font-family: $avenir-heavy;
+                                    margin-bottom: .5rem;
+                                    @include transition(all .5s ease-in-out);
+                                    text-transform: capitalize;
+                                    cursor: pointer;
+
+                                    &:not(:last-child) {
+                                        margin-right: .6125rem;
+                                    }
+
+                                    small {
+                                        width: 10px;
+                                        height: 10px;
+                                        @include radius(100%);
+                                        margin-right: .5rem;
+
+                                        &.is-red {
+                                            background-color: $red-color;
+                                        }
+
+                                        &.is-green {
+                                            background-color: $dark-green;
+                                        }
+
+                                        &.is-orange {
+                                            background-color: $orange-color;
+                                        }
+
+                                        &.is-blue {
+                                            background-color: $color-blue;
+                                        }
+
+                                        &.is-pink {
+                                            background-color: $color-pink-dark;
+                                        }
+
+                                        &.is-green {
+                                            background-color: $green-light;
+                                        }
+
+                                        &.is-other {
+                                            background-color: $blue-color;
+                                        }
+                                    }
+
+                                    &:hover {
+                                        background-color: $yellow-light;
+                                    }
+
+                                    &.active {
+                                        background-color: $yellow-light;
+                                        border-color: $orange-color;
+                                    }
+
+                                    @media #{$breakpoint-xxl} {
+                                        font-size: .775rem;
+                                    }
+                                }
+
+                            }
+                        }
+
+                        &:not(:last-child) {
+                            margin-bottom: 1rem;
+                        }
+
+                        &.partner-institue {
+                            padding: 0;
+
+                            h6.title {
+                                padding: 0 1.2rem;
+
+                                @media #{$breakpoint-xxl} {
+                                    padding: 0 1rem;
+                                }
+                            }
+
+                            .widget-body {
+                                background-color: $bg-color;
+                                padding: 1rem 1.2rem;
+                                border-top: 1px solid #e2e2e2;
+                                border-bottom: 1px solid #e2e2e2;
+                                overflow-y: auto;
+                                -webkit-overflow-scrolling: touch;
+                                -ms-overflow-style: -ms-autohiding-scrollbar;
+                                max-height: 340px;
+
+                                @media #{$breakpoint-xxl} {
+                                    padding: 1rem;
+                                }
+
+                                @media #{$breakpoint-ls} {
+                                    padding: .6125rem 0;
+                                }
+
+                                &::-webkit-scrollbar {
+                                    width: 4px;
+                                    background: $border-color;
+                                    @include radius(4px);
+                                }
+
+                                &::-webkit-scrollbar-track {
+                                    background-color: $border-color;
+                                    @include radius(4px);
+                                }
+
+                                &::-webkit-scrollbar-thumb {
+                                    @include radius(4px);
+                                    background: $border-color;
+                                }
+
+                                .checklist-header {
+                                    .custom-checkbox {
+                                        label {
+                                            font-family: $avenir-heavy;
+                                        }
+                                    }
+                                }
+
+                                .checklist-group {
+                                    ul {
+                                        &.checkbox-list {
+                                            padding: 0 1rem;
+                                        }
+                                    }
+                                }
+                            }
+
+                            ;
+                        }
+                    }
+
+                }
+            }
+
+
+            &.literacy-right-sidebar {
+
+                .sidebar-in {
+                    .aside-body {
+
+                        .sidebar-widget {
+                            h6.title {
+                                font-family: $body-fonts;
+                                font-size: .875rem;
+                                margin-bottom: 1rem;
+                            }
+
+                            .widget-body {
+                                background-color: transparent;
+                                border: none;
+
+                                &.is-dark {
+                                    background-color: $red-light;
+
+                                    .widget-list {
+                                        border: none;
+                                    }
+                                }
+                            }
+
+                            &:not(:last-child) {
+                                margin-bottom: 1rem;
+                            }
+
+                            .program-list {
+                                @include display-flex(flex);
+                                @include justify-content-start;
+                                @include align-items-center;
+
+                                .program-info {
+                                    padding-right: 1rem;
+                                    @include flex(0 0 130px);
+                                    max-width: 130px;
+                                    @include display-flex(flex);
+                                    @include justify-content-end;
+                                    @include align-items-end;
+
+                                    .info-in {
+                                        h5 {
+                                            margin: 0 !important;
+                                        }
+
+                                        i {
+                                            font-size: 1.1rem;
+                                        }
+                                    }
+
+                                    .program-text {
+                                        @include display-flex(flex);
+                                        @include justify-content-end;
+                                        @include align-items-center;
+
+                                        i {
+                                            margin-right: .5rem;
+                                        }
+                                    }
+
+                                    @media #{$breakpoint-xxl} {
+                                        padding-right: .6125rem;
+                                        flex: 0 0 64px;
+                                        max-width: 64px;
+
+                                        .info-in {
+                                            h5 {
+                                                font-size: .875rem;
+                                            }
+
+                                            i {
+                                                font-size: 1rem;
+                                            }
+                                        }
+                                    }
+                                    @media #{$breakpoint-md-desktop} {
+                                        .info-in {
+                                            h5 {
+                                                font-size: .775rem;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .program {
+                                    @include display-flex(flex);
+                                    @include justify-content-start;
+                                    @include align-items-center;
+                                    height: 2rem;
+                                    overflow: hidden;
+                                    font-size: .75rem;
+                                    background-color: $white-color;
+                                    border-radius: .25rem;
+                                    position: relative;
+                                    flex-grow: 1;
+
+                                    .program-bar {
+                                        @include display-flex(flex);
+                                        @include justify-content-center;
+                                        @include align-items-center;
+                                        @include flex-direction-row(column);
+                                        color: $primary-light;
+                                        text-align: center;
+                                        background-color: $red-color;
+                                        transition: width .6s ease;
+                                        width: 50%;
+                                        height: 100%;
+                                        @include radius(5px);
+                                        color: $white-color;
+
+                                        &.is-red {
+                                            background-color: $red-color;
+                                        }
+
+                                        &.is-green {
+                                            background-color: $dark-green;
+                                        }
+
+                                        &.is-orange {
+                                            background-color: $orange-color;
+                                        }
+
+                                        &.is-blue {
+                                            background-color: $color-blue;
+                                        }
+
+                                        &.is-pink {
+                                            background-color: $color-pink-dark;
+                                        }
+
+                                        &.is-green {
+                                            background-color: $green-light;
+                                        }
+
+                                        &.is-other {
+                                            background-color: $blue-color;
+                                        }
+                                    }
+
+                                }
+
+                                [tooltip]::after {
+                                    min-width: 140px;
+                                    // max-width: 30em;
+                                    white-space: initial;
+                                    // overflow: hidden;
+                                    text-overflow: initial;
+                                    max-width: 140px;
+                                    background: $white-color;
+                                    color: $heading-color;
+                                    opacity: 1;
+                                    font-family: $avenir-heavy;
+                                    line-height: 1.2;
+                                }
+
+                                /* FLOW: DOWN */
+                                [tooltip][flow^="down"]::before {
+                                    border-bottom-color: $white-color;
+                                }
+
+                                [tooltip][flow^="up"]::before {
+                                    border-top-color: $white-color;
+                                }
+
+                                &:not(:last-child) {
+                                    margin-bottom: 1rem;
+                                }
+                            }
+                            @media #{$breakpoint-xxl} {
+                                &.program-widget,&.timeline-widget{
+                                    .widget-body{
+                                        padding:1rem 0;
+                                    }
+                                }
+                            }
+                            
+                        }
+                        @media #{$breakpoint-xxl} {
+                            
+                        padding:.6125rem;
+                              
+                        }
+                    }
+                }
+            }
+
+            .apply-buttons {
+                padding: 1rem 1.2rem;
+
+                @media #{$breakpoint-xxl} {
+                    padding: 1rem;
+                }
+
+                button {
+                    padding: .25rem 1rem;
+                    font-family: $avenir-heavy;
+
+                    &.is-clear {
+                        text-transform: capitalize;
+                    }
+                }
+            }
+        }
+    }
+
+}

@@ -443,7 +443,12 @@ class TableViewComponent extends Component {
         <div className="table-card-header">
           <div className="top-header">
             <h5>Result</h5>
-            <a onClick={toggleTableViewButton} href="#">
+            <a
+              role="tab"
+              tabIndex="0"
+              onClick={toggleTableViewButton}
+              onKeyDown={toggleTableViewButton}
+            >
               View on map
             </a>
           </div>
