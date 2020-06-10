@@ -94,10 +94,10 @@ class DonutChart extends Component {
         // enabled: false,
         // fillSeriesColor: false,
         // fontColor: 'white',
-        // style: {
-        //   fontSize: '12px',
-        //   fontColor: 'white',
-        // },
+        style: {
+          fontSize: '12px',
+          fontColor: 'white',
+        },
         // followCursor: false,
         // fixed: {
         //   enabled: true,
@@ -126,40 +126,42 @@ class DonutChart extends Component {
       //   },
       // ],
       legend: {
-        show: true,
+        show: false,
         position: 'bottom',
         offsetY: 0,
         // height: 230,
       },
-      // fill: {
-      //   opacity: 1,
-      //   colors: [
-      //     // '#e69109',
-      //     // '#63a4ff',
-      //     // '#8629ff',
-      //     // '#e553ed',
-      //     // '#f2575f',
-      //     // '#915e0d',
-      //     // '#a1970d',
-      //     // '#4f7d14',
-      //     // '#07aba1',
-      //     // '#1d4c8f',
-      //     // '#491991',
-      //     // '#610766',
-      //     // '#6e0208',
-      //     // '#f07818',
-      //     // '#7F95D1',
-      //     // '#FF82A9',
-      //     // '#FFC0BE',
-      //     // '#f0e111',
-      //     // '#9ff035',
-      //     // '#34ede1',
-      //     // '#D13F31',
-      //     // '#DEDBA7',
-      //     // '#72B095',
-      //     // '#a1bd93',
-      //   ],
-      // },
+      fill: {
+        opacity: 1,
+        colors: [
+          '#13A8BE',
+          '#E11D3F',
+          // '#e69109',
+          // '#63a4ff',
+          // '#8629ff',
+          // '#e553ed',
+          // '#f2575f',
+          // '#915e0d',
+          // '#a1970d',
+          // '#4f7d14',
+          // '#07aba1',
+          // '#1d4c8f',
+          // '#491991',
+          // '#610766',
+          // '#6e0208',
+          // '#f07818',
+          // '#7F95D1',
+          // '#FF82A9',
+          // '#FFC0BE',
+          // '#f0e111',
+          // '#9ff035',
+          // '#34ede1',
+          // '#D13F31',
+          // '#DEDBA7',
+          // '#72B095',
+          // '#a1bd93',
+        ],
+      },
     };
     this.setState({ options });
   };
@@ -174,7 +176,7 @@ class DonutChart extends Component {
       prevProps.financialReducer.pieData !==
       this.props.financialReducer.pieData
     ) {
-      console.log(label, 'label');
+      // console.log(label, 'label');
       this.setState(preState => ({
         options: {
           ...preState.options,
@@ -188,15 +190,51 @@ class DonutChart extends Component {
     const { series, label } = this.props.financialReducer.pieData;
     // console.log(series, 'series');
     const { options, height } = this.state;
+    const Total = series && series[1] + series[0];
+    const microPercent = series && (series[1] * 100) / Total;
+    const commPercent = series && (series[0] * 100) / Total;
+    console.log(
+      Total,
+      Math.round(microPercent),
+      Math.round(commPercent),
+    );
     return (
-      <div>
+      <div id="donut-chart">
         {series && series && (
-          <ReactApexChart
-            options={options}
-            series={series && series}
-            type="donut"
-            height="250"
-          />
+          <>
+            <ReactApexChart
+              options={options}
+              series={series && series}
+              type="donut"
+              height="250"
+            />
+            <div className="pie-legend">
+              <div className="legend-list">
+                <h5>
+                  <small style={{ backgroundColor: '#E11D3F' }} />
+                  <span>Microfinance Institutions</span>
+                </h5>
+                <div className="legend-count">
+                  <b className="numeric">{series[1]}</b>
+                  <b className="percent">
+                    {`${microPercent.toFixed(2)}%`}
+                  </b>
+                </div>
+              </div>
+              <div className="legend-list">
+                <h5>
+                  <small style={{ backgroundColor: '#13A8BE' }} />
+                  <span>Commercial Bank & Other Partners</span>
+                </h5>
+                <div className="legend-count">
+                  <b className="numeric">{series[0]}</b>
+                  <b className="percent">
+                    {`${commPercent.toFixed(2)}%`}
+                  </b>
+                </div>
+              </div>
+            </div>
+          </>
         )}
       </div>
     );
