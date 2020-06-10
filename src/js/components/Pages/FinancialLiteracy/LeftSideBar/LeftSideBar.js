@@ -1,6 +1,43 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+// function colorPickerClass(i) {
+//   if (i % 12 === 0) return 'color1';
+//   if (i % 12 === 1) return 'color2';
+//   if (i % 12 === 2) return 'color3';
+//   if (i % 12 === 3) return 'color4';
+//   if (i % 12 === 4) return 'color5';
+//   if (i % 12 === 5) return 'color6';
+//   if (i % 12 === 6) return 'color7';
+//   if (i % 12 === 7) return 'color8';
+//   if (i % 12 === 8) return 'color9';
+//   return 'is-red';
+// }
+
+function colorPicker(i) {
+  if (i % 20 === 0) return '#91664E';
+  if (i % 20 === 1) return '#13A8BE';
+  if (i % 20 === 2) return '#FF6D00';
+  if (i % 20 === 3) return '#DE2693';
+  if (i % 20 === 4) return '#B1B424';
+  if (i % 20 === 5) return '#2196F3';
+  if (i % 20 === 6) return '#4CE2A7';
+  if (i % 20 === 7) return '#1967A0';
+  if (i % 20 === 8) return '#00C853';
+  if (i % 20 === 9) return '#651FFF';
+  if (i % 20 === 10) return '#B71DE1';
+  if (i % 20 === 11) return '#FFCD00';
+  if (i % 20 === 12) return '#E11D3F';
+  if (i % 20 === 13) return '#FF1500';
+  if (i % 20 === 14) return '#C5E11D';
+  if (i % 20 === 15) return '#CDACF2';
+  if (i % 20 === 16) return 'AFDE0E';
+  if (i % 20 === 17) return '#FF5576';
+  if (i % 20 === 18) return '#BFEDF5';
+  if (i % 20 === 19) return '#E0CBAB';
+  if (i % 20 === 20) return '#FF5E00';
+  return '#FFD400';
+}
 class LeftSideBar extends Component {
   constructor(props) {
     super(props);
@@ -149,7 +186,12 @@ class LeftSideBar extends Component {
                             tabIndex="0"
                             role="tab"
                           >
-                            <small className="icon is-red" />
+                            <small
+                              className="icon"
+                              style={{
+                                backgroundColor: colorPicker(data.id),
+                              }}
+                            />
                             <span>{data.name}</span>
                           </a>
                         );
@@ -189,7 +231,7 @@ class LeftSideBar extends Component {
               <button
                 onClick={applyClick}
                 type="button"
-                className="common-button is-bg is-disable"
+                className="common-button is-bg"
               >
                 apply
               </button>

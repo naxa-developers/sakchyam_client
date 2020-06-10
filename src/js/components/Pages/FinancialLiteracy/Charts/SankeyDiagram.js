@@ -3,6 +3,29 @@ import { ResponsiveSankey } from '@nivo/sankey';
 import { connect } from 'react-redux';
 import data from './sankey.data';
 
+const color1 = [
+  '#91664E',
+  '#13A8BE',
+  '#FF6D00',
+  '#DE2693',
+  '#B1B424',
+  '#2196F3',
+  '#4CE2A7',
+  '#1967A0',
+  '#00C853',
+  '#651FFF',
+  '#B71DE1',
+  '#FFCD00',
+  '#E11D3F',
+  '#FF1500',
+  '#C5E11D',
+  '#CDACF2',
+  'AFDE0E',
+  'sFF5576',
+  '#BFEDF5',
+  '#E0CBAB',
+  '#FF5E00',
+];
 class SankeyDiagram extends Component {
   constructor(props) {
     super(props);
@@ -19,8 +42,8 @@ class SankeyDiagram extends Component {
             data={sankeyData}
             margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
             align="justify"
-            colors={{ scheme: 'nivo' }}
-            // colors={customColor2}
+            // colors={{ scheme: 'nivo' }}
+            colors={color1}
             nodeOpacity={1}
             nodeThickness={18}
             nodeInnerPadding={3}

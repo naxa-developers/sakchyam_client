@@ -1,6 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+function colorPicker(i) {
+  if (i % 20 === 0) return '#91664E';
+  if (i % 20 === 1) return '#13A8BE';
+  if (i % 20 === 2) return '#FF6D00';
+  if (i % 20 === 3) return '#DE2693';
+  if (i % 20 === 4) return '#B1B424';
+  if (i % 20 === 5) return '#2196F3';
+  if (i % 20 === 6) return '#4CE2A7';
+  if (i % 20 === 7) return '#1967A0';
+  if (i % 20 === 8) return '#00C853';
+  if (i % 20 === 9) return '#651FFF';
+  if (i % 20 === 10) return '#B71DE1';
+  if (i % 20 === 11) return '#FFCD00';
+  if (i % 20 === 12) return '#E11D3F';
+  if (i % 20 === 13) return '#FF1500';
+  if (i % 20 === 14) return '#C5E11D';
+  if (i % 20 === 15) return '#CDACF2';
+  if (i % 20 === 16) return 'AFDE0E';
+  if (i % 20 === 17) return '#FF5576';
+  if (i % 20 === 18) return '#BFEDF5';
+  if (i % 20 === 19) return '#E0CBAB';
+  if (i % 20 === 20) return '#FF5E00';
+  return '#FFD400';
+}
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -40,18 +64,23 @@ class RightSideBar extends Component {
     financialData.map(item => {
       const obj = tempArr.find(x => x.partner_id === item.partner_id);
       if (!obj) {
-        checkedPartnerItems.map(i => {
-          if (item.partner_id === i) {
-            tempArr.push(item);
-            totalBeneficiaries += item.single_count;
-          }
-          return true;
-        });
+        if (checkedPartnerItems.length !== 0) {
+          checkedPartnerItems.map(i => {
+            if (item.partner_id === i) {
+              tempArr.push(item);
+              totalBeneficiaries += item.single_count;
+            }
+            return true;
+          });
+        } else {
+          tempArr.push(item);
+          totalBeneficiaries += item.single_count;
+        }
       }
       return true;
     });
 
-    const filteredData = [];
+    let filteredData = [];
 
     financialData.map(item => {
       if (checkedPartnerItems.length !== 0) {
@@ -97,6 +126,17 @@ class RightSideBar extends Component {
 
       return true;
     });
+    const neww = [];
+    if (selectedProgram.length !== 0) {
+      selectedProgram.map(item => {
+        const arr = filteredData.filter(i => i.program_id === item);
+        neww.push(arr);
+        return true;
+      });
+      filteredData = neww;
+    }
+
+    // console.log(filteredData, 'filteredDatax');
 
     let maxValue = 0;
     filteredData.map(item => {
@@ -133,7 +173,11 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Partner Institutions</h6>
-                      <span>{checkedPartnerItems.length}</span>
+                      <span>
+                        {checkedPartnerItems.length !== 0
+                          ? checkedPartnerItems.length
+                          : 21}
+                      </span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -144,7 +188,11 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Program Initiative</h6>
-                      <span>{selectedProgram.length}</span>
+                      <span>
+                        {selectedProgram.length !== 0
+                          ? selectedProgram.length
+                          : 6}
+                      </span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -181,10 +229,15 @@ class RightSideBar extends Component {
                         </div>
                         <div className="program">
                           <div
-                            className="program-bar is-red"
+                            className="program-bar"
                             tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
                             flow="up"
-                            style={{ width: `${width}%` }}
+                            style={{
+                              width: `${width}%`,
+                              backgroundColor: colorPicker(
+                                item.program_id,
+                              ),
+                            }}
                           >
                             {item.value}
                           </div>

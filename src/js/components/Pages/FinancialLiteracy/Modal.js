@@ -2,7 +2,6 @@ import React from 'react';
 
 const Modal = props => {
   const { activeModal, handleModal, component } = props;
-  console.log(component, 'component');
   return (
     <div className="content content-mod">
       <div
@@ -38,7 +37,7 @@ const Modal = props => {
                     data-toggle="modal"
                     data-target="#exampleModalCenter"
                   />
-                  {component}
+                  {component()}
                   {/* <span className="important" /> */}
                   {/* <p className="span_book_15">
                     {filteredDynamicData &&
