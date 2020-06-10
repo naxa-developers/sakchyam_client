@@ -26,6 +26,39 @@ class TableData extends Component {
     }
   }
 
+  exportTableToExcel = () => {
+    // let downloadLink;
+    const dataType = 'application/vnd.ms-excel';
+    const tableSelect = document.getElementById('financial_table');
+    const tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    const FullDate = new Date();
+    const date = `${FullDate.getFullYear()}/${FullDate.getDay()}/${FullDate.getMonth()}`;
+    // console.log(date, 'date');
+    // Specify file name
+    const filename = `financialData${date}.xls`;
+
+    // Create download link element
+    const downloadLink = document.createElement('a');
+
+    document.body.appendChild(downloadLink);
+
+    if (navigator.msSaveOrOpenBlob) {
+      const blob = new Blob(['\ufeff', tableHTML], {
+        type: dataType,
+      });
+      navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+      // Create a link to the file
+      downloadLink.href = `data:${dataType}, ${tableHTML}`;
+
+      // Setting the file name
+      downloadLink.download = filename;
+
+      // triggering the function
+      downloadLink.click();
+    }
+  };
+
   render() {
     const { searchKeyword } = this.state;
     const {
@@ -87,7 +120,13 @@ class TableData extends Component {
                       onChange={this.searchText}
                     />
                   </div>
-                  <div className="export-button">
+                  <div
+                    role="button"
+                    tabIndex="0"
+                    onClick={this.exportTableToExcel}
+                    onKeyDown={this.exportTableToExcel}
+                    className="export-button"
+                  >
                     <i className="material-icons">get_app</i>
                   </div>
                 </div>
@@ -96,7 +135,7 @@ class TableData extends Component {
           </div>
           <div className="table-card-body">
             <div className="table-responsive automation-table">
-              <table className="table">
+              <table className="table" id="financial_table">
                 <thead>
                   <tr>
                     <th>
@@ -152,12 +191,18 @@ class TableData extends Component {
                         // names must be equal
                         return 0;
                       });
+                      let initials =
+                        data.partner_name.match(/\b\w/g) || [];
+                      initials = (
+                        (initials.shift() || '') +
+                        (initials.pop() || '')
+                      ).toUpperCase();
                       return (
                         <tr className="data">
                           <td>
                             <div className="organization">
                               <div className="organization-icon is-green">
-                                <span>ch</span>
+                                <span>{initials}</span>
                               </div>
                               <div className="organization-content">
                                 <b>{data.partner_name}</b>

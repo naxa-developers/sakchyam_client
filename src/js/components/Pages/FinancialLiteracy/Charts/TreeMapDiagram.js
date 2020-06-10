@@ -83,14 +83,14 @@ class TreeMapDiagram extends Component {
     // const { treeMapData } = this.props.financialReducer;
     const { treeMapData, checkedPartnerItems } = this.state;
 
-    // console.log('treeMapdiagram component', this.state.treeMapData);
+    console.log('treeMapdiagram component', this.state.treeMapData);
 
     return (
       <div
         id="treemap-chart"
         style={{ height: '340px', width: '100%' }}
       >
-        {treeMapData && (
+        {treeMapData && Object.entries(treeMapData).length !== 0 && (
           <ResponsiveTreeMap
             root={treeMapData}
             // root={root.root}

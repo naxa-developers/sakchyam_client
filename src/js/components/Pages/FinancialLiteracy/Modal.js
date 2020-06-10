@@ -26,14 +26,14 @@ const Modal = props => {
             <h3>modal header</h3>
           </div>
           <div className="popup-content">{component()}</div>
-          {/* <div className="popup-footer buttons is-end">
+          <div className="popup-footer buttons is-end">
             <button type="button" className="common-button is-border">
               <span>cancel</span>
             </button>
             <button type="button" className="common-button is-bg">
               <span>save</span>
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
