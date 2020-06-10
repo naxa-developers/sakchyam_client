@@ -393,6 +393,7 @@ const filterFinancialDataForGraph = (state, action) => {
   let filteredSeries = [];
   const filteredMicroFinance = [];
   const filteredCommercial = [];
+  const allProgramColor = [];
 
   let newSankeyData = data;
   let newTreeMapData;
@@ -407,13 +408,13 @@ const filterFinancialDataForGraph = (state, action) => {
     selectedPartners.length > 0 &&
     selectedProgram.length < 1
   ) {
-    const filteredCodes = getFilteredCodes(
-      data,
-      'partner_type',
-      microfinance,
-    );
+    // const filteredCodes = getFilteredCodes(
+    //   data,
+    //   'partner_type',
+    //   microfinance,
+    // );
 
-    console.log(filteredCodes, 'filterCodes');
+    // console.log(filteredCodes, 'filterCodes');
     const filteredData = data.filter(i =>
       selectedPartners.includes(i.partner_id),
     );
@@ -424,6 +425,7 @@ const filterFinancialDataForGraph = (state, action) => {
       }
       filteredSeries.push({
         name: filtData.program_name,
+        programId: filtData.program_id,
         data: [filtData.value],
       });
       return true;
@@ -434,6 +436,10 @@ const filterFinancialDataForGraph = (state, action) => {
       } else if (filtData.partner_type === commercial) {
         filteredCommercial.push(filtData);
       }
+      return true;
+    });
+    filteredSeries.map(item => {
+      allProgramColor.push(colorPicker(item.programId));
       return true;
     });
     console.log(filteredMicroFinance, 'filteredMicroFinanceData');
@@ -457,11 +463,18 @@ const filterFinancialDataForGraph = (state, action) => {
         filteredLabel.push(filtData.partner_name);
       }
       filteredSeries.push({
+        programId: filtData.program_id,
         name: filtData.program_name,
         data: [filtData.value],
       });
       return true;
     });
+    filteredSeries.map(item => {
+      allProgramColor.push(colorPicker(item.programId));
+      return true;
+    });
+
+    console.log(allProgramColor, 'allProgramColor');
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
   } else if (
@@ -590,6 +603,7 @@ const filterFinancialDataForGraph = (state, action) => {
     filteredByProgram: {
       series: filteredSeries,
       label: filteredLabel,
+      color: allProgramColor,
     },
     pieData: {
       series: [totalCommercialBenef, totalMicroBenef],

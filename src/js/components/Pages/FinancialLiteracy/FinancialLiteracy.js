@@ -200,7 +200,7 @@ class FinancialLiteracy extends Component {
         // foreignObjectRendering: true,
         // useCORS: true,
       }).then(canvas => {
-        canvas.toBlob(function (blob) {
+        canvas.toBlob(function(blob) {
           saveAs(blob, 'Dashboard.png');
         });
       });
@@ -366,7 +366,7 @@ class FinancialLiteracy extends Component {
                             <div
                               className="horizontal-chart"
                               style={{
-                                height: '445px',
+                                height: '700px',
                               }}
                             >
                               <HorizontalChart />
@@ -393,17 +393,23 @@ class FinancialLiteracy extends Component {
                             <DonutChart />
                             <div className="pie-legend">
                               <div className="legend-list">
-                                <h5><small></small><span>microfinance</span></h5>
+                                <h5>
+                                  <small />
+                                  <span>microfinance</span>
+                                </h5>
                                 <div className="legend-count">
-                                    <b className="numeric">295,098</b>
-                                    <b className="percent">34.6%</b>
+                                  <b className="numeric">295,098</b>
+                                  <b className="percent">34.6%</b>
                                 </div>
                               </div>
                               <div className="legend-list">
-                                <h5><small></small><span>microfinance</span></h5>
+                                <h5>
+                                  <small />
+                                  <span>microfinance</span>
+                                </h5>
                                 <div className="legend-count">
-                                    <b className="numeric">295,098</b>
-                                    <b className="percent">34.6%</b>
+                                  <b className="numeric">295,098</b>
+                                  <b className="percent">34.6%</b>
                                 </div>
                               </div>
                             </div>
@@ -434,28 +440,25 @@ class FinancialLiteracy extends Component {
                         </div>
                       </div>
                     </div>
-                      
-                      <div className="card">
-                          <div className="card-header">
-                            <h5>
-                              Contribution of program initiatives
-                            </h5>
-                            <div className="header-icons">
-                              <span className="">
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span className="">
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <SankeyDiagram />
-                          </div>
+
+                    <div className="card">
+                      <div className="card-header">
+                        <h5>Contribution of program initiatives</h5>
+                        <div className="header-icons">
+                          <span className="">
+                            <img src={DownloadIcon} alt="open" />
+                          </span>
+                          <span className="">
+                            <img src={ExpandIcon} alt="open" />
+                          </span>
                         </div>
-                      
+                      </div>
+                      <div className="card-body">
+                        <SankeyDiagram />
+                      </div>
                     </div>
                   </div>
+                </div>
                 <div
                   className="literacy-tab-item"
                   style={

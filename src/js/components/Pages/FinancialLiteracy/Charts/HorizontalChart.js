@@ -115,6 +115,7 @@ class HorizontalChart extends Component {
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
+      console.log(filteredByProgram, 'filteredByProgram');
       if (
         filteredByProgram.series[0].data.length > 10 ||
         filteredByProgram.series.length > 10
@@ -133,7 +134,7 @@ class HorizontalChart extends Component {
         }));
       } else {
         this.setState(preState => ({
-          height: 200,
+          height: 1800,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
