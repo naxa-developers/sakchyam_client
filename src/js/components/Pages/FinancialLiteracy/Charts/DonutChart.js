@@ -176,7 +176,7 @@ class DonutChart extends Component {
       prevProps.financialReducer.pieData !==
       this.props.financialReducer.pieData
     ) {
-      console.log(label, 'label');
+      // console.log(label, 'label');
       this.setState(preState => ({
         options: {
           ...preState.options,
@@ -199,7 +199,7 @@ class DonutChart extends Component {
       Math.round(commPercent),
     );
     return (
-      <div>
+      <div id="donut-chart">
         {series && series && (
           <>
             <ReactApexChart

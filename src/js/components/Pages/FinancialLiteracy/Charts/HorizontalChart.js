@@ -18,25 +18,25 @@ class HorizontalChart extends Component {
 
   plotChart = () => {
     const series = [
-      {
-        name: 'a',
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
+      // {
+      //   name: 'a',
+      //   data: [44, 55, 41, 64, 22, 43, 21],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [44, 55, 41, 64, 22, 43, 21],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
     ];
     const options = {
       chart: {
@@ -101,7 +101,6 @@ class HorizontalChart extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.financialReducer, 'reducer');
     this.plotChart();
     // new ApexCharts(
     //     document.querySelector('#horizontal-chart'),
@@ -115,7 +114,7 @@ class HorizontalChart extends Component {
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
-      console.log(filteredByProgram, 'filteredByProgram');
+      // console.log(filteredByProgram, 'filteredByProgram');
       if (
         filteredByProgram.series[0].data.length > 10 ||
         filteredByProgram.series.length > 10
@@ -151,14 +150,17 @@ class HorizontalChart extends Component {
 
   render() {
     const { height } = this.state;
+    const { filteredByProgram } = this.props.financialReducer;
     return (
       <div id="horizontal-chart">
-        <ReactApexChart
-          options={this.state.options}
-          series={this.state.series}
-          type="bar"
-          height={height}
-        />
+        {filteredByProgram.series && filteredByProgram.series[0] && (
+          <ReactApexChart
+            options={this.state.options}
+            series={this.state.series}
+            type="bar"
+            height={height}
+          />
+        )}
       </div>
     );
   }

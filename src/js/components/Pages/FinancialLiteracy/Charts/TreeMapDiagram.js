@@ -7,7 +7,11 @@ import root from './treemap.data';
 class TreeMapDiagram extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      treeMapData: {},
+      financialData: [],
+      checkedPartnerItems: [],
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -79,11 +83,14 @@ class TreeMapDiagram extends Component {
     // const { treeMapData } = this.props.financialReducer;
     const { treeMapData, checkedPartnerItems } = this.state;
 
-    console.log('treeMapdiagram component', this.state.treeMapData);
+    // console.log('treeMapdiagram component', this.state.treeMapData);
 
     return (
-      <div style={{ height: '340px', width: '100%' }}>
-        {treeMapData && Object.entries(treeMapData).length !== 0 && (
+      <div
+        id="treemap-chart"
+        style={{ height: '340px', width: '100%' }}
+      >
+        {treeMapData && (
           <ResponsiveTreeMap
             root={treeMapData}
             // root={root.root}

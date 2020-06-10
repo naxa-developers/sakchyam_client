@@ -13,7 +13,10 @@ class SankeyDiagram extends Component {
     const { sankeyData } = this.props.financialReducer;
     // console.log('sankeyData', sankeyData);
     return (
-      <div style={{ height: '800px', width: 'auto' }}>
+      <div
+        id="sankey-chart"
+        style={{ height: '800px', width: 'auto' }}
+      >
         {Object.entries(sankeyData).length !== 0 && (
           <ResponsiveSankey
             data={sankeyData}
