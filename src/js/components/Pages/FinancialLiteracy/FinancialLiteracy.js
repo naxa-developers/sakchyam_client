@@ -129,7 +129,9 @@ class FinancialLiteracy extends Component {
 
         for (let i = 0; i < allPartnerElement.length; i += 1) {
           allPartnerElement[i].checked = true;
-          checkedPartnerItems.push(allPartnerElement[i].id);
+          checkedPartnerItems.push(
+            parseInt(allPartnerElement[i].id, 10),
+          );
         }
         this.setState({
           checkedPartnerItems,
@@ -391,28 +393,6 @@ class FinancialLiteracy extends Component {
                           </div>
                           <div className="card-body">
                             <DonutChart />
-                            <div className="pie-legend">
-                              <div className="legend-list">
-                                <h5>
-                                  <small />
-                                  <span>microfinance</span>
-                                </h5>
-                                <div className="legend-count">
-                                  <b className="numeric">295,098</b>
-                                  <b className="percent">34.6%</b>
-                                </div>
-                              </div>
-                              <div className="legend-list">
-                                <h5>
-                                  <small />
-                                  <span>microfinance</span>
-                                </h5>
-                                <div className="legend-count">
-                                  <b className="numeric">295,098</b>
-                                  <b className="percent">34.6%</b>
-                                </div>
-                              </div>
-                            </div>
                           </div>
                         </div>
 

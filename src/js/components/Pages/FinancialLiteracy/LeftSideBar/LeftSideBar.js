@@ -17,17 +17,17 @@ import { connect } from 'react-redux';
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
   if (i % 20 === 1) return '#13A8BE';
-  if (i % 20 === 2) return '#FF6D00';
+  if (i % 20 === 2) return '#13A8BE'; // #FF6D00
   if (i % 20 === 3) return '#DE2693';
   if (i % 20 === 4) return '#B1B424';
   if (i % 20 === 5) return '#2196F3';
-  if (i % 20 === 6) return '#4CE2A7';
+  if (i % 20 === 6) return '#B1B424'; // #4CE2A7
   if (i % 20 === 7) return '#1967A0';
   if (i % 20 === 8) return '#00C853';
-  if (i % 20 === 9) return '#651FFF';
-  if (i % 20 === 10) return '#B71DE1';
-  if (i % 20 === 11) return '#FFCD00';
-  if (i % 20 === 12) return '#E11D3F';
+  if (i % 20 === 9) return '#E11D3F'; // #651FFF
+  if (i % 20 === 10) return '#FF6D00'; // #B71DE1
+  if (i % 20 === 11) return '#DE2693'; // #FFCD00
+  if (i % 20 === 12) return '#1F8AE4'; // #E11D3F
   if (i % 20 === 13) return '#FF1500';
   if (i % 20 === 14) return '#C5E11D';
   if (i % 20 === 15) return '#CDACF2';

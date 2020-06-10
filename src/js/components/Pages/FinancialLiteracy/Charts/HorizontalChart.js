@@ -62,7 +62,7 @@ class HorizontalChart extends Component {
       legend: { show: false },
       colors: ['#c21c2e', '#f36c00', '#40a8be', '#de2693'],
       dataLabels: {
-        enabled: true,
+        enabled: false,
         offsetX: -6,
         style: {
           fontSize: '12px',
@@ -93,7 +93,7 @@ class HorizontalChart extends Component {
         show: true,
         labels: {
           show: true,
-          hideOverlappingLabels: true,
+          // hideOverlappingLabels: true,
         },
       },
     };
