@@ -299,10 +299,10 @@ const getFinancialData = (state, action) => {
   console.log(microfinancial, 'microfinancial');
 
   const totalCommercialBenef = commercial.reduce(function(x, b) {
-    return x + b.single_count;
+    return x + b.value;
   }, 0);
   const totalMicroBenef = microfinancial.reduce(function(x, b) {
-    return x + b.single_count;
+    return x + b.value;
   }, 0);
   console.log(totalCommercialBenef, 'totalComm');
   console.log(totalMicroBenef, 'totalMicroBenef');
@@ -393,7 +393,7 @@ const filterFinancialDataForGraph = (state, action) => {
   let filteredSeries = [];
   const filteredMicroFinance = [];
   const filteredCommercial = [];
-  const allProgramColor = [];
+  let allProgramColor = [];
 
   let newSankeyData = data;
   let newTreeMapData;
@@ -401,6 +401,19 @@ const filterFinancialDataForGraph = (state, action) => {
   if (selectedPartners.length < 1 && selectedProgram.length < 1) {
     filteredLabel = state.filteredByProgramDefault.label;
     filteredSeries = state.filteredByProgramDefault.series;
+    allProgramColor = state.filteredByProgramDefault.color;
+    data.map(filtData => {
+      if (filtData.partner_type === microfinance) {
+        filteredMicroFinance.push(filtData);
+      } else if (filtData.partner_type === commercial) {
+        filteredCommercial.push(filtData);
+      }
+      return true;
+    });
+    // filteredSeries.map(item => {
+    //   allProgramColor.push(colorPicker(item.programId));
+    //   return true;
+    // });
     newSankeyData = filterSankeyData(data);
     newTreeMapData = filterTreeMapData(data);
   } else if (
@@ -493,9 +506,14 @@ const filterFinancialDataForGraph = (state, action) => {
         filteredLabel.push(filtData.partner_name);
       }
       filteredSeries.push({
+        programId: filtData.program_id,
         name: filtData.program_name,
         data: [filtData.value],
       });
+      return true;
+    });
+    filteredSeries.map(item => {
+      allProgramColor.push(colorPicker(item.programId));
       return true;
     });
     const filteredDataSankey = data.filter(
