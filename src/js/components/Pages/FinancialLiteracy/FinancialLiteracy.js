@@ -30,8 +30,10 @@ class FinancialLiteracy extends Component {
       showRightSidebar: true,
       partnerType: [],
       checkedPartnerItems: [],
+      checkedPartnerItems1: [],
       isAllPartnerSelected: false,
       selectedProgram: [],
+      selectedProgram1: [],
       visualizationType: 'Visualisation',
       activeSortBy: false,
       activeModal: false,
@@ -193,6 +195,10 @@ class FinancialLiteracy extends Component {
 
   applyClick = () => {
     const { checkedPartnerItems, selectedProgram } = this.state;
+    this.setState({
+      checkedPartnerItems1: checkedPartnerItems,
+      selectedProgram1: selectedProgram,
+    });
     this.props.filterFinancialDataForGraph(
       checkedPartnerItems,
       selectedProgram,
@@ -208,10 +214,11 @@ class FinancialLiteracy extends Component {
   render() {
     const {
       state: {
-        checkedPartnerItems,
+        checkedPartnerItems1,
         isAllPartnerSelected,
         partnerType,
         selectedProgram,
+        selectedProgram1,
         visualizationType,
         activeSortBy,
         showRightSidebar,
@@ -442,8 +449,8 @@ class FinancialLiteracy extends Component {
           </main>
           <RightSideBar
             showRightSidebar={showRightSidebar}
-            selectedProgram={selectedProgram}
-            checkedPartnerItems={checkedPartnerItems}
+            selectedProgram={selectedProgram1}
+            checkedPartnerItems={checkedPartnerItems1}
             handleRightSidebarShow={this.handleRightSidebarShow}
           />
         </div>

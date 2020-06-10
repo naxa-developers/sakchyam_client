@@ -27,45 +27,84 @@ class RightSideBar extends Component {
       financialData,
     } = this.props.financialReducer;
 
-    const tempArr = [];
-    let totalBeneficiaries = 0;
-
-    financialData.map(item => {
-      const obj = tempArr.find(
-        obj => obj.partner_id === item.partner_id,
-      );
-      if (!obj) {
-        this.props.checkedPartnerItems.map(i => {
-          if (item.partner_id === i) {
-            tempArr.push(item);
-            totalBeneficiaries += item.single_count;
-          }
-        });
-      }
-    });
-
-    const colors = [
-      'is-red',
-      'is-orange',
-      'is-blue',
-      'is-pink',
-      'is-other',
-    ];
-
-    let maxValue = 0;
-    financialProgram.map(item => {
-      if (maxValue < item.total) {
-        maxValue = item.total;
-      }
-      return true;
-    });
-
     const {
       showRightSidebar,
       handleRightSidebarShow,
       selectedProgram,
       checkedPartnerItems,
     } = this.props;
+
+    const tempArr = [];
+    let totalBeneficiaries = 0;
+
+    financialData.map(item => {
+      const obj = tempArr.find(x => x.partner_id === item.partner_id);
+      if (!obj) {
+        checkedPartnerItems.map(i => {
+          if (item.partner_id === i) {
+            tempArr.push(item);
+            totalBeneficiaries += item.single_count;
+          }
+          return true;
+        });
+      }
+      return true;
+    });
+
+    const filteredData = [];
+
+    financialData.map(item => {
+      if (checkedPartnerItems.length !== 0) {
+        checkedPartnerItems.map(i => {
+          if (item.partner_id === i) {
+            const obj = filteredData.find(
+              x => x.program_id === item.program_id,
+            );
+            if (!obj) {
+              filteredData.push({
+                program_code: item.program_code,
+                program_id: item.program_id,
+                program_name: item.program_name,
+                value: item.value,
+              });
+            } else {
+              const objIndex = filteredData.findIndex(
+                p => p.program_id === item.program_id,
+              );
+              filteredData[objIndex].value += item.value;
+            }
+          }
+          return true;
+        });
+      } else {
+        const obj = filteredData.find(
+          x => x.program_id === item.program_id,
+        );
+        if (!obj) {
+          filteredData.push({
+            program_code: item.program_code,
+            program_id: item.program_id,
+            program_name: item.program_name,
+            value: item.value,
+          });
+        } else {
+          const objIndex = filteredData.findIndex(
+            i => i.program_id === item.program_id,
+          );
+          filteredData[objIndex].value += item.value;
+        }
+      }
+
+      return true;
+    });
+
+    let maxValue = 0;
+    filteredData.map(item => {
+      if (maxValue < item.value) {
+        maxValue = item.value;
+      }
+      return true;
+    });
 
     const { isHovered, hoverID } = this.state;
     return (
@@ -119,39 +158,41 @@ class RightSideBar extends Component {
             <div className="sidebar-widget program-widget">
               <h5>Branches Count</h5>
               <div className="widget-body">
-                {financialProgram &&
-                  financialProgram.map(item => {
+                {filteredData &&
+                  filteredData.map(item => {
+                    // console.log(item, 'itemx');
                     // colors.map(color => {
-                    const width = (item.total * 100) / maxValue;
+                    const width = (item.value * 100) / maxValue;
 
-                    if (item.total !== 0) {
-                      return (
-                        <div className="program-list">
-                          <div className="program-info">
-                            <div className="info-in">
-                              <h5>{item.name}</h5>
-                              <div className="program-text">
-                                <i className="material-icons">
-                                  business
-                                </i>
-                                <span>{item.code}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="program">
-                            <div
-                              className="program-bar is-red"
-                              tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
-                              flow="up"
-                              style={{ width: `${width}%` }}
-                            >
-                              {item.total}
+                    // if (item.total !== 0) {
+                    return (
+                      <div className="program-list">
+                        <div className="program-info">
+                          <div className="info-in">
+                            <h5>{item.program_name}</h5>
+                            <div className="program-text">
+                              <i className="material-icons">
+                                business
+                              </i>
+                              <span>{item.program_code}</span>
+                              {/* <span>{item.code}</span> */}
                             </div>
                           </div>
                         </div>
-                      );
-                    }
-                    return false;
+                        <div className="program">
+                          <div
+                            className="program-bar is-red"
+                            tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
+                            flow="up"
+                            style={{ width: `${width}%` }}
+                          >
+                            {item.value}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                    // }
+                    // return false;
 
                     // });
                   })}

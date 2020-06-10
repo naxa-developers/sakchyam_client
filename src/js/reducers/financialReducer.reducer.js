@@ -112,9 +112,6 @@ const getPartnersList = (state, action) => {
 };
 const getFinancialData = (state, action) => {
   const { partnerList, programList, allData } = action.payload;
-  console.log(partnerList, 'partnerlist');
-  console.log(programList, 'programlist');
-  console.log(allData, 'allData');
   const financialData = allData;
 
   financialData.map((item, index) => {
@@ -122,6 +119,7 @@ const getFinancialData = (state, action) => {
       if (p.id === item.program_id) {
         financialData[index] = {
           ...item,
+          program_code: p.code,
           program_name: p.name,
         };
       }
@@ -295,7 +293,7 @@ const getFinancialData = (state, action) => {
   //     allProgramData.push(data.value);
   //     return true;
   //   });
-  // }
+  // i}
   // console.log(allPartnersLabel, 'allPartnersLabel');
   // console.log(allProgramData, 'allProgramData');
   // );

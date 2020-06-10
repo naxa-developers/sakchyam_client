@@ -11,13 +11,13 @@ class SankeyDiagram extends Component {
 
   render() {
     const { sankeyData } = this.props.financialReducer;
-    console.log('sankeyData11', JSON.stringify(sankeyData));
+    // console.log('sankeyData11', JSON.stringify(sankeyData));
     return (
-      <div style={{ height: '800px', width: 'auto' }}>
+      <div style={{ height: '800px' }}>
         {Object.entries(sankeyData).length !== 0 && (
           <ResponsiveSankey
             data={sankeyData}
-            margin={{ top: 40, right: 50, bottom: 40, left: 50 }}
+            margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
             align="justify"
             colors={{ scheme: 'nivo' }}
             // colors={customColor2}
