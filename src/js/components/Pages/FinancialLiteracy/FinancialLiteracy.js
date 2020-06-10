@@ -23,6 +23,24 @@ import TreeMapDiagram from './Charts/TreeMapDiagram';
 import TableData from './TableData/TableData';
 import Modal from './Modal';
 
+function colorPicker(i) {
+  if (i % 12 === 0) return '#E11D3F';
+  if (i % 12 === 1) return '#FF6D00';
+  if (i % 12 === 2) return '#13A8BE';
+  if (i % 12 === 3) return '#DE2693';
+  if (i % 12 === 4) return '#B1B424';
+  if (i % 12 === 5) return '#2196F3';
+  if (i % 12 === 6) return '#4CE2A7';
+  if (i % 12 === 7) return '#1967A0';
+  if (i % 12 === 8) return '#FFCD00';
+  if (i % 12 === 9) return '#651FFF';
+  if (i % 12 === 10) return '#B71DE1';
+  if (i % 12 === 11) return '#00C853';
+  if (i % 12 === 12) return '#91664E';
+  if (i % 12 === 13) return '#FF1500';
+  if (i % 12 === 13) return '#C5E11D';
+  return 'green';
+}
 class FinancialLiteracy extends Component {
   constructor(props) {
     super(props);
@@ -235,15 +253,15 @@ class FinancialLiteracy extends Component {
             component={() => {
               return (
                 <div className="card-body">
-                  <div
+                  {/* <div
                     className="container"
                     style={{
                       height: '445px',
                       overflowY: 'scroll',
                     }}
-                  >
-                    <HorizontalChart />
-                  </div>
+                  > */}
+                  <SankeyDiagram />
+                  {/* </div> */}
                 </div>
               );
             }}
@@ -346,10 +364,9 @@ class FinancialLiteracy extends Component {
                           </div>
                           <div className="card-body">
                             <div
-                              className="container"
+                              className="horizontal-chart"
                               style={{
-                                height: '445px',
-                                overflowY: 'scroll',
+                                height: '700px',
                               }}
                             >
                               <HorizontalChart />
@@ -374,10 +391,31 @@ class FinancialLiteracy extends Component {
                           </div>
                           <div className="card-body">
                             <DonutChart />
+                            <div className="pie-legend">
+                              <div className="legend-list">
+                                <h5>
+                                  <small />
+                                  <span>microfinance</span>
+                                </h5>
+                                <div className="legend-count">
+                                  <b className="numeric">295,098</b>
+                                  <b className="percent">34.6%</b>
+                                </div>
+                              </div>
+                              <div className="legend-list">
+                                <h5>
+                                  <small />
+                                  <span>microfinance</span>
+                                </h5>
+                                <div className="legend-count">
+                                  <b className="numeric">295,098</b>
+                                  <b className="percent">34.6%</b>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="col-xl-6">
+
                         <div className="card" id="">
                           <div className="card-header">
                             <h5>
@@ -401,25 +439,22 @@ class FinancialLiteracy extends Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-xl-12">
-                        <div className="card">
-                          <div className="card-header">
-                            <h5>
-                              Contribution of program initiatives
-                            </h5>
-                            <div className="header-icons">
-                              <span className="">
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span className="">
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <SankeyDiagram />
-                          </div>
+                    </div>
+
+                    <div className="card">
+                      <div className="card-header">
+                        <h5>Contribution of program initiatives</h5>
+                        <div className="header-icons">
+                          <span className="">
+                            <img src={DownloadIcon} alt="open" />
+                          </span>
+                          <span className="">
+                            <img src={ExpandIcon} alt="open" />
+                          </span>
                         </div>
+                      </div>
+                      <div className="card-body">
+                        <SankeyDiagram />
                       </div>
                     </div>
                   </div>

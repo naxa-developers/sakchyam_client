@@ -82,7 +82,7 @@ class TreeMapDiagram extends Component {
     console.log('treeMapdiagram component', this.state.treeMapData);
 
     return (
-      <div style={{ height: '500px', width: '500px' }}>
+      <div style={{ height: '340px', width: '100%' }}>
         {treeMapData && Object.entries(treeMapData).length !== 0 && (
           <ResponsiveTreeMap
             root={treeMapData}
@@ -100,6 +100,7 @@ class TreeMapDiagram extends Component {
               modifiers: [['darker', 1.2]],
             }}
             colors={{ scheme: 'nivo' }}
+            // colors={{ scheme: 'nivo' }}
             borderColor={{
               from: 'color',
               modifiers: [['darker', 0.3]],

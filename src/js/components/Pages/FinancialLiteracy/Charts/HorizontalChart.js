@@ -42,6 +42,9 @@ class HorizontalChart extends Component {
       chart: {
         type: 'bar',
         // height: 2000,
+        toolbar: {
+          show: false,
+        },
       },
       plotOptions: {
         bar: {
@@ -72,17 +75,26 @@ class HorizontalChart extends Component {
         colors: ['#fff'],
       },
       xaxis: {
-        show: false,
+        floating: false,
+        position: 'top',
+        show: true,
         offsetX: 0,
         labels: {
-          show: false,
+          show: true,
         },
         type: 'category',
         categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
       },
       yaxis: {
+        // tooltip: {
+        //   enabled: true,
+        // },
         offsetY: 0,
-        // show: false,
+        show: true,
+        labels: {
+          show: true,
+          hideOverlappingLabels: true,
+        },
       },
     };
     this.setState({ options, series });
@@ -103,6 +115,7 @@ class HorizontalChart extends Component {
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
+      console.log(filteredByProgram, 'filteredByProgram');
       if (
         filteredByProgram.series[0].data.length > 10 ||
         filteredByProgram.series.length > 10
@@ -112,6 +125,7 @@ class HorizontalChart extends Component {
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
               categories: filteredByProgram.label,
@@ -120,10 +134,11 @@ class HorizontalChart extends Component {
         }));
       } else {
         this.setState(preState => ({
-          height: 200,
+          height: 1800,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
               categories: filteredByProgram.label,
