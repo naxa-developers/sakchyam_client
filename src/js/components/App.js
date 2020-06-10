@@ -13,6 +13,7 @@ import ForgotPassword from './ForgotPassword';
 import Landing from './Landing';
 import MainAutomation from './Pages/Automation/MainAutomation';
 import FinancialLiteracy from './Pages/FinancialLiteracy/FinancialLiteracy';
+import MainPartnership from './Pages/Partnership/MainPartnership';
 
 class App extends Component {
   constructor(props) {
@@ -37,6 +38,10 @@ class App extends Component {
           <PrivateRoute
             path="/financial"
             component={FinancialLiteracy}
+          />
+          <PrivateRoute
+            path="/partnership"
+            component={MainPartnership}
           />
           <Route path="/login" component={Login} />
           <Route path="/" component={Landing} />
