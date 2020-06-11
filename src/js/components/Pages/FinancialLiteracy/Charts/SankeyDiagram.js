@@ -6,22 +6,22 @@ import data from './sankey.data';
 const color1 = [
   '#91664E',
   '#13A8BE',
-  '#FF6D00',
+  '#13A8BE', // #FF6D00
   '#DE2693',
   '#B1B424',
   '#2196F3',
-  '#4CE2A7',
+  '#B1B424', // #4CE2A7
   '#1967A0',
   '#00C853',
-  '#651FFF',
-  '#B71DE1',
-  '#FFCD00',
-  '#E11D3F',
+  '#E11D3F', // #651FFF
+  '#FF6D00', // #B71DE1
+  '#DE2693', // #FFCD00
+  '#1F8AE4', // #E11D3F
   '#FF1500',
   '#C5E11D',
   '#CDACF2',
   'AFDE0E',
-  'sFF5576',
+  '#FF5576',
   '#BFEDF5',
   '#E0CBAB',
   '#FF5E00',

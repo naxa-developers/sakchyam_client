@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
+import { values, select } from 'd3';
 import Header from '../../Header';
 import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
@@ -15,6 +16,7 @@ import {
   getFinancialProgram,
   filterFinancialDataForGraph,
   filterPartnersByType,
+  filterDataForRightSidebar,
 } from '../../../actions/financial.actions';
 import HorizontalChart from './Charts/HorizontalChart';
 import DonutChart from './Charts/DonutChart';
@@ -46,6 +48,7 @@ class FinancialLiteracy extends Component {
     super(props);
     this.state = {
       showRightSidebar: true,
+      selectedModal: '',
       partnerType: [],
       checkedPartnerItems: [],
       checkedPartnerItems1: [],
@@ -131,7 +134,9 @@ class FinancialLiteracy extends Component {
 
         for (let i = 0; i < allPartnerElement.length; i += 1) {
           allPartnerElement[i].checked = true;
-          checkedPartnerItems.push(allPartnerElement[i].id);
+          checkedPartnerItems.push(
+            parseInt(allPartnerElement[i].id, 10),
+          );
         }
         this.setState({
           checkedPartnerItems,
@@ -181,14 +186,14 @@ class FinancialLiteracy extends Component {
     }));
   };
 
-  downloadPng = () => {
+  downloadPng = chartid => {
     // document.querySelector('.info-header-bottom').style.display =
     //   'none';
     // document
     //   .querySelector('.download-dropdown')
     //   .classList.remove('active');
     setTimeout(() => {
-      html2canvas(document.querySelector('#horizontal-chart'), {
+      html2canvas(document.querySelector(`#${chartid}`), {
         // logging: true,
         // letterRendering: 1,
         allowTaint: true,
@@ -213,20 +218,27 @@ class FinancialLiteracy extends Component {
 
   applyClick = () => {
     const { checkedPartnerItems, selectedProgram } = this.state;
-    this.setState({
-      checkedPartnerItems1: checkedPartnerItems,
-      selectedProgram1: selectedProgram,
-    });
     this.props.filterFinancialDataForGraph(
       checkedPartnerItems,
       selectedProgram,
     );
+
+    this.setState({
+      checkedPartnerItems1: checkedPartnerItems,
+      selectedProgram1: selectedProgram,
+    });
   };
 
   handleModal = () => {
     this.setState(prevState => ({
       activeModal: !prevState.activeModal,
     }));
+  };
+
+  handleSelectedModal = value => {
+    this.setState({
+      selectedModal: value,
+    });
   };
 
   render() {
@@ -241,6 +253,7 @@ class FinancialLiteracy extends Component {
         activeSortBy,
         showRightSidebar,
         activeModal,
+        selectedModal,
       },
     } = this;
     return (
@@ -254,25 +267,6 @@ class FinancialLiteracy extends Component {
               : 'automation-wrapper literacy-wrapper expand-right-sidebar'
           }
         >
-          <Modal
-            handleModal={this.handleModal}
-            activeModal={activeModal}
-            component={() => {
-              return (
-                <div className="card-body">
-                  {/* <div
-                    className="container"
-                    style={{
-                      height: '445px',
-                      overflowY: 'scroll',
-                    }}
-                  > */}
-                  <SankeyDiagram />
-                  {/* </div> */}
-                </div>
-              );
-            }}
-          />
           <LeftSideBar
             applyClick={this.applyClick}
             isAllPartnerSelected={isAllPartnerSelected}
@@ -351,8 +345,16 @@ class FinancialLiteracy extends Component {
                             </h5>
                             <div className="header-icons">
                               <span
-                                onClick={this.downloadPng}
-                                onKeyDown={this.downloadPng}
+                                onClick={() => {
+                                  this.downloadPng(
+                                    'horizontal-chart',
+                                  );
+                                }}
+                                onKeyDown={() => {
+                                  this.downloadPng(
+                                    'horizontal-chart',
+                                  );
+                                }}
                                 className=""
                                 role="tab"
                                 tabIndex="0"
@@ -362,8 +364,14 @@ class FinancialLiteracy extends Component {
                               <span
                                 role="tab"
                                 tabIndex="0"
-                                onClick={this.handleModal}
-                                onKeyDown={this.handleModal}
+                                onClick={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal('bar');
+                                }}
+                                onKeyDown={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal('bar');
+                                }}
                               >
                                 <img src={ExpandIcon} alt="open" />
                               </span>
@@ -388,38 +396,38 @@ class FinancialLiteracy extends Component {
                               Contribution of program initiatives
                             </h5>
                             <div className="header-icons">
-                              <span className="">
+                              <span
+                                className=""
+                                onClick={() => {
+                                  this.downloadPng('donut-chart');
+                                }}
+                                onKeyDown={() => {
+                                  this.downloadPng('donut-chart');
+                                }}
+                                role="tab"
+                                tabIndex="0"
+                              >
                                 <img src={DownloadIcon} alt="open" />
                               </span>
-                              <span className="">
+                              <span
+                                className=""
+                                role="tab"
+                                tabIndex="0"
+                                onClick={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal('donut');
+                                }}
+                                onKeyDown={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal('donut');
+                                }}
+                              >
                                 <img src={ExpandIcon} alt="open" />
                               </span>
                             </div>
                           </div>
                           <div className="card-body">
                             <DonutChart />
-                            <div className="pie-legend">
-                              <div className="legend-list">
-                                <h5>
-                                  <small />
-                                  <span>microfinance</span>
-                                </h5>
-                                <div className="legend-count">
-                                  <b className="numeric">295,098</b>
-                                  <b className="percent">34.6%</b>
-                                </div>
-                              </div>
-                              <div className="legend-list">
-                                <h5>
-                                  <small />
-                                  <span>microfinance</span>
-                                </h5>
-                                <div className="legend-count">
-                                  <b className="numeric">295,098</b>
-                                  <b className="percent">34.6%</b>
-                                </div>
-                              </div>
-                            </div>
                           </div>
                         </div>
 
@@ -429,10 +437,32 @@ class FinancialLiteracy extends Component {
                               Contribution of program initiatives
                             </h5>
                             <div className="header-icons">
-                              <span className="">
+                              <span
+                                className=""
+                                onClick={() => {
+                                  this.downloadPng('treemap-chart');
+                                }}
+                                onKeyDown={() => {
+                                  this.downloadPng('treemap-chart');
+                                }}
+                                role="tab"
+                                tabIndex="0"
+                              >
                                 <img src={DownloadIcon} alt="open" />
                               </span>
-                              <span className="">
+                              <span
+                                className=""
+                                role="tab"
+                                tabIndex="0"
+                                onClick={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal('tree');
+                                }}
+                                onKeyDown={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal('tree');
+                                }}
+                              >
                                 <img src={ExpandIcon} alt="open" />
                               </span>
                             </div>
@@ -452,10 +482,32 @@ class FinancialLiteracy extends Component {
                       <div className="card-header">
                         <h5>Contribution of program initiatives</h5>
                         <div className="header-icons">
-                          <span className="">
+                          <span
+                            className
+                            onClick={() => {
+                              this.downloadPng('sankey-chart');
+                            }}
+                            onKeyDown={() => {
+                              this.downloadPng('sankey-chart');
+                            }}
+                            role="tab"
+                            tabIndex="0"
+                          >
                             <img src={DownloadIcon} alt="open" />
                           </span>
-                          <span className="">
+                          <span
+                            className=""
+                            role="tab"
+                            tabIndex="0"
+                            onClick={() => {
+                              this.handleModal();
+                              this.handleSelectedModal('sankey');
+                            }}
+                            onKeyDown={() => {
+                              this.handleModal();
+                              this.handleSelectedModal('sankey');
+                            }}
+                          >
                             <img src={ExpandIcon} alt="open" />
                           </span>
                         </div>
@@ -482,6 +534,63 @@ class FinancialLiteracy extends Component {
               </div>
             </div>
           </main>
+          {/* <Modal
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={() => {
+              if (selectedModal === 'bar') return <HorizontalChart />;
+              if (selectedModal === 'donut') return <DonutChart />;
+              if (selectedModal === 'tree')
+                return (
+                  <TreeMapDiagram
+                    checkedPartnerItems={
+                      this.state.checkedPartnerItems
+                    }
+                  />
+                );
+              return <SankeyDiagram />;
+            }}
+          /> */}
+          {/* {selectedModal === 'bar' ? ( */}
+          <Modal
+            visible={selectedModal === 'bar' ? true : false}
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={() => {
+              return <HorizontalChart />;
+            }}
+          />
+          {/* ) : ( */}
+          <Modal
+            visible={selectedModal === 'donut' ? true : false}
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={() => {
+              return <DonutChart />;
+            }}
+          />
+          <Modal
+            visible={selectedModal === 'tree' ? true : false}
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={() => {
+              return (
+                <TreeMapDiagram
+                  checkedPartnerItems={this.state.checkedPartnerItems}
+                />
+              );
+            }}
+          />
+          {/* ) : ( */}
+          <Modal
+            visible={selectedModal === 'sankey' ? true : false}
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={() => {
+              return <SankeyDiagram />;
+            }}
+          />
+          {/* )} */}
           <RightSideBar
             showRightSidebar={showRightSidebar}
             selectedProgram={selectedProgram1}
@@ -503,4 +612,5 @@ export default connect(mapStateToProps, {
   getFinancialProgram,
   filterFinancialDataForGraph,
   filterPartnersByType,
+  filterDataForRightSidebar,
 })(FinancialLiteracy);

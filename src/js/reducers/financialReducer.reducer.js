@@ -10,17 +10,17 @@ import {
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
   if (i % 20 === 1) return '#13A8BE';
-  if (i % 20 === 2) return '#FF6D00';
+  if (i % 20 === 2) return '#13A8BE'; // #FF6D00
   if (i % 20 === 3) return '#DE2693';
   if (i % 20 === 4) return '#B1B424';
   if (i % 20 === 5) return '#2196F3';
-  if (i % 20 === 6) return '#4CE2A7';
+  if (i % 20 === 6) return '#B1B424'; // #4CE2A7
   if (i % 20 === 7) return '#1967A0';
   if (i % 20 === 8) return '#00C853';
-  if (i % 20 === 9) return '#651FFF';
-  if (i % 20 === 10) return '#B71DE1';
-  if (i % 20 === 11) return '#FFCD00';
-  if (i % 20 === 12) return '#E11D3F';
+  if (i % 20 === 9) return '#E11D3F'; // #651FFF
+  if (i % 20 === 10) return '#FF6D00'; // #B71DE1
+  if (i % 20 === 11) return '#DE2693'; // #FFCD00
+  if (i % 20 === 12) return '#1F8AE4'; // #E11D3F
   if (i % 20 === 13) return '#FF1500';
   if (i % 20 === 14) return '#C5E11D';
   if (i % 20 === 15) return '#CDACF2';
@@ -81,7 +81,7 @@ const filterSankeyData = data => {
   const nodes = [];
   const links = [];
   data.map(item => {
-    if (item.program_id !== item.partner_id) {
+    if (item.program_id !== item.partner_id && item.value !== 0) {
       const obj1 = nodes.find(obj => obj.id === item.program_name);
       const obj2 = nodes.find(obj => obj.id === item.partner_name);
       const obj3 = nodes.find(obj => obj.id === item.partner_type);
@@ -103,24 +103,24 @@ const filterSankeyData = data => {
           color: 'hsl(40, 74%, 55%)',
         });
       }
-      if (item.value !== 0) {
-        const obj4 = links.find(
-          obj => obj.target === item.partner_name,
-        );
-        if (!obj4) {
-          links.push({
-            source: item.partner_type,
-            target: item.partner_name,
-            value: item.value,
-          });
-        }
+      // if (item.value !== 0) {
+      const obj4 = links.find(
+        obj => obj.target === item.partner_name,
+      );
+      if (!obj4) {
         links.push({
-          source: item.partner_name,
-          target: item.program_name,
+          source: item.partner_type,
+          target: item.partner_name,
           value: item.value,
         });
       }
+      links.push({
+        source: item.partner_name,
+        target: item.program_name,
+        value: item.value,
+      });
     }
+    // }
     return true;
   });
 
@@ -172,12 +172,12 @@ const getFinancialData = (state, action) => {
 
   // console.log(action.payload);
   allData.sort(function(a, b) {
-    const nameA = a.partner_id; // ignore upper and lowercase
-    const nameB = b.partner_id; // ignore upper and lowercase
-    if (nameA < nameB) {
+    const nameA = a.single_count; // ignore upper and lowercase
+    const nameB = b.single_count; // ignore upper and lowercase
+    if (nameA > nameB) {
       return -1;
     }
-    if (nameA > nameB) {
+    if (nameA < nameB) {
       return 1;
     }
 
@@ -186,7 +186,7 @@ const getFinancialData = (state, action) => {
   });
   // console.log(action.payload, 'maindata');
   const label = allData.map(data => {
-    console.log(data.partner_name, 'logggg');
+    // console.log(data.partner_name, 'logggg');
     return data.partner_name;
   });
   const removedDuplicateLabel = [...new Set(label)];
@@ -267,7 +267,7 @@ const getFinancialData = (state, action) => {
   for (const [key, value] of Object.entries(groupedObj)) {
     allProgramColor.push(colorPicker(value.id));
   }
-  console.log(allProgramColor, 'allProgramColor');
+
   // const allProgramData = [];
   // const allPartnersLabel = [];
   // for (const [key, value] of Object.entries(groupedObj)) {
@@ -293,47 +293,13 @@ const getFinancialData = (state, action) => {
       commercial.push(c);
     }
   });
-  console.log(commercial, 'commercial');
-  console.log(microfinancial, 'microfinancial');
 
   const totalCommercialBenef = commercial.reduce(function(x, b) {
-    return x + b.value;
+    return x + b.single_count;
   }, 0);
   const totalMicroBenef = microfinancial.reduce(function(x, b) {
-    return x + b.value;
+    return x + b.single_count;
   }, 0);
-  console.log(totalCommercialBenef, 'totalComm');
-  console.log(totalMicroBenef, 'totalMicroBenef');
-  // action.payload.forEach(function(c) {
-  //   if (partnerIdObj[c.partner_type]) {
-  //     // if (partnerIdObj[c.partner_type].names.length < 1) {
-  //     partnerIdObj[c.partner_type].names.push(c);
-  //     // }
-  //   } else {
-  //     partnerIdObj[c.partner_type] = {
-  //       partnerId: c.partner_type,
-  //       names: [c],
-  //     };
-  //   }
-  // });
-  // console.log(partnerIdObj, 'grouped');
-
-  // // eslint-disable-next-line no-restricted-syntax
-  // const allProgramData = [];
-  // const allPartnersLabel = [];
-  // for (const [key, value] of Object.entries(groupedObj)) {
-  //   // console.log(value, 'value');
-  //   // console.log(key, 'key');
-  //   allPartnersLabel.push(key);
-  //   value.names.map(data => {
-  //     allProgramData.push(data.value);
-  //     return true;
-  //   });
-  // i}
-  // console.log(allPartnersLabel, 'allPartnersLabel');
-  // console.log(allProgramData, 'allProgramData');
-  // );
-  // console.log(allProgramData, 'series');
   return {
     ...state,
     sankeyData,

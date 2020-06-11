@@ -4,17 +4,17 @@ import { connect } from 'react-redux';
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
   if (i % 20 === 1) return '#13A8BE';
-  if (i % 20 === 2) return '#FF6D00';
+  if (i % 20 === 2) return '#13A8BE'; // #FF6D00
   if (i % 20 === 3) return '#DE2693';
   if (i % 20 === 4) return '#B1B424';
   if (i % 20 === 5) return '#2196F3';
-  if (i % 20 === 6) return '#4CE2A7';
+  if (i % 20 === 6) return '#B1B424'; // #4CE2A7
   if (i % 20 === 7) return '#1967A0';
   if (i % 20 === 8) return '#00C853';
-  if (i % 20 === 9) return '#651FFF';
-  if (i % 20 === 10) return '#B71DE1';
-  if (i % 20 === 11) return '#FFCD00';
-  if (i % 20 === 12) return '#E11D3F';
+  if (i % 20 === 9) return '#E11D3F'; // #651FFF
+  if (i % 20 === 10) return '#FF6D00'; // #B71DE1
+  if (i % 20 === 11) return '#DE2693'; // #FFCD00
+  if (i % 20 === 12) return '#1F8AE4'; // #E11D3F
   if (i % 20 === 13) return '#FF1500';
   if (i % 20 === 14) return '#C5E11D';
   if (i % 20 === 15) return '#CDACF2';
@@ -31,7 +31,217 @@ class RightSideBar extends Component {
     this.state = {
       isHovered: false,
       hoverID: 1,
+      totalBeneficiaries: 0,
+      partnerCount: 0,
+      programCount: 0,
+      filteredData: [],
+      maxValue: 0,
     };
+  }
+
+  getInitialOverviewData = () => {
+    const { financialData } = this.props.financialReducer;
+
+    // CALCULATE TOTAL BENEFICIARIES
+    const tempArr1 = [];
+    const tempArr2 = [];
+    let totalBeneficiaries = 0;
+    let partnerCount = 0;
+    let programCount = 0;
+
+    financialData.map(item => {
+      const obj1 = tempArr1.find(
+        x => x.partner_id === item.partner_id,
+      );
+      const obj2 = tempArr2.find(
+        y => y.program_id === item.program_id,
+      );
+      if (!obj1) {
+        tempArr1.push(item);
+        totalBeneficiaries += item.single_count;
+        programCount += item.programCount;
+      }
+      if (!obj2) {
+        tempArr2.push(item);
+      }
+      return true;
+    });
+
+    partnerCount = tempArr1.length;
+    programCount = tempArr2.length;
+
+    // CALCULATE INITIAL BRANCHES COUNT
+    const filteredData = [];
+
+    financialData.map(item => {
+      const obj = filteredData.find(
+        x => x.program_id === item.program_id,
+      );
+      if (!obj) {
+        filteredData.push({
+          program_code: item.program_code,
+          program_id: item.program_id,
+          program_name: item.program_name,
+          value: item.value,
+        });
+      } else {
+        const objIndex = filteredData.findIndex(
+          p => p.program_id === item.program_id,
+        );
+        filteredData[objIndex].value += item.value;
+      }
+
+      return true;
+    });
+    let maxValue = 0;
+    filteredData.map(item => {
+      if (maxValue < item.value) {
+        maxValue = item.value;
+      }
+      return true;
+    });
+
+    this.setState({
+      totalBeneficiaries,
+      partnerCount,
+      programCount,
+      filteredData,
+      maxValue,
+    });
+  };
+
+  updateOverviewData = () => {
+    const { selectedProgram, checkedPartnerItems } = this.props;
+    const { financialData } = this.props.financialReducer;
+    let {
+      totalBeneficiaries,
+      partnerCount,
+      programCount,
+    } = this.state;
+
+    // CALCULATE TOTAL BENEFICIARIES
+    const tempArr1 = [];
+    const tempArr2 = [];
+
+    financialData.map(item => {
+      checkedPartnerItems.map(partner => {
+        if (partner === item.partner_id) {
+          const obj1 = tempArr1.find(
+            x => x.partner_id === item.partner_id,
+          );
+          // const obj2 = tempArr2.find(
+          //   y => y.program_id === item.program_id,
+          // );
+          if (!obj1) {
+            tempArr1.push(item);
+            totalBeneficiaries += item.single_count;
+            programCount += item.programCount;
+          }
+          // if (!obj2) {
+          //   tempArr2.push(item);
+          // }
+          return true;
+        }
+        return true;
+      });
+      selectedProgram.map(program => {
+        if (program === item.program_id) {
+          // const obj1 = tempArr1.find(
+          //   x => x.partner_id === item.partner_id,
+          // );
+          const obj2 = tempArr2.find(
+            y => y.program_id === item.program_id,
+          );
+          // if (!obj1) {
+          //   tempArr1.push(item);
+          //   totalBeneficiaries += item.single_count;
+          //   programCount += item.programCount;
+          // }
+          if (!obj2) {
+            tempArr2.push(item);
+          }
+          return true;
+        }
+        return true;
+      });
+      return true;
+    });
+    partnerCount = tempArr1.length;
+    programCount = tempArr2.length;
+
+    let filteredData = [];
+    financialData.map(item => {
+      checkedPartnerItems.map(i => {
+        if (item.partner_id === i) {
+          const obj = filteredData.find(
+            x => x.program_id === item.program_id,
+          );
+          if (!obj) {
+            filteredData.push({
+              program_code: item.program_code,
+              program_id: item.program_id,
+              program_name: item.program_name,
+              value: item.value,
+            });
+          } else {
+            const objIndex = filteredData.findIndex(
+              p => p.program_id === item.program_id,
+            );
+            filteredData[objIndex].value += item.value;
+          }
+        }
+        return true;
+      });
+      return true;
+    });
+
+    const neww = [];
+
+    filteredData.map(item => {
+      selectedProgram.map(i => {
+        if (item.program_id === i) {
+          neww.push(item);
+        }
+        return true;
+      });
+      return true;
+    });
+
+    filteredData = neww;
+    console.log(filteredData, 'filterx');
+
+    let maxValue = 0;
+    filteredData.map(item => {
+      if (maxValue < item.value) {
+        maxValue = item.value;
+      }
+      return true;
+    });
+
+    this.setState({
+      totalBeneficiaries,
+      partnerCount,
+      programCount,
+      maxValue,
+      filteredData,
+    });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.financialReducer.financialData !==
+      this.props.financialReducer.financialData
+    ) {
+      this.getInitialOverviewData();
+    }
+    if (prevProps.selectedProgram !== this.props.selectedProgram) {
+      this.updateOverviewData();
+    }
+    if (
+      prevProps.checkedPartnerItems !== this.props.checkedPartnerItems
+    ) {
+      this.updateOverviewData();
+    }
   }
 
   handleHover = id => {
@@ -58,95 +268,102 @@ class RightSideBar extends Component {
       checkedPartnerItems,
     } = this.props;
 
-    const tempArr = [];
-    let totalBeneficiaries = 0;
+    // const tempArr = [];
+    // let totalBeneficiaries = 0;
 
-    financialData.map(item => {
-      const obj = tempArr.find(x => x.partner_id === item.partner_id);
-      if (!obj) {
-        if (checkedPartnerItems.length !== 0) {
-          checkedPartnerItems.map(i => {
-            if (item.partner_id === i) {
-              tempArr.push(item);
-              totalBeneficiaries += item.single_count;
-            }
-            return true;
-          });
-        } else {
-          tempArr.push(item);
-          totalBeneficiaries += item.single_count;
-        }
-      }
-      return true;
-    });
+    // financialData.map(item => {
+    //   const obj = tempArr.find(x => x.partner_id === item.partner_id);
+    //   if (!obj) {
+    //     if (checkedPartnerItems.length !== 0) {
+    //       checkedPartnerItems.map(i => {
+    //         if (item.partner_id === i) {
+    //           tempArr.push(item);
+    //           totalBeneficiaries += item.single_count;
+    //         }
+    //         return true;
+    //       });
+    //     } else {
+    //       tempArr.push(item);
+    //       totalBeneficiaries += item.single_count;
+    //     }
+    //   }
+    //   return true;
+    // });
 
-    let filteredData = [];
+    // let filteredData = [];
 
-    financialData.map(item => {
-      if (checkedPartnerItems.length !== 0) {
-        checkedPartnerItems.map(i => {
-          if (item.partner_id === i) {
-            const obj = filteredData.find(
-              x => x.program_id === item.program_id,
-            );
-            if (!obj) {
-              filteredData.push({
-                program_code: item.program_code,
-                program_id: item.program_id,
-                program_name: item.program_name,
-                value: item.value,
-              });
-            } else {
-              const objIndex = filteredData.findIndex(
-                p => p.program_id === item.program_id,
-              );
-              filteredData[objIndex].value += item.value;
-            }
-          }
-          return true;
-        });
-      } else {
-        const obj = filteredData.find(
-          x => x.program_id === item.program_id,
-        );
-        if (!obj) {
-          filteredData.push({
-            program_code: item.program_code,
-            program_id: item.program_id,
-            program_name: item.program_name,
-            value: item.value,
-          });
-        } else {
-          const objIndex = filteredData.findIndex(
-            i => i.program_id === item.program_id,
-          );
-          filteredData[objIndex].value += item.value;
-        }
-      }
-
-      return true;
-    });
-    const neww = [];
-    if (selectedProgram.length !== 0) {
-      selectedProgram.map(item => {
-        const arr = filteredData.filter(i => i.program_id === item);
-        neww.push(arr);
-        return true;
-      });
-      filteredData = neww;
-    }
+    // financialData.map(item => {
+    //   if (checkedPartnerItems.length !== 0) {
+    //     checkedPartnerItems.map(i => {
+    //       if (item.partner_id === i) {
+    //         const obj = filteredData.find(
+    //           x => x.program_id === item.program_id,
+    //         );
+    //         if (!obj) {
+    //           filteredData.push({
+    //             program_code: item.program_code,
+    //             program_id: item.program_id,
+    //             program_name: item.program_name,
+    //             value: item.value,
+    //           });
+    //         } else {
+    //           const objIndex = filteredData.findIndex(
+    //             p => p.program_id === item.program_id,
+    //           );
+    //           filteredData[objIndex].value += item.value;
+    //         }
+    //       }
+    //       return true;
+    //     });
+    //   } else {
+    //     const obj = filteredData.find(
+    //       x => x.program_id === item.program_id,
+    //     );
+    //     if (!obj) {
+    //       filteredData.push({
+    //         program_code: item.program_code,
+    //         program_id: item.program_id,
+    //         program_name: item.program_name,
+    //         value: item.value,
+    //       });
+    //     } else {
+    //       const objIndex = filteredData.findIndex(
+    //         i => i.program_id === item.program_id,
+    //       );
+    //       filteredData[objIndex].value += item.value;
+    //     }
+    //   }
+    //   return true;
+    // });
+    // const neww = [];
+    // if (selectedProgram.length !== 0) {
+    //   selectedProgram.map(item => {
+    //     const arr = filteredData.filter(i => i.program_id === item);
+    //     neww.push(arr);
+    //     return true;
+    //   });
+    //   filteredData = neww;
+    // }
 
     // console.log(filteredData, 'filteredDatax');
 
-    let maxValue = 0;
-    filteredData.map(item => {
-      if (maxValue < item.value) {
-        maxValue = item.value;
-      }
-      return true;
-    });
+    // let maxValue = 0;
+    // filteredData.map(item => {
+    //   if (maxValue < item.value) {
+    //     maxValue = item.value;
+    //   }
+    //   return true;
+    // });
 
-    const { isHovered, hoverID } = this.state;
+    const {
+      isHovered,
+      hoverID,
+      totalBeneficiaries,
+      filteredData,
+      partnerCount,
+      programCount,
+      maxValue,
+    } = this.state;
     return (
       <aside className="sidebar right-sidebar literacy-right-sidebar">
         <div className="sidebar-in">
@@ -173,11 +390,7 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Partner Institutions</h6>
-                      <span>
-                        {checkedPartnerItems.length !== 0
-                          ? checkedPartnerItems.length
-                          : 21}
-                      </span>
+                      <span>{partnerCount}</span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -188,11 +401,7 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Program Initiative</h6>
-                      <span>
-                        {selectedProgram.length !== 0
-                          ? selectedProgram.length
-                          : 6}
-                      </span>
+                      <span>{programCount}</span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -208,46 +417,42 @@ class RightSideBar extends Component {
               <div className="widget-body">
                 {filteredData &&
                   filteredData.map(item => {
-                    // console.log(item, 'itemx');
-                    // colors.map(color => {
-                    const width = (item.value * 100) / maxValue;
+                    if (item.value !== 0) {
+                      const width = (item.value * 100) / maxValue;
 
-                    // if (item.total !== 0) {
-                    return (
-                      <div className="program-list">
-                        <div className="program-info">
-                          <div className="info-in">
-                            <h5>{item.program_name}</h5>
-                            <div className="program-text">
-                              <i className="material-icons">
-                                business
-                              </i>
-                              <span>{item.program_code}</span>
-                              {/* <span>{item.code}</span> */}
+                      return (
+                        <div className="program-list">
+                          <div className="program-info">
+                            <div className="info-in">
+                              <h5>{item.program_name}</h5>
+                              <div className="program-text">
+                                <i className="material-icons">
+                                  business
+                                </i>
+                                <span>{item.program_code}</span>
+                                {/* <span>{item.code}</span> */}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="program">
+                            <div
+                              className="program-bar"
+                              tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
+                              flow="up"
+                              style={{
+                                width: `${width}%`,
+                                backgroundColor: colorPicker(
+                                  item.program_id,
+                                ),
+                              }}
+                            >
+                              {item.value}
                             </div>
                           </div>
                         </div>
-                        <div className="program">
-                          <div
-                            className="program-bar"
-                            tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
-                            flow="up"
-                            style={{
-                              width: `${width}%`,
-                              backgroundColor: colorPicker(
-                                item.program_id,
-                              ),
-                            }}
-                          >
-                            {item.value}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                    // }
-                    // return false;
-
-                    // });
+                      );
+                    }
+                    return true;
                   })}
 
                 {/* <div className="program-list">
