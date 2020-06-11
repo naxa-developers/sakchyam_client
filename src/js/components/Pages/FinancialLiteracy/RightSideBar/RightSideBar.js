@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-function numberWithCommas(x) {
-  if (x !== null) {
-    const parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-  }
-  return x;
-}
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
   if (i % 20 === 1) return '#13A8BE';
@@ -34,6 +26,14 @@ function colorPicker(i) {
   return '#FFD400';
 }
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +47,36 @@ class RightSideBar extends Component {
       maxValue: 0,
     };
   }
+
+  calculateTotalBeneficiaries = selectedPartner => {
+    const { financialData } = this.props.financialReducer;
+
+    const arr = [];
+
+    financialData.map(item => {
+      const obj = arr.find(x => x.partner_id === item.partner_id);
+      if (!obj) {
+        arr.push(item);
+      }
+      return true;
+    });
+
+    let totalBeneficiaries = 0;
+    arr.map(item => {
+      if (selectedPartner.length !== 0) {
+        selectedPartner.map(i => {
+          if (i === item.partner_id) {
+            totalBeneficiaries += item.single_count;
+          }
+          return true;
+        });
+      } else {
+        totalBeneficiaries += item.single_count;
+      }
+      return true;
+    });
+    return totalBeneficiaries;
+  };
 
   getInitialOverviewData = () => {
     const { financialData } = this.props.financialReducer;
@@ -122,7 +152,7 @@ class RightSideBar extends Component {
   updateOverviewData = () => {
     const { selectedProgram, checkedPartnerItems } = this.props;
     const { financialData } = this.props.financialReducer;
-    let totalBeneficiaries = 0;
+    // let totalBeneficiaries = 0;
     let partnerCount = 21;
     let programCount = 6;
 
@@ -144,7 +174,7 @@ class RightSideBar extends Component {
             // );
             if (!obj1) {
               tempArr1.push(item);
-              totalBeneficiaries += item.single_count;
+              // totalBeneficiaries += item.single_count;
               // programCount += item.programCount;
             }
             // if (!obj2) {
@@ -236,6 +266,10 @@ class RightSideBar extends Component {
       }
       return true;
     });
+
+    const totalBeneficiaries = this.calculateTotalBeneficiaries(
+      checkedPartnerItems,
+    );
 
     this.setState({
       totalBeneficiaries,
@@ -444,7 +478,10 @@ class RightSideBar extends Component {
                       const width = (item.value * 100) / maxValue;
 
                       return (
-                        <div className="program-list">
+                        <div
+                          className="program-list"
+                          key={item.program_id}
+                        >
                           <div className="program-info">
                             <div className="info-in">
                               <h5>{item.program_name}</h5>
@@ -470,7 +507,7 @@ class RightSideBar extends Component {
                                 ),
                               }}
                             >
-                              {item.value}
+                              {numberWithCommas(item.value)}
                             </div>
                           </div>
                         </div>
