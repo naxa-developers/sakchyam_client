@@ -433,11 +433,17 @@ class FinancialLiteracy extends Component {
                         </div>
 
                         <div className="card" id="">
-                          <div className="card-header">
+                          {/* <div className="card-header">
                             <h5>
                               Contribution of Program Initiatives
                             </h5>
                             <div className="header-icons">
+                              <button
+                                type="button"
+                                onClick={this.handleTreeMapBackBtn}
+                              >
+                                Back
+                              </button>
                               <span
                                 className=""
                                 onClick={() => {
@@ -474,7 +480,19 @@ class FinancialLiteracy extends Component {
                                 this.state.checkedPartnerItems
                               }
                             />
-                          </div>
+                          </div> */}
+                          <TreeMapDiagram
+                            DownloadIcon={DownloadIcon}
+                            ExpandIcon={ExpandIcon}
+                            downloadPng={this.downloadPng}
+                            handleModal={this.handleModal}
+                            handleSelectedModal={
+                              this.handleSelectedModal
+                            }
+                            checkedPartnerItems={
+                              this.state.checkedPartnerItems
+                            }
+                          />
                         </div>
                       </div>
                     </div>
