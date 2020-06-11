@@ -88,19 +88,19 @@ const filterSankeyData = data => {
       if (!obj1) {
         nodes.push({
           id: item.program_name,
-          color: 'hsl(41, 70%, 50%)',
+          color: colorPicker(item.program_id),
         });
       }
       if (!obj2) {
         nodes.push({
           id: item.partner_name,
-          color: 'hsl(40, 74%, 55%)',
+          color: colorPicker(item.partner_id),
         });
       }
       if (!obj3) {
         nodes.push({
           id: item.partner_type,
-          color: 'hsl(40, 74%, 55%)',
+          color: colorPicker(item.partner_id),
         });
       }
       // if (item.value !== 0) {
