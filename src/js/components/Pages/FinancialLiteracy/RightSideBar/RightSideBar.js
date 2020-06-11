@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
   if (i % 20 === 1) return '#13A8BE';
@@ -25,6 +33,7 @@ function colorPicker(i) {
   if (i % 20 === 20) return '#FF5E00';
   return '#FFD400';
 }
+
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -387,7 +396,9 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Total Beneficiaries</h6>
-                      <span>{totalBeneficiaries}</span>
+                      <span>
+                        {numberWithCommas(totalBeneficiaries)}
+                      </span>
                     </div>
                     <div className="widget-icon">
                       <span>

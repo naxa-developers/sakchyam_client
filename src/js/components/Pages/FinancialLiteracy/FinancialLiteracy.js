@@ -25,6 +25,14 @@ import TreeMapDiagram from './Charts/TreeMapDiagram';
 import TableData from './TableData/TableData';
 import Modal from './Modal';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 function colorPicker(i) {
   if (i % 12 === 0) return '#E11D3F';
   if (i % 12 === 1) return '#FF6D00';

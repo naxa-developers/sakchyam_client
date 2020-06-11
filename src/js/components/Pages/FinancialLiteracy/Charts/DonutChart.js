@@ -3,6 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 let total = '';
 class DonutChart extends Component {
   constructor(props) {
@@ -47,6 +55,7 @@ class DonutChart extends Component {
               },
               value: {
                 show: true,
+                // showAlways: true,
                 fontSize: '24px',
                 fontFamily: 'Avenir book',
                 fontWeight: 100,
@@ -63,9 +72,9 @@ class DonutChart extends Component {
                     // if (!total) {
                     total = w;
                     // }
-                    return w;
+                    return numberWithCommas(w);
                   }
-                  return total;
+                  return numberWithCommas(total);
                   // return null;
                 },
                 value: {
@@ -74,15 +83,17 @@ class DonutChart extends Component {
               },
               total: {
                 show: true,
-                showAlways: false,
+                showAlways: true,
                 label: 'Total',
                 fontSize: '24px',
                 fontFamily: 'Avenir book',
                 fontWeight: 100,
                 color: '#d9202c',
                 formatter(w) {
+                  console.log(w, 'w');
                   return w.globals.seriesTotals.reduce((a, b) => {
-                    return a + b;
+                    const x = a + b;
+                    return x;
                   }, 0);
                 },
               },
@@ -215,7 +226,9 @@ class DonutChart extends Component {
                   <span>Microfinance Institutions</span>
                 </h5>
                 <div className="legend-count">
-                  <b className="numeric">{series[1]}</b>
+                  <b className="numeric">
+                    {numberWithCommas(series[1])}
+                  </b>
                   <b className="percent">
                     {`${microPercent.toFixed(2)}%`}
                   </b>
@@ -227,7 +240,9 @@ class DonutChart extends Component {
                   <span>Commercial Bank & Other Partners</span>
                 </h5>
                 <div className="legend-count">
-                  <b className="numeric">{series[0]}</b>
+                  <b className="numeric">
+                    {numberWithCommas(series[0])}
+                  </b>
                   <b className="percent">
                     {`${commPercent.toFixed(2)}%`}
                   </b>
