@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { ResponsiveTreeMap } from '@nivo/treemap';
 import { connect } from 'react-redux';
-import root from './treemap.data';
+// import root from './treemap.data';
 
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
@@ -102,16 +102,15 @@ class TreeMapDiagram extends Component {
       }
       return true;
     });
-    console.log(arr, 'arrx');
     return { name: 'program1', children: arr };
   };
 
   onProgramClick = e => {
     const updatedTreeMapData = this.generateTreeMapData(e.data.id);
-    this.setState({
+    this.setState(prevState => ({
       treeMapData2: updatedTreeMapData,
-      isTreeMapClicked: !this.state.isTreeMapClicked,
-    });
+      isTreeMapClicked: !prevState.isTreeMapClicked,
+    }));
   };
 
   gradientFunction = i => {
@@ -123,7 +122,7 @@ class TreeMapDiagram extends Component {
       arr.push({
         id: `color${index}`,
         type: 'linearGradient',
-        colors: [{ color: colorPicker(item.id) }],
+        colors: [{ offset: 100, color: colorPicker(item.id) }],
       });
       return true;
     });
@@ -165,7 +164,9 @@ class TreeMapDiagram extends Component {
   };
 
   handleTreeMapBackBtn = () => {
-    this.setState({ isTreeMapClicked: !this.state.isTreeMapClicked });
+    this.setState(prevState => ({
+      isTreeMapClicked: !prevState.isTreeMapClicked,
+    }));
   };
 
   render() {
