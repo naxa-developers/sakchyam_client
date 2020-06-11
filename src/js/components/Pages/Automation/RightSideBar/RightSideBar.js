@@ -332,12 +332,7 @@ class RightSideBar extends Component {
                               tooltip={`${data.partner_name}:${data.branch}`}
                               flow="up"
                               style={{ width: `${branchPercent}%` }}
-                            >
-                              {/* <div className="branch-content">
-                                <span>Chimek</span>
-                                <b>{singlebranchValue}</b>
-                              </div> */}
-                            </div>
+                            />
                           </div>
                         );
                       },

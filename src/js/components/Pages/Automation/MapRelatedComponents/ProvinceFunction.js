@@ -12,7 +12,8 @@ export const getCenterBboxProvince = id => {
           const a = bboxArray.map(datas => {
             return parseFloat(datas);
           });
-          const b = [a[1], a[0], a[3], a[2]];
+          const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
+          // const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
           munData.push({
             name: data.FIRST_PROV,
             center: [data.Centroid_X, data.Centroid_Y],
@@ -29,7 +30,8 @@ export const getCenterBboxProvince = id => {
       const a = bboxArray.map(datas => {
         return parseFloat(datas);
       });
-      const b = [a[1], a[0], a[3], a[2]];
+      const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
+      // const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
       const c = {
         name: data.FIRST_PROV,
         center: [data.Centroid_X, data.Centroid_Y],

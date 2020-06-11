@@ -13,7 +13,8 @@ export const getCenterBboxMunicipality = id => {
           const a = bboxArray.map(datas => {
             return parseFloat(datas);
           });
-          const b = [a[1], a[0], a[3], a[2]];
+          const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
+          // const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
           munData.push({
             name: data.munid,
             center: [data.centroid_x, data.centroid_y],
@@ -30,7 +31,8 @@ export const getCenterBboxMunicipality = id => {
       const a = bboxArray.map(datas => {
         return parseFloat(datas);
       });
-      const b = [a[1], a[0], a[3], a[2]];
+      const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
+      // const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
       const c = {
         name: data.munid,
         center: [data.centroid_x, data.centroid_y],

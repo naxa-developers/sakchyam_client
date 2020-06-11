@@ -81,7 +81,7 @@ const filterSankeyData = data => {
   const nodes = [];
   const links = [];
   data.map(item => {
-    if (item.program_id !== item.partner_id) {
+    if (item.program_id !== item.partner_id && item.value !== 0) {
       const obj1 = nodes.find(obj => obj.id === item.program_name);
       const obj2 = nodes.find(obj => obj.id === item.partner_name);
       const obj3 = nodes.find(obj => obj.id === item.partner_type);
@@ -103,24 +103,24 @@ const filterSankeyData = data => {
           color: 'hsl(40, 74%, 55%)',
         });
       }
-      if (item.value !== 0) {
-        const obj4 = links.find(
-          obj => obj.target === item.partner_name,
-        );
-        if (!obj4) {
-          links.push({
-            source: item.partner_type,
-            target: item.partner_name,
-            value: item.value,
-          });
-        }
+      // if (item.value !== 0) {
+      const obj4 = links.find(
+        obj => obj.target === item.partner_name,
+      );
+      if (!obj4) {
         links.push({
-          source: item.partner_name,
-          target: item.program_name,
+          source: item.partner_type,
+          target: item.partner_name,
           value: item.value,
         });
       }
+      links.push({
+        source: item.partner_name,
+        target: item.program_name,
+        value: item.value,
+      });
     }
+    // }
     return true;
   });
 
@@ -137,9 +137,6 @@ const getPartnersList = (state, action) => {
 };
 const getFinancialData = (state, action) => {
   const { partnerList, programList, allData } = action.payload;
-  console.log(partnerList, 'partnerlist');
-  console.log(programList, 'programlist');
-  console.log(allData, 'allData');
   const financialData = allData;
 
   financialData.map((item, index) => {
@@ -147,6 +144,7 @@ const getFinancialData = (state, action) => {
       if (p.id === item.program_id) {
         financialData[index] = {
           ...item,
+          program_code: p.code,
           program_name: p.name,
         };
       }
