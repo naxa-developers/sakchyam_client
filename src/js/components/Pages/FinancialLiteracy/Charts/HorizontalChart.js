@@ -133,7 +133,7 @@ class HorizontalChart extends Component {
         }));
       } else {
         this.setState(preState => ({
-          height: 1800,
+          height: 200,
           series: filteredByProgram.series,
           options: {
             ...preState.options,

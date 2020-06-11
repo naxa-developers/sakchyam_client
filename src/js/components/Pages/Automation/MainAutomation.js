@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import L from 'leaflet';
 import { connect } from 'react-redux';
-import MapComponent from './MapComponent/MapComponentMapbox';
+// import MapComponent from './MapComponent/MapComponentMapbox';
+import MapComponent from './MapComponent/MapComponent';
 import { getCenterBboxMunicipality } from './MapRelatedComponents/MunicipalityFunction';
 import {
   getAllAutomationDataByPartner,
