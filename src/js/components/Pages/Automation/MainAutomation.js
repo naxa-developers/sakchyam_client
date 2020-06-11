@@ -76,6 +76,8 @@ class MainAutomation extends Component {
     super(props);
     this.state = {
       mapType: 'choropleth',
+      branchesCooperative: 1,
+      showBeneficiary: true,
       migrationArray: [],
       rightSideBarLoader: false,
       isTileLoaded: false,
@@ -336,6 +338,7 @@ class MainAutomation extends Component {
   }
 
   componentDidMount() {
+    this.props.getBranchesTableData();
     this.props.getAllAutomationDataByPartner();
     this.props.getAutomationDataByMunicipality();
     this.props.getAutomationDataByProvince();
@@ -343,7 +346,6 @@ class MainAutomation extends Component {
     this.props.getProvinceData();
     this.props.getDistrictData();
     this.props.getMunicipalityData();
-    this.props.getBranchesTableData();
     this.props.getTimelineData();
     this.props.filterAutomationByState();
 
@@ -540,6 +542,9 @@ class MainAutomation extends Component {
         selectedMunicipality,
         mapType,
       } = this.state;
+      if (activeTableView) {
+        this.props.getTableDataByPartnerSelect(activeClickPartners);
+      }
       const mapLayers = this.mapRef.current.leafletElement._layers;
       global.map = this.mapRef.current.leafletElement;
       // console.log(mapLayers && mapLayers._url, 'layers');
@@ -646,6 +651,7 @@ class MainAutomation extends Component {
         } else {
           this.props.filterPartnerSelect(activeClickPartners);
         }
+
         // if (activeTableView) {
         //   this.props.getTableDataByPartnerSelect(activeClickPartners);
         // }
@@ -735,9 +741,11 @@ class MainAutomation extends Component {
       selectedProvince,
     } = this.state;
     // this.handleVectorGridKeyChange();
-    if (activeOutreachButton) {
-      this.setState({ rightSideBarLoader: true });
-    }
+    // if (activeOutreachButton) {
+    //   this.setState({ rightSideBarLoader: true });
+    // }
+    this.setState({ rightSideBarLoader: true });
+
     // const partner = 'Janautthan Laghubitta Bittiya Sanstha';
 
     // console.log(this.mapRef.current.leafletElement, 'mapRef');
@@ -749,7 +757,24 @@ class MainAutomation extends Component {
       ) {
         return partner !== clicked;
       });
-
+      if (
+        removedPartnersFull.includes(39) &&
+        removedPartnersFull.length <= 1
+      ) {
+        this.setState({ branchesCooperative: 0 });
+      } else if (
+        removedPartnersFull.includes(39) &&
+        removedPartnersFull.length > 1
+      ) {
+        this.setState({ branchesCooperative: 1 });
+      } else if (
+        !removedPartnersFull.includes(39) &&
+        removedPartnersFull.length >= 1
+      ) {
+        this.setState({ branchesCooperative: 2 });
+      } else {
+        this.setState({ branchesCooperative: 1 });
+      }
       this.setState({
         activeClickPartners: removedPartnersFull,
       });
@@ -786,6 +811,13 @@ class MainAutomation extends Component {
       // console.log('else');
 
       const joined = activeClickPartners.concat(clicked);
+      if (joined.includes(39) && joined.length <= 1) {
+        this.setState({ branchesCooperative: 0 });
+      } else if (joined.includes(39) && joined.length > 1) {
+        this.setState({ branchesCooperative: 1 });
+      } else {
+        this.setState({ branchesCooperative: 2 });
+      }
       this.setState({ activeClickPartners: joined });
       if (joined.length > 0 && activeOutreachButton) {
         if (
@@ -832,6 +864,14 @@ class MainAutomation extends Component {
   };
 
   toggleTableViewButton = () => {
+    if (
+      !this.state.activeTableView &&
+      this.state.activeClickPartners.length > 0
+    ) {
+      this.props.getTableDataByPartnerSelect(
+        this.state.activeClickPartners,
+      );
+    }
     this.setState(prevState => ({
       activeTableView: !prevState.activeTableView,
     }));
@@ -862,7 +902,7 @@ class MainAutomation extends Component {
     ) {
       // this.setState({ vectorGridKey: Math.random() });
     } else {
-      this.props.getAllAutomationDataByPartner();
+      // this.props.getAllAutomationDataByPartner();
     }
   };
 
@@ -1490,6 +1530,7 @@ class MainAutomation extends Component {
       activeOutreachButton,
       dataTypeLevel,
     } = this.state;
+    this.setState({ showBeneficiary: false });
     if (activeOutreachButton) {
       this.setState({ rightSideBarLoader: true });
     }
@@ -1742,8 +1783,10 @@ class MainAutomation extends Component {
   };
 
   handleResetButtonForFilter = () => {
-    const { dataTypeLevel } = this.state;
-    this.props.getAllAutomationDataByPartner();
+    const { dataTypeLevel, activeClickPartners } = this.state;
+    if (activeClickPartners.length < 1) {
+      this.props.getAllAutomationDataByPartner();
+    }
     this.setState({
       selectedProvince: [],
       selectedProvinceName: [],
@@ -1753,6 +1796,7 @@ class MainAutomation extends Component {
       selectedDistrictDropdown: [],
       selectedMunicipality: [],
       selectedMunicipalityName: [],
+      showBeneficiary: true,
       // vectorGridKey: Math.random(),
     });
     // if (this.state.selectedMunicipality.length > 0) {
@@ -1878,6 +1922,8 @@ class MainAutomation extends Component {
       selectedDistrictDropdown,
       mapType,
       rightSideBarLoader,
+      showBeneficiary,
+      branchesCooperative,
     } = this.state;
     const {
       automationDataByPartner,
@@ -2309,6 +2355,8 @@ class MainAutomation extends Component {
             />
           </main>
           <RightSideBar
+            branchesCooperative={branchesCooperative}
+            showBeneficiary={showBeneficiary}
             tableDataLoading={tableDataLoading}
             rightSideBarLoader={rightSideBarLoader}
             activeClickPartners={activeClickPartners}

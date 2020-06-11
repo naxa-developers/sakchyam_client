@@ -225,6 +225,8 @@ class Landing extends Component {
                         <ul className="lists">
                           <li className="span_heavy_15">Partner Organisation</li>
                           <li className="span_heavy_15">Automation Outreach</li>  
+                          <li className="span_heavy_15">Tablet Deployed</li>  
+                          <li className="span_heavy_15">Automation Benefits</li>  
                           {/* <li className="span_heavy_15">Outreach Beneficiaries</li> */}
                           {/* <li className="span_heavy_15">
                             <span>and</span>

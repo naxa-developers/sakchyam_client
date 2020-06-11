@@ -15,6 +15,7 @@ import {
   GET_SEARCHED_PARTNERS,
   FILTER_PARTNERS_BY_FEDERAL,
   GET_TABLE_DATA_BY_PARTNERS_SELECT,
+  GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_PARTNER,
   GET_AUTOMATION_BRANCHES_TABLE_DATA,
   GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
   FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
@@ -553,20 +554,25 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
 
 export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
   try {
-    const query = clickedPartner
-      .map(data => {
-        return `partner_id=${data}`;
-      })
-      .join('&');
+    let query = '';
+    if (clickedPartner.length > 0) {
+      query = clickedPartner
+        .map(data => {
+          return `partner=${data}`;
+        })
+        .join('&');
+    } else {
+      query = 'partner=0';
+    }
 
     const response = axiosInstance
       .get(
-        `api/v1/automation/table-data/?filter_type=partner&${query}`,
+        `api/v1/automation/table-data/?filter_type=partner&${query}&province=0`,
       )
       .then(function(result) {
         // console.log(result, 'result');
         return dispatch({
-          type: GET_TABLE_DATA_BY_PARTNERS_SELECT,
+          type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_PARTNER,
           payload: result.data,
         });
       });
@@ -708,7 +714,7 @@ export const getBranchesTableDataByFed = (
   partnerSelect,
 ) => dispatch => {
   // console.log(federalSelect, 'fedselect');
-  // console.log(partnerSelect, 'partnersekle');
+  console.log(partnerSelect, 'partnersekle');
   let partners = 'partner=0';
   let provinceSelect = 'province=0';
   let districtSelect = 'district=0';
@@ -809,7 +815,7 @@ export const getBranchesTableDataByFed = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&province=0`,
+          `api/v1/automation/table-data/?filter_type=partner&${partners}&province=0`,
         )
         .then(function(result) {
           // console.log(result, 'result');

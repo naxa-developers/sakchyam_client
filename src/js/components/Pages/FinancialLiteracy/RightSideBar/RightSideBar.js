@@ -381,9 +381,7 @@ class RightSideBar extends Component {
                     </div>
                     <div className="widget-icon">
                       <span>
-                        <i className="material-icons">
-                          location_city
-                        </i>
+                        <i className="material-icons">people</i>
                       </span>
                     </div>
                   </li>
@@ -405,7 +403,9 @@ class RightSideBar extends Component {
                     </div>
                     <div className="widget-icon">
                       <span>
-                        <i className="material-icons">people</i>
+                        <i className="material-icons">
+                          location_city
+                        </i>
                       </span>
                     </div>
                   </li>
@@ -413,7 +413,7 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget program-widget">
-              <h5>Branches Count</h5>
+              <h5>Beneficiary Count</h5>
               <div className="widget-body">
                 {filteredData &&
                   filteredData.map(item => {
@@ -427,8 +427,9 @@ class RightSideBar extends Component {
                               <h5>{item.program_name}</h5>
                               <div className="program-text">
                                 <i className="material-icons">
-                                  business
+                                  people
                                 </i>
+
                                 <span>{item.program_code}</span>
                                 {/* <span>{item.code}</span> */}
                               </div>
@@ -438,7 +439,7 @@ class RightSideBar extends Component {
                             <div
                               className="program-bar"
                               tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
-                              flow="up"
+                              flow="down"
                               style={{
                                 width: `${width}%`,
                                 backgroundColor: colorPicker(
