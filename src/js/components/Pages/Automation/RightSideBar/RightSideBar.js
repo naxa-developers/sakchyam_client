@@ -50,6 +50,8 @@ class RightSideBar extends Component {
       activeClickPartners,
       rightSideBarLoader,
       tableDataLoading,
+      showBeneficiary,
+      branchesCooperative,
     } = this.props;
     const a =
       automationReducer.automationRightSidePartnerData &&
@@ -165,7 +167,13 @@ class RightSideBar extends Component {
                   </li>
                   <li>
                     <div className="widget-content">
-                      <h6>Branches</h6>
+                      <h6>
+                        {branchesCooperative === 2
+                          ? 'Branches'
+                          : branchesCooperative === 0
+                          ? 'Cooperative'
+                          : 'Branches/Cooperative'}
+                      </h6>
                       <span>
                         {automationReducer.automationRightSidePartnerData &&
                           automationReducer
@@ -181,18 +189,31 @@ class RightSideBar extends Component {
                       </span>
                     </div>
                   </li>
-                  <li>
+                  <li
+                    style={
+                      showBeneficiary === true
+                        ? { display: 'flex' }
+                        : { display: 'none' }
+                    }
+                  >
                     <div className="widget-content">
                       <h6>Beneficiaries</h6>
                       <span>
                         {automationReducer.automationRightSidePartnerData &&
-                          automationReducer
-                            .automationRightSidePartnerData[0] &&
-                          numberWithCommas(
+                        automationReducer
+                          .automationRightSidePartnerData[0] &&
+                        automationReducer
+                          .automationRightSidePartnerData[0]
+                          .total_beneficiary !== 0
+                          ? automationReducer.automationRightSidePartnerData &&
                             automationReducer
-                              .automationRightSidePartnerData[0]
-                              .total_beneficiary,
-                          )}
+                              .automationRightSidePartnerData[0] &&
+                            numberWithCommas(
+                              automationReducer
+                                .automationRightSidePartnerData[0]
+                                .total_beneficiary,
+                            )
+                          : NaN}
                       </span>
                     </div>
                     <div className="widget-icon">

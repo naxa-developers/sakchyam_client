@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
-import { Map, Popup, Marker, Pane } from 'react-leaflet';
+import { Map, Popup, Marker, Pane, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Control from 'react-leaflet-control';
 import L, { CircleMarker } from 'leaflet';
@@ -470,135 +470,23 @@ class MapComponent extends Component {
                         </div>
                       </li>
                     </ul>
-
-                    {/* <div className="map-popup-view">
-                      <div className="map-popup-view-header">
-                        <h5>Chure</h5>
-                        <div className="icons">
-                          <i className="material-icons">tablet_mac</i>
-                          <b>32</b>
-                        </div>
-                      </div>
+                  </Popup>
+                  <Tooltip>
+                    {/* <div className="leaflet-popup-content-wrapper"> */}
+                    <div className="leaflet-popup-content">
                       <ul>
                         <li>
                           <div className="organization-icon">
                             <span>CH</span>
                           </div>
                           <div className="organization-content">
-                            <div className="org-header">
-                              <h5>{data.partner_name}</h5>
-                              <div className="icon-list">
-                                <div className="icons">
-                                  <i className="material-icons">
-                                    business
-                                  </i>
-                                  <b>{data.branch}</b>
-                                </div>
-                                <div className="icons">
-                                  <i className="material-icons">
-                                    tablet_mac
-                                  </i>
-                                  <b>{data.tablets_deployed}</b>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="branch-info-list">
-                              <span>Branch1</span>
-                              <div className="icons">
-                                <i className="material-icons">
-                                  tablet_mac
-                                </i>
-                                <b>{data.tablets_deployed}</b>
-                              </div>
-                            </div>
-                            <div className="branch-info-list">
-                              <span>Branch2</span>
-                              <div className="icons">
-                                <i className="material-icons">
-                                  tablet_mac
-                                </i>
-                                <b>{data.tablets_deployed}</b>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="organization-icon is-red">
-                            <span />
-                          </div>
-                          <div className="organization-content">
-                            <div className="org-header">
-                              <h5>{data.partner_name}</h5>
-                              <div className="icon-list">
-                                <div className="icons">
-                                  <i className="material-icons">
-                                    business
-                                  </i>
-                                  <b>{data.branch}</b>
-                                </div>
-                                <div className="icons">
-                                  <i className="material-icons">
-                                    tablet_mac
-                                  </i>
-                                  <b>{data.tablets_deployed}</b>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="branch-info-list">
-                              <span>Branch1</span>
-                              <div className="icons">
-                                <i className="material-icons">
-                                  tablet_mac
-                                </i>
-                                <b>{data.tablets_deployed}</b>
-                              </div>
-                            </div>
-                            <div className="branch-info-list">
-                              <span>Branch2</span>
-                              <div className="icons">
-                                <i className="material-icons">
-                                  tablet_mac
-                                </i>
-                                <b>{data.tablets_deployed}</b>
-                              </div>
-                            </div>
+                            <h5>{data.partner_name}</h5>
                           </div>
                         </li>
                       </ul>
-                      <div className="map-view-footer">
-                        <div className="map-view-progress">
-                          <div
-                            className="progress-item is-red"
-                            style={{
-                              flex: '0 0 60%',
-                              maxWidth: '60%',
-                            }}
-                          />
-                          <div
-                            className="progress-item is-green"
-                            style={{
-                              flex: '0 0 40%',
-                              maxWidth: '40%',
-                            }}
-                          />
-                        </div>
-                        <div className="progress-value">
-                          <span className="red-value">60%</span>
-                          <span className="green-value">40%</span>
-                        </div>
-                      </div>
-                    </div> */}
-                    {/* <li>
-                      <div className="organization-icon">
-                        <span>CH</span>
-                      </div>
-                      <div className="organization-content">
-                        <h5>{data.partner_name}</h5>
-                      </div>
-                    </li> */}
-                  </Popup>
+                    </div>
+                    {/* </div> */}
+                  </Tooltip>
                 </Marker>
               );
             })}

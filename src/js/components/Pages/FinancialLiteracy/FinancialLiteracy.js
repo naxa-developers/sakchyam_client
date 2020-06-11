@@ -341,7 +341,8 @@ class FinancialLiteracy extends Component {
                         <div className="card" id="card-horizontal">
                           <div className="card-header">
                             <h5>
-                              Contribution of program initiatives
+                              Beneficiary Reached Per Program by
+                              Partners
                             </h5>
                             <div className="header-icons">
                               <span
@@ -393,7 +394,7 @@ class FinancialLiteracy extends Component {
                         <div className="card" id="chart-donut">
                           <div className="card-header">
                             <h5>
-                              Contribution of program initiatives
+                              Ratio of Microfinance and Commercial
                             </h5>
                             <div className="header-icons">
                               <span
@@ -434,7 +435,7 @@ class FinancialLiteracy extends Component {
                         <div className="card" id="">
                           <div className="card-header">
                             <h5>
-                              Contribution of program initiatives
+                              Contribution of Program Initiatives
                             </h5>
                             <div className="header-icons">
                               <span
@@ -480,7 +481,7 @@ class FinancialLiteracy extends Component {
 
                     <div className="card">
                       <div className="card-header">
-                        <h5>Contribution of program initiatives</h5>
+                        <h5>Beneficiaries Reached By Partners</h5>
                         <div className="header-icons">
                           <span
                             className

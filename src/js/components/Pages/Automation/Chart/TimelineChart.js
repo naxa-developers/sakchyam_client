@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ApexCharts from 'apexcharts';
 import { connect } from 'react-redux';
-import { githubdata } from './data';
+// import { githubdata } from './data';
 import playIcon from '../../../../../img/play-black.png';
 import pauseIcon from '../../../../../img/pause.png';
 import {
@@ -20,6 +20,45 @@ class TimelineChart extends Component {
       // time: '1/1/2015',
       minCurrent: '',
       maxCurrent: '',
+      githubdata: {
+        series: [
+          {
+            x: new Date('2015-1-1').getTime(),
+            // a: 306,
+            // d: 33,
+            y: 13,
+          },
+
+          {
+            x: new Date('2016-1-1').getTime(),
+            // a: 25,
+            // d: 16,
+            y: 10,
+          },
+          {
+            x: new Date('2017-1-1').getTime(),
+            // a: 55,
+            // d: 86,
+            y: 12,
+          },
+          {
+            x: new Date('2018-1-1').getTime(),
+            // a: 47,
+            // d: 24,
+            y: 36,
+          },
+          {
+            x: new Date('2019-1-1').getTime(),
+            // a: 78,
+            // d: 98,
+            y: 21,
+          },
+          {
+            x: new Date('2020-1-1').getTime(),
+            y: 29,
+          },
+        ],
+      },
       // categories: [],
     };
   }
@@ -96,10 +135,10 @@ class TimelineChart extends Component {
           // showDuplicates: true,
           // trim: true,
           datetimeFormatter: {
-            year: 'yyyy',
-            month: "MMM 'yy",
-            day: 'dd MMM',
-            hour: 'HH:mm',
+            // year: 'yyyy',
+            month: 'MM',
+            // day: 'dd MMM',
+            // hour: 'HH:mm',
           },
           style: {
             colors: [],
@@ -127,6 +166,7 @@ class TimelineChart extends Component {
       // this.setState({
       //   data: githubdata.series,
       // });
+      const { githubdata } = this.state;
       const defaultMin = new Date('1 Jan 2015').getTime();
       const defaultMax = new Date('1 Jan 2020').getTime();
       const options = this.plotChart(
