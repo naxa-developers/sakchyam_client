@@ -880,6 +880,7 @@ class MainAutomation extends Component {
   toggleOutreachButton = () => {
     this.setState(prevState => ({
       activeOutreachButton: !prevState.activeOutreachButton,
+      vectorGridKey: Math.random(),
     }));
     // if (this.state.activeOutreachButton) {
     // this.setState({ vectorGridKey: Math.random() });
@@ -1794,6 +1795,7 @@ class MainAutomation extends Component {
       selectedDistrict: [],
       selectedDistrictName: [],
       selectedDistrictDropdown: [],
+      selectedMunicipalityDropdown: [],
       selectedMunicipality: [],
       selectedMunicipalityName: [],
       showBeneficiary: true,

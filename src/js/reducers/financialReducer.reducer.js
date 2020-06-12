@@ -372,6 +372,7 @@ const filterFinancialDataForGraph = (state, action) => {
     filteredSeries = state.filteredByProgramDefault.series;
     allProgramColor = state.filteredByProgramDefault.color;
     data.map(filtData => {
+      console.log(filtData, 'filtData');
       if (filtData.partner_type === microfinance) {
         filteredMicroFinance.push(filtData);
       } else if (filtData.partner_type === commercial) {

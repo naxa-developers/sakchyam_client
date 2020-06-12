@@ -293,19 +293,22 @@ class VectorGridComponent extends Component {
             
             
             console.log(b,'beforefilter');
-            b.map(data=>{
-                automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(function(e) {
-                    // console.log(data,'data');
-                    // console.log(e,'e');
-                    if(e.partner_id === data.partner_id){
-                        e.single_tablets = data.tablets;
-                        c.push(e);
+            b.map((data,index)=>{
+                automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.map(function(e) {
+                    console.log(data,'data');
+                    console.log(e,'e');
+                    // if(e.partner_id === data.partner_id){
+                    //     e.single_tablets = data.tablets;
+                    //     c.push(e);
+                    // }
+                    if(e.partner_id === data.partner_id) {
+                        b[index] = {...data, partner_name: e.partner_name}
                     }
                 })
             })
             // var result = 
               
-              console.log(c)
+              console.log(b,'afterfiltersss ')
             // const d= b.map(filteredPartnerId=>{
             //     automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(data=>{
             //         console.log(data,'data');
@@ -363,8 +366,8 @@ class VectorGridComponent extends Component {
         
             // console.log(automationAllDataByPartner,'data of Partners');
         let total_tablets= 0;
-        const popupHtml =c && c.map(data=>{
-            total_tablets += data.single_tablets;
+        const popupHtml =b && b.map(data=>{
+            total_tablets += data.tablets;
             return (
                 `<li>
                     <div class="organization-icon"><span></span></div>
@@ -373,7 +376,7 @@ class VectorGridComponent extends Component {
                                 <h5>${data.partner_name}</h5>
                                     <div class="icon-list">
                                         
-                                            <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.single_tablets}</b></div>
+                                            <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.tablets}</b></div>
                                         </div>
                                     </div>
                                     </div>
