@@ -61,6 +61,8 @@ class LeftSideBar extends Component {
         handleSelectedProgram,
         isAllPartnerSelected,
         applyClick,
+        resetClick,
+        checkedPartnerItems,
       },
     } = this;
     return (
@@ -223,6 +225,7 @@ class LeftSideBar extends Component {
             </div>
             <div className="apply-buttons buttons end">
               <button
+                onClick={resetClick}
                 type="button"
                 className="common-button is-clear "
               >
