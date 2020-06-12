@@ -352,12 +352,17 @@ const filterFinancialDataForGraph = (state, action) => {
   const commercial = 'Commercial Bank and Other Partners';
   const { selectedPartners, selectedProgram } = action.payload;
 
+  const allData = state.financialData;
+
   const data = state.financialData;
   let filteredLabel = [];
   let filteredSeries = [];
   const filteredMicroFinance = [];
   const filteredCommercial = [];
   let allProgramColor = [];
+  let allProgramData = [];
+  const groupedObj = {};
+  let multiLineLabel = [];
 
   let newSankeyData = data;
   let newTreeMapData;
@@ -378,6 +383,8 @@ const filterFinancialDataForGraph = (state, action) => {
     //   allProgramColor.push(colorPicker(item.programId));
     //   return true;
     // });
+    multiLineLabel = filteredLabel;
+    allProgramData = filteredSeries;
     newSankeyData = filterSankeyData(data);
     newTreeMapData = filterTreeMapData(data);
   } else if (
@@ -395,6 +402,64 @@ const filterFinancialDataForGraph = (state, action) => {
     const filteredData = data.filter(i =>
       selectedPartners.includes(i.partner_id),
     );
+
+    // HORIZONTAL BAR FILTER START
+
+    filteredData.sort(function(a, b) {
+      const nameA = a.single_count; // ignore upper and lowercase
+      const nameB = b.single_count; // ignore upper and lowercase
+      if (nameA > nameB) {
+        return -1;
+      }
+      if (nameA < nameB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+    const label = filteredData.map(partner => {
+      // console.log(data.partner_name, 'logggg');
+      return partner.partner_name;
+    });
+    const removedDuplicateLabel = [...new Set(label)];
+
+    removedDuplicateLabel.map(labelData => {
+      return multiLineLabel.push(labelData.split(' '));
+    });
+    const result = [
+      ...new Map(filteredData.map(x => [x.partner_id, x])).values(),
+    ];
+
+    filteredData.forEach(function(c) {
+      // console.log(c, 'c');
+      if (groupedObj[c.program_id]) {
+        groupedObj[c.program_id].data.push(c.value);
+      } else {
+        groupedObj[c.program_id] = {
+          name: c.program_name,
+          id: c.program_id,
+          data: [c.value],
+        };
+      }
+    });
+
+    console.log(groupedObj, 'grouped');
+    // const allProgramData = [];
+    for (const [key, value] of Object.entries(groupedObj)) {
+      // console.log(value, 'value');
+      // console.log(key, 'key');
+      // allPartnersLabel.push(key);
+      // value.names.map(data => {
+      allProgramData.push(value);
+      // return true;
+    }
+    for (const [key, value] of Object.entries(groupedObj)) {
+      allProgramColor.push(colorPicker(value.id));
+    }
+    console.log(allProgramData, 'filter all PRogram Data');
+    // HORIZONTAL BAR FILTER END
+
     filteredData.map(filtData => {
       // console.log(filtData, 'filtData');
       if (!filteredLabel.includes(filtData.partner_name)) {
@@ -435,6 +500,67 @@ const filterFinancialDataForGraph = (state, action) => {
     const filteredData = data.filter(i =>
       selectedProgram.includes(i.program_id),
     );
+    // HORIZONTAL BAR FILTER START
+    const label = filteredData.map(partner => {
+      // console.log(data.partner_name, 'logggg');
+      return partner.partner_name;
+    });
+    const removedDuplicateLabel = [...new Set(label)];
+
+    removedDuplicateLabel.map(labelData => {
+      return multiLineLabel.push(labelData.split(' '));
+    });
+    filteredData.sort(function(a, b) {
+      const nameA = a.single_count; // ignore upper and lowercase
+      const nameB = b.single_count; // ignore upper and lowercase
+      if (nameA > nameB) {
+        return -1;
+      }
+      if (nameA < nameB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+
+    const result = [
+      ...new Map(filteredData.map(x => [x.partner_id, x])).values(),
+    ];
+
+    filteredData.forEach(function(c) {
+      // console.log(c, 'c');
+      if (groupedObj[c.program_id]) {
+        groupedObj[c.program_id].data.push(c.value);
+      } else {
+        groupedObj[c.program_id] = {
+          name: c.program_name,
+          id: c.program_id,
+          data: [c.value],
+        };
+      }
+    });
+
+    console.log(groupedObj, 'grouped');
+    // const allProgramData = [];
+    for (const [key, value] of Object.entries(groupedObj)) {
+      // console.log(value, 'value');
+      // console.log(key, 'key');
+      // allPartnersLabel.push(key);
+      // value.names.map(data => {
+      allProgramData.push(value);
+      // return true;
+    }
+    console.log(allProgramData, 'filter all PRogram Data');
+    // HORIZONTAL BAR FILTER END
+    filteredData.map(filtData => {
+      if (filtData.partner_type === microfinance) {
+        filteredMicroFinance.push(filtData);
+      } else if (filtData.partner_type === commercial) {
+        filteredCommercial.push(filtData);
+      }
+      return true;
+    });
     filteredData.map(filtData => {
       if (!filteredLabel.includes(filtData.partner_name)) {
         filteredLabel.push(filtData.partner_name);
@@ -464,6 +590,67 @@ const filterFinancialDataForGraph = (state, action) => {
     const anotherFilter = filteredData.filter(j =>
       selectedProgram.includes(j.program_id),
     );
+    // HORIZONTAL BAR FILTER START
+    const label = anotherFilter.map(partner => {
+      // console.log(data.partner_name, 'logggg');
+      return partner.partner_name;
+    });
+    const removedDuplicateLabel = [...new Set(label)];
+
+    removedDuplicateLabel.map(labelData => {
+      return multiLineLabel.push(labelData.split(' '));
+    });
+    anotherFilter.sort(function(a, b) {
+      const nameA = a.single_count; // ignore upper and lowercase
+      const nameB = b.single_count; // ignore upper and lowercase
+      if (nameA > nameB) {
+        return -1;
+      }
+      if (nameA < nameB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+
+    const result = [
+      ...new Map(anotherFilter.map(x => [x.partner_id, x])).values(),
+    ];
+
+    anotherFilter.forEach(function(c) {
+      // console.log(c, 'c');
+      if (groupedObj[c.program_id]) {
+        groupedObj[c.program_id].data.push(c.value);
+      } else {
+        groupedObj[c.program_id] = {
+          name: c.program_name,
+          id: c.program_id,
+          data: [c.value],
+        };
+      }
+    });
+
+    console.log(groupedObj, 'grouped');
+    // const allProgramData = [];
+    for (const [key, value] of Object.entries(groupedObj)) {
+      // console.log(value, 'value');
+      // console.log(key, 'key');
+      // allPartnersLabel.push(key);
+      // value.names.map(data => {
+      allProgramData.push(value);
+      // return true;
+    }
+    console.log(allProgramData, 'filter all PRogram Data');
+    // HORIZONTAL BAR FILTER END
+    anotherFilter.map(filtData => {
+      if (filtData.partner_type === microfinance) {
+        filteredMicroFinance.push(filtData);
+      } else if (filtData.partner_type === commercial) {
+        filteredCommercial.push(filtData);
+      }
+      return true;
+    });
     anotherFilter.map(filtData => {
       // console.log(filtered)
       if (!filteredLabel.includes(filtData.partner_name)) {
@@ -583,8 +770,8 @@ const filterFinancialDataForGraph = (state, action) => {
   return {
     ...state,
     filteredByProgram: {
-      series: filteredSeries,
-      label: filteredLabel,
+      series: allProgramData,
+      label: multiLineLabel,
       color: allProgramColor,
     },
     pieData: {

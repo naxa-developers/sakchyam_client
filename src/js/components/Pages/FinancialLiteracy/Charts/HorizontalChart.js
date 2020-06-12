@@ -124,8 +124,8 @@ class HorizontalChart extends Component {
     ) {
       // console.log(filteredByProgram, 'filteredByProgram');
       if (
-        filteredByProgram.series[0].data.length > 10 ||
-        filteredByProgram.series.length > 10
+        filteredByProgram.series[0].data.length > 2
+        // filteredByProgram.series.length > 10
       ) {
         this.setState(preState => ({
           height: 1800,
@@ -141,7 +141,7 @@ class HorizontalChart extends Component {
         }));
       } else {
         this.setState(preState => ({
-          height: 200,
+          height: 800,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
