@@ -190,14 +190,14 @@ class MiddleChartSection extends Component {
           offsetY: 0,
         },
         xaxis: {
-          // title: {
-          //   text: 'Varun',
-          // },
+          title: {
+            text: 'Milestones',
+          },
           labels: {
             style: {
               cssClass: 'x-axislabel',
             },
-            // show: false,
+            show: false,
             // formatter(value, timestamp, index) {
             //   const splitFormat = value.split('(');
             //   console.log(splitFormat[0], splitFormat[1]);

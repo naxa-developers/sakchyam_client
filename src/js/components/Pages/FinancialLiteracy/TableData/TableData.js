@@ -26,6 +26,76 @@ class TableData extends Component {
     }
   }
 
+  sortTable = n => {
+    // let table;
+    let rows;
+    let switching;
+    let i;
+    let x;
+    let y;
+    let shouldSwitch;
+    let dir;
+    let switchcount = 0;
+    const table = document.getElementById('financial_table');
+    switching = true;
+    // Set the sorting direction to ascending:
+    dir = 'asc';
+    /* Make a loop that will continue until
+    no switching has been done: */
+    while (switching) {
+      // start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /* Loop through all table rows (except the
+      first, which contains table headers): */
+      for (i = 1; i < rows.length - 1; i += 1) {
+        // start by saying there should be no switching:
+        shouldSwitch = false;
+        /* Get the two elements you want to compare,
+        one from current row and one from the next: */
+        x = rows[i].getElementsByTagName('TD')[n];
+        y = rows[i + 1].getElementsByTagName('TD')[n];
+        /* check if the two rows should switch place,
+        based on the direction, asc or desc: */
+        if (dir === 'asc') {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            // if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir === 'desc') {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            // if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir === 'first') {
+          if (Number(x.innerHTML) > Number(y.innerHTML)) {
+            // if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /* If a switch has been marked, make the switch
+        and mark that a switch has been done: */
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        // Each time a switch is done, increase this count by 1:
+        switchcount += 1;
+      } else if (switchcount === 0 && dir === 'asc') {
+        dir = 'desc';
+        switching = true;
+      } else if (switchcount === 1 && dir === 'first') {
+        dir = 'first';
+        switching = true;
+      }
+      /* If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again. */
+    }
+  };
+
   exportTableToExcel = () => {
     // let downloadLink;
     const dataType = 'application/vnd.ms-excel';
@@ -73,7 +143,7 @@ class TableData extends Component {
             <div className="filter-content">
               <div className="filter-row">
                 <div className="filter-list">
-                  <strong>sort by</strong>
+                  {/* <strong>sort by</strong>
                   <div className="form-group">
                     <div className="select-dropdown" id="duration_id">
                       <select>
@@ -82,8 +152,7 @@ class TableData extends Component {
                         <option>Name</option>
                         <option>Name</option>
                       </select>
-
-                      {/* <span
+                      <span
                         role="tab"
                         tabIndex="0"
                         onClick={toggleSortBy}
@@ -104,9 +173,9 @@ class TableData extends Component {
                             Name
                           </label>
                         </li>
-                      </ul> */}
+                      </ul>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="search-bar">
                   <div className="search-wrap">
@@ -138,7 +207,11 @@ class TableData extends Component {
               <table className="table" id="financial_table">
                 <thead>
                   <tr>
-                    <th>
+                    <th
+                      onClick={() => {
+                        this.sortTable(0);
+                      }}
+                    >
                       <div className="table-head">
                         <i className="material-icons">
                           location_city
@@ -150,7 +223,11 @@ class TableData extends Component {
                       financialProgram.map(programList => {
                         if (programList.total !== 0)
                           return (
-                            <th>
+                            <th
+                              onClick={() => {
+                                this.sortTable(1);
+                              }}
+                            >
                               <div className="table-head">
                                 <span>{programList.name}</span>
                               </div>
