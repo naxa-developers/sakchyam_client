@@ -224,6 +224,26 @@ class FinancialLiteracy extends Component {
     // this.setState({ downloadActive: false });
   };
 
+  handleUnCheck = () => {
+    const x = document.getElementsByClassName('partner_checkbox');
+    for (let i = 0; i < x.length; i += 1) {
+      x[i].checked = false;
+    }
+  };
+
+  resetClick = () => {
+    this.setState({
+      partnerType: [],
+      checkedPartnerItems: [],
+      checkedPartnerItems1: [],
+      isAllPartnerSelected: false,
+      selectedProgram: [],
+      selectedProgram1: [],
+    });
+    this.handleUnCheck();
+    this.props.getFinancialData();
+  };
+
   applyClick = () => {
     const { checkedPartnerItems, selectedProgram } = this.state;
     this.props.filterFinancialDataForGraph(
@@ -277,6 +297,8 @@ class FinancialLiteracy extends Component {
         >
           <LeftSideBar
             applyClick={this.applyClick}
+            resetClick={this.resetClick}
+            checkedPartnerItems={this.checkedPartnerItems}
             isAllPartnerSelected={isAllPartnerSelected}
             handleSelectedProgram={this.handleSelectedProgram}
             selectedProgram={selectedProgram}
