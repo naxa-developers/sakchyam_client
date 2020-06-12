@@ -40,7 +40,7 @@ class SankeyDiagram extends Component {
     //   sankeyData.nodes.map(node => node.color);
     // console.log('sankeyData11', JSON.stringify(sankeyData));
     return (
-      <div style={{ height: '800px' }}>
+      <div id="sankey-chart" style={{ height: '800px' }}>
         {Object.entries(sankeyData).length !== 0 &&
           sankeyData.nodes.length !== 0 && (
             <ResponsiveSankey

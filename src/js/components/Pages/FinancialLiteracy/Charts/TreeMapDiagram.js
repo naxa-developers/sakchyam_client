@@ -29,6 +29,15 @@ function colorPicker(i) {
   return '#FFD400';
 }
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
+
 const getInitials = name => {
   let initials = name.match(/\b\w/g) || [];
   initials = (
@@ -267,6 +276,26 @@ class TreeMapDiagram extends Component {
                   motionStiffness={90}
                   motionDamping={11}
                   onClick={this.onProgramClick}
+                  tooltip={({ id, value, color }) => (
+                    <div
+                      style={{
+                        color: '#fff',
+                        textAlign: 'center',
+                        margin: '0px 15px',
+                      }}
+                    >
+                      {id}
+                      <br />
+                      {numberWithCommas(value)}
+                    </div>
+                  )}
+                  theme={{
+                    tooltip: {
+                      container: {
+                        background: '#333',
+                      },
+                    },
+                  }}
                 />
               )
             ) : (
@@ -296,6 +325,26 @@ class TreeMapDiagram extends Component {
                 motionStiffness={90}
                 motionDamping={11}
                 // onClick={this.onProgramClick}
+                tooltip={({ id, value, color }) => (
+                  <div
+                    style={{
+                      color: '#fff',
+                      textAlign: 'center',
+                      // margin: '0px 15px',
+                    }}
+                  >
+                    {id}
+                    <br />
+                    {numberWithCommas(value)}
+                  </div>
+                )}
+                theme={{
+                  tooltip: {
+                    container: {
+                      background: '#333',
+                    },
+                  },
+                }}
               />
             )}
           </div>
