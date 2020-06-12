@@ -73,7 +73,7 @@ class TableData extends Component {
             <div className="filter-content">
               <div className="filter-row">
                 <div className="filter-list">
-                  <strong>sort by</strong>
+                  {/* <strong>sort by</strong>
                   <div className="form-group">
                     <div className="select-dropdown" id="duration_id">
                       <select>
@@ -82,8 +82,7 @@ class TableData extends Component {
                         <option>Name</option>
                         <option>Name</option>
                       </select>
-
-                      {/* <span
+                      <span
                         role="tab"
                         tabIndex="0"
                         onClick={toggleSortBy}
@@ -104,9 +103,9 @@ class TableData extends Component {
                             Name
                           </label>
                         </li>
-                      </ul> */}
+                      </ul>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="search-bar">
                   <div className="search-wrap">
