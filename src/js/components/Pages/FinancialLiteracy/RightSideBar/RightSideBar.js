@@ -147,6 +147,8 @@ class RightSideBar extends Component {
           }
           return true;
         });
+      } else if (checkedPartnerItems === 0) {
+        console.log('hello');
       } else {
         selectedProgram.map(y => {
           if (item.program_id === y) {
