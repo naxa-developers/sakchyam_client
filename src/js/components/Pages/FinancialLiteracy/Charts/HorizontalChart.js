@@ -6,6 +6,14 @@ import { connect } from 'react-redux';
 // color: #f36c00;
 // color: #40a8be;
 // color: #de2693;
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 class HorizontalChart extends Component {
   constructor(props) {
     super(props);
@@ -116,8 +124,8 @@ class HorizontalChart extends Component {
     ) {
       // console.log(filteredByProgram, 'filteredByProgram');
       if (
-        filteredByProgram.series[0].data.length > 10 ||
-        filteredByProgram.series.length > 10
+        filteredByProgram.series[0].data.length > 2
+        // filteredByProgram.series.length > 10
       ) {
         this.setState(preState => ({
           height: 1800,
@@ -133,7 +141,7 @@ class HorizontalChart extends Component {
         }));
       } else {
         this.setState(preState => ({
-          height: 200,
+          height: 800,
           series: filteredByProgram.series,
           options: {
             ...preState.options,

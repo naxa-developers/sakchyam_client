@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { ResponsiveTreeMap } from '@nivo/treemap';
 import { connect } from 'react-redux';
-import root from './treemap.data';
+// import root from './treemap.data';
 
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
@@ -28,13 +28,21 @@ function colorPicker(i) {
   if (i % 20 === 20) return '#FF5E00';
   return '#FFD400';
 }
+
+const getInitials = name => {
+  let initials = name.match(/\b\w/g) || [];
+  initials = (
+    (initials.shift() || '') + (initials.pop() || '')
+  ).toUpperCase();
+  return initials;
+};
 class TreeMapDiagram extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // treeMapData: {},
       // financialData: [],
       // checkedPartnerItems: [],
+      isTreeMapClicked: false,
     };
   }
 
@@ -48,7 +56,7 @@ class TreeMapDiagram extends Component {
       prevProps.financialReducer.treeMapData !==
       this.props.financialReducer.treeMapData
     ) {
-      this.setState({ treeMapData });
+      this.setState({ treeMapData1: treeMapData });
     }
     if (
       prevProps.financialReducer.financialData !==
@@ -68,12 +76,14 @@ class TreeMapDiagram extends Component {
 
   generateTreeMapData = id => {
     const arr = [];
+
     this.state.financialData.map(item => {
       if (id === item.program_name) {
         if (this.props.checkedPartnerItems.length === 0) {
           arr.push({
             id: item.partner_id,
             name: item.partner_name,
+            name1: getInitials(item.partner_name),
             loc: item.value,
           });
         } else {
@@ -82,6 +92,7 @@ class TreeMapDiagram extends Component {
               arr.push({
                 id: item.partner_id,
                 name: item.partner_name,
+                name1: getInitials(item.partner_name),
                 loc: item.value,
               });
             }
@@ -96,18 +107,22 @@ class TreeMapDiagram extends Component {
 
   onProgramClick = e => {
     const updatedTreeMapData = this.generateTreeMapData(e.data.id);
-    this.setState({
-      treeMapData: updatedTreeMapData,
-    });
+    this.setState(prevState => ({
+      treeMapData2: updatedTreeMapData,
+      isTreeMapClicked: !prevState.isTreeMapClicked,
+    }));
   };
 
-  gradientFunction = () => {
+  gradientFunction = i => {
+    const { treeMapData1, treeMapData2 } = this.state;
     const arr = [];
-    this.state.treeMapData.children.map((item, index) => {
+    const data = i === 1 ? treeMapData1 : treeMapData2;
+
+    data.children.map((item, index) => {
       arr.push({
         id: `color${index}`,
         type: 'linearGradient',
-        colors: [{ color: colorPicker(item.id) }],
+        colors: [{ offset: 100, color: colorPicker(item.id) }],
       });
       return true;
     });
@@ -131,9 +146,12 @@ class TreeMapDiagram extends Component {
     // ];
   };
 
-  fillFunction = () => {
+  fillFunction = i => {
+    const { treeMapData1, treeMapData2 } = this.state;
     const arr = [];
-    this.state.treeMapData.children.map((item, index) => {
+    const data = i === 1 ? treeMapData1 : treeMapData2;
+
+    data.children.map((item, index) => {
       arr.push({ match: { id: item.name }, id: `color${index}` });
       return true;
     });
@@ -145,46 +163,144 @@ class TreeMapDiagram extends Component {
     return arr;
   };
 
+  handleTreeMapBackBtn = () => {
+    this.setState(prevState => ({
+      isTreeMapClicked: !prevState.isTreeMapClicked,
+    }));
+  };
+
   render() {
     // const { treeMapData } = this.props.financialReducer;
-    const { treeMapData, checkedPartnerItems } = this.state;
+    const {
+      treeMapData1,
+      treeMapData2,
+      checkedPartnerItems,
+      isTreeMapClicked,
+    } = this.state;
 
-    console.log('treemapdata', treeMapData);
+    const {
+      DownloadIcon,
+      ExpandIcon,
+      downloadPng,
+      handleModal,
+      handleSelectedModal,
+    } = this.props;
 
     return (
-      <div
-        id="treemap-chart"
-        style={{ height: '340px', width: '100%' }}
-      >
-        {treeMapData && Object.entries(treeMapData).length !== 0 && (
-          <ResponsiveTreeMap
-            root={treeMapData}
-            // root={root.root}
-            identity="name"
-            value="loc"
-            innerPadding={3}
-            outerPadding={3}
-            margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            label="name"
-            // orientLabel={false}
-            // labelFormat=".0s"
-            labelSkipSize={12}
-            // labelTextColor={{
-            //   from: 'color',
-            //   modifiers: [['darker', 1.2]],
-            // }}
-            labelTextColor="#fff"
-            // colors={{ scheme: 'nivo' }}
-            defs={this.gradientFunction()}
-            fill={this.fillFunction()}
-            borderColor="#fff"
-            animate
-            motionStiffness={90}
-            motionDamping={11}
-            onClick={this.onProgramClick}
-          />
-        )}
-      </div>
+      <>
+        <div className="card-header">
+          <h5>Contribution of program initiatives</h5>
+          <div className="header-icons">
+            {isTreeMapClicked && (
+              <button
+                type="button"
+                onClick={this.handleTreeMapBackBtn}
+              >
+                Back
+              </button>
+            )}
+            <span
+              className=""
+              onClick={() => {
+                downloadPng('treemap-chart');
+              }}
+              onKeyDown={() => {
+                downloadPng('treemap-chart');
+              }}
+              role="tab"
+              tabIndex="0"
+            >
+              <img src={DownloadIcon} alt="open" />
+            </span>
+            <span
+              className=""
+              role="tab"
+              tabIndex="0"
+              onClick={() => {
+                handleModal();
+                handleSelectedModal('tree');
+              }}
+              onKeyDown={() => {
+                handleModal();
+                handleSelectedModal('tree');
+              }}
+            >
+              <img src={ExpandIcon} alt="open" />
+            </span>
+          </div>
+        </div>
+        <div className="card-body">
+          <div
+            id="treemap-chart"
+            style={{ height: '340px', width: '100%' }}
+          >
+            {!isTreeMapClicked ? (
+              treeMapData1 && (
+                <ResponsiveTreeMap
+                  root={treeMapData1}
+                  // root={root.root}
+                  identity="name"
+                  value="loc"
+                  innerPadding={3}
+                  outerPadding={3}
+                  margin={{
+                    top: 10,
+                    right: 10,
+                    bottom: 10,
+                    left: 10,
+                  }}
+                  label="name"
+                  leavesOnly
+                  // orientLabel={false}
+                  // labelFormat=".0s"
+                  labelSkipSize={12}
+                  // labelTextColor={{
+                  //   from: 'color',
+                  //   modifiers: [['darker', 1.2]],
+                  // }}
+                  labelTextColor="#fff"
+                  // colors={{ scheme: 'nivo' }}
+                  defs={this.gradientFunction(1)}
+                  fill={this.fillFunction(1)}
+                  borderColor="#fff"
+                  animate
+                  motionStiffness={90}
+                  motionDamping={11}
+                  onClick={this.onProgramClick}
+                />
+              )
+            ) : (
+              <ResponsiveTreeMap
+                root={treeMapData2}
+                // root={root.root}
+                identity="name"
+                value="loc"
+                innerPadding={3}
+                outerPadding={3}
+                margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                label="name1"
+                leavesOnly
+                // orientLabel={false}
+                // labelFormat=".0s"
+                labelSkipSize={12}
+                // labelTextColor={{
+                //   from: 'color',
+                //   modifiers: [['darker', 1.2]],
+                // }}
+                labelTextColor="#fff"
+                // colors={{ scheme: 'nivo' }}
+                defs={this.gradientFunction(2)}
+                fill={this.fillFunction(2)}
+                borderColor="#fff"
+                animate
+                motionStiffness={90}
+                motionDamping={11}
+                // onClick={this.onProgramClick}
+              />
+            )}
+          </div>
+        </div>
+      </>
     );
   }
 }

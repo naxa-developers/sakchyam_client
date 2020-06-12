@@ -25,6 +25,14 @@ import TreeMapDiagram from './Charts/TreeMapDiagram';
 import TableData from './TableData/TableData';
 import Modal from './Modal';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 function colorPicker(i) {
   if (i % 12 === 0) return '#E11D3F';
   if (i % 12 === 1) return '#FF6D00';
@@ -433,11 +441,17 @@ class FinancialLiteracy extends Component {
                         </div>
 
                         <div className="card" id="">
-                          <div className="card-header">
+                          {/* <div className="card-header">
                             <h5>
                               Contribution of Program Initiatives
                             </h5>
                             <div className="header-icons">
+                              <button
+                                type="button"
+                                onClick={this.handleTreeMapBackBtn}
+                              >
+                                Back
+                              </button>
                               <span
                                 className=""
                                 onClick={() => {
@@ -474,7 +488,19 @@ class FinancialLiteracy extends Component {
                                 this.state.checkedPartnerItems
                               }
                             />
-                          </div>
+                          </div> */}
+                          <TreeMapDiagram
+                            DownloadIcon={DownloadIcon}
+                            ExpandIcon={ExpandIcon}
+                            downloadPng={this.downloadPng}
+                            handleModal={this.handleModal}
+                            handleSelectedModal={
+                              this.handleSelectedModal
+                            }
+                            checkedPartnerItems={
+                              this.state.checkedPartnerItems
+                            }
+                          />
                         </div>
                       </div>
                     </div>

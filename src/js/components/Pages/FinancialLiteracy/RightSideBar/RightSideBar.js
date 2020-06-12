@@ -25,6 +25,15 @@ function colorPicker(i) {
   if (i % 20 === 20) return '#FF5E00';
   return '#FFD400';
 }
+
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +47,36 @@ class RightSideBar extends Component {
       maxValue: 0,
     };
   }
+
+  calculateTotalBeneficiaries = selectedPartner => {
+    const { financialData } = this.props.financialReducer;
+
+    const arr = [];
+
+    financialData.map(item => {
+      const obj = arr.find(x => x.partner_id === item.partner_id);
+      if (!obj) {
+        arr.push(item);
+      }
+      return true;
+    });
+
+    let totalBeneficiaries = 0;
+    arr.map(item => {
+      if (selectedPartner.length !== 0) {
+        selectedPartner.map(i => {
+          if (i === item.partner_id) {
+            totalBeneficiaries += item.single_count;
+          }
+          return true;
+        });
+      } else {
+        totalBeneficiaries += item.single_count;
+      }
+      return true;
+    });
+    return totalBeneficiaries;
+  };
 
   getInitialOverviewData = () => {
     const { financialData } = this.props.financialReducer;
@@ -113,61 +152,72 @@ class RightSideBar extends Component {
   updateOverviewData = () => {
     const { selectedProgram, checkedPartnerItems } = this.props;
     const { financialData } = this.props.financialReducer;
-    let {
-      totalBeneficiaries,
-      partnerCount,
-      programCount,
-    } = this.state;
+    // let totalBeneficiaries = 0;
+    let partnerCount = 21;
+    let programCount = 6;
 
     // CALCULATE TOTAL BENEFICIARIES
     const tempArr1 = [];
     const tempArr2 = [];
 
+    console.log(selectedProgram, 'selectedx');
+
     financialData.map(item => {
-      checkedPartnerItems.map(partner => {
-        if (partner === item.partner_id) {
-          const obj1 = tempArr1.find(
-            x => x.partner_id === item.partner_id,
-          );
-          // const obj2 = tempArr2.find(
-          //   y => y.program_id === item.program_id,
-          // );
-          if (!obj1) {
-            tempArr1.push(item);
-            totalBeneficiaries += item.single_count;
-            programCount += item.programCount;
-          }
-          // if (!obj2) {
-          //   tempArr2.push(item);
-          // }
-          return true;
-        }
-        return true;
-      });
-      selectedProgram.map(program => {
-        if (program === item.program_id) {
-          // const obj1 = tempArr1.find(
-          //   x => x.partner_id === item.partner_id,
-          // );
-          const obj2 = tempArr2.find(
-            y => y.program_id === item.program_id,
-          );
-          // if (!obj1) {
-          //   tempArr1.push(item);
-          //   totalBeneficiaries += item.single_count;
-          //   programCount += item.programCount;
-          // }
-          if (!obj2) {
-            tempArr2.push(item);
+      if (checkedPartnerItems.length !== 0) {
+        checkedPartnerItems.map(partner => {
+          if (partner === item.partner_id) {
+            const obj1 = tempArr1.find(
+              x => x.partner_id === item.partner_id,
+            );
+            // const obj2 = tempArr2.find(
+            //   y => y.program_id === item.program_id,
+            // );
+            if (!obj1) {
+              tempArr1.push(item);
+              // totalBeneficiaries += item.single_count;
+              // programCount += item.programCount;
+            }
+            // if (!obj2) {
+            //   tempArr2.push(item);
+            // }
+            return true;
           }
           return true;
-        }
-        return true;
-      });
+        });
+      }
+      if (selectedProgram.length !== 0) {
+        selectedProgram.map(program => {
+          if (program === item.program_id) {
+            // const obj1 = tempArr1.find(
+            //   x => x.partner_id === item.partner_id,
+            // );
+            const obj2 = tempArr2.find(
+              y => y.program_id === item.program_id,
+            );
+            // if (!obj1) {
+            //   tempArr1.push(item);
+            //   totalBeneficiaries += item.single_count;
+            //   programCount += item.programCount;
+            // }
+            if (!obj2) {
+              tempArr2.push(item);
+            }
+            return true;
+          }
+          return true;
+        });
+      }
       return true;
     });
-    partnerCount = tempArr1.length;
-    programCount = tempArr2.length;
+
+    console.log(tempArr1, 'temparr');
+
+    if (tempArr1.length !== 0) {
+      partnerCount = tempArr1.length;
+    }
+    if (tempArr2.length !== 0) {
+      programCount = tempArr2.length;
+    }
 
     let filteredData = [];
     financialData.map(item => {
@@ -208,7 +258,6 @@ class RightSideBar extends Component {
     });
 
     filteredData = neww;
-    console.log(filteredData, 'filterx');
 
     let maxValue = 0;
     filteredData.map(item => {
@@ -217,6 +266,10 @@ class RightSideBar extends Component {
       }
       return true;
     });
+
+    const totalBeneficiaries = this.calculateTotalBeneficiaries(
+      checkedPartnerItems,
+    );
 
     this.setState({
       totalBeneficiaries,
@@ -377,7 +430,9 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Total Beneficiaries</h6>
-                      <span>{totalBeneficiaries}</span>
+                      <span>
+                        {numberWithCommas(totalBeneficiaries)}
+                      </span>
                     </div>
                     <div className="widget-icon">
                       <span>
@@ -392,7 +447,9 @@ class RightSideBar extends Component {
                     </div>
                     <div className="widget-icon">
                       <span>
-                        <i className="material-icons">business</i>
+                        <i className="material-icons">
+                          location_city
+                        </i>
                       </span>
                     </div>
                   </li>
@@ -421,7 +478,10 @@ class RightSideBar extends Component {
                       const width = (item.value * 100) / maxValue;
 
                       return (
-                        <div className="program-list">
+                        <div
+                          className="program-list"
+                          key={item.program_id}
+                        >
                           <div className="program-info">
                             <div className="info-in">
                               <h5>{item.program_name}</h5>
@@ -447,7 +507,7 @@ class RightSideBar extends Component {
                                 ),
                               }}
                             >
-                              {item.value}
+                              {numberWithCommas(item.value)}
                             </div>
                           </div>
                         </div>
@@ -564,7 +624,7 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget timeline-widget">
-              <h5>Initiative Timeline</h5>
+              <h5>INITIATIVE TIMELINE</h5>
               <div className="widget-body">
                 <ul className="timeline">
                   {financialProgram &&
