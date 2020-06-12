@@ -78,36 +78,119 @@ class RightSideBar extends Component {
     return totalBeneficiaries;
   };
 
-  getInitialOverviewData = () => {
+  calculatePartnerCount = selectedPartner => {
     const { financialData } = this.props.financialReducer;
+    let partnerCount;
 
-    // CALCULATE TOTAL BENEFICIARIES
-    const tempArr1 = [];
-    const tempArr2 = [];
-    let totalBeneficiaries = 0;
-    let partnerCount = 0;
-    let programCount = 0;
+    if (selectedPartner.length !== 0) {
+      partnerCount = selectedPartner.length;
+    } else {
+      const arr = [];
+      financialData.map(item => {
+        const obj = arr.find(x => x.partner_id === item.partner_id);
+        if (!obj) {
+          arr.push(item);
+        }
+        return true;
+      });
+      partnerCount = arr.length;
+    }
+
+    return partnerCount;
+  };
+
+  calculateProgramCount = selectedProgram => {
+    const { financialData } = this.props.financialReducer;
+    let programCount;
+
+    if (selectedProgram.length !== 0) {
+      programCount = selectedProgram.length;
+    } else {
+      const arr = [];
+      financialData.map(item => {
+        const obj = arr.find(x => x.program_id === item.program_id);
+        if (!obj) {
+          arr.push(item);
+        }
+        return true;
+      });
+      programCount = arr.length;
+    }
+
+    return programCount;
+  };
+
+  calculateFilteredData = (selectedProgram, checkedPartnerItems) => {
+    const { financialData } = this.props.financialReducer;
+    const filteredData = [];
 
     financialData.map(item => {
-      const obj1 = tempArr1.find(
-        x => x.partner_id === item.partner_id,
-      );
-      const obj2 = tempArr2.find(
-        y => y.program_id === item.program_id,
-      );
-      if (!obj1) {
-        tempArr1.push(item);
-        totalBeneficiaries += item.single_count;
-        programCount += item.programCount;
-      }
-      if (!obj2) {
-        tempArr2.push(item);
+      if (selectedProgram.length === 0) {
+        checkedPartnerItems.map(i => {
+          if (item.partner_id === i) {
+            const obj = filteredData.find(
+              x => x.program_id === item.program_id,
+            );
+            if (!obj) {
+              filteredData.push({
+                program_code: item.program_code,
+                program_id: item.program_id,
+                program_name: item.program_name,
+                value: item.value,
+              });
+            } else {
+              const objIndex = filteredData.findIndex(
+                p => p.program_id === item.program_id,
+              );
+              filteredData[objIndex].value += item.value;
+            }
+          }
+          return true;
+        });
+      } else {
+        selectedProgram.map(y => {
+          if (item.program_id === y) {
+            checkedPartnerItems.map(i => {
+              if (item.partner_id === i) {
+                const obj = filteredData.find(
+                  x => x.program_id === item.program_id,
+                );
+                if (!obj) {
+                  filteredData.push({
+                    program_code: item.program_code,
+                    program_id: item.program_id,
+                    program_name: item.program_name,
+                    value: item.value,
+                  });
+                } else {
+                  const objIndex = filteredData.findIndex(
+                    p => p.program_id === item.program_id,
+                  );
+                  filteredData[objIndex].value += item.value;
+                }
+              }
+              return true;
+            });
+          }
+          return true;
+        });
       }
       return true;
     });
+    return filteredData;
+  };
 
-    partnerCount = tempArr1.length;
-    programCount = tempArr2.length;
+  getInitialOverviewData = () => {
+    const { selectedProgram, checkedPartnerItems } = this.props;
+    const { financialData } = this.props.financialReducer;
+
+    const totalBeneficiaries = this.calculateTotalBeneficiaries(
+      checkedPartnerItems,
+    );
+    const partnerCount = this.calculatePartnerCount(
+      checkedPartnerItems,
+    );
+    const programCount = this.calculateProgramCount(selectedProgram);
 
     // CALCULATE INITIAL BRANCHES COUNT
     const filteredData = [];
@@ -152,112 +235,51 @@ class RightSideBar extends Component {
   updateOverviewData = () => {
     const { selectedProgram, checkedPartnerItems } = this.props;
     const { financialData } = this.props.financialReducer;
-    // let totalBeneficiaries = 0;
-    let partnerCount = 21;
-    let programCount = 6;
 
-    // CALCULATE TOTAL BENEFICIARIES
-    const tempArr1 = [];
-    const tempArr2 = [];
+    // let filteredData = [];
+    // financialData.map(item => {
+    //   checkedPartnerItems.map(i => {
+    //     if (item.partner_id === i) {
+    //       const obj = filteredData.find(
+    //         x => x.program_id === item.program_id,
+    //       );
+    //       if (!obj) {
+    //         filteredData.push({
+    //           program_code: item.program_code,
+    //           program_id: item.program_id,
+    //           program_name: item.program_name,
+    //           value: item.value,
+    //         });
+    //       } else {
+    //         const objIndex = filteredData.findIndex(
+    //           p => p.program_id === item.program_id,
+    //         );
+    //         filteredData[objIndex].value += item.value;
+    //       }
+    //     }
+    //     return true;
+    //   });
+    //   return true;
+    // });
 
-    console.log(selectedProgram, 'selectedx');
+    // const neww = [];
 
-    financialData.map(item => {
-      if (checkedPartnerItems.length !== 0) {
-        checkedPartnerItems.map(partner => {
-          if (partner === item.partner_id) {
-            const obj1 = tempArr1.find(
-              x => x.partner_id === item.partner_id,
-            );
-            // const obj2 = tempArr2.find(
-            //   y => y.program_id === item.program_id,
-            // );
-            if (!obj1) {
-              tempArr1.push(item);
-              // totalBeneficiaries += item.single_count;
-              // programCount += item.programCount;
-            }
-            // if (!obj2) {
-            //   tempArr2.push(item);
-            // }
-            return true;
-          }
-          return true;
-        });
-      }
-      if (selectedProgram.length !== 0) {
-        selectedProgram.map(program => {
-          if (program === item.program_id) {
-            // const obj1 = tempArr1.find(
-            //   x => x.partner_id === item.partner_id,
-            // );
-            const obj2 = tempArr2.find(
-              y => y.program_id === item.program_id,
-            );
-            // if (!obj1) {
-            //   tempArr1.push(item);
-            //   totalBeneficiaries += item.single_count;
-            //   programCount += item.programCount;
-            // }
-            if (!obj2) {
-              tempArr2.push(item);
-            }
-            return true;
-          }
-          return true;
-        });
-      }
-      return true;
-    });
+    // filteredData.map(item => {
+    //   selectedProgram.map(i => {
+    //     if (item.program_id === i) {
+    //       neww.push(item);
+    //     }
+    //     return true;
+    //   });
+    //   return true;
+    // });
 
-    console.log(tempArr1, 'temparr');
+    // filteredData = neww;
 
-    if (tempArr1.length !== 0) {
-      partnerCount = tempArr1.length;
-    }
-    if (tempArr2.length !== 0) {
-      programCount = tempArr2.length;
-    }
-
-    let filteredData = [];
-    financialData.map(item => {
-      checkedPartnerItems.map(i => {
-        if (item.partner_id === i) {
-          const obj = filteredData.find(
-            x => x.program_id === item.program_id,
-          );
-          if (!obj) {
-            filteredData.push({
-              program_code: item.program_code,
-              program_id: item.program_id,
-              program_name: item.program_name,
-              value: item.value,
-            });
-          } else {
-            const objIndex = filteredData.findIndex(
-              p => p.program_id === item.program_id,
-            );
-            filteredData[objIndex].value += item.value;
-          }
-        }
-        return true;
-      });
-      return true;
-    });
-
-    const neww = [];
-
-    filteredData.map(item => {
-      selectedProgram.map(i => {
-        if (item.program_id === i) {
-          neww.push(item);
-        }
-        return true;
-      });
-      return true;
-    });
-
-    filteredData = neww;
+    const filteredData = this.calculateFilteredData(
+      selectedProgram,
+      checkedPartnerItems,
+    );
 
     let maxValue = 0;
     filteredData.map(item => {
@@ -270,6 +292,10 @@ class RightSideBar extends Component {
     const totalBeneficiaries = this.calculateTotalBeneficiaries(
       checkedPartnerItems,
     );
+    const partnerCount = this.calculatePartnerCount(
+      checkedPartnerItems,
+    );
+    const programCount = this.calculateProgramCount(selectedProgram);
 
     this.setState({
       totalBeneficiaries,
@@ -460,9 +486,7 @@ class RightSideBar extends Component {
                     </div>
                     <div className="widget-icon">
                       <span>
-                        <i className="material-icons">
-                          location_city
-                        </i>
+                        <i className="material-icons">business</i>
                       </span>
                     </div>
                   </li>
@@ -487,10 +511,10 @@ class RightSideBar extends Component {
                               <h5>{item.program_name}</h5>
                               <div className="program-text">
                                 <i className="material-icons">
-                                  people
+                                  location_city
                                 </i>
 
-                                <span>{item.program_code}</span>
+                                <span>{partnerCount}</span>
                                 {/* <span>{item.code}</span> */}
                               </div>
                             </div>
