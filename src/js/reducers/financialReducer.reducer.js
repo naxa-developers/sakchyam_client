@@ -51,7 +51,7 @@ const initialState = {
   pieData: [],
 };
 
-// Function to filter TreeMap Data
+// FUNCTION TO FILTER TREEMAP DATA
 const filterTreeMapData = data => {
   const arr = [];
 
@@ -76,7 +76,7 @@ const filterTreeMapData = data => {
   };
 };
 
-// Funtion to filter Sankey Data
+// FUNTION TO FILTER SANKEY DATA
 const filterSankeyData = data => {
   const nodes = [];
   const links = [];
