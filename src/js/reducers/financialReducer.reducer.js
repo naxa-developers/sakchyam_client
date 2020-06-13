@@ -114,7 +114,8 @@ const filterSankeyData = data => {
       if (!obj3) {
         nodes.push({
           id: item.partner_type,
-          color: colorPicker(item.partner_id),
+          // color: colorPicker(item.partner_id),
+          color: '#008080',
         });
       }
       const obj4 = links.find(

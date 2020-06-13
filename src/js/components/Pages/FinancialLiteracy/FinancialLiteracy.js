@@ -440,7 +440,7 @@ class FinancialLiteracy extends Component {
                             <div
                               className="horizontal-chart"
                               style={{
-                                height: '700px',
+                                height: '733px',
                               }}
                             >
                               <HorizontalChart />

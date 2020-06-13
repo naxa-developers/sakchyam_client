@@ -294,7 +294,7 @@ class TreeMapDiagram extends Component {
                   leavesOnly
                   // orientLabel={false}
                   // labelFormat=".0s"
-                  labelSkipSize={12}
+                  // labelSkipSize={12}
                   // labelTextColor={{
                   //   from: 'color',
                   //   modifiers: [['darker', 1.2]],
@@ -343,7 +343,7 @@ class TreeMapDiagram extends Component {
                 leavesOnly
                 // orientLabel={false}
                 // labelFormat=".0s"
-                labelSkipSize={12}
+                // labelSkipSize={12}
                 // labelTextColor={{
                 //   from: 'color',
                 //   modifiers: [['darker', 1.2]],
