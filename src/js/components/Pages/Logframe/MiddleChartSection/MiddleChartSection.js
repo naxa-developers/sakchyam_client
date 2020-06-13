@@ -155,9 +155,10 @@ class MiddleChartSection extends Component {
             columnWidth: '80%',
           },
         },
-        colors: ['#b25171', '#5794a6'],
+        colors: ['#b41833', '#5794a6'],
         fill: {
-          opacity: [0.65, 0.65, 0.15, 0.15],
+          opacity: [0.75, 0.75, 0.15, 0.15],
+          // opacity: [0.65, 0.65, 0.15, 0.15],
           // opacity: [0.45, 0.75, 0.15, 0.2],
           gradient: {
             inverseColors: false,
@@ -197,7 +198,7 @@ class MiddleChartSection extends Component {
             style: {
               cssClass: 'x-axislabel',
             },
-            show: false,
+            show: true,
             // formatter(value, timestamp, index) {
             //   const splitFormat = value.split('(');
             //   console.log(splitFormat[0], splitFormat[1]);

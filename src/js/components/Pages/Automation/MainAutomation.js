@@ -975,7 +975,7 @@ class MainAutomation extends Component {
           });
           const query = selectedDistrict
             .map(data => {
-              return `district_id_id=${data}`;
+              return `district_code=${data}`;
             })
             .join('&');
           const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
@@ -1238,7 +1238,7 @@ class MainAutomation extends Component {
       } else if (selectedDistrict.length > 0) {
         const query = selectedDistrict
           .map(data => {
-            return `district_id_id=${data}`;
+            return `district_code=${data}`;
           })
           .join('&');
         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
@@ -1603,7 +1603,7 @@ class MainAutomation extends Component {
         });
         const query = selectedDistrict
           .map(data => {
-            return `district_id_id=${data}`;
+            return `district_code=${data}`;
           })
           .join('&');
         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
@@ -1628,7 +1628,7 @@ class MainAutomation extends Component {
         });
         const query = selectedProvince
           .map(data => {
-            return `province_id_id=${data}`;
+            return `province_code=${data}`;
           })
           .join('&');
         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;

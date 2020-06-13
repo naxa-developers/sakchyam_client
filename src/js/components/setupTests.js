@@ -7,3 +7,4 @@ window.matchMedia =
       removeListener() {},
     };
   };
+window.URL.createObjectURL = function() {};

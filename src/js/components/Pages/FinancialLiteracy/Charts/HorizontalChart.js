@@ -26,25 +26,25 @@ class HorizontalChart extends Component {
 
   plotChart = () => {
     const series = [
-      // {
-      //   name: 'a',
-      //   data: [44, 55, 41, 64, 22, 43, 21],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [44, 55, 41, 64, 22, 43, 21],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
+      {
+        name: 'a',
+        data: [44, 55, 41, 64, 22, 43, 21],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [44, 55, 41, 64, 22, 43, 21],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
     ];
     const options = {
       chart: {
@@ -110,6 +110,42 @@ class HorizontalChart extends Component {
 
   componentDidMount() {
     this.plotChart();
+    const { filteredByProgram } = this.props.financialReducer;
+
+    // console.log(filteredByProgram, 'filteredByProgram');
+    if (this.props.activeModal) {
+      if (
+        filteredByProgram.series[0].data.length > 2
+        // filteredByProgram.series.length > 10
+      ) {
+        this.setState(preState => ({
+          height: 1800,
+          series: filteredByProgram.series,
+          options: {
+            ...preState.options,
+            colors: filteredByProgram.color,
+            xaxis: {
+              ...preState.options.xaxis,
+              categories: filteredByProgram.label,
+            },
+          },
+        }));
+      } else {
+        this.setState(preState => ({
+          height: 800,
+          series: filteredByProgram.series,
+          options: {
+            ...preState.options,
+            colors: filteredByProgram.color,
+            xaxis: {
+              ...preState.options.xaxis,
+              categories: filteredByProgram.label,
+            },
+          },
+        }));
+      }
+    }
+
     // new ApexCharts(
     //     document.querySelector('#horizontal-chart'),
     //     options,
