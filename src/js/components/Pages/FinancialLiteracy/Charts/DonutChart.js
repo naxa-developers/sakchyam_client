@@ -90,7 +90,6 @@ class DonutChart extends Component {
                 fontWeight: 100,
                 color: '#d9202c',
                 formatter(w) {
-                  console.log(w, 'w');
                   return w.globals.seriesTotals.reduce((a, b) => {
                     const x = a + b;
                     return x;

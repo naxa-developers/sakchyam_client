@@ -127,6 +127,22 @@ class TreeMapDiagram extends Component {
       }
       return true;
     });
+
+    // CALCULATE PERCENTAGE
+    let total = 0;
+
+    arr.map(item => {
+      total += item.loc;
+      return true;
+    });
+
+    arr.map((item, index) => {
+      arr[index].percent = `${((item.loc / total) * 100).toFixed(
+        1,
+      )}%`;
+      return true;
+    });
+
     return { name: 'program1', children: arr };
   };
 
@@ -292,7 +308,7 @@ class TreeMapDiagram extends Component {
                   motionStiffness={90}
                   motionDamping={11}
                   onClick={this.onProgramClick}
-                  tooltip={({ id, value, color }) => (
+                  tooltip={({ id, value, color, data }) => (
                     <div
                       style={{
                         color: '#fff',
@@ -302,7 +318,7 @@ class TreeMapDiagram extends Component {
                     >
                       {id}
                       <br />
-                      {numberWithCommas(value)}
+                      {`${numberWithCommas(value)} (${data.percent})`}
                     </div>
                   )}
                   theme={{
@@ -341,7 +357,7 @@ class TreeMapDiagram extends Component {
                 motionStiffness={90}
                 motionDamping={11}
                 // onClick={this.onProgramClick}
-                tooltip={({ id, value, color }) => (
+                tooltip={({ id, value, color, data }) => (
                   <div
                     style={{
                       color: '#fff',
@@ -351,7 +367,7 @@ class TreeMapDiagram extends Component {
                   >
                     {id}
                     <br />
-                    {numberWithCommas(value)}
+                    {`${numberWithCommas(value)} (${data.percent})`}
                   </div>
                 )}
                 theme={{

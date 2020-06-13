@@ -16,7 +16,6 @@ import {
   getFinancialProgram,
   filterFinancialDataForGraph,
   filterPartnersByType,
-  // filterDataForRightSidebar,
 } from '../../../actions/financial.actions';
 import HorizontalChart from './Charts/HorizontalChart';
 import DonutChart from './Charts/DonutChart';
