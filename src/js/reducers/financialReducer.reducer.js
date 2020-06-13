@@ -76,6 +76,9 @@ const filterTreeMapData = data => {
   };
 };
 
+// FUNCTION TO CALCULATE NODE VALUES #SANKEY
+const calculateNodeValues = (data, id) => {};
+
 // FUNTION TO FILTER SANKEY DATA
 const filterSankeyData = data => {
   const nodes = [];
@@ -103,7 +106,6 @@ const filterSankeyData = data => {
           color: colorPicker(item.partner_id),
         });
       }
-      // if (item.value !== 0) {
       const obj4 = links.find(
         obj => obj.target === item.partner_name,
       );
@@ -120,7 +122,36 @@ const filterSankeyData = data => {
         value: item.value,
       });
     }
-    // }
+    return true;
+  });
+
+  // CALCULATE NODE VALUES
+  const sources = [];
+
+  links.map(item => {
+    const obj = sources.find(o => o.source === item.source);
+    if (!obj) {
+      sources.push({
+        source: item.source,
+        value: item.value,
+      });
+    }
+    if (obj) {
+      const objIndex = sources.findIndex(
+        i => i.source === item.source,
+      );
+      sources[objIndex].value += item.value;
+    }
+    return true;
+  });
+
+  nodes.map((item, index) => {
+    sources.map(i => {
+      if (i.source === item.id) {
+        nodes[index].value = i.value;
+      }
+      return true;
+    });
     return true;
   });
 
