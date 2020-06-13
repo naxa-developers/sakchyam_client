@@ -214,15 +214,17 @@
                 background: $border-color;
             }
 }
-.apexcharts-tooltip{
-    max-width: 200px;
-    white-space: initial;;
-    flex-wrap: wrap;
-    overflow: initial;
-    background-color: $white-color;
-}
-.apexcharts-tooltip-text-value{
-    color:$primary-color;
+.literacy-tab-content{
+    .apexcharts-tooltip{
+        max-width: 200px;
+        white-space: initial;;
+        flex-wrap: wrap;
+        overflow: initial;
+        background-color: $white-color;
+    }
+    .apexcharts-tooltip-text-value{
+        color:$primary-color;
+    }
 }
 .pie-legend{
     

@@ -55,6 +55,22 @@ class TreeMapDiagram extends Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.activeModal) {
+      const {
+        treeMapData,
+        financialData,
+        checkedPartnerItems,
+      } = this.props.financialReducer;
+
+      this.setState({
+        treeMapData1: treeMapData,
+        financialData,
+        checkedPartnerItems,
+      });
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const {
       treeMapData,

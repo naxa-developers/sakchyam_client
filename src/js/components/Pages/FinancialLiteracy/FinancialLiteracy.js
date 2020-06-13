@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import { values, select } from 'd3';
+import { values, select, active } from 'd3';
 import Header from '../../Header';
 import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
@@ -267,6 +267,35 @@ class FinancialLiteracy extends Component {
     this.setState({
       selectedModal: value,
     });
+  };
+
+  // eslint-disable-next-line consistent-return
+  getModalContent = contentType => {
+    switch (contentType) {
+      case 'sankey':
+        return <SankeyDiagram />;
+
+      case 'tree':
+        return (
+          <TreeMapDiagram
+            activeModal
+            DownloadIcon={DownloadIcon}
+            ExpandIcon={ExpandIcon}
+            downloadPng={this.downloadPng}
+            handleModal={this.handleModal}
+            handleSelectedModal={this.handleSelectedModal}
+            checkedPartnerItems={this.state.checkedPartnerItems}
+          />
+        );
+      case 'bar':
+        return <HorizontalChart activeModal />;
+
+      case 'donut':
+        return <DonutChart />;
+
+      default:
+        break;
+    }
   };
 
   render() {
@@ -601,16 +630,16 @@ class FinancialLiteracy extends Component {
             }}
           /> */}
           {/* {selectedModal === 'bar' ? ( */}
-          <Modal
-            visible={selectedModal === 'bar' ? true : false}
-            handleModal={this.handleModal}
-            activeModal={activeModal}
-            component={() => {
-              return <HorizontalChart />;
-            }}
-          />
+          {activeModal && (
+            <Modal
+              // visible={selectedModal === 'bar' ? true : false}
+              handleModal={this.handleModal}
+              activeModal={activeModal}
+              component={() => this.getModalContent(selectedModal)}
+            />
+          )}
           {/* ) : ( */}
-          <Modal
+          {/* <Modal
             visible={selectedModal === 'donut' ? true : false}
             handleModal={this.handleModal}
             activeModal={activeModal}
@@ -629,16 +658,16 @@ class FinancialLiteracy extends Component {
                 />
               );
             }}
-          />
+          /> */}
           {/* ) : ( */}
-          <Modal
+          {/* <Modal
             visible={selectedModal === 'sankey' ? true : false}
             handleModal={this.handleModal}
             activeModal={activeModal}
             component={() => {
-              return <SankeyDiagram />;
+              return <SankeyDiagram visible="true" />;
             }}
-          />
+          /> */}
           {/* )} */}
           <RightSideBar
             showRightSidebar={showRightSidebar}

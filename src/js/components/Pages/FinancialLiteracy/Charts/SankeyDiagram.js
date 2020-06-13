@@ -32,6 +32,19 @@ class SankeyDiagram extends Component {
     this.state = {};
   }
 
+  componentDidUpdate(prevProps, prevsteat) {
+    console.log(
+      prevProps.financialReducer.sankeyData ===
+        this.props.financialReducer.sankeyData,
+      'prevSankeydata',
+    );
+    console.log(
+      prevProps.financialReducer.sankeyData.nodes ===
+        this.props.financialReducer.sankeyData.nodes,
+      'nodes Compare',
+    );
+  }
+
   render() {
     const { sankeyData } = this.props.financialReducer;
     // console.log(sankeyData, 'sankeydata');
@@ -39,10 +52,11 @@ class SankeyDiagram extends Component {
     //   Object.entries(sankeyData).length !== 0 &&
     //   sankeyData.nodes.map(node => node.color);
     // console.log('sankeyData11', JSON.stringify(sankeyData));
+    console.log(sankeyData, 'sankeyData ');
     return (
       <div id="sankey-chart" style={{ height: '800px' }}>
-        {Object.entries(sankeyData).length !== 0 &&
-          sankeyData.nodes.length !== 0 && (
+        {Object.entries(sankeyData).length !== 0 ? (
+          sankeyData.nodes.length !== 0 ? (
             <ResponsiveSankey
               data={sankeyData}
               margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
@@ -71,29 +85,13 @@ class SankeyDiagram extends Component {
               animate
               motionStiffness={140}
               motionDamping={13}
-              // legends={[
-              //   {
-              //     anchor: 'bottom-right',
-              //     direction: 'column',
-              //     translateX: 130,
-              //     itemWidth: 100,
-              //     itemHeight: 14,
-              //     itemDirection: 'right-to-left',
-              //     itemsSpacing: 2,
-              //     itemTextColor: '#999',
-              //     symbolSize: 14,
-              //     effects: [
-              //       {
-              //         on: 'hover',
-              //         style: {
-              //           itemTextColor: '#000',
-              //         },
-              //       },
-              //     ],
-              //   },
-              // ]}
             />
-          )}
+          ) : (
+            <label>2nd Condition</label>
+          )
+        ) : (
+          <label>Nodata</label>
+        )}
       </div>
     );
   }

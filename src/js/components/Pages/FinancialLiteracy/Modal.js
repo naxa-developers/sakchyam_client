@@ -1,16 +1,48 @@
 import React from 'react';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 
+const downloadPng = chartid => {
+  // document.querySelector('.info-header-bottom').style.display =
+  //   'none';
+  // document
+  //   .querySelector('.download-dropdown')
+  //   .classList.remove('active');
+  setTimeout(() => {
+    html2canvas(document.querySelector(`#${chartid}`), {
+      // logging: true,
+      // letterRendering: 1,
+      allowTaint: true,
+      // scale: window.devicePixelRatio,
+      // windowWidth: window.innerWidth,
+      // windowHeight: window.innerHeight + 120,
+      // x: 20,
+      // y: 70,
+      // width: window.innerWidth + 40,
+      // height: window.innerHeight + 40,
+      // foreignObjectRendering: true,
+      // useCORS: true,
+    }).then(canvas => {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, 'Dashboard.png');
+      });
+    });
+  }, 500);
+
+  // this.setState({ downloadActive: false });
+};
 const Modal = props => {
   const { activeModal, handleModal, component, visible } = props;
   return (
     <div
-      className={`popup ${
-        activeModal && visible === true ? 'open' : ''
-      }`}
+      className="popup open"
+      // className={`popup ${
+      //   activeModal && visible === true ? 'open' : ''
+      // }`}
       id="graph-modal"
     >
       <div className="popup-container lg-popup">
-        <div className="popup-body">
+        <div className="popup-body" id="popup-body">
           <span className="close-icon">
             <i
               className="material-icons"
@@ -25,13 +57,21 @@ const Modal = props => {
           <div className="popup-header no-flex">
             <h3>modal header</h3>
           </div>
-          <div className="popup-content">{component()}</div>
+          <div className="popup-content" id="modal-content">
+            {component()}
+          </div>
           <div className="popup-footer buttons is-end">
-            <button type="button" className="common-button is-border">
+            {/* <button type="button" className="common-button is-border">
               <span>cancel</span>
-            </button>
-            <button type="button" className="common-button is-bg">
-              <span>save</span>
+            </button> */}
+            <button
+              onClick={() => {
+                downloadPng('horizontal-chart');
+              }}
+              type="button"
+              className="common-button is-bg"
+            >
+              <span>Download</span>
             </button>
           </div>
         </div>
