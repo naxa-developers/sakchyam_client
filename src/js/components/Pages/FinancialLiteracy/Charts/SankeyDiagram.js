@@ -48,12 +48,7 @@ class SankeyDiagram extends Component {
 
   render() {
     const { sankeyData } = this.props.financialReducer;
-    // console.log(sankeyData, 'sankeydata');
-    // const customColor =
-    //   Object.entries(sankeyData).length !== 0 &&
-    //   sankeyData.nodes.map(node => node.color);
-    // console.log('sankeyData11', JSON.stringify(sankeyData));
-    console.log(sankeyData, 'sankeyData ');
+
     return (
       <div id="sankey-chart" style={{ height: '800px' }}>
         {Object.entries(sankeyData).length !== 0 ? (
@@ -61,6 +56,7 @@ class SankeyDiagram extends Component {
             <ResponsiveSankey
               data={sankeyData}
               margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
+              // width="1000"
               align="justify"
               // colors={{ scheme: 'nivo' }}
               colors={color1}
