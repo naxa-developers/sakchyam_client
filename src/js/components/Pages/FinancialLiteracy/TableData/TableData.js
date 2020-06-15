@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getSearchedDataOnTable } from '../../../../actions/financial.actions';
 
 class TableData extends Component {
   constructor() {
@@ -14,15 +15,10 @@ class TableData extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchKeyword !== this.state.searchKeyword) {
-      console.log(this.state.searchKeyword, 'keyword');
-      const searched = this.props.financialReducer.allTableData.filter(
-        data => {
-          return data.partner_name
-            .toUpperCase()
-            .includes(this.state.searchKeyword);
-        },
-      );
+    const { searchKeyword } = this.state;
+    if (prevState.searchKeyword !== searchKeyword) {
+      // console.log(this.state.searchKeyword, 'keyword');
+      this.props.getSearchedDataOnTable(searchKeyword);
     }
   }
 
@@ -132,7 +128,7 @@ class TableData extends Component {
   render() {
     const { searchKeyword } = this.state;
     const {
-      allTableData,
+      filteredTableData,
       financialProgram,
     } = this.props.financialReducer;
     const { activeSortBy, toggleSortBy } = this.props;
@@ -253,8 +249,8 @@ class TableData extends Component {
                       </h5>
                     </td>
                   </tr> */}
-                  {allTableData &&
-                    allTableData.map(data => {
+                  {filteredTableData &&
+                    filteredTableData.map(data => {
                       data.names.sort(function(a, b) {
                         const nameA = a.program_id; // ignore upper and lowercase
                         const nameB = b.program_id; // ignore upper and lowercase
@@ -564,4 +560,6 @@ class TableData extends Component {
 const mapStateToProps = ({ financialReducer }) => ({
   financialReducer,
 });
-export default connect(mapStateToProps, {})(TableData);
+export default connect(mapStateToProps, { getSearchedDataOnTable })(
+  TableData,
+);

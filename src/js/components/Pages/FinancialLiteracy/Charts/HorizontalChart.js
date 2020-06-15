@@ -20,7 +20,7 @@ class HorizontalChart extends Component {
     this.state = {
       series: [],
       options: {},
-      height: 1400,
+      height: 1800,
     };
   }
 
@@ -87,9 +87,12 @@ class HorizontalChart extends Component {
         position: 'top',
         show: true,
         offsetX: 0,
-        labels: {
-          show: true,
-        },
+        // labels: {
+        //   show: true,
+        //   style: {
+        //     fontSize: '2px',
+        //   },
+        // },
         type: 'category',
         categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
       },
@@ -100,8 +103,15 @@ class HorizontalChart extends Component {
         offsetY: 0,
         show: true,
         labels: {
+          // hideOverlappingLabels: false,
           show: true,
-          // hideOverlappingLabels: true,
+          offsetX: 10,
+          // style: {
+          //   fontSize: '8px',
+          //   fontFamily: 'Helvetica, Arial, sans-serif',
+          //   fontWeight: 400,
+          //   cssClass: 'apexcharts-xaxis-label',
+          // },
         },
       },
     };
@@ -123,6 +133,14 @@ class HorizontalChart extends Component {
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                barHeight: '80%',
+                columnWidth: '100%',
+              },
+            },
             colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
@@ -136,6 +154,14 @@ class HorizontalChart extends Component {
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                barHeight: '20%',
+                columnWidth: '100%',
+              },
+            },
             colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
@@ -168,6 +194,14 @@ class HorizontalChart extends Component {
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                barHeight: '80%',
+                columnWidth: '100%',
+              },
+            },
             colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
@@ -181,6 +215,14 @@ class HorizontalChart extends Component {
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                barHeight: '20%',
+                columnWidth: '100%',
+              },
+            },
             colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,

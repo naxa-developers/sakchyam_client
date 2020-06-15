@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MapboxPartnership from './MapboxPartnership';
+import MapboxPartnership from './MapComponents/MapboxPartnership';
 
 class MainPartnership extends Component {
   constructor() {

@@ -5,6 +5,8 @@ import {
   GET_PARTNERS_LIST,
   FILTER_FINANCIAL_DATA_FOR_GRAPH,
   FILTER_PARTNERS_BY_TYPE,
+  FILTER_TABLE_BY_PARTNER,
+  GET_SEARCHED_DATA_ON_TABLE,
 } from '../actions/index.actions';
 
 function colorPicker(i) {
@@ -39,6 +41,7 @@ function getFilteredCodes(array, key, value) {
 }
 const initialState = {
   allTableData: [],
+  filteredTableData: [],
   partnersList: [],
   filteredPartnersList: [],
   financialData: [],
@@ -202,6 +205,7 @@ const getFinancialData = (state, action) => {
       groupedObjForLabel[c.partner_id].names.push(c);
     } else {
       groupedObjForLabel[c.partner_id] = {
+        partner_id: c.partner_id,
         partner_name: c.partner_name,
         names: [c],
       };
@@ -324,6 +328,7 @@ const getFinancialData = (state, action) => {
       ],
     },
     allTableData: tableDatas,
+    filteredTableData: tableDatas,
   };
 };
 
@@ -812,6 +817,34 @@ const filterPartnersByType = (state, action) => {
     // partnersList: action.payload,
   };
 };
+const filterTableDataByPartner = (state, action) => {
+  const selectedPartners = action.payload;
+  const { allTableData } = state;
+  let filteredTableDataByPartners = allTableData.filter(data => {
+    return selectedPartners.includes(data.partner_id);
+  });
+  if (selectedPartners.length === 0) {
+    filteredTableDataByPartners = allTableData;
+  }
+  // console.log(filteredTableDataByPartners, 'data Table filtered');
+  return {
+    ...state,
+    filteredTableData: filteredTableDataByPartners,
+  };
+};
+const searchedDataOnTable = (state, action) => {
+  const keyword = action.payload;
+  const { allTableData } = state;
+  const filteredKeywordData = allTableData.filter(data => {
+    return data.partner_name
+      .toUpperCase()
+      .includes(action.payload.toUpperCase());
+  });
+  return {
+    ...state,
+    filteredTableData: filteredKeywordData,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERS_LIST:
@@ -824,6 +857,10 @@ export default function(state = initialState, action) {
       return filterFinancialDataForGraph(state, action);
     case FILTER_PARTNERS_BY_TYPE:
       return filterPartnersByType(state, action);
+    case FILTER_TABLE_BY_PARTNER:
+      return filterTableDataByPartner(state, action);
+    case GET_SEARCHED_DATA_ON_TABLE:
+      return searchedDataOnTable(state, action);
     default:
       return state;
   }
