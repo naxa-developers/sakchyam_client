@@ -447,7 +447,7 @@ class FinancialLiteracy extends Component {
                             <div
                               className="horizontal-chart"
                               style={{
-                                height: '700px',
+                                height: '733px',
                               }}
                             >
                               <HorizontalChart />
@@ -660,9 +660,10 @@ class FinancialLiteracy extends Component {
             activeModal={activeModal}
             component={() => {
               return (
-                <TreeMapDiagram
-                  checkedPartnerItems={this.state.checkedPartnerItems}
-                />
+                // <TreeMapDiagram
+                //   checkedPartnerItems={this.state.checkedPartnerItems}
+                // />
+                <TreeMapDiagram />
               );
             }}
           /> */}

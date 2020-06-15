@@ -137,18 +137,18 @@ class RightSideBar extends Component {
                 program_id: item.program_id,
                 program_name: item.program_name,
                 value: item.value,
+                count: 1,
               });
             } else {
               const objIndex = filteredData.findIndex(
                 p => p.program_id === item.program_id,
               );
               filteredData[objIndex].value += item.value;
+              if (item.value !== 0) filteredData[objIndex].count += 1;
             }
           }
           return true;
         });
-      } else if (checkedPartnerItems === 0) {
-        console.log('hello');
       } else {
         selectedProgram.map(y => {
           if (item.program_id === y) {
@@ -163,12 +163,15 @@ class RightSideBar extends Component {
                     program_id: item.program_id,
                     program_name: item.program_name,
                     value: item.value,
+                    count: 1,
                   });
                 } else {
                   const objIndex = filteredData.findIndex(
                     p => p.program_id === item.program_id,
                   );
                   filteredData[objIndex].value += item.value;
+                  if (item.value !== 0)
+                    filteredData[objIndex].count += 1;
                 }
               }
               return true;
@@ -207,16 +210,19 @@ class RightSideBar extends Component {
           program_id: item.program_id,
           program_name: item.program_name,
           value: item.value,
+          count: 1,
         });
       } else {
         const objIndex = filteredData.findIndex(
           p => p.program_id === item.program_id,
         );
         filteredData[objIndex].value += item.value;
+        if (item.value !== 0) filteredData[objIndex].count += 1;
       }
 
       return true;
     });
+
     let maxValue = 0;
     filteredData.map(item => {
       if (maxValue < item.value) {
@@ -426,8 +432,6 @@ class RightSideBar extends Component {
     //   filteredData = neww;
     // }
 
-    // console.log(filteredData, 'filteredDatax');
-
     // let maxValue = 0;
     // filteredData.map(item => {
     //   if (maxValue < item.value) {
@@ -516,7 +520,7 @@ class RightSideBar extends Component {
                                   location_city
                                 </i>
 
-                                <span>{partnerCount}</span>
+                                <span>{item.count}</span>
                                 {/* <span>{item.code}</span> */}
                               </div>
                             </div>

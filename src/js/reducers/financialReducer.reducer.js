@@ -54,7 +54,7 @@ const initialState = {
   pieData: [],
 };
 
-// Function to filter TreeMap Data
+// FUNCTION TO FILTER TREEMAP DATA
 const filterTreeMapData = data => {
   const arr = [];
 
@@ -73,13 +73,27 @@ const filterTreeMapData = data => {
     }
     return true;
   });
+
+  // CALCULATE PERCENTAGE
+  let total = 0;
+
+  arr.map(item => {
+    total += item.loc;
+    return true;
+  });
+
+  arr.map((item, index) => {
+    arr[index].percent = `${((item.loc / total) * 100).toFixed(1)}%`;
+    return true;
+  });
+
   return {
     name: 'program',
     children: arr,
   };
 };
 
-// Funtion to filter Sankey Data
+// FUNTION TO FILTER SANKEY DATA
 const filterSankeyData = data => {
   const nodes = [];
   const links = [];
@@ -103,10 +117,10 @@ const filterSankeyData = data => {
       if (!obj3) {
         nodes.push({
           id: item.partner_type,
-          color: colorPicker(item.partner_id),
+          // color: colorPicker(item.partner_id),
+          color: '#008080',
         });
       }
-      // if (item.value !== 0) {
       const obj4 = links.find(
         obj => obj.target === item.partner_name,
       );
@@ -123,7 +137,36 @@ const filterSankeyData = data => {
         value: item.value,
       });
     }
-    // }
+    return true;
+  });
+
+  // CALCULATE NODE VALUES
+  const sources = [];
+
+  links.map(item => {
+    const obj = sources.find(o => o.source === item.source);
+    if (!obj) {
+      sources.push({
+        source: item.source,
+        value: item.value,
+      });
+    }
+    if (obj) {
+      const objIndex = sources.findIndex(
+        i => i.source === item.source,
+      );
+      sources[objIndex].value += item.value;
+    }
+    return true;
+  });
+
+  nodes.map((item, index) => {
+    sources.map(i => {
+      if (i.source === item.id) {
+        nodes[index].value = i.value;
+      }
+      return true;
+    });
     return true;
   });
 
@@ -168,12 +211,9 @@ const getFinancialData = (state, action) => {
     return true;
   });
 
-  console.log(financialData, 'required');
-
   const sankeyData = filterSankeyData(financialData);
   const treeMapData = filterTreeMapData(financialData);
 
-  // console.log(action.payload);
   allData.sort(function(a, b) {
     const nameA = a.single_count; // ignore upper and lowercase
     const nameB = b.single_count; // ignore upper and lowercase
@@ -187,9 +227,7 @@ const getFinancialData = (state, action) => {
     // names must be equal
     return 0;
   });
-  // console.log(action.payload, 'maindata');
   const label = allData.map(data => {
-    // console.log(data.partner_name, 'logggg');
     return data.partner_name;
   });
   const removedDuplicateLabel = [...new Set(label)];
@@ -198,7 +236,6 @@ const getFinancialData = (state, action) => {
   removedDuplicateLabel.map(data => {
     return multiLineLabel.push(data.split(' '));
   });
-  console.log(multiLineLabel, 'multiLine');
   const groupedObjForLabel = {};
   allData.forEach(function(c) {
     if (groupedObjForLabel[c.partner_id]) {
@@ -211,17 +248,14 @@ const getFinancialData = (state, action) => {
       };
     }
   });
-  console.log(groupedObjForLabel, 'groupedLabel');
   const tableDatas = [];
   Object.entries(groupedObjForLabel).map(([key, data]) => {
     return tableDatas.push(data);
   });
-  console.log(tableDatas, 'tableDatas');
   const result = [
     ...new Map(allData.map(x => [x.partner_id, x])).values(),
   ];
 
-  // console.log(result);
   const a = [];
   result.map(data => {
     if (data.partner_type) {
@@ -229,7 +263,6 @@ const getFinancialData = (state, action) => {
     }
     return true;
   });
-  // console.log(a, 'a');
   const groupedObj = {};
   const ObjByProgram = {};
   a.forEach(function(c, i) {
@@ -242,9 +275,7 @@ const getFinancialData = (state, action) => {
       };
     }
   });
-  console.log(ObjByProgram, 'ObjbyProgram');
   allData.forEach(function(c) {
-    // console.log(c, 'c');
     if (groupedObj[c.program_id]) {
       groupedObj[c.program_id].data.push(c.value);
     } else {
@@ -256,17 +287,13 @@ const getFinancialData = (state, action) => {
     }
   });
 
-  console.log(groupedObj, 'grouped');
   const allProgramData = [];
   for (const [key, value] of Object.entries(groupedObj)) {
-    // console.log(value, 'value');
-    // console.log(key, 'key');
     // allPartnersLabel.push(key);
     // value.names.map(data => {
     allProgramData.push(value);
     // return true;
   }
-  console.log(allProgramData, 'all Data');
   const allProgramColor = [];
   for (const [key, value] of Object.entries(groupedObj)) {
     allProgramColor.push(colorPicker(value.id));
@@ -275,16 +302,12 @@ const getFinancialData = (state, action) => {
   // const allProgramData = [];
   // const allPartnersLabel = [];
   // for (const [key, value] of Object.entries(groupedObj)) {
-  //   // console.log(value, 'value');
-  //   // console.log(key, 'key');
   //   // allPartnersLabel.push(key);
   //   value.names.map(data => {
   //     allProgramData.push(data.value);
   //     return true;
   //   });
   // }
-  // console.log(allPartnersLabel, 'allPartnersLabel');
-  // console.log(allProgramData, 'allProgramData');
 
   const commercial = [];
   const microfinancial = [];
@@ -377,7 +400,6 @@ const filterFinancialDataForGraph = (state, action) => {
     filteredSeries = state.filteredByProgramDefault.series;
     allProgramColor = state.filteredByProgramDefault.color;
     data.map(filtData => {
-      console.log(filtData, 'filtData');
       if (filtData.partner_type === microfinance) {
         filteredMicroFinance.push(filtData);
       } else if (filtData.partner_type === commercial) {
@@ -404,7 +426,6 @@ const filterFinancialDataForGraph = (state, action) => {
     //   microfinance,
     // );
 
-    // console.log(filteredCodes, 'filterCodes');
     const filteredData = data.filter(i =>
       selectedPartners.includes(i.partner_id),
     );
@@ -425,7 +446,6 @@ const filterFinancialDataForGraph = (state, action) => {
       return 0;
     });
     const label = filteredData.map(partner => {
-      // console.log(data.partner_name, 'logggg');
       return partner.partner_name;
     });
     const removedDuplicateLabel = [...new Set(label)];
@@ -438,7 +458,6 @@ const filterFinancialDataForGraph = (state, action) => {
     ];
 
     filteredData.forEach(function(c) {
-      // console.log(c, 'c');
       if (groupedObj[c.program_id]) {
         groupedObj[c.program_id].data.push(c.value);
       } else {
@@ -450,11 +469,8 @@ const filterFinancialDataForGraph = (state, action) => {
       }
     });
 
-    console.log(groupedObj, 'grouped');
     // const allProgramData = [];
     for (const [key, value] of Object.entries(groupedObj)) {
-      // console.log(value, 'value');
-      // console.log(key, 'key');
       // allPartnersLabel.push(key);
       // value.names.map(data => {
       allProgramData.push(value);
@@ -463,11 +479,9 @@ const filterFinancialDataForGraph = (state, action) => {
     for (const [key, value] of Object.entries(groupedObj)) {
       allProgramColor.push(colorPicker(value.id));
     }
-    console.log(allProgramData, 'filter all PRogram Data');
     // HORIZONTAL BAR FILTER END
 
     filteredData.map(filtData => {
-      // console.log(filtData, 'filtData');
       if (!filteredLabel.includes(filtData.partner_name)) {
         filteredLabel.push(filtData.partner_name);
       }
@@ -490,13 +504,10 @@ const filterFinancialDataForGraph = (state, action) => {
       allProgramColor.push(colorPicker(item.programId));
       return true;
     });
-    console.log(filteredMicroFinance, 'filteredMicroFinanceData');
-    console.log(filteredCommercial, 'filteredCommercial');
     // const filtered = filteredData.map(datax => {
     //   return datax.single_count;
     // });
     // const result = Array.from(new Set(filtered));
-    // console.log(result, 'result ');
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
   } else if (
@@ -508,7 +519,6 @@ const filterFinancialDataForGraph = (state, action) => {
     );
     // HORIZONTAL BAR FILTER START
     const label = filteredData.map(partner => {
-      // console.log(data.partner_name, 'logggg');
       return partner.partner_name;
     });
     const removedDuplicateLabel = [...new Set(label)];
@@ -535,7 +545,6 @@ const filterFinancialDataForGraph = (state, action) => {
     ];
 
     filteredData.forEach(function(c) {
-      // console.log(c, 'c');
       if (groupedObj[c.program_id]) {
         groupedObj[c.program_id].data.push(c.value);
       } else {
@@ -547,17 +556,13 @@ const filterFinancialDataForGraph = (state, action) => {
       }
     });
 
-    console.log(groupedObj, 'grouped');
     // const allProgramData = [];
     for (const [key, value] of Object.entries(groupedObj)) {
-      // console.log(value, 'value');
-      // console.log(key, 'key');
       // allPartnersLabel.push(key);
       // value.names.map(data => {
       allProgramData.push(value);
       // return true;
     }
-    console.log(allProgramData, 'filter all PRogram Data');
     // HORIZONTAL BAR FILTER END
     filteredData.map(filtData => {
       if (filtData.partner_type === microfinance) {
@@ -583,7 +588,6 @@ const filterFinancialDataForGraph = (state, action) => {
       return true;
     });
 
-    console.log(allProgramColor, 'allProgramColor');
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
   } else if (
@@ -598,7 +602,6 @@ const filterFinancialDataForGraph = (state, action) => {
     );
     // HORIZONTAL BAR FILTER START
     const label = anotherFilter.map(partner => {
-      // console.log(data.partner_name, 'logggg');
       return partner.partner_name;
     });
     const removedDuplicateLabel = [...new Set(label)];
@@ -625,7 +628,6 @@ const filterFinancialDataForGraph = (state, action) => {
     ];
 
     anotherFilter.forEach(function(c) {
-      // console.log(c, 'c');
       if (groupedObj[c.program_id]) {
         groupedObj[c.program_id].data.push(c.value);
       } else {
@@ -637,17 +639,13 @@ const filterFinancialDataForGraph = (state, action) => {
       }
     });
 
-    console.log(groupedObj, 'grouped');
     // const allProgramData = [];
     for (const [key, value] of Object.entries(groupedObj)) {
-      // console.log(value, 'value');
-      // console.log(key, 'key');
       // allPartnersLabel.push(key);
       // value.names.map(data => {
       allProgramData.push(value);
       // return true;
     }
-    console.log(allProgramData, 'filter all PRogram Data');
     // HORIZONTAL BAR FILTER END
     anotherFilter.map(filtData => {
       if (filtData.partner_type === microfinance) {
@@ -658,7 +656,6 @@ const filterFinancialDataForGraph = (state, action) => {
       return true;
     });
     anotherFilter.map(filtData => {
-      // console.log(filtered)
       if (!filteredLabel.includes(filtData.partner_name)) {
         filteredLabel.push(filtData.partner_name);
       }
@@ -683,7 +680,6 @@ const filterFinancialDataForGraph = (state, action) => {
   }
 
   // const { selectedPartners, selectedProgram } = action.payload;
-  // console.log(selectedProgram, 'selectedProgram');
   // const data = state.financialData;
   // let filteredLabel = [];
   // let filteredSeries = [];
@@ -700,7 +696,6 @@ const filterFinancialDataForGraph = (state, action) => {
   //   );
 
   //   filteredData.map(filtData => {
-  //     // console.log(filtered)
   //     if (!filteredLabel.includes(filtData.partner_id)) {
   //       filteredLabel.push(filtData.partner_id);
   //     }
@@ -717,9 +712,7 @@ const filterFinancialDataForGraph = (state, action) => {
   //   const filteredData = data.filter(i =>
   //     selectedProgram.includes(i.program_id),
   //   );
-  //   console.log(filteredData, 'filteredData');
   //   filteredData.map(filtData => {
-  //     // console.log(filtered)
   //     if (!filteredLabel.includes(filtData.partner_id)) {
   //       filteredLabel.push(filtData.partner_id);
   //     }
@@ -736,13 +729,10 @@ const filterFinancialDataForGraph = (state, action) => {
   //   const filteredData = data.filter(i =>
   //     selectedPartners.includes(i.partner_id),
   //   );
-  //   console.log(filteredData, 'filteredData');
   //   const anotherFilter = filteredData.filter(j =>
   //     selectedProgram.includes(j.program_id),
   //   );
-  //   console.log(anotherFilter, 'anotherFilter');
   //   anotherFilter.map(filtData => {
-  //     // console.log(filtered)
   //     if (!filteredLabel.includes(filtData.partner_id)) {
   //       filteredLabel.push(filtData.partner_id);
   //     }
@@ -762,7 +752,6 @@ const filterFinancialDataForGraph = (state, action) => {
   // financialProgram: action.payload,
   // };
 
-  // console.log('newTreeMapData', newTreeMapData);
   const totalCommercialBenef = filteredCommercial.reduce(function(
     x,
     b,
@@ -794,8 +783,6 @@ const filterFinancialDataForGraph = (state, action) => {
 };
 const filterPartnersByType = (state, action) => {
   const allPartnersData = state.partnersList;
-  console.log(action.payload, 'payload');
-  console.log(allPartnersData, 'state');
   let filteredCodes = [];
 
   if (action.payload.length > 1) {
@@ -810,7 +797,6 @@ const filterPartnersByType = (state, action) => {
   if (action.payload < 1) {
     filteredCodes = allPartnersData;
   }
-  // console.log(filteredCodes, 'filteredTypesss');
   return {
     ...state,
     filteredPartnersList: filteredCodes,
