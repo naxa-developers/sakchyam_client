@@ -53,6 +53,20 @@ class HorizontalChart extends Component {
         toolbar: {
           show: false,
         },
+        events: {
+          click(
+            event,
+            chartContext,
+            { seriesIndex, dataPointIndex, config },
+          ) {
+            // console.log('Clicked Bar');
+            // console.log(event);
+            // console.log(chartContext);
+            // console.log(seriesIndex);
+            console.log(dataPointIndex);
+            // console.log(config);
+          },
+        },
       },
       plotOptions: {
         bar: {
