@@ -288,6 +288,7 @@ const getFinancialData = (state, action) => {
     return multiLineLabel.push(data.split(' '));
   });
   const groupedObjForLabel = {};
+  console.log(allData, '1st');
   allData.forEach(function(c) {
     if (groupedObjForLabel[c.partner_id]) {
       groupedObjForLabel[c.partner_id].names.push(c);
@@ -337,7 +338,56 @@ const getFinancialData = (state, action) => {
       };
     }
   });
+  console.log(allData, 'AllDatatest');
+  console.log(groupedObj, 'test');
+  console.log(ObjByProgram, 'objBy Program');
+  const singleCountPartner = {};
+  // allData.forEach(function(c) {
+  //   if (singleCountPartner[c.partner_id]) {
+  //     if (
+  //       !singleCountPartner[c.partner_id].names.includes(
+  //         c.single_count,
+  //       )
+  //     ) {
+  //       singleCountPartner[c.partner_id].names.push(c.single_count);
+  //     }
+  //   } else {
+  //     singleCountPartner[c.partner_id] = {
+  //       partner_id: c.partner_id,
+  //       partner_name: c.partner_name,
+  //       names: [c.single_count],
+  //     };
+  //   }
+  // });
+  // allData.forEach(function(c) {
+  //   if (singleCountPartner[c.program_id]) {
+  //     singleCountPartner[c.program_id].data.push(c.single_count);
+  //   } else {
+  //     singleCountPartner[c.program_id] = {
+  //       name: c.program_name,
+  //       id: c.program_id,
+  //       data: [c.single_count],
+  //     };
+  //   }
+  // });
+  console.log(allData, 'allData');
+  console.log(singleCountPartner, 'singleCOuntPartnerss');
 
+  // console.log(singleCountData, 'singleCountData');
+  // let allSingleCountData = [];
+  // for (const [key, value] of Object.entries(singleCountPartner)) {
+  //   // allPartnersLabel.push(key);
+  //   // value.names.map(data => {
+  //   allSingleCountData.push(value);
+  //   // return true;
+  // }
+  const totalSingleCount = a.map(single => {
+    return single.single_count;
+  });
+
+  const allSingleCountData = [
+    { data: totalSingleCount, id: 1, name: 'Count' },
+  ];
   const allProgramData = [];
   for (const [key, value] of Object.entries(groupedObj)) {
     // allPartnersLabel.push(key);
@@ -345,6 +395,7 @@ const getFinancialData = (state, action) => {
     allProgramData.push(value);
     // return true;
   }
+
   const allProgramColor = [];
   for (const [key, value] of Object.entries(groupedObj)) {
     allProgramColor.push(colorPicker(value.id));
@@ -385,12 +436,12 @@ const getFinancialData = (state, action) => {
     financialData: allData,
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
-      series: allProgramData,
+      series: allProgramData, // allSingleCountData,
       label: multiLineLabel,
       color: allProgramColor,
     },
     filteredByProgram: {
-      series: allProgramData,
+      series: allProgramData, // allSingleCountData,
       label: multiLineLabel,
       color: allProgramColor,
     },
@@ -450,14 +501,36 @@ const filterFinancialDataForGraph = (state, action) => {
     filteredLabel = state.filteredByProgramDefault.label;
     filteredSeries = state.filteredByProgramDefault.series;
     allProgramColor = state.filteredByProgramDefault.color;
-    data.map(filtData => {
-      if (filtData.partner_type === microfinance) {
-        filteredMicroFinance.push(filtData);
-      } else if (filtData.partner_type === commercial) {
-        filteredCommercial.push(filtData);
+
+    const result = [
+      ...new Map(data.map(x => [x.partner_id, x])).values(),
+    ];
+
+    const a = [];
+    result.map(filteredPartnerType => {
+      if (filteredPartnerType.partner_type) {
+        a.push(filteredPartnerType);
       }
       return true;
     });
+
+    a.forEach(function(c) {
+      if (c.partner_type === 'Microfinance Institutions') {
+        filteredMicroFinance.push(c);
+      } else if (
+        c.partner_type === 'Commercial Bank and Other Partners'
+      ) {
+        filteredCommercial.push(c);
+      }
+    });
+    // data.map(filtData => {
+    //   if (filtData.partner_type === microfinance) {
+    //     filteredMicroFinance.push(filtData);
+    //   } else if (filtData.partner_type === commercial) {
+    //     filteredCommercial.push(filtData);
+    //   }
+    //   return true;
+    // });
     // filteredSeries.map(item => {
     //   allProgramColor.push(colorPicker(item.programId));
     //   return true;
@@ -543,13 +616,22 @@ const filterFinancialDataForGraph = (state, action) => {
       });
       return true;
     });
-    filteredData.map(filtData => {
-      if (filtData.partner_type === microfinance) {
-        filteredMicroFinance.push(filtData);
-      } else if (filtData.partner_type === commercial) {
-        filteredCommercial.push(filtData);
+    const a = [];
+    result.map(filteredPartnerType => {
+      if (filteredPartnerType.partner_type) {
+        a.push(filteredPartnerType);
       }
       return true;
+    });
+
+    a.forEach(function(c) {
+      if (c.partner_type === 'Microfinance Institutions') {
+        filteredMicroFinance.push(c);
+      } else if (
+        c.partner_type === 'Commercial Bank and Other Partners'
+      ) {
+        filteredCommercial.push(c);
+      }
     });
     filteredSeries.map(item => {
       allProgramColor.push(colorPicker(item.programId));
@@ -615,13 +697,23 @@ const filterFinancialDataForGraph = (state, action) => {
       // return true;
     }
     // HORIZONTAL BAR FILTER END
-    filteredData.map(filtData => {
-      if (filtData.partner_type === microfinance) {
-        filteredMicroFinance.push(filtData);
-      } else if (filtData.partner_type === commercial) {
-        filteredCommercial.push(filtData);
+
+    const a = [];
+    result.map(filteredPartnerType => {
+      if (filteredPartnerType.partner_type) {
+        a.push(filteredPartnerType);
       }
       return true;
+    });
+
+    a.forEach(function(c) {
+      if (c.partner_type === 'Microfinance Institutions') {
+        filteredMicroFinance.push(c);
+      } else if (
+        c.partner_type === 'Commercial Bank and Other Partners'
+      ) {
+        filteredCommercial.push(c);
+      }
     });
     filteredData.map(filtData => {
       if (!filteredLabel.includes(filtData.partner_name)) {
@@ -698,13 +790,23 @@ const filterFinancialDataForGraph = (state, action) => {
       // return true;
     }
     // HORIZONTAL BAR FILTER END
-    anotherFilter.map(filtData => {
-      if (filtData.partner_type === microfinance) {
-        filteredMicroFinance.push(filtData);
-      } else if (filtData.partner_type === commercial) {
-        filteredCommercial.push(filtData);
+
+    const a = [];
+    result.map(filteredPartnerType => {
+      if (filteredPartnerType.partner_type) {
+        a.push(filteredPartnerType);
       }
       return true;
+    });
+
+    a.forEach(function(c) {
+      if (c.partner_type === 'Microfinance Institutions') {
+        filteredMicroFinance.push(c);
+      } else if (
+        c.partner_type === 'Commercial Bank and Other Partners'
+      ) {
+        filteredCommercial.push(c);
+      }
     });
     anotherFilter.map(filtData => {
       if (!filteredLabel.includes(filtData.partner_name)) {
@@ -807,11 +909,11 @@ const filterFinancialDataForGraph = (state, action) => {
     x,
     b,
   ) {
-    return x + b.value;
+    return x + b.single_count;
   },
   0);
   const totalMicroBenef = filteredMicroFinance.reduce(function(x, b) {
-    return x + b.value;
+    return x + b.single_count;
   }, 0);
   return {
     ...state,

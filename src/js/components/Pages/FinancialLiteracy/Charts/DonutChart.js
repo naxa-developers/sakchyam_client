@@ -101,6 +101,7 @@ class DonutChart extends Component {
         },
       },
       tooltip: {
+        fillSeriesColor: false,
         // enabled: false,
         // fillSeriesColor: false,
         // fontColor: 'white',
