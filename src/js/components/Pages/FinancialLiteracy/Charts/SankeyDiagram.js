@@ -48,6 +48,7 @@ class SankeyDiagram extends Component {
 
   render() {
     const { sankeyData } = this.props.financialReducer;
+    const { showRightSidebar } = this.props;
 
     return (
       <div id="sankey-chart" style={{ height: '800px' }}>
@@ -56,7 +57,7 @@ class SankeyDiagram extends Component {
             <ResponsiveSankey
               data={sankeyData}
               margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
-              // width="1000"
+              width={showRightSidebar ? 1200 : 1500}
               align="justify"
               // colors={{ scheme: 'nivo' }}
               colors={color1}

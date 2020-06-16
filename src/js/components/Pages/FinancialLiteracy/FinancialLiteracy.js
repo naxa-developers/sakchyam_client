@@ -597,7 +597,9 @@ class FinancialLiteracy extends Component {
                         </div>
                       </div>
                       <div className="card-body">
-                        <SankeyDiagram />
+                        <SankeyDiagram
+                          showRightSidebar={showRightSidebar}
+                        />
                       </div>
                     </div>
                   </div>
@@ -639,6 +641,7 @@ class FinancialLiteracy extends Component {
           {activeModal && (
             <Modal
               // visible={selectedModal === 'bar' ? true : false}
+
               selectedModal={selectedModal}
               handleModal={this.handleModal}
               activeModal={activeModal}
