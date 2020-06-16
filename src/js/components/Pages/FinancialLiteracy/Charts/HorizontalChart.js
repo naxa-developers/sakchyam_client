@@ -20,7 +20,7 @@ class HorizontalChart extends Component {
     this.state = {
       series: [],
       options: {},
-      height: 1800,
+      height: 200,
     };
   }
 
@@ -70,10 +70,10 @@ class HorizontalChart extends Component {
       },
       plotOptions: {
         bar: {
-          barHeight: '100%',
-          columnWidth: '100%',
+          // barHeight: '100%',
+          // columnWidth: '100%',
           distributed: false,
-          horizontal: true,
+          horizontal: false,
           dataLabels: {
             position: 'top',
           },
@@ -98,7 +98,7 @@ class HorizontalChart extends Component {
       },
       xaxis: {
         floating: false,
-        position: 'top',
+        position: 'bottom',
         show: true,
         offsetX: 0,
         // labels: {
@@ -143,7 +143,7 @@ class HorizontalChart extends Component {
         // filteredByProgram.series.length > 10
       ) {
         this.setState(preState => ({
-          height: 1800,
+          height: 200,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
@@ -204,7 +204,7 @@ class HorizontalChart extends Component {
         // filteredByProgram.series.length > 10
       ) {
         this.setState(preState => ({
-          height: 1800,
+          height: 400,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
@@ -225,7 +225,7 @@ class HorizontalChart extends Component {
         }));
       } else {
         this.setState(preState => ({
-          height: 800,
+          height: 400,
           series: filteredByProgram.series,
           options: {
             ...preState.options,

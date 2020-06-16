@@ -436,12 +436,12 @@ const getFinancialData = (state, action) => {
     financialData: allData,
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
-      series: allProgramData, // allSingleCountData,
+      series: allSingleCountData, // allSingleCountData,
       label: multiLineLabel,
       color: allProgramColor,
     },
     filteredByProgram: {
-      series: allProgramData, // allSingleCountData,
+      series: allSingleCountData, // allSingleCountData,
       label: multiLineLabel,
       color: allProgramColor,
     },

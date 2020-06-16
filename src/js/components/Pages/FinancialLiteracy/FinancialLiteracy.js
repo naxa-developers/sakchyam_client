@@ -402,7 +402,7 @@ class FinancialLiteracy extends Component {
                     }
                   >
                     <div className="row">
-                      <div className="col-xl-6">
+                      <div className="col-xl-12">
                         <div className="card" id="card-horizontal">
                           <div className="card-header">
                             <h5>
@@ -447,7 +447,7 @@ class FinancialLiteracy extends Component {
                             <div
                               className="horizontal-chart"
                               style={{
-                                height: '733px',
+                                height: '400px',
                               }}
                             >
                               <HorizontalChart />
