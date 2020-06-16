@@ -203,11 +203,11 @@ class DonutChart extends Component {
     const Total = series && series[1] + series[0];
     const microPercent = series && (series[1] * 100) / Total;
     const commPercent = series && (series[0] * 100) / Total;
-    console.log(
-      Total,
-      Math.round(microPercent),
-      Math.round(commPercent),
-    );
+    // console.log(
+    //   Total,
+    //   Math.round(microPercent),
+    //   Math.round(commPercent),
+    // );
     return (
       <div id="donut-chart">
         {series && series && (

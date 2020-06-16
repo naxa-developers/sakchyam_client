@@ -34,20 +34,25 @@ class SankeyDiagram extends Component {
   }
 
   componentDidUpdate(prevProps, prevsteat) {
-    console.log(
-      prevProps.financialReducer.sankeyData ===
-        this.props.financialReducer.sankeyData,
-      'prevSankeydata',
-    );
-    console.log(
-      prevProps.financialReducer.sankeyData.nodes ===
-        this.props.financialReducer.sankeyData.nodes,
-      'nodes Compare',
-    );
+    // console.log(
+    //   prevProps.financialReducer.sankeyData ===
+    //     this.props.financialReducer.sankeyData,
+    //   'prevSankeydata',
+    // );
+    // console.log(
+    //   prevProps.financialReducer.sankeyData.nodes ===
+    //     this.props.financialReducer.sankeyData.nodes,
+    //   'nodes Compare',
+    // );
   }
 
   render() {
-    const { sankeyData } = this.props.financialReducer;
+    const {
+      financialReducer: { sankeyData },
+    } = this.props;
+    const sankeyColor =
+      Object.entries(sankeyData).length !== 0 &&
+      sankeyData.nodes.map(node => node.color);
 
     return (
       <div id="sankey-chart" style={{ height: '800px' }}>
@@ -59,7 +64,7 @@ class SankeyDiagram extends Component {
               // width="1000"
               align="justify"
               // colors={{ scheme: 'nivo' }}
-              colors={color1}
+              colors={sankeyColor}
               nodeOpacity={1}
               nodeThickness={18}
               nodeInnerPadding={3}
@@ -69,7 +74,7 @@ class SankeyDiagram extends Component {
                 from: 'color',
                 modifiers: [['darker', 0.8]],
               }}
-              linkOpacity={0.5}
+              linkOpacity={0.7}
               linkHoverOthersOpacity={0.1}
               enableLinkGradient
               labelPosition="inside"
@@ -77,7 +82,7 @@ class SankeyDiagram extends Component {
               labelPadding={16}
               labelTextColor={{
                 from: 'color',
-                modifiers: [['darker', 1]],
+                modifiers: [['darker', 1.5]],
               }}
               animate
               motionStiffness={140}

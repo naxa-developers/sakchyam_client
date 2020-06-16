@@ -9,28 +9,76 @@ import {
   GET_SEARCHED_DATA_ON_TABLE,
 } from '../actions/index.actions';
 
+function colorPicker3(i) {
+  // COLORPICKER FOR PARTNER TYPE
+  if (i === 'Microfinance Institutions') return '#8BB0EC';
+  if (i === 'Commercial Bank and Other Partners') return '#008080';
+  return '#17A589'; //  #AEB6BF #8BB0EC
+}
+
+function colorPicker2(i) {
+  // COLORPICKER FOR PARTNER ID
+  if (i === 3) return '#91664E';
+  if (i === 4) return '#13A8BE';
+  if (i === 7) return '#13A8BE'; // #FF6D00
+  if (i === 9) return '#DE2693';
+  if (i === 11) return '#B1B424';
+  if (i === 12) return '#2196F3';
+  if (i === 13) return '#900C3F'; // #4CE2A7
+  if (i === 15) return '#1967A0';
+  if (i === 16) return '#00C853';
+  if (i === 17) return '#E11D3F'; // #651FFF
+  if (i === 19) return '#FF6D00'; // #B71DE1
+  if (i === 20) return '#7F8C8D'; // #FFCD00
+  if (i === 21) return '#1F8AE4'; // #E11D3F
+  if (i === 30) return '#FF1500';
+  if (i === 32) return '#C5E11D';
+  if (i === 34) return '#CDACF2';
+  if (i === 37) return '#16A085';
+  if (i === 38) return '#FF5576';
+  if (i === 44) return '#BFEDF5';
+  if (i === 45) return '#E0CBAB';
+  if (i === 46) return '#8E44AD';
+  // if (i === 21) return "#AF7AC5";
+  // if (i === 22) return "#008080";
+  // if (i === 23) return "#C70039";
+  // if (i === 24) return "#16A085";
+  // if (i === 25) return "#5D6D7E";
+  // if (i === 26) return "#900C3F";
+  // if (i === 27) return "#7F8C8D";
+  // if (i === 28) return "#8E44AD";
+  // if (i === 29) return "#AEB6BF";
+
+  return '#FFD400';
+}
+
 function colorPicker(i) {
-  if (i % 20 === 0) return '#91664E';
-  if (i % 20 === 1) return '#13A8BE';
-  if (i % 20 === 2) return '#13A8BE'; // #FF6D00
-  if (i % 20 === 3) return '#DE2693';
-  if (i % 20 === 4) return '#B1B424';
-  if (i % 20 === 5) return '#2196F3';
-  if (i % 20 === 6) return '#B1B424'; // #4CE2A7
-  if (i % 20 === 7) return '#1967A0';
-  if (i % 20 === 8) return '#00C853';
-  if (i % 20 === 9) return '#E11D3F'; // #651FFF
-  if (i % 20 === 10) return '#FF6D00'; // #B71DE1
-  if (i % 20 === 11) return '#DE2693'; // #FFCD00
-  if (i % 20 === 12) return '#1F8AE4'; // #E11D3F
-  if (i % 20 === 13) return '#FF1500';
-  if (i % 20 === 14) return '#C5E11D';
-  if (i % 20 === 15) return '#CDACF2';
-  if (i % 20 === 16) return 'AFDE0E';
-  if (i % 20 === 17) return '#FF5576';
-  if (i % 20 === 18) return '#BFEDF5';
-  if (i % 20 === 19) return '#E0CBAB';
-  if (i % 20 === 20) return '#FF5E00';
+  if (i % 25 === 0) return '#91664E';
+  if (i % 25 === 1) return '#13A8BE';
+  if (i % 25 === 2) return '#13A8BE'; // #FF6D00
+  if (i % 25 === 3) return '#DE2693';
+  if (i % 25 === 4) return '#B1B424';
+  if (i % 25 === 5) return '#2196F3';
+  if (i % 25 === 6) return '#B1B424'; // #4CE2A7
+  if (i % 25 === 7) return '#1967A0';
+  if (i % 25 === 8) return '#00C853';
+  if (i % 25 === 9) return '#E11D3F'; // #651FFF
+  if (i % 25 === 10) return '#FF6D00'; // #B71DE1
+  if (i % 25 === 11) return '#DE2693'; // #FFCD00
+  if (i % 25 === 12) return '#1F8AE4'; // #E11D3F
+  if (i % 25 === 13) return '#FF1500';
+  if (i % 25 === 14) return '#C5E11D';
+  if (i % 25 === 15) return '#CDACF2';
+  if (i % 25 === 16) return 'AFDE0E';
+  if (i % 25 === 17) return '#FF5576';
+  if (i % 25 === 18) return '#BFEDF5';
+  if (i % 25 === 19) return '#E0CBAB';
+  if (i % 25 === 25) return '#FF5E00';
+  if (i % 25 === 21) return '#AF7AC5';
+  if (i % 25 === 22) return '#008080';
+  if (i % 25 === 23) return '#C70039';
+  if (i % 25 === 24) return '#16A085';
+  if (i % 25 === 25) return '#5D6D7E';
   return '#FFD400';
 }
 
@@ -97,6 +145,9 @@ const filterTreeMapData = data => {
 const filterSankeyData = data => {
   const nodes = [];
   const links = [];
+
+  data.sort((a, b) => a.program_id - b.program_id);
+
   data.map(item => {
     if (item.program_id !== item.partner_id && item.value !== 0) {
       const obj1 = nodes.find(obj => obj.id === item.program_name);
@@ -111,14 +162,14 @@ const filterSankeyData = data => {
       if (!obj2) {
         nodes.push({
           id: item.partner_name,
-          color: colorPicker(item.partner_id),
+          color: colorPicker2(item.partner_id),
         });
       }
       if (!obj3) {
         nodes.push({
           id: item.partner_type,
-          // color: colorPicker(item.partner_id),
-          color: '#008080',
+          color: colorPicker3(item.partner_type),
+          // color: '#008080',
         });
       }
       const obj4 = links.find(
@@ -812,7 +863,6 @@ const filterTableDataByPartner = (state, action) => {
   if (selectedPartners.length === 0) {
     filteredTableDataByPartners = allTableData;
   }
-  // console.log(filteredTableDataByPartners, 'data Table filtered');
   return {
     ...state,
     filteredTableData: filteredTableDataByPartners,

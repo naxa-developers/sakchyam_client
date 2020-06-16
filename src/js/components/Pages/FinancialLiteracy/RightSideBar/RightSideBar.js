@@ -66,7 +66,7 @@ class RightSideBar extends Component {
       if (selectedPartner.length !== 0) {
         selectedPartner.map(i => {
           if (i === item.partner_id) {
-            totalBeneficiaries += item.single_count;
+            totalBeneficiaries += item.value;
           }
           return true;
         });
@@ -182,6 +182,7 @@ class RightSideBar extends Component {
       }
       return true;
     });
+    // filteredData.sort((a, b) => a.program_id - b.program_id);
     return filteredData;
   };
 
@@ -230,6 +231,8 @@ class RightSideBar extends Component {
       }
       return true;
     });
+
+    // filteredData.sort((a, b) => b.program_id - a.program_id);
 
     this.setState({
       totalBeneficiaries,
@@ -500,7 +503,7 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget program-widget">
-              <h5>Beneficiary Count</h5>
+              <h5>Beneficiaries Count</h5>
               <div className="widget-body">
                 {filteredData &&
                   filteredData.map(item => {
