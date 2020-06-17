@@ -20,31 +20,31 @@ class HorizontalChart extends Component {
     this.state = {
       series: [],
       options: {},
-      height: 1400,
+      height: 200,
     };
   }
 
   plotChart = () => {
     const series = [
-      {
-        name: 'a',
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
+      // {
+      //   name: 'a',
+      //   data: [44, 55, 41, 64, 22, 43, 21],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [44, 55, 41, 64, 22, 43, 21],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
     ];
     const options = {
       chart: {
@@ -53,13 +53,27 @@ class HorizontalChart extends Component {
         toolbar: {
           show: false,
         },
+        events: {
+          click(
+            event,
+            chartContext,
+            { seriesIndex, dataPointIndex, config },
+          ) {
+            // console.log('Clicked Bar');
+            // console.log(event);
+            // console.log(chartContext);
+            // console.log(seriesIndex);
+            console.log(dataPointIndex);
+            // console.log(config);
+          },
+        },
       },
       plotOptions: {
         bar: {
-          barHeight: '100%',
-          columnWidth: '100%',
+          // barHeight: '100%',
+          // columnWidth: '100%',
           distributed: false,
-          horizontal: true,
+          horizontal: false,
           dataLabels: {
             position: 'top',
           },
@@ -84,12 +98,15 @@ class HorizontalChart extends Component {
       },
       xaxis: {
         floating: false,
-        position: 'top',
+        position: 'bottom',
         show: true,
         offsetX: 0,
-        labels: {
-          show: true,
-        },
+        // labels: {
+        //   show: true,
+        //   style: {
+        //     fontSize: '2px',
+        //   },
+        // },
         type: 'category',
         categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
       },
@@ -100,8 +117,15 @@ class HorizontalChart extends Component {
         offsetY: 0,
         show: true,
         labels: {
+          // hideOverlappingLabels: false,
           show: true,
-          // hideOverlappingLabels: true,
+          offsetX: 10,
+          // style: {
+          //   fontSize: '8px',
+          //   fontFamily: 'Helvetica, Arial, sans-serif',
+          //   fontWeight: 400,
+          //   cssClass: 'apexcharts-xaxis-label',
+          // },
         },
       },
     };
@@ -119,10 +143,18 @@ class HorizontalChart extends Component {
         // filteredByProgram.series.length > 10
       ) {
         this.setState(preState => ({
-          height: 1800,
+          height: 200,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                barHeight: '80%',
+                columnWidth: '100%',
+              },
+            },
             colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
@@ -136,6 +168,14 @@ class HorizontalChart extends Component {
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                barHeight: '20%',
+                columnWidth: '100%',
+              },
+            },
             colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
@@ -164,10 +204,18 @@ class HorizontalChart extends Component {
         // filteredByProgram.series.length > 10
       ) {
         this.setState(preState => ({
-          height: 1800,
+          height: 400,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                barHeight: '80%',
+                columnWidth: '100%',
+              },
+            },
             colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
@@ -177,10 +225,18 @@ class HorizontalChart extends Component {
         }));
       } else {
         this.setState(preState => ({
-          height: 800,
+          height: 400,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                barHeight: '20%',
+                columnWidth: '100%',
+              },
+            },
             colors: filteredByProgram.color,
             xaxis: {
               ...preState.options.xaxis,
@@ -195,6 +251,7 @@ class HorizontalChart extends Component {
   render() {
     const { height } = this.state;
     const { filteredByProgram } = this.props.financialReducer;
+    const { showRightSidebar } = this.props;
     return (
       <div id="horizontal-chart">
         {filteredByProgram.series && filteredByProgram.series[0] && (
@@ -203,6 +260,15 @@ class HorizontalChart extends Component {
             series={this.state.series}
             type="bar"
             height={height}
+            width={
+              showRightSidebar && window.innerWidth < 1600
+                ? 780
+                : showRightSidebar && window.innerWidth > 1600
+                ? 1100
+                : !showRightSidebar && window.innerWidth < 1600
+                ? 1100
+                : 1400
+            }
           />
         )}
       </div>

@@ -17,7 +17,7 @@ const defaultData = [
   { id: '7', count: 0 },
 ];
 
-class Choropleth extends Component {
+class VectorTileMapbox extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -143,14 +143,14 @@ class Choropleth extends Component {
   }
 
   plotVectorTile = () => {
-    const { map } = this.props;
+    // const { map } = this.props;
     const that = this;
     // console.log(this.state.finalStyle, "this finalstyle")
     let hoveredStateId = null;
-    map.on('load', function() {
+    global.map.on('load', function() {
       // Add Mapillary sequence layer.
       // https://www.mapillary.com/developer/tiles-documentation/#sequence-layer
-      map.addSource('municipality', {
+      global.map.addSource('municipality', {
         type: 'vector',
         // 'interactive':true,
         tiles: [
@@ -163,7 +163,7 @@ class Choropleth extends Component {
         promoteId: { default: 'code' },
       });
 
-      map.addLayer({
+      global.map.addLayer({
         id: 'vector-tile-fill',
         type: 'fill',
         source: 'municipality',
@@ -174,7 +174,7 @@ class Choropleth extends Component {
         },
       });
 
-      map.addLayer({
+      global.map.addLayer({
         id: 'vector-tile-outline',
         type: 'line',
         source: 'municipality',
@@ -191,7 +191,7 @@ class Choropleth extends Component {
       });
 
       if (that.props.label) {
-        map.addLayer({
+        global.map.addLayer({
           id: 'vector-tile-outline',
           type: 'line',
 
@@ -209,7 +209,7 @@ class Choropleth extends Component {
         });
 
         if (that.props.label) {
-          map.addLayer({
+          global.map.addLayer({
             id: 'vector-tile-label',
             type: 'symbol',
             source: 'municipality',
@@ -234,10 +234,10 @@ class Choropleth extends Component {
         // var bounds = coordinates.reduce(function(bounds, coord) {
         //   return bounds.extend(coord);
         //   }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
-        // map.fitBounds()
+        // global.map.fitBounds()
 
         const popup = new mapboxgl.Popup();
-        map.on('mousemove', 'vector-tile-fill', function(e) {
+        global.map.on('mousemove', 'vector-tile-fill', function(e) {
           // console.log(e.features[0],'e');
           // e.features[0].id = e.features[0].properties.id;
           // console.log(e.features[0], "feature code")
@@ -396,10 +396,10 @@ class Choropleth extends Component {
                                           </li>`;
             });
 
-          map.getCanvas().style.cursor = 'pointer';
+          global.map.getCanvas().style.cursor = 'pointer';
           if (e.features.length > 0) {
             if (hoveredStateId) {
-              map.setFeatureState(
+              global.map.setFeatureState(
                 {
                   source: 'municipality',
                   sourceLayer: 'default',
@@ -434,12 +434,12 @@ class Choropleth extends Component {
                     </div>
                 </div>`,
                   )
-                  .addTo(map);
+                  .addTo(global.map);
               }
 
               hoveredStateId = e.features[0].id;
               // console.log(hoveredStateId, "hoverstateid")
-              map.setFeatureState(
+              global.map.setFeatureState(
                 {
                   source: 'municipality',
                   sourceLayer: 'default',
@@ -452,9 +452,9 @@ class Choropleth extends Component {
           // Popup On Hover
         });
 
-        map.on('mouseleave', 'vector-tile-fill', function() {
+        global.map.on('mouseleave', 'vector-tile-fill', function() {
           // if (hoveredStateId) {
-          // map.setFeatureState(
+          // global.map.setFeatureState(
           // { source: 'municipality', sourceLayer: 'default', id: hoveredStateId },
           // { hover: false }
           // );
@@ -465,7 +465,7 @@ class Choropleth extends Component {
       }
     });
 
-    map.addControl(new mapboxgl.NavigationControl());
+    global.map.addControl(new mapboxgl.NavigationControl());
   };
 
   componentDidMount() {
@@ -474,13 +474,13 @@ class Choropleth extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { map, vectorTileUrl } = this.props;
+    const { vectorTileUrl } = this.props;
     if (prevProps.choroplethData !== this.props.choroplethData) {
       this.changeGrades();
       setTimeout(() => {
         // console.log(this.state.finalStyle, "inside finalstyle")
         // console.log("entered inside");
-        map.setPaintProperty(
+        global.map.setPaintProperty(
           'vector-tile-fill',
           'fill-color',
           this.state.finalStyle,
@@ -491,16 +491,16 @@ class Choropleth extends Component {
       // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
       // this.changeGrades();
 
-      const newStyle = map.getStyle();
+      const newStyle = global.map.getStyle();
       newStyle.sources.municipality.tiles = [
         this.props.vectorTileUrl,
       ];
-      map.setStyle(newStyle);
+      global.map.setStyle(newStyle);
 
-      // map.removeSource('municipality');
+      // global.map.removeSource('municipality');
 
       // setTimeout(() => {
-      //   map.addSource('municipality', {'type': 'vector',
+      //   global.map.addSource('municipality', {'type': 'vector',
       // // 'interactive':true,
       // 'tiles': [this.props.vectorTileUrl?this.props.vectorTileUrl:"https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}"],//"https://apps.naxa.com.np/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=Naxa:educationpoint&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"],
       // 'minzoom': 0,
@@ -521,8 +521,8 @@ class Choropleth extends Component {
     return <div />;
   }
 }
-const mapStateToProps = ({ automationReducer }) => ({
-  automationReducer,
+const mapStateToProps = ({ partnershipReducer }) => ({
+  partnershipReducer,
 });
 
-export default connect(mapStateToProps, {})(Choropleth);
+export default connect(mapStateToProps, {})(VectorTileMapbox);

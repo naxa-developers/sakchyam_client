@@ -389,11 +389,35 @@ font-weight: 900;
  }
  
 }
-.mapContainer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  height: 800px;
+// .mapContainer {
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   left: 0;
+//   bottom: 0;
+//   height: 612px;
+// }
+// .mapboxgl-canvas{
+//   height: 100% !important;
+//   width:100% !important;
+// }
+// #map{
+//   position: absolute; top: 0; bottom: 0; width: 100%;
+// }
+
+#donut-chart{
+  .apexcharts-tooltip-series-group{
+    background-color: #333333;
+    .apexcharts-tooltip-marker{
+      display: none;
+    }
+    .apexcharts-tooltip-text-label {
+      color: white !important;
+      text-decoration-color: white;
+    }
+    .apexcharts-tooltip-text-value {
+      color: white !important;
+      text-decoration-color: white;
+    }
+  }
 }

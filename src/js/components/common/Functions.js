@@ -1,6 +1,6 @@
 import gradStop from 'gradstop';
 import districtData from './DistrictFunction'
-import municipalityData from '../../../../../data/municipality.json'
+import municipalityData from '../../../data/municipality.json'
 import React from "react";
 // import ReactDOMServer from 'react-dom/server';
 // import HospitalIcon from './Icons/HealthFacilityIcon';

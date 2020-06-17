@@ -52,6 +52,22 @@
             @media #{$breakpoint-ls} {
                 padding: 0;
             }
+            .partnership-filter{
+                padding:1rem;
+                @include display-flex(flex);
+                @include justify-content-start;
+                @include align-items-center;
+                @include flex-wrap(wrap);
+                .filter-bar{
+                    position: relative;
+                    top:initial;
+                    left:initial;
+                }
+            }
+            .leaflet-container,#map {
+                // height: calc(100vh - 170px);
+                height: calc(100vh - 94px);
+            }
         }
     }
 
@@ -93,6 +109,57 @@
 
                 a {
                     color: $white-color;
+                }
+            }
+        }
+    }
+}
+.partnership-tab {
+    @include display-flex(flex);
+    @include justify-content-start;
+    @include align-items-center;
+    @include flex-wrap(wrap);
+    flex-grow: 1;
+    padding-left:1.5rem;
+    span{
+        margin-right: 1rem;
+        text-transform: capitalize;
+        font-size: .875rem;
+    }
+    ul {
+        @include display-flex(flex);
+        @include justify-content-start;
+        @include align-items-center;
+        background-color: $light-border;
+        border: 1px solid $gray-light;
+        @include radius(24px);
+        padding: 5px;
+
+        li {
+            padding:0 15px;
+            @include radius(24px);
+            @include transition(all .4s ease-in-out);
+            border:1px solid $light-border;
+            a {
+                color: $primary-light;
+                display: block;
+                font-family: $avenir-heavy;
+                text-transform: capitalize;
+                cursor: pointer;
+                
+                font-size: .9125rem;
+                @media #{$breakpoint-xxl} {
+                    font-size: .875rem;
+                }
+            }
+
+            &.active,
+            &:hover {
+                background-color: $white-color;
+                border:1px solid $gray-light;
+                a {
+                    color: $heading-color;
+                    
                 }
             }
         }
@@ -192,6 +259,17 @@
             }
         }
     }
+    .apexcharts-tooltip{
+        max-width: 200px;
+        white-space: initial;;
+        flex-wrap: wrap;
+        overflow: initial;
+        background-color: $white-color;
+    }
+    .apexcharts-tooltip-text-value{
+        color:$primary-color;
+    }
+    
 }
 .horizontal-chart{
     overflow-y: auto;
@@ -214,18 +292,7 @@
                 background: $border-color;
             }
 }
-.literacy-tab-content{
-    .apexcharts-tooltip{
-        max-width: 200px;
-        white-space: initial;;
-        flex-wrap: wrap;
-        overflow: initial;
-        background-color: $white-color;
-    }
-    .apexcharts-tooltip-text-value{
-        color:$primary-color;
-    }
-}
+
 .pie-legend{
     
     .legend-list{

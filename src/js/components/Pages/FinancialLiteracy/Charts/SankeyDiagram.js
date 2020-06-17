@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ResponsiveSankey } from '@nivo/sankey';
 import { connect } from 'react-redux';
 import data from './sankey.data';
+import Modal from '../Modal';
 
 const color1 = [
   '#91664E',
@@ -33,26 +34,32 @@ class SankeyDiagram extends Component {
   }
 
   componentDidUpdate(prevProps, prevsteat) {
-    console.log(
-      prevProps.financialReducer.sankeyData ===
-        this.props.financialReducer.sankeyData,
-      'prevSankeydata',
-    );
-    console.log(
-      prevProps.financialReducer.sankeyData.nodes ===
-        this.props.financialReducer.sankeyData.nodes,
-      'nodes Compare',
-    );
+    // console.log(
+    //   prevProps.financialReducer.sankeyData ===
+    //     this.props.financialReducer.sankeyData,
+    //   'prevSankeydata',
+    // );
+    // console.log(
+    //   prevProps.financialReducer.sankeyData.nodes ===
+    //     this.props.financialReducer.sankeyData.nodes,
+    //   'nodes Compare',
+    // );
   }
 
   render() {
-    const { sankeyData } = this.props.financialReducer;
-    // console.log(sankeyData, 'sankeydata');
-    // const customColor =
-    //   Object.entries(sankeyData).length !== 0 &&
-    //   sankeyData.nodes.map(node => node.color);
-    // console.log('sankeyData11', JSON.stringify(sankeyData));
-    console.log(sankeyData, 'sankeyData ');
+    const {
+      financialReducer: { sankeyData },
+    } = this.props;
+    const sankeyColor =
+      Object.entries(sankeyData).length !== 0 &&
+      sankeyData.nodes.map(node => node.color);
+    const { showRightSidebar } = this.props;
+    const width = window.innerWidth;
+    console.log(width, 'width');
+    console.log(
+      showRightSidebar && window.innerWidth < 1600,
+      'width Statement',
+    );
     return (
       <div id="sankey-chart" style={{ height: '800px' }}>
         {Object.entries(sankeyData).length !== 0 ? (
@@ -60,9 +67,19 @@ class SankeyDiagram extends Component {
             <ResponsiveSankey
               data={sankeyData}
               margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
+              width={
+                showRightSidebar && window.innerWidth < 1600
+                  ? 780
+                  : showRightSidebar && window.innerWidth > 1600
+                  ? 1100
+                  : !showRightSidebar && window.innerWidth < 1600
+                  ? 1100
+                  : 1400
+              }
+              // width={780}
               align="justify"
               // colors={{ scheme: 'nivo' }}
-              colors={color1}
+              colors={sankeyColor}
               nodeOpacity={1}
               nodeThickness={18}
               nodeInnerPadding={3}
@@ -72,7 +89,7 @@ class SankeyDiagram extends Component {
                 from: 'color',
                 modifiers: [['darker', 0.8]],
               }}
-              linkOpacity={0.5}
+              linkOpacity={0.7}
               linkHoverOthersOpacity={0.1}
               enableLinkGradient
               labelPosition="inside"
@@ -80,11 +97,24 @@ class SankeyDiagram extends Component {
               labelPadding={16}
               labelTextColor={{
                 from: 'color',
-                modifiers: [['darker', 1]],
+                modifiers: [['darker', 1.5]],
               }}
               animate
               motionStiffness={140}
               motionDamping={13}
+              nodeTooltip={node => (
+                <strong
+                  style={{
+                    // color: '#fff',
+                    textAlign: 'center',
+                    // margin: '0px 15px',
+                  }}
+                >
+                  {node.id}
+                  <br />
+                  {node.value}
+                </strong>
+              )}
             />
           ) : (
             <label>2nd Condition</label>

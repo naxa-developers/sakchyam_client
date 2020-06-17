@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import { values, select, active } from 'd3';
 import Header from '../../Header';
 import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
@@ -16,6 +15,7 @@ import {
   getFinancialProgram,
   filterFinancialDataForGraph,
   filterPartnersByType,
+  filterTableDataByPartner,
   // filterDataForRightSidebar,
 } from '../../../actions/financial.actions';
 import HorizontalChart from './Charts/HorizontalChart';
@@ -157,6 +157,9 @@ class FinancialLiteracy extends Component {
   };
 
   handlePartnerType = clickedValue => {
+    this.handleUnCheck();
+    this.setState({ isAllPartnerSelected: false });
+
     const { partnerType } = this.state;
     if (partnerType.includes(clickedValue)) {
       const filteredData = partnerType.filter(
@@ -185,7 +188,9 @@ class FinancialLiteracy extends Component {
   };
 
   handleVisualizationType = clicked => {
-    this.setState({ visualizationType: clicked });
+    this.setState({
+      visualizationType: clicked,
+    });
   };
 
   toggleSortBy = () => {
@@ -255,6 +260,7 @@ class FinancialLiteracy extends Component {
       checkedPartnerItems1: checkedPartnerItems,
       selectedProgram1: selectedProgram,
     });
+    this.props.filterTableDataByPartner(checkedPartnerItems);
   };
 
   handleModal = () => {
@@ -396,7 +402,7 @@ class FinancialLiteracy extends Component {
                     }
                   >
                     <div className="row">
-                      <div className="col-xl-6">
+                      <div className="col-xl-12">
                         <div className="card" id="card-horizontal">
                           <div className="card-header">
                             <h5>
@@ -441,10 +447,12 @@ class FinancialLiteracy extends Component {
                             <div
                               className="horizontal-chart"
                               style={{
-                                height: '700px',
+                                height: '400px',
                               }}
                             >
-                              <HorizontalChart />
+                              <HorizontalChart
+                                showRightSidebar={showRightSidebar}
+                              />
                             </div>
                           </div>
                         </div>
@@ -591,7 +599,9 @@ class FinancialLiteracy extends Component {
                         </div>
                       </div>
                       <div className="card-body">
-                        <SankeyDiagram />
+                        <SankeyDiagram
+                          showRightSidebar={showRightSidebar}
+                        />
                       </div>
                     </div>
                   </div>
@@ -633,6 +643,8 @@ class FinancialLiteracy extends Component {
           {activeModal && (
             <Modal
               // visible={selectedModal === 'bar' ? true : false}
+
+              selectedModal={selectedModal}
               handleModal={this.handleModal}
               activeModal={activeModal}
               component={() => this.getModalContent(selectedModal)}
@@ -653,9 +665,10 @@ class FinancialLiteracy extends Component {
             activeModal={activeModal}
             component={() => {
               return (
-                <TreeMapDiagram
-                  checkedPartnerItems={this.state.checkedPartnerItems}
-                />
+                // <TreeMapDiagram
+                //   checkedPartnerItems={this.state.checkedPartnerItems}
+                // />
+                <TreeMapDiagram />
               );
             }}
           /> */}
@@ -690,5 +703,6 @@ export default connect(mapStateToProps, {
   getFinancialProgram,
   filterFinancialDataForGraph,
   filterPartnersByType,
+  filterTableDataByPartner,
   // filterDataForRightSidebar,
 })(FinancialLiteracy);

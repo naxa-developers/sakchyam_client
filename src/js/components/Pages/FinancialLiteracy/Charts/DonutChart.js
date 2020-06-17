@@ -90,7 +90,6 @@ class DonutChart extends Component {
                 fontWeight: 100,
                 color: '#d9202c',
                 formatter(w) {
-                  console.log(w, 'w');
                   return w.globals.seriesTotals.reduce((a, b) => {
                     const x = a + b;
                     return x;
@@ -102,6 +101,7 @@ class DonutChart extends Component {
         },
       },
       tooltip: {
+        fillSeriesColor: false,
         // enabled: false,
         // fillSeriesColor: false,
         // fontColor: 'white',
@@ -204,11 +204,11 @@ class DonutChart extends Component {
     const Total = series && series[1] + series[0];
     const microPercent = series && (series[1] * 100) / Total;
     const commPercent = series && (series[0] * 100) / Total;
-    console.log(
-      Total,
-      Math.round(microPercent),
-      Math.round(commPercent),
-    );
+    // console.log(
+    //   Total,
+    //   Math.round(microPercent),
+    //   Math.round(commPercent),
+    // );
     return (
       <div id="donut-chart">
         {series && series && (
