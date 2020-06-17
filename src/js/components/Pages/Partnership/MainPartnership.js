@@ -221,6 +221,15 @@ class MainPartnership extends Component {
                               Investment focus zoomable sunburst
                             </h5>
                             <div className="header-icons">
+                            <div className="card-switcher">
+                                <small>OFF</small>
+                                <label className="switch">
+                                  <input type="checkbox" />
+                                  <span className="slider">
+                                  </span>
+                                </label>
+                                <small>ON</small>
+                              </div>
                               <span className="">
                                 <img src={DownloadIcon} alt="open" />
                               </span>
@@ -247,6 +256,15 @@ class MainPartnership extends Component {
                           <div className="card-header">
                             <h5>Stacked bar with Partner Type</h5>
                             <div className="header-icons">
+                            <div className="card-switcher">
+                                <small>OFF</small>
+                                <label className="switch">
+                                  <input type="checkbox" />
+                                  <span className="slider">
+                                  </span>
+                                </label>
+                                <small>ON</small>
+                              </div>
                               <span className="">
                                 <img src={DownloadIcon} alt="open" />
                               </span>
@@ -265,6 +283,15 @@ class MainPartnership extends Component {
                           <div className="card-header">
                             <h5>Spider Net diagram</h5>
                             <div className="header-icons">
+                            <div className="card-switcher">
+                                <small>OFF</small>
+                                <label className="switch">
+                                  <input type="checkbox" />
+                                  <span className="slider">
+                                  </span>
+                                </label>
+                                <small>ON</small>
+                              </div>
                               <span className="">
                                 <img src={DownloadIcon} alt="open" />
                               </span>
@@ -286,6 +313,15 @@ class MainPartnership extends Component {
                           <div className="card-header">
                             <h5>Zoomable Circle Packing</h5>
                             <div className="header-icons">
+                            <div className="card-switcher">
+                                <small>OFF</small>
+                                <label className="switch">
+                                  <input type="checkbox" />
+                                  <span className="slider">
+                                  </span>
+                                </label>
+                                <small>ON</small>
+                              </div>
                               <span className="">
                                 <img src={DownloadIcon} alt="open" />
                               </span>
@@ -306,6 +342,15 @@ class MainPartnership extends Component {
                               Contribution of program initiatives
                             </h5>
                             <div className="header-icons">
+                            <div className="card-switcher">
+                                <small>OFF</small>
+                                <label className="switch">
+                                  <input type="checkbox" />
+                                  <span className="slider">
+                                  </span>
+                                </label>
+                                <small>ON</small>
+                              </div>
                               <span className="">
                                 <img src={DownloadIcon} alt="open" />
                               </span>
