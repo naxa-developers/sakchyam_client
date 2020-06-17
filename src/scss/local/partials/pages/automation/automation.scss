@@ -120,7 +120,7 @@
                     padding:1rem;
                     .filter-row{
                         @include display-flex(flex);
-                        @include justify-content-between;
+                        @include justify-content-start;
                         @include align-items-center;
                         width:100%;
                         .buttons{
@@ -395,12 +395,30 @@
                                     font-size: .875rem;
                                     font-family: $body-fonts;
                                     font-weight: normal;
+                                    position: relative;
                                     i{
                                         margin-right: .6125rem;
                                         font-size: 1rem;
                                     }
                                     @media #{$breakpoint-ls}{
                                         min-width: 180px;
+                                    }
+                                    &::after,&::before{
+                                        
+                                        font-family: 'Material Icons';
+                                        position: absolute;
+                                        right:0;
+                                        top:0;
+                                        text-transform: initial;
+                                    }
+                                    &::before{
+                                        content:'arrow_drop_up';
+                                        
+                                        
+                                    }
+                                    &::after{
+                                        content:'arrow_drop_down';
+                                        top:5px;
                                     }
                                 }
                             }
