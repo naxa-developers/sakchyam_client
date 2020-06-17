@@ -20,8 +20,14 @@ class MainPartnership extends Component {
       activeOverview: false,
       viewDataBy: 'Beneficiaries',
       activeView: 'visualization',
+      map: null,
+      mapViewBy: 'province',
+      vectorTileUrl:
+        'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
     };
   }
+
+  componentDidMount() {}
 
   setFilterTab = () => {
     this.setState(prevState => ({
@@ -47,9 +53,39 @@ class MainPartnership extends Component {
     });
   };
 
+  setMapViewBy = selectedMapView => {
+    this.setState({
+      mapViewBy: selectedMapView,
+    });
+    if (selectedMapView === 'province') {
+      this.setState({
+        vectorTileUrl:
+          'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
+      });
+    } else if (selectedMapView === 'district') {
+      this.setState({
+        vectorTileUrl:
+          'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
+      });
+    } else if (selectedMapView === 'municipality') {
+      this.setState({
+        vectorTileUrl:
+          'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
+      });
+    }
+  };
+
   render() {
     const {
-      state: { activeFilter, activeOverview, viewDataBy, activeView },
+      state: {
+        map,
+        mapViewBy,
+        activeFilter,
+        activeOverview,
+        viewDataBy,
+        activeView,
+        vectorTileUrl,
+      },
       // props: {},
     } = this;
     const sankeyChartwidth =
@@ -85,14 +121,61 @@ class MainPartnership extends Component {
                     <div className="view-list">
                       <span>view by</span>
                       <ul className="tab-list">
-                        <li className="active">
-                          <a>Province</a>
+                        <li
+                          className={
+                            mapViewBy === 'province' ? 'active' : ''
+                          }
+                        >
+                          <a
+                            role="tab"
+                            tabIndex="-1"
+                            onClick={() => {
+                              this.setMapViewBy('province');
+                            }}
+                            onKeyUp={() => {
+                              this.setMapViewBy('province');
+                            }}
+                          >
+                            Province
+                          </a>
                         </li>
-                        <li>
-                          <a>District</a>
+                        <li
+                          className={
+                            mapViewBy === 'district' ? 'active' : ''
+                          }
+                        >
+                          <a
+                            role="tab"
+                            tabIndex="-1"
+                            onClick={() => {
+                              this.setMapViewBy('district');
+                            }}
+                            onKeyUp={() => {
+                              this.setMapViewBy('district');
+                            }}
+                          >
+                            District
+                          </a>
                         </li>
-                        <li>
-                          <a>Municipality</a>
+                        <li
+                          className={
+                            mapViewBy === 'municipality'
+                              ? 'active'
+                              : ''
+                          }
+                        >
+                          <a
+                            role="tab"
+                            tabIndex="-1"
+                            onClick={() => {
+                              this.setMapViewBy('municipality');
+                            }}
+                            onKeyUp={() => {
+                              this.setMapViewBy('municipality');
+                            }}
+                          >
+                            Municipality
+                          </a>
                         </li>
                       </ul>
                     </div>
@@ -100,7 +183,9 @@ class MainPartnership extends Component {
                       <div className="filter-list">
                         <div className="form-group">
                           <select className="form-control">
-                            <option selected>select province</option>
+                            <option defaultValue>
+                              select province
+                            </option>
                             <option>province 1</option>
                             <option>province 2</option>
                             <option>province 3</option>
@@ -334,7 +419,12 @@ class MainPartnership extends Component {
                   }
                 >
                   {/* <div id="map" className="map"> */}
-                  {activeView === 'map' && <MapboxPartnership />}
+                  {activeView === 'map' && (
+                    <MapboxPartnership
+                      map={map}
+                      vectorTileUrl={vectorTileUrl}
+                    />
+                  )}
                   {/* </div> */}
                 </div>
               </div>

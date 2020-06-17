@@ -455,8 +455,6 @@ class Sunburst extends React.Component {
         'mouseover',
         function(d) {
           if (this.props.tooltip) {
-            console.log(d3Event,'d3Event');
-            console.log(dx,'dx');
             this.tooltipDom
               .html(this.props.tooltipFunc(d))
               .style('left', `${d3Event.offsetX}px`)

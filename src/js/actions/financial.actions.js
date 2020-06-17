@@ -7,6 +7,7 @@ import {
   FILTER_PARTNERS_BY_TYPE,
   FILTER_TABLE_BY_PARTNER,
   GET_SEARCHED_DATA_ON_TABLE,
+  FILTER_BAR_DATA_AFTER_CLICK,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -141,5 +142,14 @@ export const getSearchedDataOnTable = searchedKeyword => dispatch => {
   return dispatch({
     type: GET_SEARCHED_DATA_ON_TABLE,
     payload: searchedKeyword,
+  });
+};
+
+export const getBarDataAfterClick = clickIndex => dispatch => {
+  // console.log(selectedPartners, 'selectedPartners');
+  // console.log(selectedProgram, 'selectedProgram');
+  return dispatch({
+    type: FILTER_BAR_DATA_AFTER_CLICK,
+    payload: clickIndex,
   });
 };

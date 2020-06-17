@@ -23,7 +23,6 @@ class SankeyChart extends Component {
       state: { overView },
       props: { activeOverview, cardWidth },
     } = this;
-    console.log(cardWidth, 'cardWidth');
     return (
       <div style={{ height: '800px' }}>
         <ResponsiveSankey

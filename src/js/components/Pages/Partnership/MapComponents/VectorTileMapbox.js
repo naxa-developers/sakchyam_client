@@ -143,14 +143,14 @@ class VectorTileMapbox extends Component {
   }
 
   plotVectorTile = () => {
-    // const { map } = this.props;
+    const { map } = this.props;
     const that = this;
     // console.log(this.state.finalStyle, "this finalstyle")
     let hoveredStateId = null;
-    global.map.on('load', function() {
+    map.on('load', function() {
       // Add Mapillary sequence layer.
       // https://www.mapillary.com/developer/tiles-documentation/#sequence-layer
-      global.map.addSource('municipality', {
+      map.addSource('municipality', {
         type: 'vector',
         // 'interactive':true,
         tiles: [
@@ -163,7 +163,7 @@ class VectorTileMapbox extends Component {
         promoteId: { default: 'code' },
       });
 
-      global.map.addLayer({
+      map.addLayer({
         id: 'vector-tile-fill',
         type: 'fill',
         source: 'municipality',
@@ -174,7 +174,7 @@ class VectorTileMapbox extends Component {
         },
       });
 
-      global.map.addLayer({
+      map.addLayer({
         id: 'vector-tile-outline',
         type: 'line',
         source: 'municipality',
@@ -191,7 +191,7 @@ class VectorTileMapbox extends Component {
       });
 
       if (that.props.label) {
-        global.map.addLayer({
+        map.addLayer({
           id: 'vector-tile-outline',
           type: 'line',
 
@@ -209,7 +209,7 @@ class VectorTileMapbox extends Component {
         });
 
         if (that.props.label) {
-          global.map.addLayer({
+          map.addLayer({
             id: 'vector-tile-label',
             type: 'symbol',
             source: 'municipality',
@@ -234,10 +234,10 @@ class VectorTileMapbox extends Component {
         // var bounds = coordinates.reduce(function(bounds, coord) {
         //   return bounds.extend(coord);
         //   }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
-        // global.map.fitBounds()
+        // map.fitBounds()
 
         const popup = new mapboxgl.Popup();
-        global.map.on('mousemove', 'vector-tile-fill', function(e) {
+        map.on('mousemove', 'vector-tile-fill', function(e) {
           // console.log(e.features[0],'e');
           // e.features[0].id = e.features[0].properties.id;
           // console.log(e.features[0], "feature code")
@@ -396,10 +396,10 @@ class VectorTileMapbox extends Component {
                                           </li>`;
             });
 
-          global.map.getCanvas().style.cursor = 'pointer';
+          map.getCanvas().style.cursor = 'pointer';
           if (e.features.length > 0) {
             if (hoveredStateId) {
-              global.map.setFeatureState(
+              map.setFeatureState(
                 {
                   source: 'municipality',
                   sourceLayer: 'default',
@@ -434,12 +434,12 @@ class VectorTileMapbox extends Component {
                     </div>
                 </div>`,
                   )
-                  .addTo(global.map);
+                  .addTo(map);
               }
 
               hoveredStateId = e.features[0].id;
               // console.log(hoveredStateId, "hoverstateid")
-              global.map.setFeatureState(
+              map.setFeatureState(
                 {
                   source: 'municipality',
                   sourceLayer: 'default',
@@ -452,9 +452,9 @@ class VectorTileMapbox extends Component {
           // Popup On Hover
         });
 
-        global.map.on('mouseleave', 'vector-tile-fill', function() {
+        map.on('mouseleave', 'vector-tile-fill', function() {
           // if (hoveredStateId) {
-          // global.map.setFeatureState(
+          // map.setFeatureState(
           // { source: 'municipality', sourceLayer: 'default', id: hoveredStateId },
           // { hover: false }
           // );
@@ -465,7 +465,7 @@ class VectorTileMapbox extends Component {
       }
     });
 
-    global.map.addControl(new mapboxgl.NavigationControl());
+    // map.addControl(new mapboxgl.NavigationControl());
   };
 
   componentDidMount() {
@@ -474,13 +474,13 @@ class VectorTileMapbox extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { vectorTileUrl } = this.props;
+    const { map, vectorTileUrl } = this.props;
     if (prevProps.choroplethData !== this.props.choroplethData) {
       this.changeGrades();
       setTimeout(() => {
         // console.log(this.state.finalStyle, "inside finalstyle")
         // console.log("entered inside");
-        global.map.setPaintProperty(
+        map.setPaintProperty(
           'vector-tile-fill',
           'fill-color',
           this.state.finalStyle,
@@ -491,16 +491,16 @@ class VectorTileMapbox extends Component {
       // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
       // this.changeGrades();
 
-      const newStyle = global.map.getStyle();
+      const newStyle = map.getStyle();
       newStyle.sources.municipality.tiles = [
         this.props.vectorTileUrl,
       ];
-      global.map.setStyle(newStyle);
+      map.setStyle(newStyle);
 
-      // global.map.removeSource('municipality');
+      // map.removeSource('municipality');
 
       // setTimeout(() => {
-      //   global.map.addSource('municipality', {'type': 'vector',
+      //   map.addSource('municipality', {'type': 'vector',
       // // 'interactive':true,
       // 'tiles': [this.props.vectorTileUrl?this.props.vectorTileUrl:"https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}"],//"https://apps.naxa.com.np/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=Naxa:educationpoint&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"],
       // 'minzoom': 0,
@@ -521,8 +521,8 @@ class VectorTileMapbox extends Component {
     return <div />;
   }
 }
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ automationReducer }) => ({
+  automationReducer,
 });
 
 export default connect(mapStateToProps, {})(VectorTileMapbox);
