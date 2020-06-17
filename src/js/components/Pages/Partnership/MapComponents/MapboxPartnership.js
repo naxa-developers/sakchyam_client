@@ -32,7 +32,7 @@ class MapboxPartnership extends Component {
           id="map"
           // eslint-disable-next-line no-return-assign
           ref={el => (this.mapContainer = el)}
-          className="mapContainer map"
+          // className="mapContainer"
         >
           {global.map && <VectorTileMapbox />}
         </div>

@@ -3,6 +3,14 @@ import MapboxPartnership from './MapComponents/MapboxPartnership';
 import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 import Headers from '../../Header';
+import LeftSideBar from './LeftSideBar';
+import RightSideBar from './RightSideBar';
+import Sunburst from './Charts/SunBurst/SunBurst';
+import sunBurstData from './Charts/SunBurst/sunburstData';
+import StackedBar from './Charts/StackedBar/StackedBar';
+import RadarChart from './Charts/RadarChart/RadarChart';
+import CirclePackChart from './Charts/CirclePack/CirclePackChart';
+import SankeyChart from './Charts/SankeyChart/SankeyChart';
 
 class MainPartnership extends Component {
   constructor() {
@@ -44,6 +52,10 @@ class MainPartnership extends Component {
       state: { activeFilter, activeOverview, viewDataBy, activeView },
       // props: {},
     } = this;
+    const sankeyChartwidth =
+      document.getElementById('sankeyChart') &&
+      document.getElementById('sankeyChart').offsetWidth;
+
     return (
       <>
         <Headers />
@@ -52,378 +64,7 @@ class MainPartnership extends Component {
             activeOverview ? 'expand-right-sidebar' : ''
           }`}
         >
-          <aside className="sidebar left-sidebar literacy-sidebar">
-            <div className="sidebar-in">
-              <div className="aside-header ">
-                <button
-                  type="button"
-                  className="common-button is-bg partnership-button"
-                >
-                  sakchyam partnerships
-                </button>
-              </div>
-              <div className="aside-body">
-                <div className="sidebar-widget partner-institue">
-                  <h6 className="title">Investment Focus</h6>
-                  <div className="widget-body">
-                    <div className="checklist-group">
-                      <div className="checklist-header">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">All</label>
-                        </div>
-                      </div>
-                      <ul className="checkbox-list">
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> VLBS Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Unique Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span>
-                                  {' '}
-                                  Nirdhan Utthan Laghubitta
-                                </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Kisan Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Chhimek Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Sahara Cooperative </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="sidebar-widget">
-                  <h6 className="title">project status</h6>
-                  <div className="widget-body">
-                    <div className="widget-tag partner-tag">
-                      <a>
-                        <span>completed</span>
-                      </a>
-                      <a>
-                        <span>ongoing</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="sidebar-widget partner-institue">
-                  <h6 className="title">Projects</h6>
-                  <div className="widget-body">
-                    <div className="checklist-group">
-                      <div className="checklist-header">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">All</label>
-                        </div>
-                      </div>
-                      <ul className="checkbox-list">
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> VLBS Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Unique Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span>
-                                  {' '}
-                                  Nirdhan Utthan Laghubitta
-                                </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Kisan Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Chhimek Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Sahara Cooperative </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="sidebar-widget">
-                  <h6 className="title">Partner Type</h6>
-                  <div className="widget-body">
-                    <div className="widget-tag partner-tag">
-                      <a>
-                        <span>Microfinance</span>
-                      </a>
-                      <a>
-                        <span>Commercial Bank</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="sidebar-widget partner-institue">
-                  <h6 className="title">Partner Institution</h6>
-                  <div className="widget-body">
-                    <div className="checklist-group">
-                      <div className="checklist-header">
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">All</label>
-                        </div>
-                      </div>
-                      <ul className="checkbox-list">
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> VLBS Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Unique Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span>
-                                  {' '}
-                                  Nirdhan Utthan Laghubitta
-                                </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Kisan Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Chhimek Laghubitta </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a>
-                            <div className="custom-checkbox">
-                              <input
-                                id="Initiative"
-                                type="checkbox"
-                                name="Initiative"
-                              />
-                              <label htmlFor="Initiative">
-                                <span> Sahara Cooperative </span>
-                              </label>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className="apply-buttons buttons end">
-                  <button
-                    type="button"
-                    className="common-button is-clear "
-                  >
-                    reset
-                  </button>
-                  <button
-                    type="button"
-                    className="common-button is-bg is-disable"
-                  >
-                    apply
-                  </button>
-                </div>
-              </div>
-            </div>
-          </aside>
+          <LeftSideBar />
           <main className="main">
             <div className="main-card literacy-main-card">
               <div className="partnership-filter">
@@ -525,7 +166,7 @@ class MainPartnership extends Component {
                         this.setViewDataBy('Beneficiaries');
                       }}
                       role="tab"
-                      tabIndex="0"
+                      tabIndex="-1"
                     >
                       <a>Beneficiaries</a>
                     </li>
@@ -540,7 +181,7 @@ class MainPartnership extends Component {
                         this.setViewDataBy('Budget');
                       }}
                       role="tab"
-                      tabIndex="0"
+                      tabIndex="-1"
                     >
                       <a>Budget Allocated</a>
                     </li>
@@ -555,7 +196,7 @@ class MainPartnership extends Component {
                         this.setViewDataBy('Leverage');
                       }}
                       role="tab"
-                      tabIndex="0"
+                      tabIndex="-1"
                     >
                       <a>Leverage</a>
                     </li>
@@ -591,7 +232,14 @@ class MainPartnership extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            <Sunburst
+                              data={sunBurstData}
+                              width={500}
+                              height={370}
+                              count_member="size"
+                            />
+                          </div>
                         </div>
                       </div>
                       <div className="col-xl-6">
@@ -607,7 +255,9 @@ class MainPartnership extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            <StackedBar />
+                          </div>
                         </div>
                       </div>
                       <div className="col-xl-6">
@@ -626,7 +276,9 @@ class MainPartnership extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            <RadarChart />
+                          </div>
                         </div>
                       </div>
                       <div className="col-xl-6">
@@ -642,7 +294,9 @@ class MainPartnership extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            <CirclePackChart />
+                          </div>
                         </div>
                       </div>
                       <div className="col-xl-12">
@@ -660,7 +314,12 @@ class MainPartnership extends Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body" id="sankeyChart">
+                            <SankeyChart
+                              cardWidth={sankeyChartwidth}
+                              activeOverview={activeOverview}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -675,7 +334,7 @@ class MainPartnership extends Component {
                   }
                 >
                   {/* <div id="map" className="map"> */}
-                  <MapboxPartnership />
+                  {activeView === 'map' && <MapboxPartnership />}
                   {/* </div> */}
                 </div>
               </div>
@@ -708,185 +367,12 @@ class MainPartnership extends Component {
               </div>
             </div>
           </div>
-          <aside className="sidebar right-sidebar literacy-right-sidebar">
-            <div className="sidebar-in">
-              <div className="right-sidebar-header">
-                <h5>Overview</h5>
-                {activeView === 'visualization' ? (
-                  <a
-                    onClick={() => {
-                      this.setActiveView('map');
-                    }}
-                    onKeyDown={() => {
-                      this.setActiveView('map');
-                    }}
-                    role="tab"
-                    tabIndex="0"
-                  >
-                    View on map
-                  </a>
-                ) : (
-                  <a
-                    onClick={() => {
-                      this.setActiveView('visualization');
-                    }}
-                    onKeyDown={() => {
-                      this.setActiveView('visualization');
-                    }}
-                    role="tab"
-                    tabIndex="0"
-                  >
-                    Back to Visualization
-                  </a>
-                )}
-              </div>
-              <div className="aside-body">
-                <div className="sidebar-widget">
-                  <div className="widget-body is-dark">
-                    <ul className="widget-list">
-                      <li>
-                        <div className="widget-content">
-                          <h6>Investment Focus</h6>
-                          <span>2</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">payments</i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>Projects</h6>
-                          <span>54</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">
-                              assignment
-                            </i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>Partner Institutions</h6>
-                          <span>112</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">
-                              location_city
-                            </i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>Total Beneficiaries</h6>
-                          <span>2</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">people</i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>Total Budgeted S-CF Contribution</h6>
-                          <span>रू 589,509,062</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">
-                              monetization_on
-                            </i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>Branches</h6>
-                          <span>112</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">store</i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>BLB</h6>
-                          <span>54</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">
-                              account_balance
-                            </i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>Extension Counter</h6>
-                          <span>112</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">
-                              local_convenience_store
-                            </i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>Tablet</h6>
-                          <span>54</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">
-                              tablet_mac
-                            </i>
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="widget-content">
-                          <h6>Other Major Products</h6>
-                          <span>112</span>
-                        </div>
-                        <div className="widget-icon">
-                          <span>
-                            <i className="material-icons">
-                              local_offer
-                            </i>
-                          </span>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className={`expand-button ${
-                activeOverview ? 'active' : ''
-              } `}
-            >
-              <button
-                type="button"
-                onClick={this.setActiveOverview}
-                className="common-button is-clear close-all"
-              >
-                <i className="material-icons">chevron_right</i>
-              </button>
-            </div>
-          </aside>
+          <RightSideBar
+            activeOverview={activeOverview}
+            activeView={activeView}
+            setActiveOverview={this.setActiveOverview}
+            setActiveView={this.setActiveView}
+          />
         </div>
         {/* <MapboxPartnership /> */}
       </>

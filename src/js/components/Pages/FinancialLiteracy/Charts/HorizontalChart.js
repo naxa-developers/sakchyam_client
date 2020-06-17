@@ -26,25 +26,25 @@ class HorizontalChart extends Component {
 
   plotChart = () => {
     const series = [
-      {
-        name: 'a',
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
+      // {
+      //   name: 'a',
+      //   data: [44, 55, 41, 64, 22, 43, 21],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [44, 55, 41, 64, 22, 43, 21],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
     ];
     const options = {
       chart: {
@@ -251,6 +251,7 @@ class HorizontalChart extends Component {
   render() {
     const { height } = this.state;
     const { filteredByProgram } = this.props.financialReducer;
+    const { showRightSidebar } = this.props;
     return (
       <div id="horizontal-chart">
         {filteredByProgram.series && filteredByProgram.series[0] && (
@@ -259,6 +260,15 @@ class HorizontalChart extends Component {
             series={this.state.series}
             type="bar"
             height={height}
+            width={
+              showRightSidebar && window.innerWidth < 1600
+                ? 780
+                : showRightSidebar && window.innerWidth > 1600
+                ? 1100
+                : !showRightSidebar && window.innerWidth < 1600
+                ? 1100
+                : 1400
+            }
           />
         )}
       </div>

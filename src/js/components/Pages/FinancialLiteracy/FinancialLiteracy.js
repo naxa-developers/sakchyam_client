@@ -450,7 +450,9 @@ class FinancialLiteracy extends Component {
                                 height: '400px',
                               }}
                             >
-                              <HorizontalChart />
+                              <HorizontalChart
+                                showRightSidebar={showRightSidebar}
+                              />
                             </div>
                           </div>
                         </div>
