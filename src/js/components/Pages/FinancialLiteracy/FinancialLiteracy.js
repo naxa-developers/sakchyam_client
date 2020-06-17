@@ -220,7 +220,7 @@ class FinancialLiteracy extends Component {
         // foreignObjectRendering: true,
         // useCORS: true,
       }).then(canvas => {
-        canvas.toBlob(function (blob) {
+        canvas.toBlob(function(blob) {
           saveAs(blob, 'Dashboard.png');
         });
       });
@@ -483,12 +483,11 @@ class FinancialLiteracy extends Component {
                               Ratio of Microfinance and Commercial
                             </h5>
                             <div className="header-icons">
-                            <div className="card-switcher">
+                              <div className="card-switcher">
                                 <small>OFF</small>
                                 <label className="switch">
                                   <input type="checkbox" />
-                                  <span className="slider">
-                                  </span>
+                                  <span className="slider" />
                                 </label>
                                 <small>ON</small>
                               </div>
@@ -550,15 +549,14 @@ class FinancialLiteracy extends Component {
                       <div className="card-header">
                         <h5>Beneficiaries Reached By Partners</h5>
                         <div className="header-icons">
-                        <div className="card-switcher">
-                                <small>OFF</small>
-                                <label className="switch">
-                                  <input type="checkbox" />
-                                  <span className="slider">
-                                  </span>
-                                </label>
-                                <small>ON</small>
-                              </div>
+                          <div className="card-switcher">
+                            <small>OFF</small>
+                            <label className="switch">
+                              <input type="checkbox" />
+                              <span className="slider" />
+                            </label>
+                            <small>ON</small>
+                          </div>
                           <span
                             className
                             onClick={() => {
