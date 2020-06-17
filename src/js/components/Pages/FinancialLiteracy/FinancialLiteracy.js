@@ -410,6 +410,15 @@ class FinancialLiteracy extends Component {
                               Partners
                             </h5>
                             <div className="header-icons">
+                              <div className="card-switcher">
+                                <small>OFF</small>
+                                <label className="switch">
+                                  <input type="checkbox" />
+                                  <span className="slider">
+                                  </span>
+                                </label>
+                                <small>ON</small>
+                              </div>
                               <span
                                 onClick={() => {
                                   this.downloadPng(
@@ -450,7 +459,9 @@ class FinancialLiteracy extends Component {
                                 height: '400px',
                               }}
                             >
-                              <HorizontalChart />
+                              <HorizontalChart
+                                showRightSidebar={showRightSidebar}
+                              />
                             </div>
                           </div>
                         </div> */}
@@ -473,6 +484,14 @@ class FinancialLiteracy extends Component {
                               Ratio of Microfinance and Commercial
                             </h5>
                             <div className="header-icons">
+                              <div className="card-switcher">
+                                <small>OFF</small>
+                                <label className="switch">
+                                  <input type="checkbox" />
+                                  <span className="slider" />
+                                </label>
+                                <small>ON</small>
+                              </div>
                               <span
                                 className=""
                                 onClick={() => {
@@ -531,6 +550,14 @@ class FinancialLiteracy extends Component {
                       <div className="card-header">
                         <h5>Beneficiaries Reached By Partners</h5>
                         <div className="header-icons">
+                          <div className="card-switcher">
+                            <small>OFF</small>
+                            <label className="switch">
+                              <input type="checkbox" />
+                              <span className="slider" />
+                            </label>
+                            <small>ON</small>
+                          </div>
                           <span
                             className
                             onClick={() => {

@@ -33,7 +33,7 @@
 
                 @media #{$breakpoint-ls} {
                     @include flex(0 0 100%);
-                    width: 100%;
+                    max-width: 100%;
                 }
 
             }
@@ -62,10 +62,21 @@
                     position: relative;
                     top:initial;
                     left:initial;
+                    .filter-content{
+                        min-width: 520px;
+                    }
+                }
+                &.is-position{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: 999;
                 }
             }
             .leaflet-container,#map {
-                height: calc(100vh - 170px);
+                // height: calc(100vh - 170px);
+                height: calc(100vh - 94px);
             }
         }
     }
@@ -191,7 +202,13 @@
                 @include display-flex(flex);
                 @include justify-content-end;
                 @include align-items-center;
-
+                label{
+                   margin:0 .5rem; 
+                }
+                small{
+                    font-weight: 600;
+                    
+                }
                 span {
                     cursor: pointer;
 
@@ -201,6 +218,9 @@
 
                     img {
                         max-width: 18px;
+                    }
+                    &.slider{
+                        margin:0;
                     }
                 }
             }

@@ -173,25 +173,25 @@ class HorizontalChart extends Component {
 
   plotChart = () => {
     const series = [
-      {
-        name: 'a',
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
-      },
+      // {
+      //   name: 'a',
+      //   data: [44, 55, 41, 64, 22, 43, 21],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [44, 55, 41, 64, 22, 43, 21],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
+      // {
+      //   data: [53, 32, 33, 52, 13, 44, 32],
+      // },
     ];
     const options = {
       chart: {
@@ -442,7 +442,7 @@ class HorizontalChart extends Component {
     const {
       financialReducer: { filteredByProgram },
     } = this.props;
-
+    const { showRightSidebar } = this.props;
     return (
       <>
         <div className="card-header">
@@ -511,6 +511,15 @@ class HorizontalChart extends Component {
                   series={this.state.series}
                   type="bar"
                   height={height}
+                  width={
+                    showRightSidebar && window.innerWidth < 1600
+                      ? 780
+                      : showRightSidebar && window.innerWidth > 1600
+                      ? 1100
+                      : !showRightSidebar && window.innerWidth < 1600
+                      ? 760
+                      : 1000
+                  }
                 />
               ) : isToggled && !isBarChartClicked ? (
                 <ReactApexChart
@@ -526,6 +535,16 @@ class HorizontalChart extends Component {
                     series={chartData2.series}
                     type="bar"
                     height={height}
+                    width={
+                      showRightSidebar && window.innerWidth < 1600
+                        ? 780
+                        : showRightSidebar && window.innerWidth > 1600
+                        ? 1100
+                        : !showRightSidebar &&
+                          window.innerWidth < 1600
+                        ? 1100
+                        : 1400
+                    }
                   />
                 )
               )}

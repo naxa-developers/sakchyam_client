@@ -50,7 +50,7 @@ const Modal = props => {
       // }`}
       id="graph-modal"
     >
-      <div className="popup-container lg-popup">
+      <div className="popup-container full-popup">
         <div className="popup-body" id="popup-body">
           <span className="close-icon">
             <i
