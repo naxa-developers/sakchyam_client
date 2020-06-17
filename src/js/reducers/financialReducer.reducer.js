@@ -7,12 +7,13 @@ import {
   FILTER_PARTNERS_BY_TYPE,
   FILTER_TABLE_BY_PARTNER,
   GET_SEARCHED_DATA_ON_TABLE,
+  FILTER_BAR_DATA_AFTER_CLICK,
 } from '../actions/index.actions';
 
 function colorPicker3(i) {
   // COLORPICKER FOR PARTNER TYPE
-  if (i === 'Microfinance Institutions') return '#8BB0EC';
-  if (i === 'Commercial Bank and Other Partners') return '#008080';
+  if (i === 'Microfinance Institutions') return '#008080';
+  if (i === 'Commercial Bank and Other Partners') return '#8BB0EC';
   return '#17A589'; //  #AEB6BF #8BB0EC
 }
 
@@ -146,7 +147,7 @@ const filterSankeyData = data => {
   const nodes = [];
   const links = [];
 
-  data.sort((a, b) => a.program_id - b.program_id);
+  // data.sort((a, b) => a.program_id - b.program_id);
 
   data.map(item => {
     if (item.program_id !== item.partner_id && item.value !== 0) {
@@ -225,6 +226,15 @@ const filterSankeyData = data => {
   return sankeyData;
 };
 
+// FUNCTION TO HANDLE BAR CLICK
+const getBarDataAfterClick = (state, action) => {
+  const clickIndex = action.payload;
+  console.log(clickIndex, 'clickindex');
+};
+
+// FUNCTION TO FILTER BAR CHART
+const filterBarChartData = () => {};
+
 const getPartnersList = (state, action) => {
   return {
     ...state,
@@ -288,7 +298,6 @@ const getFinancialData = (state, action) => {
     return multiLineLabel.push(data.split(' '));
   });
   const groupedObjForLabel = {};
-  console.log(allData, '1st');
   allData.forEach(function(c) {
     if (groupedObjForLabel[c.partner_id]) {
       groupedObjForLabel[c.partner_id].names.push(c);
@@ -338,9 +347,6 @@ const getFinancialData = (state, action) => {
       };
     }
   });
-  console.log(allData, 'AllDatatest');
-  console.log(groupedObj, 'test');
-  console.log(ObjByProgram, 'objBy Program');
   const singleCountPartner = {};
   // allData.forEach(function(c) {
   //   if (singleCountPartner[c.partner_id]) {
@@ -370,8 +376,6 @@ const getFinancialData = (state, action) => {
   //     };
   //   }
   // });
-  console.log(allData, 'allData');
-  console.log(singleCountPartner, 'singleCOuntPartnerss');
 
   // console.log(singleCountData, 'singleCountData');
   // let allSingleCountData = [];
@@ -398,6 +402,7 @@ const getFinancialData = (state, action) => {
 
   const allProgramColor = [];
   for (const [key, value] of Object.entries(groupedObj)) {
+    console.log(value, 'value.id');
     allProgramColor.push(colorPicker(value.id));
   }
 
@@ -999,6 +1004,8 @@ export default function(state = initialState, action) {
       return filterTableDataByPartner(state, action);
     case GET_SEARCHED_DATA_ON_TABLE:
       return searchedDataOnTable(state, action);
+    case FILTER_BAR_DATA_AFTER_CLICK:
+      return getBarDataAfterClick(state, action);
     default:
       return state;
   }

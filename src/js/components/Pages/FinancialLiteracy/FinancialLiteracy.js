@@ -404,7 +404,7 @@ class FinancialLiteracy extends Component {
                     <div className="row">
                       <div className="col-xl-12">
                         <div className="card" id="card-horizontal">
-                          <div className="card-header">
+                          {/* <div className="card-header">
                             <h5>
                               Beneficiary Reached Per Program by
                               Partners
@@ -453,6 +453,16 @@ class FinancialLiteracy extends Component {
                               <HorizontalChart />
                             </div>
                           </div>
+                        </div> */}
+                          <HorizontalChart
+                            DownloadIcon={DownloadIcon}
+                            ExpandIcon={ExpandIcon}
+                            downloadPng={this.downloadPng}
+                            handleModal={this.handleModal}
+                            handleSelectedModal={
+                              this.handleSelectedModal
+                            }
+                          />
                         </div>
                       </div>
                       <div className="col-xl-6">
@@ -496,56 +506,10 @@ class FinancialLiteracy extends Component {
                             <DonutChart />
                           </div>
                         </div>
+                      </div>
 
+                      <div className="col-xl-6">
                         <div className="card" id="">
-                          {/* <div className="card-header">
-                            <h5>
-                              Contribution of Program Initiatives
-                            </h5>
-                            <div className="header-icons">
-                              <button
-                                type="button"
-                                onClick={this.handleTreeMapBackBtn}
-                              >
-                                Back
-                              </button>
-                              <span
-                                className=""
-                                onClick={() => {
-                                  this.downloadPng('treemap-chart');
-                                }}
-                                onKeyDown={() => {
-                                  this.downloadPng('treemap-chart');
-                                }}
-                                role="tab"
-                                tabIndex="0"
-                              >
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span
-                                className=""
-                                role="tab"
-                                tabIndex="0"
-                                onClick={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal('tree');
-                                }}
-                                onKeyDown={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal('tree');
-                                }}
-                              >
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <TreeMapDiagram
-                              checkedPartnerItems={
-                                this.state.checkedPartnerItems
-                              }
-                            />
-                          </div> */}
                           <TreeMapDiagram
                             DownloadIcon={DownloadIcon}
                             ExpandIcon={ExpandIcon}

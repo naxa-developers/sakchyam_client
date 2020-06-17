@@ -6,6 +6,37 @@ import { connect } from 'react-redux';
 // color: #f36c00;
 // color: #40a8be;
 // color: #de2693;
+
+function colorPicker(i) {
+  if (i % 25 === 0) return '#91664E';
+  if (i % 25 === 1) return '#13A8BE';
+  if (i % 25 === 2) return '#13A8BE'; // #FF6D00
+  if (i % 25 === 3) return '#DE2693';
+  if (i % 25 === 4) return '#B1B424';
+  if (i % 25 === 5) return '#2196F3';
+  if (i % 25 === 6) return '#B1B424'; // #4CE2A7
+  if (i % 25 === 7) return '#1967A0';
+  if (i % 25 === 8) return '#00C853';
+  if (i % 25 === 9) return '#E11D3F'; // #651FFF
+  if (i % 25 === 10) return '#FF6D00'; // #B71DE1
+  if (i % 25 === 11) return '#DE2693'; // #FFCD00
+  if (i % 25 === 12) return '#1F8AE4'; // #E11D3F
+  if (i % 25 === 13) return '#FF1500';
+  if (i % 25 === 14) return '#C5E11D';
+  if (i % 25 === 15) return '#CDACF2';
+  if (i % 25 === 16) return 'AFDE0E';
+  if (i % 25 === 17) return '#FF5576';
+  if (i % 25 === 18) return '#BFEDF5';
+  if (i % 25 === 19) return '#E0CBAB';
+  if (i % 25 === 25) return '#FF5E00';
+  if (i % 25 === 21) return '#AF7AC5';
+  if (i % 25 === 22) return '#008080';
+  if (i % 25 === 23) return '#C70039';
+  if (i % 25 === 24) return '#16A085';
+  if (i % 25 === 25) return '#5D6D7E';
+  return '#FFD400';
+}
+
 function numberWithCommas(x) {
   if (x !== null) {
     const parts = x.toString().split('.');
@@ -21,8 +52,109 @@ class HorizontalChart extends Component {
       series: [],
       options: {},
       height: 200,
+      chartData2: {},
+      isBarChartClicked: false,
     };
   }
+
+  generateBarChartData = i => {
+    const clickedPartner = this.state.options.xaxis.categories[
+      i
+    ].join(' ');
+    const {
+      filteredByProgramDefault,
+      financialData,
+    } = this.props.financialReducer;
+
+    const filteredData = financialData.filter(
+      item => item.partner_name === clickedPartner,
+    );
+
+    const multiLineLabel = [];
+    const groupedObj = {};
+    const allProgramColor = [];
+    const allProgramData = [];
+
+    filteredData.sort(function(a, b) {
+      const nameA = a.single_count; // ignore upper and lowercase
+      const nameB = b.single_count; // ignore upper and lowercase
+      if (nameA > nameB) {
+        return -1;
+      }
+      if (nameA < nameB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+
+    // console.log(filteredData, 'fda');
+
+    const label = filteredData.map(program => {
+      return program.program_name;
+    });
+    // console.log(label, 'lanbel');
+    const removedDuplicateLabel = [...new Set(label)];
+
+    // console.log(removedDuplicateLabel, 'rlabel');
+
+    removedDuplicateLabel.map(labelData => {
+      return multiLineLabel.push(labelData.split(' '));
+    });
+
+    // console.log(multiLineLabel, 'multi');
+
+    const result = [
+      ...new Map(filteredData.map(x => [x.partner_id, x])).values(),
+    ];
+
+    // console.log(result, 'result');
+
+    filteredData.forEach(function(c) {
+      if (groupedObj[c.program_id]) {
+        groupedObj[c.program_id].data.push(c.value);
+      } else {
+        groupedObj[c.program_id] = {
+          name: c.program_name,
+          id: c.program_id,
+          data: [c.value],
+        };
+      }
+    });
+
+    // const allProgramData = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [key, value] of Object.entries(groupedObj)) {
+      // allPartnersLabel.push(key);
+      // value.names.map(data => {
+      allProgramData.push(value);
+      // return true;
+    }
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [key, value] of Object.entries(groupedObj)) {
+      allProgramColor.push(colorPicker(value.id));
+    }
+
+    // console.log(allProgramData, 'series');
+    // console.log(multiLineLabel, 'label');
+    // console.log(allProgramColor, 'color');
+
+    this.setState({
+      // height: 200,
+      chartData2: {
+        series: allProgramData,
+
+        options: {
+          colors: allProgramColor,
+          xaxis: {
+            categories: multiLineLabel,
+          },
+        },
+      },
+      isBarChartClicked: true,
+    });
+  };
 
   plotChart = () => {
     const series = [
@@ -54,18 +186,13 @@ class HorizontalChart extends Component {
           show: false,
         },
         events: {
-          click(
+          click: function(
             event,
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            // console.log('Clicked Bar');
-            // console.log(event);
-            // console.log(chartContext);
-            // console.log(seriesIndex);
-            console.log(dataPointIndex);
-            // console.log(config);
-          },
+            this.generateBarChartData(dataPointIndex);
+          }.bind(this),
         },
       },
       plotOptions: {
@@ -248,20 +375,99 @@ class HorizontalChart extends Component {
     }
   }
 
+  handleBarChartBackBtn = () => {
+    this.setState(prevState => ({
+      isBarChartClicked: !prevState.isBarChartClicked,
+    }));
+  };
+
   render() {
-    const { height } = this.state;
-    const { filteredByProgram } = this.props.financialReducer;
+    const { height, isBarChartClicked, chartData2 } = this.state;
+    const {
+      DownloadIcon,
+      ExpandIcon,
+      downloadPng,
+      handleModal,
+      handleSelectedModal,
+    } = this.props;
+    const {
+      financialReducer: { filteredByProgram },
+    } = this.props;
+
     return (
-      <div id="horizontal-chart">
-        {filteredByProgram.series && filteredByProgram.series[0] && (
-          <ReactApexChart
-            options={this.state.options}
-            series={this.state.series}
-            type="bar"
-            height={height}
-          />
-        )}
-      </div>
+      <>
+        <div className="card-header">
+          <h5>Beneficiary Reached Per Program by Partners</h5>
+          <div className="header-icons">
+            {isBarChartClicked && (
+              <button
+                type="button"
+                onClick={this.handleBarChartBackBtn}
+              >
+                Back
+              </button>
+            )}
+
+            <span
+              onClick={() => {
+                downloadPng('horizontal-chart');
+              }}
+              onKeyDown={() => {
+                downloadPng('horizontal-chart');
+              }}
+              className=""
+              role="tab"
+              tabIndex="0"
+            >
+              <img src={DownloadIcon} alt="open" />
+            </span>
+            <span
+              role="tab"
+              tabIndex="0"
+              onClick={() => {
+                handleModal();
+                handleSelectedModal('bar');
+              }}
+              onKeyDown={() => {
+                handleModal();
+                handleSelectedModal('bar');
+              }}
+            >
+              <img src={ExpandIcon} alt="open" />
+            </span>
+          </div>
+        </div>
+        <div className="card-body">
+          <div
+            className="horizontal-chart"
+            style={{
+              height: '400px',
+            }}
+          >
+            <div id="horizontal-chart">
+              {!isBarChartClicked &&
+              filteredByProgram.series &&
+              filteredByProgram.series[0] ? (
+                <ReactApexChart
+                  options={this.state.options}
+                  series={this.state.series}
+                  type="bar"
+                  height={height}
+                />
+              ) : (
+                Object.entries(chartData2).length !== 0 && (
+                  <ReactApexChart
+                    options={chartData2.options}
+                    series={chartData2.series}
+                    type="bar"
+                    height={height}
+                  />
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 }
