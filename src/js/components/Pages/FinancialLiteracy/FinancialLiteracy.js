@@ -462,6 +462,7 @@ class FinancialLiteracy extends Component {
                             handleSelectedModal={
                               this.handleSelectedModal
                             }
+                            selectedProgram={selectedProgram1}
                           />
                         </div>
                       </div>

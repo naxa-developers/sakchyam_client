@@ -52,8 +52,11 @@ class HorizontalChart extends Component {
       series: [],
       options: {},
       height: 200,
+      partnerChart: {},
+      programChart: {},
       chartData2: {},
       isBarChartClicked: false,
+      isToggled: false,
     };
   }
 
@@ -62,13 +65,23 @@ class HorizontalChart extends Component {
       i
     ].join(' ');
     const {
-      filteredByProgramDefault,
-      financialData,
-    } = this.props.financialReducer;
+      financialReducer: { filteredByProgramDefault, financialData },
+      selectedProgram,
+    } = this.props;
 
-    const filteredData = financialData.filter(
-      item => item.partner_name === clickedPartner,
-    );
+    let filteredData = [];
+
+    if (selectedProgram.length === 0) {
+      filteredData = financialData.filter(
+        item => item.partner_name === clickedPartner,
+      );
+    } else {
+      filteredData = financialData.filter(
+        item =>
+          selectedProgram.includes(item.program_id) &&
+          item.partner_name === clickedPartner,
+      );
+    }
 
     const multiLineLabel = [];
     const groupedObj = {};
@@ -136,11 +149,13 @@ class HorizontalChart extends Component {
       allProgramColor.push(colorPicker(value.id));
     }
 
-    // console.log(allProgramData, 'series');
+    allProgramData.sort((a, b) => b.data[0] - a.data[0]);
+
+    // console.log(allProgramData[0].data[0], 'series');
     // console.log(multiLineLabel, 'label');
     // console.log(allProgramColor, 'color');
 
-    this.setState({
+    this.setState(prevState => ({
       // height: 200,
       chartData2: {
         series: allProgramData,
@@ -152,8 +167,8 @@ class HorizontalChart extends Component {
           },
         },
       },
-      isBarChartClicked: true,
-    });
+      isBarChartClicked: !prevState.isBarChartClicked,
+    }));
   };
 
   plotChart = () => {
@@ -191,7 +206,9 @@ class HorizontalChart extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            this.generateBarChartData(dataPointIndex);
+            if (!this.state.isBarChartClicked) {
+              this.generateBarChartData(dataPointIndex);
+            }
           }.bind(this),
         },
       },
@@ -320,12 +337,14 @@ class HorizontalChart extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { filteredByProgram } = this.props.financialReducer;
+    const {
+      filteredByProgramDefault,
+      filteredByProgram,
+    } = this.props.financialReducer;
     if (
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
-      // console.log(filteredByProgram, 'filteredByProgram');
       if (
         filteredByProgram.series[0].data.length > 2
         // filteredByProgram.series.length > 10
@@ -372,6 +391,25 @@ class HorizontalChart extends Component {
           },
         }));
       }
+      this.setState({
+        partnerChart: {
+          series: filteredByProgram.series,
+          label: filteredByProgram.label,
+          color: filteredByProgram.color,
+        },
+      });
+    }
+    if (
+      prevProps.financialReducer.filteredByProgramDefault !==
+      this.props.financialReducer.filteredByProgramDefault
+    ) {
+      this.setState({
+        programChart: {
+          series: filteredByProgramDefault.series,
+          label: filteredByProgramDefault.label,
+          color: filteredByProgramDefault.color,
+        },
+      });
     }
   }
 
@@ -381,8 +419,19 @@ class HorizontalChart extends Component {
     }));
   };
 
+  handleBarChartToggle = () => {
+    this.setState(prevState => ({
+      isToggled: !prevState.isToggled,
+    }));
+  };
+
   render() {
-    const { height, isBarChartClicked, chartData2 } = this.state;
+    const {
+      height,
+      isToggled,
+      isBarChartClicked,
+      chartData2,
+    } = this.state;
     const {
       DownloadIcon,
       ExpandIcon,
@@ -399,6 +448,14 @@ class HorizontalChart extends Component {
         <div className="card-header">
           <h5>Beneficiary Reached Per Program by Partners</h5>
           <div className="header-icons">
+            {!isBarChartClicked && (
+              <button
+                type="button"
+                onClick={this.handleBarChartToggle}
+              >
+                Toggle
+              </button>
+            )}
             {isBarChartClicked && (
               <button
                 type="button"
@@ -445,12 +502,20 @@ class HorizontalChart extends Component {
             }}
           >
             <div id="horizontal-chart">
-              {!isBarChartClicked &&
+              {!isToggled &&
+              !isBarChartClicked &&
               filteredByProgram.series &&
               filteredByProgram.series[0] ? (
                 <ReactApexChart
                   options={this.state.options}
                   series={this.state.series}
+                  type="bar"
+                  height={height}
+                />
+              ) : isToggled && !isBarChartClicked ? (
+                <ReactApexChart
+                  options={this.state.options}
+                  series={this.state.programChart.series}
                   type="bar"
                   height={height}
                 />

@@ -446,7 +446,7 @@ const getFinancialData = (state, action) => {
       color: allProgramColor,
     },
     filteredByProgram: {
-      series: allSingleCountData, // allSingleCountData,
+      series: allProgramData, // allSingleCountData,
       label: multiLineLabel,
       color: allProgramColor,
     },
