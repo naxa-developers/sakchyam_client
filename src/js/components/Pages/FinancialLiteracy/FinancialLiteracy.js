@@ -279,7 +279,7 @@ class FinancialLiteracy extends Component {
   getModalContent = contentType => {
     switch (contentType) {
       case 'sankey':
-        return <SankeyDiagram />;
+        return <SankeyDiagram activeModal />;
 
       case 'tree':
         return (
@@ -294,10 +294,22 @@ class FinancialLiteracy extends Component {
           />
         );
       case 'bar':
-        return <HorizontalChart activeModal />;
+        // return <HorizontalChart activeModal />;
+        return (
+          <HorizontalChart
+            activeModal
+            DownloadIcon={DownloadIcon}
+            ExpandIcon={ExpandIcon}
+            downloadPng={this.downloadPng}
+            handleModal={this.handleModal}
+            handleSelectedModal={this.handleSelectedModal}
+            selectedProgram={this.state.selectedProgram1}
+            // showRightSidebar={this.state.showRightSidebar}
+          />
+        );
 
       case 'donut':
-        return <DonutChart />;
+        return <DonutChart activeModal />;
 
       default:
         break;
@@ -403,7 +415,7 @@ class FinancialLiteracy extends Component {
                   >
                     <div className="row">
                       <div className="col-xl-12">
-                        <div className="card" id="card-horizontal">
+                        <div className="card">
                           {/* <div className="card-header">
                             <h5>
                               Beneficiary Reached Per Program by
@@ -473,6 +485,8 @@ class FinancialLiteracy extends Component {
                             handleSelectedModal={
                               this.handleSelectedModal
                             }
+                            selectedProgram={selectedProgram1}
+                            showRightSidebar={showRightSidebar}
                           />
                         </div>
                       </div>
@@ -483,14 +497,6 @@ class FinancialLiteracy extends Component {
                               Ratio of Microfinance and Commercial
                             </h5>
                             <div className="header-icons">
-                              <div className="card-switcher">
-                                <small>OFF</small>
-                                <label className="switch">
-                                  <input type="checkbox" />
-                                  <span className="slider" />
-                                </label>
-                                <small>ON</small>
-                              </div>
                               <span
                                 className=""
                                 onClick={() => {
@@ -549,14 +555,6 @@ class FinancialLiteracy extends Component {
                       <div className="card-header">
                         <h5>Beneficiaries Reached By Partners</h5>
                         <div className="header-icons">
-                          <div className="card-switcher">
-                            <small>OFF</small>
-                            <label className="switch">
-                              <input type="checkbox" />
-                              <span className="slider" />
-                            </label>
-                            <small>ON</small>
-                          </div>
                           <span
                             className
                             onClick={() => {

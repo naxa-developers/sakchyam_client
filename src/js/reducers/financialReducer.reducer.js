@@ -10,6 +10,22 @@ import {
   FILTER_BAR_DATA_AFTER_CLICK,
 } from '../actions/index.actions';
 
+function getRandomColor() {
+  var color = '#',
+    i;
+  for (i = 0; i < 6; i++) {
+    color += Math.floor(Math.random() * 16).toString(16);
+  }
+  return color;
+}
+
+var getColor = (function() {
+  var colors = {};
+  return function(id) {
+    return (colors[id] = colors[id] || getRandomColor());
+  };
+})();
+
 function colorPicker3(i) {
   // COLORPICKER FOR PARTNER TYPE
   if (i === 'Microfinance Institutions') return '#008080';
@@ -163,7 +179,7 @@ const filterSankeyData = data => {
       if (!obj2) {
         nodes.push({
           id: item.partner_name,
-          color: colorPicker2(item.partner_id),
+          color: getColor(item.partner_id),
         });
       }
       if (!obj3) {
@@ -229,7 +245,6 @@ const filterSankeyData = data => {
 // FUNCTION TO HANDLE BAR CLICK
 const getBarDataAfterClick = (state, action) => {
   const clickIndex = action.payload;
-  console.log(clickIndex, 'clickindex');
 };
 
 // FUNCTION TO FILTER BAR CHART
@@ -294,8 +309,20 @@ const getFinancialData = (state, action) => {
   const removedDuplicateLabel = [...new Set(label)];
   const multiLineLabel = [];
 
+  const exception = [
+    'Kisan Microfinance',
+    'Kisan Cooperative',
+    'Mahila Samudayik Laghubitta',
+    'Mahila Sahayatra Laghubitta',
+  ];
+
   removedDuplicateLabel.map(data => {
-    return multiLineLabel.push(data.split(' '));
+    if (exception.includes(data)) {
+      multiLineLabel.push(data.split(' ').slice(0, 2));
+    } else {
+      multiLineLabel.push(data.substr(0, data.indexOf(' ')));
+    }
+    return true;
   });
   const groupedObjForLabel = {};
   allData.forEach(function(c) {
@@ -392,6 +419,7 @@ const getFinancialData = (state, action) => {
   const allSingleCountData = [
     { data: totalSingleCount, id: 1, name: 'Count' },
   ];
+
   const allProgramData = [];
   for (const [key, value] of Object.entries(groupedObj)) {
     // allPartnersLabel.push(key);
@@ -402,9 +430,10 @@ const getFinancialData = (state, action) => {
 
   const allProgramColor = [];
   for (const [key, value] of Object.entries(groupedObj)) {
-    console.log(value, 'value.id');
     allProgramColor.push(colorPicker(value.id));
   }
+
+  const allPartnerColor = a.map(item => getColor(item.partner_id));
 
   // const allProgramData = [];
   // const allPartnersLabel = [];
@@ -443,10 +472,11 @@ const getFinancialData = (state, action) => {
     filteredByProgramDefault: {
       series: allSingleCountData, // allSingleCountData,
       label: multiLineLabel,
-      color: allProgramColor,
+      color: allPartnerColor,
+      // color: ['#333', '#fff'],
     },
     filteredByProgram: {
-      series: allSingleCountData, // allSingleCountData,
+      series: allProgramData, // allSingleCountData,
       label: multiLineLabel,
       color: allProgramColor,
     },

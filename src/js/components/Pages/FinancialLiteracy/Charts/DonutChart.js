@@ -210,19 +210,22 @@ class DonutChart extends Component {
     //   Math.round(commPercent),
     // );
     return (
-      <div id="donut-chart">
+      <div
+        id="donut-chart"
+        style={{ height: this.props.activeModal ? '500px' : '340px' }}
+      >
         {series && series && (
           <>
             <ReactApexChart
               options={options}
               series={series && series}
               type="donut"
-              height="250"
+              height={this.props.activeModal ? '400' : '250'}
             />
             <div className="pie-legend">
               <div className="legend-list">
                 <h5>
-                  <small style={{ backgroundColor: '#E11D3F' }} />
+                  <small style={{ backgroundColor: '#333' }} />
                   <span>Microfinance Institutions</span>
                 </h5>
                 <div className="legend-count">
@@ -236,7 +239,7 @@ class DonutChart extends Component {
               </div>
               <div className="legend-list">
                 <h5>
-                  <small style={{ backgroundColor: '#13A8BE' }} />
+                  <small style={{ backgroundColor: '#333' }} />
                   <span>Commercial Bank & Other Partners</span>
                 </h5>
                 <div className="legend-count">

@@ -55,11 +55,6 @@ class SankeyDiagram extends Component {
       sankeyData.nodes.map(node => node.color);
     const { showRightSidebar } = this.props;
     const width = window.innerWidth;
-    // console.log(width, 'width');
-    // console.log(
-    //   showRightSidebar && window.innerWidth < 1600,
-    //   'width Statement',
-    // );
     return (
       <div id="sankey-chart" style={{ height: '800px' }}>
         {Object.entries(sankeyData).length !== 0 ? (
@@ -68,7 +63,9 @@ class SankeyDiagram extends Component {
               data={sankeyData}
               margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
               width={
-                showRightSidebar && window.innerWidth < 1600
+                this.props.activeModal
+                  ? 1600
+                  : showRightSidebar && window.innerWidth < 1600
                   ? 780
                   : showRightSidebar && window.innerWidth > 1600
                   ? 1100
