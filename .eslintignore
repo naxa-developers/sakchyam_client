@@ -14,6 +14,7 @@ canvasFlowmapLayer.js
 SmoothWheelZoom.js
 leaflet.migrationLayer.js
 MarkerClusterMapbox.js
+SunBurst.js
 # VectorTileMapbox.js
 # /AutomaMainComponent.js
 # *.js

@@ -34,7 +34,7 @@ class MarkerCluster extends Component {
             global.activeMarkerArray = that.state.activeMarkers;
             el.addEventListener('click', function(e) {
               that.props.filteredByPartner(parseInt(e.target.id.split('_')[0]));
-              console.log(e.target.id,'target it');
+              // console.log(e.target.id,'target it');
               // activeMarkerArray.map(activeMarker=>{
                 // console.log(!activeMarkerArray.includes(el.styleid),'activeMarker');
                 if(!global.activeMarkerArray.includes(e.target.id)){
@@ -46,7 +46,7 @@ class MarkerCluster extends Component {
                   global.activeMarkerArray.splice(index,1);
                 }
                 // });
-                console.log(global.activeMarkerArray,'activeMarkerARray');
+                // console.log(global.activeMarkerArray,'activeMarkerARray');
                 // activeMarkerArray.push(e);
                
               // console.log(e,'e')
@@ -450,7 +450,7 @@ var colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c'];
   componentDidMount() {
       
     const map = this.props.map;
-    console.log(map,'props map');
+    // console.log(map,'props map');
     const geojsonData = this.props.geojsonData;
     // this.plotMarkerIcons(map, geojsonData);
     // this.plotMarkerCluster(map, geojsonData);
@@ -459,15 +459,15 @@ var colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c'];
 
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.geojsonData !== this.props.geojsonData){
-      console.log(this.props.geojsonData);
-      console.log(this.props.map,'mapEle');
-      console.log('did update');
+      // console.log(this.props.geojsonData);
+      // console.log(this.props.map,'mapEle');
+      // console.log('did update');
       this.plotMarkerIcons(this.props.map, this.props.geojsonData);
     }
   }
 
   render() {
-    console.log('markerClusterMapbox')
+    // console.log('markerClusterMapbox')
     return (
         <div></div>
     )

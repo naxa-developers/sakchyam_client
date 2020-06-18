@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import { values, select, active } from 'd3';
 import Header from '../../Header';
 import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
@@ -16,6 +15,7 @@ import {
   getFinancialProgram,
   filterFinancialDataForGraph,
   filterPartnersByType,
+  filterTableDataByPartner,
   // filterDataForRightSidebar,
 } from '../../../actions/financial.actions';
 import HorizontalChart from './Charts/HorizontalChart';
@@ -157,6 +157,9 @@ class FinancialLiteracy extends Component {
   };
 
   handlePartnerType = clickedValue => {
+    this.handleUnCheck();
+    this.setState({ isAllPartnerSelected: false });
+
     const { partnerType } = this.state;
     if (partnerType.includes(clickedValue)) {
       const filteredData = partnerType.filter(
@@ -185,7 +188,9 @@ class FinancialLiteracy extends Component {
   };
 
   handleVisualizationType = clicked => {
-    this.setState({ visualizationType: clicked });
+    this.setState({
+      visualizationType: clicked,
+    });
   };
 
   toggleSortBy = () => {
@@ -255,6 +260,7 @@ class FinancialLiteracy extends Component {
       checkedPartnerItems1: checkedPartnerItems,
       selectedProgram1: selectedProgram,
     });
+    this.props.filterTableDataByPartner(checkedPartnerItems);
   };
 
   handleModal = () => {
@@ -273,7 +279,7 @@ class FinancialLiteracy extends Component {
   getModalContent = contentType => {
     switch (contentType) {
       case 'sankey':
-        return <SankeyDiagram />;
+        return <SankeyDiagram activeModal />;
 
       case 'tree':
         return (
@@ -288,10 +294,22 @@ class FinancialLiteracy extends Component {
           />
         );
       case 'bar':
-        return <HorizontalChart activeModal />;
+        // return <HorizontalChart activeModal />;
+        return (
+          <HorizontalChart
+            activeModal
+            DownloadIcon={DownloadIcon}
+            ExpandIcon={ExpandIcon}
+            downloadPng={this.downloadPng}
+            handleModal={this.handleModal}
+            handleSelectedModal={this.handleSelectedModal}
+            selectedProgram={this.state.selectedProgram1}
+            // showRightSidebar={this.state.showRightSidebar}
+          />
+        );
 
       case 'donut':
-        return <DonutChart />;
+        return <DonutChart activeModal />;
 
       default:
         break;
@@ -396,14 +414,23 @@ class FinancialLiteracy extends Component {
                     }
                   >
                     <div className="row">
-                      <div className="col-xl-6">
-                        <div className="card" id="card-horizontal">
-                          <div className="card-header">
+                      <div className="col-xl-12">
+                        <div className="card">
+                          {/* <div className="card-header">
                             <h5>
                               Beneficiary Reached Per Program by
                               Partners
                             </h5>
                             <div className="header-icons">
+                              <div className="card-switcher">
+                                <small>OFF</small>
+                                <label className="switch">
+                                  <input type="checkbox" />
+                                  <span className="slider">
+                                  </span>
+                                </label>
+                                <small>ON</small>
+                              </div>
                               <span
                                 onClick={() => {
                                   this.downloadPng(
@@ -441,12 +468,26 @@ class FinancialLiteracy extends Component {
                             <div
                               className="horizontal-chart"
                               style={{
-                                height: '700px',
+                                height: '400px',
                               }}
                             >
-                              <HorizontalChart />
+                              <HorizontalChart
+                                showRightSidebar={showRightSidebar}
+                              />
                             </div>
                           </div>
+                        </div> */}
+                          <HorizontalChart
+                            DownloadIcon={DownloadIcon}
+                            ExpandIcon={ExpandIcon}
+                            downloadPng={this.downloadPng}
+                            handleModal={this.handleModal}
+                            handleSelectedModal={
+                              this.handleSelectedModal
+                            }
+                            selectedProgram={selectedProgram1}
+                            showRightSidebar={showRightSidebar}
+                          />
                         </div>
                       </div>
                       <div className="col-xl-6">
@@ -490,56 +531,10 @@ class FinancialLiteracy extends Component {
                             <DonutChart />
                           </div>
                         </div>
+                      </div>
 
+                      <div className="col-xl-6">
                         <div className="card" id="">
-                          {/* <div className="card-header">
-                            <h5>
-                              Contribution of Program Initiatives
-                            </h5>
-                            <div className="header-icons">
-                              <button
-                                type="button"
-                                onClick={this.handleTreeMapBackBtn}
-                              >
-                                Back
-                              </button>
-                              <span
-                                className=""
-                                onClick={() => {
-                                  this.downloadPng('treemap-chart');
-                                }}
-                                onKeyDown={() => {
-                                  this.downloadPng('treemap-chart');
-                                }}
-                                role="tab"
-                                tabIndex="0"
-                              >
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span
-                                className=""
-                                role="tab"
-                                tabIndex="0"
-                                onClick={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal('tree');
-                                }}
-                                onKeyDown={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal('tree');
-                                }}
-                              >
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <TreeMapDiagram
-                              checkedPartnerItems={
-                                this.state.checkedPartnerItems
-                              }
-                            />
-                          </div> */}
                           <TreeMapDiagram
                             DownloadIcon={DownloadIcon}
                             ExpandIcon={ExpandIcon}
@@ -591,7 +586,9 @@ class FinancialLiteracy extends Component {
                         </div>
                       </div>
                       <div className="card-body">
-                        <SankeyDiagram />
+                        <SankeyDiagram
+                          showRightSidebar={showRightSidebar}
+                        />
                       </div>
                     </div>
                   </div>
@@ -633,6 +630,8 @@ class FinancialLiteracy extends Component {
           {activeModal && (
             <Modal
               // visible={selectedModal === 'bar' ? true : false}
+
+              selectedModal={selectedModal}
               handleModal={this.handleModal}
               activeModal={activeModal}
               component={() => this.getModalContent(selectedModal)}
@@ -653,9 +652,10 @@ class FinancialLiteracy extends Component {
             activeModal={activeModal}
             component={() => {
               return (
-                <TreeMapDiagram
-                  checkedPartnerItems={this.state.checkedPartnerItems}
-                />
+                // <TreeMapDiagram
+                //   checkedPartnerItems={this.state.checkedPartnerItems}
+                // />
+                <TreeMapDiagram />
               );
             }}
           /> */}
@@ -690,5 +690,6 @@ export default connect(mapStateToProps, {
   getFinancialProgram,
   filterFinancialDataForGraph,
   filterPartnersByType,
+  filterTableDataByPartner,
   // filterDataForRightSidebar,
 })(FinancialLiteracy);

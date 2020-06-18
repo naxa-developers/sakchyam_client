@@ -5,30 +5,97 @@ import {
   GET_PARTNERS_LIST,
   FILTER_FINANCIAL_DATA_FOR_GRAPH,
   FILTER_PARTNERS_BY_TYPE,
+  FILTER_TABLE_BY_PARTNER,
+  GET_SEARCHED_DATA_ON_TABLE,
+  FILTER_BAR_DATA_AFTER_CLICK,
 } from '../actions/index.actions';
 
+function getRandomColor() {
+  var color = '#',
+    i;
+  for (i = 0; i < 6; i++) {
+    color += Math.floor(Math.random() * 16).toString(16);
+  }
+  return color;
+}
+
+var getColor = (function() {
+  var colors = {};
+  return function(id) {
+    return (colors[id] = colors[id] || getRandomColor());
+  };
+})();
+
+function colorPicker3(i) {
+  // COLORPICKER FOR PARTNER TYPE
+  if (i === 'Microfinance Institutions') return '#008080';
+  if (i === 'Commercial Bank and Other Partners') return '#8BB0EC';
+  return '#17A589'; //  #AEB6BF #8BB0EC
+}
+
+function colorPicker2(i) {
+  // COLORPICKER FOR PARTNER ID
+  if (i === 3) return '#91664E';
+  if (i === 4) return '#13A8BE';
+  if (i === 7) return '#13A8BE'; // #FF6D00
+  if (i === 9) return '#DE2693';
+  if (i === 11) return '#B1B424';
+  if (i === 12) return '#2196F3';
+  if (i === 13) return '#900C3F'; // #4CE2A7
+  if (i === 15) return '#1967A0';
+  if (i === 16) return '#00C853';
+  if (i === 17) return '#E11D3F'; // #651FFF
+  if (i === 19) return '#FF6D00'; // #B71DE1
+  if (i === 20) return '#7F8C8D'; // #FFCD00
+  if (i === 21) return '#1F8AE4'; // #E11D3F
+  if (i === 30) return '#FF1500';
+  if (i === 32) return '#C5E11D';
+  if (i === 34) return '#CDACF2';
+  if (i === 37) return '#16A085';
+  if (i === 38) return '#FF5576';
+  if (i === 44) return '#BFEDF5';
+  if (i === 45) return '#E0CBAB';
+  if (i === 46) return '#8E44AD';
+  // if (i === 21) return "#AF7AC5";
+  // if (i === 22) return "#008080";
+  // if (i === 23) return "#C70039";
+  // if (i === 24) return "#16A085";
+  // if (i === 25) return "#5D6D7E";
+  // if (i === 26) return "#900C3F";
+  // if (i === 27) return "#7F8C8D";
+  // if (i === 28) return "#8E44AD";
+  // if (i === 29) return "#AEB6BF";
+
+  return '#FFD400';
+}
+
 function colorPicker(i) {
-  if (i % 20 === 0) return '#91664E';
-  if (i % 20 === 1) return '#13A8BE';
-  if (i % 20 === 2) return '#13A8BE'; // #FF6D00
-  if (i % 20 === 3) return '#DE2693';
-  if (i % 20 === 4) return '#B1B424';
-  if (i % 20 === 5) return '#2196F3';
-  if (i % 20 === 6) return '#B1B424'; // #4CE2A7
-  if (i % 20 === 7) return '#1967A0';
-  if (i % 20 === 8) return '#00C853';
-  if (i % 20 === 9) return '#E11D3F'; // #651FFF
-  if (i % 20 === 10) return '#FF6D00'; // #B71DE1
-  if (i % 20 === 11) return '#DE2693'; // #FFCD00
-  if (i % 20 === 12) return '#1F8AE4'; // #E11D3F
-  if (i % 20 === 13) return '#FF1500';
-  if (i % 20 === 14) return '#C5E11D';
-  if (i % 20 === 15) return '#CDACF2';
-  if (i % 20 === 16) return 'AFDE0E';
-  if (i % 20 === 17) return '#FF5576';
-  if (i % 20 === 18) return '#BFEDF5';
-  if (i % 20 === 19) return '#E0CBAB';
-  if (i % 20 === 20) return '#FF5E00';
+  if (i % 25 === 0) return '#91664E';
+  if (i % 25 === 1) return '#13A8BE';
+  if (i % 25 === 2) return '#13A8BE'; // #FF6D00
+  if (i % 25 === 3) return '#DE2693';
+  if (i % 25 === 4) return '#B1B424';
+  if (i % 25 === 5) return '#2196F3';
+  if (i % 25 === 6) return '#B1B424'; // #4CE2A7
+  if (i % 25 === 7) return '#1967A0';
+  if (i % 25 === 8) return '#00C853';
+  if (i % 25 === 9) return '#E11D3F'; // #651FFF
+  if (i % 25 === 10) return '#FF6D00'; // #B71DE1
+  if (i % 25 === 11) return '#DE2693'; // #FFCD00
+  if (i % 25 === 12) return '#1F8AE4'; // #E11D3F
+  if (i % 25 === 13) return '#FF1500';
+  if (i % 25 === 14) return '#C5E11D';
+  if (i % 25 === 15) return '#CDACF2';
+  if (i % 25 === 16) return 'AFDE0E';
+  if (i % 25 === 17) return '#FF5576';
+  if (i % 25 === 18) return '#BFEDF5';
+  if (i % 25 === 19) return '#E0CBAB';
+  if (i % 25 === 25) return '#FF5E00';
+  if (i % 25 === 21) return '#AF7AC5';
+  if (i % 25 === 22) return '#008080';
+  if (i % 25 === 23) return '#C70039';
+  if (i % 25 === 24) return '#16A085';
+  if (i % 25 === 25) return '#5D6D7E';
   return '#FFD400';
 }
 
@@ -39,6 +106,7 @@ function getFilteredCodes(array, key, value) {
 }
 const initialState = {
   allTableData: [],
+  filteredTableData: [],
   partnersList: [],
   filteredPartnersList: [],
   financialData: [],
@@ -51,7 +119,7 @@ const initialState = {
   pieData: [],
 };
 
-// Function to filter TreeMap Data
+// FUNCTION TO FILTER TREEMAP DATA
 const filterTreeMapData = data => {
   const arr = [];
 
@@ -70,16 +138,33 @@ const filterTreeMapData = data => {
     }
     return true;
   });
+
+  // CALCULATE PERCENTAGE
+  let total = 0;
+
+  arr.map(item => {
+    total += item.loc;
+    return true;
+  });
+
+  arr.map((item, index) => {
+    arr[index].percent = `${((item.loc / total) * 100).toFixed(1)}%`;
+    return true;
+  });
+
   return {
     name: 'program',
     children: arr,
   };
 };
 
-// Funtion to filter Sankey Data
+// FUNTION TO FILTER SANKEY DATA
 const filterSankeyData = data => {
   const nodes = [];
   const links = [];
+
+  // data.sort((a, b) => a.program_id - b.program_id);
+
   data.map(item => {
     if (item.program_id !== item.partner_id && item.value !== 0) {
       const obj1 = nodes.find(obj => obj.id === item.program_name);
@@ -94,16 +179,16 @@ const filterSankeyData = data => {
       if (!obj2) {
         nodes.push({
           id: item.partner_name,
-          color: colorPicker(item.partner_id),
+          color: getColor(item.partner_id),
         });
       }
       if (!obj3) {
         nodes.push({
           id: item.partner_type,
-          color: colorPicker(item.partner_id),
+          color: colorPicker3(item.partner_type),
+          // color: '#008080',
         });
       }
-      // if (item.value !== 0) {
       const obj4 = links.find(
         obj => obj.target === item.partner_name,
       );
@@ -120,13 +205,50 @@ const filterSankeyData = data => {
         value: item.value,
       });
     }
-    // }
+    return true;
+  });
+
+  // CALCULATE NODE VALUES
+  const sources = [];
+
+  links.map(item => {
+    const obj = sources.find(o => o.source === item.source);
+    if (!obj) {
+      sources.push({
+        source: item.source,
+        value: item.value,
+      });
+    }
+    if (obj) {
+      const objIndex = sources.findIndex(
+        i => i.source === item.source,
+      );
+      sources[objIndex].value += item.value;
+    }
+    return true;
+  });
+
+  nodes.map((item, index) => {
+    sources.map(i => {
+      if (i.source === item.id) {
+        nodes[index].value = i.value;
+      }
+      return true;
+    });
     return true;
   });
 
   const sankeyData = { nodes, links };
   return sankeyData;
 };
+
+// FUNCTION TO HANDLE BAR CLICK
+const getBarDataAfterClick = (state, action) => {
+  const clickIndex = action.payload;
+};
+
+// FUNCTION TO FILTER BAR CHART
+const filterBarChartData = () => {};
 
 const getPartnersList = (state, action) => {
   return {
@@ -165,12 +287,9 @@ const getFinancialData = (state, action) => {
     return true;
   });
 
-  console.log(financialData, 'required');
-
   const sankeyData = filterSankeyData(financialData);
   const treeMapData = filterTreeMapData(financialData);
 
-  // console.log(action.payload);
   allData.sort(function(a, b) {
     const nameA = a.single_count; // ignore upper and lowercase
     const nameB = b.single_count; // ignore upper and lowercase
@@ -184,40 +303,47 @@ const getFinancialData = (state, action) => {
     // names must be equal
     return 0;
   });
-  // console.log(action.payload, 'maindata');
   const label = allData.map(data => {
-    // console.log(data.partner_name, 'logggg');
     return data.partner_name;
   });
   const removedDuplicateLabel = [...new Set(label)];
   const multiLineLabel = [];
 
+  const exception = [
+    'Kisan Microfinance',
+    'Kisan Cooperative',
+    'Mahila Samudayik Laghubitta',
+    'Mahila Sahayatra Laghubitta',
+  ];
+
   removedDuplicateLabel.map(data => {
-    return multiLineLabel.push(data.split(' '));
+    if (exception.includes(data)) {
+      multiLineLabel.push(data.split(' ').slice(0, 2));
+    } else {
+      multiLineLabel.push(data.substr(0, data.indexOf(' ')));
+    }
+    return true;
   });
-  console.log(multiLineLabel, 'multiLine');
   const groupedObjForLabel = {};
   allData.forEach(function(c) {
     if (groupedObjForLabel[c.partner_id]) {
       groupedObjForLabel[c.partner_id].names.push(c);
     } else {
       groupedObjForLabel[c.partner_id] = {
+        partner_id: c.partner_id,
         partner_name: c.partner_name,
         names: [c],
       };
     }
   });
-  console.log(groupedObjForLabel, 'groupedLabel');
   const tableDatas = [];
   Object.entries(groupedObjForLabel).map(([key, data]) => {
     return tableDatas.push(data);
   });
-  console.log(tableDatas, 'tableDatas');
   const result = [
     ...new Map(allData.map(x => [x.partner_id, x])).values(),
   ];
 
-  // console.log(result);
   const a = [];
   result.map(data => {
     if (data.partner_type) {
@@ -225,7 +351,6 @@ const getFinancialData = (state, action) => {
     }
     return true;
   });
-  // console.log(a, 'a');
   const groupedObj = {};
   const ObjByProgram = {};
   a.forEach(function(c, i) {
@@ -238,9 +363,7 @@ const getFinancialData = (state, action) => {
       };
     }
   });
-  console.log(ObjByProgram, 'ObjbyProgram');
   allData.forEach(function(c) {
-    // console.log(c, 'c');
     if (groupedObj[c.program_id]) {
       groupedObj[c.program_id].data.push(c.value);
     } else {
@@ -251,36 +374,76 @@ const getFinancialData = (state, action) => {
       };
     }
   });
+  const singleCountPartner = {};
+  // allData.forEach(function(c) {
+  //   if (singleCountPartner[c.partner_id]) {
+  //     if (
+  //       !singleCountPartner[c.partner_id].names.includes(
+  //         c.single_count,
+  //       )
+  //     ) {
+  //       singleCountPartner[c.partner_id].names.push(c.single_count);
+  //     }
+  //   } else {
+  //     singleCountPartner[c.partner_id] = {
+  //       partner_id: c.partner_id,
+  //       partner_name: c.partner_name,
+  //       names: [c.single_count],
+  //     };
+  //   }
+  // });
+  // allData.forEach(function(c) {
+  //   if (singleCountPartner[c.program_id]) {
+  //     singleCountPartner[c.program_id].data.push(c.single_count);
+  //   } else {
+  //     singleCountPartner[c.program_id] = {
+  //       name: c.program_name,
+  //       id: c.program_id,
+  //       data: [c.single_count],
+  //     };
+  //   }
+  // });
 
-  console.log(groupedObj, 'grouped');
+  // console.log(singleCountData, 'singleCountData');
+  // let allSingleCountData = [];
+  // for (const [key, value] of Object.entries(singleCountPartner)) {
+  //   // allPartnersLabel.push(key);
+  //   // value.names.map(data => {
+  //   allSingleCountData.push(value);
+  //   // return true;
+  // }
+  const totalSingleCount = a.map(single => {
+    return single.single_count;
+  });
+
+  const allSingleCountData = [
+    { data: totalSingleCount, id: 1, name: 'Count' },
+  ];
+
   const allProgramData = [];
   for (const [key, value] of Object.entries(groupedObj)) {
-    // console.log(value, 'value');
-    // console.log(key, 'key');
     // allPartnersLabel.push(key);
     // value.names.map(data => {
     allProgramData.push(value);
     // return true;
   }
-  console.log(allProgramData, 'all Data');
+
   const allProgramColor = [];
   for (const [key, value] of Object.entries(groupedObj)) {
     allProgramColor.push(colorPicker(value.id));
   }
 
+  const allPartnerColor = a.map(item => getColor(item.partner_id));
+
   // const allProgramData = [];
   // const allPartnersLabel = [];
   // for (const [key, value] of Object.entries(groupedObj)) {
-  //   // console.log(value, 'value');
-  //   // console.log(key, 'key');
   //   // allPartnersLabel.push(key);
   //   value.names.map(data => {
   //     allProgramData.push(data.value);
   //     return true;
   //   });
   // }
-  // console.log(allPartnersLabel, 'allPartnersLabel');
-  // console.log(allProgramData, 'allProgramData');
 
   const commercial = [];
   const microfinancial = [];
@@ -307,12 +470,13 @@ const getFinancialData = (state, action) => {
     financialData: allData,
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
-      series: allProgramData,
+      series: allSingleCountData, // allSingleCountData,
       label: multiLineLabel,
-      color: allProgramColor,
+      color: allPartnerColor,
+      // color: ['#333', '#fff'],
     },
     filteredByProgram: {
-      series: allProgramData,
+      series: allProgramData, // allSingleCountData,
       label: multiLineLabel,
       color: allProgramColor,
     },
@@ -324,6 +488,7 @@ const getFinancialData = (state, action) => {
       ],
     },
     allTableData: tableDatas,
+    filteredTableData: tableDatas,
   };
 };
 
@@ -371,15 +536,36 @@ const filterFinancialDataForGraph = (state, action) => {
     filteredLabel = state.filteredByProgramDefault.label;
     filteredSeries = state.filteredByProgramDefault.series;
     allProgramColor = state.filteredByProgramDefault.color;
-    data.map(filtData => {
-      console.log(filtData, 'filtData');
-      if (filtData.partner_type === microfinance) {
-        filteredMicroFinance.push(filtData);
-      } else if (filtData.partner_type === commercial) {
-        filteredCommercial.push(filtData);
+
+    const result = [
+      ...new Map(data.map(x => [x.partner_id, x])).values(),
+    ];
+
+    const a = [];
+    result.map(filteredPartnerType => {
+      if (filteredPartnerType.partner_type) {
+        a.push(filteredPartnerType);
       }
       return true;
     });
+
+    a.forEach(function(c) {
+      if (c.partner_type === 'Microfinance Institutions') {
+        filteredMicroFinance.push(c);
+      } else if (
+        c.partner_type === 'Commercial Bank and Other Partners'
+      ) {
+        filteredCommercial.push(c);
+      }
+    });
+    // data.map(filtData => {
+    //   if (filtData.partner_type === microfinance) {
+    //     filteredMicroFinance.push(filtData);
+    //   } else if (filtData.partner_type === commercial) {
+    //     filteredCommercial.push(filtData);
+    //   }
+    //   return true;
+    // });
     // filteredSeries.map(item => {
     //   allProgramColor.push(colorPicker(item.programId));
     //   return true;
@@ -399,7 +585,6 @@ const filterFinancialDataForGraph = (state, action) => {
     //   microfinance,
     // );
 
-    // console.log(filteredCodes, 'filterCodes');
     const filteredData = data.filter(i =>
       selectedPartners.includes(i.partner_id),
     );
@@ -420,7 +605,6 @@ const filterFinancialDataForGraph = (state, action) => {
       return 0;
     });
     const label = filteredData.map(partner => {
-      // console.log(data.partner_name, 'logggg');
       return partner.partner_name;
     });
     const removedDuplicateLabel = [...new Set(label)];
@@ -433,7 +617,6 @@ const filterFinancialDataForGraph = (state, action) => {
     ];
 
     filteredData.forEach(function(c) {
-      // console.log(c, 'c');
       if (groupedObj[c.program_id]) {
         groupedObj[c.program_id].data.push(c.value);
       } else {
@@ -445,11 +628,8 @@ const filterFinancialDataForGraph = (state, action) => {
       }
     });
 
-    console.log(groupedObj, 'grouped');
     // const allProgramData = [];
     for (const [key, value] of Object.entries(groupedObj)) {
-      // console.log(value, 'value');
-      // console.log(key, 'key');
       // allPartnersLabel.push(key);
       // value.names.map(data => {
       allProgramData.push(value);
@@ -458,11 +638,9 @@ const filterFinancialDataForGraph = (state, action) => {
     for (const [key, value] of Object.entries(groupedObj)) {
       allProgramColor.push(colorPicker(value.id));
     }
-    console.log(allProgramData, 'filter all PRogram Data');
     // HORIZONTAL BAR FILTER END
 
     filteredData.map(filtData => {
-      // console.log(filtData, 'filtData');
       if (!filteredLabel.includes(filtData.partner_name)) {
         filteredLabel.push(filtData.partner_name);
       }
@@ -473,25 +651,31 @@ const filterFinancialDataForGraph = (state, action) => {
       });
       return true;
     });
-    filteredData.map(filtData => {
-      if (filtData.partner_type === microfinance) {
-        filteredMicroFinance.push(filtData);
-      } else if (filtData.partner_type === commercial) {
-        filteredCommercial.push(filtData);
+    const a = [];
+    result.map(filteredPartnerType => {
+      if (filteredPartnerType.partner_type) {
+        a.push(filteredPartnerType);
       }
       return true;
+    });
+
+    a.forEach(function(c) {
+      if (c.partner_type === 'Microfinance Institutions') {
+        filteredMicroFinance.push(c);
+      } else if (
+        c.partner_type === 'Commercial Bank and Other Partners'
+      ) {
+        filteredCommercial.push(c);
+      }
     });
     filteredSeries.map(item => {
       allProgramColor.push(colorPicker(item.programId));
       return true;
     });
-    console.log(filteredMicroFinance, 'filteredMicroFinanceData');
-    console.log(filteredCommercial, 'filteredCommercial');
     // const filtered = filteredData.map(datax => {
     //   return datax.single_count;
     // });
     // const result = Array.from(new Set(filtered));
-    // console.log(result, 'result ');
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
   } else if (
@@ -503,7 +687,6 @@ const filterFinancialDataForGraph = (state, action) => {
     );
     // HORIZONTAL BAR FILTER START
     const label = filteredData.map(partner => {
-      // console.log(data.partner_name, 'logggg');
       return partner.partner_name;
     });
     const removedDuplicateLabel = [...new Set(label)];
@@ -530,7 +713,6 @@ const filterFinancialDataForGraph = (state, action) => {
     ];
 
     filteredData.forEach(function(c) {
-      // console.log(c, 'c');
       if (groupedObj[c.program_id]) {
         groupedObj[c.program_id].data.push(c.value);
       } else {
@@ -542,25 +724,31 @@ const filterFinancialDataForGraph = (state, action) => {
       }
     });
 
-    console.log(groupedObj, 'grouped');
     // const allProgramData = [];
     for (const [key, value] of Object.entries(groupedObj)) {
-      // console.log(value, 'value');
-      // console.log(key, 'key');
       // allPartnersLabel.push(key);
       // value.names.map(data => {
       allProgramData.push(value);
       // return true;
     }
-    console.log(allProgramData, 'filter all PRogram Data');
     // HORIZONTAL BAR FILTER END
-    filteredData.map(filtData => {
-      if (filtData.partner_type === microfinance) {
-        filteredMicroFinance.push(filtData);
-      } else if (filtData.partner_type === commercial) {
-        filteredCommercial.push(filtData);
+
+    const a = [];
+    result.map(filteredPartnerType => {
+      if (filteredPartnerType.partner_type) {
+        a.push(filteredPartnerType);
       }
       return true;
+    });
+
+    a.forEach(function(c) {
+      if (c.partner_type === 'Microfinance Institutions') {
+        filteredMicroFinance.push(c);
+      } else if (
+        c.partner_type === 'Commercial Bank and Other Partners'
+      ) {
+        filteredCommercial.push(c);
+      }
     });
     filteredData.map(filtData => {
       if (!filteredLabel.includes(filtData.partner_name)) {
@@ -578,7 +766,6 @@ const filterFinancialDataForGraph = (state, action) => {
       return true;
     });
 
-    console.log(allProgramColor, 'allProgramColor');
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
   } else if (
@@ -593,7 +780,6 @@ const filterFinancialDataForGraph = (state, action) => {
     );
     // HORIZONTAL BAR FILTER START
     const label = anotherFilter.map(partner => {
-      // console.log(data.partner_name, 'logggg');
       return partner.partner_name;
     });
     const removedDuplicateLabel = [...new Set(label)];
@@ -620,7 +806,6 @@ const filterFinancialDataForGraph = (state, action) => {
     ];
 
     anotherFilter.forEach(function(c) {
-      // console.log(c, 'c');
       if (groupedObj[c.program_id]) {
         groupedObj[c.program_id].data.push(c.value);
       } else {
@@ -632,28 +817,33 @@ const filterFinancialDataForGraph = (state, action) => {
       }
     });
 
-    console.log(groupedObj, 'grouped');
     // const allProgramData = [];
     for (const [key, value] of Object.entries(groupedObj)) {
-      // console.log(value, 'value');
-      // console.log(key, 'key');
       // allPartnersLabel.push(key);
       // value.names.map(data => {
       allProgramData.push(value);
       // return true;
     }
-    console.log(allProgramData, 'filter all PRogram Data');
     // HORIZONTAL BAR FILTER END
-    anotherFilter.map(filtData => {
-      if (filtData.partner_type === microfinance) {
-        filteredMicroFinance.push(filtData);
-      } else if (filtData.partner_type === commercial) {
-        filteredCommercial.push(filtData);
+
+    const a = [];
+    result.map(filteredPartnerType => {
+      if (filteredPartnerType.partner_type) {
+        a.push(filteredPartnerType);
       }
       return true;
     });
+
+    a.forEach(function(c) {
+      if (c.partner_type === 'Microfinance Institutions') {
+        filteredMicroFinance.push(c);
+      } else if (
+        c.partner_type === 'Commercial Bank and Other Partners'
+      ) {
+        filteredCommercial.push(c);
+      }
+    });
     anotherFilter.map(filtData => {
-      // console.log(filtered)
       if (!filteredLabel.includes(filtData.partner_name)) {
         filteredLabel.push(filtData.partner_name);
       }
@@ -678,7 +868,6 @@ const filterFinancialDataForGraph = (state, action) => {
   }
 
   // const { selectedPartners, selectedProgram } = action.payload;
-  // console.log(selectedProgram, 'selectedProgram');
   // const data = state.financialData;
   // let filteredLabel = [];
   // let filteredSeries = [];
@@ -695,7 +884,6 @@ const filterFinancialDataForGraph = (state, action) => {
   //   );
 
   //   filteredData.map(filtData => {
-  //     // console.log(filtered)
   //     if (!filteredLabel.includes(filtData.partner_id)) {
   //       filteredLabel.push(filtData.partner_id);
   //     }
@@ -712,9 +900,7 @@ const filterFinancialDataForGraph = (state, action) => {
   //   const filteredData = data.filter(i =>
   //     selectedProgram.includes(i.program_id),
   //   );
-  //   console.log(filteredData, 'filteredData');
   //   filteredData.map(filtData => {
-  //     // console.log(filtered)
   //     if (!filteredLabel.includes(filtData.partner_id)) {
   //       filteredLabel.push(filtData.partner_id);
   //     }
@@ -731,13 +917,10 @@ const filterFinancialDataForGraph = (state, action) => {
   //   const filteredData = data.filter(i =>
   //     selectedPartners.includes(i.partner_id),
   //   );
-  //   console.log(filteredData, 'filteredData');
   //   const anotherFilter = filteredData.filter(j =>
   //     selectedProgram.includes(j.program_id),
   //   );
-  //   console.log(anotherFilter, 'anotherFilter');
   //   anotherFilter.map(filtData => {
-  //     // console.log(filtered)
   //     if (!filteredLabel.includes(filtData.partner_id)) {
   //       filteredLabel.push(filtData.partner_id);
   //     }
@@ -757,16 +940,15 @@ const filterFinancialDataForGraph = (state, action) => {
   // financialProgram: action.payload,
   // };
 
-  // console.log('newTreeMapData', newTreeMapData);
   const totalCommercialBenef = filteredCommercial.reduce(function(
     x,
     b,
   ) {
-    return x + b.value;
+    return x + b.single_count;
   },
   0);
   const totalMicroBenef = filteredMicroFinance.reduce(function(x, b) {
-    return x + b.value;
+    return x + b.single_count;
   }, 0);
   return {
     ...state,
@@ -789,8 +971,6 @@ const filterFinancialDataForGraph = (state, action) => {
 };
 const filterPartnersByType = (state, action) => {
   const allPartnersData = state.partnersList;
-  console.log(action.payload, 'payload');
-  console.log(allPartnersData, 'state');
   let filteredCodes = [];
 
   if (action.payload.length > 1) {
@@ -805,11 +985,37 @@ const filterPartnersByType = (state, action) => {
   if (action.payload < 1) {
     filteredCodes = allPartnersData;
   }
-  // console.log(filteredCodes, 'filteredTypesss');
   return {
     ...state,
     filteredPartnersList: filteredCodes,
     // partnersList: action.payload,
+  };
+};
+const filterTableDataByPartner = (state, action) => {
+  const selectedPartners = action.payload;
+  const { allTableData } = state;
+  let filteredTableDataByPartners = allTableData.filter(data => {
+    return selectedPartners.includes(data.partner_id);
+  });
+  if (selectedPartners.length === 0) {
+    filteredTableDataByPartners = allTableData;
+  }
+  return {
+    ...state,
+    filteredTableData: filteredTableDataByPartners,
+  };
+};
+const searchedDataOnTable = (state, action) => {
+  const keyword = action.payload;
+  const { allTableData } = state;
+  const filteredKeywordData = allTableData.filter(data => {
+    return data.partner_name
+      .toUpperCase()
+      .includes(action.payload.toUpperCase());
+  });
+  return {
+    ...state,
+    filteredTableData: filteredKeywordData,
   };
 };
 export default function(state = initialState, action) {
@@ -824,6 +1030,12 @@ export default function(state = initialState, action) {
       return filterFinancialDataForGraph(state, action);
     case FILTER_PARTNERS_BY_TYPE:
       return filterPartnersByType(state, action);
+    case FILTER_TABLE_BY_PARTNER:
+      return filterTableDataByPartner(state, action);
+    case GET_SEARCHED_DATA_ON_TABLE:
+      return searchedDataOnTable(state, action);
+    case FILTER_BAR_DATA_AFTER_CLICK:
+      return getBarDataAfterClick(state, action);
     default:
       return state;
   }

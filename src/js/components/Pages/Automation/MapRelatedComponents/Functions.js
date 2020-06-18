@@ -1,5 +1,5 @@
 import gradStop from 'gradstop';
-import districtData from '../../../../../data/district.json'
+import districtData from './DistrictFunction'
 import municipalityData from '../../../../../data/municipality.json'
 import React from "react";
 // import ReactDOMServer from 'react-dom/server';
@@ -203,7 +203,7 @@ export const countEqual = (oo, pp, labelcount) => {
 
 export const handleMarkerZoom = (map, layers) => {
     var zoom = map.getZoom();
-    console.log(map.getBounds(), "bounds")
+    // console.log(map.getBounds(), "bounds")
     layers.length>0 ? layers.map(layer =>{
         if((zoom<=5 || zoom > 7.5) && window[layer]){
             // console.log("zoom <=5 or zoom>7")

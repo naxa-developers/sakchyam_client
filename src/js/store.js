@@ -1,4 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import logger from 'redux-logger';
+
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/index.reducer';
 
@@ -6,14 +8,16 @@ import rootReducer from './reducers/index.reducer';
 
 const initialState = {};
 const isDev = process.env.PLATFORM === 'local';
-const middleware = [thunk];
+
+const isDevMiddleware = [thunk, logger];
+const isProdMiddleware = [thunk];
 
 const store = isDev
   ? createStore(
       rootReducer,
       initialState,
       compose(
-        applyMiddleware(...middleware),
+        applyMiddleware(...isDevMiddleware),
         window.__REDUX_DEVTOOLS_EXTENSION__ &&
           window.__REDUX_DEVTOOLS_EXTENSION__(),
       ),
@@ -21,7 +25,7 @@ const store = isDev
   : createStore(
       rootReducer,
       initialState,
-      compose(applyMiddleware(...middleware)),
+      compose(applyMiddleware(...isProdMiddleware)),
     );
 
 // store.subscribe(() => {

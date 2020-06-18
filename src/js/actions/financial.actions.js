@@ -5,6 +5,9 @@ import {
   GET_PARTNERS_LIST,
   FILTER_FINANCIAL_DATA_FOR_GRAPH,
   FILTER_PARTNERS_BY_TYPE,
+  FILTER_TABLE_BY_PARTNER,
+  GET_SEARCHED_DATA_ON_TABLE,
+  FILTER_BAR_DATA_AFTER_CLICK,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -123,5 +126,30 @@ export const filterPartnersByType = selectedPartnerType => dispatch => {
   return dispatch({
     type: FILTER_PARTNERS_BY_TYPE,
     payload: selectedPartnerType,
+  });
+};
+export const filterTableDataByPartner = selectedPartners => dispatch => {
+  // console.log(selectedPartners, 'selectedPartners');
+  // console.log(selectedProgram, 'selectedProgram');
+  return dispatch({
+    type: FILTER_TABLE_BY_PARTNER,
+    payload: selectedPartners,
+  });
+};
+export const getSearchedDataOnTable = searchedKeyword => dispatch => {
+  // console.log(selectedPartners, 'selectedPartners');
+  // console.log(selectedProgram, 'selectedProgram');
+  return dispatch({
+    type: GET_SEARCHED_DATA_ON_TABLE,
+    payload: searchedKeyword,
+  });
+};
+
+export const getBarDataAfterClick = clickIndex => dispatch => {
+  // console.log(selectedPartners, 'selectedPartners');
+  // console.log(selectedProgram, 'selectedProgram');
+  return dispatch({
+    type: FILTER_BAR_DATA_AFTER_CLICK,
+    payload: clickIndex,
   });
 };

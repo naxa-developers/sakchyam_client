@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 
-import { calculateRange, choroplethColorArray } from './Functions';
+import {
+  calculateRange,
+  choroplethColorArray,
+} from '../../../common/Functions';
 
 const defaultData = [
   { id: '1', count: 0 },

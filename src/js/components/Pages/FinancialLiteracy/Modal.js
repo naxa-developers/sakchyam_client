@@ -32,7 +32,16 @@ const downloadPng = chartid => {
   // this.setState({ downloadActive: false });
 };
 const Modal = props => {
-  const { activeModal, handleModal, component, visible } = props;
+  const { handleModal, component, selectedModal } = props;
+  // console.log(selectedModal, 'selectedModal');
+  const selectedChartId =
+    selectedModal === 'bar'
+      ? 'horizontal-chart'
+      : selectedModal === 'donut'
+      ? 'donut-chart'
+      : selectedModal === 'tree'
+      ? 'treemap-chart'
+      : 'sankey-chart';
   return (
     <div
       className="popup open"
@@ -41,7 +50,7 @@ const Modal = props => {
       // }`}
       id="graph-modal"
     >
-      <div className="popup-container lg-popup">
+      <div className="popup-container full-popup">
         <div className="popup-body" id="popup-body">
           <span className="close-icon">
             <i
@@ -66,7 +75,7 @@ const Modal = props => {
             </button> */}
             <button
               onClick={() => {
-                downloadPng('horizontal-chart');
+                downloadPng(selectedChartId);
               }}
               type="button"
               className="common-button is-bg"

@@ -4,28 +4,88 @@ import { ResponsiveTreeMap } from '@nivo/treemap';
 import { connect } from 'react-redux';
 // import root from './treemap.data';
 
-function colorPicker(i) {
-  if (i % 20 === 0) return '#91664E';
-  if (i % 20 === 1) return '#13A8BE';
-  if (i % 20 === 2) return '#13A8BE'; // #FF6D00
-  if (i % 20 === 3) return '#DE2693';
-  if (i % 20 === 4) return '#B1B424';
-  if (i % 20 === 5) return '#2196F3';
-  if (i % 20 === 6) return '#B1B424'; // #4CE2A7
-  if (i % 20 === 7) return '#1967A0';
-  if (i % 20 === 8) return '#00C853';
-  if (i % 20 === 9) return '#E11D3F'; // #651FFF
-  if (i % 20 === 10) return '#FF6D00'; // #B71DE1
-  if (i % 20 === 11) return '#DE2693'; // #FFCD00
-  if (i % 20 === 12) return '#1F8AE4'; // #E11D3F
-  if (i % 20 === 13) return '#FF1500';
-  if (i % 20 === 14) return '#C5E11D';
-  if (i % 20 === 15) return '#CDACF2';
-  if (i % 20 === 16) return 'AFDE0E';
-  if (i % 20 === 17) return '#FF5576';
-  if (i % 20 === 18) return '#BFEDF5';
-  if (i % 20 === 19) return '#E0CBAB';
-  if (i % 20 === 20) return '#FF5E00';
+function getRandomColor() {
+  var color = '#',
+    i;
+  for (i = 0; i < 6; i++) {
+    color += Math.floor(Math.random() * 16).toString(16);
+  }
+  return color;
+}
+
+var getColor = (function() {
+  var colors = {};
+  return function(id) {
+    return (colors[id] = colors[id] || getRandomColor());
+  };
+})();
+
+function colorPicker2(i) {
+  if (i === 3) return '#91664E';
+  if (i === 4) return '#13A8BE';
+  if (i === 7) return '#13A8BE'; // #FF6D00
+  if (i === 9) return '#DE2693';
+  if (i === 11) return '#B1B424';
+  if (i === 12) return '#2196F3';
+  if (i === 13) return '#900C3F'; // #4CE2A7
+  if (i === 15) return '#1967A0';
+  if (i === 16) return '#00C853';
+  if (i === 17) return '#E11D3F'; // #651FFF
+  if (i === 19) return '#FF6D00'; // #B71DE1
+  if (i === 20) return '#7F8C8D'; // #FFCD00
+  if (i === 21) return '#1F8AE4'; // #E11D3F
+  if (i === 30) return '#FF1500';
+  if (i === 32) return '#C5E11D';
+  if (i === 34) return '#CDACF2';
+  if (i === 37) return '#16A085';
+  if (i === 38) return '#FF5576';
+  if (i === 44) return '#BFEDF5';
+  if (i === 45) return '#E0CBAB';
+  if (i === 46) return '#8E44AD';
+  // if (i === 21) return "#AF7AC5";
+  // if (i === 22) return "#008080";
+  // if (i === 23) return "#C70039";
+  // if (i === 24) return "#16A085";
+  // if (i === 25) return "#5D6D7E";
+  // if (i === 26) return "#900C3F";
+  // if (i === 27) return "#7F8C8D";
+  // if (i === 28) return "#8E44AD";
+  // if (i === 29) return "#AEB6BF";
+
+  return '#FFD400';
+}
+function colorPicker1(i) {
+  if (i % 29 === 0) return '#91664E';
+  if (i % 29 === 1) return '#13A8BE';
+  if (i % 29 === 2) return '#13A8BE'; // #FF6D00
+  if (i % 29 === 3) return '#DE2693';
+  if (i % 29 === 4) return '#B1B424';
+  if (i % 29 === 5) return '#2196F3';
+  if (i % 29 === 6) return '#B1B424'; // #4CE2A7
+  if (i % 29 === 7) return '#1967A0';
+  if (i % 29 === 8) return '#00C853';
+  if (i % 29 === 9) return '#E11D3F'; // #651FFF
+  if (i % 29 === 10) return '#FF6D00'; // #B71DE1
+  if (i % 29 === 11) return '#DE2693'; // #FFCD00
+  if (i % 29 === 12) return '#1F8AE4'; // #E11D3F
+  if (i % 29 === 13) return '#FF1500';
+  if (i % 29 === 14) return '#C5E11D';
+  if (i % 29 === 15) return '#CDACF2';
+  if (i % 29 === 16) return 'AFDE0E';
+  if (i % 29 === 17) return '#FF5576';
+  if (i % 29 === 18) return '#BFEDF5';
+  if (i % 29 === 19) return '#E0CBAB';
+  if (i % 29 === 25) return '#FF5E00';
+  if (i % 29 === 21) return '#AF7AC5';
+  if (i % 29 === 22) return '#008080';
+  if (i % 29 === 23) return '#C70039';
+  if (i % 29 === 24) return '#16A085';
+  if (i % 29 === 25) return '#5D6D7E';
+  if (i % 29 === 26) return '#900C3F';
+  if (i % 29 === 27) return '#7F8C8D';
+  if (i % 29 === 28) return '#8E44AD';
+  if (i % 29 === 29) return '#AEB6BF';
+
   return '#FFD400';
 }
 
@@ -38,13 +98,22 @@ function numberWithCommas(x) {
   return x;
 }
 
-const getInitials = name => {
-  let initials = name.match(/\b\w/g) || [];
-  initials = (
-    (initials.shift() || '') + (initials.pop() || '')
-  ).toUpperCase();
+const getInitials = title => {
+  const initials = title
+    .split(' ')
+    .map(word => word[0])
+    .join('');
+
   return initials;
 };
+
+// const getInitials = name => {
+//   let initials = name.match(/\b\w/g) || [];
+//   initials = (
+//     (initials.shift() || '') + (initials.pop() || '')
+//   ).toUpperCase();
+//   return initials;
+// };
 class TreeMapDiagram extends Component {
   constructor(props) {
     super(props);
@@ -127,6 +196,22 @@ class TreeMapDiagram extends Component {
       }
       return true;
     });
+
+    // CALCULATE PERCENTAGE
+    let total = 0;
+
+    arr.map(item => {
+      total += item.loc;
+      return true;
+    });
+
+    arr.map((item, index) => {
+      arr[index].percent = `${((item.loc / total) * 100).toFixed(
+        1,
+      )}%`;
+      return true;
+    });
+
     return { name: 'program1', children: arr };
   };
 
@@ -147,7 +232,13 @@ class TreeMapDiagram extends Component {
       arr.push({
         id: `color${index}`,
         type: 'linearGradient',
-        colors: [{ offset: 100, color: colorPicker(item.id) }],
+        colors: [
+          {
+            offset: 100,
+            color:
+              i === 1 ? colorPicker1(item.id) : getColor(item.id),
+          },
+        ],
       });
       return true;
     });
@@ -213,15 +304,21 @@ class TreeMapDiagram extends Component {
 
     return (
       <>
-        <div className="card-header">
+        <div
+          className="card-header"
+          style={{
+            display: this.props.activeModal ? 'none' : 'flex',
+          }}
+        >
           <h5>Contribution of program initiatives</h5>
           <div className="header-icons">
             {isTreeMapClicked && (
               <button
                 type="button"
                 onClick={this.handleTreeMapBackBtn}
+                className="is-border common-button"
               >
-                Back
+                Reset
               </button>
             )}
             <span
@@ -257,7 +354,10 @@ class TreeMapDiagram extends Component {
         <div className="card-body">
           <div
             id="treemap-chart"
-            style={{ height: '340px', width: '100%' }}
+            style={{
+              height: this.props.activeModal ? '600px' : '340px',
+              width: '100%',
+            }}
           >
             {!isTreeMapClicked ? (
               treeMapData1 && (
@@ -278,7 +378,7 @@ class TreeMapDiagram extends Component {
                   leavesOnly
                   // orientLabel={false}
                   // labelFormat=".0s"
-                  labelSkipSize={12}
+                  // labelSkipSize={12}
                   // labelTextColor={{
                   //   from: 'color',
                   //   modifiers: [['darker', 1.2]],
@@ -292,7 +392,7 @@ class TreeMapDiagram extends Component {
                   motionStiffness={90}
                   motionDamping={11}
                   onClick={this.onProgramClick}
-                  tooltip={({ id, value, color }) => (
+                  tooltip={({ id, value, color, data }) => (
                     <div
                       style={{
                         color: '#fff',
@@ -302,7 +402,7 @@ class TreeMapDiagram extends Component {
                     >
                       {id}
                       <br />
-                      {numberWithCommas(value)}
+                      {`${numberWithCommas(value)} (${data.percent})`}
                     </div>
                   )}
                   theme={{
@@ -327,7 +427,7 @@ class TreeMapDiagram extends Component {
                 leavesOnly
                 // orientLabel={false}
                 // labelFormat=".0s"
-                labelSkipSize={12}
+                // labelSkipSize={12}
                 // labelTextColor={{
                 //   from: 'color',
                 //   modifiers: [['darker', 1.2]],
@@ -341,7 +441,7 @@ class TreeMapDiagram extends Component {
                 motionStiffness={90}
                 motionDamping={11}
                 // onClick={this.onProgramClick}
-                tooltip={({ id, value, color }) => (
+                tooltip={({ id, value, color, data }) => (
                   <div
                     style={{
                       color: '#fff',
@@ -351,7 +451,7 @@ class TreeMapDiagram extends Component {
                   >
                     {id}
                     <br />
-                    {numberWithCommas(value)}
+                    {`${numberWithCommas(value)} (${data.percent})`}
                   </div>
                 )}
                 theme={{

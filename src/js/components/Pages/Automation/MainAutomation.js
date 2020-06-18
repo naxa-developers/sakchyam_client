@@ -629,7 +629,7 @@ class MainAutomation extends Component {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ migrationArray: array });
         if (mapType === 'branches') {
-          console.log(array, 'array Migration');
+          // console.log(array, 'array Migration');
           global.migrationLayer.setData(array);
           global.migrationLayer.pause();
           global.migrationLayer.show();
@@ -931,11 +931,11 @@ class MainAutomation extends Component {
         const map = this.mapRef.current.leafletElement;
         if (selectedMunicipality.length > 0) {
           const combinedBbox = [];
-          console.log(selectedMunicipality, 'selectedMunicipality');
+          // console.log(selectedMunicipality, 'selectedMunicipality');
           const getBboxValue = getCenterBboxMunicipality(
             selectedMunicipality,
           );
-          console.log(getBboxValue, 'bboxValue');
+          // console.log(getBboxValue, 'bboxValue');
           getBboxValue.map(data => {
             combinedBbox.push(data.bbox);
             return true;
@@ -1559,11 +1559,11 @@ class MainAutomation extends Component {
       // }
       if (selectedMunicipality.length > 0) {
         const combinedBbox = [];
-        console.log(selectedMunicipality, 'selectedMunicipality');
+        // console.log(selectedMunicipality, 'selectedMunicipality');
         const getBboxValue = getCenterBboxMunicipality(
           selectedMunicipality,
         );
-        console.log(getBboxValue, 'bboxValue');
+        // console.log(getBboxValue, 'bboxValue');
         getBboxValue.map(data => {
           combinedBbox.push(data.bbox);
           return true;

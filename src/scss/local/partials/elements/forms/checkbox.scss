@@ -50,6 +50,10 @@
             background: $white-color;
             border: 1.5px solid $primary-light;
             @include radius(4px);
+            @media #{$breakpoint-md-desktop} {
+                margin-right:5px;
+                
+            }
         }
 
         // Box hover

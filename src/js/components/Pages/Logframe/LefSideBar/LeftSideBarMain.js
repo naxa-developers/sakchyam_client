@@ -28,12 +28,12 @@ class LeftSidebarMain extends Component {
     const b = [];
     const a = indicatorCategory.map(data => {
       data.subcat.map(subdata => {
-        console.log(subdata.name);
+        // console.log(subdata.name);
         return b.push(subdata.name);
       });
       return true;
     });
-    console.log(b);
+    // console.log(b);
   }
 
   render() {

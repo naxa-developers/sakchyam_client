@@ -324,7 +324,7 @@ const getProvinceData = (state, action) => {
       return 0;
     };
   }
-  console.log(action.payload);
+  // console.log(action.payload);
   action.payload.sort(GetSortOrder('code'));
   return {
     ...state,
