@@ -459,8 +459,8 @@ class HorizontalChart extends Component {
                       : showRightSidebar && window.innerWidth > 1600
                       ? 1100
                       : !showRightSidebar && window.innerWidth < 1600
-                      ? 760
-                      : 1000
+                      ? 1100
+                      : 1400
                   }
                 />
               ) : (

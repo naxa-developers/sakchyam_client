@@ -1,25 +1,41 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import MapboxPartnership from './MapComponents/MapboxPartnership';
-import DownloadIcon from '../../../../img/get_app.png';
-import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
-import Sunburst from './Charts/SunBurst/SunBurst';
-import sunBurstData from './Charts/SunBurst/sunburstData';
-import StackedBar from './Charts/StackedBar/StackedBar';
-import RadarChart from './Charts/RadarChart/RadarChart';
-import CirclePackChart from './Charts/CirclePack/CirclePackChart';
-import SankeyChart from './Charts/SankeyChart/SankeyChart';
+import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
+import {
+  getPartnershipInvestmentFocus,
+  getProjectListData,
+  getMapDataByProvince,
+  getMapDataByDistrict,
+  getMapDataByMunicipality,
+  getFilteredMapData,
+  getRadialData,
+  getPartnersList,
+  filterPartnerListByPartnerType,
+} from '../../../actions/partnership.actions';
 
 class MainPartnership extends Component {
   constructor() {
     super();
     this.state = {
+      // Event Handle Section
+      investmentFocusSelection: [],
+      projectSelection: [],
+      partnerSelection: [],
+      projectStatus: [],
+      partnerType: [
+        'Microfinance Institutions/Cooperatives',
+        'Commercial Bank and Other Partners',
+      ],
+      // UI Section
       activeFilter: false,
       activeOverview: false,
-      viewDataBy: 'Beneficiaries',
+      viewDataBy: 'allocated_beneficiary',
       activeView: 'visualization',
+      // map Section
       map: null,
       mapViewBy: 'province',
       vectorTileUrl:
@@ -27,7 +43,36 @@ class MainPartnership extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { viewDataBy } = this.state;
+    this.props.getRadialData();
+    this.props.getPartnershipInvestmentFocus();
+    this.props.getProjectListData();
+    this.props.getMapDataByProvince(viewDataBy);
+    this.props.getMapDataByDistrict(viewDataBy);
+    this.props.getMapDataByMunicipality(viewDataBy);
+    this.props.getPartnersList();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      investmentFocusSelection,
+      viewDataBy,
+      mapViewBy,
+      partnerType,
+    } = this.state;
+    if (
+      prevState.investmentFocusSelection !== investmentFocusSelection
+    ) {
+      this.props.getProjectListData(investmentFocusSelection);
+    }
+    if (prevState.viewDataBy !== viewDataBy) {
+      this.props.getFilteredMapData(mapViewBy, viewDataBy);
+    }
+    if (prevState.partnerType !== partnerType) {
+      this.props.filterPartnerListByPartnerType(partnerType);
+    }
+  }
 
   setFilterTab = () => {
     this.setState(prevState => ({
@@ -54,24 +99,133 @@ class MainPartnership extends Component {
   };
 
   setMapViewBy = selectedMapView => {
+    const { viewDataBy } = this.state;
     this.setState({
       mapViewBy: selectedMapView,
     });
     if (selectedMapView === 'province') {
+      this.props.getFilteredMapData('province', viewDataBy);
       this.setState({
         vectorTileUrl:
           'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       });
     } else if (selectedMapView === 'district') {
+      this.props.getFilteredMapData('district', viewDataBy);
       this.setState({
         vectorTileUrl:
           'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
       });
     } else if (selectedMapView === 'municipality') {
+      this.props.getFilteredMapData('municipality', viewDataBy);
       this.setState({
         vectorTileUrl:
           'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
       });
+    }
+  };
+
+  handleInvestmentFocusCheckbox = e => {
+    const {
+      state: { investmentFocusSelection },
+    } = this;
+    const {
+      target: { name, checked, value },
+    } = e;
+    console.log(value);
+    this.setState(preState => {
+      if (checked) {
+        return {
+          investmentFocusSelection: [
+            ...preState.investmentFocusSelection,
+            name,
+          ],
+          projectSelection: [],
+        };
+      }
+      if (!checked) {
+        const newArr = investmentFocusSelection.filter(
+          daily => daily !== name,
+        );
+        return {
+          investmentFocusSelection: newArr,
+          projectSelection: [],
+        };
+      }
+      return null;
+    });
+  };
+
+  handleProjectSelectionCheckbox = e => {
+    const {
+      state: { projectSelection },
+    } = this;
+    const {
+      target: { name, checked },
+    } = e;
+
+    this.setState(preState => {
+      if (checked) {
+        return {
+          projectSelection: [...preState.projectSelection, name],
+        };
+      }
+      if (!checked) {
+        const newArr = projectSelection.filter(
+          projectselected => projectselected !== name,
+        );
+        return { projectSelection: newArr };
+      }
+      return null;
+    });
+  };
+
+  handlePartnerSelectionCheckbox = e => {
+    const {
+      state: { partnerSelection },
+    } = this;
+    const {
+      target: { name, checked },
+    } = e;
+
+    this.setState(preState => {
+      if (checked) {
+        return {
+          partnerSelection: [...preState.partnerSelection, name],
+        };
+      }
+      if (!checked) {
+        const newArr = partnerSelection.filter(
+          partnerSelected => partnerSelected !== name,
+        );
+        return { partnerSelection: newArr };
+      }
+      return null;
+    });
+  };
+
+  handleProjectStatus = clickedValue => {
+    const { projectStatus } = this.state;
+    if (projectStatus.includes(clickedValue)) {
+      const filteredData = projectStatus.filter(
+        data => data !== clickedValue,
+      );
+      this.setState({ projectStatus: filteredData });
+    } else {
+      const addedPartnerType = projectStatus.concat(clickedValue);
+      this.setState({ projectStatus: addedPartnerType });
+    }
+  };
+
+  handlePartnerType = clickedValue => {
+    const { partnerType } = this.state;
+    if (partnerType.includes(clickedValue)) {
+      const filteredData = partnerType.filter(
+        data => data !== clickedValue,
+      );
+      this.setState({ partnerType: filteredData });
+    } else {
+      const addedPartnerType = partnerType.concat(clickedValue);
+      this.setState({ partnerType: addedPartnerType });
     }
   };
 
@@ -85,6 +239,11 @@ class MainPartnership extends Component {
         viewDataBy,
         activeView,
         vectorTileUrl,
+        investmentFocusSelection,
+        projectSelection,
+        projectStatus,
+        partnerSelection,
+        partnerType,
       },
       // props: {},
     } = this;
@@ -100,7 +259,24 @@ class MainPartnership extends Component {
             activeOverview ? 'expand-right-sidebar' : ''
           }`}
         >
-          <LeftSideBar />
+          <LeftSideBar
+            investmentFocusSelection={investmentFocusSelection}
+            handleInvestmentFocusCheckbox={
+              this.handleInvestmentFocusCheckbox
+            }
+            projectSelection={projectSelection}
+            handleProjectSelectionCheckbox={
+              this.handleProjectSelectionCheckbox
+            }
+            projectStatus={projectStatus}
+            handleProjectStatus={this.handleProjectStatus}
+            partnerType={partnerType}
+            handlePartnerType={this.handlePartnerType}
+            partnerSelection={partnerSelection}
+            handlePartnerSelectionCheckbox={
+              this.handlePartnerSelectionCheckbox
+            }
+          />
           <main className="main">
             <div className="main-card literacy-main-card">
               <div
@@ -201,7 +377,9 @@ class MainPartnership extends Component {
                         </div>
                         <div className="form-group">
                           <select className="form-control">
-                            <option selected>select province</option>
+                            <option defaultValue>
+                              select province
+                            </option>
                             <option>province 1</option>
                             <option>province 2</option>
                             <option>province 3</option>
@@ -213,7 +391,9 @@ class MainPartnership extends Component {
                         </div>
                         <div className="form-group">
                           <select className="form-control">
-                            <option selected>select province</option>
+                            <option defaultValue>
+                              select province
+                            </option>
                             <option>province 1</option>
                             <option>province 2</option>
                             <option>province 3</option>
@@ -246,13 +426,15 @@ class MainPartnership extends Component {
                   <ul>
                     <li
                       className={
-                        viewDataBy === 'Beneficiaries' ? 'active' : ''
+                        viewDataBy === 'allocated_beneficiary'
+                          ? 'active'
+                          : ''
                       }
                       onClick={() => {
-                        this.setViewDataBy('Beneficiaries');
+                        this.setViewDataBy('allocated_beneficiary');
                       }}
                       onKeyDown={() => {
-                        this.setViewDataBy('Beneficiaries');
+                        this.setViewDataBy('allocated_beneficiary');
                       }}
                       role="tab"
                       tabIndex="-1"
@@ -261,13 +443,15 @@ class MainPartnership extends Component {
                     </li>
                     <li
                       className={
-                        viewDataBy === 'Budget' ? 'active' : ''
+                        viewDataBy === 'allocated_budget'
+                          ? 'active'
+                          : ''
                       }
                       onClick={() => {
-                        this.setViewDataBy('Budget');
+                        this.setViewDataBy('allocated_budget');
                       }}
                       onKeyDown={() => {
-                        this.setViewDataBy('Budget');
+                        this.setViewDataBy('allocated_budget');
                       }}
                       role="tab"
                       tabIndex="-1"
@@ -293,167 +477,11 @@ class MainPartnership extends Component {
                 </div>
               </div>
               <div className="literacy-tab-content">
-                <div
-                  className="literacy-tab-item"
-                  style={
-                    activeView === 'visualization'
-                      ? { display: 'block' }
-                      : { display: 'none' }
-                  }
-                >
-                  <div className="graph-view">
-                    <div className="row">
-                      <div className="col-xl-6">
-                        <div className="card">
-                          <div className="card-header">
-                            <h5>
-                              Investment focus zoomable sunburst
-                            </h5>
-                            <div className="header-icons">
-                              <div className="card-switcher">
-                                <small>OFF</small>
-                                <label className="switch">
-                                  <input type="checkbox" />
-                                  <span className="slider" />
-                                </label>
-                                <small>ON</small>
-                              </div>
-                              <span className="">
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span
-                                className="zoom"
-                                popup-link="graph-modal"
-                              >
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <Sunburst
-                              data={sunBurstData}
-                              width={500}
-                              height={370}
-                              count_member="size"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-xl-6">
-                        <div className="card">
-                          <div className="card-header">
-                            <h5>Stacked bar with Partner Type</h5>
-                            <div className="header-icons">
-                              <div className="card-switcher">
-                                <small>OFF</small>
-                                <label className="switch">
-                                  <input type="checkbox" />
-                                  <span className="slider" />
-                                </label>
-                                <small>ON</small>
-                              </div>
-                              <span className="">
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span className="">
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <StackedBar />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-xl-6">
-                        <div className="card">
-                          <div className="card-header">
-                            <h5>Spider Net diagram</h5>
-                            <div className="header-icons">
-                              <div className="card-switcher">
-                                <small>OFF</small>
-                                <label className="switch">
-                                  <input type="checkbox" />
-                                  <span className="slider" />
-                                </label>
-                                <small>ON</small>
-                              </div>
-                              <span className="">
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span
-                                className="zoom"
-                                popup-link="graph-modal"
-                              >
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <RadarChart />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-xl-6">
-                        <div className="card">
-                          <div className="card-header">
-                            <h5>Zoomable Circle Packing</h5>
-                            <div className="header-icons">
-                              <div className="card-switcher">
-                                <small>OFF</small>
-                                <label className="switch">
-                                  <input type="checkbox" />
-                                  <span className="slider" />
-                                </label>
-                                <small>ON</small>
-                              </div>
-                              <span className="">
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span className="">
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <CirclePackChart />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-xl-12">
-                        <div className="card">
-                          <div className="card-header">
-                            <h5>
-                              Contribution of program initiatives
-                            </h5>
-                            <div className="header-icons">
-                              <div className="card-switcher">
-                                <small>OFF</small>
-                                <label className="switch">
-                                  <input type="checkbox" />
-                                  <span className="slider" />
-                                </label>
-                                <small>ON</small>
-                              </div>
-                              <span className="">
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span className="">
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body" id="sankeyChart">
-                            <SankeyChart
-                              cardWidth={sankeyChartwidth}
-                              activeOverview={activeOverview}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <MiddleChartSection
+                  sankeyChartwidth={sankeyChartwidth}
+                  activeOverview={activeOverview}
+                  activeView={activeView}
+                />
                 <div
                   className="literacy-tab-item"
                   style={
@@ -513,5 +541,17 @@ class MainPartnership extends Component {
     );
   }
 }
-
-export default MainPartnership;
+const mapStateToProps = ({ partnershipReducer }) => ({
+  partnershipReducer,
+});
+export default connect(mapStateToProps, {
+  getPartnershipInvestmentFocus,
+  getProjectListData,
+  getMapDataByProvince,
+  getMapDataByDistrict,
+  getMapDataByMunicipality,
+  getFilteredMapData,
+  getRadialData,
+  getPartnersList,
+  filterPartnerListByPartnerType,
+})(MainPartnership);

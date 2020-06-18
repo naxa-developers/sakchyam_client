@@ -1102,8 +1102,8 @@ class MiddleChartSection extends Component {
         this.setState({ activeLine2: true });
       }
     }
-    console.log(this.state.activeTimeGraph, 'a');
-    console.log(this.state.activeBar, 'b');
+    // console.log(this.state.activeTimeGraph, 'a');
+    // console.log(this.state.activeBar, 'b');
     // if (this.state.activeTimeGraph && !this.state.activeBar) {
     //   console.log('xiryo');
     //   this.setState({
@@ -1227,10 +1227,7 @@ class MiddleChartSection extends Component {
 
   handleChange = selectedOption => {
     // console.log('selectedOption', selectedOption);
-    this.setState({ selectedOption }, () =>
-      console.log(`Option selected:`, this.state.selectedOption),
-    );
-  };
+    this.setState({ selectedOption }};
 
   handleLegend1Click = () => {
     if (this.state.activeBar1 === true) {

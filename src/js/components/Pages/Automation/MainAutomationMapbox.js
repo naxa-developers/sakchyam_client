@@ -588,7 +588,7 @@ class MainAutomation extends Component {
       } else {
         const array = [];
         global.a = this.props.automationReducer.automationTableData;
-        console.log(global.a, 'global a ');
+        // console.log(global.a, 'global a ');
 
         global.a.map(branch => {
           // console.log('inside If ');
@@ -621,7 +621,7 @@ class MainAutomation extends Component {
         // console.log(global.a, 'Array Before Data');
         const x = this.state.activeClickPartners.map(
           clickedPartners => {
-            console.log(clickedPartners, 'clicked');
+            // console.log(clickedPartners, 'clicked');
             global.a.map(data => {
               // console.log(data);
               if (data.des_lat !== null) {
@@ -645,7 +645,7 @@ class MainAutomation extends Component {
             return true;
           },
         );
-        console.log(array, 'array');
+        // console.log(array, 'array');
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ migrationArray: array });
         if (mapType === 'branches') {
@@ -859,7 +859,7 @@ class MainAutomation extends Component {
       // console.log(index,'index');
       global.activeMarkerArray.splice(index, 1);
     }
-    console.log(global.activeMarkerArray, 'activeMarker');
+    // console.log(global.activeMarkerArray, 'activeMarker');
     this.handleVectorGridKeyChange();
     this.filteredByPartner(clicked);
     if (activeOutreachButton) {
@@ -951,11 +951,11 @@ class MainAutomation extends Component {
 
         if (selectedMunicipality.length > 0) {
           const combinedBbox = [];
-          console.log(selectedMunicipality, 'selectedMunicipality');
+          // console.log(selectedMunicipality, 'selectedMunicipality');
           const getBboxValue = getCenterBboxMunicipality(
             selectedMunicipality,
           );
-          console.log(getBboxValue, 'bboxValue');
+          // console.log(getBboxValue, 'bboxValue');
           getBboxValue.map(data => {
             combinedBbox.push(data.bbox);
             return true;
@@ -1563,11 +1563,11 @@ class MainAutomation extends Component {
       // }
       if (selectedMunicipality.length > 0) {
         const combinedBbox = [];
-        console.log(selectedMunicipality, 'selectedMunicipality');
+        // console.log(selectedMunicipality, 'selectedMunicipality');
         const getBboxValue = getCenterBboxMunicipality(
           selectedMunicipality,
         );
-        console.log(getBboxValue, 'bboxValue');
+        // console.log(getBboxValue, 'bboxValue');
         getBboxValue.map(data => {
           combinedBbox.push(data.bbox);
           return true;

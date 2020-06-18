@@ -426,3 +426,13 @@ font-weight: 900;
     cursor: pointer;
   }
 }
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon{
+  background-image: url('../img/svg/mapboxgl-ctrl-zoom-out.svg')
+}
+.mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon{
+  background-image: url('../img/svg/mapboxgl-ctrl-compass.svg')
+}
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon{
+  background-image: url('../img/svg/mapboxgl-ctrl-zoom-in.svg')
+}

@@ -33,7 +33,21 @@ class VectorTileMapbox extends Component {
     const legendColor =
       colorArray != null && colorArray.length > 0
         ? colorArray
-        : legendColors;
+        : [
+            '#5c5ada',
+            '#fff3d4',
+            '#FEB24C',
+            '#FD8D3C',
+            '#FC4E2A',
+            '#FED976',
+            '#BD0026',
+            '#800026',
+            '#453C43',
+            '#959A92',
+            '#CCA575',
+            '#AC4C25',
+            '#A61D2C',
+          ];
     let color = 'rgba(255,255,255,0)';
     // console.log(colorArray, "colorArray inside")
     // eslint-disable-next-line array-callback-return
@@ -48,32 +62,31 @@ class VectorTileMapbox extends Component {
   changeGrades() {
     let range = [];
     const data = [];
+    const {
+      colorArray,
+      legendDivisions,
+      divisions,
+      choroplethData,
+    } = this.props;
     // console.log(this.props.choroplethData, "fulldata from")
-    const colorArrayLength =
-      this.props.colorArray && this.props.colorArray.length;
+    const colorArrayLength = colorArray && colorArray.length;
     const gradeCount =
-      this.props.legendDivisions != null &&
-      typeof this.props.legendDivisions === 'number' &&
-      this.props.legendDivisions <= 20 &&
-      this.props.legendDivisions >= colorArrayLength
-        ? this.props.legendDivisions
+      legendDivisions != null &&
+      typeof legendDivisions === 'number' &&
+      legendDivisions <= 20 &&
+      legendDivisions >= colorArrayLength
+        ? legendDivisions
         : 7; // set default gradecount
 
     const fullRange =
-      this.props.divisions && this.props.divisions.length > 0
-        ? this.props.divisions
-        : [];
+      divisions && divisions.length > 0 ? divisions : [];
     const fullData =
-      this.props.choroplethData != null &&
-      this.props.choroplethData.length > 0
-        ? this.props.choroplethData
+      choroplethData != null && choroplethData.length > 0
+        ? choroplethData
         : defaultData;
     // console.log(fullData, "fulldata")
-    if (
-      this.props.choroplethData != null &&
-      this.props.choroplethData.length > 0
-    ) {
-      this.props.choroplethData.forEach(data1 => {
+    if (choroplethData != null && choroplethData.length > 0) {
+      choroplethData.forEach(data1 => {
         data.push(data1.count);
       });
     } else {
@@ -143,10 +156,11 @@ class VectorTileMapbox extends Component {
   }
 
   plotVectorTile = () => {
+    // console.log(this.props.vectorTileUrl, 'vectortileurl');
     const { map } = this.props;
     const that = this;
     // console.log(this.state.finalStyle, "this finalstyle")
-    let hoveredStateId = null;
+    const hoveredStateId = null;
     map.on('load', function() {
       // Add Mapillary sequence layer.
       // https://www.mapillary.com/developer/tiles-documentation/#sequence-layer
@@ -180,7 +194,7 @@ class VectorTileMapbox extends Component {
         source: 'municipality',
         'source-layer': 'default',
         paint: {
-          'line-color': 'rgba(255, 0, 0, 1)',
+          'line-color': 'rgba(255, 0, 0, 0.4)',
           'line-width': [
             'case',
             ['boolean', ['feature-state', 'hover'], false],
@@ -237,220 +251,220 @@ class VectorTileMapbox extends Component {
         // map.fitBounds()
 
         const popup = new mapboxgl.Popup();
-        map.on('mousemove', 'vector-tile-fill', function(e) {
-          // console.log(e.features[0],'e');
-          // e.features[0].id = e.features[0].properties.id;
-          // console.log(e.features[0], "feature code")
-          // console.log(that.props.automationReducer.automationAllDataByPartner,'allData');
-          const {
-            automationAllDataByPartner,
-          } = that.props.automationReducer;
-          const { activeClickPartners, dataTypeLevel } = that.props;
-          // console.log(e.layer);
-          const b = [];
-          const c = [];
-          const v = [];
-          if (dataTypeLevel === 'municipality') {
-            if (activeClickPartners.length > 0) {
-              activeClickPartners.map(x => {
-                // console.log(x,'x1st');
-                that.props.automationReducer.automationTableData.filter(
-                  data => {
-                    if (
-                      data.partner_id === x &&
-                      data.municipality_code ===
-                        parseInt(e.features[0].properties.code, 10)
-                    ) {
-                      b.push(data);
-                    }
-                    return true;
-                  },
-                );
-                return true;
-              });
-              // console.log(b,'b');
-            } else {
-              that.props.automationReducer.automationTableData.map(
-                data => {
-                  if (
-                    data.municipality_code ===
-                    parseInt(e.features[0].properties.code, 10)
-                  ) {
-                    b.push({
-                      partner_id: data.partner_id,
-                      tablets: data.tablets,
-                    });
-                  }
-                  return true;
-                },
-              );
-            }
-          } else if (dataTypeLevel === 'district') {
-            if (activeClickPartners.length > 0) {
-              activeClickPartners.map(x => {
-                that.props.automationReducer.automationTableData.filter(
-                  data => {
-                    if (
-                      data.partner_id === x &&
-                      data.district_code ===
-                        parseInt(e.features[0].properties.code, 10)
-                    ) {
-                      b.push(data);
-                    }
-                    return true;
-                  },
-                );
-                return true;
-              });
-              // console.log(b,'b');
-            } else {
-              that.props.automationReducer.automationTableData.map(
-                data => {
-                  if (
-                    data.district_code ===
-                    parseInt(e.features[0].properties.code, 10)
-                  ) {
-                    b.push({
-                      partner_id: data.partner_id,
-                      tablets: data.tablets,
-                    });
-                  }
-                  return true;
-                },
-              );
-            }
-          } else if (dataTypeLevel === 'province') {
-            if (activeClickPartners.length > 0) {
-              activeClickPartners.map(x => {
-                that.props.automationReducer.automationTableData.filter(
-                  data => {
-                    if (
-                      data.partner_id === x &&
-                      data.province_code ===
-                        parseInt(e.features[0].properties.code, 10)
-                    ) {
-                      b.push(data);
-                    }
-                    return true;
-                  },
-                );
-                return true;
-              });
-              // console.log(b,'b');
-            } else {
-              that.props.automationReducer.automationTableData.map(
-                data => {
-                  if (
-                    data.province_code ===
-                    parseInt(e.features[0].properties.code, 10)
-                  ) {
-                    b.push({
-                      partner_id: data.partner_id,
-                      tablets: data.tablets,
-                    });
-                  }
-                  return true;
-                },
-              );
-            }
-          }
+        // map.on('mousemove', 'vector-tile-fill', function(e) {
+        //   // console.log(e.features[0],'e');
+        //   // e.features[0].id = e.features[0].properties.id;
+        //   // console.log(e.features[0], "feature code")
+        //   // console.log(that.props.automationReducer.automationAllDataByPartner,'allData');
+        //   const {
+        //     automationAllDataByPartner,
+        //   } = that.props.automationReducer;
+        //   const { activeClickPartners, dataTypeLevel } = that.props;
+        //   // console.log(e.layer);
+        //   const b = [];
+        //   const c = [];
+        //   const v = [];
+        //   if (dataTypeLevel === 'municipality') {
+        //     if (activeClickPartners.length > 0) {
+        //       activeClickPartners.map(x => {
+        //         // console.log(x,'x1st');
+        //         that.props.automationReducer.automationTableData.filter(
+        //           data => {
+        //             if (
+        //               data.partner_id === x &&
+        //               data.municipality_code ===
+        //                 parseInt(e.features[0].properties.code, 10)
+        //             ) {
+        //               b.push(data);
+        //             }
+        //             return true;
+        //           },
+        //         );
+        //         return true;
+        //       });
+        //       // console.log(b,'b');
+        //     } else {
+        //       that.props.automationReducer.automationTableData.map(
+        //         data => {
+        //           if (
+        //             data.municipality_code ===
+        //             parseInt(e.features[0].properties.code, 10)
+        //           ) {
+        //             b.push({
+        //               partner_id: data.partner_id,
+        //               tablets: data.tablets,
+        //             });
+        //           }
+        //           return true;
+        //         },
+        //       );
+        //     }
+        //   } else if (dataTypeLevel === 'district') {
+        //     if (activeClickPartners.length > 0) {
+        //       activeClickPartners.map(x => {
+        //         that.props.automationReducer.automationTableData.filter(
+        //           data => {
+        //             if (
+        //               data.partner_id === x &&
+        //               data.district_code ===
+        //                 parseInt(e.features[0].properties.code, 10)
+        //             ) {
+        //               b.push(data);
+        //             }
+        //             return true;
+        //           },
+        //         );
+        //         return true;
+        //       });
+        //       // console.log(b,'b');
+        //     } else {
+        //       that.props.automationReducer.automationTableData.map(
+        //         data => {
+        //           if (
+        //             data.district_code ===
+        //             parseInt(e.features[0].properties.code, 10)
+        //           ) {
+        //             b.push({
+        //               partner_id: data.partner_id,
+        //               tablets: data.tablets,
+        //             });
+        //           }
+        //           return true;
+        //         },
+        //       );
+        //     }
+        //   } else if (dataTypeLevel === 'province') {
+        //     if (activeClickPartners.length > 0) {
+        //       activeClickPartners.map(x => {
+        //         that.props.automationReducer.automationTableData.filter(
+        //           data => {
+        //             if (
+        //               data.partner_id === x &&
+        //               data.province_code ===
+        //                 parseInt(e.features[0].properties.code, 10)
+        //             ) {
+        //               b.push(data);
+        //             }
+        //             return true;
+        //           },
+        //         );
+        //         return true;
+        //       });
+        //       // console.log(b,'b');
+        //     } else {
+        //       that.props.automationReducer.automationTableData.map(
+        //         data => {
+        //           if (
+        //             data.province_code ===
+        //             parseInt(e.features[0].properties.code, 10)
+        //           ) {
+        //             b.push({
+        //               partner_id: data.partner_id,
+        //               tablets: data.tablets,
+        //             });
+        //           }
+        //           return true;
+        //         },
+        //       );
+        //     }
+        //   }
 
-          // console.log(b,'beforefilter');
-          b.map(data => {
-            // eslint-disable-next-line no-unused-expressions
-            automationAllDataByPartner[0] &&
-              automationAllDataByPartner[0].partner_data.filter(
-                // eslint-disable-next-line array-callback-return
-                function(x) {
-                  // console.log(data,'data');
-                  // console.log(e,'e');
-                  if (x.partner_id === data.partner_id) {
-                    // eslint-disable-next-line no-param-reassign
-                    x.single_tablets = data.tablets;
-                    c.push(x);
-                  }
-                },
-              );
-            return true;
-          });
-          // var result =
+        //   // console.log(b,'beforefilter');
+        //   b.map(data => {
+        //     // eslint-disable-next-line no-unused-expressions
+        //     automationAllDataByPartner[0] &&
+        //       automationAllDataByPartner[0].partner_data.filter(
+        //         // eslint-disable-next-line array-callback-return
+        //         function(x) {
+        //           // console.log(data,'data');
+        //           // console.log(e,'e');
+        //           if (x.partner_id === data.partner_id) {
+        //             // eslint-disable-next-line no-param-reassign
+        //             x.single_tablets = data.tablets;
+        //             c.push(x);
+        //           }
+        //         },
+        //       );
+        //     return true;
+        //   });
+        //   // var result =
 
-          // console.log(c)
+        //   // console.log(c)
 
-          let totalTablets = 0;
-          const popupHtml =
-            c &&
-            c.map(data => {
-              totalTablets += data.single_tablets;
-              return `<li>
-                          <div class="organization-icon"><span></span></div>
-                              <div class="organization-content">
-                                  <div class="org-header">
-                                      <h5>${data.partner_name}</h5>
-                                          <div class="icon-list">
-                                              
-                                                  <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.single_tablets}</b></div>
-                                              </div>
-                                          </div>
-                                          </div>
-                                          </li>`;
-            });
+        //   let totalTablets = 0;
+        //   const popupHtml =
+        //     c &&
+        //     c.map(data => {
+        //       totalTablets += data.single_tablets;
+        //       return `<li>
+        //                   <div class="organization-icon"><span></span></div>
+        //                       <div class="organization-content">
+        //                           <div class="org-header">
+        //                               <h5>${data.partner_name}</h5>
+        //                                   <div class="icon-list">
 
-          map.getCanvas().style.cursor = 'pointer';
-          if (e.features.length > 0) {
-            if (hoveredStateId) {
-              map.setFeatureState(
-                {
-                  source: 'municipality',
-                  sourceLayer: 'default',
-                  id: hoveredStateId,
-                },
-                { hover: false },
-              );
-              const colorCheck =
-                e.features[0].layer.paint['fill-color'];
-              const checkChoropleth =
-                JSON.stringify(colorCheck) ===
-                '{"r":0,"g":0,"b":0,"a":0}';
-              // console.log(that.props.activeOutreachButton,'check')
-              // console.log(c.length >0,'check1')
-              if (that.props.activeOutreachButton && c.length > 0) {
-                popup
-                  .setLngLat(e.lngLat)
-                  .setHTML(
-                    `<div class="leaflet-popup-content" style="width: 281px;">
-            <div class="map-popup-view">
-                <div class="map-popup-view-header">
-                    <h5>${e.features[0].properties.name}</h5>
-                    <div class="icons">
-                    <i class="material-icons">tablet_mac</i><b>${totalTablets}</b>
-                    </div>
-                </div>
-                <ul style="height:112px;overflow-y: scroll">
-                ${popupHtml}
-                </ul>
-                <div class="map-view-footer">
-                </div>
-                    </div>
-                </div>`,
-                  )
-                  .addTo(map);
-              }
+        //                                           <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.single_tablets}</b></div>
+        //                                       </div>
+        //                                   </div>
+        //                                   </div>
+        //                                   </li>`;
+        //     });
 
-              hoveredStateId = e.features[0].id;
-              // console.log(hoveredStateId, "hoverstateid")
-              map.setFeatureState(
-                {
-                  source: 'municipality',
-                  sourceLayer: 'default',
-                  id: hoveredStateId,
-                },
-                { hover: false },
-              );
-            }
-          }
-          // Popup On Hover
-        });
+        //   map.getCanvas().style.cursor = 'pointer';
+        //   if (e.features.length > 0) {
+        //     if (hoveredStateId) {
+        //       map.setFeatureState(
+        //         {
+        //           source: 'municipality',
+        //           sourceLayer: 'default',
+        //           id: hoveredStateId,
+        //         },
+        //         { hover: false },
+        //       );
+        //       const colorCheck =
+        //         e.features[0].layer.paint['fill-color'];
+        //       const checkChoropleth =
+        //         JSON.stringify(colorCheck) ===
+        //         '{"r":0,"g":0,"b":0,"a":0}';
+        //       // console.log(that.props.activeOutreachButton,'check')
+        //       // console.log(c.length >0,'check1')
+        //       if (that.props.activeOutreachButton && c.length > 0) {
+        //         popup
+        //           .setLngLat(e.lngLat)
+        //           .setHTML(
+        //             `<div class="leaflet-popup-content" style="width: 281px;">
+        //     <div class="map-popup-view">
+        //         <div class="map-popup-view-header">
+        //             <h5>${e.features[0].properties.name}</h5>
+        //             <div class="icons">
+        //             <i class="material-icons">tablet_mac</i><b>${totalTablets}</b>
+        //             </div>
+        //         </div>
+        //         <ul style="height:112px;overflow-y: scroll">
+        //         ${popupHtml}
+        //         </ul>
+        //         <div class="map-view-footer">
+        //         </div>
+        //             </div>
+        //         </div>`,
+        //           )
+        //           .addTo(map);
+        //       }
+
+        //       hoveredStateId = e.features[0].id;
+        //       // console.log(hoveredStateId, "hoverstateid")
+        //       map.setFeatureState(
+        //         {
+        //           source: 'municipality',
+        //           sourceLayer: 'default',
+        //           id: hoveredStateId,
+        //         },
+        //         { hover: false },
+        //       );
+        //     }
+        //   }
+        //   // Popup On Hover
+        // });
 
         map.on('mouseleave', 'vector-tile-fill', function() {
           // if (hoveredStateId) {

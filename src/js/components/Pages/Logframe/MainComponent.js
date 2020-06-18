@@ -83,7 +83,7 @@ class MainComponent extends Component {
   }
 
   handleActiveListItem = clickedValue => {
-    console.log(clickedValue);
+    // console.log(clickedValue);
 
     this.setState({ activeListItem: clickedValue });
   };
@@ -149,7 +149,7 @@ class MainComponent extends Component {
       activeBar: active ? (activeTimegraph ? false : true) : true,
     });
     if (this.state.activeBar) {
-      console.log('if activeBar');
+      // console.log('if activeBar');
       // true === false
       // this.setState({ activeBar1: false, activeBar2: false });
       // this.setState({ activeBar1: false, activeBar2: false });
@@ -157,7 +157,7 @@ class MainComponent extends Component {
         this.setState({ activeBar1: false, activeBar2: false });
       }
     } else {
-      console.log('else activeBar');
+      // console.log('else activeBar');
 
       // false === true
       if (this.state.activeBar1 || this.state.activeLine1) {
@@ -195,8 +195,8 @@ class MainComponent extends Component {
         this.setState({ activeLine2: true });
       }
     }
-    console.log(this.state.activeTimeGraph, 'a');
-    console.log(this.state.activeBar, 'b');
+    // console.log(this.state.activeTimeGraph, 'a');
+    // console.log(this.state.activeBar, 'b');
   };
 
   handleActiveDate = (value, e, item) => {
@@ -511,12 +511,12 @@ class MainComponent extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { activeListItem, activeListFilteredData } = this.state;
     if (prevState.activeListItem !== activeListItem) {
-      console.log(activeListItem, 'change active List');
+      // console.log(activeListItem, 'change active List');
       const { indicatorCategory } = this.props.logFrameReducer;
       const filteredData = indicatorCategory.filter(
         data => data.name === activeListItem,
       );
-      console.log(filteredData[0]);
+      // console.log(filteredData[0]);
       if (filteredData && filteredData[0]) {
         filteredData[0].subcat.sort(compare);
       }

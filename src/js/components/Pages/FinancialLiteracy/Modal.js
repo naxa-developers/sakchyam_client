@@ -33,7 +33,7 @@ const downloadPng = chartid => {
 };
 const Modal = props => {
   const { handleModal, component, selectedModal } = props;
-  console.log(selectedModal, 'selectedModal');
+  // console.log(selectedModal, 'selectedModal');
   const selectedChartId =
     selectedModal === 'bar'
       ? 'horizontal-chart'

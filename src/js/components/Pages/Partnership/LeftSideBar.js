@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import CheckBox from '../../common/Checkbox';
+import FinancialLeftCard from '../../common/FinancialLeftCard';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -7,6 +10,27 @@ class LeftSideBar extends Component {
   }
 
   render() {
+    const {
+      // state: {},
+      props: {
+        handleInvestmentFocusCheckbox,
+        investmentFocusSelection,
+        projectSelection,
+        handleProjectSelectionCheckbox,
+        projectStatus,
+        handleProjectStatus,
+        partnerSelection,
+        handlePartnerSelectionCheckbox,
+        partnerType,
+        handlePartnerType,
+      },
+    } = this;
+    const {
+      partnershipInvestmentFocus,
+      projectLists,
+      partnersList,
+      filteredPartnerList,
+    } = this.props.partnershipReducer;
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -29,95 +53,35 @@ class LeftSideBar extends Component {
                         id="Initiative1"
                         type="checkbox"
                         name="Initiative1"
+                        value="all"
+                        onChange={handleInvestmentFocusCheckbox}
                       />
                       <label htmlFor="Initiative1">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative2"
-                            type="checkbox"
-                            name="Initiative2"
-                          />
-                          <label htmlFor="Initiative2">
-                            <span> VLBS Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative3"
-                            type="checkbox"
-                            name="Initiative3"
-                          />
-                          <label htmlFor="Initiative3">
-                            <span> Unique Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative">
-                            <span> Nirdhan Utthan Laghubitta</span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative4"
-                            type="checkbox"
-                            name="Initiative4"
-                          />
-                          <label htmlFor="Initiative4">
-                            <span> Kisan Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative5"
-                            type="checkbox"
-                            name="Initiative5"
-                          />
-                          <label htmlFor="Initiative5">
-                            <span> Chhimek Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative6"
-                            type="checkbox"
-                            name="Initiative6"
-                          />
-                          <label htmlFor="Initiative6">
-                            <span> Sahara Cooperative </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
+                    {partnershipInvestmentFocus &&
+                      partnershipInvestmentFocus.map(
+                        partnershipFocus => {
+                          return (
+                            <CheckBox
+                              key={partnershipFocus.id}
+                              label={
+                                partnershipFocus.investment_primary
+                              }
+                              name={
+                                partnershipFocus.investment_primary
+                              }
+                              changeHandler={
+                                handleInvestmentFocusCheckbox
+                              }
+                              checked={investmentFocusSelection.includes(
+                                partnershipFocus.investment_primary,
+                              )}
+                            />
+                          );
+                        },
+                      )}
                   </ul>
                 </div>
               </div>
@@ -126,10 +90,38 @@ class LeftSideBar extends Component {
               <h6 className="title">project status</h6>
               <div className="widget-body">
                 <div className="widget-tag partner-tag">
-                  <a>
+                  <a
+                    className={
+                      projectStatus.includes('completed')
+                        ? 'active'
+                        : ''
+                    }
+                    role="tab"
+                    tabIndex="-1"
+                    onClick={() => {
+                      handleProjectStatus('completed');
+                    }}
+                    onKeyUp={() => {
+                      handleProjectStatus('completed');
+                    }}
+                  >
                     <span>completed</span>
                   </a>
-                  <a>
+                  <a
+                    className={
+                      projectStatus.includes('ongoing')
+                        ? 'active'
+                        : ''
+                    }
+                    role="tab"
+                    tabIndex="-1"
+                    onClick={() => {
+                      handleProjectStatus('ongoing');
+                    }}
+                    onKeyUp={() => {
+                      handleProjectStatus('ongoing');
+                    }}
+                  >
                     <span>ongoing</span>
                   </a>
                 </div>
@@ -150,90 +142,22 @@ class LeftSideBar extends Component {
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative8"
-                            type="checkbox"
-                            name="Initiative8"
+                    {projectLists &&
+                      projectLists.map(project => {
+                        return (
+                          <CheckBox
+                            key={project.id}
+                            label={project.name}
+                            name={project.name}
+                            changeHandler={
+                              handleProjectSelectionCheckbox
+                            }
+                            checked={projectSelection.includes(
+                              project.name,
+                            )}
                           />
-                          <label htmlFor="Initiative8">
-                            <span> VLBS Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative9"
-                            type="checkbox"
-                            name="Initiative9"
-                          />
-                          <label htmlFor="Initiative9">
-                            <span> Unique Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative10"
-                            type="checkbox"
-                            name="Initiative10"
-                          />
-                          <label htmlFor="Initiative10">
-                            <span> Nirdhan Utthan Laghubitta</span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative11"
-                            type="checkbox"
-                            name="Initiative"
-                          />
-                          <label htmlFor="Initiative11">
-                            <span> Kisan Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative12"
-                            type="checkbox"
-                            name="Initiative12"
-                          />
-                          <label htmlFor="Initiative12">
-                            <span> Chhimek Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative13"
-                            type="checkbox"
-                            name="Initiative13"
-                          />
-                          <label htmlFor="Initiative13">
-                            <span> Sahara Cooperative </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
+                        );
+                      })}
                   </ul>
                 </div>
               </div>
@@ -242,10 +166,50 @@ class LeftSideBar extends Component {
               <h6 className="title">Partner Type</h6>
               <div className="widget-body">
                 <div className="widget-tag partner-tag">
-                  <a>
+                  <a
+                    className={
+                      partnerType.includes(
+                        'Microfinance Institutions/Cooperatives',
+                      )
+                        ? 'active'
+                        : ''
+                    }
+                    role="tab"
+                    tabIndex="-1"
+                    onClick={() => {
+                      handlePartnerType(
+                        'Microfinance Institutions/Cooperatives',
+                      );
+                    }}
+                    onKeyUp={() => {
+                      handlePartnerType(
+                        'Microfinance Institutions/Cooperatives',
+                      );
+                    }}
+                  >
                     <span>Microfinance</span>
                   </a>
-                  <a>
+                  <a
+                    className={
+                      partnerType.includes(
+                        'Commercial Bank and Other Partners',
+                      )
+                        ? 'active'
+                        : ''
+                    }
+                    role="tab"
+                    tabIndex="-1"
+                    onClick={() => {
+                      handlePartnerType(
+                        'Commercial Bank and Other Partners',
+                      );
+                    }}
+                    onKeyUp={() => {
+                      handlePartnerType(
+                        'Commercial Bank and Other Partners',
+                      );
+                    }}
+                  >
                     <span>Commercial Bank</span>
                   </a>
                 </div>
@@ -266,90 +230,22 @@ class LeftSideBar extends Component {
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative15"
-                            type="checkbox"
-                            name="Initiative15"
+                    {filteredPartnerList &&
+                      filteredPartnerList.map(partner => {
+                        return (
+                          <CheckBox
+                            key={partner.id}
+                            label={partner.name}
+                            name={partner.name}
+                            changeHandler={
+                              handlePartnerSelectionCheckbox
+                            }
+                            checked={partnerSelection.includes(
+                              partner.name,
+                            )}
                           />
-                          <label htmlFor="Initiative15">
-                            <span> VLBS Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative16"
-                            type="checkbox"
-                            name="Initiative16"
-                          />
-                          <label htmlFor="Initiative16">
-                            <span> Unique Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative17"
-                            type="checkbox"
-                            name="Initiative17"
-                          />
-                          <label htmlFor="Initiative17">
-                            <span> Nirdhan Utthan Laghubitta</span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative18"
-                            type="checkbox"
-                            name="Initiative18"
-                          />
-                          <label htmlFor="Initiative18">
-                            <span> Kisan Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative19"
-                            type="checkbox"
-                            name="Initiative19"
-                          />
-                          <label htmlFor="Initiative19">
-                            <span> Chhimek Laghubitta </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div className="custom-checkbox">
-                          <input
-                            id="Initiative20"
-                            type="checkbox"
-                            name="Initiative20"
-                          />
-                          <label htmlFor="Initiative20">
-                            <span> Sahara Cooperative </span>
-                          </label>
-                        </div>
-                      </a>
-                    </li>
+                        );
+                      })}
                   </ul>
                 </div>
               </div>
@@ -375,4 +271,7 @@ class LeftSideBar extends Component {
   }
 }
 
-export default LeftSideBar;
+const mapStateToProps = ({ partnershipReducer }) => ({
+  partnershipReducer,
+});
+export default connect(mapStateToProps, {})(LeftSideBar);

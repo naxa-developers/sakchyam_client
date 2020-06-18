@@ -45,12 +45,12 @@ export const extendBounds = boundingboxArray => {
     }
     return true;
   });
-  console.log(bbox, 'bbox');
+  // console.log(bbox, 'bbox');
   const returnedBbox = [
     [bbox[0], bbox[1]],
     [bbox[2], bbox[3]],
   ];
-  console.log(returnedBbox, 'returnedValue');
+  // console.log(returnedBbox, 'returnedValue');
   return returnedBbox;
 };
 

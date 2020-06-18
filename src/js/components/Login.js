@@ -70,7 +70,7 @@ class Login extends Component {
         'login-wrapper',
       )[0];
       loginWrapper.style.height = `${screen.height}px`;
-      console.log(loginWrapper, 'if loginwrapper');
+      // console.log(loginWrapper, 'if loginwrapper');
 
       // $('.banner').css('height', y);
       // $('.login-wrapper ').css('height', y);
@@ -84,7 +84,7 @@ class Login extends Component {
         'login-wrapper',
       )[0];
       loginWrapper.style.height = `${window.innerHeight}px`;
-      console.log('else loginwrapper');
+      // console.log('else loginwrapper');
 
       // $('.banner').css('height', x);
       // $('.login-wrapper').css('height', x);

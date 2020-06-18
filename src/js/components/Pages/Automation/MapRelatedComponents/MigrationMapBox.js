@@ -28,7 +28,7 @@ class MigrationLines extends Component {
   }
 
   plotMigration = (map, migrationData) => {
-    console.log(migrationData, 'migdata');
+    // console.log(migrationData, 'migdata');
     // A simple line from origin to destination.
     const route = {
       type: 'FeatureCollection',
@@ -48,7 +48,7 @@ class MigrationLines extends Component {
     const step = 500;
 
     migrationData.map((data, index) => {
-      console.log(data, 'migrationdata');
+      // console.log(data, 'migrationdata');
       const originpoint = data.origin;
       const destinationpoint = data.destination;
 
@@ -110,14 +110,14 @@ class MigrationLines extends Component {
         const segment = turf.along(lA, i, { units: 'kilometers' });
         arc.unshift(segment.geometry.coordinates);
       }
-      console.log(arc, 'arc');
+      // console.log(arc, 'arc');
 
       // // Update the route with calculated arc coordinates
       route.features[index].geometry.coordinates = arc;
       return true;
     });
 
-    console.log(route, 'route');
+    // console.log(route, 'route');
     // console.log(point, "point")
     // Used to increment the value of the point measurement against the route.
 
@@ -127,7 +127,7 @@ class MigrationLines extends Component {
     this.setState({ steps: step });
     const that = this;
     // map.on('load', function() {
-    console.log(map, 'Migration Map Ref');
+    // console.log(map, 'Migration Map Ref');
     // Add a source and layer displaying a point which will be animated in a circle.
     map.addSource('route', {
       type: 'geojson',

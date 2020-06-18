@@ -246,7 +246,7 @@ class VectorGridComponent extends Component {
                         }
                     });
                 });
-                console.log(b,'b');
+                // console.log(b,'b');
                 }else{
                     this.props.automationReducer.automationTableData.map(data=>{
                         if(data.municipality_code=== parseInt(e.layer.properties.code)){
@@ -263,7 +263,7 @@ class VectorGridComponent extends Component {
                         }
                     });
                 });
-                console.log(b,'b');
+                // console.log(b,'b');
                 }else{
                     this.props.automationReducer.automationTableData.map(data=>{
                         if(data.district_code=== parseInt(e.layer.properties.code)){
@@ -280,7 +280,7 @@ class VectorGridComponent extends Component {
                         }
                     });
                 });
-                console.log(b,'b');
+                // console.log(b,'b');
                 }else{
                     this.props.automationReducer.automationTableData.map(data=>{
                         if(data.province_code=== parseInt(e.layer.properties.code)){
@@ -292,11 +292,11 @@ class VectorGridComponent extends Component {
             // console.log(this.props.automationReducer.automationTableData);
             
             
-            console.log(b,'beforefilter');
+            // console.log(b,'beforefilter');
             b.map((data,index)=>{
                 automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.map(function(e) {
-                    console.log(data,'data');
-                    console.log(e,'e');
+                    // console.log(data,'data');
+                    // console.log(e,'e');
                     // if(e.partner_id === data.partner_id){
                     //     e.single_tablets = data.tablets;
                     //     c.push(e);
@@ -308,7 +308,7 @@ class VectorGridComponent extends Component {
             })
             // var result = 
               
-              console.log(b,'afterfiltersss ')
+            //   console.log(b,'afterfiltersss ')
             // const d= b.map(filteredPartnerId=>{
             //     automationAllDataByPartner[0] && automationAllDataByPartner[0].partner_data.filter(data=>{
             //         console.log(data,'data');
