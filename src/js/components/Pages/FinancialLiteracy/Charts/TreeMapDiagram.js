@@ -4,6 +4,22 @@ import { ResponsiveTreeMap } from '@nivo/treemap';
 import { connect } from 'react-redux';
 // import root from './treemap.data';
 
+function getRandomColor() {
+  var color = '#',
+    i;
+  for (i = 0; i < 6; i++) {
+    color += Math.floor(Math.random() * 16).toString(16);
+  }
+  return color;
+}
+
+var getColor = (function() {
+  var colors = {};
+  return function(id) {
+    return (colors[id] = colors[id] || getRandomColor());
+  };
+})();
+
 function colorPicker2(i) {
   if (i === 3) return '#91664E';
   if (i === 4) return '#13A8BE';
@@ -220,7 +236,7 @@ class TreeMapDiagram extends Component {
           {
             offset: 100,
             color:
-              i === 1 ? colorPicker1(item.id) : colorPicker2(item.id),
+              i === 1 ? colorPicker1(item.id) : getColor(item.id),
           },
         ],
       });
@@ -286,19 +302,23 @@ class TreeMapDiagram extends Component {
       handleSelectedModal,
     } = this.props;
 
-    // console.log(JSON.stringify(treeMapData2), 'treemapData1');
-
     return (
       <>
-        <div className="card-header">
+        <div
+          className="card-header"
+          style={{
+            display: this.props.activeModal ? 'none' : 'flex',
+          }}
+        >
           <h5>Contribution of program initiatives</h5>
           <div className="header-icons">
             {isTreeMapClicked && (
               <button
                 type="button"
                 onClick={this.handleTreeMapBackBtn}
+                className="is-border common-button"
               >
-                Back
+                Reset
               </button>
             )}
             <span
@@ -334,7 +354,10 @@ class TreeMapDiagram extends Component {
         <div className="card-body">
           <div
             id="treemap-chart"
-            style={{ height: '340px', width: '100%' }}
+            style={{
+              height: this.props.activeModal ? '600px' : '340px',
+              width: '100%',
+            }}
           >
             {!isTreeMapClicked ? (
               treeMapData1 && (

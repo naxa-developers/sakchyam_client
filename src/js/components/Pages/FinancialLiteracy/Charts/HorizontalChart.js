@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
@@ -61,9 +62,9 @@ class HorizontalChart extends Component {
   }
 
   generateBarChartData = i => {
-    const clickedPartner = this.state.options.xaxis.categories[
-      i
-    ].join(' ');
+    console.log('generateBarChartData');
+    const clickedPartner = this.state.options.xaxis.categories[i];
+    // .join(' ');
     const {
       financialReducer: { filteredByProgramDefault, financialData },
       selectedProgram,
@@ -71,10 +72,31 @@ class HorizontalChart extends Component {
 
     let filteredData = [];
 
+    const exception = [
+      'Kisan Microfinance',
+      'Kisan Cooperative',
+      'Mahila Samudayik Laghubitta',
+      'Mahila Sahayatra Laghubitta',
+    ];
+
     if (selectedProgram.length === 0) {
-      filteredData = financialData.filter(
-        item => item.partner_name === clickedPartner,
-      );
+      filteredData = financialData.filter(item => {
+        if (exception.includes(clickedPartner)) {
+          return (
+            item.partner_name
+              .split(' ')
+              .slice(0, 2)
+              .join(' ') === clickedPartner.join(' ')
+          );
+        } else {
+          return (
+            item.partner_name.substr(
+              0,
+              item.partner_name.indexOf(' '),
+            ) === clickedPartner
+          );
+        }
+      });
     } else {
       filteredData = financialData.filter(
         item =>
@@ -102,8 +124,6 @@ class HorizontalChart extends Component {
       return 0;
     });
 
-    // console.log(filteredData, 'fda');
-
     const label = filteredData.map(program => {
       return program.program_name;
     });
@@ -121,8 +141,6 @@ class HorizontalChart extends Component {
     const result = [
       ...new Map(filteredData.map(x => [x.partner_id, x])).values(),
     ];
-
-    // console.log(result, 'result');
 
     filteredData.forEach(function(c) {
       if (groupedObj[c.program_id]) {
@@ -161,6 +179,15 @@ class HorizontalChart extends Component {
         series: allProgramData,
 
         options: {
+          ...prevState.options,
+          plotOptions: {
+            ...prevState.options.plotOptions,
+            bar: {
+              ...prevState.options.plotOptions.bar,
+              // barHeight: '80%',
+              // columnWidth: '100%',
+            },
+          },
           colors: allProgramColor,
           xaxis: {
             categories: multiLineLabel,
@@ -206,7 +233,10 @@ class HorizontalChart extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            if (!this.state.isBarChartClicked) {
+            if (
+              !this.state.isBarChartClicked &&
+              !this.state.isToggled
+            ) {
               this.generateBarChartData(dataPointIndex);
             }
           }.bind(this),
@@ -349,6 +379,7 @@ class HorizontalChart extends Component {
         filteredByProgram.series[0].data.length > 2
         // filteredByProgram.series.length > 10
       ) {
+        console.log('programColor', filteredByProgramDefault.color);
         this.setState(preState => ({
           height: 400,
           series: filteredByProgram.series,
@@ -403,13 +434,24 @@ class HorizontalChart extends Component {
       prevProps.financialReducer.filteredByProgramDefault !==
       this.props.financialReducer.filteredByProgramDefault
     ) {
-      this.setState({
+      this.setState(preState => ({
         programChart: {
           series: filteredByProgramDefault.series,
           label: filteredByProgramDefault.label,
           color: filteredByProgramDefault.color,
+          options: {
+            ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                distributed: true,
+              },
+            },
+            colors: filteredByProgramDefault.color,
+          },
         },
-      });
+      }));
     }
   }
 
@@ -449,19 +491,36 @@ class HorizontalChart extends Component {
           <h5>Beneficiary Reached Per Program by Partners</h5>
           <div className="header-icons">
             {!isBarChartClicked && (
+              <div className="card-switcher">
+                <small>Partner wise Distribution</small>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={isToggled}
+                    onChange={this.handleBarChartToggle}
+                  />
+                  <span className="slider" />
+                </label>
+                <small>
+                  Programme wise distribution of all partner
+                </small>
+              </div>
+            )}
+            {/* {!isBarChartClicked && (
               <button
                 type="button"
                 onClick={this.handleBarChartToggle}
               >
                 Toggle
               </button>
-            )}
+            )} */}
             {isBarChartClicked && (
               <button
                 type="button"
                 onClick={this.handleBarChartBackBtn}
+                className="is-border common-button"
               >
-                Back
+                Reset
               </button>
             )}
 
@@ -499,16 +558,51 @@ class HorizontalChart extends Component {
             className="horizontal-chart"
             style={{
               height: '400px',
+              // width: '1400px',
             }}
           >
-            <div id="horizontal-chart">
-              {!isToggled &&
+            {/* <div id="horizontal-chart"> */}
+            {!isToggled &&
+            !isBarChartClicked &&
+            this.state.programChart.series ? (
+              <ReactApexChart
+                options={this.state.programChart.options}
+                series={this.state.programChart.series}
+                type="bar"
+                height={height}
+                width={
+                  showRightSidebar && window.innerWidth < 1600
+                    ? 780
+                    : showRightSidebar && window.innerWidth > 1600
+                    ? 1100
+                    : !showRightSidebar && window.innerWidth < 1600
+                    ? 1100
+                    : 1400
+                }
+              />
+            ) : isToggled &&
               !isBarChartClicked &&
-              filteredByProgram.series &&
-              filteredByProgram.series[0] ? (
+              this.state.partnerChart.series ? (
+              <ReactApexChart
+                options={this.state.options}
+                series={this.state.partnerChart.series}
+                type="bar"
+                height={height}
+                width={
+                  showRightSidebar && window.innerWidth < 1600
+                    ? 780
+                    : showRightSidebar && window.innerWidth > 1600
+                    ? 1100
+                    : !showRightSidebar && window.innerWidth < 1600
+                    ? 1100
+                    : 1400
+                }
+              />
+            ) : (
+              Object.entries(chartData2).length !== 0 && (
                 <ReactApexChart
-                  options={this.state.options}
-                  series={this.state.series}
+                  options={chartData2.options}
+                  series={chartData2.series}
                   type="bar"
                   height={height}
                   width={
@@ -517,39 +611,14 @@ class HorizontalChart extends Component {
                       : showRightSidebar && window.innerWidth > 1600
                       ? 1100
                       : !showRightSidebar && window.innerWidth < 1600
-                      ? 760
-                      : 1000
+                      ? 1100
+                      : 1400
                   }
                 />
-              ) : isToggled && !isBarChartClicked ? (
-                <ReactApexChart
-                  options={this.state.options}
-                  series={this.state.programChart.series}
-                  type="bar"
-                  height={height}
-                />
-              ) : (
-                Object.entries(chartData2).length !== 0 && (
-                  <ReactApexChart
-                    options={chartData2.options}
-                    series={chartData2.series}
-                    type="bar"
-                    height={height}
-                    width={
-                      showRightSidebar && window.innerWidth < 1600
-                        ? 780
-                        : showRightSidebar && window.innerWidth > 1600
-                        ? 1100
-                        : !showRightSidebar &&
-                          window.innerWidth < 1600
-                        ? 1100
-                        : 1400
-                    }
-                  />
-                )
-              )}
-            </div>
+              )
+            )}
           </div>
+          {/* </div> */}
         </div>
       </>
     );

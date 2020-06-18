@@ -531,7 +531,9 @@ class RightSideBar extends Component {
                           <div className="program">
                             <div
                               className="program-bar"
-                              tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
+                              tooltip={`${
+                                item.program_name
+                              }: ${numberWithCommas(item.value)}`}
                               flow="down"
                               style={{
                                 width: `${width}%`,
@@ -739,6 +741,7 @@ class RightSideBar extends Component {
               ? 'expand-button'
               : 'expand-button active'
           }
+          style={{ zIndex: 1000 }}
         >
           <button
             type="button"
