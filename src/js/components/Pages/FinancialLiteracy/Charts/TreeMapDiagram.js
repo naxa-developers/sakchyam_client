@@ -5,17 +5,18 @@ import { connect } from 'react-redux';
 // import root from './treemap.data';
 
 function getRandomColor() {
-  var color = '#',
-    i;
-  for (i = 0; i < 6; i++) {
+  let color = '#';
+  let i;
+  for (i = 0; i < 6; i += 1) {
     color += Math.floor(Math.random() * 16).toString(16);
   }
   return color;
 }
 
-var getColor = (function() {
-  var colors = {};
+const getColor = (function() {
+  const colors = {};
   return function(id) {
+    // eslint-disable-next-line no-return-assign
     return (colors[id] = colors[id] || getRandomColor());
   };
 })();

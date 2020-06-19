@@ -88,14 +88,13 @@ class HorizontalChart extends Component {
               .slice(0, 2)
               .join(' ') === clickedPartner.join(' ')
           );
-        } else {
-          return (
-            item.partner_name.substr(
-              0,
-              item.partner_name.indexOf(' '),
-            ) === clickedPartner
-          );
         }
+        return (
+          item.partner_name.substr(
+            0,
+            item.partner_name.indexOf(' '),
+          ) === clickedPartner
+        );
       });
     } else {
       filteredData = financialData.filter(
@@ -473,6 +472,7 @@ class HorizontalChart extends Component {
       isToggled,
       isBarChartClicked,
       chartData2,
+      series,
     } = this.state;
     const {
       DownloadIcon,
