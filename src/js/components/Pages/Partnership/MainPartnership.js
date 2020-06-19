@@ -16,6 +16,12 @@ import {
   getPartnersList,
   filterPartnerListByPartnerType,
 } from '../../../actions/partnership.actions';
+import Loading from '../../common/Loading';
+import SankeyChart from './Charts/SankeyChart/SankeyChart';
+import Sunburst from './Charts/SunBurst/SunBurst';
+import RadarChart from './Charts/RadarChart/RadarChart';
+import CirclePackChart from './Charts/CirclePack/CirclePackChart';
+import GroupedBar from './Charts/GroupedBar/GroupedBar';
 
 class MainPartnership extends Component {
   constructor() {
@@ -26,10 +32,7 @@ class MainPartnership extends Component {
       projectSelection: [],
       partnerSelection: [],
       projectStatus: [],
-      partnerType: [
-        'Microfinance Institutions/Cooperatives',
-        'Commercial Bank and Other Partners',
-      ],
+      partnerType: [],
       // UI Section
       activeFilter: false,
       activeOverview: false,
@@ -48,10 +51,10 @@ class MainPartnership extends Component {
     this.props.getRadialData();
     this.props.getPartnershipInvestmentFocus();
     this.props.getProjectListData();
+    this.props.getPartnersList();
     this.props.getMapDataByProvince(viewDataBy);
     this.props.getMapDataByDistrict(viewDataBy);
     this.props.getMapDataByMunicipality(viewDataBy);
-    this.props.getPartnersList();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -229,6 +232,8 @@ class MainPartnership extends Component {
     }
   };
 
+  // eslint-disable-next-line consistent-return
+
   render() {
     const {
       state: {
@@ -247,6 +252,7 @@ class MainPartnership extends Component {
       },
       // props: {},
     } = this;
+    const { isDataFetched } = this.props.partnershipReducer;
     const sankeyChartwidth =
       document.getElementById('sankeyChart') &&
       document.getElementById('sankeyChart').offsetWidth;
@@ -279,6 +285,11 @@ class MainPartnership extends Component {
           />
           <main className="main">
             <div className="main-card literacy-main-card">
+              <Loading
+                loaderState={!isDataFetched}
+                top="50%"
+                left="46%"
+              />
               <div
                 className={`partnership-filter ${
                   activeView === 'map' ? 'is-position' : ''

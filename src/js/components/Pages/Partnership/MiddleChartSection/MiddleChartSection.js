@@ -3,21 +3,56 @@ import { connect } from 'react-redux';
 import DownloadIcon from '../../../../../img/get_app.png';
 import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import Sunburst from '../Charts/SunBurst/SunBurst';
-import sunBurstData from '../Charts/SunBurst/sunburstData';
-import StackedBar from '../Charts/StackedBar/StackedBar';
+import GroupedBar from '../Charts/GroupedBar/GroupedBar';
 import RadarChart from '../Charts/RadarChart/RadarChart';
 import CirclePackChart from '../Charts/CirclePack/CirclePackChart';
 import SankeyChart from '../Charts/SankeyChart/SankeyChart';
+import Modal from '../../FinancialLiteracy/Modal';
 
 class MiddleChartSection extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      activeModal: false,
+      selectedModal: '',
+    };
   }
+
+  handleModal = () => {
+    this.setState(prevState => ({
+      activeModal: !prevState.activeModal,
+    }));
+  };
+
+  handleSelectedModal = value => {
+    this.setState({
+      selectedModal: value,
+    });
+  };
+
+  getModalContent = contentType => {
+    switch (contentType) {
+      case 'sunburst':
+        return <Sunburst activeModal />;
+
+      case 'sankey':
+        return <SankeyChart activeModal />;
+      case 'radar':
+        return <RadarChart activeModal />;
+      case 'circle':
+        return <CirclePackChart activeModal />;
+      case 'groupedChart':
+        return <GroupedBar activeModal />;
+
+      default:
+        break;
+    }
+    return true;
+  };
 
   render() {
     const {
-      //   state: {},
+      state: { selectedModal, activeModal },
       props: { activeView, activeOverview, sankeyChartwidth },
     } = this;
     const {
@@ -33,6 +68,16 @@ class MiddleChartSection extends Component {
             : { display: 'none' }
         }
       >
+        {activeModal && (
+          <Modal
+            // visible={selectedModal === 'bar' ? true : false}
+
+            selectedModal={selectedModal}
+            handleModal={this.handleModal}
+            // activeModal={activeModal}
+            component={() => this.getModalContent(selectedModal)}
+          />
+        )}
         <div className="graph-view">
           <div className="row">
             <div className="col-xl-6">
@@ -40,14 +85,14 @@ class MiddleChartSection extends Component {
                 <div className="card-header">
                   <h5>Investment focus zoomable sunburst</h5>
                   <div className="header-icons">
-                    <div className="card-switcher">
+                    {/* <div className="card-switcher">
                       <small>OFF</small>
                       <label className="switch">
                         <input type="checkbox" />
                         <span className="slider" />
                       </label>
                       <small>ON</small>
-                    </div>
+                    </div> */}
                     <span className="">
                       <img src={DownloadIcon} alt="open" />
                     </span>
@@ -73,24 +118,37 @@ class MiddleChartSection extends Component {
                 <div className="card-header">
                   <h5>Stacked bar with Partner Type</h5>
                   <div className="header-icons">
-                    <div className="card-switcher">
+                    {/* <div className="card-switcher">
                       <small>OFF</small>
                       <label className="switch">
                         <input type="checkbox" />
                         <span className="slider" />
                       </label>
                       <small>ON</small>
-                    </div>
+                    </div> */}
                     <span className="">
                       <img src={DownloadIcon} alt="open" />
                     </span>
-                    <span className="">
+                    <span
+                      role="tab"
+                      tabIndex="0"
+                      onClick={() => {
+                        this.handleModal();
+                        this.handleSelectedModal('groupedChart');
+                      }}
+                      onKeyDown={() => {
+                        this.handleModal();
+                        this.handleSelectedModal('groupedChart');
+                      }}
+                      className="zoom"
+                      popup-link="graph-modal"
+                    >
                       <img src={ExpandIcon} alt="open" />
                     </span>
                   </div>
                 </div>
                 <div className="card-body">
-                  <StackedBar />
+                  <GroupedBar />
                 </div>
               </div>
             </div>
@@ -99,18 +157,31 @@ class MiddleChartSection extends Component {
                 <div className="card-header">
                   <h5>Spider Net diagram</h5>
                   <div className="header-icons">
-                    <div className="card-switcher">
+                    {/* <div className="card-switcher">
                       <small>OFF</small>
                       <label className="switch">
                         <input type="checkbox" />
                         <span className="slider" />
                       </label>
                       <small>ON</small>
-                    </div>
+                    </div> */}
                     <span className="">
                       <img src={DownloadIcon} alt="open" />
                     </span>
-                    <span className="zoom" popup-link="graph-modal">
+                    <span
+                      role="tab"
+                      tabIndex="0"
+                      onClick={() => {
+                        this.handleModal();
+                        this.handleSelectedModal('radar');
+                      }}
+                      onKeyDown={() => {
+                        this.handleModal();
+                        this.handleSelectedModal('radar');
+                      }}
+                      className="zoom"
+                      popup-link="graph-modal"
+                    >
                       <img src={ExpandIcon} alt="open" />
                     </span>
                   </div>
@@ -125,18 +196,31 @@ class MiddleChartSection extends Component {
                 <div className="card-header">
                   <h5>Zoomable Circle Packing</h5>
                   <div className="header-icons">
-                    <div className="card-switcher">
+                    {/* <div className="card-switcher">
                       <small>OFF</small>
                       <label className="switch">
                         <input type="checkbox" />
                         <span className="slider" />
                       </label>
                       <small>ON</small>
-                    </div>
+                    </div> */}
                     <span className="">
                       <img src={DownloadIcon} alt="open" />
                     </span>
-                    <span className="">
+                    <span
+                      role="tab"
+                      tabIndex="0"
+                      onClick={() => {
+                        this.handleModal();
+                        this.handleSelectedModal('circle');
+                      }}
+                      onKeyDown={() => {
+                        this.handleModal();
+                        this.handleSelectedModal('circle');
+                      }}
+                      className="zoom"
+                      popup-link="graph-modal"
+                    >
                       <img src={ExpandIcon} alt="open" />
                     </span>
                   </div>
@@ -151,18 +235,31 @@ class MiddleChartSection extends Component {
                 <div className="card-header">
                   <h5>Contribution of program initiatives</h5>
                   <div className="header-icons">
-                    <div className="card-switcher">
+                    {/* <div className="card-switcher">
                       <small>OFF</small>
                       <label className="switch">
                         <input type="checkbox" />
                         <span className="slider" />
                       </label>
                       <small>ON</small>
-                    </div>
+                    </div> */}
                     <span className="">
                       <img src={DownloadIcon} alt="open" />
                     </span>
-                    <span className="">
+                    <span
+                      role="tab"
+                      tabIndex="0"
+                      onClick={() => {
+                        this.handleModal();
+                        this.handleSelectedModal('sankey');
+                      }}
+                      onKeyDown={() => {
+                        this.handleModal();
+                        this.handleSelectedModal('sankey');
+                      }}
+                      className="zoom"
+                      popup-link="graph-modal"
+                    >
                       <img src={ExpandIcon} alt="open" />
                     </span>
                   </div>

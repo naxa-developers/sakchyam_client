@@ -1,5 +1,17 @@
 import React, { Component } from 'react';
+import OutreachTab from './common/OutreachTab';
 
+const outreachTabTitle = [
+  'Investment Focus',
+  'Projects Implemented',
+  'Partner Institutions',
+  'Total Beneficiaries Reached',
+  'Sakchyam Investment (GBP)',
+  'New Physical Branches Established',
+  'New BLBs Established',
+  'Number of Tablet Banking Points',
+  'Innovative Products Introduced',
+];
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -55,124 +67,56 @@ class RightSideBar extends Component {
             <div className="sidebar-widget">
               <div className="widget-body is-dark">
                 <ul className="widget-list">
-                  <li>
-                    <div className="widget-content">
-                      <h6>Investment Focus</h6>
-                      <span>2</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">payments</i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Projects</h6>
-                      <span>54</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">assignment</i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Partner Institutions</h6>
-                      <span>112</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">
-                          location_city
-                        </i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Total Beneficiaries</h6>
-                      <span>2</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">people</i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Total Budgeted S-CF Contribution</h6>
-                      <span>रू 589,509,062</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">
-                          monetization_on
-                        </i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Branches</h6>
-                      <span>112</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">store</i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>BLB</h6>
-                      <span>54</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">
-                          account_balance
-                        </i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Extension Counter</h6>
-                      <span>112</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">
-                          local_convenience_store
-                        </i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Tablet</h6>
-                      <span>54</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">tablet_mac</i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Other Major Products</h6>
-                      <span>112</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">local_offer</i>
-                      </span>
-                    </div>
-                  </li>
+                  <OutreachTab
+                    title="Investment Focus"
+                    number={2}
+                    iconTitle="payments"
+                  />
+                  <OutreachTab
+                    title="Projects"
+                    number={54}
+                    iconTitle="assignment"
+                  />
+                  <OutreachTab
+                    title="Partner Institutions"
+                    number={112}
+                    iconTitle="location_city"
+                  />
+                  <OutreachTab
+                    title="Total Beneficiaries"
+                    number={2}
+                    iconTitle="people"
+                  />
+                  <OutreachTab
+                    title="Total Budgeted S-CF Contribution"
+                    number="रू 589,509,062"
+                    iconTitle="monetization_on"
+                  />
+                  <OutreachTab
+                    title="Branches"
+                    number={112}
+                    iconTitle="store"
+                  />
+                  <OutreachTab
+                    title="BLB"
+                    number={54}
+                    iconTitle="account_balance"
+                  />
+                  <OutreachTab
+                    title="Extension Counter"
+                    number={112}
+                    iconTitle="local_convenience_store"
+                  />
+                  <OutreachTab
+                    title="Tablet"
+                    number={54}
+                    iconTitle="tablet_mac"
+                  />
+                  <OutreachTab
+                    title="Other Major Products"
+                    number={54}
+                    iconTitle="local_offer"
+                  />
                 </ul>
               </div>
             </div>
