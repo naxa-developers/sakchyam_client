@@ -9,7 +9,7 @@
 ![npm](https://img.shields.io/npm/v/react?label=React) ![npm](https://img.shields.io/npm/v/webpack?color=%238ed6fb&label=Webpack) ![npm](https://img.shields.io/npm/v/eslint?color=%23492fc5&label=ESLint) ![npm](https://img.shields.io/npm/v/prettier?color=%23f6b93d&label=Prettier)
 
 
-### Installatio
+### Installation
 
 Sakchyam Client requires [Node.js](https://nodejs.org/) v4+ to run.
 
