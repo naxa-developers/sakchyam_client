@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  pull_request:
+    branches: [ staging ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+    - run: npm install
+    - run: npm run prebuild
+    
+    - run:   echo ::set-env name=PULL_NUMBER::$(echo "$GITHUB_REF" | awk -F / '{print $3}')
+      shell: bash
+    - uses: yg/deploy-surge@v1.0.0
+      with:
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        BUILD_DIRECTORY: ${{ secrets.BUILD_DIRECTORY }}
+        DOMAIN_NAME: pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh
