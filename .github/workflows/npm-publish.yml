@@ -5,8 +5,13 @@ name: CI
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
+#   issue_comment:
+#     types: [created, deleted]
+#   pull_request_review_comment:
+#     types: [created, deleted]
   pull_request:
     branches: [ master ]
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -31,7 +36,7 @@ jobs:
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         BUILD_DIRECTORY: ${{ secrets.BUILD_DIRECTORY }}
         DOMAIN_NAME: pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh
-      if: contains(github.event.comment.body, 'special string')
+#       if: contains(github.event.comment.body, '/deploy')
       env:
         URL: ${{ github.event.issue.comments_url }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,4 +46,4 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "blah blah" }'
+            --data '{ "body": "Deployed to pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh" }'
