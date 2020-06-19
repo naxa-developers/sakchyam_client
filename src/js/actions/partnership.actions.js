@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+import axios from 'axios';
 import {
   GET_PROJECT_LIST_DATA,
   GET_PARTNERSHIP_PARTNERS_LIST,
@@ -92,25 +93,77 @@ export const getProjectListData = selectedInvestmentFocus => dispatch => {
 };
 export const getMapDataByProvince = selectedDataView => dispatch => {
   const data = selectedDataView;
-  try {
-    axiosInstance
-      .post('/api/v1/partnership/partnership-filter/', {
-        status: '',
-        partner_id: [0],
-        project_id: [0],
-        province_id: [0],
-        district_id: [],
-        view: data,
-        municipality_id: [],
-      })
-      .then(function(result) {
-        return dispatch({
-          type: GET_MAP_DATA_BY_PROVINCE,
-          payload: result.data,
+  if (data === 'allocated_beneficiary') {
+    // data = ['total_beneficiary', 'female_beneficiary'];
+
+    try {
+      const requestOne = axiosInstance.post(
+        '/api/v1/partnership/partnership-filter/',
+        {
+          status: '',
+          partner_id: [0],
+          project_id: [0],
+          province_id: [0],
+          district_id: [],
+          view: 'total_beneficiary',
+          municipality_id: [],
+        },
+      );
+      const requestTwo = axiosInstance.post(
+        '/api/v1/partnership/partnership-filter/',
+        {
+          status: '',
+          partner_id: [0],
+          project_id: [0],
+          province_id: [0],
+          district_id: [],
+          view: 'female_beneficiary',
+          municipality_id: [],
+        },
+      );
+
+      axios
+        .all([requestOne, requestTwo])
+        .then(
+          axios.spread((...responses) => {
+            const responseOne = responses[0];
+            const responseTwo = responses[1];
+            return dispatch({
+              type: GET_MAP_DATA_BY_PROVINCE,
+              payload: {
+                totalBeneficiary: responseOne.data,
+                femaleBeneficiary: responseTwo.data,
+              },
+            });
+          }),
+        )
+        .catch(errors => {
+          // react on errors.
         });
-      });
-  } catch (err) {
-    console.error(err);
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      axiosInstance
+        .post('/api/v1/partnership/partnership-filter/', {
+          status: '',
+          partner_id: [0],
+          project_id: [0],
+          province_id: [0],
+          district_id: [],
+          view: data,
+          municipality_id: [],
+        })
+        .then(function(result) {
+          return dispatch({
+            type: GET_MAP_DATA_BY_PROVINCE,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
   }
 };
 export const getMapDataByDistrict = selectedDataView => dispatch => {
