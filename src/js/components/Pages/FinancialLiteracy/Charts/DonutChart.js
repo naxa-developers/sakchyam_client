@@ -106,8 +106,9 @@ class DonutChart extends Component {
         // fillSeriesColor: false,
         // fontColor: 'white',
         style: {
-          fontSize: '12px',
+          fontSize: '11px',
           fontColor: 'white',
+          backgroundColor: '#333',
         },
         // followCursor: false,
         // fixed: {
@@ -222,10 +223,13 @@ class DonutChart extends Component {
               type="donut"
               height={this.props.activeModal ? '400' : '250'}
             />
-            <div className="pie-legend">
+            <div
+              className="pie-legend"
+              style={{ padding: '20px 12px' }}
+            >
               <div className="legend-list">
                 <h5>
-                  <small style={{ backgroundColor: '#333' }} />
+                  <small style={{ backgroundColor: '#e11d3f' }} />
                   <span>Microfinance Institutions</span>
                 </h5>
                 <div className="legend-count">
@@ -239,7 +243,7 @@ class DonutChart extends Component {
               </div>
               <div className="legend-list">
                 <h5>
-                  <small style={{ backgroundColor: '#333' }} />
+                  <small style={{ backgroundColor: '#13a8be' }} />
                   <span>Commercial Bank & Other Partners</span>
                 </h5>
                 <div className="legend-count">

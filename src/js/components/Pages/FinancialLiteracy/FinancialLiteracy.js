@@ -66,6 +66,7 @@ class FinancialLiteracy extends Component {
       visualizationType: 'Visualisation',
       activeSortBy: false,
       activeModal: false,
+      modalHeader: '',
     };
   }
 
@@ -269,9 +270,10 @@ class FinancialLiteracy extends Component {
     }));
   };
 
-  handleSelectedModal = value => {
+  handleSelectedModal = (value, title) => {
     this.setState({
       selectedModal: value,
+      modalHeader: title,
     });
   };
 
@@ -329,6 +331,7 @@ class FinancialLiteracy extends Component {
         showRightSidebar,
         activeModal,
         selectedModal,
+        modalHeader,
       },
     } = this;
     return (
@@ -516,11 +519,17 @@ class FinancialLiteracy extends Component {
                                 tabIndex="0"
                                 onClick={() => {
                                   this.handleModal();
-                                  this.handleSelectedModal('donut');
+                                  this.handleSelectedModal(
+                                    'donut',
+                                    'Ratio of Microfinance and Commercial',
+                                  );
                                 }}
                                 onKeyDown={() => {
                                   this.handleModal();
-                                  this.handleSelectedModal('donut');
+                                  this.handleSelectedModal(
+                                    'donut',
+                                    'Ratio of Microfinance and Commercial',
+                                  );
                                 }}
                               >
                                 <img src={ExpandIcon} alt="open" />
@@ -574,11 +583,17 @@ class FinancialLiteracy extends Component {
                             tabIndex="0"
                             onClick={() => {
                               this.handleModal();
-                              this.handleSelectedModal('sankey');
+                              this.handleSelectedModal(
+                                'sankey',
+                                'Beneficiaries Reached By Partners',
+                              );
                             }}
                             onKeyDown={() => {
                               this.handleModal();
-                              this.handleSelectedModal('sankey');
+                              this.handleSelectedModal(
+                                'sankey',
+                                'Beneficiaries Reached By Partners',
+                              );
                             }}
                           >
                             <img src={ExpandIcon} alt="open" />
@@ -634,6 +649,7 @@ class FinancialLiteracy extends Component {
               selectedModal={selectedModal}
               handleModal={this.handleModal}
               activeModal={activeModal}
+              header={modalHeader}
               component={() => this.getModalContent(selectedModal)}
             />
           )}

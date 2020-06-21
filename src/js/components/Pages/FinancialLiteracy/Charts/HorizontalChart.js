@@ -58,17 +58,27 @@ class HorizontalChart extends Component {
       chartData2: {},
       isBarChartClicked: false,
       isToggled: false,
+      clickedPartnerName: '',
     };
   }
 
+  generateBarChartData1 = i => {
+    const {
+      financialReducer: { filteredByProgramDefault },
+    } = this.props;
+    // console.log(this.state.partnerChart, 'partnerChart');
+  };
+
   generateBarChartData = i => {
-    console.log('generateBarChartData');
+    // eslint-disable-next-line react/no-access-state-in-setstate
     const clickedPartner = this.state.options.xaxis.categories[i];
     // .join(' ');
     const {
       financialReducer: { filteredByProgramDefault, financialData },
       selectedProgram,
     } = this.props;
+
+    this.setState({ clickedPartnerName: clickedPartner });
 
     let filteredData = [];
 
@@ -126,16 +136,11 @@ class HorizontalChart extends Component {
     const label = filteredData.map(program => {
       return program.program_name;
     });
-    // console.log(label, 'lanbel');
     const removedDuplicateLabel = [...new Set(label)];
-
-    // console.log(removedDuplicateLabel, 'rlabel');
 
     removedDuplicateLabel.map(labelData => {
       return multiLineLabel.push(labelData.split(' '));
     });
-
-    // console.log(multiLineLabel, 'multi');
 
     const result = [
       ...new Map(filteredData.map(x => [x.partner_id, x])).values(),
@@ -166,16 +171,35 @@ class HorizontalChart extends Component {
       allProgramColor.push(colorPicker(value.id));
     }
 
-    allProgramData.sort((a, b) => b.data[0] - a.data[0]);
+    // allProgramData.sort((a, b) => b.data[0] - a.data[0]);
+
+    const multiLineLabel2 = allProgramData.map(program => {
+      return program.name;
+    });
+
+    const seriesData = allProgramData.map(item => {
+      return item.data[0];
+    });
+
+    const newSeries = {
+      // name: 'hello',
+      data: seriesData,
+    };
 
     // console.log(allProgramData[0].data[0], 'series');
     // console.log(multiLineLabel, 'label');
     // console.log(allProgramColor, 'color');
 
+    // console.log(
+    //   allProgramData.map(item => item.data),
+    //   'allprogramData',
+    // );
+    // console.log(multiLineLabel, 'multilinelabel');
+
     this.setState(prevState => ({
       // height: 200,
       chartData2: {
-        series: allProgramData,
+        series: [newSeries],
 
         options: {
           ...prevState.options,
@@ -183,13 +207,26 @@ class HorizontalChart extends Component {
             ...prevState.options.plotOptions,
             bar: {
               ...prevState.options.plotOptions.bar,
-              // barHeight: '80%',
-              // columnWidth: '100%',
+              distributed: true,
+              // barHeight: '1%',
+              columnWidth: '15%',
             },
           },
           colors: allProgramColor,
           xaxis: {
-            categories: multiLineLabel,
+            ...prevState.options.xaxis,
+            categories: multiLineLabel2,
+          },
+          title: {
+            text: prevState.clickedPartnerName,
+            floating: true,
+            offsetY: 0,
+            align: 'center',
+            style: {
+              color: '#444',
+              fontFamily: 'Avenir Book',
+              fontSize: '17px',
+            },
           },
         },
       },
@@ -445,6 +482,7 @@ class HorizontalChart extends Component {
               bar: {
                 ...preState.options.plotOptions.bar,
                 distributed: true,
+                columnWidth: '60%',
               },
             },
             colors: filteredByProgramDefault.color,
@@ -457,6 +495,35 @@ class HorizontalChart extends Component {
   handleBarChartBackBtn = () => {
     this.setState(prevState => ({
       isBarChartClicked: !prevState.isBarChartClicked,
+      clickedPartnerName: '',
+      programChart: {
+        // series: [newSeries],
+        ...prevState.programChart,
+
+        options: {
+          ...prevState.programChart.options,
+          // plotOptions: {
+          //   ...prevState.options.plotOptions,
+          // },
+          // // colors: prevState.chartData2.options.colors.allProgramColor,
+          // xaxis: {
+          // ...prevState.options.xaxis,
+          // categories: multiLineLabel2,
+          // },
+          title: {
+            ...prevState.programChart.options.title,
+            text: '',
+            // floating: true,
+            // offsetY: 0,
+            // align: 'center',
+            // style: {
+            //   color: '#444',
+            //   fontFamily: 'Avenir Book',
+            //   fontSize: '17px',
+            // },
+          },
+        },
+      },
     }));
   };
 
@@ -542,7 +609,10 @@ class HorizontalChart extends Component {
               tabIndex="0"
               onClick={() => {
                 handleModal();
-                handleSelectedModal('bar');
+                handleSelectedModal(
+                  'bar',
+                  'Beneficiary Reached Per Program by Partners',
+                );
               }}
               onKeyDown={() => {
                 handleModal();
