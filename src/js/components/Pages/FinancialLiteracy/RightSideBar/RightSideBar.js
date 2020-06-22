@@ -49,7 +49,9 @@ class RightSideBar extends Component {
   }
 
   calculateTotalBeneficiaries = selectedPartner => {
-    const { financialData } = this.props.financialReducer;
+    const {
+      financialReducer: { financialData },
+    } = this.props;
 
     const arr = [];
 
@@ -517,7 +519,10 @@ class RightSideBar extends Component {
                         >
                           <div className="program-info">
                             <div className="info-in">
-                              <h5>{item.program_name}</h5>
+                              <h6 style={{ fontSize: '12px' }}>
+                                {item.program_name}
+                              </h6>
+
                               <div className="program-text">
                                 <i className="material-icons">
                                   location_city

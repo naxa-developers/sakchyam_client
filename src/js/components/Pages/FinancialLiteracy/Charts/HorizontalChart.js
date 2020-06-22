@@ -62,13 +62,6 @@ class HorizontalChart extends Component {
     };
   }
 
-  generateBarChartData1 = i => {
-    const {
-      financialReducer: { filteredByProgramDefault },
-    } = this.props;
-    // console.log(this.state.partnerChart, 'partnerChart');
-  };
-
   generateBarChartData = i => {
     // eslint-disable-next-line react/no-access-state-in-setstate
     const clickedPartner = this.state.options.xaxis.categories[i];
@@ -85,13 +78,16 @@ class HorizontalChart extends Component {
     const exception = [
       'Kisan Microfinance',
       'Kisan Cooperative',
-      'Mahila Samudayik Laghubitta',
-      'Mahila Sahayatra Laghubitta',
+      'Mahila Samudayik',
+      'Mahila Sahayatra',
     ];
 
     if (selectedProgram.length === 0) {
       filteredData = financialData.filter(item => {
-        if (exception.includes(clickedPartner)) {
+        if (
+          Array.isArray(clickedPartner) &&
+          exception.includes(clickedPartner.join(' '))
+        ) {
           return (
             item.partner_name
               .split(' ')
@@ -107,99 +103,46 @@ class HorizontalChart extends Component {
         );
       });
     } else {
-      filteredData = financialData.filter(
-        item =>
-          selectedProgram.includes(item.program_id) &&
-          item.partner_name === clickedPartner,
-      );
+      filteredData = financialData.filter(item => {
+        if (selectedProgram.includes(item.program_id)) {
+          if (
+            Array.isArray(clickedPartner) &&
+            exception.includes(clickedPartner.join(' '))
+          ) {
+            return (
+              item.partner_name
+                .split(' ')
+                .slice(0, 2)
+                .join(' ') === clickedPartner.join(' ')
+            );
+          }
+          return (
+            item.partner_name.substr(
+              0,
+              item.partner_name.indexOf(' '),
+            ) === clickedPartner
+          );
+        }
+        return false;
+      });
     }
 
-    const multiLineLabel = [];
-    const groupedObj = {};
+    filteredData.sort((a, b) => b.value - a.value);
+
+    const arr = [];
+    const categories = [];
     const allProgramColor = [];
-    const allProgramData = [];
-
-    filteredData.sort(function(a, b) {
-      const nameA = a.single_count; // ignore upper and lowercase
-      const nameB = b.single_count; // ignore upper and lowercase
-      if (nameA > nameB) {
-        return -1;
-      }
-      if (nameA < nameB) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
+    filteredData.map(item => {
+      arr.push(item.value);
+      categories.push(item.program_name);
+      allProgramColor.push(colorPicker(item.program_id));
+      return true;
     });
-
-    const label = filteredData.map(program => {
-      return program.program_name;
-    });
-    const removedDuplicateLabel = [...new Set(label)];
-
-    removedDuplicateLabel.map(labelData => {
-      return multiLineLabel.push(labelData.split(' '));
-    });
-
-    const result = [
-      ...new Map(filteredData.map(x => [x.partner_id, x])).values(),
-    ];
-
-    filteredData.forEach(function(c) {
-      if (groupedObj[c.program_id]) {
-        groupedObj[c.program_id].data.push(c.value);
-      } else {
-        groupedObj[c.program_id] = {
-          name: c.program_name,
-          id: c.program_id,
-          data: [c.value],
-        };
-      }
-    });
-
-    // const allProgramData = [];
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(groupedObj)) {
-      // allPartnersLabel.push(key);
-      // value.names.map(data => {
-      allProgramData.push(value);
-      // return true;
-    }
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(groupedObj)) {
-      allProgramColor.push(colorPicker(value.id));
-    }
-
-    // allProgramData.sort((a, b) => b.data[0] - a.data[0]);
-
-    const multiLineLabel2 = allProgramData.map(program => {
-      return program.name;
-    });
-
-    const seriesData = allProgramData.map(item => {
-      return item.data[0];
-    });
-
-    const newSeries = {
-      // name: 'hello',
-      data: seriesData,
-    };
-
-    // console.log(allProgramData[0].data[0], 'series');
-    // console.log(multiLineLabel, 'label');
-    // console.log(allProgramColor, 'color');
-
-    // console.log(
-    //   allProgramData.map(item => item.data),
-    //   'allprogramData',
-    // );
-    // console.log(multiLineLabel, 'multilinelabel');
 
     this.setState(prevState => ({
       // height: 200,
       chartData2: {
-        series: [newSeries],
+        series: [{ data: arr }],
 
         options: {
           ...prevState.options,
@@ -215,7 +158,7 @@ class HorizontalChart extends Component {
           colors: allProgramColor,
           xaxis: {
             ...prevState.options.xaxis,
-            categories: multiLineLabel2,
+            categories,
           },
           title: {
             text: prevState.clickedPartnerName,
@@ -225,7 +168,7 @@ class HorizontalChart extends Component {
             style: {
               color: '#444',
               fontFamily: 'Avenir Book',
-              fontSize: '17px',
+              // fontSize: '17px',
             },
           },
         },
@@ -273,7 +216,8 @@ class HorizontalChart extends Component {
               !this.state.isBarChartClicked &&
               !this.state.isToggled
             ) {
-              this.generateBarChartData(dataPointIndex);
+              if (dataPointIndex >= 0)
+                this.generateBarChartData(dataPointIndex);
             }
           }.bind(this),
         },
@@ -395,11 +339,6 @@ class HorizontalChart extends Component {
         }));
       }
     }
-
-    // new ApexCharts(
-    //     document.querySelector('#horizontal-chart'),
-    //     options,
-    //   );
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -415,7 +354,6 @@ class HorizontalChart extends Component {
         filteredByProgram.series[0].data.length > 2
         // filteredByProgram.series.length > 10
       ) {
-        console.log('programColor', filteredByProgramDefault.color);
         this.setState(preState => ({
           height: 400,
           series: filteredByProgram.series,
@@ -458,19 +396,31 @@ class HorizontalChart extends Component {
           },
         }));
       }
-      this.setState({
+      this.setState(preState => ({
         partnerChart: {
           series: filteredByProgram.series,
           label: filteredByProgram.label,
-          color: filteredByProgram.color,
+          colors: filteredByProgram.color,
+          options: {
+            ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                columnWidth: '15%',
+              },
+            },
+          },
         },
-      });
+      }));
     }
     if (
       prevProps.financialReducer.filteredByProgramDefault !==
       this.props.financialReducer.filteredByProgramDefault
     ) {
       this.setState(preState => ({
+        isToggled: false,
+        isBarChartClicked: false,
         programChart: {
           series: filteredByProgramDefault.series,
           label: filteredByProgramDefault.label,
@@ -481,8 +431,12 @@ class HorizontalChart extends Component {
               ...preState.options.plotOptions,
               bar: {
                 ...preState.options.plotOptions.bar,
-                distributed: true,
-                columnWidth: '60%',
+                // distributed: true,
+                columnWidth:
+                  this.props.checkedPartnerItems &&
+                  this.props.checkedPartnerItems.length === 0
+                    ? '60%'
+                    : '15%',
               },
             },
             colors: filteredByProgramDefault.color,

@@ -489,6 +489,9 @@ class FinancialLiteracy extends Component {
                               this.handleSelectedModal
                             }
                             selectedProgram={selectedProgram1}
+                            checkedPartnerItems={
+                              this.state.checkedPartnerItems
+                            }
                             showRightSidebar={showRightSidebar}
                           />
                         </div>

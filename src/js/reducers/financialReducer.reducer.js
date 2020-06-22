@@ -553,10 +553,6 @@ const getFinancialData = (state, action) => {
     return x + b.single_count;
   }, 0);
 
-  console.log(allSingleCountData, 'allSingleCountData');
-  console.log(allProgramData, 'allProgramData');
-  console.log(allProgramColor, 'allProgramColor');
-
   return {
     ...state,
     sankeyData,
@@ -566,8 +562,8 @@ const getFinancialData = (state, action) => {
     filteredByProgramDefault: {
       series: allSingleCountData, // allSingleCountData,
       label: multiLineLabel,
-      color: allPartnerColor,
-      // color: ['#333', '#fff'],
+      // color: allPartnerColor,
+      color: ['#16A085'],
     },
     filteredByProgram: {
       series: allProgramData, // allSingleCountData,
@@ -1065,7 +1061,8 @@ const filterFinancialDataForGraph = (state, action) => {
     filteredByProgramDefault: {
       series: newPartnerWiseData.series,
       label: newPartnerWiseData.label,
-      color: newPartnerWiseData.colors,
+      // color: newPartnerWiseData.colors,
+      color: ['#16A085'],
     },
     filteredByProgram: {
       series: newProgramWiseData.series,
