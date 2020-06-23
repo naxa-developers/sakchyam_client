@@ -52,7 +52,7 @@ class HorizontalChart extends Component {
     this.state = {
       series: [],
       options: {},
-      height: 200,
+      height: 300,
       partnerChart: {},
       programChart: {},
       chartData2: {},

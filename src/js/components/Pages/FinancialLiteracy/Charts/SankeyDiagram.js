@@ -100,17 +100,29 @@ class SankeyDiagram extends Component {
               motionStiffness={140}
               motionDamping={13}
               nodeTooltip={node => (
-                <strong
-                  style={{
-                    // color: '#fff',
-                    textAlign: 'center',
-                    // margin: '0px 15px',
-                  }}
-                >
-                  {node.id}
-                  <br />
-                  {node.value}
-                </strong>
+                <span style={{ display: 'flex' }}>
+                  <div
+                    style={{
+                      margin: '1px',
+                      marginRight: '5px',
+                      marginTop: '5px',
+                      height: '15px',
+                      width: '15px',
+                      backgroundColor: node.color,
+                    }}
+                  />
+                  <strong
+                    style={{
+                      // color: '#fff',
+                      textAlign: 'center',
+                      // margin: '0px 15px',
+                    }}
+                  >
+                    {node.id}
+                    <br />
+                    {node.value}
+                  </strong>
+                </span>
               )}
             />
           ) : (

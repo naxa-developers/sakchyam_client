@@ -197,7 +197,7 @@ const filterSankeyData = data => {
         links.push({
           source: item.partner_type,
           target: item.partner_name,
-          value: item.value,
+          value: item.single_count,
         });
       }
       links.push({
@@ -245,22 +245,24 @@ const filterSankeyData = data => {
 
 // FUNCTION TO FILTER PARTNERWISE CHART DATA
 const filterPartnerWiseChartData = data => {
-  const arr = [];
+  const arr1 = [];
   data.map(item => {
-    const obj1 = arr.some(obj => item.partner_id === obj.partner_id);
-    if (!obj1) {
-      arr.push(item);
+    const object1 = arr1.some(
+      obje => item.partner_id === obje.partner_id,
+    );
+    if (!object1) {
+      arr1.push(item);
     }
-    if (obj1) {
-      const objIndex = arr.findIndex(
+    if (object1) {
+      const objIndex1 = arr1.findIndex(
         i => i.partner_id === item.partner_id,
       );
-      arr[objIndex].value += item.value;
+      // arr1[objIndex1].value += item.value;
     }
     return true;
   });
-  const barData = arr.map(item => item.single_count);
-  const categories = arr.map(item => item.partner_name);
+  const barData = arr1.map(item => item.single_count);
+  const categories = arr1.map(item => item.partner_name);
   return {
     series: [{ data: barData }],
     categories,
@@ -605,7 +607,11 @@ const getFinancialProgram = (state, action) => {
 const filterFinancialDataForGraph = (state, action) => {
   const microfinance = 'Microfinance Institutions';
   const commercial = 'Commercial Bank and Other Partners';
-  const { selectedPartners, selectedProgram } = action.payload;
+  const {
+    selectedPartners,
+    selectedProgram,
+    selectedPartnerType,
+  } = action.payload;
 
   const allData = state.financialData;
 

@@ -48,36 +48,84 @@ class RightSideBar extends Component {
     };
   }
 
-  calculateTotalBeneficiaries = selectedPartner => {
+  calculateTotalBeneficiaries = (
+    selectedPartner = [],
+    selectedProgram = [],
+  ) => {
     const {
       financialReducer: { financialData },
     } = this.props;
 
     const arr = [];
-
+    const arr2 = [];
     financialData.map(item => {
       const obj = arr.find(x => x.partner_id === item.partner_id);
+      const obj2 = arr2.find(x => x.program_id === item.program_id);
       if (!obj) {
         arr.push(item);
       }
-      return true;
-    });
-
-    let totalBeneficiaries = 0;
-    arr.map(item => {
-      if (selectedPartner.length !== 0) {
-        selectedPartner.map(i => {
-          if (i === item.partner_id) {
-            totalBeneficiaries += item.value;
-          }
-          return true;
-        });
-      } else {
-        totalBeneficiaries += item.single_count;
+      if (!obj2) {
+        arr2.push(item);
       }
       return true;
     });
-    return totalBeneficiaries;
+
+    // console.log(arr2, 'arr');
+
+    let tempBeneficiary = 0;
+    let partnerBeneficiary = 0;
+    // let bothBeneficiary = 0;
+
+    arr.map(i => {
+      tempBeneficiary += i.single_count;
+      if (selectedPartner.includes(i.partner_id))
+        partnerBeneficiary += i.single_count;
+      return true;
+    });
+
+    let totalBeneficiary = 0;
+    if (
+      selectedPartner.length === 0 &&
+      selectedProgram.length === 0
+    ) {
+      totalBeneficiary = tempBeneficiary;
+    } else if (
+      selectedPartner.length > 0 &&
+      selectedProgram.length === 0
+    ) {
+      totalBeneficiary = partnerBeneficiary;
+    } else if (
+      selectedPartner.length === 0 &&
+      selectedProgram.length > 0
+    ) {
+      financialData.map(item => {
+        if (
+          // selectedPartner.includes(item.partner_id) &&
+          selectedProgram.includes(item.program_id)
+        ) {
+          totalBeneficiary += item.value;
+        }
+        return true;
+      });
+    } else if (
+      selectedPartner.length > 0 &&
+      selectedProgram.length > 0
+    ) {
+      financialData.map(item => {
+        if (
+          selectedPartner.includes(item.partner_id) &&
+          selectedProgram.includes(item.program_id)
+        ) {
+          totalBeneficiary += item.value;
+        }
+        return true;
+      });
+    }
+
+    // debugger;
+    // console.log(tempBeneficiary, 'tempBeneficiary');
+
+    return totalBeneficiary;
   };
 
   calculatePartnerCount = selectedPartner => {
@@ -249,46 +297,6 @@ class RightSideBar extends Component {
     const { selectedProgram, checkedPartnerItems } = this.props;
     const { financialData } = this.props.financialReducer;
 
-    // let filteredData = [];
-    // financialData.map(item => {
-    //   checkedPartnerItems.map(i => {
-    //     if (item.partner_id === i) {
-    //       const obj = filteredData.find(
-    //         x => x.program_id === item.program_id,
-    //       );
-    //       if (!obj) {
-    //         filteredData.push({
-    //           program_code: item.program_code,
-    //           program_id: item.program_id,
-    //           program_name: item.program_name,
-    //           value: item.value,
-    //         });
-    //       } else {
-    //         const objIndex = filteredData.findIndex(
-    //           p => p.program_id === item.program_id,
-    //         );
-    //         filteredData[objIndex].value += item.value;
-    //       }
-    //     }
-    //     return true;
-    //   });
-    //   return true;
-    // });
-
-    // const neww = [];
-
-    // filteredData.map(item => {
-    //   selectedProgram.map(i => {
-    //     if (item.program_id === i) {
-    //       neww.push(item);
-    //     }
-    //     return true;
-    //   });
-    //   return true;
-    // });
-
-    // filteredData = neww;
-
     const filteredData = this.calculateFilteredData(
       selectedProgram,
       checkedPartnerItems,
@@ -304,6 +312,7 @@ class RightSideBar extends Component {
 
     const totalBeneficiaries = this.calculateTotalBeneficiaries(
       checkedPartnerItems,
+      selectedProgram,
     );
     const partnerCount = this.calculatePartnerCount(
       checkedPartnerItems,
@@ -326,10 +335,17 @@ class RightSideBar extends Component {
     ) {
       this.getInitialOverviewData();
     }
-    if (prevProps.selectedProgram !== this.props.selectedProgram) {
-      this.updateOverviewData();
-    }
+    // if (prevProps.selectedProgram !== this.props.selectedProgram) {
+    //   this.updateOverviewData();
+    // }
+    // if (
+    //   prevProps.checkedPartnerItems !== this.props.checkedPartnerItems
+    // ) {
+    //   this.updateOverviewData();
+    // }
+
     if (
+      prevProps.selectedProgram !== this.props.selectedProgram ||
       prevProps.checkedPartnerItems !== this.props.checkedPartnerItems
     ) {
       this.updateOverviewData();
@@ -547,7 +563,7 @@ class RightSideBar extends Component {
                                 ),
                               }}
                             >
-                              {numberWithCommas(item.value)}
+                              {/* {numberWithCommas(item.value)} */}
                             </div>
                           </div>
                         </div>
@@ -664,7 +680,7 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget timeline-widget">
-              <h5>INITIATIVE TIMELINE</h5>
+              <h5>Timeline of Financial Literacy Initiative</h5>
               <div className="widget-body">
                 <ul className="timeline">
                   {financialProgram &&
