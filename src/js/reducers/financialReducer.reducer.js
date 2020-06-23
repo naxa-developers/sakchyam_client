@@ -197,7 +197,7 @@ const filterSankeyData = data => {
         links.push({
           source: item.partner_type,
           target: item.partner_name,
-          value: item.value,
+          value: item.single_count,
         });
       }
       links.push({
@@ -243,13 +243,103 @@ const filterSankeyData = data => {
   return sankeyData;
 };
 
+// FUNCTION TO FILTER PARTNERWISE CHART DATA
+const filterPartnerWiseChartData = data => {
+  const arr1 = [];
+  data.map(item => {
+    const object1 = arr1.some(
+      obje => item.partner_id === obje.partner_id,
+    );
+    if (!object1) {
+      arr1.push(item);
+    }
+    if (object1) {
+      const objIndex1 = arr1.findIndex(
+        i => i.partner_id === item.partner_id,
+      );
+      // arr1[objIndex1].value += item.value;
+    }
+    return true;
+  });
+  const barData = arr1.map(item => item.single_count);
+  const categories = arr1.map(item => item.partner_name);
+  return {
+    series: [{ data: barData }],
+    categories,
+  };
+};
+
+// FUNCTION TO FILTER PROGRAMWISE CHART DATA
+const filterProgramWiseChartData = data => {
+  const arr = [];
+  const categories = [];
+  data.map(item => {
+    const obj1 = arr.some(obj => item.program_id === obj.program_id);
+    const obj2 = categories.some(i => item.partner_name === i);
+    if (!obj1) {
+      arr.push({
+        program_id: item.program_id,
+        name: item.program_name,
+        data: [item.value],
+      });
+    }
+    if (obj1) {
+      const objIndex = arr.findIndex(
+        i => i.program_id === item.program_id,
+      );
+      arr[objIndex].data.push(item.value);
+    }
+    if (!obj2) {
+      categories.push(item.partner_name);
+    }
+    return true;
+  });
+
+  const exception = [
+    'Kisan Microfinance',
+    'Kisan Cooperative',
+    'Mahila Samudayik Laghubitta',
+    'Mahila Sahayatra Laghubitta',
+  ];
+
+  const multiLineLabel = [];
+
+  categories.map(label => {
+    if (exception.includes(label)) {
+      multiLineLabel.push(label.split(' ').slice(0, 2));
+    } else {
+      multiLineLabel.push(label.substr(0, label.indexOf(' ')));
+    }
+    return true;
+  });
+  // const categories = arr.map(item => item.name);
+  const programWiseColor = arr.map(item =>
+    colorPicker(item.program_id),
+  );
+
+  return {
+    series: arr,
+    categories: multiLineLabel,
+    colors: programWiseColor,
+  };
+};
+
 // FUNCTION TO HANDLE BAR CLICK
 const getBarDataAfterClick = (state, action) => {
   const clickIndex = action.payload;
 };
 
 // FUNCTION TO FILTER BAR CHART
-const filterBarChartData = () => {};
+const filterBarChartData = data => {
+  const filteredData = [];
+
+  const exception = [
+    'Kisan Microfinance',
+    'Kisan Cooperative',
+    'Mahila Samudayik Laghubitta',
+    'Mahila Sahayatra Laghubitta',
+  ];
+};
 
 const getPartnersList = (state, action) => {
   return {
@@ -418,7 +508,11 @@ const getFinancialData = (state, action) => {
   });
 
   const allSingleCountData = [
-    { data: totalSingleCount, id: 1, name: 'Count' },
+    {
+      data: totalSingleCount,
+      id: 1,
+      name: 'No. of Beneficiaries',
+    },
   ];
 
   const allProgramData = [];
@@ -464,6 +558,7 @@ const getFinancialData = (state, action) => {
   const totalMicroBenef = microfinancial.reduce(function(x, b) {
     return x + b.single_count;
   }, 0);
+
   return {
     ...state,
     sankeyData,
@@ -473,8 +568,8 @@ const getFinancialData = (state, action) => {
     filteredByProgramDefault: {
       series: allSingleCountData, // allSingleCountData,
       label: multiLineLabel,
-      color: allPartnerColor,
-      // color: ['#333', '#fff'],
+      // color: allPartnerColor,
+      color: ['#16A085'],
     },
     filteredByProgram: {
       series: allProgramData, // allSingleCountData,
@@ -516,7 +611,11 @@ const getFinancialProgram = (state, action) => {
 const filterFinancialDataForGraph = (state, action) => {
   const microfinance = 'Microfinance Institutions';
   const commercial = 'Commercial Bank and Other Partners';
-  const { selectedPartners, selectedProgram } = action.payload;
+  const {
+    selectedPartners,
+    selectedProgram,
+    partnerType,
+  } = action.payload;
 
   const allData = state.financialData;
 
@@ -532,6 +631,8 @@ const filterFinancialDataForGraph = (state, action) => {
 
   let newSankeyData = data;
   let newTreeMapData;
+  let newProgramWiseData;
+  let newPartnerWiseData;
 
   if (selectedPartners.length < 1 && selectedProgram.length < 1) {
     filteredLabel = state.filteredByProgramDefault.label;
@@ -571,10 +672,21 @@ const filterFinancialDataForGraph = (state, action) => {
     //   allProgramColor.push(colorPicker(item.programId));
     //   return true;
     // });
+
+    let newData = [];
+    if (partnerType.length === 0 || partnerType.length === 2) {
+      newData = data;
+    } else {
+      newData = data.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+    }
     multiLineLabel = filteredLabel;
     allProgramData = filteredSeries;
-    newSankeyData = filterSankeyData(data);
-    newTreeMapData = filterTreeMapData(data);
+    newSankeyData = filterSankeyData(newData);
+    newTreeMapData = filterTreeMapData(newData);
+    newProgramWiseData = filterProgramWiseChartData(newData);
+    newPartnerWiseData = filterPartnerWiseChartData(newData);
   } else if (
     // Partner is selected and Program is not selected
     selectedPartners.length > 0 &&
@@ -679,6 +791,8 @@ const filterFinancialDataForGraph = (state, action) => {
     // const result = Array.from(new Set(filtered));
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
+    newProgramWiseData = filterProgramWiseChartData(filteredData);
+    newPartnerWiseData = filterPartnerWiseChartData(filteredData);
   } else if (
     selectedPartners.length < 1 &&
     selectedProgram.length > 0
@@ -769,6 +883,8 @@ const filterFinancialDataForGraph = (state, action) => {
 
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
+    newProgramWiseData = filterProgramWiseChartData(filteredData);
+    newPartnerWiseData = filterPartnerWiseChartData(filteredData);
   } else if (
     selectedPartners.length > 0 &&
     selectedProgram.length > 0
@@ -866,6 +982,13 @@ const filterFinancialDataForGraph = (state, action) => {
     );
     newSankeyData = filterSankeyData(filteredDataSankey);
     newTreeMapData = filterTreeMapData(filteredDataSankey);
+
+    newProgramWiseData = filterProgramWiseChartData(
+      filteredDataSankey,
+    );
+    newPartnerWiseData = filterPartnerWiseChartData(
+      filteredDataSankey,
+    );
   }
 
   // const { selectedPartners, selectedProgram } = action.payload;
@@ -951,12 +1074,19 @@ const filterFinancialDataForGraph = (state, action) => {
   const totalMicroBenef = filteredMicroFinance.reduce(function(x, b) {
     return x + b.single_count;
   }, 0);
+
   return {
     ...state,
+    filteredByProgramDefault: {
+      series: newPartnerWiseData.series,
+      label: newPartnerWiseData.label,
+      // color: newPartnerWiseData.colors,
+      color: ['#16A085'],
+    },
     filteredByProgram: {
-      series: allProgramData,
-      label: multiLineLabel,
-      color: allProgramColor,
+      series: newProgramWiseData.series,
+      label: newProgramWiseData.categories,
+      color: newProgramWiseData.colors,
     },
     pieData: {
       series: [totalCommercialBenef, totalMicroBenef],

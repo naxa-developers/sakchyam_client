@@ -8,6 +8,7 @@ import GridImg from '../../img/grid-img.png';
 import LoginIllustration from '../../img/Login-illustration.png';
 import Footer from './Footer';
 import Header from './Header';
+import LandingCard from './common/LandingCard';
 
 let permissionObject={}
 class Landing extends Component {
@@ -135,331 +136,86 @@ class Landing extends Component {
             <div className="content-tools">
               <div className="tools-list">
                 <div className="row no-gutters rw-mod">
-                  <div className=" col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md">
-                    <div className="tools-intro">
-                      <div className="info">
-                        <h4>Sakchyam Partnerships</h4>
-                        <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
-                        <ul className="lists">
-                          <li className="span_heavy_15">Partner Organisation</li>
-                          <li className="span_heavy_15">Project Intervention</li>  
-                          <li className="span_heavy_15">Outreach Beneficiaries</li>
-                          <li className="span_heavy_15">
-                            <span>and</span>
-                            {' '}
-                            Benefits
-                          </li>
-                        </ul>
-                      </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("view_logentry") ?
-                        <Link to="/partnership"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
-                        :
-                        permissions && permissions[0] && permissions[0].email 
-                        ? 
-                          <>
-                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                            <a href="#/" className="span_book_14">
-                              You dont have permission to get an access!
-                            </a>
-                          </> 
-                          :null}
-                      {permissions && permissions[0] && permissions[0].email ?
-                       null : 
-                       <>
-                         <Link to={{pathname: '/login',state: {afterLogin: '/partnership'}}}>
-                           <button type="button" className="deny_button">
-                             <span className="span_heavy_15">No Access</span>
-                           </button>
-                         </Link>
-                         <Link to={{pathname: '/login',state: {afterLogin: '/partnership'}}} className="span_book_14">
-                           <span className="view">Log in</span>
-                           to get an access!
-                         </Link>
-                       </>}
-                      <img className="grid-img" src={GridImg} alt="" />
-                    </div>
-                  </div>
-
-                  <div className=" col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md cl-md">
-                    <div className="tools-intro">
-                      <div className="info">
-                        <h4>Logical Framework</h4>
-                        <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
-                        <ul className="lists">
-                          <li className="span_heavy_15">Impact</li>
-                          <li className="span_heavy_15">Outcome</li>  
-                          <li className="span_heavy_15">Output</li>
-                        </ul>                        
-                      </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("view_logentry") ?
-                        <Link to="/logframe"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
-                        :
-                        permissions && permissions[0] && permissions[0].email 
-                        ? 
-                          <>
-                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                            <a href="#/" className="span_book_14">
-                              You dont have permission to get an access!
-                            </a>
-                          </> 
-                          :null}
-                      {permissions && permissions[0] && permissions[0].email ?
-                       null : 
-                       <>
-                         <Link to={{pathname: '/login',state: {afterLogin: '/logframe'}}}>
-                           <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                         </Link>
-                         <Link to={{pathname: '/login',state: {afterLogin: '/logframe'}}} className="span_book_14">
-                           <span className="view">Log in</span>
-                           to get an access!
-                         </Link>
-                       </>}
-                      <img className="grid-img" src={GridImg} alt="" />
-                    </div>
-                  </div>
-
-                  <div className=" col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md">
-                    <div className="tools-intro">
-                      <div className="info">
-                        <h4>Automation</h4>
-                        <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
-                        <ul className="lists">
-                          <li className="span_heavy_15">Partner Organisation</li>
-                          <li className="span_heavy_15">Automation Outreach</li>  
-                          <li className="span_heavy_15">Tablet Deployed</li>  
-                          <li className="span_heavy_15">Automation Benefits</li>  
-                          {/* <li className="span_heavy_15">Outreach Beneficiaries</li> */}
-                          {/* <li className="span_heavy_15">
-                            <span>and</span>
-                            {' '}
-                            Benefits
-                          </li> */}
-                        </ul>                    
-                      </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("view_automation") ?
-                        <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
-                        :
-                        permissions && permissions[0] && permissions[0].email 
-                        ? 
-                          <>
-                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                            <a href="#/" className="span_book_14">
-                              You dont have permission to get an access!
-                            </a>
-                          </> 
-                          :null}
-                      {permissions && permissions[0] && permissions[0].email ?
-                       null : 
-                       <>
-                         <Link to={{pathname: '/login',state: {afterLogin: '/automation'}}}>
-                           <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                         </Link>
-                         <Link to={{pathname: '/login',state: {afterLogin: '/automation'}}} className="span_book_14">
-                           <span className="view">Log in</span>
-                           to get an access!
-                         </Link>
-                       </>}
-                      <img className="grid-img" src={AutomationImg} alt="" />
-                    </div>
-                  </div>
-
-                  <div className=" col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md">
-                    <div className="tools-intro">
-                      <div className="info">
-                        <h4>Product/Process Innovations</h4>
-                        <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
-                        <ul className="lists">
-                          <li className="span_heavy_15">Partner Organisation</li>
-                          <li className="span_heavy_15">Project Intervention</li>  
-                          <li className="span_heavy_15">Outreach Beneficiaries</li>
-                          <li className="span_heavy_15">
-                            <span>and</span>
-                            {' '}
-                            Benefits
-                          </li>
-                        </ul>                        
-                      </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("") ?
-                        <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
-                        :
-                        permissions && permissions[0] && permissions[0].email 
-                        ? 
-                          <>
-                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                            <a href="#/" className="span_book_14">
-                              You dont have permission to get an access!
-                            </a>
-                          </> 
-                          :null}
-                      {permissions && permissions[0] && permissions[0].email ?
-                       null : 
-                       <>
-                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
-                         <Link to="/login" className="span_book_14">
-                           <span className="view">Log in</span>
-                           to get an access!
-                         </Link>
-                       </>}
-                      <img className="grid-img" src={GridImg} alt="" />
-                    </div>
-                  </div>
-                  <div className=" col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md">
-                    <div className="tools-intro">
-                      <div className="info">
-                        <h4>Payment Systems</h4>
-                        <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
-                        <ul className="lists">
-                          <li className="span_heavy_15">Partner Organisation</li>
-                          <li className="span_heavy_15">Project Intervention</li>  
-                          <li className="span_heavy_15">Outreach Beneficiaries</li>
-                          <li className="span_heavy_15">
-                            <span>and</span>
-                            Benefits
-                          </li>
-                        </ul>
-                      </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("") ?
-                        <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
-                        :
-                        permissions && permissions[0] && permissions[0].email 
-                        ? 
-                          <>
-                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                            <a href="#/" className="span_book_14">
-                              You dont have permission to get an access!
-                            </a>
-                          </> 
-                          :null}
-                      {permissions && permissions[0] && permissions[0].email ?
-                       null : 
-                       <>
-                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
-                         <Link to="/login" className="span_book_14">
-                           <span className="view">Log in</span>
-                           to get an access!
-                         </Link>
-                       </>}
-                      <img className="grid-img" src={GridImg} alt="" />
-                    </div>
-                  </div>
-                            
-                  <div className=" col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md">
-                    <div className="tools-intro">
-                      <div className="info">
-                        <h4>MFS</h4>
-                        <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
-                        <ul className="lists">
-                          <li className="span_heavy_15">Impact</li>
-                          <li className="span_heavy_15">Outcome</li>  
-                          <li className="span_heavy_15">Output</li>
-                        </ul>
-                      </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("") ?
-                        <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
-                        :
-                        permissions && permissions[0] && permissions[0].email 
-                        ? 
-                          <>
-                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                            <a href="#/" className="span_book_14">
-                              You dont have permission to get an access!
-                            </a>
-                          </> 
-                          :null}
-                      {permissions && permissions[0] && permissions[0].email ?
-                       null : 
-                       <>
-                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
-                         <Link to="/login" className="span_book_14">
-                           <span className="view">Log in</span>
-                           to get an access!
-                         </Link>
-                       </>}
-                      <img className="grid-img" src={GridImg} alt="" />
-                    </div>
-                  </div>
-
-                  <div className=" col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md">
-                    <div className="tools-intro">
-                      <div className="info">
-                        <h4>Financial Literacy Initiatives</h4>
-                        <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
-                        <ul className="lists">
-                          <li className="span_heavy_15">Partner Organisation</li>
-                          <li className="span_heavy_15">Project Intervention</li>  
-                          <li className="span_heavy_15">Outreach Beneficiaries</li>
-                          <li className="span_heavy_15">
-                            <span>and</span>
-                            {' '}
-                            Benefits
-                          </li>
-                        </ul>
-                      </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("view_automation") ?
-                        <Link to="/financial"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
-                        :
-                        permissions && permissions[0] && permissions[0].email 
-                        ? 
-                          <>
-                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                            <a href="#/" className="span_book_14">
-                              You dont have permission to get an access!
-                            </a>
-                          </> 
-                          :null}
-                      {permissions && permissions[0] && permissions[0].email ?
-                       null : 
-                       <>
-                         <Link to={{pathname: '/login',state: {afterLogin: '/financial'}}}><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
-                         <Link to={{pathname: '/login',state: {afterLogin: '/financial'}}} className="span_book_14">
-                           <span className="view">Log in</span>
-                           to get an access!
-                         </Link>
-                       </>}
-                      <img className="grid-img" src={GridImg} alt="" />
-                    </div>
-                  </div>
-
-                  <div className=" col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md">
-                    <div className="tools-intro">
-                      <div className="info">
-                        <h4>Outreach Expansion</h4>
-                        <p className="span_book_15">Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators</p>
-                        <ul className="lists">
-                          <li className="span_heavy_15">Partner Organisation</li>
-                          <li className="span_heavy_15">Project Intervention</li>  
-                          <li className="span_heavy_15">Outreach Beneficiaries</li>
-                          <li className="span_heavy_15">
-                            <span>and</span>
-                            {' '}
-                            Benefits
-                          </li>
-                        </ul>
-                      </div>
-                      {permissions && permissions[0] && permissions[0].permission.includes("") ?
-                        <Link to="/automation"><button type="button" className="access_button"><span className="span_heavy_15">View</span></button></Link>
-                        :
-                        permissions && permissions[0] && permissions[0].email 
-                        ? 
-                          <>
-                            <button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button>
-                            <a href="#/" className="span_book_14">
-                              You dont have permission to get an access!
-                            </a>
-                          </> 
-                          :null}
-                      {permissions && permissions[0] && permissions[0].email ?
-                       null : 
-                       <>
-                         <Link to="/login"><button type="button" className="deny_button"><span className="span_heavy_15">No Access</span></button></Link>
-                         <Link to="/login" className="span_book_14">
-                           <span className="view">Log in</span>
-                           to get an access!
-                         </Link>
-                       </>}
-                      <img className="grid-img" src={GridImg} alt="" />
-                    </div>
-                  </div>
+                  <LandingCard 
+                    cardClass='col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md'
+                    cardTitle='Sakchyam Partnerships'
+                    cardDescription='Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators'
+                    cardLists={['Partner Organisation','Project Intervention','Outreach Beneficiaries & Benefits']}
+                    permissions={permissions}
+                    cardUrl='/partnership'
+                    cardPermission="view_logentry" 
+                    cardImage={GridImg}
+                  />
+                  <LandingCard 
+                    cardClass='col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md'
+                    cardTitle='Logical Framework'
+                    cardDescription='Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators'
+                    cardLists={['Impact','Outcome','Output']}
+                    permissions={permissions}
+                    cardUrl='/logframe'
+                    cardPermission="view_logentry"
+                    cardImage={GridImg}
+                  />
+                  <LandingCard 
+                    cardClass='col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md'
+                    cardTitle='Automation'
+                    cardDescription='Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators'
+                    cardLists={["Partner Organisation","Automation Outreach","Tablet Deployed","Automation Benefits"]}
+                    permissions={permissions}
+                    cardUrl='/automation'
+                    cardPermission="view_automation"
+                    cardImage={AutomationImg} 
+                  />
+                  <LandingCard 
+                    cardClass='col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md'
+                    cardTitle='Product/Process Innovations'
+                    cardDescription='Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators'
+                    cardLists={["Partner Organisation","Automation Outreach","Tablet Deployed","Automation Benefits"]}
+                    permissions={permissions}
+                    cardUrl='/automation'
+                    cardPermission=""
+                    cardImage={GridImg} 
+                  />
+                  <LandingCard 
+                    cardClass='col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md'
+                    cardTitle='Payment Systems'
+                    cardDescription='Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators'
+                    cardLists={["Partner Organisation","Automation Outreach","Tablet Deployed","Automation Benefits"]}
+                    permissions={permissions}
+                    cardUrl='/automation'
+                    cardPermission=""
+                    cardImage={GridImg}
+                  />
+                  <LandingCard 
+                    cardClass='col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md'
+                    cardTitle='MFS'
+                    cardDescription='Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators'
+                    cardLists={["Partner Organisation","Automation Outreach","Tablet Deployed","Automation Benefits"]}
+                    permissions={permissions}
+                    cardUrl='/automation'
+                    cardPermission=""
+                    cardImage={GridImg} 
+                  />
+                  <LandingCard 
+                    cardClass='col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md'
+                    cardTitle='Financial Literacy Initiatives'
+                    cardDescription='Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators'
+                    cardLists={["Partner Organisation","Automation Outreach","Tablet Deployed","Automation Benefits"]}
+                    permissions={permissions}
+                    cardUrl='/financial'
+                    cardPermission="view_automation"
+                    cardImage={GridImg}
+                  />
+                  <LandingCard 
+                    cardClass='col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md'
+                    cardTitle='Outreach Expansion'
+                    cardDescription='Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators'
+                    cardLists={["Partner Organisation","Automation Outreach","Tablet Deployed","Automation Benefits"]}
+                    permissions={permissions}
+                    cardUrl='/financial'
+                    cardPermission=""
+                    cardImage={GridImg}
+                  />
                 </div>
               </div>
             </div>

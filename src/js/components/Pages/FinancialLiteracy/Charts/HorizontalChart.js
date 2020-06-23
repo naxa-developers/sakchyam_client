@@ -52,17 +52,18 @@ class HorizontalChart extends Component {
     this.state = {
       series: [],
       options: {},
-      height: 200,
+      height: 300,
       partnerChart: {},
       programChart: {},
       chartData2: {},
       isBarChartClicked: false,
       isToggled: false,
+      clickedPartnerName: '',
     };
   }
 
   generateBarChartData = i => {
-    console.log('generateBarChartData');
+    // eslint-disable-next-line react/no-access-state-in-setstate
     const clickedPartner = this.state.options.xaxis.categories[i];
     // .join(' ');
     const {
@@ -70,18 +71,23 @@ class HorizontalChart extends Component {
       selectedProgram,
     } = this.props;
 
+    this.setState({ clickedPartnerName: clickedPartner });
+
     let filteredData = [];
 
     const exception = [
       'Kisan Microfinance',
       'Kisan Cooperative',
-      'Mahila Samudayik Laghubitta',
-      'Mahila Sahayatra Laghubitta',
+      'Mahila Samudayik',
+      'Mahila Sahayatra',
     ];
 
     if (selectedProgram.length === 0) {
       filteredData = financialData.filter(item => {
-        if (exception.includes(clickedPartner)) {
+        if (
+          Array.isArray(clickedPartner) &&
+          exception.includes(clickedPartner.join(' '))
+        ) {
           return (
             item.partner_name
               .split(' ')
@@ -97,85 +103,46 @@ class HorizontalChart extends Component {
         );
       });
     } else {
-      filteredData = financialData.filter(
-        item =>
-          selectedProgram.includes(item.program_id) &&
-          item.partner_name === clickedPartner,
-      );
+      filteredData = financialData.filter(item => {
+        if (selectedProgram.includes(item.program_id)) {
+          if (
+            Array.isArray(clickedPartner) &&
+            exception.includes(clickedPartner.join(' '))
+          ) {
+            return (
+              item.partner_name
+                .split(' ')
+                .slice(0, 2)
+                .join(' ') === clickedPartner.join(' ')
+            );
+          }
+          return (
+            item.partner_name.substr(
+              0,
+              item.partner_name.indexOf(' '),
+            ) === clickedPartner
+          );
+        }
+        return false;
+      });
     }
 
-    const multiLineLabel = [];
-    const groupedObj = {};
+    filteredData.sort((a, b) => b.value - a.value);
+
+    const arr = [];
+    const categories = [];
     const allProgramColor = [];
-    const allProgramData = [];
-
-    filteredData.sort(function(a, b) {
-      const nameA = a.single_count; // ignore upper and lowercase
-      const nameB = b.single_count; // ignore upper and lowercase
-      if (nameA > nameB) {
-        return -1;
-      }
-      if (nameA < nameB) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
+    filteredData.map(item => {
+      arr.push(item.value);
+      categories.push(item.program_name);
+      allProgramColor.push(colorPicker(item.program_id));
+      return true;
     });
-
-    const label = filteredData.map(program => {
-      return program.program_name;
-    });
-    // console.log(label, 'lanbel');
-    const removedDuplicateLabel = [...new Set(label)];
-
-    // console.log(removedDuplicateLabel, 'rlabel');
-
-    removedDuplicateLabel.map(labelData => {
-      return multiLineLabel.push(labelData.split(' '));
-    });
-
-    // console.log(multiLineLabel, 'multi');
-
-    const result = [
-      ...new Map(filteredData.map(x => [x.partner_id, x])).values(),
-    ];
-
-    filteredData.forEach(function(c) {
-      if (groupedObj[c.program_id]) {
-        groupedObj[c.program_id].data.push(c.value);
-      } else {
-        groupedObj[c.program_id] = {
-          name: c.program_name,
-          id: c.program_id,
-          data: [c.value],
-        };
-      }
-    });
-
-    // const allProgramData = [];
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(groupedObj)) {
-      // allPartnersLabel.push(key);
-      // value.names.map(data => {
-      allProgramData.push(value);
-      // return true;
-    }
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(groupedObj)) {
-      allProgramColor.push(colorPicker(value.id));
-    }
-
-    allProgramData.sort((a, b) => b.data[0] - a.data[0]);
-
-    // console.log(allProgramData[0].data[0], 'series');
-    // console.log(multiLineLabel, 'label');
-    // console.log(allProgramColor, 'color');
 
     this.setState(prevState => ({
       // height: 200,
       chartData2: {
-        series: allProgramData,
+        series: [{ data: arr }],
 
         options: {
           ...prevState.options,
@@ -183,13 +150,26 @@ class HorizontalChart extends Component {
             ...prevState.options.plotOptions,
             bar: {
               ...prevState.options.plotOptions.bar,
-              // barHeight: '80%',
-              // columnWidth: '100%',
+              distributed: true,
+              // barHeight: '1%',
+              columnWidth: '15%',
             },
           },
           colors: allProgramColor,
           xaxis: {
-            categories: multiLineLabel,
+            ...prevState.options.xaxis,
+            categories,
+          },
+          title: {
+            text: prevState.clickedPartnerName,
+            floating: true,
+            offsetY: 0,
+            align: 'center',
+            style: {
+              color: '#444',
+              fontFamily: 'Avenir Book',
+              // fontSize: '17px',
+            },
           },
         },
       },
@@ -236,7 +216,8 @@ class HorizontalChart extends Component {
               !this.state.isBarChartClicked &&
               !this.state.isToggled
             ) {
-              this.generateBarChartData(dataPointIndex);
+              if (dataPointIndex >= 0)
+                this.generateBarChartData(dataPointIndex);
             }
           }.bind(this),
         },
@@ -358,11 +339,6 @@ class HorizontalChart extends Component {
         }));
       }
     }
-
-    // new ApexCharts(
-    //     document.querySelector('#horizontal-chart'),
-    //     options,
-    //   );
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -374,66 +350,85 @@ class HorizontalChart extends Component {
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
-      if (
-        filteredByProgram.series[0].data.length > 2
-        // filteredByProgram.series.length > 10
-      ) {
-        console.log('programColor', filteredByProgramDefault.color);
-        this.setState(preState => ({
-          height: 400,
-          series: filteredByProgram.series,
-          options: {
-            ...preState.options,
-            plotOptions: {
-              ...preState.options.plotOptions,
-              bar: {
-                ...preState.options.plotOptions.bar,
-                barHeight: '80%',
-                columnWidth: '100%',
-              },
-            },
-            colors: filteredByProgram.color,
-            xaxis: {
-              ...preState.options.xaxis,
-              categories: filteredByProgram.label,
+      // if (
+      //   filteredByProgram.series[0].data.length > 2
+      //   // filteredByProgram.series.length > 10
+      // ) {
+      //   this.setState(preState => ({
+      //     height: 400,
+      //     series: filteredByProgram.series,
+      //     options: {
+      //       ...preState.options,
+      //       plotOptions: {
+      //         ...preState.options.plotOptions,
+      //         bar: {
+      //           ...preState.options.plotOptions.bar,
+      //           barHeight: '80%',
+      //           columnWidth:
+      //             this.props.checkedPartnerItems &&
+      //             this.props.checkedPartnerItems.length < 2
+      //               ? '100%'
+      //               : '15%',
+      //         },
+      //       },
+      //       colors: filteredByProgram.color,
+      //       xaxis: {
+      //         ...preState.options.xaxis,
+      //         categories: filteredByProgram.label,
+      //       },
+      //     },
+      //   }));
+      // } else {
+      this.setState(preState => ({
+        height: 400,
+        series: filteredByProgram.series,
+        options: {
+          ...preState.options,
+          plotOptions: {
+            ...preState.options.plotOptions,
+            bar: {
+              ...preState.options.plotOptions.bar,
+              barHeight: '20%',
+              columnWidth:
+                this.props.checkedPartnerItems &&
+                this.props.checkedPartnerItems.length === 0
+                  ? '100%'
+                  : '50%',
             },
           },
-        }));
-      } else {
-        this.setState(preState => ({
-          height: 400,
-          series: filteredByProgram.series,
-          options: {
-            ...preState.options,
-            plotOptions: {
-              ...preState.options.plotOptions,
-              bar: {
-                ...preState.options.plotOptions.bar,
-                barHeight: '20%',
-                columnWidth: '100%',
-              },
-            },
-            colors: filteredByProgram.color,
-            xaxis: {
-              ...preState.options.xaxis,
-              categories: filteredByProgram.label,
-            },
+          colors: filteredByProgram.color,
+          xaxis: {
+            ...preState.options.xaxis,
+            categories: filteredByProgram.label,
           },
-        }));
-      }
-      this.setState({
+        },
+      }));
+      // }
+      this.setState(preState => ({
         partnerChart: {
           series: filteredByProgram.series,
           label: filteredByProgram.label,
-          color: filteredByProgram.color,
+          colors: filteredByProgram.color,
+          options: {
+            ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                columnWidth: '15%',
+              },
+            },
+          },
         },
-      });
+      }));
     }
     if (
       prevProps.financialReducer.filteredByProgramDefault !==
       this.props.financialReducer.filteredByProgramDefault
     ) {
       this.setState(preState => ({
+        isToggled: false,
+        isBarChartClicked: false,
         programChart: {
           series: filteredByProgramDefault.series,
           label: filteredByProgramDefault.label,
@@ -444,7 +439,12 @@ class HorizontalChart extends Component {
               ...preState.options.plotOptions,
               bar: {
                 ...preState.options.plotOptions.bar,
-                distributed: true,
+                // distributed: true,
+                columnWidth:
+                  this.props.checkedPartnerItems &&
+                  this.props.checkedPartnerItems.length === 0
+                    ? '60%'
+                    : '15%',
               },
             },
             colors: filteredByProgramDefault.color,
@@ -457,6 +457,35 @@ class HorizontalChart extends Component {
   handleBarChartBackBtn = () => {
     this.setState(prevState => ({
       isBarChartClicked: !prevState.isBarChartClicked,
+      clickedPartnerName: '',
+      programChart: {
+        // series: [newSeries],
+        ...prevState.programChart,
+
+        options: {
+          ...prevState.programChart.options,
+          // plotOptions: {
+          //   ...prevState.options.plotOptions,
+          // },
+          // // colors: prevState.chartData2.options.colors.allProgramColor,
+          // xaxis: {
+          // ...prevState.options.xaxis,
+          // categories: multiLineLabel2,
+          // },
+          title: {
+            ...prevState.programChart.options.title,
+            text: '',
+            // floating: true,
+            // offsetY: 0,
+            // align: 'center',
+            // style: {
+            //   color: '#444',
+            //   fontFamily: 'Avenir Book',
+            //   fontSize: '17px',
+            // },
+          },
+        },
+      },
     }));
   };
 
@@ -542,7 +571,10 @@ class HorizontalChart extends Component {
               tabIndex="0"
               onClick={() => {
                 handleModal();
-                handleSelectedModal('bar');
+                handleSelectedModal(
+                  'bar',
+                  'Beneficiary Reached Per Program by Partners',
+                );
               }}
               onKeyDown={() => {
                 handleModal();

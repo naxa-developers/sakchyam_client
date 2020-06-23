@@ -390,6 +390,7 @@
                                 }
                                 i{
                                     line-height: 1;
+                                    color: #c41c34;
                                 }
                                 @media screen and (max-width:1440px){
                                     
@@ -399,6 +400,7 @@
                                     }
                                     i{
                                         font-size: 15px;
+                                        color: #c41c34;
                                     }
                                 }
                             }
@@ -705,7 +707,7 @@
             .expand-button{
                 position: absolute;
                 top:16px;
-                z-index: 1011;
+                z-index: 1010;
                 @include transform(translateY(-50%));
                 @media #{$breakpoint-ls}{
                     display: none;

@@ -1,9 +1,6 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import DownloadIcon from '../../../../img/get_app.png';
 
 const downloadPng = chartid => {
   // document.querySelector('.info-header-bottom').style.display =
@@ -27,7 +24,7 @@ const downloadPng = chartid => {
       // useCORS: true,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
-        saveAs(blob, 'chart.png');
+        saveAs(blob, 'Dashboard.png');
       });
     });
   }, 500);
@@ -35,7 +32,8 @@ const downloadPng = chartid => {
   // this.setState({ downloadActive: false });
 };
 const Modal = props => {
-  const { handleModal, component, selectedModal, header } = props;
+  const { handleModal, component, selectedModal } = props;
+  // console.log(selectedModal, 'selectedModal');
   const selectedChartId =
     selectedModal === 'bar'
       ? 'horizontal-chart'
@@ -43,6 +41,18 @@ const Modal = props => {
       ? 'donut-chart'
       : selectedModal === 'tree'
       ? 'treemap-chart'
+      : 'sankey-chart';
+  const modalHeader =
+    selectedModal === 'sunburst'
+      ? 'Sakchyam Investment Focus'
+      : selectedModal === 'groupedChart'
+      ? 'Province Wise Programme Results'
+      : selectedModal === 'radar'
+      ? 'Key Services Introduced'
+      : selectedModal === 'sankey'
+      ? 'Beneficiaries Reached'
+      : selectedModal === 'timeline'
+      ? 'Projects Timeline'
       : 'sankey-chart';
   return (
     <div
@@ -54,17 +64,6 @@ const Modal = props => {
     >
       <div className="popup-container full-popup">
         <div className="popup-body" id="popup-body">
-          {/* <span
-          // className="close-icon"
-          // onClick={() => {
-          //   this.downloadPng('sankey-chart');
-          // }}
-          // onKeyDown={() => {
-          //   this.downloadPng('sankey-chart');
-          // }}
-          // role="tab"
-          // tabIndex="0"
-          ></span> */}
           <span className="close-icon">
             <i
               className="material-icons"
@@ -77,21 +76,7 @@ const Modal = props => {
             </i>
           </span>
           <div className="popup-header no-flex">
-            <h3 style={{ color: '#C2002F' }}>{header}</h3>
-            <span
-              style={{
-                position: 'absolute',
-                right: '90px',
-                top: '30px',
-                padding: '5px 6px',
-                border: '1px solid #F0F0F0',
-                // borderColor: 'lightgrey',
-                cursor: 'pointer',
-              }}
-              onClick={() => downloadPng(selectedChartId)}
-            >
-              <img src={DownloadIcon} alt="open" />
-            </span>
+            <h3>{modalHeader}</h3>
           </div>
           <div className="popup-content" id="modal-content">
             {component()}
@@ -100,7 +85,7 @@ const Modal = props => {
             {/* <button type="button" className="common-button is-border">
               <span>cancel</span>
             </button> */}
-            {/* <button
+            <button
               onClick={() => {
                 downloadPng(selectedChartId);
               }}
@@ -108,7 +93,7 @@ const Modal = props => {
               className="common-button is-bg"
             >
               <span>Download</span>
-            </button> */}
+            </button>
           </div>
         </div>
       </div>

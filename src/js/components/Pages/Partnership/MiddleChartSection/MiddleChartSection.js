@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DownloadIcon from '../../../../../img/get_app.png';
-import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
+import Timeline from 'react-gantt-timeline';
+import data from './timelineData';
+import links from './timelineLinks';
 import Sunburst from '../Charts/SunBurst/SunBurst';
 import GroupedBar from '../Charts/GroupedBar/GroupedBar';
 import RadarChart from '../Charts/RadarChart/RadarChart';
 import CirclePackChart from '../Charts/CirclePack/CirclePackChart';
 import SankeyChart from '../Charts/SankeyChart/SankeyChart';
-import Modal from '../../FinancialLiteracy/Modal';
+import Modal from '../../../common/Modal';
+import CardTab from '../common/CardTab';
 
 class MiddleChartSection extends Component {
   constructor(props) {
@@ -31,9 +33,34 @@ class MiddleChartSection extends Component {
   };
 
   getModalContent = contentType => {
+    const { activeModal } = this.state;
+    const {
+      props: {
+        activeView,
+        activeOverview,
+        sankeyChartwidth,
+        viewDataBy,
+        partnerSelection,
+        projectSelection,
+        projectStatus,
+        showBarof,
+        handleShowBarOf,
+      },
+    } = this;
+    const {
+      partnershipReducer: { radialData },
+    } = this.props;
     switch (contentType) {
       case 'sunburst':
-        return <Sunburst activeModal />;
+        return (
+          <Sunburst
+            data={radialData}
+            height={700}
+            width={900}
+            count_member="size"
+            activeModal={activeModal}
+          />
+        );
 
       case 'sankey':
         return <SankeyChart activeModal />;
@@ -42,7 +69,28 @@ class MiddleChartSection extends Component {
       case 'circle':
         return <CirclePackChart activeModal />;
       case 'groupedChart':
-        return <GroupedBar activeModal />;
+        return (
+          <GroupedBar
+            viewDataBy={viewDataBy}
+            activeModal={activeModal}
+            partnerSelection={partnerSelection}
+            projectSelection={projectSelection}
+            projectStatus={projectStatus}
+            showBarof={showBarof}
+            handleShowBarOf={handleShowBarOf}
+          />
+        );
+      case 'timeline':
+        return (
+          <div className="time-line-container">
+            <Timeline
+              nonEditableName
+              data={data}
+              links={links}
+              mode="year"
+            />
+          </div>
+        );
 
       default:
         break;
@@ -53,7 +101,17 @@ class MiddleChartSection extends Component {
   render() {
     const {
       state: { selectedModal, activeModal },
-      props: { activeView, activeOverview, sankeyChartwidth },
+      props: {
+        activeView,
+        activeOverview,
+        sankeyChartwidth,
+        viewDataBy,
+        partnerSelection,
+        projectSelection,
+        projectStatus,
+        showBarof,
+        handleShowBarOf,
+      },
     } = this;
     const {
       partnershipReducer: { radialData },
@@ -71,207 +129,124 @@ class MiddleChartSection extends Component {
         {activeModal && (
           <Modal
             // visible={selectedModal === 'bar' ? true : false}
-
+            // modalHeader="Sakchyam Investment Focus"
             selectedModal={selectedModal}
             handleModal={this.handleModal}
-            // activeModal={activeModal}
+            activeModal={activeModal}
             component={() => this.getModalContent(selectedModal)}
           />
         )}
         <div className="graph-view">
           <div className="row">
-            <div className="col-xl-6">
-              <div className="card">
-                <div className="card-header">
-                  <h5>Investment focus zoomable sunburst</h5>
-                  <div className="header-icons">
-                    {/* <div className="card-switcher">
-                      <small>OFF</small>
-                      <label className="switch">
-                        <input type="checkbox" />
-                        <span className="slider" />
-                      </label>
-                      <small>ON</small>
-                    </div> */}
-                    <span className="">
-                      <img src={DownloadIcon} alt="open" />
-                    </span>
-                    <span className="zoom" popup-link="graph-modal">
-                      <img src={ExpandIcon} alt="open" />
-                    </span>
-                  </div>
-                </div>
-                <div className="card-body">
-                  {radialData && radialData && (
+            <CardTab
+              cardTitle="Sakchyam Investment Focus"
+              cardClass="col-xl-12"
+              cardChartId="sunburst"
+              handleModal={this.handleModal}
+              handleSelectedModal={() => {
+                this.handleSelectedModal('sunburst');
+              }}
+              renderChartComponent={() => {
+                return (
+                  radialData &&
+                  radialData && (
                     <Sunburst
                       data={radialData}
-                      width={500}
-                      height={370}
+                      height={500}
+                      width={900}
                       count_member="size"
+                      onClick={e => {
+                        console.log('clicked', e.data.name);
+                      }}
                     />
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-6">
-              <div className="card">
-                <div className="card-header">
-                  <h5>Stacked bar with Partner Type</h5>
-                  <div className="header-icons">
-                    {/* <div className="card-switcher">
-                      <small>OFF</small>
-                      <label className="switch">
-                        <input type="checkbox" />
-                        <span className="slider" />
-                      </label>
-                      <small>ON</small>
-                    </div> */}
-                    <span className="">
-                      <img src={DownloadIcon} alt="open" />
-                    </span>
-                    <span
-                      role="tab"
-                      tabIndex="0"
-                      onClick={() => {
-                        this.handleModal();
-                        this.handleSelectedModal('groupedChart');
-                      }}
-                      onKeyDown={() => {
-                        this.handleModal();
-                        this.handleSelectedModal('groupedChart');
-                      }}
-                      className="zoom"
-                      popup-link="graph-modal"
-                    >
-                      <img src={ExpandIcon} alt="open" />
-                    </span>
-                  </div>
-                </div>
-                <div className="card-body">
-                  <GroupedBar />
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-6">
-              <div className="card">
-                <div className="card-header">
-                  <h5>Spider Net diagram</h5>
-                  <div className="header-icons">
-                    {/* <div className="card-switcher">
-                      <small>OFF</small>
-                      <label className="switch">
-                        <input type="checkbox" />
-                        <span className="slider" />
-                      </label>
-                      <small>ON</small>
-                    </div> */}
-                    <span className="">
-                      <img src={DownloadIcon} alt="open" />
-                    </span>
-                    <span
-                      role="tab"
-                      tabIndex="0"
-                      onClick={() => {
-                        this.handleModal();
-                        this.handleSelectedModal('radar');
-                      }}
-                      onKeyDown={() => {
-                        this.handleModal();
-                        this.handleSelectedModal('radar');
-                      }}
-                      className="zoom"
-                      popup-link="graph-modal"
-                    >
-                      <img src={ExpandIcon} alt="open" />
-                    </span>
-                  </div>
-                </div>
-                <div className="card-body">
-                  <RadarChart />
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-6">
-              <div className="card">
-                <div className="card-header">
-                  <h5>Zoomable Circle Packing</h5>
-                  <div className="header-icons">
-                    {/* <div className="card-switcher">
-                      <small>OFF</small>
-                      <label className="switch">
-                        <input type="checkbox" />
-                        <span className="slider" />
-                      </label>
-                      <small>ON</small>
-                    </div> */}
-                    <span className="">
-                      <img src={DownloadIcon} alt="open" />
-                    </span>
-                    <span
-                      role="tab"
-                      tabIndex="0"
-                      onClick={() => {
-                        this.handleModal();
-                        this.handleSelectedModal('circle');
-                      }}
-                      onKeyDown={() => {
-                        this.handleModal();
-                        this.handleSelectedModal('circle');
-                      }}
-                      className="zoom"
-                      popup-link="graph-modal"
-                    >
-                      <img src={ExpandIcon} alt="open" />
-                    </span>
-                  </div>
-                </div>
-                <div className="card-body">
-                  <CirclePackChart />
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-12">
-              <div className="card">
-                <div className="card-header">
-                  <h5>Contribution of program initiatives</h5>
-                  <div className="header-icons">
-                    {/* <div className="card-switcher">
-                      <small>OFF</small>
-                      <label className="switch">
-                        <input type="checkbox" />
-                        <span className="slider" />
-                      </label>
-                      <small>ON</small>
-                    </div> */}
-                    <span className="">
-                      <img src={DownloadIcon} alt="open" />
-                    </span>
-                    <span
-                      role="tab"
-                      tabIndex="0"
-                      onClick={() => {
-                        this.handleModal();
-                        this.handleSelectedModal('sankey');
-                      }}
-                      onKeyDown={() => {
-                        this.handleModal();
-                        this.handleSelectedModal('sankey');
-                      }}
-                      className="zoom"
-                      popup-link="graph-modal"
-                    >
-                      <img src={ExpandIcon} alt="open" />
-                    </span>
-                  </div>
-                </div>
-                <div className="card-body" id="sankeyChart">
+                  )
+                );
+              }}
+            />
+            <CardTab
+              cardTitle="Province Wise Programme Results"
+              cardClass="col-xl-6"
+              cardChartId="sunburst"
+              handleModal={this.handleModal}
+              handleSelectedModal={() => {
+                this.handleSelectedModal('groupedChart');
+              }}
+              renderChartComponent={() => {
+                return (
+                  <GroupedBar
+                    viewDataBy={viewDataBy}
+                    activeModal={activeModal}
+                    partnerSelection={partnerSelection}
+                    projectSelection={projectSelection}
+                    projectStatus={projectStatus}
+                    showBarof={showBarof}
+                    handleShowBarOf={handleShowBarOf}
+                  />
+                );
+              }}
+            />
+            <CardTab
+              cardTitle="Key Services Introduced"
+              cardClass="col-xl-6"
+              cardChartId="radar"
+              handleModal={this.handleModal}
+              handleSelectedModal={() => {
+                this.handleSelectedModal('radar');
+              }}
+              renderChartComponent={() => {
+                return <RadarChart />;
+              }}
+            />
+            {/* <CardTab
+              cardTitle="Zoomable Circle Packing"
+              cardClass="col-xl-6"
+              cardChartId="circle"
+              handleModal={this.handleModal}
+              handleSelectedModal={() => {
+                this.handleSelectedModal('circle');
+              }}
+              renderChartComponent={() => {
+                return <CirclePackChart />;
+              }}
+            /> */}
+            <CardTab
+              cardTitle="Beneficiaries Reached"
+              cardClass="col-xl-12"
+              cardChartId="sankeyChart"
+              handleModal={this.handleModal}
+              handleSelectedModal={() => {
+                this.handleSelectedModal('sankey');
+              }}
+              renderChartComponent={() => {
+                return (
                   <SankeyChart
                     cardWidth={sankeyChartwidth}
                     activeOverview={activeOverview}
                   />
-                </div>
-              </div>
-            </div>
+                );
+              }}
+            />
+            <CardTab
+              cardTitle="Projects Timeline"
+              cardClass="col-xl-12"
+              cardChartId="sankeyChart"
+              handleModal={this.handleModal}
+              handleSelectedModal={() => {
+                this.handleSelectedModal('timeline');
+              }}
+              renderChartComponent={() => {
+                return (
+                  <div className="time-line-container">
+                    <Timeline
+                      nonEditableName
+                      data={data}
+                      links={links}
+                      mode="year"
+                    />
+                  </div>
+                );
+              }}
+            />
           </div>
         </div>
       </div>

@@ -114,12 +114,13 @@ export const getFinancialProgram = () => dispatch => {
 export const filterFinancialDataForGraph = (
   selectedPartners,
   selectedProgram,
+  partnerType,
 ) => dispatch => {
   // console.log(selectedPartners, 'selectedPartners');
   // console.log(selectedProgram, 'selectedProgram');
   return dispatch({
     type: FILTER_FINANCIAL_DATA_FOR_GRAPH,
-    payload: { selectedPartners, selectedProgram },
+    payload: { selectedPartners, selectedProgram, partnerType },
   });
 };
 export const filterPartnersByType = selectedPartnerType => dispatch => {
