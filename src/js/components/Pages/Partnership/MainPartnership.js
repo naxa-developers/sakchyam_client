@@ -24,6 +24,8 @@ import {
   getSpiderChartData,
   getSankeyChartData,
   filterSankeyChartData,
+  getOverviewData,
+  filterOverviewData,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 
@@ -57,6 +59,7 @@ class MainPartnership extends Component {
   componentDidMount() {
     const { viewDataBy } = this.state;
     this.props.getRadialData();
+    this.props.getOverviewData();
     this.props.getPartnershipInvestmentFocus();
     this.props.getProjectListData();
     this.props.getPartnersList();
@@ -414,6 +417,12 @@ class MainPartnership extends Component {
     //   return data.
     // })
     this.props.filterSankeyChartData(
+      investmentFocusSelection,
+      projectSelection,
+      partnerType,
+      partnerSelection,
+    );
+    this.props.filterOverviewData(
       investmentFocusSelection,
       projectSelection,
       partnerType,
@@ -780,4 +789,6 @@ export default connect(mapStateToProps, {
   getSpiderChartData,
   getSankeyChartData,
   filterSankeyChartData,
+  getOverviewData,
+  filterOverviewData,
 })(MainPartnership);

@@ -16,6 +16,8 @@ import {
   GET_SPIDERCHART_DATA,
   GET_SANKEY_CHART_DATA,
   FILTER_SANKEY_CHART_DATA,
+  GET_OVERVIEW_DATA,
+  FILTER_OVERVIEW_DATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -34,6 +36,7 @@ const initialState = {
   allProvinceList: [],
   allDistrictList: [],
   allMunicipalityList: [],
+  overviewData: [],
 };
 
 // {
@@ -372,6 +375,18 @@ const filterSankeyChartData = (state, action) => {
     sankeyChartData: action.payload,
   };
 };
+const getOverviewData = (state, action) => {
+  return {
+    ...state,
+    overviewData: action.payload,
+  };
+};
+const filterOverviewData = (state, action) => {
+  return {
+    ...state,
+    overviewData: action.payload,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERSHIP_INVESTMENT_FOCUS:
@@ -408,6 +423,10 @@ export default function(state = initialState, action) {
       return getDistrictData(state, action);
     case GET_ALLMUNICIPALITYNAME_DATA:
       return getMunicipalityData(state, action);
+    case GET_OVERVIEW_DATA:
+      return getOverviewData(state, action);
+    case FILTER_OVERVIEW_DATA:
+      return filterOverviewData(state, action);
     default:
       return state;
   }

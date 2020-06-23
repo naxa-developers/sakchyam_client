@@ -19,6 +19,8 @@ import {
   GET_SPIDERCHART_DATA,
   GET_SANKEY_CHART_DATA,
   FILTER_SANKEY_CHART_DATA,
+  GET_OVERVIEW_DATA,
+  FILTER_OVERVIEW_DATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -835,6 +837,63 @@ export const filterSankeyChartData = (
 
         return dispatch({
           type: FILTER_SANKEY_CHART_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getOverviewData = () => dispatch => {
+  // console.log(investmentFocusSelection, 'investm');
+  try {
+    axiosInstance
+      .get(`/api/v1/partnership/overview/`)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_OVERVIEW_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const filterOverviewData = (
+  selectedInvestmentFocus,
+  selectedProjectId,
+  selectedPartnerType,
+  selectedPartnerId,
+) => dispatch => {
+  const investmentFilter =
+    selectedInvestmentFocus.length > 0
+      ? `investment_filter=${selectedInvestmentFocus}`
+      : '';
+  const projectIdFilter =
+    selectedProjectId.length > 0
+      ? `project_filter=${selectedProjectId}`
+      : '';
+  const partnerTypeFilter =
+    selectedPartnerType.length > 0
+      ? `partner_type_filter=${selectedPartnerType}`
+      : '';
+  const partnerIdFilter =
+    selectedPartnerId.length > 0
+      ? `partner_filter=${selectedPartnerId}`
+      : '';
+  // console.log(investmentFocusSelection, 'investm');
+  try {
+    axiosInstance
+      .get(
+        `/api/v1/partnership/overview/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
+      )
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: FILTER_OVERVIEW_DATA,
           payload: result.data,
         });
       });

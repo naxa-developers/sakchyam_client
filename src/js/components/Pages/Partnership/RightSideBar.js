@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import OutreachTab from './common/OutreachTab';
 
 const outreachTabTitle = [
@@ -12,6 +13,14 @@ const outreachTabTitle = [
   'Number of Tablet Banking Points',
   'Innovative Products Introduced',
 ];
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +36,9 @@ class RightSideBar extends Component {
         setActiveOverview,
       },
     } = this;
+    const {
+      partnershipReducer: { overviewData },
+    } = this.props;
     return (
       <aside
         className="sidebar right-sidebar literacy-right-sidebar"
@@ -69,12 +81,12 @@ class RightSideBar extends Component {
                 <ul className="widget-list">
                   <OutreachTab
                     title="Investment Focus"
-                    number={2}
+                    number={overviewData.investment_focus}
                     iconTitle="payments"
                   />
                   <OutreachTab
                     title="Projects Implemented"
-                    number={54}
+                    number={overviewData.project}
                     iconTitle="assignment"
                   />
                   {/* <OutreachTab
@@ -84,22 +96,26 @@ class RightSideBar extends Component {
                   /> */}
                   <OutreachTab
                     title="Total Beneficiaries Reached"
-                    number={2}
+                    number={numberWithCommas(
+                      parseInt(overviewData.beneficiary, 10),
+                    )}
                     iconTitle="people"
                   />
                   <OutreachTab
                     title="Sakchyam Investment(GBP)"
-                    number="रू 589,509,062"
+                    number={numberWithCommas(
+                      Math.round(overviewData.total_budget),
+                    )}
                     iconTitle="monetization_on"
                   />
                   <OutreachTab
                     title="New Physical Branches Established"
-                    number={112}
+                    number={overviewData.branch}
                     iconTitle="store"
                   />
                   <OutreachTab
                     title="New BLBs Established"
-                    number={54}
+                    number={overviewData.blb}
                     iconTitle="account_balance"
                   />
                   {/* <OutreachTab
@@ -109,12 +125,12 @@ class RightSideBar extends Component {
                   /> */}
                   <OutreachTab
                     title="Number of Tablet Banking Points"
-                    number={54}
+                    number={overviewData.tablet}
                     iconTitle="tablet_mac"
                   />
                   <OutreachTab
                     title="Innovative Products Introduced"
-                    number={54}
+                    number={overviewData.other_products}
                     iconTitle="local_offer"
                   />
                 </ul>
@@ -140,4 +156,7 @@ class RightSideBar extends Component {
   }
 }
 
-export default RightSideBar;
+const mapStateToProps = ({ partnershipReducer }) => ({
+  partnershipReducer,
+});
+export default connect(mapStateToProps, {})(RightSideBar);
