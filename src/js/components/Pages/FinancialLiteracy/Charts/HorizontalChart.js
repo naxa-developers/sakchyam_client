@@ -292,6 +292,7 @@ class HorizontalChart extends Component {
 
     // console.log(filteredByProgram, 'filteredByProgram');
     if (this.props.activeModal) {
+      this.plotChart();
       if (
         filteredByProgram.series[0].data.length > 2
         // filteredByProgram.series.length > 10

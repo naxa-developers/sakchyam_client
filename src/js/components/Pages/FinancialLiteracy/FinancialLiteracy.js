@@ -284,6 +284,7 @@ class FinancialLiteracy extends Component {
 
   // eslint-disable-next-line consistent-return
   getModalContent = contentType => {
+    const { activeModal } = this.state;
     switch (contentType) {
       case 'sankey':
         return <SankeyDiagram activeModal />;
@@ -291,7 +292,7 @@ class FinancialLiteracy extends Component {
       case 'tree':
         return (
           <TreeMapDiagram
-            activeModal
+            activeModal={activeModal}
             DownloadIcon={DownloadIcon}
             ExpandIcon={ExpandIcon}
             downloadPng={this.downloadPng}
@@ -304,7 +305,7 @@ class FinancialLiteracy extends Component {
         // return <HorizontalChart activeModal />;
         return (
           <HorizontalChart
-            activeModal
+            activeModal={activeModal}
             DownloadIcon={DownloadIcon}
             ExpandIcon={ExpandIcon}
             downloadPng={this.downloadPng}
