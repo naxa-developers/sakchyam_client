@@ -179,25 +179,25 @@ class HorizontalChart extends Component {
 
   plotChart = () => {
     const series = [
-      // {
-      //   name: 'a',
-      //   data: [44, 55, 41, 64, 22, 43, 21],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [44, 55, 41, 64, 22, 43, 21],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
+      {
+        name: 'a',
+        data: [44, 55, 41, 64, 22, 43, 21],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [44, 55, 41, 64, 22, 43, 21],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
     ];
     const options = {
       chart: {
@@ -288,8 +288,11 @@ class HorizontalChart extends Component {
 
   componentDidMount() {
     this.plotChart();
-    const { filteredByProgram } = this.props.financialReducer;
-
+    // const { filteredByProgram } = this.props.financialReducer;
+    const {
+      filteredByProgramDefault,
+      filteredByProgram,
+    } = this.props.financialReducer;
     // console.log(filteredByProgram, 'filteredByProgram');
     if (this.props.activeModal) {
       this.plotChart();
@@ -339,6 +342,31 @@ class HorizontalChart extends Component {
           },
         }));
       }
+      this.setState(preState => ({
+        isToggled: false,
+        isBarChartClicked: false,
+        programChart: {
+          series: filteredByProgramDefault.series,
+          label: filteredByProgramDefault.label,
+          color: filteredByProgramDefault.color,
+          options: {
+            ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                // distributed: true,
+                columnWidth:
+                  this.props.checkedPartnerItems &&
+                  this.props.checkedPartnerItems.length === 0
+                    ? '60%'
+                    : '15%',
+              },
+            },
+            colors: filteredByProgramDefault.color,
+          },
+        },
+      }));
     }
   }
 
@@ -497,6 +525,12 @@ class HorizontalChart extends Component {
   };
 
   render() {
+    console.log('render Bar');
+    console.log(
+      this.state.programChart.series,
+      'this.state.programChart.series',
+    );
+    console.log(this.state.options, 'this.state.options');
     const {
       height,
       isToggled,
@@ -510,6 +544,7 @@ class HorizontalChart extends Component {
       downloadPng,
       handleModal,
       handleSelectedModal,
+      activeModal,
     } = this.props;
     const {
       financialReducer: { filteredByProgram },
@@ -594,6 +629,7 @@ class HorizontalChart extends Component {
               // width: '1400px',
             }}
           >
+            {/* <label>Bar Area</label> */}
             {/* <div id="horizontal-chart"> */}
             {!isToggled &&
             !isBarChartClicked &&
