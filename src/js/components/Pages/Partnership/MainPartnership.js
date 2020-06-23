@@ -15,13 +15,17 @@ import {
   getRadialData,
   getPartnersList,
   filterPartnerListByPartnerType,
+  filterFinancialDataWithAllFilters,
+  getDistrictDataFromProvince,
+  getProvinceData,
+  getDistrictData,
+  getMunicipalityData,
+  filterRadialData,
+  getSpiderChartData,
+  getSankeyChartData,
+  filterSankeyChartData,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
-import SankeyChart from './Charts/SankeyChart/SankeyChart';
-import Sunburst from './Charts/SunBurst/SunBurst';
-import RadarChart from './Charts/RadarChart/RadarChart';
-import CirclePackChart from './Charts/CirclePack/CirclePackChart';
-import GroupedBar from './Charts/GroupedBar/GroupedBar';
 
 class MainPartnership extends Component {
   constructor() {
@@ -33,6 +37,10 @@ class MainPartnership extends Component {
       partnerSelection: [],
       projectStatus: [],
       partnerType: [],
+      isAllPartnerSelected: false,
+      isAllProjectSelected: false,
+      isAllInvestmentFocusSelected: false,
+      showBarof: 'Provinces',
       // UI Section
       activeFilter: false,
       activeOverview: false,
@@ -55,6 +63,11 @@ class MainPartnership extends Component {
     this.props.getMapDataByProvince(viewDataBy);
     this.props.getMapDataByDistrict(viewDataBy);
     this.props.getMapDataByMunicipality(viewDataBy);
+    this.props.getSpiderChartData();
+    this.props.getSankeyChartData();
+    this.props.getProvinceData();
+    this.props.getDistrictData();
+    this.props.getMunicipalityData();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -62,15 +75,28 @@ class MainPartnership extends Component {
       investmentFocusSelection,
       viewDataBy,
       mapViewBy,
+      partnerSelection,
+      projectSelection,
+      projectStatus,
       partnerType,
     } = this.state;
     if (
       prevState.investmentFocusSelection !== investmentFocusSelection
     ) {
       this.props.getProjectListData(investmentFocusSelection);
+      this.props.filterPartnerListByPartnerType(partnerType);
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ isAllProjectSelected: false });
     }
     if (prevState.viewDataBy !== viewDataBy) {
-      this.props.getFilteredMapData(mapViewBy, viewDataBy);
+      // this.props.getMapDataByProvince(viewDataBy);
+      this.props.filterFinancialDataWithAllFilters(
+        'province',
+        viewDataBy,
+        partnerSelection,
+        projectSelection,
+        projectStatus,
+      );
     }
     if (prevState.partnerType !== partnerType) {
       this.props.filterPartnerListByPartnerType(partnerType);
@@ -127,6 +153,51 @@ class MainPartnership extends Component {
     }
   };
 
+  handleShowBarOf = value => {
+    this.setState({ showBarof: value });
+  };
+
+  handleInvestmentParentCheckbox = e => {
+    // e.stopPropagation();
+    const {
+      investmentFocusSelection,
+      isAllInvestmentFocusSelected,
+    } = this.state;
+    if (isAllInvestmentFocusSelected) {
+      const allInvestmentElement = document.getElementsByClassName(
+        'investment_checkbox',
+      );
+
+      for (let i = 0; i < allInvestmentElement.length; i += 1) {
+        allInvestmentElement[i].checked = false;
+      }
+      this.setState({
+        investmentFocusSelection: [],
+        isAllInvestmentFocusSelected: false,
+      });
+    } else {
+      this.setState({
+        isAllInvestmentFocusSelected: true,
+      });
+      if (e.target.checked === true) {
+        const allInvestmentElement = document.getElementsByClassName(
+          'investment_checkbox',
+        );
+        const selectedInvestment = investmentFocusSelection;
+        for (let i = 0; i < allInvestmentElement.length; i += 1) {
+          allInvestmentElement[i].checked = true;
+          selectedInvestment.push(allInvestmentElement[i].name);
+        }
+        this.setState({
+          investmentFocusSelection: selectedInvestment,
+        });
+        // this.setState({
+        //   checkedProgressItems: joined,
+        // });
+      }
+    }
+  };
+
   handleInvestmentFocusCheckbox = e => {
     const {
       state: { investmentFocusSelection },
@@ -158,9 +229,49 @@ class MainPartnership extends Component {
     });
   };
 
+  handleProjectParentCheckbox = e => {
+    // e.stopPropagation();
+    const { projectSelection, isAllProjectSelected } = this.state;
+    if (isAllProjectSelected) {
+      const allProjectElement = document.getElementsByClassName(
+        'project_checkbox',
+      );
+
+      for (let i = 0; i < allProjectElement.length; i += 1) {
+        allProjectElement[i].checked = false;
+      }
+      this.setState({
+        projectSelection: [],
+        isAllProjectSelected: false,
+      });
+    } else {
+      this.setState({
+        isAllProjectSelected: true,
+      });
+      if (e.target.checked === true) {
+        const allProjectElement = document.getElementsByClassName(
+          'project_checkbox',
+        );
+        const selectedProject = projectSelection;
+        for (let i = 0; i < allProjectElement.length; i += 1) {
+          allProjectElement[i].checked = true;
+          selectedProject.push(
+            parseInt(allProjectElement[i].name, 10),
+          );
+        }
+        this.setState({
+          projectSelection: selectedProject,
+        });
+        // this.setState({
+        //   checkedProgressItems: joined,
+        // });
+      }
+    }
+  };
+
   handleProjectSelectionCheckbox = e => {
     const {
-      state: { projectSelection },
+      state: { projectSelection, isAllPartnerSelected },
     } = this;
     const {
       target: { name, checked },
@@ -169,12 +280,15 @@ class MainPartnership extends Component {
     this.setState(preState => {
       if (checked) {
         return {
-          projectSelection: [...preState.projectSelection, name],
+          projectSelection: [
+            ...preState.projectSelection,
+            parseInt(name, 10),
+          ],
         };
       }
       if (!checked) {
         const newArr = projectSelection.filter(
-          projectselected => projectselected !== name,
+          projectselected => projectselected !== parseInt(name, 10),
         );
         return { projectSelection: newArr };
       }
@@ -182,23 +296,65 @@ class MainPartnership extends Component {
     });
   };
 
+  handlePartnerParentCheckbox = e => {
+    // e.stopPropagation();
+    const { partnerSelection, isAllPartnerSelected } = this.state;
+    if (isAllPartnerSelected) {
+      const allPartnerElement = document.getElementsByClassName(
+        'partner_checkbox',
+      );
+
+      for (let i = 0; i < allPartnerElement.length; i += 1) {
+        allPartnerElement[i].checked = false;
+      }
+      this.setState({
+        partnerSelection: [],
+        isAllPartnerSelected: false,
+      });
+    } else {
+      this.setState({
+        isAllPartnerSelected: true,
+      });
+      if (e.target.checked === true) {
+        const allPartnerElement = document.getElementsByClassName(
+          'partner_checkbox',
+        );
+        const selectedPartner = partnerSelection;
+        for (let i = 0; i < allPartnerElement.length; i += 1) {
+          allPartnerElement[i].checked = true;
+          selectedPartner.push(
+            parseInt(allPartnerElement[i].name, 10),
+          );
+        }
+        this.setState({
+          partnerSelection: selectedPartner,
+        });
+        // this.setState({
+        //   checkedProgressItems: joined,
+        // });
+      }
+    }
+  };
+
   handlePartnerSelectionCheckbox = e => {
     const {
-      state: { partnerSelection },
+      state: { partnerSelection, isAllPartnerSelected },
     } = this;
     const {
       target: { name, checked },
     } = e;
-
     this.setState(preState => {
       if (checked) {
         return {
-          partnerSelection: [...preState.partnerSelection, name],
+          partnerSelection: [
+            ...preState.partnerSelection,
+            parseInt(name, 10),
+          ],
         };
       }
       if (!checked) {
         const newArr = partnerSelection.filter(
-          partnerSelected => partnerSelected !== name,
+          partnerSelected => partnerSelected !== parseInt(name, 10),
         );
         return { partnerSelection: newArr };
       }
@@ -232,6 +388,33 @@ class MainPartnership extends Component {
     }
   };
 
+  applyBtnClick = () => {
+    const {
+      viewDataBy,
+      partnerSelection,
+      projectSelection,
+      projectStatus,
+      investmentFocusSelection,
+      partnerType,
+    } = this.state;
+    this.props.filterFinancialDataWithAllFilters(
+      'province',
+      viewDataBy,
+      partnerSelection,
+      projectSelection,
+      projectStatus,
+    );
+    this.props.filterRadialData(
+      investmentFocusSelection,
+      projectSelection,
+      partnerType,
+      partnerSelection,
+    );
+    // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
+    //   return data.
+    // })
+    this.props.filterSankeyChartData(investmentFocusSelection);
+  };
   // eslint-disable-next-line consistent-return
 
   render() {
@@ -249,6 +432,7 @@ class MainPartnership extends Component {
         projectStatus,
         partnerSelection,
         partnerType,
+        showBarof,
       },
       // props: {},
     } = this;
@@ -266,6 +450,7 @@ class MainPartnership extends Component {
           }`}
         >
           <LeftSideBar
+            applyBtnClick={this.applyBtnClick}
             investmentFocusSelection={investmentFocusSelection}
             handleInvestmentFocusCheckbox={
               this.handleInvestmentFocusCheckbox
@@ -281,6 +466,15 @@ class MainPartnership extends Component {
             partnerSelection={partnerSelection}
             handlePartnerSelectionCheckbox={
               this.handlePartnerSelectionCheckbox
+            }
+            handlePartnerParentCheckbox={
+              this.handlePartnerParentCheckbox
+            }
+            handleProjectParentCheckbox={
+              this.handleProjectParentCheckbox
+            }
+            handleInvestmentParentCheckbox={
+              this.handleInvestmentParentCheckbox
             }
           />
           <main className="main">
@@ -423,6 +617,7 @@ class MainPartnership extends Component {
                           <i className="material-icons">refresh</i>
                         </button>
                         <button
+                          // onClick={this.applyBtnClick}
                           type="button"
                           className="common-button is-clear"
                         >
@@ -489,9 +684,15 @@ class MainPartnership extends Component {
               </div>
               <div className="literacy-tab-content">
                 <MiddleChartSection
+                  viewDataBy={viewDataBy}
                   sankeyChartwidth={sankeyChartwidth}
                   activeOverview={activeOverview}
                   activeView={activeView}
+                  partnerSelection={partnerSelection}
+                  projectSelection={projectSelection}
+                  projectStatus={projectStatus}
+                  showBarof={showBarof}
+                  handleShowBarOf={this.handleShowBarOf}
                 />
                 <div
                   className="literacy-tab-item"
@@ -565,4 +766,13 @@ export default connect(mapStateToProps, {
   getRadialData,
   getPartnersList,
   filterPartnerListByPartnerType,
+  filterFinancialDataWithAllFilters,
+  getDistrictDataFromProvince,
+  getProvinceData,
+  getDistrictData,
+  getMunicipalityData,
+  filterRadialData,
+  getSpiderChartData,
+  getSankeyChartData,
+  filterSankeyChartData,
 })(MainPartnership);

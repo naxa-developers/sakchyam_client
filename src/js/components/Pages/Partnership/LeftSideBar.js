@@ -2,16 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
 import FinancialLeftCard from '../../common/FinancialLeftCard';
+import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
 
 class LeftSideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      checkboxes: [],
+    };
   }
+
+  handleCheckboxgroupChange = updatedUsecaseCBState => {
+    this.setState({
+      checkboxes: updatedUsecaseCBState,
+    });
+  };
 
   render() {
     const {
-      // state: {},
+      state: { checkboxes },
       props: {
         handleInvestmentFocusCheckbox,
         investmentFocusSelection,
@@ -23,6 +32,10 @@ class LeftSideBar extends Component {
         handlePartnerSelectionCheckbox,
         partnerType,
         handlePartnerType,
+        applyBtnClick,
+        handlePartnerParentCheckbox,
+        handleProjectParentCheckbox,
+        handleInvestmentParentCheckbox,
       },
     } = this;
     const {
@@ -54,7 +67,7 @@ class LeftSideBar extends Component {
                         type="checkbox"
                         name="Initiative1"
                         value="all"
-                        onChange={handleInvestmentFocusCheckbox}
+                        onChange={handleInvestmentParentCheckbox}
                       />
                       <label htmlFor="Initiative1">All</label>
                     </div>
@@ -65,6 +78,8 @@ class LeftSideBar extends Component {
                         partnershipFocus => {
                           return (
                             <CheckBox
+                              id={partnershipFocus.id}
+                              className="investment_checkbox"
                               key={partnershipFocus.id}
                               label={
                                 partnershipFocus.investment_primary
@@ -92,34 +107,34 @@ class LeftSideBar extends Component {
                 <div className="widget-tag partner-tag">
                   <a
                     className={
-                      projectStatus.includes('completed')
+                      projectStatus.includes('Completed')
                         ? 'active'
                         : ''
                     }
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handleProjectStatus('completed');
+                      handleProjectStatus('Completed');
                     }}
                     onKeyUp={() => {
-                      handleProjectStatus('completed');
+                      handleProjectStatus('Completed');
                     }}
                   >
                     <span>completed</span>
                   </a>
                   <a
                     className={
-                      projectStatus.includes('ongoing')
+                      projectStatus.includes('Ongoing')
                         ? 'active'
                         : ''
                     }
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handleProjectStatus('ongoing');
+                      handleProjectStatus('Ongoing');
                     }}
                     onKeyUp={() => {
-                      handleProjectStatus('ongoing');
+                      handleProjectStatus('Ongoing');
                     }}
                   >
                     <span>ongoing</span>
@@ -137,23 +152,32 @@ class LeftSideBar extends Component {
                         id="Initiative7"
                         type="checkbox"
                         name="Initiative7"
+                        onChange={handleProjectParentCheckbox}
                       />
                       <label htmlFor="Initiative7">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
+                    {/* <GroupCheckedbox
+                      checkboxes={projectLists}
+                      onCheckboxGroupChange={
+                        this.handleCheckboxgroupChange
+                      }
+                    /> */}
                     {projectLists &&
                       projectLists.map(project => {
                         return (
                           <CheckBox
+                            id={project.id}
+                            className="project_checkbox"
                             key={project.id}
                             label={project.name}
-                            name={project.name}
+                            name={project.id}
                             changeHandler={
                               handleProjectSelectionCheckbox
                             }
                             checked={projectSelection.includes(
-                              project.name,
+                              project.id,
                             )}
                           />
                         );
@@ -225,6 +249,7 @@ class LeftSideBar extends Component {
                         id="Initiative14"
                         type="checkbox"
                         name="Initiative14"
+                        onChange={handlePartnerParentCheckbox}
                       />
                       <label htmlFor="Initiative14">All</label>
                     </div>
@@ -234,14 +259,16 @@ class LeftSideBar extends Component {
                       filteredPartnerList.map(partner => {
                         return (
                           <CheckBox
+                            id={partner.id}
+                            className="partner_checkbox"
                             key={partner.id}
                             label={partner.name}
-                            name={partner.name}
+                            name={partner.code}
                             changeHandler={
                               handlePartnerSelectionCheckbox
                             }
                             checked={partnerSelection.includes(
-                              partner.name,
+                              partner.code,
                             )}
                           />
                         );
@@ -258,6 +285,7 @@ class LeftSideBar extends Component {
                 reset
               </button>
               <button
+                onClick={applyBtnClick}
                 type="button"
                 className="common-button is-bg is-disable"
               >

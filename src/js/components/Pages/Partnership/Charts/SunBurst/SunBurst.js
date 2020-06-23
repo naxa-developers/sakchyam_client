@@ -289,6 +289,7 @@ class Sunburst extends React.Component {
         .on(
           'click',
           function(node) {
+            // console.log(node,'node');
             this._onClick(node);
             this.props.onClick && this.props.onClick(node);
             this._update(node);
@@ -480,6 +481,19 @@ class Sunburst extends React.Component {
           this.props.onMouseout && this.props.onMouseout(d.data);
         }.bind(this),
       );
+      // .on(
+      //   'click',
+      //   function(d) {
+      //     console.log(d);
+      //     // this.props.tooltip &&
+      //     //   this.tooltipDom
+      //     //     .transition()
+      //     //     .style('opacity', 0)
+      //     //     .duration(500);
+
+      //     this.props.onMouseClick && this.props.onMouseClick(d.data);
+      //   }.bind(this),
+      // );
   }
 
   _colorize(d) {
@@ -500,8 +514,7 @@ class Sunburst extends React.Component {
     current.fill = current.parent.fill.brighter(child_brightness);
     const thishsl = d3Hsl(current.fill);
     hue = this.hueDXScale(current.x0);
-    const colorshift = thishsl.h + hue / 4;
-    const c = d.data.color
+    const colorshift = thishsl.h + hue / 16;    const c = d.data.color
       ? d3Hsl(d.data.color)
       : d3Hsl(colorshift, thishsl.s, thishsl.l);
     return c || this.props.colorFunc || this.props.colorFunc(d, c);
@@ -511,7 +524,14 @@ class Sunburst extends React.Component {
   // access to the dom
   render() {
     this.props._debug && this.props._log('Sunburst: render()');
-    return <div className="sunburst-wrapper" id={this.domId} />;
+    return <div className="sunburst-wrapper" id={this.domId}>
+      {/* <ul>
+        <li>
+          <i>material</i>
+          Material
+        </li>
+      </ul> */}
+    </div>;
   }
 }
 

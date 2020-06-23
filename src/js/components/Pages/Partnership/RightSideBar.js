@@ -73,47 +73,47 @@ class RightSideBar extends Component {
                     iconTitle="payments"
                   />
                   <OutreachTab
-                    title="Projects"
+                    title="Projects Implemented"
                     number={54}
                     iconTitle="assignment"
                   />
-                  <OutreachTab
+                  {/* <OutreachTab
                     title="Partner Institutions"
                     number={112}
                     iconTitle="location_city"
-                  />
+                  /> */}
                   <OutreachTab
-                    title="Total Beneficiaries"
+                    title="Total Beneficiaries Reached"
                     number={2}
                     iconTitle="people"
                   />
                   <OutreachTab
-                    title="Total Budgeted S-CF Contribution"
+                    title="Sakchyam Investment(GBP)"
                     number="रू 589,509,062"
                     iconTitle="monetization_on"
                   />
                   <OutreachTab
-                    title="Branches"
+                    title="New Physical Branches Established"
                     number={112}
                     iconTitle="store"
                   />
                   <OutreachTab
-                    title="BLB"
+                    title="New BLBs Established"
                     number={54}
                     iconTitle="account_balance"
                   />
-                  <OutreachTab
+                  {/* <OutreachTab
                     title="Extension Counter"
                     number={112}
                     iconTitle="local_convenience_store"
-                  />
+                  /> */}
                   <OutreachTab
-                    title="Tablet"
+                    title="Number of Tablet Banking Points"
                     number={54}
                     iconTitle="tablet_mac"
                   />
                   <OutreachTab
-                    title="Other Major Products"
+                    title="Innovative Products Introduced"
                     number={54}
                     iconTitle="local_offer"
                   />

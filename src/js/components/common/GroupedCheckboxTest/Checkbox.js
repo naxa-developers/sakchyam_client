@@ -1,11 +1,11 @@
 import React from 'react';
 
 const CheckBox = ({
-  id,
   name,
   checked,
   className,
   changeHandler,
+  value,
   label,
   translation,
   ...rest
@@ -14,15 +14,13 @@ const CheckBox = ({
     <a>
       <div className="custom-checkbox">
         <input
-          className={className}
-          id={`${className}_${id}`}
           type="checkbox"
           {...rest}
           name={name}
           checked={checked}
           onChange={changeHandler}
         />
-        <label htmlFor={`${className}_${id}`}>
+        <label htmlFor="Initiative2">
           <span>{label}</span>
         </label>
       </div>

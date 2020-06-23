@@ -436,3 +436,12 @@ font-weight: 900;
 .mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon{
   background-image: url('../img/svg/mapboxgl-ctrl-zoom-in.svg')
 }
+
+.time-line-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 1200px;
+  height: 500px;
+}

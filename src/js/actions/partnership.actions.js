@@ -10,6 +10,15 @@ import {
   GET_FILTERED_MAP_DATA,
   GET_RADIAL_DATA,
   FILTER_PARTNERSHIP_PARTNERS_LIST_BY_PARTNER_TYPE,
+  FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE,
+  FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
+  GET_DISTRICTDATA_BY_PROVINCE,
+  GET_ALLPROVINCENAME_DATA,
+  GET_ALLDISTRICTNAME_DATA,
+  GET_ALLMUNICIPALITYNAME_DATA,
+  GET_SPIDERCHART_DATA,
+  GET_SANKEY_CHART_DATA,
+  FILTER_SANKEY_CHART_DATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -35,7 +44,7 @@ export const getPartnersList = () => dispatch => {
     axiosInstance
       .get('/api/v1/partner/partner/')
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
 
         return dispatch({
           type: GET_PARTNERSHIP_PARTNERS_LIST,
@@ -59,7 +68,7 @@ export const filterPartnerListByPartnerType = partnerType => dispatch => {
     axiosInstance
       .get(`/api/v1/partner/partner/?${type}`)
       .then(function(result) {
-        console.log(result, 'result');
+        // console.log(result, 'result');
 
         return dispatch({
           type: FILTER_PARTNERSHIP_PARTNERS_LIST_BY_PARTNER_TYPE,
@@ -131,6 +140,7 @@ export const getMapDataByProvince = selectedDataView => dispatch => {
             return dispatch({
               type: GET_MAP_DATA_BY_PROVINCE,
               payload: {
+                selectedDataView,
                 totalBeneficiary: responseOne.data,
                 femaleBeneficiary: responseTwo.data,
               },
@@ -158,7 +168,10 @@ export const getMapDataByProvince = selectedDataView => dispatch => {
         .then(function(result) {
           return dispatch({
             type: GET_MAP_DATA_BY_PROVINCE,
-            payload: result.data,
+            payload: {
+              selectedDataView,
+              allocatedBudget: result.data,
+            },
           });
         });
     } catch (err) {
@@ -231,7 +244,7 @@ export const getFilteredMapData = (
       payload: { selectedFederalType },
     });
   }
-  console.log(selectedFederalType, 'federalType');
+  // console.log(selectedFederalType, 'federalType');
   if (selectedFederalType === 'province') {
     try {
       axiosInstance
@@ -319,6 +332,499 @@ export const getRadialData = () => dispatch => {
 
         return dispatch({
           type: GET_RADIAL_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const filterRadialData = (
+  selectedInvestmentFocus,
+  selectedProjectId,
+  selectedPartnerType,
+  selectedPartnerId,
+) => dispatch => {
+  // console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
+  // console.log(selectedProjectId, 'selectedProjectId');
+  // console.log(selectedPartnerType, 'selectedPartnerType');
+  // console.log(selectedPartnerId, 'selectedPartnerId');
+  const investmentFilter =
+    selectedInvestmentFocus.length > 0
+      ? `investment_filter=${selectedInvestmentFocus}`
+      : '';
+  const projectIdFilter =
+    selectedProjectId.length > 0
+      ? `project_filter=${selectedProjectId}`
+      : '';
+  const partnerTypeFilter =
+    selectedPartnerType.length > 0
+      ? `partner_type_filter=${selectedPartnerType}`
+      : '';
+  const partnerIdFilter =
+    selectedPartnerId.length > 0
+      ? `partner_filter=${selectedPartnerId}`
+      : '';
+  // console.log(query, 'query');
+  // let data = selectedInvestmentFocus;
+  // if (
+  //   selectedInvestmentFocus === undefined ||
+  //   selectedInvestmentFocus === []
+  // ) {
+  //   data = [];
+  // }
+  if (selectedInvestmentFocus !== undefined || null) {
+    const investmentFocus = `${selectedInvestmentFocus}`;
+  }
+  if (selectedProjectId !== undefined || null) {
+    const projectId = selectedProjectId;
+  }
+  if (selectedPartnerType !== undefined || null) {
+    const partnerType = selectedPartnerType;
+  }
+  if (selectedPartnerId !== undefined || null) {
+    const partnerId = selectedPartnerId;
+  }
+  try {
+    axiosInstance
+      .get(
+        `/api/v1/partnership/radial/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
+      )
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_RADIAL_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const filterFinancialDataOfDistrictFromProvince = (
+  selectedDataView,
+  provinceIndex,
+  selectedPartnerId,
+  selectedProjectId,
+  selectedStatus,
+) => dispatch => {
+  // console.log(selectedStatus, 'status');
+  // console.log(provinceIndex);
+  const data = selectedDataView;
+  let partnerId = [];
+  let projectId = [];
+  let statusSelected = '';
+  if (selectedPartnerId.length === 0) {
+    partnerId = [0];
+  } else {
+    partnerId = selectedPartnerId;
+  }
+  if (selectedProjectId.length === 0) {
+    projectId = [0];
+  } else {
+    projectId = selectedProjectId;
+  }
+  if (selectedStatus === [] || selectedStatus.length > 1) {
+    statusSelected = '';
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    statusSelected = selectedStatus[0];
+  }
+  if (data === 'allocated_beneficiary') {
+    // data = ['total_beneficiary', 'female_beneficiary'];
+
+    try {
+      const requestOne = axiosInstance.post(
+        '/api/v1/partnership/partnership-filter/',
+        {
+          status: !statusSelected ? '' : statusSelected,
+          partner_id: partnerId,
+          project_id: projectId,
+          province_id: [],
+          district_id: provinceIndex,
+          view: 'total_beneficiary',
+          municipality_id: [],
+        },
+      );
+      const requestTwo = axiosInstance.post(
+        '/api/v1/partnership/partnership-filter/',
+        {
+          status: !statusSelected ? '' : statusSelected,
+          partner_id: partnerId,
+          project_id: projectId,
+          province_id: [],
+          district_id: provinceIndex,
+          view: 'female_beneficiary',
+          municipality_id: [],
+        },
+      );
+
+      axios
+        .all([requestOne, requestTwo])
+        .then(
+          axios.spread((...responses) => {
+            const responseOne = responses[0];
+            const responseTwo = responses[1];
+            return dispatch({
+              type: FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE,
+              payload: {
+                selectedDataView,
+                totalBeneficiary: responseOne.data,
+                femaleBeneficiary: responseTwo.data,
+              },
+            });
+          }),
+        )
+        .catch(errors => {
+          // react on errors.
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      axiosInstance
+        .post('/api/v1/partnership/partnership-filter/', {
+          view: selectedDataView,
+          partner_id: partnerId,
+          project_id: projectId,
+          status: !statusSelected ? '' : statusSelected,
+          province_id: [],
+          district_id: provinceIndex,
+          municipality_id: [],
+        })
+        .then(function(result) {
+          return dispatch({
+            type: FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE,
+            payload: {
+              selectedDataView,
+              allocatedBudget: result.data,
+            },
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
+export const filterFinancialDataWithAllFilters = (
+  selectedFederalTypes,
+  selectedDataView,
+  selectedPartnerId,
+  selectedProjectId,
+  selectedStatus,
+) => dispatch => {
+  // console.log(selectedFederalTypes, 'selectedFederalTypes');
+  // console.log(selectedDataView, 'selectedDataView');
+  // console.log(selectedPartnerId, 'selectedPartnerId');
+  // console.log(selectedProjectId, 'selectedProjectId');
+  console.log(selectedStatus, 'selectedStatus');
+  // debugger;
+  let partnerId = [];
+  let projectId = [];
+  let statusSelected = '';
+  const data = selectedDataView;
+  if (selectedPartnerId.length === 0) {
+    partnerId = [0];
+  } else {
+    partnerId = selectedPartnerId;
+  }
+  if (selectedProjectId.length === 0) {
+    projectId = [0];
+  } else {
+    projectId = selectedProjectId;
+  }
+  if (selectedStatus === [] || selectedStatus.length > 1) {
+    statusSelected = '';
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    statusSelected = selectedStatus[0];
+  }
+  if (data === 'allocated_beneficiary') {
+    // data = ['total_beneficiary', 'female_beneficiary'];
+
+    try {
+      const requestOne = axiosInstance.post(
+        '/api/v1/partnership/partnership-filter/',
+        {
+          status: !statusSelected ? '' : statusSelected,
+          view: 'total_beneficiary',
+          partner_id: partnerId,
+          project_id: projectId,
+          province_id: [0],
+          district_id: [],
+          municipality_id: [],
+        },
+      );
+      const requestTwo = axiosInstance.post(
+        '/api/v1/partnership/partnership-filter/',
+        {
+          status: !statusSelected ? '' : statusSelected,
+          view: 'female_beneficiary',
+          partner_id: partnerId,
+          project_id: projectId,
+          province_id: [0],
+          district_id: [],
+          municipality_id: [],
+        },
+      );
+
+      axios
+        .all([requestOne, requestTwo])
+        .then(
+          axios.spread((...responses) => {
+            const responseOne = responses[0];
+            const responseTwo = responses[1];
+            return dispatch({
+              type: FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
+              payload: {
+                selectedDataView,
+                totalBeneficiary: responseOne.data,
+                femaleBeneficiary: responseTwo.data,
+              },
+            });
+          }),
+        )
+        .catch(errors => {
+          // react on errors.
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (selectedDataView === 'allocated_budget') {
+    try {
+      axiosInstance
+        .post('/api/v1/partnership/partnership-filter/', {
+          view: selectedDataView,
+          partner_id: partnerId,
+          project_id: projectId,
+          status: !statusSelected ? '' : statusSelected,
+          province_id: [0],
+          district_id: [],
+          municipality_id: [],
+        })
+        .then(function(result) {
+          return dispatch({
+            type: GET_MAP_DATA_BY_PROVINCE,
+            payload: {
+              selectedDataView,
+              allocatedBudget: result.data,
+            },
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
+export const getDistrictDataFromProvince = provinceId => dispatch => {
+  try {
+    const formdata = new FormData();
+    provinceId.map(data => {
+      return formdata.append('id', `${data}`);
+    });
+    formdata.append('id', '0');
+    const response = axiosInstance
+      .post(`/api/v1/adminlevel/district/`, formdata)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_DISTRICTDATA_BY_PROVINCE,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getProvinceData = () => dispatch => {
+  try {
+    const formdata = new FormData();
+    formdata.append('id', '0');
+    const response = axiosInstance
+      .post(`/api/v1/adminlevel/province/`, formdata)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_ALLPROVINCENAME_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getDistrictData = () => dispatch => {
+  try {
+    const formdata = new FormData();
+    formdata.append('id', '0');
+    const response = axiosInstance({
+      method: 'post',
+      url: '/api/v1/adminlevel/district/',
+      data: formdata,
+      // headers: { 'Content-Type': 'multipart/form-data' },
+    }).then(function(result) {
+      // console.log(result, 'result');
+
+      return dispatch({
+        type: GET_ALLDISTRICTNAME_DATA,
+        payload: result.data,
+      });
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getMunicipalityData = () => dispatch => {
+  try {
+    const formdata = new FormData();
+    formdata.append('id', '0');
+    const response = axiosInstance
+      .post(`/api/v1/adminlevel/municipality/`, formdata)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_ALLMUNICIPALITYNAME_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getSpiderChartData = () => dispatch => {
+  // let data = selectedInvestmentFocus;
+  // if (
+  //   selectedInvestmentFocus === undefined ||
+  //   selectedInvestmentFocus === []
+  // ) {
+  //   data = [];
+  // }
+  try {
+    axiosInstance
+      .get('/api/v1/partnership/radar/')
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_SPIDERCHART_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const filterSpiderChartData = (
+  selectedInvestmentFocus,
+  selectedProjectId,
+  selectedPartnerType,
+  selectedPartnerId,
+) => dispatch => {
+  console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
+  console.log(selectedProjectId, 'selectedProjectId');
+  console.log(selectedPartnerType, 'selectedPartnerType');
+  console.log(selectedPartnerId, 'selectedPartnerId');
+  const investmentFilter =
+    selectedInvestmentFocus.length > 0
+      ? `investment_filter=${selectedInvestmentFocus}`
+      : '';
+  const projectIdFilter =
+    selectedProjectId.length > 0
+      ? `project_filter=${selectedProjectId}`
+      : '';
+  const partnerTypeFilter =
+    selectedPartnerType.length > 0
+      ? `partner_type_filter=${selectedPartnerType}`
+      : '';
+  const partnerIdFilter =
+    selectedPartnerId.length > 0
+      ? `partner_filter=${selectedPartnerId}`
+      : '';
+  // console.log(query, 'query');
+  // let data = selectedInvestmentFocus;
+  // if (
+  //   selectedInvestmentFocus === undefined ||
+  //   selectedInvestmentFocus === []
+  // ) {
+  //   data = [];
+  // }
+  if (selectedInvestmentFocus !== undefined || null) {
+    const investmentFocus = `${selectedInvestmentFocus}`;
+  }
+  if (selectedProjectId !== undefined || null) {
+    const projectId = selectedProjectId;
+  }
+  if (selectedPartnerType !== undefined || null) {
+    const partnerType = selectedPartnerType;
+  }
+  if (selectedPartnerId !== undefined || null) {
+    const partnerId = selectedPartnerId;
+  }
+  try {
+    axiosInstance
+      .get(
+        `/api/v1/partnership/radar//?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
+      )
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_SPIDERCHART_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getSankeyChartData = () => dispatch => {
+  // let data = selectedInvestmentFocus;
+  // if (
+  //   selectedInvestmentFocus === undefined ||
+  //   selectedInvestmentFocus === []
+  // ) {
+  //   data = [];
+  // }
+  try {
+    axiosInstance
+      .get('/api/v1/partnership/sankey/')
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_SANKEY_CHART_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const filterSankeyChartData = investmentFocusSelection => dispatch => {
+  // let data = selectedInvestmentFocus;
+  // if (
+  //   selectedInvestmentFocus === undefined ||
+  //   selectedInvestmentFocus === []
+  // ) {
+  //   data = [];
+  // }
+  console.log(investmentFocusSelection, 'investm');
+  try {
+    axiosInstance
+      .get(
+        `/api/v1/partnership/sankey/?investment_filter=${investmentFocusSelection}`,
+      )
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: FILTER_SANKEY_CHART_DATA,
           payload: result.data,
         });
       });
