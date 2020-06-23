@@ -30,10 +30,12 @@ const color1 = [
 class SankeyDiagram extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      // sankeyData: {},
+    };
   }
 
-  componentDidUpdate(prevProps, prevsteat) {
+  componentDidUpdate(prevProps, prevState) {
     // console.log(
     //   prevProps.financialReducer.sankeyData ===
     //     this.props.financialReducer.sankeyData,
@@ -50,6 +52,7 @@ class SankeyDiagram extends Component {
     const {
       financialReducer: { sankeyData },
     } = this.props;
+
     const sankeyColor =
       Object.entries(sankeyData).length !== 0 &&
       sankeyData.nodes.map(node => node.color);

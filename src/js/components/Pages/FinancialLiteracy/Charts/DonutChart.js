@@ -188,6 +188,7 @@ class DonutChart extends Component {
       prevProps.financialReducer.pieData !==
       this.props.financialReducer.pieData
     ) {
+      this.getDonutChartData();
       // console.log(label, 'label');
       this.setState(preState => ({
         options: {
@@ -197,6 +198,10 @@ class DonutChart extends Component {
       }));
     }
   }
+
+  getDonutChartData = () => {
+    // console.log('donutChartData');
+  };
 
   render() {
     const { series, label } = this.props.financialReducer.pieData;

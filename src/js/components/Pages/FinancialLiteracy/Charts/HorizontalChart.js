@@ -350,52 +350,60 @@ class HorizontalChart extends Component {
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
-      if (
-        filteredByProgram.series[0].data.length > 2
-        // filteredByProgram.series.length > 10
-      ) {
-        this.setState(preState => ({
-          height: 400,
-          series: filteredByProgram.series,
-          options: {
-            ...preState.options,
-            plotOptions: {
-              ...preState.options.plotOptions,
-              bar: {
-                ...preState.options.plotOptions.bar,
-                barHeight: '80%',
-                columnWidth: '100%',
-              },
-            },
-            colors: filteredByProgram.color,
-            xaxis: {
-              ...preState.options.xaxis,
-              categories: filteredByProgram.label,
+      // if (
+      //   filteredByProgram.series[0].data.length > 2
+      //   // filteredByProgram.series.length > 10
+      // ) {
+      //   this.setState(preState => ({
+      //     height: 400,
+      //     series: filteredByProgram.series,
+      //     options: {
+      //       ...preState.options,
+      //       plotOptions: {
+      //         ...preState.options.plotOptions,
+      //         bar: {
+      //           ...preState.options.plotOptions.bar,
+      //           barHeight: '80%',
+      //           columnWidth:
+      //             this.props.checkedPartnerItems &&
+      //             this.props.checkedPartnerItems.length < 2
+      //               ? '100%'
+      //               : '15%',
+      //         },
+      //       },
+      //       colors: filteredByProgram.color,
+      //       xaxis: {
+      //         ...preState.options.xaxis,
+      //         categories: filteredByProgram.label,
+      //       },
+      //     },
+      //   }));
+      // } else {
+      this.setState(preState => ({
+        height: 400,
+        series: filteredByProgram.series,
+        options: {
+          ...preState.options,
+          plotOptions: {
+            ...preState.options.plotOptions,
+            bar: {
+              ...preState.options.plotOptions.bar,
+              barHeight: '20%',
+              columnWidth:
+                this.props.checkedPartnerItems &&
+                this.props.checkedPartnerItems.length === 0
+                  ? '100%'
+                  : '50%',
             },
           },
-        }));
-      } else {
-        this.setState(preState => ({
-          height: 400,
-          series: filteredByProgram.series,
-          options: {
-            ...preState.options,
-            plotOptions: {
-              ...preState.options.plotOptions,
-              bar: {
-                ...preState.options.plotOptions.bar,
-                barHeight: '20%',
-                columnWidth: '100%',
-              },
-            },
-            colors: filteredByProgram.color,
-            xaxis: {
-              ...preState.options.xaxis,
-              categories: filteredByProgram.label,
-            },
+          colors: filteredByProgram.color,
+          xaxis: {
+            ...preState.options.xaxis,
+            categories: filteredByProgram.label,
           },
-        }));
-      }
+        },
+      }));
+      // }
       this.setState(preState => ({
         partnerChart: {
           series: filteredByProgram.series,

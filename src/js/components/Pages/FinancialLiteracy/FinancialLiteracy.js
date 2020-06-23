@@ -251,10 +251,15 @@ class FinancialLiteracy extends Component {
   };
 
   applyClick = () => {
-    const { checkedPartnerItems, selectedProgram } = this.state;
+    const {
+      checkedPartnerItems,
+      selectedProgram,
+      partnerType,
+    } = this.state;
     this.props.filterFinancialDataForGraph(
       checkedPartnerItems,
       selectedProgram,
+      partnerType,
     );
 
     this.setState({
@@ -693,6 +698,7 @@ class FinancialLiteracy extends Component {
             selectedProgram={selectedProgram1}
             checkedPartnerItems={checkedPartnerItems1}
             handleRightSidebarShow={this.handleRightSidebarShow}
+            partnerType={partnerType}
           />
         </div>
       </>

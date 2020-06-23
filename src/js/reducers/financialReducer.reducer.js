@@ -508,7 +508,11 @@ const getFinancialData = (state, action) => {
   });
 
   const allSingleCountData = [
-    { data: totalSingleCount, id: 1, name: 'Count' },
+    {
+      data: totalSingleCount,
+      id: 1,
+      name: 'No. of Beneficiaries',
+    },
   ];
 
   const allProgramData = [];
@@ -610,7 +614,7 @@ const filterFinancialDataForGraph = (state, action) => {
   const {
     selectedPartners,
     selectedProgram,
-    selectedPartnerType,
+    partnerType,
   } = action.payload;
 
   const allData = state.financialData;
@@ -668,12 +672,21 @@ const filterFinancialDataForGraph = (state, action) => {
     //   allProgramColor.push(colorPicker(item.programId));
     //   return true;
     // });
+
+    let newData = [];
+    if (partnerType.length === 0 || partnerType.length === 2) {
+      newData = data;
+    } else {
+      newData = data.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+    }
     multiLineLabel = filteredLabel;
     allProgramData = filteredSeries;
-    newSankeyData = filterSankeyData(data);
-    newTreeMapData = filterTreeMapData(data);
-    newProgramWiseData = filterProgramWiseChartData(data);
-    newPartnerWiseData = filterPartnerWiseChartData(data);
+    newSankeyData = filterSankeyData(newData);
+    newTreeMapData = filterTreeMapData(newData);
+    newProgramWiseData = filterProgramWiseChartData(newData);
+    newPartnerWiseData = filterPartnerWiseChartData(newData);
   } else if (
     // Partner is selected and Program is not selected
     selectedPartners.length > 0 &&

@@ -51,30 +51,32 @@ class RightSideBar extends Component {
   calculateTotalBeneficiaries = (
     selectedPartner = [],
     selectedProgram = [],
+    partnerType = [],
   ) => {
     const {
       financialReducer: { financialData },
     } = this.props;
 
+    let newData = [];
+    if (partnerType.length === 0 || partnerType.length === 2) {
+      newData = financialData;
+    } else {
+      newData = financialData.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+    }
+
     const arr = [];
-    const arr2 = [];
-    financialData.map(item => {
+    newData.map(item => {
       const obj = arr.find(x => x.partner_id === item.partner_id);
-      const obj2 = arr2.find(x => x.program_id === item.program_id);
       if (!obj) {
         arr.push(item);
-      }
-      if (!obj2) {
-        arr2.push(item);
       }
       return true;
     });
 
-    // console.log(arr2, 'arr');
-
     let tempBeneficiary = 0;
     let partnerBeneficiary = 0;
-    // let bothBeneficiary = 0;
 
     arr.map(i => {
       tempBeneficiary += i.single_count;
@@ -98,7 +100,7 @@ class RightSideBar extends Component {
       selectedPartner.length === 0 &&
       selectedProgram.length > 0
     ) {
-      financialData.map(item => {
+      newData.map(item => {
         if (
           // selectedPartner.includes(item.partner_id) &&
           selectedProgram.includes(item.program_id)
@@ -111,7 +113,7 @@ class RightSideBar extends Component {
       selectedPartner.length > 0 &&
       selectedProgram.length > 0
     ) {
-      financialData.map(item => {
+      newData.map(item => {
         if (
           selectedPartner.includes(item.partner_id) &&
           selectedProgram.includes(item.program_id)
@@ -122,21 +124,27 @@ class RightSideBar extends Component {
       });
     }
 
-    // debugger;
-    // console.log(tempBeneficiary, 'tempBeneficiary');
-
     return totalBeneficiary;
   };
 
-  calculatePartnerCount = selectedPartner => {
+  calculatePartnerCount = (selectedPartner, partnerType = []) => {
     const { financialData } = this.props.financialReducer;
     let partnerCount;
+
+    let newData = [];
+    if (partnerType.length === 0 || partnerType.length === 2) {
+      newData = financialData;
+    } else {
+      newData = financialData.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+    }
 
     if (selectedPartner.length !== 0) {
       partnerCount = selectedPartner.length;
     } else {
       const arr = [];
-      financialData.map(item => {
+      newData.map(item => {
         const obj = arr.find(x => x.partner_id === item.partner_id);
         if (!obj) {
           arr.push(item);
@@ -170,11 +178,24 @@ class RightSideBar extends Component {
     return programCount;
   };
 
-  calculateFilteredData = (selectedProgram, checkedPartnerItems) => {
+  calculateFilteredData = (
+    selectedProgram,
+    checkedPartnerItems,
+    partnerType = [],
+  ) => {
     const { financialData } = this.props.financialReducer;
     const filteredData = [];
 
-    financialData.map(item => {
+    let newData = [];
+    if (partnerType.length === 0 || partnerType.length === 2) {
+      newData = financialData;
+    } else {
+      newData = financialData.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+    }
+
+    newData.map(item => {
       if (selectedProgram.length === 0) {
         checkedPartnerItems.map(i => {
           if (item.partner_id === i) {
@@ -294,12 +315,17 @@ class RightSideBar extends Component {
   };
 
   updateOverviewData = () => {
-    const { selectedProgram, checkedPartnerItems } = this.props;
-    const { financialData } = this.props.financialReducer;
+    const {
+      selectedProgram,
+      checkedPartnerItems,
+      partnerType,
+      financialReducer: { financialData },
+    } = this.props;
 
     const filteredData = this.calculateFilteredData(
       selectedProgram,
       checkedPartnerItems,
+      partnerType,
     );
 
     let maxValue = 0;
@@ -313,11 +339,16 @@ class RightSideBar extends Component {
     const totalBeneficiaries = this.calculateTotalBeneficiaries(
       checkedPartnerItems,
       selectedProgram,
+      partnerType,
     );
     const partnerCount = this.calculatePartnerCount(
       checkedPartnerItems,
+      partnerType,
     );
-    const programCount = this.calculateProgramCount(selectedProgram);
+    const programCount = this.calculateProgramCount(
+      selectedProgram,
+      // partnerType,
+    );
 
     this.setState({
       totalBeneficiaries,
@@ -508,7 +539,7 @@ class RightSideBar extends Component {
                   </li>
                   <li>
                     <div className="widget-content">
-                      <h6>Program Initiative</h6>
+                      <h6>Financial Literacy Initiative</h6>
                       <span>{programCount}</span>
                     </div>
                     <div className="widget-icon">

@@ -27,7 +27,7 @@ const downloadPng = chartid => {
       // useCORS: true,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
-        saveAs(blob, 'Dashboard.png');
+        saveAs(blob, 'chart.png');
       });
     });
   }, 500);
