@@ -200,7 +200,28 @@ class DonutChart extends Component {
   }
 
   getDonutChartData = () => {
-    // console.log('donutChartData');
+    const {
+      financialReducer: { financialData },
+      selectedProgram,
+      selectedPartner,
+    } = this.props;
+
+    let micro = 0;
+    let commer = 0;
+    if (selectedProgram > 0) {
+      financialData.map(item => {
+        if (
+          selectedPartner.includes(item.partner_id) &&
+          selectedProgram.includes(item.program_id)
+        ) {
+          if (item.partner_type === 'Microfinance Institutions')
+            micro += item.value;
+          else commer += item.value;
+        }
+        return true;
+      });
+    }
+    console.log(micro, commer, 'bello');
   };
 
   render() {

@@ -545,7 +545,10 @@ class FinancialLiteracy extends Component {
                             </div>
                           </div>
                           <div className="card-body">
-                            <DonutChart />
+                            <DonutChart
+                              selectedProgram={selectedProgram1}
+                              selectedPartner={checkedPartnerItems1}
+                            />
                           </div>
                         </div>
                       </div>

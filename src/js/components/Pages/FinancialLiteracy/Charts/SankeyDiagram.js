@@ -129,7 +129,7 @@ class SankeyDiagram extends Component {
               )}
             />
           ) : (
-            <label>2nd Condition</label>
+            <label>No Data</label>
           )
         ) : (
           <label>Nodata</label>
