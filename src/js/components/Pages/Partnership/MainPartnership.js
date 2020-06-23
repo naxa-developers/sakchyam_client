@@ -413,7 +413,12 @@ class MainPartnership extends Component {
     // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
     //   return data.
     // })
-    this.props.filterSankeyChartData(investmentFocusSelection);
+    this.props.filterSankeyChartData(
+      investmentFocusSelection,
+      projectSelection,
+      partnerType,
+      partnerSelection,
+    );
   };
   // eslint-disable-next-line consistent-return
 

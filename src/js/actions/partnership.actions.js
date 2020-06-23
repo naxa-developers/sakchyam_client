@@ -726,10 +726,6 @@ export const filterSpiderChartData = (
   selectedPartnerType,
   selectedPartnerId,
 ) => dispatch => {
-  console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
-  console.log(selectedProjectId, 'selectedProjectId');
-  console.log(selectedPartnerType, 'selectedPartnerType');
-  console.log(selectedPartnerId, 'selectedPartnerId');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
       ? `investment_filter=${selectedInvestmentFocus}`
@@ -754,18 +750,18 @@ export const filterSpiderChartData = (
   // ) {
   //   data = [];
   // }
-  if (selectedInvestmentFocus !== undefined || null) {
-    const investmentFocus = `${selectedInvestmentFocus}`;
-  }
-  if (selectedProjectId !== undefined || null) {
-    const projectId = selectedProjectId;
-  }
-  if (selectedPartnerType !== undefined || null) {
-    const partnerType = selectedPartnerType;
-  }
-  if (selectedPartnerId !== undefined || null) {
-    const partnerId = selectedPartnerId;
-  }
+  // if (selectedInvestmentFocus !== undefined || null) {
+  //   const investmentFocus = `${selectedInvestmentFocus}`;
+  // }
+  // if (selectedProjectId !== undefined || null) {
+  //   const projectId = selectedProjectId;
+  // }
+  // if (selectedPartnerType !== undefined || null) {
+  //   const partnerType = selectedPartnerType;
+  // }
+  // if (selectedPartnerId !== undefined || null) {
+  //   const partnerId = selectedPartnerId;
+  // }
   try {
     axiosInstance
       .get(
@@ -806,19 +802,33 @@ export const getSankeyChartData = () => dispatch => {
     console.error(err);
   }
 };
-export const filterSankeyChartData = investmentFocusSelection => dispatch => {
-  // let data = selectedInvestmentFocus;
-  // if (
-  //   selectedInvestmentFocus === undefined ||
-  //   selectedInvestmentFocus === []
-  // ) {
-  //   data = [];
-  // }
-  console.log(investmentFocusSelection, 'investm');
+export const filterSankeyChartData = (
+  selectedInvestmentFocus,
+  selectedProjectId,
+  selectedPartnerType,
+  selectedPartnerId,
+) => dispatch => {
+  const investmentFilter =
+    selectedInvestmentFocus.length > 0
+      ? `investment_filter=${selectedInvestmentFocus}`
+      : '';
+  const projectIdFilter =
+    selectedProjectId.length > 0
+      ? `project_filter=${selectedProjectId}`
+      : '';
+  const partnerTypeFilter =
+    selectedPartnerType.length > 0
+      ? `partner_type_filter=${selectedPartnerType}`
+      : '';
+  const partnerIdFilter =
+    selectedPartnerId.length > 0
+      ? `partner_filter=${selectedPartnerId}`
+      : '';
+  // console.log(investmentFocusSelection, 'investm');
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/sankey/?investment_filter=${investmentFocusSelection}`,
+        `/api/v1/partnership/sankey/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
