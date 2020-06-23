@@ -341,7 +341,10 @@ class TreeMapDiagram extends Component {
               tabIndex="0"
               onClick={() => {
                 handleModal();
-                handleSelectedModal('tree');
+                handleSelectedModal(
+                  'tree',
+                  'Contribution of program initiatives',
+                );
               }}
               onKeyDown={() => {
                 handleModal();

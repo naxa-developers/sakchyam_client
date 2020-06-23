@@ -1,354 +1,346 @@
-@import "literacy-sidebar";
-@import "timeline";
+@import 'literacy-sidebar';
+@import 'timeline';
 
 .automation-wrapper {
-    aside {
-        &.sidebar {
-            &.literacy-sidebar {
-                @include flex(0 0 320px);
-                max-width: 320px;
-                @media #{$breakpoint-xxl} {
-                    @include flex(0 0 280px);
-                    max-width: 280px;
-                }
-                @media #{$breakpoint-md-desktop} {
-                    @include flex(0 0 230px);
-                    max-width: 230px;
-                }
-                @media #{$breakpoint-ls} {
-                    @include flex(0 0 100%);
-                    max-width: 100%;
-                }
-            }
+  aside {
+    &.sidebar {
+      &.literacy-sidebar {
+        @include flex(0 0 320px);
+        max-width: 320px;
+        @media #{$breakpoint-xxl} {
+          @include flex(0 0 280px);
+          max-width: 280px;
+        }
+        @media #{$breakpoint-md-desktop} {
+          @include flex(0 0 230px);
+          max-width: 230px;
+        }
+        @media #{$breakpoint-ls} {
+          @include flex(0 0 100%);
+          max-width: 100%;
+        }
+      }
 
-            &.literacy-right-sidebar {
-                @media #{$breakpoint-xxl} {
-                    @include flex(0 0 300px);
-                    max-width: 300px;
-                }
-                @media #{$breakpoint-md-desktop} {
-                    @include flex(0 0 250px);
-                    max-width: 250px;
-                }
-
-                @media #{$breakpoint-ls} {
-                    @include flex(0 0 100%);
-                    max-width: 100%;
-                }
-
-            }
+      &.literacy-right-sidebar {
+        @media #{$breakpoint-xxl} {
+          @include flex(0 0 300px);
+          max-width: 300px;
+        }
+        @media #{$breakpoint-md-desktop} {
+          @include flex(0 0 250px);
+          max-width: 250px;
         }
 
+        @media #{$breakpoint-ls} {
+          @include flex(0 0 100%);
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  main {
+    &.main {
+      position: relative;
+      flex-grow: 1;
+      height: initial;
     }
 
-    main {
-        &.main {
-            position: relative;
-            flex-grow: 1;
-            height: initial;
+    .literacy-main-card {
+      @media #{$breakpoint-ls} {
+        padding: 0;
+      }
+      .partnership-filter {
+        padding: 1rem;
+        @include display-flex(flex);
+        @include justify-content-start;
+        @include align-items-center;
+        @include flex-wrap(wrap);
+        .filter-bar {
+          position: relative;
+          top: initial;
+          left: initial;
+          .filter-content {
+            min-width: 520px;
+          }
         }
-
-        .literacy-main-card {
-            @media #{$breakpoint-ls} {
-                padding: 0;
-            }
-            .partnership-filter{
-                padding:1rem;
-                @include display-flex(flex);
-                @include justify-content-start;
-                @include align-items-center;
-                @include flex-wrap(wrap);
-                .filter-bar{
-                    position: relative;
-                    top:initial;
-                    left:initial;
-                    .filter-content{
-                        min-width: 520px;
-                    }
-                }
-                &.is-position{
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    z-index: 999;
-                }
-            }
-            .leaflet-container,#map {
-                // height: calc(100vh - 170px);
-                height: calc(100vh - 94px);
-            }
+        &.is-position {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 999;
         }
+      }
+      .leaflet-container,
+      #map {
+        // height: calc(100vh - 170px);
+        height: calc(100vh - 94px);
+      }
     }
-
-
+  }
 }
 
 .literacy-tab {
-    padding-left:1rem;
-    padding-top: 1rem;
-    ul {
-        @include display-flex(flex);
-        @include justify-content-start;
-        @include align-items-center;
-        background-color: $yellow-light;
-        border: 1px solid $border-color;
-        @include radius(24px);
-        max-width: 200px;
-        padding: 5px;
-
-        li {
-            padding: 5px 15px;
-            @include radius(24px);
-            @include transition(all .4s ease-in-out);
-
-            a {
-                color: $primary-light;
-                display: block;
-                font-family: $avenir-heavy;
-                text-transform: capitalize;
-                cursor: pointer;
-                @media #{$breakpoint-xxl} {
-                    font-size: .875rem;
-                }
-            }
-
-            &.active,
-            &:hover {
-                background-color: $orange-color;
-
-                a {
-                    color: $white-color;
-                }
-            }
-        }
-    }
-}
-.partnership-tab {
+  padding-left: 1rem;
+  padding-top: 1rem;
+  ul {
     @include display-flex(flex);
     @include justify-content-start;
     @include align-items-center;
-    @include flex-wrap(wrap);
-    flex-grow: 1;
-    padding-left:1.5rem;
-    span{
-        margin-right: 1rem;
+    background-color: $yellow-light;
+    border: 1px solid $border-color;
+    @include radius(24px);
+    max-width: 200px;
+    padding: 5px;
+
+    li {
+      padding: 5px 15px;
+      @include radius(24px);
+      @include transition(all 0.4s ease-in-out);
+
+      a {
+        color: $primary-light;
+        display: block;
+        font-family: $avenir-heavy;
         text-transform: capitalize;
-        font-size: .875rem;
-    }
-    ul {
-        @include display-flex(flex);
-        @include justify-content-start;
-        @include align-items-center;
-        background-color: $light-border;
-        border: 1px solid $gray-light;
-        @include radius(24px);
-        padding: 5px;
-
-        li {
-            padding:0 15px;
-            @include radius(24px);
-            @include transition(all .4s ease-in-out);
-            border:1px solid $light-border;
-            a {
-                color: $primary-light;
-                display: block;
-                font-family: $avenir-heavy;
-                text-transform: capitalize;
-                cursor: pointer;
-                
-                font-size: .9125rem;
-                @media #{$breakpoint-xxl} {
-                    font-size: .875rem;
-                }
-            }
-
-            &.active,
-            &:hover {
-                background-color: $white-color;
-                border:1px solid $gray-light;
-                a {
-                    color: $heading-color;
-                    
-                }
-            }
+        cursor: pointer;
+        @media #{$breakpoint-xxl} {
+          font-size: 0.875rem;
         }
+      }
+
+      &.active,
+      &:hover {
+        background-color: $orange-color;
+
+        a {
+          color: $white-color;
+        }
+      }
     }
+  }
+}
+.partnership-tab {
+  @include display-flex(flex);
+  @include justify-content-start;
+  @include align-items-center;
+  @include flex-wrap(wrap);
+  flex-grow: 1;
+  padding-left: 1.5rem;
+  span {
+    margin-right: 1rem;
+    text-transform: capitalize;
+    font-size: 0.875rem;
+  }
+  ul {
+    @include display-flex(flex);
+    @include justify-content-start;
+    @include align-items-center;
+    background-color: $light-border;
+    border: 1px solid $gray-light;
+    @include radius(24px);
+    padding: 5px;
+
+    li {
+      padding: 0 15px;
+      @include radius(24px);
+      @include transition(all 0.4s ease-in-out);
+      border: 1px solid $light-border;
+      a {
+        color: $primary-light;
+        display: block;
+        font-family: $avenir-heavy;
+        text-transform: capitalize;
+        cursor: pointer;
+
+        font-size: 0.9125rem;
+        @media #{$breakpoint-xxl} {
+          font-size: 0.875rem;
+        }
+      }
+
+      &.active,
+      &:hover {
+        background-color: $white-color;
+        border: 1px solid $gray-light;
+        a {
+          color: $heading-color;
+        }
+      }
+    }
+  }
 }
 
 .literacy-tab-content {
-    .card {
-        margin-top: 1.5rem;
-        .card-header {
-            background-color: $white-color;
-            border: none;
-            @include display-flex(flex);
-            @include justify-content-between;
-            @include align-items-center;
+  .card {
+    margin-top: 1.5rem;
+    .card-header {
+      background-color: $white-color;
+      border: none;
+      @include display-flex(flex);
+      @include justify-content-between;
+      @include align-items-center;
 
-            h5 {
-                @include line-clamp(1);
-                max-width: 320px;
-                font-family: $body-fonts;
-                color: $red-color;
-                font-size: 1.25rem;
+      h5 {
+        @include line-clamp(1);
+        max-width: 320px;
+        font-family: $body-fonts;
+        color: $red-color;
+        font-size: 1.25rem;
 
-                @media #{$breakpoint-xxl} {
-                    font-size: .875rem;
-                }
-            }
-
-            .header-icons {
-                @include display-flex(flex);
-                @include justify-content-end;
-                @include align-items-center;
-                label{
-                   margin:0 .5rem; 
-                }
-                small{
-                    font-weight: 600;
-                    
-                }
-                span {
-                    cursor: pointer;
-
-                    &:not(:first-child) {
-                        margin-left: .6125rem;
-                    }
-
-                    img {
-                        max-width: 18px;
-                    }
-                    &.slider{
-                        margin:0;
-                    }
-                }
-            }
+        @media #{$breakpoint-xxl} {
+          font-size: 0.875rem;
         }
-    }
-    .graph-view{
-        overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            -ms-overflow-style: -ms-autohiding-scrollbar;
-            max-height: calc(100vh - 176px);
-            padding:0 15px;
+      }
 
-            &::-webkit-scrollbar {
-                width: 4px;
-                background: $border-color;
-                @include radius(4px);
-            }
-
-            &::-webkit-scrollbar-track {
-                background-color: $border-color;
-                @include radius(4px);
-            }
-
-            &::-webkit-scrollbar-thumb {
-                @include radius(4px);
-                background: $border-color;
-            }
-            .card{
-                .card-body{
-                    padding:0 .6125rem 1rem .6125rem;
-                }
-            }
-    }
-    .table-card {
-        .table-card-body {
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            -ms-overflow-style: -ms-autohiding-scrollbar;
-            max-height: calc(100vh - 232px);
-
-            &::-webkit-scrollbar {
-                width: 4px;
-                background: $border-color;
-                @include radius(4px);
-            }
-
-            &::-webkit-scrollbar-track {
-                background-color: $border-color;
-                @include radius(4px);
-            }
-
-            &::-webkit-scrollbar-thumb {
-                @include radius(4px);
-                background: $border-color;
-            }
-        }
-    }
-    .apexcharts-tooltip{
-        max-width: 200px;
-        white-space: initial;;
-        flex-wrap: wrap;
-        overflow: initial;
-        background-color: $white-color;
-    }
-    .apexcharts-tooltip-text-value{
-        color:$primary-color;
-    }
-    
-}
-.horizontal-chart{
-    overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            -ms-overflow-style: -ms-autohiding-scrollbar;
-
-            &::-webkit-scrollbar {
-                width: 4px;
-                background: $border-color;
-                @include radius(4px);
-            }
-
-            &::-webkit-scrollbar-track {
-                background-color: $border-color;
-                @include radius(4px);
-            }
-
-            &::-webkit-scrollbar-thumb {
-                @include radius(4px);
-                background: $border-color;
-            }
-}
-
-.pie-legend{
-    
-    .legend-list{
+      .header-icons {
         @include display-flex(flex);
-        @include justify-content-between;
+        @include justify-content-end;
         @include align-items-center;
-        h5{
-            @include display-flex(flex);
-            @include justify-content-start;
-            @include align-items-center;
-            @include flex-wrap(wrap);
-            flex-grow: 1;
-            padding-right: 1rem;
-            small{
-                width:10px;
-                height: 10px;
-                @include radius(100%);
-                background-color: $orange-color;
-                margin-right: .6125rem;
-            }
-            span{
-                font-family: $body-fonts;
-                text-transform: capitalize;
-                font-size: .675rem;
-                
-            }
+        label {
+          margin: 0 0.5rem;
         }
-        .legend-count{
-            @include display-flex(flex);
-            @include justify-content-end;
-            @include align-items-center;
-            b{
-                font-family: $avenir-heavy;
-                &:not(:first-child){
-                    margin-left: 3rem;
-                }
-            }
+        small {
+          font-weight: 600;
         }
+        span {
+          cursor: pointer;
+
+          &:not(:first-child) {
+            margin-left: 0.6125rem;
+          }
+
+          img {
+            max-width: 18px;
+          }
+          &.slider {
+            margin: 0;
+          }
+        }
+      }
     }
+  }
+  .graph-view {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    max-height: calc(100vh - 176px);
+    padding: 0 15px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+      background: $border-color;
+      @include radius(4px);
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $border-color;
+      @include radius(4px);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      @include radius(4px);
+      background: $border-color;
+    }
+    .card {
+      .card-body {
+        padding: 0 0.6125rem 1rem 0.6125rem;
+      }
+    }
+  }
+  .table-card {
+    .table-card-body {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      max-height: calc(100vh - 232px);
+
+      &::-webkit-scrollbar {
+        width: 4px;
+        background: $border-color;
+        @include radius(4px);
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: $border-color;
+        @include radius(4px);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        @include radius(4px);
+        background: $border-color;
+      }
+    }
+  }
+  .apexcharts-tooltip {
+    max-width: 200px;
+    white-space: initial;
+    flex-wrap: wrap;
+    overflow: initial;
+    background-color: $white-color;
+  }
+  .apexcharts-tooltip-text-value {
+    color: $primary-color;
+  }
+}
+.horizontal-chart {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background: $border-color;
+    @include radius(4px);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $border-color;
+    @include radius(4px);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @include radius(4px);
+    background: $border-color;
+  }
+}
+
+.pie-legend {
+  .legend-list {
+    @include display-flex(flex);
+    @include justify-content-between;
+    @include align-items-center;
+    h5 {
+      @include display-flex(flex);
+      @include justify-content-start;
+      @include align-items-center;
+      @include flex-wrap(wrap);
+      flex-grow: 1;
+      padding-right: 1rem;
+      small {
+        width: 10px;
+        height: 10px;
+        @include radius(100%);
+        background-color: $orange-color;
+        margin-right: 0.6125rem;
+      }
+      span {
+        font-family: $body-fonts;
+        text-transform: capitalize;
+        font-size: 0.675rem;
+      }
+    }
+    .legend-count {
+      @include display-flex(flex);
+      @include justify-content-end;
+      @include align-items-center;
+      b {
+        font-family: $avenir-heavy;
+        &:not(:first-child) {
+          margin-left: 3rem;
+        }
+      }
+    }
+  }
 }

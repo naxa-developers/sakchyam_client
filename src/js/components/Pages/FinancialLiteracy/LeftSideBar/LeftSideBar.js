@@ -118,7 +118,7 @@ class LeftSideBar extends Component {
                     tabIndex="0"
                     role="tab"
                   >
-                    <span>Commercial Bank</span>
+                    <span>Commercial Bank / Other Partners</span>
                   </a>
                 </div>
               </div>
@@ -166,7 +166,7 @@ class LeftSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget">
-              <h6 className="title">Program Initiative</h6>
+              <h6 className="title">Financial Literacy Initiative</h6>
               <div className="widget-body">
                 <div className="widget-tag Program-tag">
                   {financialProgram &&
