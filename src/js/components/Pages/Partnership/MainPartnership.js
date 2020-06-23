@@ -100,6 +100,15 @@ class MainPartnership extends Component {
         projectSelection,
         projectStatus,
       );
+      this.props.filterRadialData(
+        // 'province',
+        viewDataBy,
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+        // projectStatus,
+      );
     }
     if (prevState.partnerType !== partnerType) {
       this.props.filterPartnerListByPartnerType(partnerType);
@@ -408,6 +417,7 @@ class MainPartnership extends Component {
       projectStatus,
     );
     this.props.filterRadialData(
+      viewDataBy,
       investmentFocusSelection,
       projectSelection,
       partnerType,

@@ -328,7 +328,7 @@ export const getRadialData = () => dispatch => {
   // }
   try {
     axiosInstance
-      .get('/api/v1/partnership/radial/')
+      .get('/api/v1/partnership/radial/?view=allocated_beneficiary')
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -342,6 +342,7 @@ export const getRadialData = () => dispatch => {
   }
 };
 export const filterRadialData = (
+  viewDataBy,
   selectedInvestmentFocus,
   selectedProjectId,
   selectedPartnerType,
@@ -367,6 +368,7 @@ export const filterRadialData = (
     selectedPartnerId.length > 0
       ? `partner_filter=${selectedPartnerId}`
       : '';
+  const viewData = viewDataBy ? `view=${viewDataBy}` : '';
   // console.log(query, 'query');
   // let data = selectedInvestmentFocus;
   // if (
@@ -390,7 +392,7 @@ export const filterRadialData = (
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/radial/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
+        `/api/v1/partnership/radial/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${viewData}`,
       )
       .then(function(result) {
         // console.log(result, 'result');

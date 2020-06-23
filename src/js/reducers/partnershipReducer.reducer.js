@@ -165,6 +165,7 @@ const getMapDataByProvince = (state, action) => {
       // filteredMapData: choroplethFormat,
     };
   }
+  sortArrayByKey(allocatedBudget, 'code');
   const filteredBarValues = filterBudgetBarChart(allocatedBudget);
   return {
     ...state,
@@ -315,6 +316,7 @@ const filterFinancialDataWithAllFilters = (state, action) => {
       return o;
     });
     sortArrayByKey(finalBeneficiaryArray, 'code');
+    console.log(finalBeneficiaryArray, 'final');
     const filteredBarValues = filterBeneficiaryBarChart(
       finalBeneficiaryArray,
     );
@@ -326,6 +328,7 @@ const filterFinancialDataWithAllFilters = (state, action) => {
       // filteredMapData: choroplethFormat,
     };
   }
+  sortArrayByKey(allocatedBudget, 'code');
   const filteredBarValues = filterBudgetBarChart(allocatedBudget);
   return {
     ...state,
