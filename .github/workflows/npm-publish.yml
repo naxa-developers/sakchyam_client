@@ -6,7 +6,7 @@ name: CI
 # events but only for the master branch
 on:
   pull_request:
-    branches: [ staging ]
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,9 +22,9 @@ jobs:
       with:
         node-version: '12'
     - run: npm install
-    - run: npm run prebuild:staging
-    
-    - run:   echo ::set-env name=PULL_NUMBER::$(echo "$GITHUB_REF" | awk -F / '{print $3}')
+    - run: npm run prebuild
+    - run: echo "::set-output name=action_fruit::strawberry"    
+    - run: echo ::set-env name=PULL_NUMBER::$(echo "$GITHUB_REF" | awk -F / '{print $3}')
       shell: bash
     - uses: yg/deploy-surge@v1.0.0
       with:

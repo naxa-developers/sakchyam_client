@@ -20,8 +20,68 @@ const initialState = {
   mapDataByMunicipality: [],
   radialData: [],
   filteredPartnerList: [],
+  barDatas: [],
 };
 
+// {
+//   name: 'PRODUCT A',
+//   data: [44, 55, 41, 67, 22, 43],
+// },
+// {
+//   name: 'PRODUCT B',
+//   data: [13, 23, 20, 8, 13, 27],
+// },
+// {
+//   name: 'PRODUCT C',
+//   data: [11, 17, 15, 15, 21, 14],
+// },
+// {
+//   name: 'PRODUCT D',
+//   data: [21, 7, 25, 13, 22, 8],
+// },
+
+const filterBarChart = datas => {
+  console.log(datas, 'datas');
+  const barLabels = datas.map(label => {
+    return label.name;
+  });
+  const maleBeneficiary = datas.map(data => {
+    return data.total_beneficiary;
+  });
+  const femaleBeneficiary = datas.map(data => {
+    return data.female_beneficiary;
+  });
+  const finaleMaleBeneficiary = {
+    name: 'Male Beneficiary',
+    data: maleBeneficiary,
+  };
+  const finaleFemaleBeneficiary = {
+    name: 'Female Beneficiary',
+    data: femaleBeneficiary,
+  };
+  return {
+    labels: barLabels,
+    series: [finaleMaleBeneficiary, finaleFemaleBeneficiary],
+  };
+};
+
+function sortArrayByKey(arrayData, sortKey) {
+  arrayData.sort(function(a, b) {
+    // console.log(sortKey, 'sortKey');
+    const nameA = a[sortKey]; // ignore upper and lowercase
+    const nameB = b[sortKey]; // ignore upper and lowercase
+    // debugger;
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+}
 const getPartnershipInvestmentFocus = (state, action) => {
   return {
     ...state,
@@ -42,18 +102,29 @@ const getProjectListData = (state, action) => {
   };
 };
 const getMapDataByProvince = (state, action) => {
-  const choroplethFormat = action.payload.map(data => {
-    return {
-      id: data.code,
-      count: data.allocated_budget
-        ? data.allocated_budget
-        : data.allocated_beneficiary,
-    };
+  const { totalBeneficiary, femaleBeneficiary } = action.payload;
+  const totalbeneficiary = totalBeneficiary;
+  const femalebeneficiary = femaleBeneficiary;
+  // debugger;
+  const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+    ...item,
+    ...femalebeneficiary[i],
+  }));
+  const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+    el,
+  ) {
+    const o = { ...el };
+    o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+    return o;
   });
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBarValues = filterBarChart(finalBeneficiaryArray);
+  // console.log(result, 'rest');
   return {
     ...state,
-    mapDataByProvince: choroplethFormat,
-    filteredMapData: choroplethFormat,
+    mapDataByProvince: finalBeneficiaryArray,
+    barDatas: filteredBarValues,
+    // filteredMapData: choroplethFormat,
   };
 };
 const getMapDataByDistrict = (state, action) => {
@@ -82,6 +153,7 @@ const getMapDataByMunicipality = (state, action) => {
   return {
     ...state,
     mapDataByMunicipality: choroplethFormat,
+    isDataFetched: true,
   };
 };
 const getFilteredMapDataChoropleth = (state, action) => {
