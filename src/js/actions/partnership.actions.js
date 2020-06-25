@@ -21,6 +21,8 @@ import {
   FILTER_SANKEY_CHART_DATA,
   GET_OVERVIEW_DATA,
   FILTER_OVERVIEW_DATA,
+  GET_MAP_DATA,
+  GET_BARDATA_BY_BENEF_BUDGET,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -102,137 +104,152 @@ export const getProjectListData = selectedInvestmentFocus => dispatch => {
     console.error(err);
   }
 };
-export const getMapDataByProvince = selectedDataView => dispatch => {
+export const getBarDataByBenefBudget = selectedDataView => dispatch => {
   const data = selectedDataView;
-  if (data === 'allocated_beneficiary') {
-    // data = ['total_beneficiary', 'female_beneficiary'];
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
 
-    try {
-      const requestOne = axiosInstance.post(
-        '/api/v1/partnership/partnership-filter/',
-        {
-          status: '',
-          partner_id: [0],
-          project_id: [0],
-          province_id: [0],
-          district_id: [],
-          view: 'total_beneficiary',
-          municipality_id: [],
-        },
-      );
-      const requestTwo = axiosInstance.post(
-        '/api/v1/partnership/partnership-filter/',
-        {
-          status: '',
-          partner_id: [0],
-          project_id: [0],
-          province_id: [0],
-          district_id: [],
-          view: 'female_beneficiary',
-          municipality_id: [],
-        },
-      );
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: '',
+        partner_id: [0],
+        project_id: [0],
+        province_id: [0],
+        district_id: [],
+        view: 'total_beneficiary',
+        municipality_id: [],
+      },
+    );
+    const requestTwo = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: '',
+        partner_id: [0],
+        project_id: [0],
+        province_id: [0],
+        district_id: [],
+        view: 'female_beneficiary',
+        municipality_id: [],
+      },
+    );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: '',
+        partner_id: [0],
+        project_id: [0],
+        province_id: [0],
+        district_id: [],
+        view: 'allocated_budget',
+        municipality_id: [],
+      },
+    );
 
-      axios
-        .all([requestOne, requestTwo])
-        .then(
-          axios.spread((...responses) => {
-            const responseOne = responses[0];
-            const responseTwo = responses[1];
-            return dispatch({
-              type: GET_MAP_DATA_BY_PROVINCE,
-              payload: {
-                selectedDataView,
-                totalBeneficiary: responseOne.data,
-                femaleBeneficiary: responseTwo.data,
-              },
-            });
-          }),
-        )
-        .catch(errors => {
-          // react on errors.
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  } else {
-    try {
-      axiosInstance
-        .post('/api/v1/partnership/partnership-filter/', {
-          status: '',
-          partner_id: [0],
-          project_id: [0],
-          province_id: [0],
-          district_id: [],
-          view: data,
-          municipality_id: [],
-        })
-        .then(function(result) {
+    axios
+      .all([requestOne, requestTwo, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+          const responseThree = responses[2];
           return dispatch({
-            type: GET_MAP_DATA_BY_PROVINCE,
+            type: GET_BARDATA_BY_BENEF_BUDGET,
             payload: {
               selectedDataView,
-              allocatedBudget: result.data,
+              totalBeneficiary: responseOne.data,
+              femaleBeneficiary: responseTwo.data,
+              allocatedBudget: responseThree.data,
             },
           });
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  }
-};
-export const getMapDataByDistrict = selectedDataView => dispatch => {
-  const data = selectedDataView;
-  try {
-    axiosInstance
-      .post('/api/v1/partnership/partnership-filter/', {
-        status: '',
-        partner_id: [0],
-        project_id: [0],
-        province_id: [],
-        district_id: [0],
-        view: data,
-        municipality_id: [],
-      })
-      .then(function(result) {
-        return dispatch({
-          type: GET_MAP_DATA_BY_DISTRICT,
-          payload: result.data,
-        });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
       });
   } catch (err) {
     console.error(err);
   }
+  // } else {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         status: '',
+  //         partner_id: [0],
+  //         project_id: [0],
+  //         province_id: [0],
+  //         district_id: [],
+  //         view: data,
+  //         municipality_id: [],
+  //       })
+  //       .then(function(result) {
+  //         return dispatch({
+  //           type: GET_MAP_DATA_BY_PROVINCE,
+  //           payload: {
+  //             selectedDataView,
+  //             allocatedBudget: result.data,
+  //           },
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 };
-export const getMapDataByMunicipality = selectedDataView => dispatch => {
-  const data = selectedDataView;
-  try {
-    axiosInstance
-      .post('/api/v1/partnership/partnership-filter/', {
-        status: '',
-        partner_id: [0],
-        project_id: [0],
-        province_id: [],
-        district_id: [],
-        view: data,
-        municipality_id: [0],
-      })
-      .then(function(result) {
-        // console.log(result, 'result');
+// export const getMapDataByDistrict = selectedDataView => dispatch => {
+//   const data = selectedDataView;
+//   try {
+//     axiosInstance
+//       .get('/api/v1/partnership/partnership-filter/', {
+//         status: '',
+//         partner_id: [0],
+//         project_id: [0],
+//         province_id: [],
+//         district_id: [0],
+//         view: data,
+//         municipality_id: [],
+//       })
+//       .then(function(result) {
+//         return dispatch({
+//           type: GET_MAP_DATA_BY_DISTRICT,
+//           payload: result.data,
+//         });
+//       });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+// export const getMapDataByMunicipality = selectedDataView => dispatch => {
+//   const data = selectedDataView;
+//   try {
+//     axiosInstance
+//       .post('/api/v1/partnership/partnership-filter/', {
+//         status: '',
+//         partner_id: [0],
+//         project_id: [0],
+//         province_id: [],
+//         district_id: [],
+//         view: data,
+//         municipality_id: [0],
+//       })
+//       .then(function(result) {
+//         // console.log(result, 'result');
 
-        return dispatch({
-          type: GET_MAP_DATA_BY_MUNICIPALITY,
-          payload: result.data,
-        });
-      });
-  } catch (err) {
-    console.error(err);
-  }
-};
-export const getFilteredMapData = (
-  selectedFederalType,
-  selectedViewData,
-) => dispatch => {
+//         return dispatch({
+//           type: GET_MAP_DATA_BY_MUNICIPALITY,
+//           payload: result.data,
+//         });
+//       });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+export const getFilteredMapData = selectedFederalType => dispatch => {
+  return dispatch({
+    type: GET_FILTERED_MAP_DATA,
+    payload: selectedFederalType,
+  });
   // let data = selectedInvestmentFocus;
   // if (
   //   selectedInvestmentFocus === undefined ||
@@ -240,83 +257,83 @@ export const getFilteredMapData = (
   // ) {
   //   data = [];
   // }
-  if (selectedFederalType && !selectedViewData) {
-    return dispatch({
-      type: GET_FILTERED_MAP_DATA,
-      payload: { selectedFederalType },
-    });
-  }
-  // console.log(selectedFederalType, 'federalType');
-  if (selectedFederalType === 'province') {
-    try {
-      axiosInstance
-        .post('/api/v1/partnership/partnership-filter/', {
-          status: '',
-          partner_id: [0],
-          project_id: [0],
-          province_id: [0],
-          district_id: [],
-          view: selectedViewData,
-          municipality_id: [],
-        })
-        .then(function(result) {
-          // console.log(result, 'result');
+  // if (selectedFederalType && !selectedViewData) {
+  //   return dispatch({
+  //     type: GET_FILTERED_MAP_DATA,
+  //     payload: { selectedFederalType },
+  //   });
+  // }
+  // // console.log(selectedFederalType, 'federalType');
+  // if (selectedFederalType === 'province') {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         status: '',
+  //         partner_id: [0],
+  //         project_id: [0],
+  //         province_id: [0],
+  //         district_id: [],
+  //         view: selectedViewData,
+  //         municipality_id: [],
+  //       })
+  //       .then(function(result) {
+  //         // console.log(result, 'result');
 
-          return dispatch({
-            type: GET_FILTERED_MAP_DATA,
-            payload: result.data,
-          });
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  } else if (selectedFederalType === 'district') {
-    try {
-      axiosInstance
-        .post('/api/v1/partnership/partnership-filter/', {
-          status: '',
-          partner_id: [0],
-          project_id: [0],
-          province_id: [],
-          district_id: [0],
-          view: selectedViewData,
-          municipality_id: [],
-        })
-        .then(function(result) {
-          // console.log(result, 'result');
+  //         return dispatch({
+  //           type: GET_FILTERED_MAP_DATA,
+  //           payload: result.data,
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // } else if (selectedFederalType === 'district') {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         status: '',
+  //         partner_id: [0],
+  //         project_id: [0],
+  //         province_id: [],
+  //         district_id: [0],
+  //         view: selectedViewData,
+  //         municipality_id: [],
+  //       })
+  //       .then(function(result) {
+  //         // console.log(result, 'result');
 
-          return dispatch({
-            type: GET_FILTERED_MAP_DATA,
-            payload: result.data,
-          });
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  } else {
-    try {
-      axiosInstance
-        .post('/api/v1/partnership/partnership-filter/', {
-          status: '',
-          partner_id: [0],
-          project_id: [0],
-          province_id: [],
-          district_id: [],
-          view: selectedViewData,
-          municipality_id: [0],
-        })
-        .then(function(result) {
-          // console.log(result, 'result');
+  //         return dispatch({
+  //           type: GET_FILTERED_MAP_DATA,
+  //           payload: result.data,
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // } else {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         status: '',
+  //         partner_id: [0],
+  //         project_id: [0],
+  //         province_id: [],
+  //         district_id: [],
+  //         view: selectedViewData,
+  //         municipality_id: [0],
+  //       })
+  //       .then(function(result) {
+  //         // console.log(result, 'result');
 
-          return dispatch({
-            type: GET_FILTERED_MAP_DATA,
-            payload: result.data,
-          });
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  //         return dispatch({
+  //           type: GET_FILTERED_MAP_DATA,
+  //           payload: result.data,
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 };
 export const getRadialData = () => dispatch => {
   // let data = selectedInvestmentFocus;
@@ -896,6 +913,57 @@ export const filterOverviewData = (
 
         return dispatch({
           type: FILTER_OVERVIEW_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getMapDataByProvince = () => dispatch => {
+  // console.log(investmentFocusSelection, 'investm');
+  try {
+    axiosInstance
+      .get(`/api/v1/partnership/map-data/?province_id=0`)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_MAP_DATA_BY_PROVINCE,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getMapDataByDistrict = () => dispatch => {
+  // console.log(investmentFocusSelection, 'investm');
+  try {
+    axiosInstance
+      .get(`/api/v1/partnership/map-data/?district_id=0`)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_MAP_DATA_BY_DISTRICT,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getMapDataByMunicipality = () => dispatch => {
+  // console.log(investmentFocusSelection, 'investm');
+  try {
+    axiosInstance
+      .get(`/api/v1/partnership/map-data/?municipality_id=0`)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_MAP_DATA_BY_MUNICIPALITY,
           payload: result.data,
         });
       });

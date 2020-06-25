@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import OutreachTab from './common/OutreachTab';
+import { getOverviewData } from '../../../actions/partnership.actions';
 
 const outreachTabTitle = [
   'Investment Focus',
@@ -25,6 +26,10 @@ class RightSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    this.props.getOverviewData();
   }
 
   render() {
@@ -159,4 +164,6 @@ class RightSideBar extends Component {
 const mapStateToProps = ({ partnershipReducer }) => ({
   partnershipReducer,
 });
-export default connect(mapStateToProps, {})(RightSideBar);
+export default connect(mapStateToProps, { getOverviewData })(
+  RightSideBar,
+);

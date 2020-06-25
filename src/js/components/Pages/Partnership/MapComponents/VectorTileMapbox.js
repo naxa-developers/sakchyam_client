@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
@@ -34,21 +35,44 @@ class VectorTileMapbox extends Component {
       colorArray != null && colorArray.length > 0
         ? colorArray
         : [
-            '#5c5ada',
-            '#fff3d4',
-            '#FEB24C',
-            '#FD8D3C',
-            '#FC4E2A',
-            '#FED976',
-            '#BD0026',
-            '#800026',
-            '#453C43',
-            '#959A92',
-            '#CCA575',
-            '#AC4C25',
-            '#A61D2C',
+            // '#FED976',
+            // '#fff3d4',
+            // '#FEB24C',
+            // '#FD8D3C',
+            // '#FC4E2A',
+            // '#E31A1C',
+            // '#BD0026',
+            // '#800026',
+            // '#453C43',
+            // '#959A92',
+            // '#CCA575',
+            // '#AC4C25',
+            // '#A61D2C',
+
+            '#ffffff',
+            '#ebf4ff',
+            '#b2cafd',
+            '#8abbff',
+            '#FCD29F',
+            '#ADD9F4',
+            '#476C9B',
+            '#468C98',
+            '#BA3B46',
+            // '#5c5ada',
+            // '#fff3d4',
+            // '#FEB24C',
+            // '#FD8D3C',
+            // '#FC4E2A',
+            // '#FED976',
+            // '#BD0026',
+            // '#800026',
+            // '#453C43',
+            // '#959A92',
+            // '#CCA575',
+            // '#AC4C25',
+            // '#A61D2C',
           ];
-    let color = 'rgba(255,255,255,0)';
+    let color = 'rgb(48, 167, 186)';
     // console.log(colorArray, "colorArray inside")
     // eslint-disable-next-line array-callback-return
     grade.map((gradeitem, j) => {
@@ -120,7 +144,7 @@ class VectorTileMapbox extends Component {
     const color =
       choroplethColor !== undefined && choroplethColor.length > 0
         ? choroplethColor
-        : '#ff0000';
+        : '#34d8e0';
     const data = this.state.grade;
     const choroplethColors = choroplethColorArray(data.length, color);
     // console.log(choroplethColors, "legendcolors")
@@ -128,7 +152,7 @@ class VectorTileMapbox extends Component {
   }
 
   setChoroplethStyle(values) {
-    // console.log(values, "values")
+    console.log(values, 'values');
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
       const color = this.getLegendColor(value.count);
@@ -157,8 +181,8 @@ class VectorTileMapbox extends Component {
 
   plotVectorTile = () => {
     // console.log(this.props.vectorTileUrl, 'vectortileurl');
-    const { map } = this.props;
     const that = this;
+    const { map } = that.props;
     // console.log(this.state.finalStyle, "this finalstyle")
     const hoveredStateId = null;
     map.on('load', function() {
@@ -185,6 +209,7 @@ class VectorTileMapbox extends Component {
         activeChoropleth: false,
         paint: {
           'fill-color': that.state.finalStyle,
+          'fill-opacity': 0.67,
         },
       });
 
@@ -252,6 +277,8 @@ class VectorTileMapbox extends Component {
 
         const popup = new mapboxgl.Popup();
         // map.on('mousemove', 'vector-tile-fill', function(e) {
+        //   console.log('on Choropleth Hover')
+        // });
         //   // console.log(e.features[0],'e');
         //   // e.features[0].id = e.features[0].properties.id;
         //   // console.log(e.features[0], "feature code")
@@ -466,19 +493,29 @@ class VectorTileMapbox extends Component {
         //   // Popup On Hover
         // });
 
-        map.on('mouseleave', 'vector-tile-fill', function() {
-          // if (hoveredStateId) {
-          // map.setFeatureState(
-          // { source: 'municipality', sourceLayer: 'default', id: hoveredStateId },
-          // { hover: false }
-          // );
-          // }
-          // hoveredStateId = null;
-          popup.remove();
-        });
+        
       }
     });
-
+    const popup = new mapboxgl.Popup();
+    map.on('mouseenter', 'vector-tile-fill', function(e) {
+      console.log(e,'on Choropleth Hover');
+      popup
+              .setLngLat(e.lngLat)
+              .setHTML(
+                `<label>Test Label </label>`,
+              )
+              .addTo(map);
+    });
+    map.on('mouseleave', 'vector-tile-fill', function() {
+      // if (hoveredStateId) {
+      // map.setFeatureState(
+      // { source: 'municipality', sourceLayer: 'default', id: hoveredStateId },
+      // { hover: false }
+      // );
+      // }
+      // hoveredStateId = null;
+      popup.remove();
+    });
     // map.addControl(new mapboxgl.NavigationControl());
   };
 
@@ -499,7 +536,7 @@ class VectorTileMapbox extends Component {
           'fill-color',
           this.state.finalStyle,
         );
-      }, 1000);
+      }, 2000);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
       // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
@@ -532,7 +569,50 @@ class VectorTileMapbox extends Component {
   }
 
   render() {
-    return <div />;
+    return (
+      <>
+        <div />
+        <div id="state-legend" className="legend">
+          <h4>Population</h4>
+          <div>
+            <span style={{ 'background-color': '#723122' }} />
+            25,000,000
+          </div>
+          <div>
+            <span style={{ 'background-color': '#8B4225' }} />
+            10,000,000
+          </div>
+          <div>
+            <span style={{ 'background-color': '#A25626' }} />
+            7,500,000
+          </div>
+          <div>
+            <span style={{ 'background-color': '#B86B25' }} />
+            5,000,000
+          </div>
+          <div>
+            <span style={{ 'background-color': '#CA8323' }} />
+            2,500,000
+          </div>
+          <div>
+            <span style={{ 'background-color': '#DA9C20' }} />
+            1,000,000
+          </div>
+          <div>
+            <span style={{ 'background-color': '#E6B71E' }} />
+            750,000
+          </div>
+          <div>
+            <span style={{ 'background-color': '#EED322' }} />
+            500,000
+          </div>
+          <div>
+            <span style={{ 'background-color': '#F2F12D' }} />
+            0
+          </div>
+        </div>
+      </>
+    );
   }
 }
 const mapStateToProps = ({ automationReducer }) => ({

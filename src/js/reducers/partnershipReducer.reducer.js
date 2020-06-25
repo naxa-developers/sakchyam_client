@@ -1,6 +1,7 @@
 import {
   GET_PROJECT_LIST_DATA,
   GET_PARTNERSHIP_INVESTMENT_FOCUS,
+  GET_BARDATA_BY_BENEF_BUDGET,
   GET_MAP_DATA_BY_PROVINCE,
   GET_MAP_DATA_BY_DISTRICT,
   GET_MAP_DATA_BY_MUNICIPALITY,
@@ -18,6 +19,7 @@ import {
   FILTER_SANKEY_CHART_DATA,
   GET_OVERVIEW_DATA,
   FILTER_OVERVIEW_DATA,
+  GET_MAP_DATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -68,10 +70,12 @@ const filterBeneficiaryBarChart = datas => {
   });
   const finaleMaleBeneficiary = {
     name: 'Male Beneficiary',
+    type: 'column',
     data: maleBeneficiary,
   };
   const finaleFemaleBeneficiary = {
     name: 'Female Beneficiary',
+    type: 'column',
     data: femaleBeneficiary,
   };
   return {
@@ -88,6 +92,7 @@ const filterBudgetBarChart = datas => {
   });
   const finaleTotalBudget = {
     name: 'Total Budget',
+    type: 'line',
     data: totalBeneficiary,
   };
   return {
@@ -132,109 +137,103 @@ const getProjectListData = (state, action) => {
     projectLists: action.payload,
   };
 };
-const getMapDataByProvince = (state, action) => {
+const getBarDataByBenefBudget = (state, action) => {
   const { selectedDataView, allocatedBudget } = action.payload;
-  if (selectedDataView === 'allocated_beneficiary') {
-    const { totalBeneficiary, femaleBeneficiary } = action.payload;
-    const totalbeneficiary = totalBeneficiary;
-    const femalebeneficiary = femaleBeneficiary;
-    // debugger;
-    const mergedBeneficiaryArray = totalbeneficiary.map(
-      (item, i) => ({
-        ...item,
-        ...femalebeneficiary[i],
-      }),
-    );
-    const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
-      el,
-    ) {
-      const o = { ...el };
-      o.male_beneficiary =
-        el.total_beneficiary - el.female_beneficiary;
-      return o;
-    });
-    sortArrayByKey(finalBeneficiaryArray, 'code');
-    const filteredBarValues = filterBeneficiaryBarChart(
-      finalBeneficiaryArray,
-    );
-    // console.log(result, 'rest');
+  // if (selectedDataView === 'allocated_beneficiary') {
+  const { totalBeneficiary, femaleBeneficiary } = action.payload;
+  const totalbeneficiary = totalBeneficiary;
+  const femalebeneficiary = femaleBeneficiary;
+  // debugger;
+  const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+    ...item,
+    ...femalebeneficiary[i],
+  }));
+  const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+    el,
+  ) {
+    const o = { ...el };
+    o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+    return o;
+  });
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChart(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
+  // }
+  sortArrayByKey(allocatedBudget, 'code');
+  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
+  console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
+  return {
+    ...state,
+    // mapDataByProvince: finalBeneficiaryArray,
+    barDatas: filteredBenefValues,
+    // filteredMapData: choroplethFormat,
+  };
+};
+// const getMapDataByDistrict = (state, action) => {
+//   const choroplethFormat = action.payload.map(data => {
+//     return {
+//       id: data.code,
+//       count: data.branch ? data.branch : data.allocated_beneficiary,
+//     };
+//   });
+//   return {
+//     ...state,
+//     mapDataByDistrict: choroplethFormat,
+//   };
+// };
+// const getMapDataByMunicipality = (state, action) => {
+//   const choroplethFormat = action.payload.map(data => {
+//     return {
+//       id: data.code,
+//       count: data.branch ? data.branch : data.allocated_beneficiary,
+//     };
+//   });
+//   return {
+//     ...state,
+//     mapDataByMunicipality: choroplethFormat,
+//     // isDataFetched: true,
+//   };
+// };
+const getFilteredMapDataChoropleth = (state, action) => {
+  const federalType = action.payload;
+  // if (action.payload.selectedFederalType) {
+  if (federalType === 'province') {
     return {
       ...state,
-      mapDataByProvince: finalBeneficiaryArray,
-      barDatas: filteredBarValues,
-      // filteredMapData: choroplethFormat,
+      filteredMapData: state.mapDataByProvince,
     };
   }
-  sortArrayByKey(allocatedBudget, 'code');
-  const filteredBarValues = filterBudgetBarChart(allocatedBudget);
-  return {
-    ...state,
-    barDatas: filteredBarValues,
-  };
-};
-const getMapDataByDistrict = (state, action) => {
-  const choroplethFormat = action.payload.map(data => {
+  if (federalType === 'district') {
     return {
-      id: data.code,
-      count: data.allocated_budget
-        ? data.allocated_budget
-        : data.allocated_beneficiary,
+      ...state,
+      filteredMapData: state.mapDataByDistrict,
     };
-  });
-  return {
-    ...state,
-    mapDataByDistrict: choroplethFormat,
-  };
-};
-const getMapDataByMunicipality = (state, action) => {
-  const choroplethFormat = action.payload.map(data => {
+  }
+  if (federalType === 'municipality') {
     return {
-      id: data.code,
-      count: data.allocated_budget
-        ? data.allocated_budget
-        : data.allocated_beneficiary,
+      ...state,
+      filteredMapData: state.mapDataByMunicipality,
     };
-  });
+  }
   return {
     ...state,
-    mapDataByMunicipality: choroplethFormat,
-    isDataFetched: true,
   };
 };
-const getFilteredMapDataChoropleth = (state, action) => {
-  // if (action.payload.selectedFederalType) {
-  //   if (action.payload.selectedFederalType === 'province') {
-  //     return {
-  //       ...state,
-  //       filteredMapData: state.mapDataByProvince,
-  //     };
-  //   }
-  //   if (action.payload.selectedFederalType === 'district') {
-  //     return {
-  //       ...state,
-  //       filteredMapData: state.mapDataByDistrict,
-  //     };
-  //   }
-  //   if (action.payload.selectedFederalType === 'municipality') {
-  //     return {
-  //       ...state,
-  //       filteredMapData: state.mapDataByMunicipality,
-  //     };
-  //   }
-  // }
-  const choroplethFormat = action.payload.map(data => {
-    return {
-      id: data.code,
-      count: data.allocated_budget
-        ? data.allocated_budget
-        : data.allocated_beneficiary,
-    };
-  });
-  return {
-    ...state,
-    filteredMapData: choroplethFormat,
-  };
-};
+// const choroplethFormat = action.payload.map(data => {
+//   return {
+//     id: data.code,
+//     count: data.allocated_budget
+//       ? data.allocated_budget
+//       : data.allocated_beneficiary,
+//   };
+// });
 
 const getRadialData = (state, action) => {
   return {
@@ -364,6 +363,7 @@ const getMunicipalityData = (state, action) => {
   return {
     ...state,
     allMunicipalityList: action.payload,
+    isDataFetched: true,
   };
 };
 const getSankeyChartData = (state, action) => {
@@ -390,6 +390,25 @@ const filterOverviewData = (state, action) => {
     overviewData: action.payload,
   };
 };
+const getMapDataByProvince = (state, action) => {
+  return {
+    ...state,
+    filteredMapData: action.payload,
+    mapDataByProvince: action.payload,
+  };
+};
+const getMapDataByDistrict = (state, action) => {
+  return {
+    ...state,
+    mapDataByDistrict: action.payload,
+  };
+};
+const getMapDataByMunicipality = (state, action) => {
+  return {
+    ...state,
+    mapDataByMunicipality: action.payload,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERSHIP_INVESTMENT_FOCUS:
@@ -398,6 +417,8 @@ export default function(state = initialState, action) {
       return getProjectListData(state, action);
     case GET_PARTNERSHIP_PARTNERS_LIST:
       return getPartnersList(state, action);
+    case GET_BARDATA_BY_BENEF_BUDGET:
+      return getBarDataByBenefBudget(state, action);
     case GET_MAP_DATA_BY_PROVINCE:
       return getMapDataByProvince(state, action);
     case GET_MAP_DATA_BY_DISTRICT:
@@ -430,6 +451,8 @@ export default function(state = initialState, action) {
       return getOverviewData(state, action);
     case FILTER_OVERVIEW_DATA:
       return filterOverviewData(state, action);
+    // case GET_MAP_DATA:
+    //   return getMapData(state, action);
     default:
       return state;
   }
