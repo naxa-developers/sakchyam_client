@@ -100,11 +100,11 @@ class StackedBar extends Component {
       stroke: {
         width: [1, 1, 4],
       },
-      title: {
-        text: 'XYZ - Stock Analysis (2009 - 2016)',
-        align: 'left',
-        offsetX: 110,
-      },
+      // title: {
+      //   text: 'XYZ - Stock Analysis (2009 - 2016)',
+      //   align: 'left',
+      //   offsetX: 110,
+      // },
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
       },
@@ -324,18 +324,18 @@ class StackedBar extends Component {
       stroke: {
         width: [1, 1, 4],
       },
-      title: {
-        text: 'XYZ - Stock Analysis (2009 - 2016)',
-        align: 'left',
-        offsetX: 110,
-      },
+      // title: {
+      //   text: 'XYZ - Stock Analysis (2009 - 2016)',
+      //   align: 'left',
+      //   offsetX: 110,
+      // },
       xaxis: {
         categories: barDatas.labels,
       },
       yaxis: [
         {
           // min: 0,
-          // max: 500000,
+          max: 600000,
           axisTicks: {
             show: true,
           },
@@ -364,9 +364,9 @@ class StackedBar extends Component {
         },
         {
           // min: 0,
-          // max: 5000000,
+          max: 600000,
           seriesName: 'Incomessss',
-          show: true,
+          show: false,
           opposite: true,
           axisTicks: {
             show: true,

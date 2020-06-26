@@ -13,6 +13,16 @@ import CardTab from '../common/CardTab';
 import StackedBar from '../Charts/StackedBar/StackedBar';
 import { getRadialData } from '../../../../actions/partnership.actions';
 
+function formatData(fulldata) {
+  console.log(fulldata, 'fulldata');
+  fulldata.forEach(datum => {
+    if (datum.children && datum.children.length > 0) {
+      formatData(datum.children);
+    }
+    // eslint-disable-next-line no-param-reassign
+    datum.size = Math.round(datum.size);
+  });
+}
 class MiddleChartSection extends Component {
   constructor(props) {
     super(props);
@@ -154,6 +164,13 @@ class MiddleChartSection extends Component {
     const {
       partnershipReducer: { radialData },
     } = this.props;
+    // console.log(
+
+    if (radialData && radialData.children) {
+      formatData(radialData.children);
+    }
+    //   'radialData',
+    // );
     // console.log(radialData && radialData, 'radialData');
     return (
       <div
