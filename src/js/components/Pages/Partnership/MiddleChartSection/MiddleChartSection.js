@@ -41,6 +41,35 @@ class MiddleChartSection extends Component {
     });
   };
 
+  handleSunburstClick = e => {
+    const {
+      partnersList,
+      partnershipInvestmentFocus,
+      projectLists,
+    } = this.props.partnershipReducer;
+    const clickedName = e.data.name;
+    // console.log(clickedName, 'clicked');
+    // console.log(
+    //   partnershipInvestmentFocus.filter(investment => {
+    //     return investment.investment_primary === clickedName;
+    //   }),
+    // );
+    // if (
+    //   partnershipInvestmentFocus.filter(investment => {
+    //     return investment.investment_primary === clickedName;
+    //   })
+    // ) {
+    console.log('found if');
+    document
+      .querySelectorAll(`[data-label='${clickedName}']`)[0]
+      .click();
+    // document.getElementsByName(clickedName)[0].click();
+    this.props.applyBtnClick();
+    // }
+    // console.log(this.props, 'partnership');
+    // console.log(e.data.name);
+  };
+
   getModalContent = contentType => {
     const { activeModal } = this.state;
     const {
@@ -164,9 +193,7 @@ class MiddleChartSection extends Component {
                       height={500}
                       width={900}
                       count_member="size"
-                      onClick={e => {
-                        console.log('clicked', e.data.name);
-                      }}
+                      onClick={this.handleSunburstClick}
                     />
                   )
                 );
@@ -218,7 +245,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
@@ -234,7 +261,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

@@ -712,11 +712,13 @@ class MainPartnership extends Component {
                   sankeyChartwidth={sankeyChartwidth}
                   activeOverview={activeOverview}
                   activeView={activeView}
+                  investmentFocusSelection={investmentFocusSelection}
                   partnerSelection={partnerSelection}
                   projectSelection={projectSelection}
                   projectStatus={projectStatus}
                   showBarof={showBarof}
                   handleShowBarOf={this.handleShowBarOf}
+                  applyBtnClick={this.applyBtnClick}
                 />
                 <div
                   className="literacy-tab-item"

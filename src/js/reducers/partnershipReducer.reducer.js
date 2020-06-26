@@ -20,6 +20,7 @@ import {
   GET_OVERVIEW_DATA,
   FILTER_OVERVIEW_DATA,
   GET_MAP_DATA,
+  FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -255,84 +256,199 @@ const filterPartnersListByPartner = (state, action) => {
   };
 };
 const filterFinancialDataOfDistrictFromProvince = (state, action) => {
-  const { selectedDataView, allocatedBudget } = action.payload;
-  if (selectedDataView === 'allocated_beneficiary') {
-    const { totalBeneficiary, femaleBeneficiary } = action.payload;
-    const totalbeneficiary = totalBeneficiary;
-    const femalebeneficiary = femaleBeneficiary;
-    // debugger;
-    const mergedBeneficiaryArray = totalbeneficiary.map(
-      (item, i) => ({
-        ...item,
-        ...femalebeneficiary[i],
-      }),
-    );
-    const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
-      el,
-    ) {
-      const o = { ...el };
-      o.male_beneficiary =
-        el.total_beneficiary - el.female_beneficiary;
-      return o;
-    });
-    sortArrayByKey(finalBeneficiaryArray, 'code');
-    const filteredBarValues = filterBeneficiaryBarChart(
-      finalBeneficiaryArray,
-    );
-    // console.log(result, 'rest');
-    return {
-      ...state,
-      mapDataByProvince: finalBeneficiaryArray,
-      barDatas: filteredBarValues,
-      // filteredMapData: choroplethFormat,
-    };
-  }
-  const filteredBarValues = filterBudgetBarChart(allocatedBudget);
+  const { selectedDataView } = action.payload;
+  // if (selectedDataView === 'allocated_beneficiary') {
+  const {
+    totalBeneficiary,
+    femaleBeneficiary,
+    allocatedBudget,
+  } = action.payload;
+  const totalbeneficiary = totalBeneficiary;
+  const femalebeneficiary = femaleBeneficiary;
+  // debugger;
+  const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+    ...item,
+    ...femalebeneficiary[i],
+  }));
+  const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+    el,
+  ) {
+    const o = { ...el };
+    o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+    return o;
+  });
+  // sortArrayByKey(finalBeneficiaryArray, 'code');
+  // const filteredBarValues = filterBeneficiaryBarChart(
+  //   finalBeneficiaryArray,
+  // );
+  // console.log(result, 'rest');
+  //   return {
+  //     ...state,
+  //     mapDataByProvince: finalBeneficiaryArray,
+  //     barDatas: filteredBarValues,
+  //     // filteredMapData: choroplethFormat,
+  //   };
+  // // }
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChart(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
+  // }
+  sortArrayByKey(allocatedBudget, 'code');
+  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
+  // console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
   return {
     ...state,
-    barDatas: filteredBarValues,
+    // mapDataByProvince: finalBeneficiaryArray,
+    barDatas: filteredBenefValues,
+    // filteredMapData: choroplethFormat,
   };
 };
-const filterFinancialDataWithAllFilters = (state, action) => {
-  const { selectedDataView, allocatedBudget } = action.payload;
-  if (selectedDataView === 'allocated_beneficiary') {
-    const { totalBeneficiary, femaleBeneficiary } = action.payload;
-    const totalbeneficiary = totalBeneficiary;
-    const femalebeneficiary = femaleBeneficiary;
-    // debugger;
-    const mergedBeneficiaryArray = totalbeneficiary.map(
-      (item, i) => ({
-        ...item,
-        ...femalebeneficiary[i],
-      }),
-    );
-    const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
-      el,
-    ) {
-      const o = { ...el };
-      o.male_beneficiary =
-        el.total_beneficiary - el.female_beneficiary;
-      return o;
-    });
-    sortArrayByKey(finalBeneficiaryArray, 'code');
-    console.log(finalBeneficiaryArray, 'final');
-    const filteredBarValues = filterBeneficiaryBarChart(
-      finalBeneficiaryArray,
-    );
-    // console.log(result, 'rest');
-    return {
-      ...state,
-      mapDataByProvince: finalBeneficiaryArray,
-      barDatas: filteredBarValues,
-      // filteredMapData: choroplethFormat,
-    };
-  }
+const filterFinancialDataOfMunicipalityFromDistrict = (
+  state,
+  action,
+) => {
+  const { selectedDataView } = action.payload;
+  // if (selectedDataView === 'allocated_beneficiary') {
+  const {
+    totalBeneficiary,
+    femaleBeneficiary,
+    allocatedBudget,
+  } = action.payload;
+  const totalbeneficiary = totalBeneficiary;
+  const femalebeneficiary = femaleBeneficiary;
+  // debugger;
+  const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+    ...item,
+    ...femalebeneficiary[i],
+  }));
+  const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+    el,
+  ) {
+    const o = { ...el };
+    o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+    return o;
+  });
+  // sortArrayByKey(finalBeneficiaryArray, 'code');
+  // const filteredBarValues = filterBeneficiaryBarChart(
+  //   finalBeneficiaryArray,
+  // );
+  // console.log(result, 'rest');
+  //   return {
+  //     ...state,
+  //     mapDataByProvince: finalBeneficiaryArray,
+  //     barDatas: filteredBarValues,
+  //     // filteredMapData: choroplethFormat,
+  //   };
+  // // }
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChart(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
+  // }
   sortArrayByKey(allocatedBudget, 'code');
-  const filteredBarValues = filterBudgetBarChart(allocatedBudget);
+  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
+  // console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
   return {
     ...state,
-    barDatas: filteredBarValues,
+    // mapDataByProvince: finalBeneficiaryArray,
+    barDatas: filteredBenefValues,
+    // filteredMapData: choroplethFormat,
   };
+};
+// const filterFinancialDataOfMunicipalityFromDistrict = (
+//   state,
+//   action,
+// ) => {
+//   const { selectedDataView, allocatedBudget } = action.payload;
+//   if (selectedDataView === 'allocated_beneficiary') {
+//     const { totalBeneficiary, femaleBeneficiary } = action.payload;
+//     const totalbeneficiary = totalBeneficiary;
+//     const femalebeneficiary = femaleBeneficiary;
+//     // debugger;
+//     const mergedBeneficiaryArray = totalbeneficiary.map(
+//       (item, i) => ({
+//         ...item,
+//         ...femalebeneficiary[i],
+//       }),
+//     );
+//     const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+//       el,
+//     ) {
+//       const o = { ...el };
+//       o.male_beneficiary =
+//         el.total_beneficiary - el.female_beneficiary;
+//       return o;
+//     });
+//     sortArrayByKey(finalBeneficiaryArray, 'code');
+//     const filteredBarValues = filterBeneficiaryBarChart(
+//       finalBeneficiaryArray,
+//     );
+//     // console.log(result, 'rest');
+//     return {
+//       ...state,
+//       // mapDataByProvince: finalBeneficiaryArray,
+//       barDatas: filteredBarValues,
+//       // filteredMapData: choroplethFormat,
+//     };
+//   }
+//   const filteredBarValues = filterBudgetBarChart(allocatedBudget);
+//   return {
+//     ...state,
+//     barDatas: filteredBarValues,
+//   };
+// };
+const filterFinancialDataWithAllFilters = (state, action) => {
+  const { selectedDataView, allocatedBudget } = action.payload;
+  // if (selectedDataView === 'allocated_beneficiary') {
+  const { totalBeneficiary, femaleBeneficiary } = action.payload;
+  const totalbeneficiary = totalBeneficiary;
+  const femalebeneficiary = femaleBeneficiary;
+  // debugger;
+  const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+    ...item,
+    ...femalebeneficiary[i],
+  }));
+  const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+    el,
+  ) {
+    const o = { ...el };
+    o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+    return o;
+  });
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChart(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
+  // }
+  sortArrayByKey(allocatedBudget, 'code');
+  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
+  // console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
+  return {
+    ...state,
+    // mapDataByProvince: finalBeneficiaryArray,
+    barDatas: filteredBenefValues,
+    // filteredMapData: choroplethFormat,
+  };
+  // }
 };
 const getProvinceData = (state, action) => {
   function GetSortOrder(prop) {
@@ -431,6 +547,11 @@ export default function(state = initialState, action) {
       return filterPartnersListByPartner(state, action);
     case FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE:
       return filterFinancialDataOfDistrictFromProvince(state, action);
+    case FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT:
+      return filterFinancialDataOfMunicipalityFromDistrict(
+        state,
+        action,
+      );
     case FILTER_FINANCIALDATA_WITH_ALL_FILTERS:
       return filterFinancialDataWithAllFilters(state, action);
     case GET_RADIAL_DATA:

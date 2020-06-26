@@ -23,6 +23,7 @@ import {
   FILTER_OVERVIEW_DATA,
   GET_MAP_DATA,
   GET_BARDATA_BY_BENEF_BUDGET,
+  FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -453,83 +454,279 @@ export const filterFinancialDataOfDistrictFromProvince = (
     // eslint-disable-next-line prefer-destructuring
     statusSelected = selectedStatus[0];
   }
-  if (data === 'allocated_beneficiary') {
-    // data = ['total_beneficiary', 'female_beneficiary'];
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
 
-    try {
-      const requestOne = axiosInstance.post(
-        '/api/v1/partnership/partnership-filter/',
-        {
-          status: !statusSelected ? '' : statusSelected,
-          partner_id: partnerId,
-          project_id: projectId,
-          province_id: [],
-          district_id: provinceIndex,
-          view: 'total_beneficiary',
-          municipality_id: [],
-        },
-      );
-      const requestTwo = axiosInstance.post(
-        '/api/v1/partnership/partnership-filter/',
-        {
-          status: !statusSelected ? '' : statusSelected,
-          partner_id: partnerId,
-          project_id: projectId,
-          province_id: [],
-          district_id: provinceIndex,
-          view: 'female_beneficiary',
-          municipality_id: [],
-        },
-      );
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: provinceIndex,
+        view: 'total_beneficiary',
+        municipality_id: [],
+      },
+    );
+    const requestTwo = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: provinceIndex,
+        view: 'female_beneficiary',
+        municipality_id: [],
+      },
+    );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: provinceIndex,
+        view: 'allocated_budget',
+        municipality_id: [],
+      },
+    );
 
-      axios
-        .all([requestOne, requestTwo])
-        .then(
-          axios.spread((...responses) => {
-            const responseOne = responses[0];
-            const responseTwo = responses[1];
-            return dispatch({
-              type: FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE,
-              payload: {
-                selectedDataView,
-                totalBeneficiary: responseOne.data,
-                femaleBeneficiary: responseTwo.data,
-              },
-            });
-          }),
-        )
-        .catch(errors => {
-          // react on errors.
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  } else {
-    try {
-      axiosInstance
-        .post('/api/v1/partnership/partnership-filter/', {
-          view: selectedDataView,
-          partner_id: partnerId,
-          project_id: projectId,
-          status: !statusSelected ? '' : statusSelected,
-          province_id: [],
-          district_id: provinceIndex,
-          municipality_id: [],
-        })
-        .then(function(result) {
+    axios
+      .all([requestOne, requestTwo, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+          const responseThree = responses[2];
           return dispatch({
             type: FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE,
             payload: {
               selectedDataView,
-              allocatedBudget: result.data,
+              totalBeneficiary: responseOne.data,
+              femaleBeneficiary: responseTwo.data,
+              allocatedBudget: responseThree.data,
             },
           });
-        });
-    } catch (err) {
-      console.error(err);
-    }
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
   }
+  // } else {
+
+  // }
 };
+export const filterFinancialDataOfMunicipalityFromDistrict = (
+  selectedDataView,
+  districtIndex,
+  selectedPartnerId,
+  selectedProjectId,
+  selectedStatus,
+) => dispatch => {
+  // console.log(selectedStatus, 'status');
+  // console.log(provinceIndex);
+  const data = selectedDataView;
+  let partnerId = [];
+  let projectId = [];
+  let statusSelected = '';
+  if (selectedPartnerId.length === 0) {
+    partnerId = [0];
+  } else {
+    partnerId = selectedPartnerId;
+  }
+  if (selectedProjectId.length === 0) {
+    projectId = [0];
+  } else {
+    projectId = selectedProjectId;
+  }
+  if (selectedStatus === [] || selectedStatus.length > 1) {
+    statusSelected = '';
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    statusSelected = selectedStatus[0];
+  }
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
+
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: [],
+        view: 'total_beneficiary',
+        municipality_id: districtIndex,
+      },
+    );
+    const requestTwo = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: [],
+        view: 'female_beneficiary',
+        municipality_id: districtIndex,
+      },
+    );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: [],
+        view: 'allocated_budget',
+        municipality_id: districtIndex,
+      },
+    );
+
+    axios
+      .all([requestOne, requestTwo, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+          const responseThree = responses[2];
+          return dispatch({
+            type: FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE,
+            payload: {
+              selectedDataView,
+              totalBeneficiary: responseOne.data,
+              femaleBeneficiary: responseTwo.data,
+              allocatedBudget: responseThree.data,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
+  // } else {
+
+  // }
+};
+// export const filterFinancialDataOfMunicipalityFromDistrict = (
+//   selectedDataView,
+//   districtIndex,
+//   selectedPartnerId,
+//   selectedProjectId,
+//   selectedStatus,
+// ) => dispatch => {
+//   // console.log(selectedStatus, 'status');
+//   // console.log(provinceIndex);
+//   const data = selectedDataView;
+//   let partnerId = [];
+//   let projectId = [];
+//   let statusSelected = '';
+//   if (selectedPartnerId.length === 0) {
+//     partnerId = [0];
+//   } else {
+//     partnerId = selectedPartnerId;
+//   }
+//   if (selectedProjectId.length === 0) {
+//     projectId = [0];
+//   } else {
+//     projectId = selectedProjectId;
+//   }
+//   if (selectedStatus === [] || selectedStatus.length > 1) {
+//     statusSelected = '';
+//   } else {
+//     // eslint-disable-next-line prefer-destructuring
+//     statusSelected = selectedStatus[0];
+//   }
+//   if (data === 'allocated_beneficiary') {
+//     // data = ['total_beneficiary', 'female_beneficiary'];
+
+//     try {
+//       const requestOne = axiosInstance.post(
+//         '/api/v1/partnership/partnership-filter/',
+//         {
+//           status: !statusSelected ? '' : statusSelected,
+//           partner_id: partnerId,
+//           project_id: projectId,
+//           province_id: [],
+//           district_id: [],
+//           view: 'total_beneficiary',
+//           municipality_id: districtIndex,
+//         },
+//       );
+//       const requestTwo = axiosInstance.post(
+//         '/api/v1/partnership/partnership-filter/',
+//         {
+//           status: !statusSelected ? '' : statusSelected,
+//           partner_id: partnerId,
+//           project_id: projectId,
+//           province_id: [],
+//           district_id: [],
+//           view: 'female_beneficiary',
+//           municipality_id: districtIndex,
+//         },
+//       );
+
+//       axios
+//         .all([requestOne, requestTwo])
+//         .then(
+//           axios.spread((...responses) => {
+//             const responseOne = responses[0];
+//             const responseTwo = responses[1];
+//             return dispatch({
+//               type: FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
+//               payload: {
+//                 selectedDataView,
+//                 totalBeneficiary: responseOne.data,
+//                 femaleBeneficiary: responseTwo.data,
+//               },
+//             });
+//           }),
+//         )
+//         .catch(errors => {
+//           // react on errors.
+//         });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   } else {
+//     try {
+//       axiosInstance
+//         .post('/api/v1/partnership/partnership-filter/', {
+//           view: selectedDataView,
+//           partner_id: partnerId,
+//           project_id: projectId,
+//           status: !statusSelected ? '' : statusSelected,
+//           province_id: [],
+//           district_id: [],
+//           municipality_id: districtIndex,
+//         })
+//         .then(function(result) {
+//           return dispatch({
+//             type: FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
+//             payload: {
+//               selectedDataView,
+//               allocatedBudget: result.data,
+//             },
+//           });
+//         });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }
+// };
 export const filterFinancialDataWithAllFilters = (
   selectedFederalTypes,
   selectedDataView,
@@ -563,82 +760,96 @@ export const filterFinancialDataWithAllFilters = (
     // eslint-disable-next-line prefer-destructuring
     statusSelected = selectedStatus[0];
   }
-  if (data === 'allocated_beneficiary') {
-    // data = ['total_beneficiary', 'female_beneficiary'];
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
 
-    try {
-      const requestOne = axiosInstance.post(
-        '/api/v1/partnership/partnership-filter/',
-        {
-          status: !statusSelected ? '' : statusSelected,
-          view: 'total_beneficiary',
-          partner_id: partnerId,
-          project_id: projectId,
-          province_id: [0],
-          district_id: [],
-          municipality_id: [],
-        },
-      );
-      const requestTwo = axiosInstance.post(
-        '/api/v1/partnership/partnership-filter/',
-        {
-          status: !statusSelected ? '' : statusSelected,
-          view: 'female_beneficiary',
-          partner_id: partnerId,
-          project_id: projectId,
-          province_id: [0],
-          district_id: [],
-          municipality_id: [],
-        },
-      );
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'total_beneficiary',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [0],
+        district_id: [],
+        municipality_id: [],
+      },
+    );
+    const requestTwo = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'female_beneficiary',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [0],
+        district_id: [],
+        municipality_id: [],
+      },
+    );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'allocated_budget',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [0],
+        district_id: [],
+        municipality_id: [],
+      },
+    );
 
-      axios
-        .all([requestOne, requestTwo])
-        .then(
-          axios.spread((...responses) => {
-            const responseOne = responses[0];
-            const responseTwo = responses[1];
-            return dispatch({
-              type: FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
-              payload: {
-                selectedDataView,
-                totalBeneficiary: responseOne.data,
-                femaleBeneficiary: responseTwo.data,
-              },
-            });
-          }),
-        )
-        .catch(errors => {
-          // react on errors.
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  } else if (selectedDataView === 'allocated_budget') {
-    try {
-      axiosInstance
-        .post('/api/v1/partnership/partnership-filter/', {
-          view: selectedDataView,
-          partner_id: partnerId,
-          project_id: projectId,
-          status: !statusSelected ? '' : statusSelected,
-          province_id: [0],
-          district_id: [],
-          municipality_id: [],
-        })
-        .then(function(result) {
+    axios
+      .all([requestOne, requestTwo, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+          const responseThree = responses[2];
           return dispatch({
-            type: GET_MAP_DATA_BY_PROVINCE,
+            type: FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
             payload: {
               selectedDataView,
-              allocatedBudget: result.data,
+              totalBeneficiary: responseOne.data,
+              femaleBeneficiary: responseTwo.data,
+              allocatedBudget: responseThree.data,
             },
           });
-        });
-    } catch (err) {
-      console.error(err);
-    }
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
   }
+  // } else if (selectedDataView === 'allocated_budget') {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         view: selectedDataView,
+  //         partner_id: partnerId,
+  //         project_id: projectId,
+  //         status: !statusSelected ? '' : statusSelected,
+  //         province_id: [0],
+  //         district_id: [],
+  //         municipality_id: [],
+  //       })
+  //       .then(function(result) {
+  //         return dispatch({
+  //           type: GET_MAP_DATA_BY_PROVINCE,
+  //           payload: {
+  //             selectedDataView,
+  //             allocatedBudget: result.data,
+  //           },
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 };
 export const getDistrictDataFromProvince = provinceId => dispatch => {
   try {

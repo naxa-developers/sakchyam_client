@@ -32,7 +32,12 @@ const downloadPng = chartid => {
   // this.setState({ downloadActive: false });
 };
 const Modal = props => {
-  const { handleModal, component, selectedModal } = props;
+  const {
+    handleModal,
+    component,
+    selectedModal,
+    activeModal,
+  } = props;
   // console.log(selectedModal, 'selectedModal');
   const selectedChartId =
     selectedModal === 'bar'
@@ -56,10 +61,8 @@ const Modal = props => {
       : 'sankey-chart';
   return (
     <div
-      className="popup open"
-      // className={`popup ${
-      //   activeModal && visible === true ? 'open' : ''
-      // }`}
+      // className="popup open"
+      className={`popup ${activeModal === true ? 'open' : ''}`}
       id="graph-modal"
     >
       <div className="popup-container full-popup">
