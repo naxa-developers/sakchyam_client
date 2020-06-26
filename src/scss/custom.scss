@@ -1,18 +1,15 @@
-
-
 // .apexcharts-ycrosshairs{
 //   width: 1000px;
 // }
 /*legend css*/
-​
-.circle {
+​ .circle {
   background: rgba(72, 156, 234, 1);
   border-radius: 50%;
   height: 30px;
   width: 30px;
   position: relative;
   /* box-shadow: 0 0 0 5px #F1F1F1; */
-  color: #6F0;
+  color: #6f0;
   vertical-align: middle;
   /*background-image:
    linear-gradient(to right, transparent 50%, #1276d3 0); */
@@ -23,42 +20,39 @@
   color: white;
   font-size: 9px;
 }
-​
-.dot {
+​ .dot {
   height: 13px;
   width: 13px;
   background-color: #fff;
   border-radius: 50%;
-  display: inline-block; 
+  display: inline-block;
 }
-​
-.dot:hover{
+​ .dot:hover {
   border: solid 1px #0000ff;
 }
-​
-.marker-cluster-large {
-  background-color: #F1F1F1 !important;
+​ .marker-cluster-large {
+  background-color: #f1f1f1 !important;
   width: 35px !important;
-  height: 35px !important; 
+  height: 35px !important;
 }
 .marker-cluster-large div {
-  background-color: #489cea !important; 
+  background-color: #489cea !important;
 }
 .marker-cluster-medium {
-  background-color: #F1F1F1 !important;
+  background-color: #f1f1f1 !important;
   width: 35px !important;
-  height: 35px !important; 
+  height: 35px !important;
 }
 .marker-cluster-medium div {
-  background-color: #489cea !important; 
+  background-color: #489cea !important;
 }
 .marker-cluster-small {
-  background-color: #F1F1F1 !important;
+  background-color: #f1f1f1 !important;
   width: 35px !important;
-  height: 35px !important; 
+  height: 35px !important;
 }
 .marker-cluster-small div {
-  background-color: #489cea !important; 
+  background-color: #489cea !important;
 }
 .marker-cluster div {
   color: #ffffff;
@@ -66,26 +60,24 @@
   height: 27px;
   margin-left: 4px;
   margin-top: 4px;
-  font: 12px Helvetica Neue,Arial,Helvetica,sans-serif !important; 
+  font: 12px Helvetica Neue, Arial, Helvetica, sans-serif !important;
 }
 .marker-cluster span {
-  line-height: 27px; 
+  line-height: 27px;
 }
-​
-.leaflet-div-icon {
+​ .leaflet-div-icon {
   background: none;
   border: none;
   margin-top: -20px !important;
   margin-left: -22px !important;
 }
-.leaflet-popup{
-    margin-left:1px;
+.leaflet-popup {
+  margin-left: 1px;
 }
-​
-.MuiTabs-root {
+​ .MuiTabs-root {
   min-height: 20px !important;
 }
-.MuiTab-root{
+.MuiTab-root {
   font-size: 0.575rem !important;
   min-height: 20px !important;
   padding: 5px 5px !important;
@@ -99,7 +91,7 @@
   width: 20px;
 }
 .PrivateTabIndicator-colorPrimary-68 {
-  background-color: "none" !important;
+  background-color: 'none' !important;
   width: 0px !important;
 }
 .MuiTab-textColorPrimary.Mui-selected {
@@ -111,7 +103,9 @@
   padding-bottom: 5px !important;
 }
 .MuiPaper-elevation4 {
-  box-shadow: 0px 0px 0px -1px rgba(0,0,0,0.2), 0px 0px 0px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important;
+  box-shadow: 0px 0px 0px -1px rgba(0, 0, 0, 0.2),
+    0px 0px 0px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
 }
 .MuiAppBar-colorDefault {
   background-color: #ffffff !important;
@@ -129,7 +123,7 @@
   margin-top: 20px;
 }
 /* ios switch css end */
-.infoDiv{
+.infoDiv {
   z-index: 1002;
   right: 0;
   margin-top: 60px;
@@ -158,16 +152,16 @@
   -webkit-box-align: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
-  padding: .6125rem;
+  padding: 0.6125rem;
   background-color: #ffffff;
-  border: 1px solid #DCDCDC;
+  border: 1px solid #dcdcdc;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   border-radius: 5px;
   min-width: 270px;
   margin: 0px;
-  padding-left: .8125rem;
+  padding-left: 0.8125rem;
 }
 .map-legend ul.color-legend li {
   -webkit-box-flex: 0;
@@ -181,95 +175,93 @@
   height: 18px;
 }
 /*map legend css end*/
-  // .apexcharts-tooltip-series-group:nth-child(0) {
-  //   display: none !important;
-  // }
-  // .apexcharts-tooltip-series-group:nth-child(1) {
-  //   display: none !important;
-  // }
-  // .apexcharts-tooltip-series-group:nth-child(2) {
-  //   display: none !important;
-  // }
-  // .apexcharts-tooltip-series-group:nth-child(3) {
-  //   display: none !important;
-  // }
-  // .apexcharts-tooltip-series-group:nth-child(4) {
-  //   display: none !important;
-  // }
-  // .apexcharts-tooltip-series-group:nth-child(5) {
-  //   display: none !important;
-  // }
+// .apexcharts-tooltip-series-group:nth-child(0) {
+//   display: none !important;
+// }
+// .apexcharts-tooltip-series-group:nth-child(1) {
+//   display: none !important;
+// }
+// .apexcharts-tooltip-series-group:nth-child(2) {
+//   display: none !important;
+// }
+// .apexcharts-tooltip-series-group:nth-child(3) {
+//   display: none !important;
+// }
+// .apexcharts-tooltip-series-group:nth-child(4) {
+//   display: none !important;
+// }
+// .apexcharts-tooltip-series-group:nth-child(5) {
+//   display: none !important;
+// }
 //   .apexcharts-legend-series:nth-child(1){
 //       display: none !important;
 //   }
-.active_automation{
-  
-    color: #000!important;
-    background-color: #ccc!important;
+.active_automation {
+  color: #000 !important;
+  background-color: #ccc !important;
 }
-.content-mod{
-  .apexcharts-legend-series:nth-child(0){
-      display: none !important;
+.content-mod {
+  .apexcharts-legend-series:nth-child(0) {
+    display: none !important;
   }
-  .apexcharts-legend-series:nth-child(1){
-      display: none !important;
+  .apexcharts-legend-series:nth-child(1) {
+    display: none !important;
   }
-  .apexcharts-legend-series:nth-child(2){
-      display: none !important;
+  .apexcharts-legend-series:nth-child(2) {
+    display: none !important;
   }
-  .apexcharts-legend-series:nth-child(3){
-      display: none !important;
+  .apexcharts-legend-series:nth-child(3) {
+    display: none !important;
   }
-  .apexcharts-legend-series:nth-child(4){
-      display: none !important;
+  .apexcharts-legend-series:nth-child(4) {
+    display: none !important;
   }
-//   .apexcharts-legend-series:nth-child(4){
-//       display: none !important;
-//   }
-.apexcharts-yaxis-title-text{
-    font-variant: petite-caps !important; 
+  //   .apexcharts-legend-series:nth-child(4){
+  //       display: none !important;
+  //   }
+  .apexcharts-yaxis-title-text {
+    font-variant: petite-caps !important;
     font-size: 0.875rem !important;
-} 
-// .apexcharts-svg .apexcharts-yaxis {
-//   transform: translate(40px, 2px) !important;
-// }
-.apexcharts-menu-icon{
+  }
+  // .apexcharts-svg .apexcharts-yaxis {
+  //   transform: translate(40px, 2px) !important;
+  // }
+  .apexcharts-menu-icon {
     top: 3px;
     left: 4px;
-}
-// .apexcharts-yaxis-title-text{
-//   y:272.674;
-// }
-.none {
-  display:none !important;
-}
-.flex{
-  display: flex !important;
-}
-.disabled {
-  pointer-events:none; //This makes it not clickable
-  opacity:0.6;         //This grays it out to look disabled
-}
-.apexcharts-toolbar{
-  display: none !important;
-}
-// .apexcharts-xaxis-label{
-//   width: 2;
-//   text-decoration-color: red;
-// }
+  }
+  // .apexcharts-yaxis-title-text{
+  //   y:272.674;
+  // }
+  .none {
+    display: none !important;
+  }
+  .flex {
+    display: flex !important;
+  }
+  .disabled {
+    pointer-events: none; //This makes it not clickable
+    opacity: 0.6; //This grays it out to look disabled
+  }
+  .apexcharts-toolbar {
+    display: none !important;
+  }
+  // .apexcharts-xaxis-label{
+  //   width: 2;
+  //   text-decoration-color: red;
+  // }
 
-
-.x-axislabel {
-font-weight: 900;
+  .x-axislabel {
+    font-weight: 900;
+  }
+  .apexcharts-inner .apexcharts-graphical {
+    transform: translate(75.6875, 30) !important;
+  }
+  .apexcharts-svg .apexcharts-yaxis {
+    transform: translate(55px, 10px);
+  }
 }
-.apexcharts-inner .apexcharts-graphical {
-  transform:translate(75.6875, 30) !important;
-}
-.apexcharts-svg .apexcharts-yaxis { transform: translate(55px, 10px);
-}
-}
-.loader{
-   
+.loader {
   position: fixed;
   top: 0;
   right: 0;
@@ -282,10 +274,9 @@ font-weight: 900;
   display: flex;
   flex-direction: column;
 }
-.loader img{
-  width:200px;
+.loader img {
+  width: 200px;
   /* height: 50px; */
-
 }
 
 .dropdown-check-list {
@@ -300,7 +291,7 @@ font-weight: 900;
 }
 .dropdown-check-list .anchor:after {
   position: absolute;
-  content: "";
+  content: '';
   border-left: 2px solid black;
   border-top: 2px solid black;
   padding: 5px;
@@ -332,62 +323,60 @@ font-weight: 900;
 .dropdown-check-list.visible .items {
   display: block;
 }
-.marker1{
+.marker1 {
   margin: 0 30px;
   position: relative;
-  &:after{
-      content: 'location_city';
-      font-family: 'Material Icons';
-      font-size: 22px;
-      position: absolute;
-      top: 0px;
-      right: -4px;
-      color: $primary-light;
-      @include transition(all .5s ease-in-out);
+  &:after {
+    content: 'location_city';
+    font-family: 'Material Icons';
+    font-size: 22px;
+    position: absolute;
+    top: 0px;
+    right: -4px;
+    color: $primary-light;
+    @include transition(all 0.5s ease-in-out);
   }
-  @media #{$breakpoint-md-desktop}{
-      &::after{
-          font-size: 18px;
-          top: 16px;
-          right: -17px;
-      }
+  @media #{$breakpoint-md-desktop} {
+    &::after {
+      font-size: 18px;
+      top: 16px;
+      right: -17px;
+    }
   }
 }
-.automation-wrapper{
-  .apexcharts-datalabels-group{
+.automation-wrapper {
+  .apexcharts-datalabels-group {
     opacity: 1 !important;
   }
 }
-.leaflet-control-layers-toggle{
+.leaflet-control-layers-toggle {
   background-image: url('../img/layer.png');
   background-size: 19px 19px !important;
 }
-#chart-years{
+#chart-years {
   padding-left: 20px;
 }
-.play-btn{
+.play-btn {
   top: 47px;
   left: 2px;
   position: absolute;
- img{
-  &:hover{
-    background-color: #fce495;
+  img {
+    &:hover {
+      background-color: #fce495;
+    }
+    border: 2px solid blue;
   }
-  border: 2px solid blue;
- }
- 
 }
-.pause-btn{
+.pause-btn {
   top: 47px;
   left: 2px;
   position: absolute;
- img{
-  &:hover{
-    background-color: #fce495;
+  img {
+    &:hover {
+      background-color: #fce495;
+    }
+    border: 2px solid blue;
   }
-  border: 2px solid blue;
- }
- 
 }
 // .mapContainer {
 //   position: absolute;
@@ -405,33 +394,36 @@ font-weight: 900;
 //   position: absolute; top: 0; bottom: 0; width: 100%;
 // }
 
-#donut-chart{
-  .apexcharts-tooltip-series-group{
-    background-color: #333333;
-    .apexcharts-tooltip-marker{
+#donut-chart {
+  .apexcharts-tooltip-series-group {
+    background-color: #fff;
+    .apexcharts-tooltip-marker {
       display: none;
     }
     .apexcharts-tooltip-text-label {
-      color: white !important;
+      color: black !important;
       text-decoration-color: white;
     }
     .apexcharts-tooltip-text-value {
-      color: white !important;
+      color: black !important;
       text-decoration-color: white;
     }
   }
 }
 .literacy-wrapper {
-  a{
+  a {
     cursor: pointer;
   }
 }
 
-.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon{
-  background-image: url('../img/svg/mapboxgl-ctrl-zoom-out.svg')
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon {
+  background-image: url('../img/svg/mapboxgl-ctrl-zoom-out.svg');
 }
-.mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon{
-  background-image: url('../img/svg/mapboxgl-ctrl-compass.svg')
+.mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon {
+  background-image: url('../img/svg/mapboxgl-ctrl-compass.svg');
+}
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon {
+  background-image: url('../img/svg/mapboxgl-ctrl-zoom-in.svg');
 }
 .mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon{
   background-image: url('../img/svg/mapboxgl-ctrl-zoom-in.svg')
@@ -445,3 +437,27 @@ font-weight: 900;
   width: 1200px;
   height: 500px;
 }
+
+.legend {
+  background-color: #fff;
+  border-radius: 3px;
+  bottom: 30px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+  z-index: 1;
+  }
+   
+  .legend h4 {
+  margin: 0 0 10px;
+  }
+   
+  .legend div span {
+  border-radius: 50%;
+  display: inline-block;
+  height: 10px;
+  margin-right: 5px;
+  width: 10px;
+  }

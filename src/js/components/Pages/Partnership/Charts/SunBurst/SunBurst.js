@@ -252,10 +252,14 @@ class Sunburst extends React.Component {
 
       this.svg = el.append('svg');
       this.svg
-        .style('class', 'sunburst-svg')
-        .style('width', `${w}px`)
-        .style('height', `${h}px`)
-        .attr('viewBox', `${-w / 2} ${-h / 2} ${w} ${h}`);
+      .style("class", "sunburst-svg")
+      .style("width", w + "px")
+      .style("height", h + "px")
+      .attr("viewBox", `${-w / 2} ${-h / 2} ${w} ${h}`)
+      .append("circle")
+      .attr("cx", this.x)
+      .attr("cy", this.y)
+      .attr("r", this.radius);
 
       const gSlices = this.svg
         .selectAll('g')

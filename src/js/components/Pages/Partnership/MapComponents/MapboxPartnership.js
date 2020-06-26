@@ -8,6 +8,11 @@ import 'mapbox-gl/src/css/mapbox-gl.css';
 // import 'mapbox-gl/src/css/svg/mapboxgl-ctrl-zoom-out.svg';
 import { connect } from 'react-redux';
 import VectorTileMapbox from './VectorTileMapbox';
+import {
+  getMapDataByProvince,
+  getMapDataByDistrict,
+  getMapDataByMunicipality,
+} from '../../../../actions/partnership.actions';
 
 class MapboxPartnership extends Component {
   constructor(props) {
@@ -33,19 +38,14 @@ class MapboxPartnership extends Component {
   };
 
   componentDidMount() {
+    this.props.getMapDataByProvince();
+    this.props.getMapDataByDistrict();
+    this.props.getMapDataByMunicipality();
     this.addMap();
   }
 
   render() {
-    const inputDivisions = [
-      0,
-      220299149,
-      420299149,
-      620299149,
-      820299149,
-      920299149,
-      1020299149,
-    ];
+    const inputDivisions = [0, 2, 4, 6, 8, 10, 12, 14, 20];
     const {
       state: { map },
       props: { vectorTileUrl },
@@ -61,7 +61,7 @@ class MapboxPartnership extends Component {
               map={map}
               divisions={inputDivisions}
               // label = {true}
-              color="#007078"
+              // color="#007078"
             />
             {/* <MarkerCluster
               filteredByPartner={filteredByPartner}
@@ -83,4 +83,8 @@ class MapboxPartnership extends Component {
 const mapStateToProps = ({ partnershipReducer }) => ({
   partnershipReducer,
 });
-export default connect(mapStateToProps, {})(MapboxPartnership);
+export default connect(mapStateToProps, {
+  getMapDataByProvince,
+  getMapDataByDistrict,
+  getMapDataByMunicipality,
+})(MapboxPartnership);

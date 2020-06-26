@@ -10,6 +10,8 @@ import CirclePackChart from '../Charts/CirclePack/CirclePackChart';
 import SankeyChart from '../Charts/SankeyChart/SankeyChart';
 import Modal from '../../../common/Modal';
 import CardTab from '../common/CardTab';
+import StackedBar from '../Charts/StackedBar/StackedBar';
+import { getRadialData } from '../../../../actions/partnership.actions';
 
 class MiddleChartSection extends Component {
   constructor(props) {
@@ -18,6 +20,13 @@ class MiddleChartSection extends Component {
       activeModal: false,
       selectedModal: '',
     };
+  }
+
+  componentDidMount() {
+    this.props.getRadialData();
+    // setTimeout(() => {
+    //   this.props.getRadialData();
+    // }, 500);
   }
 
   handleModal = () => {
@@ -70,7 +79,7 @@ class MiddleChartSection extends Component {
         return <CirclePackChart activeModal />;
       case 'groupedChart':
         return (
-          <GroupedBar
+          <StackedBar
             viewDataBy={viewDataBy}
             activeModal={activeModal}
             partnerSelection={partnerSelection}
@@ -173,7 +182,7 @@ class MiddleChartSection extends Component {
               }}
               renderChartComponent={() => {
                 return (
-                  <GroupedBar
+                  <StackedBar
                     viewDataBy={viewDataBy}
                     activeModal={activeModal}
                     partnerSelection={partnerSelection}
@@ -185,7 +194,7 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
-            <CardTab
+            {/* <CardTab
               cardTitle="Key Services Introduced"
               cardClass="col-xl-6"
               cardChartId="radar"
@@ -196,7 +205,7 @@ class MiddleChartSection extends Component {
               renderChartComponent={() => {
                 return <RadarChart />;
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Zoomable Circle Packing"
               cardClass="col-xl-6"
@@ -226,7 +235,7 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
-            <CardTab
+            {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
@@ -246,7 +255,7 @@ class MiddleChartSection extends Component {
                   </div>
                 );
               }}
-            />
+            /> */}
           </div>
         </div>
       </div>
@@ -256,4 +265,6 @@ class MiddleChartSection extends Component {
 const mapStateToProps = ({ partnershipReducer }) => ({
   partnershipReducer,
 });
-export default connect(mapStateToProps, {})(MiddleChartSection);
+export default connect(mapStateToProps, { getRadialData })(
+  MiddleChartSection,
+);

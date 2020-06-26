@@ -399,20 +399,25 @@ class TreeMapDiagram extends Component {
                   tooltip={({ id, value, color, data }) => (
                     <div
                       style={{
-                        color: '#fff',
+                        // color: '#fff',
+                        color: '#000',
                         textAlign: 'center',
                         margin: '0px 15px',
                       }}
                     >
-                      {id}
-                      <br />
-                      {`${numberWithCommas(value)} (${data.percent})`}
+                      <strong>
+                        {id}
+                        <br />
+                        {`${numberWithCommas(value)} (${
+                          data.percent
+                        })`}
+                      </strong>
                     </div>
                   )}
                   theme={{
                     tooltip: {
                       container: {
-                        background: '#333',
+                        background: '#fff',
                       },
                     },
                   }}
@@ -448,20 +453,23 @@ class TreeMapDiagram extends Component {
                 tooltip={({ id, value, color, data }) => (
                   <div
                     style={{
-                      color: '#fff',
+                      // color: '#fff',
+                      color: 'black',
                       textAlign: 'center',
                       // margin: '0px 15px',
                     }}
                   >
-                    {id}
-                    <br />
-                    {`${numberWithCommas(value)} (${data.percent})`}
+                    <strong>
+                      {id}
+                      <br />
+                      {`${numberWithCommas(value)} (${data.percent})`}
+                    </strong>
                   </div>
                 )}
                 theme={{
                   tooltip: {
                     container: {
-                      background: '#333',
+                      background: '#fff',
                     },
                   },
                 }}

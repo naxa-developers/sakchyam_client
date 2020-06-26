@@ -8,7 +8,7 @@ import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
 import {
   getPartnershipInvestmentFocus,
   getProjectListData,
-  getMapDataByProvince,
+  // getMapDataByProvince,
   getMapDataByDistrict,
   getMapDataByMunicipality,
   getFilteredMapData,
@@ -21,7 +21,8 @@ import {
   getDistrictData,
   getMunicipalityData,
   filterRadialData,
-  getSpiderChartData,
+  getBarDataByBenefBudget,
+  // getSpiderChartData,
   getSankeyChartData,
   filterSankeyChartData,
   getOverviewData,
@@ -56,18 +57,17 @@ class MainPartnership extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { viewDataBy } = this.state;
-    this.props.getRadialData();
-    this.props.getOverviewData();
-    this.props.getPartnershipInvestmentFocus();
-    this.props.getProjectListData();
     this.props.getPartnersList();
-    this.props.getMapDataByProvince(viewDataBy);
-    this.props.getMapDataByDistrict(viewDataBy);
-    this.props.getMapDataByMunicipality(viewDataBy);
-    this.props.getSpiderChartData();
-    this.props.getSankeyChartData();
+    this.props.getProjectListData();
+    this.props.getPartnershipInvestmentFocus();
+    // this.props.getSpiderChartData();
+    // this.props.getOverviewData();
+    // this.props.getSankeyChartData();
+    this.props.getBarDataByBenefBudget(viewDataBy);
+    // this.props.getMapDataByDistrict(viewDataBy);
+    // this.props.getMapDataByMunicipality(viewDataBy);
     this.props.getProvinceData();
     this.props.getDistrictData();
     this.props.getMunicipalityData();
@@ -99,6 +99,15 @@ class MainPartnership extends Component {
         partnerSelection,
         projectSelection,
         projectStatus,
+      );
+      this.props.filterRadialData(
+        // 'province',
+        viewDataBy,
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+        // projectStatus,
       );
     }
     if (prevState.partnerType !== partnerType) {
@@ -136,19 +145,19 @@ class MainPartnership extends Component {
       mapViewBy: selectedMapView,
     });
     if (selectedMapView === 'province') {
-      this.props.getFilteredMapData('province', viewDataBy);
+      this.props.getFilteredMapData('province');
       this.setState({
         vectorTileUrl:
           'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       });
     } else if (selectedMapView === 'district') {
-      this.props.getFilteredMapData('district', viewDataBy);
+      this.props.getFilteredMapData('district');
       this.setState({
         vectorTileUrl:
           'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
       });
     } else if (selectedMapView === 'municipality') {
-      this.props.getFilteredMapData('municipality', viewDataBy);
+      this.props.getFilteredMapData('municipality');
       this.setState({
         vectorTileUrl:
           'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
@@ -400,6 +409,12 @@ class MainPartnership extends Component {
       investmentFocusSelection,
       partnerType,
     } = this.state;
+    this.props.filterOverviewData(
+      investmentFocusSelection,
+      projectSelection,
+      partnerType,
+      partnerSelection,
+    );
     this.props.filterFinancialDataWithAllFilters(
       'province',
       viewDataBy,
@@ -408,6 +423,7 @@ class MainPartnership extends Component {
       projectStatus,
     );
     this.props.filterRadialData(
+      viewDataBy,
       investmentFocusSelection,
       projectSelection,
       partnerType,
@@ -417,12 +433,6 @@ class MainPartnership extends Component {
     //   return data.
     // })
     this.props.filterSankeyChartData(
-      investmentFocusSelection,
-      projectSelection,
-      partnerType,
-      partnerSelection,
-    );
-    this.props.filterOverviewData(
       investmentFocusSelection,
       projectSelection,
       partnerType,
@@ -773,7 +783,7 @@ const mapStateToProps = ({ partnershipReducer }) => ({
 export default connect(mapStateToProps, {
   getPartnershipInvestmentFocus,
   getProjectListData,
-  getMapDataByProvince,
+  // getMapDataByProvince,
   getMapDataByDistrict,
   getMapDataByMunicipality,
   getFilteredMapData,
@@ -786,7 +796,8 @@ export default connect(mapStateToProps, {
   getDistrictData,
   getMunicipalityData,
   filterRadialData,
-  getSpiderChartData,
+  getBarDataByBenefBudget,
+  // getSpiderChartData,
   getSankeyChartData,
   filterSankeyChartData,
   getOverviewData,

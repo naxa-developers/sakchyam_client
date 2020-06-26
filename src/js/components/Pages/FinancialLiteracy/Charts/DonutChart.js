@@ -103,12 +103,10 @@ class DonutChart extends Component {
       tooltip: {
         fillSeriesColor: false,
         // enabled: false,
-        // fillSeriesColor: false,
-        // fontColor: 'white',
         style: {
           fontSize: '11px',
-          fontColor: 'white',
-          backgroundColor: '#333',
+          fontColor: '#000',
+          backgroundColor: '#fff',
         },
         // followCursor: false,
         // fixed: {
@@ -188,7 +186,7 @@ class DonutChart extends Component {
       prevProps.financialReducer.pieData !==
       this.props.financialReducer.pieData
     ) {
-      this.getDonutChartData();
+      // this.getDonutChartData();
       // console.log(label, 'label');
       this.setState(preState => ({
         options: {
@@ -198,10 +196,6 @@ class DonutChart extends Component {
       }));
     }
   }
-
-  getDonutChartData = () => {
-    // console.log('donutChartData');
-  };
 
   render() {
     const { series, label } = this.props.financialReducer.pieData;
