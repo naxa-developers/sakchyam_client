@@ -35,43 +35,43 @@ class VectorTileMapbox extends Component {
       colorArray != null && colorArray.length > 0
         ? colorArray
         : [
-            // '#FED976',
-            // '#fff3d4',
-            // '#FEB24C',
-            // '#FD8D3C',
-            // '#FC4E2A',
-            // '#E31A1C',
-            // '#BD0026',
-            // '#800026',
-            // '#453C43',
-            // '#959A92',
-            // '#CCA575',
-            // '#AC4C25',
-            // '#A61D2C',
+          // '#FED976',
+          // '#fff3d4',
+          // '#FEB24C',
+          // '#FD8D3C',
+          // '#FC4E2A',
+          // '#E31A1C',
+          // '#BD0026',
+          // '#800026',
+          // '#453C43',
+          // '#959A92',
+          // '#CCA575',
+          // '#AC4C25',
+          // '#A61D2C',
 
-            '#ffffff',
-            '#ebf4ff',
-            '#b2cafd',
-            '#8abbff',
-            '#FCD29F',
-            '#ADD9F4',
-            '#476C9B',
-            '#468C98',
-            '#BA3B46',
-            // '#5c5ada',
-            // '#fff3d4',
-            // '#FEB24C',
-            // '#FD8D3C',
-            // '#FC4E2A',
-            // '#FED976',
-            // '#BD0026',
-            // '#800026',
-            // '#453C43',
-            // '#959A92',
-            // '#CCA575',
-            // '#AC4C25',
-            // '#A61D2C',
-          ];
+          '#ffffff',
+          '#ebf4ff',
+          '#b2cafd',
+          '#8abbff',
+          '#FCD29F',
+          '#ADD9F4',
+          '#476C9B',
+          '#468C98',
+          '#BA3B46',
+          // '#5c5ada',
+          // '#fff3d4',
+          // '#FEB24C',
+          // '#FD8D3C',
+          // '#FC4E2A',
+          // '#FED976',
+          // '#BD0026',
+          // '#800026',
+          // '#453C43',
+          // '#959A92',
+          // '#CCA575',
+          // '#AC4C25',
+          // '#A61D2C',
+        ];
     let color = 'rgb(48, 167, 186)';
     // console.log(colorArray, "colorArray inside")
     // eslint-disable-next-line array-callback-return
@@ -96,9 +96,9 @@ class VectorTileMapbox extends Component {
     const colorArrayLength = colorArray && colorArray.length;
     const gradeCount =
       legendDivisions != null &&
-      typeof legendDivisions === 'number' &&
-      legendDivisions <= 20 &&
-      legendDivisions >= colorArrayLength
+        typeof legendDivisions === 'number' &&
+        legendDivisions <= 20 &&
+        legendDivisions >= colorArrayLength
         ? legendDivisions
         : 7; // set default gradecount
 
@@ -185,7 +185,7 @@ class VectorTileMapbox extends Component {
     const { map } = that.props;
     // console.log(this.state.finalStyle, "this finalstyle")
     const hoveredStateId = null;
-    map.on('load', function() {
+    map.on('load', function () {
       // Add Mapillary sequence layer.
       // https://www.mapillary.com/developer/tiles-documentation/#sequence-layer
       map.addSource('municipality', {
@@ -493,20 +493,20 @@ class VectorTileMapbox extends Component {
         //   // Popup On Hover
         // });
 
-        
+
       }
     });
     const popup = new mapboxgl.Popup();
-    map.on('mouseenter', 'vector-tile-fill', function(e) {
-      console.log(e,'on Choropleth Hover');
+    map.on('mouseenter', 'vector-tile-fill', function (e) {
+      console.log(e, 'on Choropleth Hover');
       popup
-              .setLngLat(e.lngLat)
-              .setHTML(
-                `<label>Test Label </label>`,
-              )
-              .addTo(map);
+        .setLngLat(e.lngLat)
+        .setHTML(
+          `<label>Test Label </label>`,
+        )
+        .addTo(map);
     });
-    map.on('mouseleave', 'vector-tile-fill', function() {
+    map.on('mouseleave', 'vector-tile-fill', function () {
       // if (hoveredStateId) {
       // map.setFeatureState(
       // { source: 'municipality', sourceLayer: 'default', id: hoveredStateId },
@@ -571,46 +571,71 @@ class VectorTileMapbox extends Component {
   render() {
     return (
       <>
-        <div />
-        <div id="state-legend" className="legend">
-          <h4>Population</h4>
-          <div>
-            <span style={{ 'background-color': '#723122' }} />
-            25,000,000
+        <div className="map-legend newmap-legend">
+          <div class="color-list">
+          <h6>Population</h6>
+          <ul id="state-legend" className="color-legend">
+
+            <li>
+              <div style={{ 'background-color': '#723122' }} className="color"></div>
+              <span>25,000,000</span>
+            </li>
+            <li>
+              <div style={{ 'background-color': '#8B4225' }} className="color"></div>
+              <span>10,000,000</span>
+            </li>
+            <li>
+              <div style={{ 'background-color': '#A25626' }} className="color"></div>
+              <span>7,500,000</span>
+            </li>
+            <li>
+              <div style={{ 'background-color': '#B86B25' }} className="color"></div>
+              <span>5,000,000</span>
+            </li>
+            <li>
+              <div style={{ 'background-color': '#CA8323' }} className="color"></div>
+              <span>2,500,000</span>
+            </li>
+            <li>
+              <div className="color" style={{ 'background-color': '#DA9C20' }} ></div>
+              <span>1,000,000</span>
+            </li>
+            <li>
+              <div style={{ 'background-color': '#E6B71E' }} className="color"></div>
+              <span>750,000</span>
+            </li>
+            <li>
+              <div style={{ 'background-color': '#EED322' }} className="color"></div>
+              <span>500,000</span>
+            </li>
+            <li>
+              <div style={{ 'background-color': '#F2F12D' }} className="color"></div>
+              <span> 0</span>
+            </li>
+          </ul>
           </div>
-          <div>
-            <span style={{ 'background-color': '#8B4225' }} />
-            10,000,000
-          </div>
-          <div>
-            <span style={{ 'background-color': '#A25626' }} />
-            7,500,000
-          </div>
-          <div>
-            <span style={{ 'background-color': '#B86B25' }} />
-            5,000,000
-          </div>
-          <div>
-            <span style={{ 'background-color': '#CA8323' }} />
-            2,500,000
-          </div>
-          <div>
-            <span style={{ 'background-color': '#DA9C20' }} />
-            1,000,000
-          </div>
-          <div>
-            <span style={{ 'background-color': '#E6B71E' }} />
-            750,000
-          </div>
-          <div>
-            <span style={{ 'background-color': '#EED322' }} />
-            500,000
-          </div>
-          <div>
-            <span style={{ 'background-color': '#F2F12D' }} />
-            0
+          <div className="overlay-data">
+            <h6>overlay data</h6>
+             <div className="widget-tag">
+               <a href="#">
+                <i className="material-icons">store</i><span>Branch</span>
+               </a>
+               <a href="#">
+                <i className="material-icons">store</i><span>BLB</span>
+               </a>
+               <a href="#">
+                <i className="material-icons">store</i><span>Extention Counter</span>
+               </a>
+               <a href="#">
+                <i className="material-icons">tablet</i><span>Tablet</span>
+               </a>
+               <a href="#">
+                <i className="material-icons">store</i><span>Other major product</span>
+               </a>
+             </div>
           </div>
         </div>
+
       </>
     );
   }
