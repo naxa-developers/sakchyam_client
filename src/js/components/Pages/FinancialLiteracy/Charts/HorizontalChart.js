@@ -52,7 +52,7 @@ class HorizontalChart extends Component {
     this.state = {
       series: [],
       options: {},
-      height: 300,
+      // height: 300,
       partnerChart: {},
       programChart: {},
       chartData2: {},
@@ -179,25 +179,25 @@ class HorizontalChart extends Component {
 
   plotChart = () => {
     const series = [
-      // {
-      //   name: 'a',
-      //   data: [44, 55, 41, 64, 22, 43, 21],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [44, 55, 41, 64, 22, 43, 21],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
-      // {
-      //   data: [53, 32, 33, 52, 13, 44, 32],
-      // },
+      {
+        name: 'a',
+        data: [44, 55, 41, 64, 22, 43, 21],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [44, 55, 41, 64, 22, 43, 21],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
+      {
+        data: [53, 32, 33, 52, 13, 44, 32],
+      },
     ];
     const options = {
       chart: {
@@ -273,7 +273,7 @@ class HorizontalChart extends Component {
         labels: {
           // hideOverlappingLabels: false,
           show: true,
-          offsetX: 10,
+          offsetX: 0,
           // style: {
           //   fontSize: '8px',
           //   fontFamily: 'Helvetica, Arial, sans-serif',
@@ -288,16 +288,20 @@ class HorizontalChart extends Component {
 
   componentDidMount() {
     this.plotChart();
-    const { filteredByProgram } = this.props.financialReducer;
-
+    // const { filteredByProgram } = this.props.financialReducer;
+    const {
+      filteredByProgramDefault,
+      filteredByProgram,
+    } = this.props.financialReducer;
     // console.log(filteredByProgram, 'filteredByProgram');
     if (this.props.activeModal) {
+      this.plotChart();
       if (
         filteredByProgram.series[0].data.length > 2
         // filteredByProgram.series.length > 10
       ) {
         this.setState(preState => ({
-          height: 200,
+          // height: 200,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
@@ -318,7 +322,7 @@ class HorizontalChart extends Component {
         }));
       } else {
         this.setState(preState => ({
-          height: 800,
+          // height: 800,
           series: filteredByProgram.series,
           options: {
             ...preState.options,
@@ -338,6 +342,31 @@ class HorizontalChart extends Component {
           },
         }));
       }
+      this.setState(preState => ({
+        isToggled: false,
+        isBarChartClicked: false,
+        programChart: {
+          series: filteredByProgramDefault.series,
+          label: filteredByProgramDefault.label,
+          color: filteredByProgramDefault.color,
+          options: {
+            ...preState.options,
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                // distributed: true,
+                columnWidth:
+                  this.props.checkedPartnerItems &&
+                  this.props.checkedPartnerItems.length === 0
+                    ? '60%'
+                    : '15%',
+              },
+            },
+            colors: filteredByProgramDefault.color,
+          },
+        },
+      }));
     }
   }
 
@@ -380,7 +409,7 @@ class HorizontalChart extends Component {
       //   }));
       // } else {
       this.setState(preState => ({
-        height: 400,
+        // height: 400,
         series: filteredByProgram.series,
         options: {
           ...preState.options,
@@ -415,7 +444,11 @@ class HorizontalChart extends Component {
               ...preState.options.plotOptions,
               bar: {
                 ...preState.options.plotOptions.bar,
-                columnWidth: '15%',
+                columnWidth:
+                  this.props.checkedPartnerItems &&
+                  this.props.checkedPartnerItems.length === 0
+                    ? '100%'
+                    : '50%',
               },
             },
           },
@@ -497,7 +530,7 @@ class HorizontalChart extends Component {
 
   render() {
     const {
-      height,
+      // height,
       isToggled,
       isBarChartClicked,
       chartData2,
@@ -509,11 +542,14 @@ class HorizontalChart extends Component {
       downloadPng,
       handleModal,
       handleSelectedModal,
+      activeModal,
     } = this.props;
     const {
       financialReducer: { filteredByProgram },
     } = this.props;
     const { showRightSidebar } = this.props;
+
+    const height = activeModal ? 500 : 400;
     return (
       <>
         <div className="card-header">
@@ -521,7 +557,7 @@ class HorizontalChart extends Component {
           <div className="header-icons">
             {!isBarChartClicked && (
               <div className="card-switcher">
-                <small>Partner wise Distribution</small>
+                <small>Partner wise distribution</small>
                 <label className="switch">
                   <input
                     type="checkbox"
@@ -552,47 +588,51 @@ class HorizontalChart extends Component {
                 Reset
               </button>
             )}
-
-            <span
-              onClick={() => {
-                downloadPng('horizontal-chart');
-              }}
-              onKeyDown={() => {
-                downloadPng('horizontal-chart');
-              }}
-              className=""
-              role="tab"
-              tabIndex="0"
-            >
-              <img src={DownloadIcon} alt="open" />
-            </span>
-            <span
-              role="tab"
-              tabIndex="0"
-              onClick={() => {
-                handleModal();
-                handleSelectedModal(
-                  'bar',
-                  'Beneficiary Reached Per Program by Partners',
-                );
-              }}
-              onKeyDown={() => {
-                handleModal();
-                handleSelectedModal('bar');
-              }}
-            >
-              <img src={ExpandIcon} alt="open" />
-            </span>
+            {!activeModal && (
+              <>
+                <span
+                  onClick={() => {
+                    downloadPng('horizontal-chart');
+                  }}
+                  onKeyDown={() => {
+                    downloadPng('horizontal-chart');
+                  }}
+                  className=""
+                  role="tab"
+                  tabIndex="0"
+                >
+                  <img src={DownloadIcon} alt="open" />
+                </span>
+                <span
+                  role="tab"
+                  tabIndex="0"
+                  onClick={() => {
+                    handleModal();
+                    handleSelectedModal(
+                      'bar',
+                      'Beneficiary Reached Per Program by Partners',
+                    );
+                  }}
+                  onKeyDown={() => {
+                    handleModal();
+                    handleSelectedModal('bar');
+                  }}
+                >
+                  <img src={ExpandIcon} alt="open" />
+                </span>
+              </>
+            )}
           </div>
         </div>
         <div className="card-body">
           <div
             className="horizontal-chart"
             style={{
-              height: '400px',
+              height: activeModal ? '512px' : '412px',
               // width: '1400px',
             }}
           >
+            {/* <label>Bar Area</label> */}
             {/* <div id="horizontal-chart"> */}
             {!isToggled &&
             !isBarChartClicked &&
@@ -603,7 +643,9 @@ class HorizontalChart extends Component {
                 type="bar"
                 height={height}
                 width={
-                  showRightSidebar && window.innerWidth < 1600
+                  activeModal
+                    ? 1400
+                    : showRightSidebar && window.innerWidth < 1600
                     ? 780
                     : showRightSidebar && window.innerWidth > 1600
                     ? 1100
@@ -616,7 +658,7 @@ class HorizontalChart extends Component {
               !isBarChartClicked &&
               this.state.partnerChart.series ? (
               <ReactApexChart
-                options={this.state.options}
+                options={this.state.partnerChart.options}
                 series={this.state.partnerChart.series}
                 type="bar"
                 height={height}

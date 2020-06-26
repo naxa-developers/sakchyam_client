@@ -243,28 +243,73 @@ const filterSankeyData = data => {
   return sankeyData;
 };
 
+// FUNCTION TO FILTER PIE CHART DATA
+const filterPieChartData = (data, type) => {
+  let microFinance;
+  let commercial;
+
+  if (type === 'single_count') {
+    microFinance = data
+      .filter(
+        item => item.partner_type === 'Microfinance Institutions',
+      )
+      .reduce((total, i) => total + i.single_count, 0);
+
+    commercial = data
+      .filter(
+        item =>
+          item.partner_type === 'Commercial Bank and Other Partners',
+      )
+      .reduce((total, i) => total + i.single_count, 0);
+  } else {
+    microFinance = data
+      .filter(
+        item => item.partner_type === 'Microfinance Institutions',
+      )
+      .reduce((total, i) => total + i.value, 0);
+
+    commercial = data
+      .filter(
+        item =>
+          item.partner_type === 'Commercial Bank and Other Partners',
+      )
+      .reduce((total, i) => total + i.value, 0);
+  }
+
+  return { microFinance, commercial };
+};
+
 // FUNCTION TO FILTER PARTNERWISE CHART DATA
-const filterPartnerWiseChartData = data => {
-  const arr1 = [];
+const filterPartnerWiseChartData = (data, type) => {
+  const arr = [];
   data.map(item => {
-    const object1 = arr1.some(
-      obje => item.partner_id === obje.partner_id,
-    );
-    if (!object1) {
-      arr1.push(item);
+    const obj = arr.some(x => item.partner_id === x.partner_id);
+    if (!obj) {
+      // arr.push(item);
+      arr.push({
+        partner_id: item.partner_id,
+        partner_name: item.partner_name,
+        value: item.value,
+        single_count: item.single_count,
+      });
     }
-    if (object1) {
-      const objIndex1 = arr1.findIndex(
+    if (obj) {
+      const objIndex = arr.findIndex(
         i => i.partner_id === item.partner_id,
       );
-      // arr1[objIndex1].value += item.value;
+      arr[objIndex].value += item.value;
     }
     return true;
   });
-  const barData = arr1.map(item => item.single_count);
-  const categories = arr1.map(item => item.partner_name);
+
+  const barData =
+    type === 'single_count'
+      ? arr.map(item => item.single_count)
+      : arr.map(item => item.value);
+  const categories = arr.map(item => item.partner_name);
+
   return {
-    series: [{ data: barData }],
+    series: [{ data: barData, name: 'No. of Beneficiaries' }],
     categories,
   };
 };
@@ -629,8 +674,10 @@ const filterFinancialDataForGraph = (state, action) => {
   const groupedObj = {};
   let multiLineLabel = [];
 
+  const donutData = [];
   let newSankeyData = data;
   let newTreeMapData;
+  let newPieData;
   let newProgramWiseData;
   let newPartnerWiseData;
 
@@ -681,12 +728,28 @@ const filterFinancialDataForGraph = (state, action) => {
         partnerType.includes(item.partner_type),
       );
     }
+
+    // ALL SELECTED CASE
+    newData.map(item => {
+      const obj = donutData.some(
+        i => i.partner_id === item.partner_id,
+      );
+      if (!obj) {
+        donutData.push(item);
+      }
+      return true;
+    });
+
     multiLineLabel = filteredLabel;
     allProgramData = filteredSeries;
     newSankeyData = filterSankeyData(newData);
     newTreeMapData = filterTreeMapData(newData);
+    newPieData = filterPieChartData(donutData, 'single_count');
     newProgramWiseData = filterProgramWiseChartData(newData);
-    newPartnerWiseData = filterPartnerWiseChartData(newData);
+    newPartnerWiseData = filterPartnerWiseChartData(
+      newData,
+      'single_count',
+    );
   } else if (
     // Partner is selected and Program is not selected
     selectedPartners.length > 0 &&
@@ -789,11 +852,30 @@ const filterFinancialDataForGraph = (state, action) => {
     //   return datax.single_count;
     // });
     // const result = Array.from(new Set(filtered));
+
+    // PARTNERS ONLY SELECTED
+    data.map(item => {
+      if (selectedPartners.includes(item.partner_id)) {
+        const obj = donutData.some(
+          i => i.partner_id === item.partner_id,
+        );
+        if (!obj) {
+          donutData.push(item);
+        }
+      }
+      return true;
+    });
+
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
+    newPieData = filterPieChartData(donutData, 'single_count');
     newProgramWiseData = filterProgramWiseChartData(filteredData);
-    newPartnerWiseData = filterPartnerWiseChartData(filteredData);
+    newPartnerWiseData = filterPartnerWiseChartData(
+      filteredData,
+      'single_count',
+    );
   } else if (
+    // Program is selected and Partner is not selected
     selectedPartners.length < 1 &&
     selectedProgram.length > 0
   ) {
@@ -881,11 +963,29 @@ const filterFinancialDataForGraph = (state, action) => {
       return true;
     });
 
+    // PROGRAM ONLY SELECTED
+    data.map(item => {
+      if (selectedProgram.includes(item.program_id)) {
+        const obj = donutData.some(
+          i => i.partner_id === item.partner_id,
+        );
+        if (!obj) {
+          donutData.push(item);
+        }
+      }
+      return true;
+    });
+
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
+    newPieData = filterPieChartData(donutData, 'value');
     newProgramWiseData = filterProgramWiseChartData(filteredData);
-    newPartnerWiseData = filterPartnerWiseChartData(filteredData);
+    newPartnerWiseData = filterPartnerWiseChartData(
+      filteredData,
+      'value',
+    );
   } else if (
+    // both Partners and Programs selected
     selectedPartners.length > 0 &&
     selectedProgram.length > 0
   ) {
@@ -980,14 +1080,34 @@ const filterFinancialDataForGraph = (state, action) => {
         selectedProgram.includes(i.program_id) &&
         selectedPartners.includes(i.partner_id),
     );
+
+    // BOTH SELECTED
+    data.map(item => {
+      if (
+        selectedPartners.includes(item.partner_id) &&
+        selectedProgram.includes(item.program_id)
+      ) {
+        // const obj = donutData.some(
+        //   i => i.partner_id === item.partner_id,
+        // );
+        // if (!obj) {
+        donutData.push(item);
+        // }
+      }
+      return true;
+    });
+
     newSankeyData = filterSankeyData(filteredDataSankey);
     newTreeMapData = filterTreeMapData(filteredDataSankey);
+
+    newPieData = filterPieChartData(donutData, 'value');
 
     newProgramWiseData = filterProgramWiseChartData(
       filteredDataSankey,
     );
     newPartnerWiseData = filterPartnerWiseChartData(
       filteredDataSankey,
+      'value',
     );
   }
 
@@ -1079,7 +1199,7 @@ const filterFinancialDataForGraph = (state, action) => {
     ...state,
     filteredByProgramDefault: {
       series: newPartnerWiseData.series,
-      label: newPartnerWiseData.label,
+      label: newPartnerWiseData.categories,
       // color: newPartnerWiseData.colors,
       color: ['#16A085'],
     },
@@ -1089,7 +1209,7 @@ const filterFinancialDataForGraph = (state, action) => {
       color: newProgramWiseData.colors,
     },
     pieData: {
-      series: [totalCommercialBenef, totalMicroBenef],
+      series: [newPieData.commercial, newPieData.microFinance],
       label: [
         'Commercial Bank and Other Partners',
         'Microfinance Institutions',

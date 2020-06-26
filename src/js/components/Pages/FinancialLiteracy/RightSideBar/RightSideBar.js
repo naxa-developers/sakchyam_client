@@ -552,7 +552,9 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget program-widget">
-              <h5>Beneficiaries Count</h5>
+              <h5 style={{ textTransform: 'none' }}>
+                Beneficiaries and Partner Count
+              </h5>
               <div className="widget-body">
                 {filteredData &&
                   filteredData.map(item => {
@@ -711,7 +713,9 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget timeline-widget">
-              <h5>Timeline of Financial Literacy Initiative</h5>
+              <h5 style={{ textTransform: 'none' }}>
+                Timeline of Financial Literacy Initiative
+              </h5>
               <div className="widget-body">
                 <ul className="timeline">
                   {financialProgram &&
