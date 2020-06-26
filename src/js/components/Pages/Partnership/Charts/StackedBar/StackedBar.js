@@ -326,31 +326,31 @@ class StackedBar extends Component {
           //   enabled: true,
           // },
         },
-        // {
-        //   min: 0,
-        //   max: 5000000,
-        //   seriesName: 'Incomessss',
-        //   show: false,
-        //   opposite: true,
-        //   axisTicks: {
-        //     show: true,
-        //   },
-        //   axisBorder: {
-        //     show: true,
-        //     color: '#00E396',
-        //   },
-        //   labels: {
-        //     style: {
-        //       colors: '#00E396',
-        //     },
-        //   },
-        //   //   title: {
-        //   //     text: 'Operating Cashflow (thousand crores)',
-        //   //     style: {
-        //   //       color: '#00E396',
-        //   //     },
-        //   //   },
-        // },
+        {
+          min: 0,
+          max: 5000000,
+          seriesName: 'Incomessss',
+          show: true,
+          opposite: true,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#00E396',
+          },
+          labels: {
+            style: {
+              colors: '#00E396',
+            },
+          },
+          //   title: {
+          //     text: 'Operating Cashflow (thousand crores)',
+          //     style: {
+          //       color: '#00E396',
+          //     },
+          //   },
+        },
         {
           min: 0,
           max: 5000000,
