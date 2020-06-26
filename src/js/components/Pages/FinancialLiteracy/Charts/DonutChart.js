@@ -103,12 +103,10 @@ class DonutChart extends Component {
       tooltip: {
         fillSeriesColor: false,
         // enabled: false,
-        // fillSeriesColor: false,
-        // fontColor: 'white',
         style: {
           fontSize: '11px',
-          fontColor: 'white',
-          backgroundColor: '#333',
+          fontColor: '#000',
+          backgroundColor: '#fff',
         },
         // followCursor: false,
         // fixed: {
@@ -188,7 +186,7 @@ class DonutChart extends Component {
       prevProps.financialReducer.pieData !==
       this.props.financialReducer.pieData
     ) {
-      this.getDonutChartData();
+      // this.getDonutChartData();
       // console.log(label, 'label');
       this.setState(preState => ({
         options: {
@@ -198,31 +196,6 @@ class DonutChart extends Component {
       }));
     }
   }
-
-  getDonutChartData = () => {
-    const {
-      financialReducer: { financialData },
-      selectedProgram,
-      selectedPartner,
-    } = this.props;
-
-    let micro = 0;
-    let commer = 0;
-    if (selectedProgram > 0) {
-      financialData.map(item => {
-        if (
-          selectedPartner.includes(item.partner_id) &&
-          selectedProgram.includes(item.program_id)
-        ) {
-          if (item.partner_type === 'Microfinance Institutions')
-            micro += item.value;
-          else commer += item.value;
-        }
-        return true;
-      });
-    }
-    console.log(micro, commer, 'bello');
-  };
 
   render() {
     const { series, label } = this.props.financialReducer.pieData;

@@ -97,7 +97,7 @@ class SankeyDiagram extends Component {
               labelPadding={16}
               labelTextColor={{
                 from: 'color',
-                modifiers: [['darker', 1.5]],
+                modifiers: [['darker', 2]],
               }}
               animate
               motionStiffness={140}

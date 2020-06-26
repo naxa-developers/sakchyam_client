@@ -68,6 +68,7 @@ class FinancialLiteracy extends Component {
       activeModal: false,
       modalHeader: '',
     };
+    this.sankeyRef = React.createRef();
   }
 
   componentDidMount() {
@@ -269,6 +270,14 @@ class FinancialLiteracy extends Component {
     this.props.filterTableDataByPartner(checkedPartnerItems);
   };
 
+  handleScrollToSankey = () => {
+    this.sankeyRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center',
+    });
+  };
+
   handleModal = () => {
     this.setState(prevState => ({
       activeModal: !prevState.activeModal,
@@ -422,6 +431,18 @@ class FinancialLiteracy extends Component {
                         : { display: 'none' }
                     }
                   >
+                    <button
+                      type="button"
+                      // className="is-border common-button"
+                      onClick={this.handleScrollToSankey}
+                      style={{
+                        position: 'absolute',
+                        right: '50px',
+                        top: '22px',
+                      }}
+                    >
+                      Scroll to Sankey
+                    </button>
                     <div className="row">
                       <div className="col-xl-12">
                         <div className="card">
@@ -572,7 +593,7 @@ class FinancialLiteracy extends Component {
                       </div>
                     </div>
 
-                    <div className="card">
+                    <div className="card" ref={this.sankeyRef}>
                       <div className="card-header">
                         <h5>Beneficiaries Reached By Partners</h5>
                         <div className="header-icons">
