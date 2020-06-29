@@ -1,0 +1,35 @@
+.goto-sankey {
+  position: absolute;
+  top: 0;
+  right: 50%;
+  cursor: pointer;
+}
+
+.goto-sankey-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  /* border: 1px solid black; */
+  border-radius: 2px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.goto-sankey:hover .goto-sankey-text {
+  visibility: visible;
+}
+
+/* .tooltip .tooltiptext {
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+} */

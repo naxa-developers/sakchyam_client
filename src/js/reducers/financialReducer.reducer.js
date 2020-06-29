@@ -245,36 +245,34 @@ const filterSankeyData = data => {
 
 // FUNCTION TO FILTER PIE CHART DATA
 const filterPieChartData = (data, type) => {
-  let microFinance;
-  let commercial;
+  let microFinance = 0;
+  let commercial = 0;
 
-  if (type === 'single_count') {
-    microFinance = data
-      .filter(
-        item => item.partner_type === 'Microfinance Institutions',
-      )
-      .reduce((total, i) => total + i.single_count, 0);
+  // if (type === 'single_count') {
+  microFinance = data
+    .filter(item => item.partner_type === 'Microfinance Institutions')
+    .reduce((total, i) => total + i.single_count, 0);
 
-    commercial = data
-      .filter(
-        item =>
-          item.partner_type === 'Commercial Bank and Other Partners',
-      )
-      .reduce((total, i) => total + i.single_count, 0);
-  } else {
-    microFinance = data
-      .filter(
-        item => item.partner_type === 'Microfinance Institutions',
-      )
-      .reduce((total, i) => total + i.value, 0);
+  commercial = data
+    .filter(
+      item =>
+        item.partner_type === 'Commercial Bank and Other Partners',
+    )
+    .reduce((total, i) => total + i.single_count, 0);
+  // } else {
+  // microFinance = data
+  //   .filter(
+  //     item => item.partner_type === 'Microfinance Institutions',
+  //   )
+  //   .reduce((total, i) => total + i.value, 0);
 
-    commercial = data
-      .filter(
-        item =>
-          item.partner_type === 'Commercial Bank and Other Partners',
-      )
-      .reduce((total, i) => total + i.value, 0);
-  }
+  // commercial = data
+  //   .filter(
+  //     item =>
+  //       item.partner_type === 'Commercial Bank and Other Partners',
+  //   )
+  //   .reduce((total, i) => total + i.value, 0);
+  // }
 
   return { microFinance, commercial };
 };
@@ -297,15 +295,16 @@ const filterPartnerWiseChartData = (data, type) => {
       const objIndex = arr.findIndex(
         i => i.partner_id === item.partner_id,
       );
-      arr[objIndex].value += item.value;
+      // arr[objIndex].value += item.value;
     }
     return true;
   });
 
-  const barData =
-    type === 'single_count'
-      ? arr.map(item => item.single_count)
-      : arr.map(item => item.value);
+  // const barData =
+  //   type === 'single_count'
+  //     ? arr.map(item => item.single_count)
+  //     : arr.map(item => item.value);
+  const barData = arr.map(item => item.single_count);
   const categories = arr.map(item => item.partner_name);
 
   return {
@@ -965,14 +964,14 @@ const filterFinancialDataForGraph = (state, action) => {
 
     // PROGRAM ONLY SELECTED
     data.map(item => {
-      if (selectedProgram.includes(item.program_id)) {
-        const obj = donutData.some(
-          i => i.partner_id === item.partner_id,
-        );
-        if (!obj) {
-          donutData.push(item);
-        }
+      // if (selectedProgram.includes(item.program_id)) {
+      const obj = donutData.some(
+        i => i.partner_id === item.partner_id,
+      );
+      if (!obj) {
+        donutData.push(item);
       }
+      // }
       return true;
     });
 
@@ -1084,15 +1083,15 @@ const filterFinancialDataForGraph = (state, action) => {
     // BOTH SELECTED
     data.map(item => {
       if (
-        selectedPartners.includes(item.partner_id) &&
-        selectedProgram.includes(item.program_id)
+        selectedPartners.includes(item.partner_id)
+        // && selectedProgram.includes(item.program_id)
       ) {
-        // const obj = donutData.some(
-        //   i => i.partner_id === item.partner_id,
-        // );
-        // if (!obj) {
-        donutData.push(item);
-        // }
+        const obj = donutData.some(
+          i => i.partner_id === item.partner_id,
+        );
+        if (!obj) {
+          donutData.push(item);
+        }
       }
       return true;
     });

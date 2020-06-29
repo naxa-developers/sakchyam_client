@@ -100,28 +100,30 @@ class RightSideBar extends Component {
       selectedPartner.length === 0 &&
       selectedProgram.length > 0
     ) {
-      newData.map(item => {
-        if (
-          // selectedPartner.includes(item.partner_id) &&
-          selectedProgram.includes(item.program_id)
-        ) {
-          totalBeneficiary += item.value;
-        }
-        return true;
-      });
+      // newData.map(item => {
+      //   if (
+      //     // selectedPartner.includes(item.partner_id) &&
+      //     selectedProgram.includes(item.program_id)
+      //   ) {
+      //     totalBeneficiary += item.value;
+      //   }
+      //   return true;
+      // });
+      totalBeneficiary = tempBeneficiary;
     } else if (
       selectedPartner.length > 0 &&
       selectedProgram.length > 0
     ) {
-      newData.map(item => {
-        if (
-          selectedPartner.includes(item.partner_id) &&
-          selectedProgram.includes(item.program_id)
-        ) {
-          totalBeneficiary += item.value;
-        }
-        return true;
-      });
+      // newData.map(item => {
+      //   if (
+      //     selectedPartner.includes(item.partner_id) &&
+      //     selectedProgram.includes(item.program_id)
+      //   ) {
+      //     totalBeneficiary += item.value;
+      //   }
+      //   return true;
+      // });
+      totalBeneficiary = partnerBeneficiary;
     }
 
     return totalBeneficiary;
@@ -406,91 +408,6 @@ class RightSideBar extends Component {
       selectedProgram,
       checkedPartnerItems,
     } = this.props;
-
-    // const tempArr = [];
-    // let totalBeneficiaries = 0;
-
-    // financialData.map(item => {
-    //   const obj = tempArr.find(x => x.partner_id === item.partner_id);
-    //   if (!obj) {
-    //     if (checkedPartnerItems.length !== 0) {
-    //       checkedPartnerItems.map(i => {
-    //         if (item.partner_id === i) {
-    //           tempArr.push(item);
-    //           totalBeneficiaries += item.single_count;
-    //         }
-    //         return true;
-    //       });
-    //     } else {
-    //       tempArr.push(item);
-    //       totalBeneficiaries += item.single_count;
-    //     }
-    //   }
-    //   return true;
-    // });
-
-    // let filteredData = [];
-
-    // financialData.map(item => {
-    //   if (checkedPartnerItems.length !== 0) {
-    //     checkedPartnerItems.map(i => {
-    //       if (item.partner_id === i) {
-    //         const obj = filteredData.find(
-    //           x => x.program_id === item.program_id,
-    //         );
-    //         if (!obj) {
-    //           filteredData.push({
-    //             program_code: item.program_code,
-    //             program_id: item.program_id,
-    //             program_name: item.program_name,
-    //             value: item.value,
-    //           });
-    //         } else {
-    //           const objIndex = filteredData.findIndex(
-    //             p => p.program_id === item.program_id,
-    //           );
-    //           filteredData[objIndex].value += item.value;
-    //         }
-    //       }
-    //       return true;
-    //     });
-    //   } else {
-    //     const obj = filteredData.find(
-    //       x => x.program_id === item.program_id,
-    //     );
-    //     if (!obj) {
-    //       filteredData.push({
-    //         program_code: item.program_code,
-    //         program_id: item.program_id,
-    //         program_name: item.program_name,
-    //         value: item.value,
-    //       });
-    //     } else {
-    //       const objIndex = filteredData.findIndex(
-    //         i => i.program_id === item.program_id,
-    //       );
-    //       filteredData[objIndex].value += item.value;
-    //     }
-    //   }
-    //   return true;
-    // });
-    // const neww = [];
-    // if (selectedProgram.length !== 0) {
-    //   selectedProgram.map(item => {
-    //     const arr = filteredData.filter(i => i.program_id === item);
-    //     neww.push(arr);
-    //     return true;
-    //   });
-    //   filteredData = neww;
-    // }
-
-    // let maxValue = 0;
-    // filteredData.map(item => {
-    //   if (maxValue < item.value) {
-    //     maxValue = item.value;
-    //   }
-    //   return true;
-    // });
 
     const {
       isHovered,

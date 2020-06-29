@@ -126,12 +126,15 @@ class TreeMapDiagram extends Component {
   }
 
   componentDidMount() {
-    if (this.props.activeModal) {
+    const { activeModal } = this.props;
+    if (activeModal) {
       const {
-        treeMapData,
-        financialData,
-        checkedPartnerItems,
-      } = this.props.financialReducer;
+        financialReducer: {
+          treeMapData,
+          financialData,
+          checkedPartnerItems,
+        },
+      } = this.props;
 
       this.setState({
         treeMapData1: treeMapData,
@@ -301,65 +304,84 @@ class TreeMapDiagram extends Component {
       downloadPng,
       handleModal,
       handleSelectedModal,
+      activeModal,
     } = this.props;
 
     return (
       <>
         <div
           className="card-header"
-          style={{
-            display: this.props.activeModal ? 'none' : 'flex',
-          }}
+          style={
+            activeModal
+              ? {
+                  // display: activeModal ? 'none' : 'flex',
+                  border: 'none',
+                  backgroundColor: '#fff',
+                }
+              : {}
+          }
         >
-          <h5>Contribution of program initiatives</h5>
+          {!activeModal && (
+            <h5>Contribution of program initiatives</h5>
+          )}
           <div className="header-icons">
             {isTreeMapClicked && (
               <button
                 type="button"
                 onClick={this.handleTreeMapBackBtn}
                 className="is-border common-button"
+                style={
+                  activeModal && {
+                    position: 'absolute',
+                    right: '62px',
+                  }
+                }
               >
                 Reset
               </button>
             )}
-            <span
-              className=""
-              onClick={() => {
-                downloadPng('treemap-chart');
-              }}
-              onKeyDown={() => {
-                downloadPng('treemap-chart');
-              }}
-              role="tab"
-              tabIndex="0"
-            >
-              <img src={DownloadIcon} alt="open" />
-            </span>
-            <span
-              className=""
-              role="tab"
-              tabIndex="0"
-              onClick={() => {
-                handleModal();
-                handleSelectedModal(
-                  'tree',
-                  'Contribution of program initiatives',
-                );
-              }}
-              onKeyDown={() => {
-                handleModal();
-                handleSelectedModal('tree');
-              }}
-            >
-              <img src={ExpandIcon} alt="open" />
-            </span>
+            {!activeModal && (
+              <>
+                <span
+                  className=""
+                  onClick={() => {
+                    downloadPng('treemap-chart');
+                  }}
+                  onKeyDown={() => {
+                    downloadPng('treemap-chart');
+                  }}
+                  role="tab"
+                  tabIndex="0"
+                >
+                  <img src={DownloadIcon} alt="open" />
+                </span>
+                <span
+                  className=""
+                  role="tab"
+                  tabIndex="0"
+                  onClick={() => {
+                    handleModal();
+                    handleSelectedModal(
+                      'tree',
+                      'Contribution of program initiatives',
+                    );
+                  }}
+                  onKeyDown={() => {
+                    handleModal();
+                    handleSelectedModal('tree');
+                  }}
+                >
+                  <img src={ExpandIcon} alt="open" />
+                </span>
+              </>
+            )}
           </div>
         </div>
         <div className="card-body">
           <div
             id="treemap-chart"
             style={{
-              height: this.props.activeModal ? '600px' : '340px',
+              height: activeModal ? '600px' : '340px',
               width: '100%',
             }}
           >
@@ -420,6 +442,8 @@ class TreeMapDiagram extends Component {
                         background: '#fff',
                       },
                     },
+                    fontSize: '14px',
+                    fontFamily: 'Avenir Book',
                   }}
                 />
               )
@@ -472,6 +496,8 @@ class TreeMapDiagram extends Component {
                       background: '#fff',
                     },
                   },
+                  fontSize: '14px',
+                  fontFamily: 'Avenir Book',
                 }}
               />
             )}

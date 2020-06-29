@@ -4,6 +4,15 @@ import { connect } from 'react-redux';
 import data from './sankey.data';
 import Modal from '../Modal';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
+
 const color1 = [
   '#91664E',
   '#13A8BE',
@@ -67,7 +76,7 @@ class SankeyDiagram extends Component {
               margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
               width={
                 this.props.activeModal
-                  ? 1600
+                  ? 1400
                   : showRightSidebar && window.innerWidth < 1600
                   ? 780
                   : showRightSidebar && window.innerWidth > 1600
@@ -89,9 +98,11 @@ class SankeyDiagram extends Component {
                 from: 'color',
                 modifiers: [['darker', 0.8]],
               }}
+              sort="auto"
               linkOpacity={0.7}
               linkHoverOthersOpacity={0.1}
               enableLinkGradient
+              // linkBlendMode="multiple"
               labelPosition="inside"
               labelOrientation="horizontal"
               labelPadding={16}
@@ -99,9 +110,22 @@ class SankeyDiagram extends Component {
                 from: 'color',
                 modifiers: [['darker', 2]],
               }}
+              // labelTextColor="black"
+              theme={{
+                fontSize: '14px',
+                fontFamily: 'Avenir Book',
+              }}
               animate
               motionStiffness={140}
               motionDamping={13}
+              tooltipFormat={
+                value =>
+                  // `${Number(value).toLocaleString('ru-RU', {
+                  //   minimumFractionDigits: 2,
+                  // })} ₽`
+                  numberWithCommas(value)
+                // eslint-disable-next-line react/jsx-curly-newline
+              }
               nodeTooltip={node => (
                 <span style={{ display: 'flex' }}>
                   <div
@@ -123,7 +147,7 @@ class SankeyDiagram extends Component {
                   >
                     {node.id}
                     <br />
-                    {node.value}
+                    {numberWithCommas(node.value)}
                   </strong>
                 </span>
               )}
@@ -143,3 +167,5 @@ const mapStateToProps = ({ financialReducer }) => ({
   financialReducer,
 });
 export default connect(mapStateToProps, {})(SankeyDiagram);
+
+const word = 'hello world';
