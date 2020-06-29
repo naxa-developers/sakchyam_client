@@ -648,6 +648,7 @@ class HorizontalChart extends Component {
             )} */}
             {isBarChartClicked && (
               <button
+                id="chart-reset"
                 type="button"
                 onClick={this.handleBarChartBackBtn}
                 className="is-border common-button"

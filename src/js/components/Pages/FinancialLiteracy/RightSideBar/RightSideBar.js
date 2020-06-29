@@ -130,7 +130,9 @@ class RightSideBar extends Component {
   };
 
   calculatePartnerCount = (selectedPartner, partnerType = []) => {
-    const { financialData } = this.props.financialReducer;
+    const {
+      financialReducer: { financialData },
+    } = this.props;
     let partnerCount;
 
     let newData = [];

@@ -27,9 +27,6 @@
   visibility: visible;
 }
 
-/* .tooltip .tooltiptext {
+#chart-reset {
+  padding: 2px;
 }
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-} */

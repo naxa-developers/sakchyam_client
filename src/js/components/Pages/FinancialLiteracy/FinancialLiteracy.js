@@ -206,7 +206,7 @@ class FinancialLiteracy extends Component {
   };
 
   downloadPng = (chartid, filename) => {
-    // const = filename ? filename : 'chart'
+    const name = filename ? filename : 'chart';
     // document.querySelector('.info-header-bottom').style.display =
     //   'none';
     // document
@@ -228,7 +228,7 @@ class FinancialLiteracy extends Component {
         // useCORS: true,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
-          saveAs(blob, 'Dashboard.png');
+          saveAs(blob, `${name}.png`);
         });
       });
     }, 500);

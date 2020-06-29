@@ -962,8 +962,17 @@ const filterFinancialDataForGraph = (state, action) => {
       return true;
     });
 
+    let newData = [];
+    if (partnerType.length === 0 || partnerType.length === 2) {
+      newData = data;
+    } else {
+      newData = data.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+    }
+
     // PROGRAM ONLY SELECTED
-    data.map(item => {
+    newData.map(item => {
       // if (selectedProgram.includes(item.program_id)) {
       const obj = donutData.some(
         i => i.partner_id === item.partner_id,

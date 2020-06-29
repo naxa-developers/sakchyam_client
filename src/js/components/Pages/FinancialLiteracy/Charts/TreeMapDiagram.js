@@ -328,6 +328,7 @@ class TreeMapDiagram extends Component {
             {isTreeMapClicked && (
               <button
                 type="button"
+                id="chart-reset"
                 onClick={this.handleTreeMapBackBtn}
                 className="is-border common-button"
                 style={
@@ -345,10 +346,16 @@ class TreeMapDiagram extends Component {
                 <span
                   className=""
                   onClick={() => {
-                    downloadPng('treemap-chart');
+                    downloadPng(
+                      'treemap-chart',
+                      'Contribution of program initiatives',
+                    );
                   }}
                   onKeyDown={() => {
-                    downloadPng('treemap-chart');
+                    downloadPng(
+                      'treemap-chart',
+                      'Contribution of program initiatives',
+                    );
                   }}
                   role="tab"
                   tabIndex="0"
