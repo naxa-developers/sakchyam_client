@@ -13,7 +13,7 @@
 
 Sakchyam Client requires [Node.js](https://nodejs.org/) v4+ to run.
 
-Install the dependencies and devDependencies and start the server.
+Install the dependencies and devDependencies and start the server
 
 ```sh
 $ git clone git@github.com:naxa-developers/sakchyam_client.git
