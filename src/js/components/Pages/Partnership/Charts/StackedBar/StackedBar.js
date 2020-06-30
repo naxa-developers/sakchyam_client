@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import { filterFinancialDataOfDistrictFromProvince } from '../../../../../actions/partnership.actions';
+import {
+  filterFinancialDataOfDistrictFromProvince,
+  filterFinancialDataOfMunicipalityFromDistrict,
+} from '../../../../../actions/partnership.actions';
 import convert from '../../../../utils/convertNumbers';
 
 class StackedBar extends Component {
@@ -91,19 +94,29 @@ class StackedBar extends Component {
           },
         },
       },
+      plotOptions: {
+        bar: {
+          columnWidth: '40%',
+        },
+      },
       dataLabels: {
         enabled: false,
       },
       stroke: {
         width: [1, 1, 4],
       },
-      title: {
-        text: 'XYZ - Stock Analysis (2009 - 2016)',
-        align: 'left',
-        offsetX: 110,
-      },
+      // title: {
+      //   text: 'XYZ - Stock Analysis (2009 - 2016)',
+      //   align: 'left',
+      //   offsetX: 110,
+      // },
+      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+      },
+
+      grid: {
+        show: false,
       },
       yaxis: [
         {
@@ -120,7 +133,7 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Income (thousand crores)',
+            text: 'Beneficiaries (Male & Female)',
             style: {
               color: '#008FFB',
             },
@@ -175,6 +188,12 @@ class StackedBar extends Component {
           },
         },
       ],
+      markers: {
+        size: 5,
+        colors: ['#f7bc48'],
+        strokeColor: '#f7bc48',
+        strokeWidth: 3,
+      },
       tooltip: {
         // fixed: {
         //   enabled: true,
@@ -241,44 +260,77 @@ class StackedBar extends Component {
             // console.log(chartContext, 'chartContext');
             // console.log(dataPointIndex, 'dataPointIndex');
             // console.log(config, 'config');
-            console.log(
-              config.xaxis.categories[dataPointIndex],
-              'dataPointIndex Calc',
-            );
+            // console.log(
+            //   config.xaxis.categories[dataPointIndex],
+            //   'dataPointIndex Calc',
+            // );
             const {
               partnerSelection,
               projectSelection,
               projectStatus,
-              showBarOf,
+              showBarof,
             } = that.props;
-            // if (showBarOf === 'Provinces') {
-            const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
-              data => {
-                return data.name.includes(
-                  config.xaxis.categories[dataPointIndex],
-                );
-              },
-            );
-            // console.log(filteredProvinceId, 'filteredProvinceId');
-            const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
-              data => {
-                return data.province_id === filteredProvinceId[0].id;
-              },
-            );
-            // console.log(finalDistrictId, 'finalDistrtic');
-            const districtIdList = finalDistrictId.map(data => {
-              return data.n_code;
-            });
-            that.props.handleShowBarOf('district');
-            // console.log(districtIdList, 'districtIdList');
-            that.props.filterFinancialDataOfDistrictFromProvince(
-              that.props.viewDataBy,
-              districtIdList,
-              partnerSelection,
-              projectSelection,
-              projectStatus,
-            );
-            // }
+            // console.log(showBarof, 'showBarOf');
+            if (showBarof === 'Provinces') {
+              // console.log(showBarof, 'inside showBarOf');
+              const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
+                data => {
+                  return data.label.includes(
+                    config.xaxis.categories[dataPointIndex],
+                  );
+                },
+              );
+              // console.log(filteredProvinceId, 'filteredProvinceId');
+              const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
+                data => {
+                  return (
+                    data.province_id === filteredProvinceId[0].id
+                  );
+                },
+              );
+              // console.log(finalDistrictId, 'finalDistrtic');
+              const districtIdList = finalDistrictId.map(data => {
+                return data.n_code;
+              });
+              that.props.handleShowBarOf('Districts');
+              // console.log(districtIdList, 'districtIdList');
+              that.props.filterFinancialDataOfDistrictFromProvince(
+                that.props.viewDataBy,
+                districtIdList,
+                partnerSelection,
+                projectSelection,
+                projectStatus,
+              );
+            } else if (showBarof === 'Districts') {
+              const filteredDistrictId = that.props.partnershipReducer.allDistrictList.filter(
+                data => {
+                  return data.label.includes(
+                    config.xaxis.categories[dataPointIndex],
+                  );
+                },
+              );
+              // console.log(filteredProvinceId, 'filteredProvinceId');
+              const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
+                data => {
+                  return (
+                    data.district_id === filteredDistrictId[0].id
+                  );
+                },
+              );
+              // console.log(finalMunicipalityId, 'finalMunicipalityId');
+              const districtIdList = finalMunicipalityId.map(data => {
+                return data.code;
+              });
+              that.props.handleShowBarOf('Municipality');
+              // console.log(districtIdList, 'districtIdList');
+              that.props.filterFinancialDataOfMunicipalityFromDistrict(
+                that.props.viewDataBy,
+                districtIdList,
+                partnerSelection,
+                projectSelection,
+                projectStatus,
+              );
+            }
           },
         },
       },
@@ -288,18 +340,18 @@ class StackedBar extends Component {
       stroke: {
         width: [1, 1, 4],
       },
-      title: {
-        text: 'XYZ - Stock Analysis (2009 - 2016)',
-        align: 'left',
-        offsetX: 110,
-      },
+      // title: {
+      //   text: 'XYZ - Stock Analysis (2009 - 2016)',
+      //   align: 'left',
+      //   offsetX: 110,
+      // },
       xaxis: {
         categories: barDatas.labels,
       },
       yaxis: [
         {
-          min: 0,
-          max: 500000,
+          // min: 0,
+          max: 600000,
           axisTicks: {
             show: true,
           },
@@ -317,7 +369,7 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Income (thousand crores)',
+            text: 'Beneficiaries (Male & Female)',
             style: {
               color: '#008FFB',
             },
@@ -327,10 +379,10 @@ class StackedBar extends Component {
           // },
         },
         {
-          min: 0,
-          max: 5000000,
+          // min: 0,
+          max: 600000,
           seriesName: 'Incomessss',
-          show: true,
+          show: false,
           opposite: true,
           axisTicks: {
             show: true,
@@ -352,8 +404,8 @@ class StackedBar extends Component {
           //   },
         },
         {
-          min: 0,
-          max: 5000000,
+          // min: 0,
+          // max: 5000000,
           seriesName: 'Revenue',
           opposite: true,
           axisTicks: {
@@ -410,12 +462,14 @@ class StackedBar extends Component {
 
   render() {
     const { options, series } = this.state;
+    const { activeModal } = this.props;
     return (
       <ReactApexChart
         options={options}
         series={series}
         type="bar"
-        height={350}
+        height={activeModal ? 600 : 350}
+        // width={activeModal === true ? 1600 : '100%'}
       />
     );
   }
@@ -425,4 +479,5 @@ const mapStateToProps = ({ partnershipReducer }) => ({
 });
 export default connect(mapStateToProps, {
   filterFinancialDataOfDistrictFromProvince,
+  filterFinancialDataOfMunicipalityFromDistrict,
 })(StackedBar);
