@@ -606,14 +606,16 @@ class Choropleth extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { map, vectorTileUrl } = this.props;
-    if (prevProps.choroplethData !== this.props.choroplethData) {
+    if (prevProps.circleMarkerData !== this.props.circleMarkerData) {
+      console.log(this.props.circleMarkerData, 'circlemarker ');
       if (this.props.mapViewBy === 'district') {
+        alert('district');
         // map.removeLayer('fullGeojsonProvince');
         // map.removeSource('fullGeojsonProvince');
         // map.removeLayer('fullGeojson');
         // map.removeSource('fullGeojson');
         fullGeojsonDistrict.features.forEach((item, index) => {
-          this.props.choroplethData.forEach(p => {
+          this.props.circleMarkerData.forEach(p => {
             if (p.code === item.properties.code) {
               fullGeojsonDistrict.features[index].properties = {
                 ...item.properties,
@@ -668,7 +670,7 @@ class Choropleth extends Component {
         // map.removeLayer('fullGeojsonDistrict');
         // map.removeSource('fullGeojsonDistrict');
         fullGeojsonMunicipality.features.forEach((item, index) => {
-          this.props.choroplethData.forEach(p => {
+          this.props.circleMarkerData.forEach(p => {
             if (p.code === item.properties.code) {
               fullGeojsonMunicipality.features[index].properties = {
                 ...item.properties,
@@ -678,9 +680,11 @@ class Choropleth extends Component {
           });
         });
         console.log(fullGeojsonMunicipality, 'fullgeojson');
-        map
-          .getSource('fullGeojsonProvince')
-          .setData(fullGeojsonMunicipality);
+        if (map.getSource('fullGeojsonProvince')) {
+          map
+            .getSource('fullGeojsonProvince')
+            .setData(fullGeojsonMunicipality);
+        }
         // map.addSource('fullGeojsonMunicipality', {
         //   type: 'geojson',
         //   data: fullGeojsonMunicipality,
@@ -724,7 +728,7 @@ class Choropleth extends Component {
         // map.removeLayer('fullGeojson');
         // map.removeSource('fullGeojson');
         fullGeojsonProvince.features.forEach((item, index) => {
-          this.props.choroplethData.forEach(p => {
+          this.props.circleMarkerData.forEach(p => {
             if (p.code === item.properties.code) {
               fullGeojsonProvince.features[index].properties = {
                 ...item.properties,
@@ -733,67 +737,76 @@ class Choropleth extends Component {
             }
           });
         });
-        map.addSource('fullGeojsonProvince', {
-          type: 'geojson',
-          data: fullGeojsonProvince,
-        });
-        map.addLayer({
-          id: 'circles1',
-          source: 'fullGeojsonProvince',
-          type: 'circle',
-          // 'source-layer': 'default',
-          paint: {
-            'circle-radius': ['get', 'count'],
-            'circle-color': '#007cbf',
-            'circle-opacity': 0.5,
-            'circle-stroke-width': 0,
-          },
-          // filter: ['==', 'modelId', 1],
-        });
-        map.addLayer({
-          id: 'singles-count',
-          type: 'symbol',
-          source: 'fullGeojsonProvince',
-          // filter: ["has", "singles_count"],
-          layout: {
-            'text-field': ['get', 'count'],
-            'text-allow-overlap': true,
-            'text-font': [
-              'DIN Offc Pro Medium',
-              'Arial Unicode MS Bold',
-            ],
-            'text-size': 12,
-            'text-ignore-placement': true,
-          },
-          paint: {
-            'text-color': '#000000',
-            'text-halo-color': 'rgba(255,255,255,0.95)',
-            'text-halo-width': 1.5,
-            'text-halo-blur': 1,
-          },
-        });
-        // map.addLayer({
-        //   id: 'circle-tile-label',
-        //   type: 'symbol',
-        //   source: 'fullGeojsonProvince',
-        //   'source-layer': 'default',
-        //   layout: {
-        //     'text-field': 'v',
-        //     'icon-image': ['concat', ['get', 'icon'], '-15'],
-        //     'text-anchor': 'center',
-        //     'text-offset': [0, 0],
-        //     'symbol-placement': 'point',
-        //     'text-justify': 'center',
-        //     'text-size': 10,
-        //   },
-        //   paint: {
-        //     'text-color': '#666',
-        //     'text-halo-color': 'rgba(255,255,255,0.95)',
-        //     'text-halo-width': 1.5,
-        //     'text-halo-blur': 1,
-        //   },
-        // });
+        if (map.getSource('fullGeojsonProvince')) {
+          map
+            .getSource('fullGeojsonProvince')
+            .setData(fullGeojsonProvince);
+        } else {
+          map.addSource('fullGeojsonProvince', {
+            type: 'geojson',
+            data: fullGeojsonProvince,
+          });
+          map.addLayer({
+            id: 'circles1',
+            source: 'fullGeojsonProvince',
+            type: 'circle',
+            // 'source-layer': 'default',
+            paint: {
+              'circle-radius': ['get', 'count'],
+              'circle-color': '#007cbf',
+              'circle-opacity': 0.5,
+              'circle-stroke-width': 0,
+            },
+            // filter: ['==', 'modelId', 1],
+          });
+          map.addLayer({
+            id: 'singles-count',
+            type: 'symbol',
+            source: 'fullGeojsonProvince',
+            // filter: ["has", "singles_count"],
+            layout: {
+              'text-field': ['get', 'count'],
+              'text-allow-overlap': true,
+              'text-font': [
+                'DIN Offc Pro Medium',
+                'Arial Unicode MS Bold',
+              ],
+              'text-size': 12,
+              'text-ignore-placement': true,
+            },
+            paint: {
+              'text-color': '#000000',
+              'text-halo-color': 'rgba(255,255,255,0.95)',
+              'text-halo-width': 1.5,
+              'text-halo-blur': 1,
+            },
+          });
+        }
       }
+    }
+    if (prevProps.choroplethData !== this.props.choroplethData) {
+      // map.addLayer({
+      //   id: 'circle-tile-label',
+      //   type: 'symbol',
+      //   source: 'fullGeojsonProvince',
+      //   'source-layer': 'default',
+      //   layout: {
+      //     'text-field': 'v',
+      //     'icon-image': ['concat', ['get', 'icon'], '-15'],
+      //     'text-anchor': 'center',
+      //     'text-offset': [0, 0],
+      //     'symbol-placement': 'point',
+      //     'text-justify': 'center',
+      //     'text-size': 10,
+      //   },
+      //   paint: {
+      //     'text-color': '#666',
+      //     'text-halo-color': 'rgba(255,255,255,0.95)',
+      //     'text-halo-width': 1.5,
+      //     'text-halo-blur': 1,
+      //   },
+      // });
+
       this.changeGrades();
       setTimeout(() => {
         // console.log(this.state.finalStyle, "inside finalstyle")
@@ -814,23 +827,23 @@ class Choropleth extends Component {
         this.props.vectorTileUrl,
       ];
       map.setStyle(newStyle);
-      district.forEach(function(marker) {
-        // create a DOM element for the marker
-        const el = document.createElement('div');
-        el.className = 'marker circle';
-        // el.style.backgroundImage = `url(https://placekitten.com/g/${marker.districtid})`;
-        el.style.width = `24px`;
-        el.style.height = `24px`;
-        // el.innerHTML = '23';
-        el.addEventListener('click', function() {
-          window.alert(marker.districtid);
-        });
+      // district.forEach(function(marker) {
+      //   // create a DOM element for the marker
+      //   const el = document.createElement('div');
+      //   el.className = 'marker circle';
+      //   // el.style.backgroundImage = `url(https://placekitten.com/g/${marker.districtid})`;
+      //   el.style.width = `24px`;
+      //   el.style.height = `24px`;
+      //   // el.innerHTML = '23';
+      //   el.addEventListener('click', function() {
+      //     window.alert(marker.districtid);
+      //   });
 
-        // add marker to map
-        new mapboxgl.Marker(el)
-          .setLngLat([marker.centroid_x, marker.centroid_y])
-          .addTo(map);
-      });
+      //   // add marker to map
+      //   new mapboxgl.Marker(el)
+      //     .setLngLat([marker.centroid_x, marker.centroid_y])
+      //     .addTo(map);
+      // });
       // map.removeSource('municipality');
 
       // setTimeout(() => {

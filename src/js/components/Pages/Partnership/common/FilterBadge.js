@@ -20,7 +20,7 @@ const FilterBadge = ({
       tabIndex="-1"
     >
       <div className="widget-tag">
-        <a href="#">
+        <a>
           <i className="material-icons">{icon ? icon : 'store'}</i>
           <span>{title}</span>
         </a>
