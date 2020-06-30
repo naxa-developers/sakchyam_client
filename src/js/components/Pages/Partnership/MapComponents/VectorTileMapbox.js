@@ -258,55 +258,55 @@ class Choropleth extends Component {
         },
       });
 
-      fullGeojsonProvince.features.forEach((item, index) => {
-        this.props.choroplethData.forEach(p => {
-          if (p.code === item.properties.code) {
-            fullGeojsonProvince.features[index].properties = {
-              ...item.properties,
-              ...p,
-            };
-          }
-        });
-      });
-      map.addSource('fullGeojsonProvince', {
-        type: 'geojson',
-        data: fullGeojsonProvince,
-      });
-      map.addLayer({
-        id: 'circles1',
-        source: 'fullGeojsonProvince',
-        type: 'circle',
-        // 'source-layer': 'default',
-        paint: {
-          'circle-radius': ['get', 'count'],
-          'circle-color': '#007cbf',
-          'circle-opacity': 0.5,
-          'circle-stroke-width': 0,
-        },
-        // filter: ['==', 'modelId', 1],
-      });
-      map.addLayer({
-        id: 'singles-count',
-        type: 'symbol',
-        source: 'fullGeojsonProvince',
-        // filter: ["has", "singles_count"],
-        layout: {
-          'text-field': ['get', 'count'],
-          'text-allow-overlap': true,
-          'text-font': [
-            'DIN Offc Pro Medium',
-            'Arial Unicode MS Bold',
-          ],
-          'text-size': 12,
-          'text-ignore-placement': true,
-        },
-        paint: {
-          'text-color': '#000000',
-          'text-halo-color': 'rgba(255,255,255,0.95)',
-          'text-halo-width': 1.5,
-          'text-halo-blur': 1,
-        },
-      });
+      // fullGeojsonProvince.features.forEach((item, index) => {
+      //   this.props.choroplethData.forEach(p => {
+      //     if (p.code === item.properties.code) {
+      //       fullGeojsonProvince.features[index].properties = {
+      //         ...item.properties,
+      //         ...p,
+      //       };
+      //     }
+      //   });
+      // });
+      // map.addSource('fullGeojsonProvince', {
+      //   type: 'geojson',
+      //   data: fullGeojsonProvince,
+      // });
+      // map.addLayer({
+      //   id: 'circles1',
+      //   source: 'fullGeojsonProvince',
+      //   type: 'circle',
+      //   // 'source-layer': 'default',
+      //   paint: {
+      //     'circle-radius': ['get', 'count'],
+      //     'circle-color': '#007cbf',
+      //     'circle-opacity': 0.5,
+      //     'circle-stroke-width': 0,
+      //   },
+      //   // filter: ['==', 'modelId', 1],
+      // });
+      // map.addLayer({
+      //   id: 'singles-count',
+      //   type: 'symbol',
+      //   source: 'fullGeojsonProvince',
+      //   // filter: ["has", "singles_count"],
+      //   layout: {
+      //     'text-field': ['get', 'count'],
+      //     'text-allow-overlap': true,
+      //     'text-font': [
+      //       'DIN Offc Pro Medium',
+      //       'Arial Unicode MS Bold',
+      //     ],
+      //     'text-size': 12,
+      //     'text-ignore-placement': true,
+      //   },
+      //   paint: {
+      //     'text-color': '#000000',
+      //     'text-halo-color': 'rgba(255,255,255,0.95)',
+      //     'text-halo-width': 1.5,
+      //     'text-halo-blur': 1,
+      //   },
+      // });
       if (that.props.label) {
         // map.addLayer({
         //   id: 'vector-tile-outline',
