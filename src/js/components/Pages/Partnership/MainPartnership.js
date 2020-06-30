@@ -57,6 +57,7 @@ class MainPartnership extends Component {
       activeFilter: false,
       activeOverview: false,
       viewDataBy: 'allocated_beneficiary',
+      mapViewDataBy: 'allocated_beneficiary',
       activeView: 'visualization',
       // map Section
       map: null,
@@ -147,6 +148,12 @@ class MainPartnership extends Component {
   setViewDataBy = selectedView => {
     this.setState({
       viewDataBy: selectedView,
+    });
+  };
+
+  setMapViewDataBy = selectedView => {
+    this.setState({
+      mapViewDataBy: selectedView,
     });
   };
 
@@ -477,6 +484,21 @@ class MainPartnership extends Component {
       projectSelection,
       projectStatus,
     );
+    this.props.filterOverviewData(
+      investmentFocusSelection,
+      projectSelection,
+      partnerType,
+      partnerSelection,
+      { selectedMunicipality, selectedDistrict, selectedProvince },
+    );
+    this.props.filterRadialData(
+      viewDataBy,
+      investmentFocusSelection,
+      projectSelection,
+      partnerType,
+      partnerSelection,
+      { selectedMunicipality, selectedDistrict, selectedProvince },
+    );
   };
 
   render() {
@@ -487,6 +509,7 @@ class MainPartnership extends Component {
         activeFilter,
         activeOverview,
         viewDataBy,
+        mapViewDataBy,
         activeView,
         vectorTileUrl,
         investmentFocusSelection,
@@ -741,61 +764,47 @@ class MainPartnership extends Component {
                     ) : (
                       <>
                         <FilterBadge
-                          viewDataBy={viewDataBy}
+                          viewDataBy={mapViewDataBy}
                           onclick={() => {
-                            this.setViewDataBy(
+                            this.setMapViewDataBy(
                               'allocated_beneficiary',
                             );
                           }}
                           dataTitle="allocated_beneficiary"
                           title="Beneficiaries"
                         />
-                        <FilterBadge
-                          viewDataBy={viewDataBy}
+                        {/* <FilterBadge
+                          viewDataBy={mapViewDataBy}
                           onclick={() => {
-                            this.setViewDataBy('allocated_budget');
+                            this.setMapViewDataBy('allocated_budget');
                           }}
                           dataTitle="allocated_budget"
                           title="Budget Allocated"
-                        />
+                        /> */}
+                        {/* total_beneficiary branch blb extension_counter
+                        tablet */}
                         <FilterBadge
-                          viewDataBy={viewDataBy}
+                          viewDataBy={mapViewDataBy}
                           onclick={() => {
-                            this.setViewDataBy('Leverage');
+                            this.setMapViewDataBy('blb');
                           }}
-                          dataTitle="Leverage"
-                          title="Leverage"
-                        />
-                        <FilterBadge
-                          viewDataBy={viewDataBy}
-                          onclick={() => {
-                            this.setViewDataBy('Leverage');
-                          }}
-                          dataTitle="Leverage"
-                          title="Leverage"
-                        />
-                        <FilterBadge
-                          viewDataBy={viewDataBy}
-                          onclick={() => {
-                            this.setViewDataBy('BLB');
-                          }}
-                          dataTitle="BLB"
+                          dataTitle="blb"
                           title="BLB"
                         />
                         <FilterBadge
-                          viewDataBy={viewDataBy}
+                          viewDataBy={mapViewDataBy}
                           onclick={() => {
-                            this.setViewDataBy('Extention Counter');
+                            this.setMapViewDataBy('branch');
                           }}
-                          dataTitle="Extention Counter"
-                          title="Extention Counter"
+                          dataTitle="branch"
+                          title="Physical Branches"
                         />
                         <FilterBadge
-                          viewDataBy={viewDataBy}
+                          viewDataBy={mapViewDataBy}
                           onclick={() => {
-                            this.setViewDataBy('Tablet');
+                            this.setMapViewDataBy('tablet');
                           }}
-                          dataTitle="Tablet"
+                          dataTitle="tablet"
                           title="Tablet"
                           icon="tablet"
                         />
@@ -864,6 +873,7 @@ class MainPartnership extends Component {
               <div className="literacy-tab-content">
                 <MiddleChartSection
                   viewDataBy={viewDataBy}
+                  mapViewDataBy={mapViewDataBy}
                   sankeyChartwidth={sankeyChartwidth}
                   activeOverview={activeOverview}
                   activeView={activeView}
@@ -889,6 +899,7 @@ class MainPartnership extends Component {
                       map={map}
                       vectorTileUrl={vectorTileUrl}
                       mapViewBy={mapViewBy}
+                      mapViewDataBy={mapViewDataBy}
                     />
                   )}
                   {/* </div> */}

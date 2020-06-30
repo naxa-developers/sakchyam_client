@@ -12,6 +12,7 @@ import Modal from '../../../common/Modal';
 import CardTab from '../common/CardTab';
 import StackedBar from '../Charts/StackedBar/StackedBar';
 import { getRadialData } from '../../../../actions/partnership.actions';
+import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
 
 function formatData(fulldata) {
   fulldata.forEach(datum => {
@@ -231,6 +232,28 @@ class MiddleChartSection extends Component {
               renderChartComponent={() => {
                 return (
                   <StackedBar
+                    viewDataBy={viewDataBy}
+                    activeModal={activeModal}
+                    partnerSelection={partnerSelection}
+                    projectSelection={projectSelection}
+                    projectStatus={projectStatus}
+                    showBarof={showBarof}
+                    handleShowBarOf={handleShowBarOf}
+                  />
+                );
+              }}
+            />
+            <CardTab
+              cardTitle="Province Wise Programme Results"
+              cardClass="col-xl-6"
+              cardChartId="sunburst"
+              handleModal={this.handleModal}
+              handleSelectedModal={() => {
+                this.handleSelectedModal('leverageChart');
+              }}
+              renderChartComponent={() => {
+                return (
+                  <LeverageStackedBar
                     viewDataBy={viewDataBy}
                     activeModal={activeModal}
                     partnerSelection={partnerSelection}

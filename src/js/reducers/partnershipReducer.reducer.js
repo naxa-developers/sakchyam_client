@@ -23,6 +23,8 @@ import {
   FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
   FILTER_DISTRICTLIST_FROM_PROVINCE,
   FILTER_MUNLIST_FROM_DISTRICT,
+  FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
+  GET_LEVERAGE_DATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -32,6 +34,8 @@ const initialState = {
   projectLists: [],
   mapDataByProvince: [],
   mapDataByDistrict: [],
+  filteredMapData: [],
+  mapDataForCircleMarker: [],
   mapDataByMunicipality: [],
   radialData: [],
   spiderChartData: [],
@@ -102,6 +106,24 @@ const filterBudgetBarChart = datas => {
     labels: barLabels,
     series: [finaleTotalBudget],
   };
+};
+const filterLeverageChart = datas => {
+  console.log(datas, 'datas');
+  // const barLabels = datas.map(label => {
+  //   return label.name.replace('Province', '');
+  // });
+  // const totalBeneficiary = datas.map(data => {
+  //   return Math.round(data.allocated_budget);
+  // });
+  // const finaleTotalBudget = {
+  //   name: 'Total Budget',
+  //   type: 'line',
+  //   data: totalBeneficiary,
+  // };
+  // return {
+  //   labels: barLabels,
+  //   series: [finaleTotalBudget],
+  // };
 };
 
 function sortArrayByKey(arrayData, sortKey) {
@@ -229,6 +251,28 @@ const getFilteredMapDataChoropleth = (state, action) => {
     ...state,
   };
 };
+const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
+  const federalType = action.payload;
+  const choroplethFormat = action.payload.map(data => {
+    return {
+      ...data,
+      id: data.code,
+      count: data.blb
+        ? data.blb
+        : data.branch
+        ? data.branch
+        : data.tablet
+        ? data.tablet
+        : 0,
+    };
+  });
+  console.log(choroplethFormat, 'formated circleMarker ');
+  return {
+    ...state,
+    mapDataForCircleMarker: choroplethFormat,
+  };
+};
+
 // const choroplethFormat = action.payload.map(data => {
 //   return {
 //     id: data.code,
@@ -539,6 +583,7 @@ const getMapDataByProvince = (state, action) => {
   return {
     ...state,
     filteredMapData: action.payload,
+    mapDataForCircleMarker: action.payload,
     mapDataByProvince: action.payload,
   };
 };
@@ -583,6 +628,13 @@ const filterMunListFromDistrict = (state, action) => {
     ...state,
     allMunicipalityList: municipalityList,
     isDataFetched: true,
+  };
+};
+const getLeverageData = (state, action) => {
+  // console.log(action.payload, 'action');
+  const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
   };
 };
 export default function(state = initialState, action) {
@@ -636,6 +688,10 @@ export default function(state = initialState, action) {
       return getOverviewData(state, action);
     case FILTER_OVERVIEW_DATA:
       return filterOverviewData(state, action);
+    case FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY:
+      return filterMapDataOfCircleMarkerWithViewDataBy(state, action);
+    case GET_LEVERAGE_DATA:
+      return getLeverageData(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:

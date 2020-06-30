@@ -5,97 +5,111 @@
 .timeline {
     max-width: 100%;
 
-    li {
-        @include display-flex(flex);
-        @include justify-content-between;
-        @include align-items-stretch;
-        position: relative;
-
+    ul{
         .date-time {
             padding-right: 1.5rem;
             max-width: 60px;
             width:100%;
-            b {
-                display: block;
-                font-family: $avenir-heavy;
-                line-height: 1;
-                text-transform: capitalize;
-            }
+            font-family: $avenir-heavy;
+            margin:1rem 0;
         }
-
-        .timeline-content {
-            padding-left: 1.5rem;
-            flex-grow: 1;
-            border-left: 2px solid $border-color;
+        li {
+            // @include display-flex(flex);
+            // @include justify-content-between;
+            // @include align-items-stretch;
             position: relative;
-
-            .timeline-text {
-                padding: .6125rem;
-                background-color: $bg-color;
-                @include radius(5px);
-                font-family: $avenir-heavy;
-                margin-bottom: 2rem;
-                font-size: .875rem;
-            }
-
-            &::before,&::after {
-                content:'';
-                position: absolute;
-                @include radius(100%);
-                
-            }
-            &::before{
-                left: -7px;
-                width: 12px;
-                height: 12px;
-                background-color: $gray-light;
-                z-index: 2;
-                top:0;
-            }
-            &::after{
-                left: -11px;
-                width: 20px;
-                height: 20px;
-                background-color: transparent;
-                z-index: 1;
-                top:-4px;
-            }
-            
-        }
-        @media #{$breakpoint-xxl} {
-            .date-time{
-                padding-right: 1rem;
-                font-size: .875rem;
-                max-width: 50px;
-            }
-            .timeline-content{
-                padding-left: 1rem;
-                border-left: 1px solid $border-color;
-                .timeline-text{
-                    padding:.5rem;
-                    font-size: .775rem;
+            border-left: 2px solid $border-color;
+            margin-left: 1rem;
+    
+            .timeline-content {
+                padding-left: 1.5rem;
+                flex-grow: 1;
+                position: relative;
+    
+                .timeline-text {
+                    padding: .6125rem;
+                    background-color: $bg-color;
+                    @include radius(5px);
+                    p{
+                        font-family: $avenir-heavy;
+                        font-size: .875rem;
+                    }
+                    span{
+                        font-size: .775rem;
+                    }
                 }
-            }
-        }
-        &.active{
-            .timeline-content{
+    
+                &::before,&::after {
+                    content:'';
+                    position: absolute;
+                    @include radius(100%);
+                    
+                }
                 &::before{
-                    background-color: $blue-color;
+                    left: -7px;
+                    width: 12px;
+                    height: 12px;
+                    background-color: $gray-light;
+                    z-index: 2;
+                    top:0;
                 }
                 &::after{
-                    background-color: $blue-light;
+                    left: -11px;
+                    width: 20px;
+                    height: 20px;
+                    background-color: transparent;
+                    z-index: 1;
+                    top:-4px;
                 }
-                .timeline-text{
-                    background-color: $blue-light;
+                
+            }
+            @media #{$breakpoint-xxl} {
+                .date-time{
+                    padding-right: 1rem;
+                    font-size: .875rem;
+                    max-width: 50px;
+                }
+                .timeline-content{
+                    padding-left: 1rem;
+                    border-left: 1px solid $border-color;
+                    .timeline-text{
+                        padding:.5rem;
+                        font-size: .775rem;
+                    }
                 }
             }
-            .date-time{
-                color:$red-color;
+            &.active{
+                .timeline-content{
+                    &::before{
+                        background-color: $blue-color;
+                    }
+                    &::after{
+                        background-color: $blue-light;
+                    }
+                    .timeline-text{
+                        background-color: $blue-light;
+                    }
+                }
+                .date-time{
+                    color:$red-color;
+                }
             }
-        }
-        &:last-child{
-            .timeline-content{
-                border:none;
+            &.blank{
+                height: 24px;
+                &::before{
+                    content:'';
+                    width:10px;
+                    height: 2px;
+                    background-color: $gray-light;
+                    position: absolute;
+                    left: -6px;
+                }
+                
+            }
+            &:last-child{
+                .timeline-content{
+                    border:none;
+                }
             }
         }
     }

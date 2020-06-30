@@ -12,6 +12,7 @@ import {
   getMapDataByProvince,
   getMapDataByDistrict,
   getMapDataByMunicipality,
+  filterMapDataOfCircleMarkerWithViewDataBy,
 } from '../../../../actions/partnership.actions';
 
 class MapboxPartnership extends Component {
@@ -44,6 +45,23 @@ class MapboxPartnership extends Component {
     this.addMap();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
+      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+        this.props.mapViewDataBy,
+        this.props.mapViewBy,
+      );
+    }
+    if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
+      // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
+      // this.changeGrades();
+      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+        this.props.mapViewDataBy,
+        this.props.mapViewBy,
+      );
+    }
+  }
+
   render() {
     const { mapViewBy } = this.props;
     const inputDivisions =
@@ -54,7 +72,10 @@ class MapboxPartnership extends Component {
       state: { map },
       props: { vectorTileUrl },
     } = this;
-    const { filteredMapData } = this.props.partnershipReducer;
+    const {
+      filteredMapData,
+      mapDataForCircleMarker,
+    } = this.props.partnershipReducer;
     return (
       <div id="map">
         {map && (
@@ -62,6 +83,7 @@ class MapboxPartnership extends Component {
             <VectorTileMapbox
               mapViewBy={mapViewBy}
               choroplethData={filteredMapData}
+              circleMarkerData={mapDataForCircleMarker}
               vectorTileUrl={vectorTileUrl}
               map={map}
               // divisions={inputDivisions}
@@ -92,4 +114,5 @@ export default connect(mapStateToProps, {
   getMapDataByProvince,
   getMapDataByDistrict,
   getMapDataByMunicipality,
+  filterMapDataOfCircleMarkerWithViewDataBy,
 })(MapboxPartnership);
