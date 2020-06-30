@@ -36,9 +36,9 @@ const Modal = props => {
     handleModal,
     component,
     selectedModal,
+    header,
     activeModal,
   } = props;
-  // console.log(selectedModal, 'selectedModal');
   const selectedChartId =
     selectedModal === 'bar'
       ? 'horizontal-chart'

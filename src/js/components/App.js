@@ -15,6 +15,7 @@ import MainAutomation from './Pages/Automation/MainAutomation';
 // import MainAutomation from './Pages/Automation/MainAutomationMapbox';
 import FinancialLiteracy from './Pages/FinancialLiteracy/FinancialLiteracy';
 import MainPartnership from './Pages/Partnership/MainPartnership';
+import ProductProcess from './Pages/ProductProcess/ProductProcess';
 
 class App extends Component {
   constructor(props) {
@@ -43,6 +44,10 @@ class App extends Component {
           <PrivateRoute
             path="/partnership"
             component={MainPartnership}
+          />
+          <PrivateRoute
+            path="/productprocess"
+            component={ProductProcess}
           />
           <Route path="/login" component={Login} />
           <Route path="/" component={Landing} />

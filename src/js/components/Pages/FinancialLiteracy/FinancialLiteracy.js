@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -8,6 +10,8 @@ import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
+import GoToSankey from './GoToSankey';
+import './custom.css';
 
 import {
   getPartnersList,
@@ -201,7 +205,8 @@ class FinancialLiteracy extends Component {
     }));
   };
 
-  downloadPng = chartid => {
+  downloadPng = (chartid, filename) => {
+    const name = filename ? filename : 'chart';
     // document.querySelector('.info-header-bottom').style.display =
     //   'none';
     // document
@@ -223,7 +228,7 @@ class FinancialLiteracy extends Component {
         // useCORS: true,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
-          saveAs(blob, 'Dashboard.png');
+          saveAs(blob, `${name}.png`);
         });
       });
     }, 500);
@@ -419,6 +424,15 @@ class FinancialLiteracy extends Component {
                     </a>
                   </li>
                 </ul>
+                <div
+                  className="goto-sankey"
+                  onClick={this.handleScrollToSankey}
+                >
+                  <GoToSankey />
+                  <span className="goto-sankey-text">
+                    Go to Sankey
+                  </span>
+                </div>
               </div>
 
               <div className="literacy-tab-content">
@@ -431,9 +445,9 @@ class FinancialLiteracy extends Component {
                         : { display: 'none' }
                     }
                   >
-                    <button
+                    {/* <button
                       type="button"
-                      // className="is-border common-button"
+                      className="is-border common-button"
                       onClick={this.handleScrollToSankey}
                       style={{
                         position: 'absolute',
@@ -441,8 +455,8 @@ class FinancialLiteracy extends Component {
                         top: '22px',
                       }}
                     >
-                      Scroll to Sankey
-                    </button>
+                      Go to Sankey
+                    </button> */}
                     <div className="row">
                       <div className="col-xl-12">
                         <div className="card">
@@ -533,10 +547,16 @@ class FinancialLiteracy extends Component {
                               <span
                                 className=""
                                 onClick={() => {
-                                  this.downloadPng('donut-chart');
+                                  this.downloadPng(
+                                    'donut-chart',
+                                    'Ratio of Microfinance and Commercial',
+                                  );
                                 }}
                                 onKeyDown={() => {
-                                  this.downloadPng('donut-chart');
+                                  this.downloadPng(
+                                    'donut-chart',
+                                    'Ratio of Microfinance and Commercial',
+                                  );
                                 }}
                                 role="tab"
                                 tabIndex="0"
@@ -600,10 +620,16 @@ class FinancialLiteracy extends Component {
                           <span
                             className
                             onClick={() => {
-                              this.downloadPng('sankey-chart');
+                              this.downloadPng(
+                                'sankey-chart',
+                                'Beneficiaries Reached By Partners',
+                              );
                             }}
                             onKeyDown={() => {
-                              this.downloadPng('sankey-chart');
+                              this.downloadPng(
+                                'sankey-chart',
+                                'Beneficiaries Reached By Partners',
+                              );
                             }}
                             role="tab"
                             tabIndex="0"
