@@ -235,7 +235,7 @@ class HorizontalChart extends Component {
           endingShape: 'rounded',
         },
       },
-      legend: { show: false },
+      legend: { show: this.props.activeModal ? true : false },
       colors: ['#c21c2e', '#f36c00', '#40a8be', '#de2693'],
       dataLabels: {
         enabled: false,
@@ -288,13 +288,22 @@ class HorizontalChart extends Component {
 
   componentDidMount() {
     this.plotChart();
-    // const { filteredByProgram } = this.props.financialReducer;
     const {
-      filteredByProgramDefault,
-      filteredByProgram,
-    } = this.props.financialReducer;
-    // console.log(filteredByProgram, 'filteredByProgram');
+      activeModal,
+      financialReducer: {
+        filteredByProgramDefault,
+        filteredByProgram,
+      },
+    } = this.props;
+
+    let columnWidth = '100%';
     if (this.props.activeModal) {
+      columnWidth = '60%';
+    } else {
+      columnWidth = '60%';
+    }
+
+    if (activeModal) {
       this.plotChart();
       if (
         filteredByProgram.series[0].data.length > 2
@@ -356,14 +365,57 @@ class HorizontalChart extends Component {
               bar: {
                 ...preState.options.plotOptions.bar,
                 // distributed: true,
-                columnWidth:
-                  this.props.checkedPartnerItems &&
-                  this.props.checkedPartnerItems.length === 0
-                    ? '60%'
-                    : '15%',
+                // columnWidth:
+                //   this.props.checkedPartnerItems &&
+                //   this.props.checkedPartnerItems.length === 0
+                //     ? '60%'
+                //     : '15%',
+                columnWidth,
+              },
+              xaxis: {
+                ...preState.options.xaxis,
+                categories: filteredByProgramDefault.label,
               },
             },
             colors: filteredByProgramDefault.color,
+            legend: { show: this.props.activeModal ? true : false },
+          },
+        },
+      }));
+      this.setState(preState => ({
+        partnerChart: {
+          series: filteredByProgram.series,
+          label: filteredByProgram.label,
+          colors: filteredByProgram.color,
+          options: {
+            ...preState.options,
+            // chart: {
+            //   id: 'basic-bar',
+            //   stacked: true,
+            // },
+            // tooltip: {
+            //   shared: true,
+            //   followCursor: true,
+            //   inverseOrder: true,
+            // },
+            plotOptions: {
+              ...preState.options.plotOptions,
+              bar: {
+                ...preState.options.plotOptions.bar,
+                columnWidth:
+                  this.props.checkedPartnerItems &&
+                  this.props.checkedPartnerItems.length === 0
+                    ? '100%'
+                    : // '60%'
+                      '50%',
+                // startingShape: 'flat',
+                // endingShape: 'flat',
+              },
+              xaxis: {
+                ...preState.options.xaxis,
+                categories: filteredByProgram.label,
+              },
+            },
           },
         },
       }));
@@ -440,6 +492,15 @@ class HorizontalChart extends Component {
           colors: filteredByProgram.color,
           options: {
             ...preState.options,
+            // chart: {
+            //   id: 'basic-bar',
+            //   stacked: true,
+            // },
+            // tooltip: {
+            //   shared: true,
+            //   followCursor: true,
+            //   inverseOrder: true,
+            // },
             plotOptions: {
               ...preState.options.plotOptions,
               bar: {
@@ -448,7 +509,10 @@ class HorizontalChart extends Component {
                   this.props.checkedPartnerItems &&
                   this.props.checkedPartnerItems.length === 0
                     ? '100%'
-                    : '50%',
+                    : // '60%'
+                      '50%',
+                // startingShape: 'flat',
+                // endingShape: 'flat',
               },
             },
           },
@@ -552,12 +616,17 @@ class HorizontalChart extends Component {
     const height = activeModal ? 500 : 400;
     return (
       <>
-        <div className="card-header">
-          <h5>Beneficiary Reached Per Program by Partners</h5>
+        <div
+          className="card-header"
+          style={activeModal && { backgroundColor: '#fff' }}
+        >
+          {!activeModal && (
+            <h5>Beneficiary Reached Per Program by Partners</h5>
+          )}
           <div className="header-icons">
             {!isBarChartClicked && (
               <div className="card-switcher">
-                <small>Partner wise distribution</small>
+                <small>Single Count</small>
                 <label className="switch">
                   <input
                     type="checkbox"
@@ -566,9 +635,7 @@ class HorizontalChart extends Component {
                   />
                   <span className="slider" />
                 </label>
-                <small>
-                  Programme wise distribution of all partner
-                </small>
+                <small>Program Wise</small>
               </div>
             )}
             {/* {!isBarChartClicked && (
@@ -581,6 +648,7 @@ class HorizontalChart extends Component {
             )} */}
             {isBarChartClicked && (
               <button
+                id="chart-reset"
                 type="button"
                 onClick={this.handleBarChartBackBtn}
                 className="is-border common-button"
@@ -663,7 +731,9 @@ class HorizontalChart extends Component {
                 type="bar"
                 height={height}
                 width={
-                  showRightSidebar && window.innerWidth < 1600
+                  activeModal
+                    ? 1400
+                    : showRightSidebar && window.innerWidth < 1600
                     ? 780
                     : showRightSidebar && window.innerWidth > 1600
                     ? 1100

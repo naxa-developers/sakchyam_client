@@ -4,6 +4,15 @@ import { connect } from 'react-redux';
 import sankeyData from './sankeyData';
 import { getSankeyChartData } from '../../../../../actions/partnership.actions';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
+
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
 // no chart will be rendered.
@@ -78,6 +87,7 @@ class SankeyChart extends Component {
             animate
             motionStiffness={140}
             motionDamping={13}
+            tooltipFormat={value => numberWithCommas(value)}
             nodeTooltip={node => (
               <span style={{ display: 'flex' }}>
                 <div
@@ -99,7 +109,7 @@ class SankeyChart extends Component {
                 >
                   {node.id}
                   <br />
-                  {node.value}
+                  {numberWithCommas(node.value)}
                 </strong>
               </span>
             )}

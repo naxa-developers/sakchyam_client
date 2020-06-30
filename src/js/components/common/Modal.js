@@ -32,8 +32,13 @@ const downloadPng = chartid => {
   // this.setState({ downloadActive: false });
 };
 const Modal = props => {
-  const { handleModal, component, selectedModal } = props;
-  // console.log(selectedModal, 'selectedModal');
+  const {
+    handleModal,
+    component,
+    selectedModal,
+    header,
+    activeModal,
+  } = props;
   const selectedChartId =
     selectedModal === 'bar'
       ? 'horizontal-chart'
@@ -56,10 +61,8 @@ const Modal = props => {
       : 'sankey-chart';
   return (
     <div
-      className="popup open"
-      // className={`popup ${
-      //   activeModal && visible === true ? 'open' : ''
-      // }`}
+      // className="popup open"
+      className={`popup ${activeModal === true ? 'open' : ''}`}
       id="graph-modal"
     >
       <div className="popup-container full-popup">
@@ -85,7 +88,7 @@ const Modal = props => {
             {/* <button type="button" className="common-button is-border">
               <span>cancel</span>
             </button> */}
-            <button
+            {/* <button
               onClick={() => {
                 downloadPng(selectedChartId);
               }}
@@ -93,7 +96,7 @@ const Modal = props => {
               className="common-button is-bg"
             >
               <span>Download</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

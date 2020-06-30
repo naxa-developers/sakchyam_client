@@ -344,3 +344,123 @@
     }
   }
 }
+.map-legend {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  right: 0;
+  &.newmap-legend{
+    max-width: 100%;
+    @include display-flex(flex);
+    @include justify-content-between;
+    @include align-items-center;
+    @include flex-wrap(wrap);
+    h6{
+      font-size: 1rem;
+      font-family: $body-fonts;
+      margin-bottom: .6125rem;
+    }
+    .color-list{
+      @include flex(0 0 40%);
+      background-color: $white-color;
+      padding:.6125rem;
+      ul{
+        border:none;
+        padding:0;
+        li{
+          @include flex(0 0 11.1%);
+          max-width: 11.1%;
+          width: 100%;
+          span{
+            font-size: .6125rem;
+          }
+          .color{
+            height: 10px;
+          }
+        }
+      }
+    }
+    .overlay-data{
+      background-color: $white-color;
+      padding:.6125rem .6125rem 0 .6125rem;
+    }
+    .widget-tag {
+      @include display-flex(flex);
+      @include justify-content-end;
+      @include align-items-center;
+      @include flex-wrap(wrap);
+      
+
+      a {
+          @include display-flex(flex);
+          @include justify-content-center;
+          @include align-items-center;
+          color: $heading-color;
+          font-size: .775rem;
+          padding: 5px 10px;
+          border: 1px solid $border-color;
+          @include radius(20px);
+          font-family: $avenir-heavy;
+          margin-bottom: .5rem;
+          @include transition(all .5s ease-in-out);
+          text-transform: capitalize;
+          cursor: pointer;
+
+              margin-left: .6125rem;
+        i{
+          margin-right: .5rem;
+          font-size: 1rem;
+        }
+          small {
+              width: 10px;
+              height: 10px;
+              @include radius(100%);
+              margin-right: .5rem;
+
+              &.is-red {
+                  background-color: $red-color;
+              }
+
+              &.is-green {
+                  background-color: $dark-green;
+              }
+
+              &.is-orange {
+                  background-color: $orange-color;
+              }
+
+              &.is-blue {
+                  background-color: $color-blue;
+              }
+
+              &.is-pink {
+                  background-color: $color-pink-dark;
+              }
+
+              &.is-green {
+                  background-color: $green-light;
+              }
+
+              &.is-other {
+                  background-color: $blue-color;
+              }
+          }
+
+          &:hover {
+              background-color: $yellow-light;
+          }
+
+          &.active {
+              background-color: $yellow-light;
+              border-color: $orange-color;
+          }
+
+          @media #{$breakpoint-xxl} {
+              font-size: .775rem;
+          }
+      }
+
+  }
+  }
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { select } from 'd3';
 import MapboxPartnership from './MapComponents/MapboxPartnership';
 import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
@@ -27,8 +28,13 @@ import {
   filterSankeyChartData,
   getOverviewData,
   filterOverviewData,
+  filterDistrictListFromProvince,
+  filterMunListFromDistrict,
+  filterFinancialDataWithAllFiltersAndFederal,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
+import Select from '../../common/Select/Select';
+import FilterBadge from './common/FilterBadge';
 
 class MainPartnership extends Component {
   constructor() {
@@ -40,6 +46,9 @@ class MainPartnership extends Component {
       partnerSelection: [],
       projectStatus: [],
       partnerType: [],
+      selectedProvince: null,
+      selectedDistrict: null,
+      selectedMunicipality: null,
       isAllPartnerSelected: false,
       isAllProjectSelected: false,
       isAllInvestmentFocusSelected: false,
@@ -82,6 +91,8 @@ class MainPartnership extends Component {
       projectSelection,
       projectStatus,
       partnerType,
+      selectedProvince,
+      selectedDistrict,
     } = this.state;
     if (
       prevState.investmentFocusSelection !== investmentFocusSelection
@@ -112,6 +123,12 @@ class MainPartnership extends Component {
     }
     if (prevState.partnerType !== partnerType) {
       this.props.filterPartnerListByPartnerType(partnerType);
+    }
+    if (prevState.selectedProvince !== selectedProvince) {
+      this.props.filterDistrictListFromProvince(selectedProvince);
+    }
+    if (prevState.selectedDistrict !== selectedDistrict) {
+      this.props.filterMunListFromDistrict(selectedDistrict);
     }
   }
 
@@ -439,7 +456,28 @@ class MainPartnership extends Component {
       partnerSelection,
     );
   };
+
   // eslint-disable-next-line consistent-return
+  handleApplyFederalFilter = () => {
+    const {
+      viewDataBy,
+      partnerSelection,
+      projectSelection,
+      projectStatus,
+      investmentFocusSelection,
+      partnerType,
+      selectedMunicipality,
+      selectedDistrict,
+      selectedProvince,
+    } = this.state;
+    this.props.filterFinancialDataWithAllFiltersAndFederal(
+      { selectedMunicipality, selectedDistrict, selectedProvince },
+      viewDataBy,
+      partnerSelection,
+      projectSelection,
+      projectStatus,
+    );
+  };
 
   render() {
     const {
@@ -457,10 +495,18 @@ class MainPartnership extends Component {
         partnerSelection,
         partnerType,
         showBarof,
+        selectedProvince,
+        selectedDistrict,
+        selectedMunicipality,
       },
       // props: {},
     } = this;
-    const { isDataFetched } = this.props.partnershipReducer;
+    const {
+      isDataFetched,
+      allProvinceList,
+      allDistrictList,
+      allMunicipalityList,
+    } = this.props.partnershipReducer;
     const sankeyChartwidth =
       document.getElementById('sankeyChart') &&
       document.getElementById('sankeyChart').offsetWidth;
@@ -591,47 +637,56 @@ class MainPartnership extends Component {
                     <div className="filter-row">
                       <div className="filter-list">
                         <div className="form-group">
-                          <select className="form-control">
-                            <option defaultValue>
-                              select province
-                            </option>
-                            <option>province 1</option>
-                            <option>province 2</option>
-                            <option>province 3</option>
-                            <option>province 4</option>
-                            <option>province 5</option>
-                            <option>province 6</option>
-                            <option>province 7</option>
-                          </select>
+                          <Select
+                            withCheckbox
+                            name="Select Province"
+                            options={
+                              allProvinceList && allProvinceList
+                            }
+                            onChange={selectedOptions => {
+                              this.setState({
+                                selectedProvince: selectedOptions,
+                              });
+                              // eslint-disable-next-line react/jsx-curly-newline
+                            }}
+                          />
                         </div>
-                        <div className="form-group">
-                          <select className="form-control">
-                            <option defaultValue>
-                              select province
-                            </option>
-                            <option>province 1</option>
-                            <option>province 2</option>
-                            <option>province 3</option>
-                            <option>province 4</option>
-                            <option>province 5</option>
-                            <option>province 6</option>
-                            <option>province 7</option>
-                          </select>
-                        </div>
-                        <div className="form-group">
-                          <select className="form-control">
-                            <option defaultValue>
-                              select province
-                            </option>
-                            <option>province 1</option>
-                            <option>province 2</option>
-                            <option>province 3</option>
-                            <option>province 4</option>
-                            <option>province 5</option>
-                            <option>province 6</option>
-                            <option>province 7</option>
-                          </select>
-                        </div>
+                        {mapViewBy === 'municipality' ||
+                        mapViewBy === 'district' ? (
+                          <div className="form-group">
+                            <Select
+                              withCheckbox
+                              name="Select District"
+                              options={
+                                allDistrictList && allDistrictList
+                              }
+                              onChange={selectedOptions => {
+                                this.setState({
+                                  selectedDistrict: selectedOptions,
+                                });
+                                // eslint-disable-next-line react/jsx-curly-newline
+                              }}
+                            />
+                          </div>
+                        ) : null}
+                        {mapViewBy === 'municipality' && (
+                          <div className="form-group">
+                            <Select
+                              withCheckbox
+                              name="Select Municipality"
+                              options={
+                                allMunicipalityList &&
+                                allMunicipalityList
+                              }
+                              onChange={selectedOptions => {
+                                this.setState({
+                                  selectedMunicipality: selectedOptions,
+                                });
+                                // eslint-disable-next-line react/jsx-curly-newline
+                              }}
+                            />
+                          </div>
+                        )}
                       </div>
                       <div className="buttons is-end">
                         <button
@@ -641,7 +696,7 @@ class MainPartnership extends Component {
                           <i className="material-icons">refresh</i>
                         </button>
                         <button
-                          // onClick={this.applyBtnClick}
+                          onClick={this.handleApplyFederalFilter}
                           type="button"
                           className="common-button is-clear"
                         >
@@ -654,7 +709,107 @@ class MainPartnership extends Component {
                 <div className="partnership-tab">
                   <span>view data by</span>
                   <ul>
-                    <li
+                    {activeView === 'visualization' ? (
+                      <>
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy(
+                              'allocated_beneficiary',
+                            );
+                          }}
+                          dataTitle="allocated_beneficiary"
+                          title="Beneficiaries"
+                        />
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('allocated_budget');
+                          }}
+                          dataTitle="allocated_budget"
+                          title="Budget Allocated"
+                        />
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('Leverage');
+                          }}
+                          dataTitle="Leverage"
+                          title="Leverage"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy(
+                              'allocated_beneficiary',
+                            );
+                          }}
+                          dataTitle="allocated_beneficiary"
+                          title="Beneficiaries"
+                        />
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('allocated_budget');
+                          }}
+                          dataTitle="allocated_budget"
+                          title="Budget Allocated"
+                        />
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('Leverage');
+                          }}
+                          dataTitle="Leverage"
+                          title="Leverage"
+                        />
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('Leverage');
+                          }}
+                          dataTitle="Leverage"
+                          title="Leverage"
+                        />
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('BLB');
+                          }}
+                          dataTitle="BLB"
+                          title="BLB"
+                        />
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('Extention Counter');
+                          }}
+                          dataTitle="Extention Counter"
+                          title="Extention Counter"
+                        />
+                        <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('Tablet');
+                          }}
+                          dataTitle="Tablet"
+                          title="Tablet"
+                          icon="tablet"
+                        />
+                        {/* <FilterBadge
+                          viewDataBy={viewDataBy}
+                          onclick={() => {
+                            this.setViewDataBy('Other major product');
+                          }}
+                          dataTitle="Other major product"
+                          title="Other major product"
+                        /> */}
+                      </>
+                    )}
+                    {/* <li
                       className={
                         viewDataBy === 'allocated_beneficiary'
                           ? 'active'
@@ -670,8 +825,8 @@ class MainPartnership extends Component {
                       tabIndex="-1"
                     >
                       <a>Beneficiaries</a>
-                    </li>
-                    <li
+                    </li> */}
+                    {/* <li
                       className={
                         viewDataBy === 'allocated_budget'
                           ? 'active'
@@ -702,7 +857,7 @@ class MainPartnership extends Component {
                       tabIndex="-1"
                     >
                       <a>Leverage</a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -712,11 +867,13 @@ class MainPartnership extends Component {
                   sankeyChartwidth={sankeyChartwidth}
                   activeOverview={activeOverview}
                   activeView={activeView}
+                  investmentFocusSelection={investmentFocusSelection}
                   partnerSelection={partnerSelection}
                   projectSelection={projectSelection}
                   projectStatus={projectStatus}
                   showBarof={showBarof}
                   handleShowBarOf={this.handleShowBarOf}
+                  applyBtnClick={this.applyBtnClick}
                 />
                 <div
                   className="literacy-tab-item"
@@ -731,6 +888,7 @@ class MainPartnership extends Component {
                     <MapboxPartnership
                       map={map}
                       vectorTileUrl={vectorTileUrl}
+                      mapViewBy={mapViewBy}
                     />
                   )}
                   {/* </div> */}
@@ -802,4 +960,7 @@ export default connect(mapStateToProps, {
   filterSankeyChartData,
   getOverviewData,
   filterOverviewData,
+  filterDistrictListFromProvince,
+  filterMunListFromDistrict,
+  filterFinancialDataWithAllFiltersAndFederal,
 })(MainPartnership);

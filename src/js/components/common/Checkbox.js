@@ -17,6 +17,7 @@ const CheckBox = ({
           className={className}
           id={`${className}_${id}`}
           type="checkbox"
+          data-label={label}
           {...rest}
           name={name}
           checked={checked}

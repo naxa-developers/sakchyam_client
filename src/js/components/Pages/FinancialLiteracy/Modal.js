@@ -5,7 +5,7 @@ import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import DownloadIcon from '../../../../img/get_app.png';
 
-const downloadPng = chartid => {
+const downloadPng = (chartid, filename) => {
   // document.querySelector('.info-header-bottom').style.display =
   //   'none';
   // document
@@ -27,7 +27,7 @@ const downloadPng = chartid => {
       // useCORS: true,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
-        saveAs(blob, 'chart.png');
+        saveAs(blob, `${filename}.png`);
       });
     });
   }, 500);
@@ -88,7 +88,7 @@ const Modal = props => {
                 // borderColor: 'lightgrey',
                 cursor: 'pointer',
               }}
-              onClick={() => downloadPng(selectedChartId)}
+              onClick={() => downloadPng(selectedChartId, header)}
             >
               <img src={DownloadIcon} alt="open" />
             </span>

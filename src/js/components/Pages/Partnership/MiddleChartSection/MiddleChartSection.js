@@ -13,6 +13,15 @@ import CardTab from '../common/CardTab';
 import StackedBar from '../Charts/StackedBar/StackedBar';
 import { getRadialData } from '../../../../actions/partnership.actions';
 
+function formatData(fulldata) {
+  fulldata.forEach(datum => {
+    if (datum.children && datum.children.length > 0) {
+      formatData(datum.children);
+    }
+    // eslint-disable-next-line no-param-reassign
+    datum.size = Math.round(datum.size);
+  });
+}
 class MiddleChartSection extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +48,35 @@ class MiddleChartSection extends Component {
     this.setState({
       selectedModal: value,
     });
+  };
+
+  handleSunburstClick = e => {
+    const {
+      partnersList,
+      partnershipInvestmentFocus,
+      projectLists,
+    } = this.props.partnershipReducer;
+    const clickedName = e.data.name;
+    // console.log(clickedName, 'clicked');
+    // console.log(
+    //   partnershipInvestmentFocus.filter(investment => {
+    //     return investment.investment_primary === clickedName;
+    //   }),
+    // );
+    // if (
+    //   partnershipInvestmentFocus.filter(investment => {
+    //     return investment.investment_primary === clickedName;
+    //   })
+    // ) {
+    console.log('found if');
+    document
+      .querySelectorAll(`[data-label='${clickedName}']`)[0]
+      .click();
+    // document.getElementsByName(clickedName)[0].click();
+    this.props.applyBtnClick();
+    // }
+    // console.log(this.props, 'partnership');
+    // console.log(e.data.name);
   };
 
   getModalContent = contentType => {
@@ -79,15 +117,20 @@ class MiddleChartSection extends Component {
         return <CirclePackChart activeModal />;
       case 'groupedChart':
         return (
-          <StackedBar
-            viewDataBy={viewDataBy}
-            activeModal={activeModal}
-            partnerSelection={partnerSelection}
-            projectSelection={projectSelection}
-            projectStatus={projectStatus}
-            showBarof={showBarof}
-            handleShowBarOf={handleShowBarOf}
-          />
+          <div
+            id="barContainer"
+            style={{ width: '1900px', overflowX: 'scroll' }}
+          >
+            <StackedBar
+              viewDataBy={viewDataBy}
+              activeModal={activeModal}
+              partnerSelection={partnerSelection}
+              projectSelection={projectSelection}
+              projectStatus={projectStatus}
+              showBarof={showBarof}
+              handleShowBarOf={handleShowBarOf}
+            />
+          </div>
         );
       case 'timeline':
         return (
@@ -125,6 +168,13 @@ class MiddleChartSection extends Component {
     const {
       partnershipReducer: { radialData },
     } = this.props;
+    // console.log(
+
+    if (radialData && radialData.children) {
+      formatData(radialData.children);
+    }
+    //   'radialData',
+    // );
     // console.log(radialData && radialData, 'radialData');
     return (
       <div
@@ -164,9 +214,7 @@ class MiddleChartSection extends Component {
                       height={500}
                       width={900}
                       count_member="size"
-                      onClick={e => {
-                        console.log('clicked', e.data.name);
-                      }}
+                      onClick={this.handleSunburstClick}
                     />
                   )
                 );
@@ -218,7 +266,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
@@ -234,7 +282,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

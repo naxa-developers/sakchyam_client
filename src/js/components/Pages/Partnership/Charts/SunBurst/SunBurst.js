@@ -165,10 +165,10 @@ class Sunburst extends React.Component {
     this.props._debug &&
       this.props._log(
         'Sunburst: shouldComponentUpdate()',
-        this.props,
+        this.props.data,
       );
-    if (!shallowEqual(this.props, nextProps)) {
-      return true;
+    if (shallowEqual(this.props.data, nextProps.data)) {
+      return false;
     }
     return true;
   }
