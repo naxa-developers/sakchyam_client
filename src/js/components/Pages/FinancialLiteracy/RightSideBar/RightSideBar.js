@@ -187,7 +187,9 @@ class RightSideBar extends Component {
     checkedPartnerItems,
     partnerType = [],
   ) => {
-    const { financialData } = this.props.financialReducer;
+    const {
+      financialReducer: { financialData, partnersList },
+    } = this.props;
     const filteredData = [];
 
     let newData = [];
@@ -199,9 +201,23 @@ class RightSideBar extends Component {
       );
     }
 
+    let checkedPartner;
+
+    if (checkedPartnerItems.length === 0) {
+      const tempArr = [];
+      partnersList.map(item => {
+        tempArr.push(item.partner_id);
+
+        return true;
+      });
+      checkedPartner = tempArr;
+    } else {
+      checkedPartner = checkedPartnerItems;
+    }
+
     newData.map(item => {
       if (selectedProgram.length === 0) {
-        checkedPartnerItems.map(i => {
+        checkedPartner.map(i => {
           if (item.partner_id === i) {
             const obj = filteredData.find(
               x => x.program_id === item.program_id,
@@ -227,7 +243,7 @@ class RightSideBar extends Component {
       } else {
         selectedProgram.map(y => {
           if (item.program_id === y) {
-            checkedPartnerItems.map(i => {
+            checkedPartner.map(i => {
               if (item.partner_id === i) {
                 const obj = filteredData.find(
                   x => x.program_id === item.program_id,

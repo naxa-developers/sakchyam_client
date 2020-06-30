@@ -307,6 +307,18 @@ class TreeMapDiagram extends Component {
       activeModal,
     } = this.props;
 
+    const screenSize = window.innerWidth;
+
+    let treeHeight;
+
+    if (screenSize < 1600) {
+      if (activeModal) treeHeight = '490px';
+      else treeHeight = '340px';
+    } else if (screenSize >= 1600) {
+      if (activeModal) treeHeight = '600px';
+      else treeHeight = '340px';
+    }
+
     return (
       <>
         <div
@@ -388,7 +400,8 @@ class TreeMapDiagram extends Component {
           <div
             id="treemap-chart"
             style={{
-              height: activeModal ? '600px' : '340px',
+              // height: activeModal ? '490px' : '340px',
+              height: treeHeight,
               width: '100%',
             }}
           >
