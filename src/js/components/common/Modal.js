@@ -88,7 +88,7 @@ const Modal = props => {
             {/* <button type="button" className="common-button is-border">
               <span>cancel</span>
             </button> */}
-            <button
+            {/* <button
               onClick={() => {
                 downloadPng(selectedChartId);
               }}
@@ -96,7 +96,7 @@ const Modal = props => {
               className="common-button is-bg"
             >
               <span>Download</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

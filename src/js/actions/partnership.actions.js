@@ -24,6 +24,8 @@ import {
   GET_MAP_DATA,
   GET_BARDATA_BY_BENEF_BUDGET,
   FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
+  FILTER_DISTRICTLIST_FROM_PROVINCE,
+  FILTER_MUNLIST_FROM_DISTRICT,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -1181,4 +1183,203 @@ export const getMapDataByMunicipality = () => dispatch => {
   } catch (err) {
     console.error(err);
   }
+};
+export const filterDistrictListFromProvince = provinceId => dispatch => {
+  try {
+    // console.log(provinceId, 'provinceId');
+    const formdata = new FormData();
+    if (provinceId.length > 0) {
+      provinceId.map(data => {
+        if (data.value !== 'all') {
+          return formdata.append('id', `${data.value}`);
+        }
+        return true;
+      });
+    } else {
+      formdata.append('id', '0');
+    }
+    // formdata.append('id', '0');
+    const response = axiosInstance
+      .post(`/api/v1/adminlevel/district/`, formdata)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: FILTER_DISTRICTLIST_FROM_PROVINCE,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const filterMunListFromDistrict = districtId => dispatch => {
+  try {
+    // console.log(districtId, 'districtId');
+    const formdata = new FormData();
+    if (districtId.length > 0) {
+      districtId.map(data => {
+        if (data.value !== 'all') {
+          return formdata.append('id', `${data.value}`);
+        }
+        return true;
+      });
+    } else {
+      formdata.append('id', '0');
+    }
+    // formdata.append('id', '0');
+    const response = axiosInstance
+      .post(`/api/v1/adminlevel/municipality/`, formdata)
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: FILTER_MUNLIST_FROM_DISTRICT,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const filterFinancialDataWithAllFiltersAndFederal = (
+  selectedFederalTypes,
+  selectedDataView,
+  selectedPartnerId,
+  selectedProjectId,
+  selectedStatus,
+) => dispatch => {
+  // debugger;
+  const municipality = [];
+  const district = [];
+  const province = [];
+  let partnerId = [];
+  let projectId = [];
+  let statusSelected = '';
+  const data = selectedDataView;
+  if (selectedPartnerId.length === 0) {
+    partnerId = [0];
+  } else {
+    partnerId = selectedPartnerId;
+  }
+  if (selectedProjectId.length === 0) {
+    projectId = [0];
+  } else {
+    projectId = selectedProjectId;
+  }
+  if (selectedStatus === [] || selectedStatus.length > 1) {
+    statusSelected = '';
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    statusSelected = selectedStatus[0];
+  }
+  if (selectedFederalTypes.selectedMunicipality.length > 0) {
+    selectedFederalTypes.selectedMunicipality.forEach(mun => {
+      if (mun.value !== 'all') {
+        return municipality.push(mun.value);
+      }
+    });
+  } else if (selectedFederalTypes.selectedDistrict.length > 0) {
+    selectedFederalTypes.selectedDistrict.forEach(dist => {
+      if (dist.value !== 'all') {
+        return district.push(dist.value);
+      }
+    });
+  } else {
+    selectedFederalTypes.selectedDistrict.forEach(prov => {
+      if (prov.value !== 'all') {
+        return province.push(prov.value);
+      }
+    });
+  }
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
+
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'total_beneficiary',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: province,
+        district_id: district,
+        municipality_id: municipality,
+      },
+    );
+    const requestTwo = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'female_beneficiary',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: province,
+        district_id: district,
+        municipality_id: municipality,
+      },
+    );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'allocated_budget',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: province,
+        district_id: district,
+        municipality_id: municipality,
+      },
+    );
+
+    axios
+      .all([requestOne, requestTwo, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+          const responseThree = responses[2];
+          return dispatch({
+            type: FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
+            payload: {
+              selectedDataView,
+              totalBeneficiary: responseOne.data,
+              femaleBeneficiary: responseTwo.data,
+              allocatedBudget: responseThree.data,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
+  // } else if (selectedDataView === 'allocated_budget') {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         view: selectedDataView,
+  //         partner_id: partnerId,
+  //         project_id: projectId,
+  //         status: !statusSelected ? '' : statusSelected,
+  //         province_id: [0],
+  //         district_id: [],
+  //         municipality_id: [],
+  //       })
+  //       .then(function(result) {
+  //         return dispatch({
+  //           type: GET_MAP_DATA_BY_PROVINCE,
+  //           payload: {
+  //             selectedDataView,
+  //             allocatedBudget: result.data,
+  //           },
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 };

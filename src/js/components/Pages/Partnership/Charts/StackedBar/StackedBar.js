@@ -94,6 +94,11 @@ class StackedBar extends Component {
           },
         },
       },
+      plotOptions: {
+        bar: {
+          columnWidth: '40%',
+        },
+      },
       dataLabels: {
         enabled: false,
       },
@@ -105,8 +110,13 @@ class StackedBar extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
+      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+      },
+
+      grid: {
+        show: false,
       },
       yaxis: [
         {
@@ -123,7 +133,7 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Income (thousand crores)',
+            text: 'Beneficiaries (Male & Female)',
             style: {
               color: '#008FFB',
             },
@@ -178,6 +188,12 @@ class StackedBar extends Component {
           },
         },
       ],
+      markers: {
+        size: 5,
+        colors: ['#f7bc48'],
+        strokeColor: '#f7bc48',
+        strokeWidth: 3,
+      },
       tooltip: {
         // fixed: {
         //   enabled: true,
@@ -259,7 +275,7 @@ class StackedBar extends Component {
               // console.log(showBarof, 'inside showBarOf');
               const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
                 data => {
-                  return data.name.includes(
+                  return data.label.includes(
                     config.xaxis.categories[dataPointIndex],
                   );
                 },
@@ -288,7 +304,7 @@ class StackedBar extends Component {
             } else if (showBarof === 'Districts') {
               const filteredDistrictId = that.props.partnershipReducer.allDistrictList.filter(
                 data => {
-                  return data.name.includes(
+                  return data.label.includes(
                     config.xaxis.categories[dataPointIndex],
                   );
                 },
@@ -353,7 +369,7 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Income (thousand crores)',
+            text: 'Beneficiaries (Male & Female)',
             style: {
               color: '#008FFB',
             },
@@ -452,7 +468,8 @@ class StackedBar extends Component {
         options={options}
         series={series}
         type="bar"
-        height={activeModal ? 700 : 350}
+        height={activeModal ? 600 : 350}
+        // width={activeModal === true ? 1600 : '100%'}
       />
     );
   }

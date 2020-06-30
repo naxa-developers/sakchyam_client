@@ -14,7 +14,6 @@ import StackedBar from '../Charts/StackedBar/StackedBar';
 import { getRadialData } from '../../../../actions/partnership.actions';
 
 function formatData(fulldata) {
-  console.log(fulldata, 'fulldata');
   fulldata.forEach(datum => {
     if (datum.children && datum.children.length > 0) {
       formatData(datum.children);
@@ -118,15 +117,20 @@ class MiddleChartSection extends Component {
         return <CirclePackChart activeModal />;
       case 'groupedChart':
         return (
-          <StackedBar
-            viewDataBy={viewDataBy}
-            activeModal={activeModal}
-            partnerSelection={partnerSelection}
-            projectSelection={projectSelection}
-            projectStatus={projectStatus}
-            showBarof={showBarof}
-            handleShowBarOf={handleShowBarOf}
-          />
+          <div
+            id="barContainer"
+            style={{ width: '1900px', overflowX: 'scroll' }}
+          >
+            <StackedBar
+              viewDataBy={viewDataBy}
+              activeModal={activeModal}
+              partnerSelection={partnerSelection}
+              projectSelection={projectSelection}
+              projectStatus={projectStatus}
+              showBarof={showBarof}
+              handleShowBarOf={handleShowBarOf}
+            />
+          </div>
         );
       case 'timeline':
         return (

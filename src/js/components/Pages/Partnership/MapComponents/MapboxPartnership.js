@@ -45,7 +45,11 @@ class MapboxPartnership extends Component {
   }
 
   render() {
-    const inputDivisions = [0, 2, 4, 6, 8, 10, 12, 14, 20];
+    const { mapViewBy } = this.props;
+    const inputDivisions =
+      mapViewBy === 'province'
+        ? [0, 10, 20, 30, 40, 50, 60, 70]
+        : [0, 2, 4, 6, 8, 10, 12, 14, 20];
     const {
       state: { map },
       props: { vectorTileUrl },
@@ -56,12 +60,13 @@ class MapboxPartnership extends Component {
         {map && (
           <div>
             <VectorTileMapbox
+              mapViewBy={mapViewBy}
               choroplethData={filteredMapData}
               vectorTileUrl={vectorTileUrl}
               map={map}
-              divisions={inputDivisions}
-              // label = {true}
-              // color="#007078"
+              // divisions={inputDivisions}
+              label
+              color="#007078"
             />
             {/* <MarkerCluster
               filteredByPartner={filteredByPartner}

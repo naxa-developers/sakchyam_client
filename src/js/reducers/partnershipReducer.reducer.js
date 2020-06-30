@@ -21,6 +21,8 @@ import {
   FILTER_OVERVIEW_DATA,
   GET_MAP_DATA,
   FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
+  FILTER_DISTRICTLIST_FROM_PROVINCE,
+  FILTER_MUNLIST_FROM_DISTRICT,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -464,21 +466,48 @@ const getProvinceData = (state, action) => {
   }
   // console.log(action.payload);
   action.payload.sort(GetSortOrder('code'));
+  const provinceList = [];
+  provinceList.push({ label: 'All Province', value: 'all' });
+  action.payload.map(data => {
+    return provinceList.push({
+      ...data,
+      label: data.name,
+      value: data.id,
+    });
+  });
   return {
     ...state,
-    allProvinceList: action.payload,
+    allProvinceList: provinceList,
   };
 };
 const getDistrictData = (state, action) => {
+  const districtList = [];
+  districtList.push({ label: 'All District', value: 'all' });
+  action.payload.map(data => {
+    return districtList.push({
+      ...data,
+      label: data.name,
+      value: data.n_code,
+    });
+  });
   return {
     ...state,
-    allDistrictList: action.payload,
+    allDistrictList: districtList,
   };
 };
 const getMunicipalityData = (state, action) => {
+  const municipalityList = [];
+  municipalityList.push({ label: 'All Municipality', value: 'all' });
+  action.payload.map(data => {
+    return municipalityList.push({
+      ...data,
+      label: data.name,
+      value: data.code,
+    });
+  });
   return {
     ...state,
-    allMunicipalityList: action.payload,
+    allMunicipalityList: municipalityList,
     isDataFetched: true,
   };
 };
@@ -525,6 +554,37 @@ const getMapDataByMunicipality = (state, action) => {
     mapDataByMunicipality: action.payload,
   };
 };
+const filterDistrictFromProvince = (state, action) => {
+  const districtList = [];
+  districtList.push({ label: 'All District', value: 'all' });
+  action.payload.map(data => {
+    return districtList.push({
+      ...data,
+      label: data.name,
+      value: data.n_code,
+    });
+  });
+  return {
+    ...state,
+    allDistrictList: districtList,
+  };
+};
+const filterMunListFromDistrict = (state, action) => {
+  const municipalityList = [];
+  municipalityList.push({ label: 'All Municipality', value: 'all' });
+  action.payload.map(data => {
+    return municipalityList.push({
+      ...data,
+      label: data.name,
+      value: data.code,
+    });
+  });
+  return {
+    ...state,
+    allMunicipalityList: municipalityList,
+    isDataFetched: true,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERSHIP_INVESTMENT_FOCUS:
@@ -568,6 +628,10 @@ export default function(state = initialState, action) {
       return getDistrictData(state, action);
     case GET_ALLMUNICIPALITYNAME_DATA:
       return getMunicipalityData(state, action);
+    case FILTER_DISTRICTLIST_FROM_PROVINCE:
+      return filterDistrictFromProvince(state, action);
+    case FILTER_MUNLIST_FROM_DISTRICT:
+      return filterMunListFromDistrict(state, action);
     case GET_OVERVIEW_DATA:
       return getOverviewData(state, action);
     case FILTER_OVERVIEW_DATA:
