@@ -120,6 +120,8 @@ class StackedBar extends Component {
       },
       yaxis: [
         {
+          // min: 0,
+          max: 600000,
           axisTicks: {
             show: true,
           },
@@ -131,6 +133,10 @@ class StackedBar extends Component {
             style: {
               colors: '#008FFB',
             },
+            formatter: value => {
+              // console.log(value, 'value');
+              return convert(value);
+            },
           },
           title: {
             text: 'Beneficiaries (Male & Female)',
@@ -138,13 +144,15 @@ class StackedBar extends Component {
               color: '#008FFB',
             },
           },
-          tooltip: {
-            enabled: true,
-          },
+          // tooltip: {
+          //   enabled: true,
+          // },
         },
         {
-          seriesName: 'Income',
-          show: true,
+          // min: 0,
+          max: 600000,
+          seriesName: 'Incomessss',
+          show: false,
           opposite: true,
           axisTicks: {
             show: true,
@@ -166,6 +174,8 @@ class StackedBar extends Component {
           //   },
         },
         {
+          // min: 0,
+          // max: 5000000,
           seriesName: 'Revenue',
           opposite: true,
           axisTicks: {
@@ -179,13 +189,20 @@ class StackedBar extends Component {
             style: {
               colors: '#FEB019',
             },
+            formatter: value => {
+              // console.log(value, 'value');
+              return convert(value);
+            },
           },
           title: {
-            text: 'Revenue (thousand crores)',
+            text: 'Budget Allocated',
             style: {
               color: '#FEB019',
             },
           },
+          // tooltip: {
+          //   enabled: true,
+          // },
         },
       ],
       markers: {
@@ -215,6 +232,7 @@ class StackedBar extends Component {
 
     const { activeModal } = this.props;
     if (activeModal) {
+      // this.plotChart();
       this.updateBarChart();
     }
     // this.updateBarChart();
@@ -345,6 +363,7 @@ class StackedBar extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
+      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         categories: barDatas.labels,
       },
@@ -435,6 +454,12 @@ class StackedBar extends Component {
           // },
         },
       ],
+      markers: {
+        size: 5,
+        colors: ['#f7bc48'],
+        strokeColor: '#f7bc48',
+        strokeWidth: 3,
+      },
       tooltip: {
         // fixed: {
         //   enabled: true,

@@ -471,3 +471,7 @@
     text-align: center;
     background: rgba(40, 112, 120, 0.48)
   }
+
+  .mapboxgl-popup{
+    max-width: 300px!important;
+  }
