@@ -45,6 +45,7 @@ class RightSideBar extends Component {
       programCount: 0,
       filteredData: [],
       maxValue: 0,
+      timelineData: [],
     };
   }
 
@@ -187,7 +188,9 @@ class RightSideBar extends Component {
     checkedPartnerItems,
     partnerType = [],
   ) => {
-    const { financialData } = this.props.financialReducer;
+    const {
+      financialReducer: { financialData, partnersList },
+    } = this.props;
     const filteredData = [];
 
     let newData = [];
@@ -199,9 +202,23 @@ class RightSideBar extends Component {
       );
     }
 
+    let checkedPartner;
+
+    if (checkedPartnerItems.length === 0) {
+      const tempArr = [];
+      partnersList.map(item => {
+        tempArr.push(item.partner_id);
+
+        return true;
+      });
+      checkedPartner = tempArr;
+    } else {
+      checkedPartner = checkedPartnerItems;
+    }
+
     newData.map(item => {
       if (selectedProgram.length === 0) {
-        checkedPartnerItems.map(i => {
+        checkedPartner.map(i => {
           if (item.partner_id === i) {
             const obj = filteredData.find(
               x => x.program_id === item.program_id,
@@ -227,7 +244,7 @@ class RightSideBar extends Component {
       } else {
         selectedProgram.map(y => {
           if (item.program_id === y) {
-            checkedPartnerItems.map(i => {
+            checkedPartner.map(i => {
               if (item.partner_id === i) {
                 const obj = filteredData.find(
                   x => x.program_id === item.program_id,
@@ -385,7 +402,65 @@ class RightSideBar extends Component {
     ) {
       this.updateOverviewData();
     }
+    if (
+      prevProps.financialReducer.financialProgram !==
+      this.props.financialReducer.financialProgram
+    ) {
+      this.generateTimelineData();
+    }
   }
+
+  generateTimelineData = () => {
+    const {
+      financialReducer: { financialProgram },
+    } = this.props;
+    const data = financialProgram.filter(item => item.total === 0);
+
+    const allYears = [];
+    data.filter(item => {
+      const year = item.date.substring(0, 4);
+      allYears.push(year);
+      return true;
+    });
+    const a = Math.min(...allYears);
+    const b = Math.max(...allYears);
+    const years = [];
+
+    let initial = a;
+    for (let i = 0; i <= b - a; i += 1) {
+      years.push(initial);
+      initial += 1;
+    }
+
+    const arr = [];
+
+    years.map((item, index) => {
+      arr.push({
+        id: index + 1,
+        year: item,
+        program: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+      });
+      return true;
+    });
+
+    data.map(item => {
+      const date = new Date(item.date);
+      const year = item.date.substring(0, 4);
+      const month = date.getMonth();
+
+      arr.map(i => {
+        if (i.year.toString() === year) {
+          // eslint-disable-next-line no-param-reassign
+          i.program[month] = { ...item };
+        }
+        return true;
+      });
+      return true;
+    });
+    this.setState({
+      timelineData: arr,
+    });
+  };
 
   handleHover = id => {
     this.setState(prevState => ({
@@ -419,7 +494,9 @@ class RightSideBar extends Component {
       partnerCount,
       programCount,
       maxValue,
+      timelineData,
     } = this.state;
+
     return (
       <aside className="sidebar right-sidebar literacy-right-sidebar">
         <div className="sidebar-in">
@@ -632,6 +709,96 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget timeline-widget">
+              <h5>Initiative Timeline</h5>
+              <div className="widget-body">
+                <div className="timeline">
+                  {timelineData &&
+                    timelineData.map(item => {
+                      return (
+                        <ul className="year">
+                          <div className="date-time">
+                            <time>{item.year}</time>
+                          </div>
+                          {item.program.map((list, index) => {
+                            const date = new Date(list.date);
+                            const dateNumber = date.getDate();
+                            const monthName = date
+                              .toDateString()
+                              .split(' ')[1];
+
+                            let temp = '';
+                            if (Object.entries(list).length !== 0) {
+                              temp = (
+                                <li
+                                  key={item.id}
+                                  className={
+                                    hoverID === index ? 'active' : ''
+                                  }
+                                >
+                                  <div className="timeline-content ">
+                                    <div
+                                      onMouseEnter={() => {
+                                        this.handleHover(index);
+                                      }}
+                                      onMouseLeave={() => {
+                                        this.handleUnhover(index);
+                                      }}
+                                      className="timeline-text"
+                                    >
+                                      <span>
+                                        {`${dateNumber}
+                                        ${monthName}`}
+                                      </span>
+                                      <p>{list.name}</p>
+                                    </div>
+                                  </div>
+                                </li>
+                              );
+                            } else {
+                              temp = <li className="blank" />;
+                            }
+                            return temp;
+                          })}
+                        </ul>
+                      );
+                    })}
+
+                  {/* <ul className="year">
+                    <div className="date-time">
+                      <time>2015</time>
+                    </div>
+                    <li className="active">
+                      <div className="timeline-content ">
+                        <div className="timeline-text">
+                          <span>1 june</span>
+                          <p>
+                            Year-round 12 module Financial Literacy
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="blank" />
+                    <li className="blank" />
+                    <li className="blank" />
+                    <li className="blank" />
+                    <li className="blank" />
+                    <li className="blank" />
+                    <li className="blank" />
+                    <li className="">
+                      <div className="timeline-content ">
+                        <div className="timeline-text">
+                          <p>
+                            Year-round 12 module Financial Literacy
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul> */}
+                </div>
+              </div>
+            </div>
+
+            {/* <div className="sidebar-widget timeline-widget">
               <h5 style={{ textTransform: 'none' }}>
                 Timeline of Financial Literacy Initiative
               </h5>
@@ -649,7 +816,7 @@ class RightSideBar extends Component {
                             }
                           >
                             <div className="date-time">
-                              <time>{date.getFullYear()}</time>
+                                <time>{date.getFullYear()}</time>
                               <b>
                                 {date.toDateString().split(' ')[1]}
                               </b>
@@ -672,42 +839,9 @@ class RightSideBar extends Component {
                       }
                       return null;
                     })}
-                  {/* <li className="active">
-                    <div className="date-time">
-                      <time>2015</time>
-                      <b>Jun</b>
-                    </div>
-                    <div className="timeline-content ">
-                      <div className="timeline-text">
-                        Year-round 12 module Financial Literacy
-                      </div>
-                    </div>
-                  </li>
-                  <li className="">
-                    <div className="date-time">
-                      <time>2015</time>
-                      <b>Jun</b>
-                    </div>
-                    <div className="timeline-content ">
-                      <div className="timeline-text">
-                        Year-round 12 module Financial Literacy
-                      </div>
-                    </div>
-                  </li>
-                  <li className="">
-                    <div className="date-time">
-                      <time>2015</time>
-                      <b>Jun</b>
-                    </div>
-                    <div className="timeline-content ">
-                      <div className="timeline-text">
-                        Year-round 12 module Financial Literacy
-                      </div>
-                    </div>
-                  </li> */}
                 </ul>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div
