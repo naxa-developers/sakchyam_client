@@ -21,7 +21,9 @@ function numberWithCommas(x) {
 class SankeyChart extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      randomKey: 1,
+    };
   }
 
   //   // eslint-disable-next-line camelcase
@@ -36,9 +38,16 @@ class SankeyChart extends Component {
     }, 500);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.sankeyChartData !== this.props.sankeyChartData) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ randomKey: Math.random() });
+    }
+  }
+
   render() {
     const {
-      state: { overView },
+      state: { overView, randomKey },
       props: { activeOverview, cardWidth },
     } = this;
     const {
@@ -48,6 +57,7 @@ class SankeyChart extends Component {
       <div style={{ height: '800px' }}>
         {sankeyChartData.nodes && (
           <ResponsiveSankey
+            key={Math.random()}
             data={sankeyChartData}
             margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
             // width={
@@ -115,6 +125,7 @@ class SankeyChart extends Component {
             )}
           />
           // <ResponsiveSankey
+          //   key={Math.random()}
           //   data={sankeyChartData}
           //   enableLabels={false}
           //   margin={{ top: 40, right: 20, bottom: 40, left: 20 }}

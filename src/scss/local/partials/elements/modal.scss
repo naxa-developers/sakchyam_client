@@ -186,12 +186,15 @@
                 position: relative;
                 padding:0;
                 max-width: 100%;
-                min-width: 1920px;
+                min-width: 1700px;
                 span{
                     &.close-icon{
                         right:2rem;
                         top:2rem;
                     }
+                }
+                .popup-content{
+                    text-align: center;
                 }
                 @media screen and(max-width:1680px){
                     max-width: 1600px;

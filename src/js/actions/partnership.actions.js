@@ -26,6 +26,8 @@ import {
   FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
   FILTER_DISTRICTLIST_FROM_PROVINCE,
   FILTER_MUNLIST_FROM_DISTRICT,
+  FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
+  GET_LEVERAGE_DATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -98,10 +100,16 @@ export const getProjectListData = selectedInvestmentFocus => dispatch => {
     axiosInstance
       .post('/api/v1/project/project/', { investment_primary: data })
       .then(function(result) {
-        return dispatch({
-          type: GET_PROJECT_LIST_DATA,
-          payload: result.data,
-        });
+        return dispatch(
+          {
+            type: GET_PROJECT_LIST_DATA,
+            payload: result.data,
+          },
+          {
+            type: GET_LEVERAGE_DATA,
+            payload: result.data,
+          },
+        );
       });
   } catch (err) {
     console.error(err);
@@ -367,6 +375,7 @@ export const filterRadialData = (
   selectedProjectId,
   selectedPartnerType,
   selectedPartnerId,
+  selectedFederalList,
 ) => dispatch => {
   // console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
   // console.log(selectedProjectId, 'selectedProjectId');
@@ -389,6 +398,32 @@ export const filterRadialData = (
       ? `partner_filter=${selectedPartnerId}`
       : '';
   const viewData = viewDataBy ? `view=${viewDataBy}` : '';
+  const federalFilter =
+    selectedFederalList &&
+    selectedFederalList.selectedMunicipality &&
+    selectedFederalList.selectedMunicipality.length > 0
+      ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
+          mun => {
+            return mun.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedDistrict &&
+        selectedFederalList.selectedDistrict.length > 0
+      ? `district_id=${selectedFederalList.selectedDistrict.map(
+          dist => {
+            return dist.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedProvince &&
+        selectedFederalList.selectedProvince.length > 0
+      ? `province_id=${selectedFederalList.selectedProvince.map(
+          prov => {
+            return prov.code;
+          },
+        )}`
+      : '';
   // console.log(query, 'query');
   // let data = selectedInvestmentFocus;
   // if (
@@ -412,7 +447,7 @@ export const filterRadialData = (
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/radial/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${viewData}`,
+        `/api/v1/partnership/radial/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${viewData}&${federalFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
@@ -1041,6 +1076,7 @@ export const filterSankeyChartData = (
   selectedProjectId,
   selectedPartnerType,
   selectedPartnerId,
+  selectedFederalList,
 ) => dispatch => {
   const investmentFilter =
     selectedInvestmentFocus.length > 0
@@ -1058,11 +1094,37 @@ export const filterSankeyChartData = (
     selectedPartnerId.length > 0
       ? `partner_filter=${selectedPartnerId}`
       : '';
+  const federalFilter =
+    selectedFederalList &&
+    selectedFederalList.selectedMunicipality &&
+    selectedFederalList.selectedMunicipality.length > 0
+      ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
+          mun => {
+            return mun.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedDistrict &&
+        selectedFederalList.selectedDistrict.length > 0
+      ? `district_id=${selectedFederalList.selectedDistrict.map(
+          dist => {
+            return dist.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedProvince &&
+        selectedFederalList.selectedProvince.length > 0
+      ? `province_id=${selectedFederalList.selectedProvince.map(
+          prov => {
+            return prov.code;
+          },
+        )}`
+      : '';
   // console.log(investmentFocusSelection, 'investm');
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/sankey/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
+        `/api/v1/partnership/sankey/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
@@ -1098,6 +1160,7 @@ export const filterOverviewData = (
   selectedProjectId,
   selectedPartnerType,
   selectedPartnerId,
+  selectedFederalList,
 ) => dispatch => {
   const investmentFilter =
     selectedInvestmentFocus.length > 0
@@ -1115,11 +1178,37 @@ export const filterOverviewData = (
     selectedPartnerId.length > 0
       ? `partner_filter=${selectedPartnerId}`
       : '';
+  const federalFilter =
+    selectedFederalList &&
+    selectedFederalList.selectedMunicipality &&
+    selectedFederalList.selectedMunicipality.length > 0
+      ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
+          mun => {
+            return mun.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedDistrict &&
+        selectedFederalList.selectedDistrict.length > 0
+      ? `district_id=${selectedFederalList.selectedDistrict.map(
+          dist => {
+            return dist.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedProvince &&
+        selectedFederalList.selectedProvince.length > 0
+      ? `province_id=${selectedFederalList.selectedProvince.map(
+          prov => {
+            return prov.code;
+          },
+        )}`
+      : '';
   // console.log(investmentFocusSelection, 'investm');
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/overview/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
+        `/api/v1/partnership/overview/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
@@ -1273,24 +1362,35 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
     // eslint-disable-next-line prefer-destructuring
     statusSelected = selectedStatus[0];
   }
-  if (selectedFederalTypes.selectedMunicipality.length > 0) {
+  if (
+    selectedFederalTypes.selectedMunicipality &&
+    selectedFederalTypes.selectedMunicipality.length > 0
+  ) {
     selectedFederalTypes.selectedMunicipality.forEach(mun => {
       if (mun.value !== 'all') {
         return municipality.push(mun.value);
       }
     });
-  } else if (selectedFederalTypes.selectedDistrict.length > 0) {
+  } else if (
+    selectedFederalTypes.selectedDistrict &&
+    selectedFederalTypes.selectedDistrict.length > 0
+  ) {
     selectedFederalTypes.selectedDistrict.forEach(dist => {
       if (dist.value !== 'all') {
         return district.push(dist.value);
       }
     });
-  } else {
-    selectedFederalTypes.selectedDistrict.forEach(prov => {
+  } else if (
+    selectedFederalTypes.selectedProvince &&
+    selectedFederalTypes.selectedProvince.length > 0
+  ) {
+    selectedFederalTypes.selectedProvince.forEach(prov => {
       if (prov.value !== 'all') {
         return province.push(prov.value);
       }
     });
+  } else {
+    return province.push(0);
   }
   // if (data === 'allocated_beneficiary') {
   // data = ['total_beneficiary', 'female_beneficiary'];
@@ -1382,4 +1482,71 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   //     console.error(err);
   //   }
   // }
+};
+export const filterMapDataOfCircleMarkerWithViewDataBy = (
+  selectedViewDataBy,
+  selectedFederalType,
+) => dispatch => {
+  // console.log(selectedFederalTypes, 'selectedFederalTypes');
+  // console.log(selectedDataView, 'selectedDataView');
+  // console.log(selectedPartnerId, 'selectedPartnerId');
+  // console.log(selectedProjectId, 'selectedProjectId');
+  console.log(selectedViewDataBy, 'selectedStatus');
+  const province = selectedFederalType === 'province' ? [0] : [];
+  const district = selectedFederalType === 'district' ? [0] : [];
+  const municipality =
+    selectedFederalType === 'municipality' ? [0] : [];
+  try {
+    axiosInstance
+      .post('/api/v1/partnership/partnership-filter/', {
+        status: '',
+        partner_id: [0],
+        project_id: [0],
+        province_id: province,
+        district_id: district,
+        view: selectedViewDataBy,
+        municipality_id: municipality,
+      })
+      .then(function(result) {
+        console.log(result.data, 'filteredData');
+        return dispatch({
+          type: FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getLeverageData = () => dispatch => {
+  try {
+    const requestOne = axiosInstance.get(
+      '/api/v1/partnership/partnership-investment/',
+    );
+    const requestTwo = axiosInstance.post(
+      '/api/v1/project/project/',
+      { investment_primary: [] },
+    );
+
+    axios
+      .all([requestOne, requestTwo])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+          return dispatch({
+            type: GET_LEVERAGE_DATA,
+            payload: {
+              investmentFocusList: responseOne.data,
+              projectList: responseTwo.data,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
 };

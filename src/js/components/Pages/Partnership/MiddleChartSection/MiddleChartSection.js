@@ -12,6 +12,7 @@ import Modal from '../../../common/Modal';
 import CardTab from '../common/CardTab';
 import StackedBar from '../Charts/StackedBar/StackedBar';
 import { getRadialData } from '../../../../actions/partnership.actions';
+import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
 
 function formatData(fulldata) {
   fulldata.forEach(datum => {
@@ -132,6 +133,23 @@ class MiddleChartSection extends Component {
             />
           </div>
         );
+      case 'leverageChart':
+        return (
+          <div
+            id="barContainer"
+            style={{ width: '1900px', overflowX: 'scroll' }}
+          >
+            <LeverageStackedBar
+              viewDataBy={viewDataBy}
+              activeModal={activeModal}
+              partnerSelection={partnerSelection}
+              projectSelection={projectSelection}
+              projectStatus={projectStatus}
+              showBarof={showBarof}
+              handleShowBarOf={handleShowBarOf}
+            />
+          </div>
+        );
       case 'timeline':
         return (
           <div className="time-line-container">
@@ -242,6 +260,28 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
+            <CardTab
+              cardTitle="S-CF Fund & Leverage By Investment Focus"
+              cardClass="col-xl-6"
+              cardChartId="sunburst"
+              handleModal={this.handleModal}
+              handleSelectedModal={() => {
+                this.handleSelectedModal('leverageChart');
+              }}
+              renderChartComponent={() => {
+                return (
+                  <LeverageStackedBar
+                    viewDataBy={viewDataBy}
+                    activeModal={activeModal}
+                    partnerSelection={partnerSelection}
+                    projectSelection={projectSelection}
+                    projectStatus={projectStatus}
+                    showBarof={showBarof}
+                    handleShowBarOf={handleShowBarOf}
+                  />
+                );
+              }}
+            />
             {/* <CardTab
               cardTitle="Key Services Introduced"
               cardClass="col-xl-6"
@@ -266,7 +306,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            {/* <CardTab
+            <CardTab
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
@@ -282,7 +322,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            /> */}
+            />
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

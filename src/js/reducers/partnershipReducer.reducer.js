@@ -23,6 +23,8 @@ import {
   FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
   FILTER_DISTRICTLIST_FROM_PROVINCE,
   FILTER_MUNLIST_FROM_DISTRICT,
+  FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
+  GET_LEVERAGE_DATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -32,6 +34,8 @@ const initialState = {
   projectLists: [],
   mapDataByProvince: [],
   mapDataByDistrict: [],
+  filteredMapData: [],
+  mapDataForCircleMarker: [],
   mapDataByMunicipality: [],
   radialData: [],
   spiderChartData: [],
@@ -42,6 +46,7 @@ const initialState = {
   allDistrictList: [],
   allMunicipalityList: [],
   overviewData: [],
+  barDataByLeverage: [],
 };
 
 // {
@@ -101,6 +106,82 @@ const filterBudgetBarChart = datas => {
   return {
     labels: barLabels,
     series: [finaleTotalBudget],
+  };
+};
+const filterLeverageChart = datas => {
+  console.log(datas, 'datas');
+  // const ages = datas.projectList.reduce(
+  //   // eslint-disable-next-line
+  //   (a, { investment_primary, leverage }) => (
+  //     // eslint-disable-next-line no-param-reassign
+  //     (a[investment_primary] =
+  //       // eslint-disable-next-line no-sequences
+  //       (a[investment_primary] || 0) + +leverage),
+  //     a
+  //   ),
+  //   {},
+  // );
+  // console.log(ages);
+  const summedScfFund = datas.projectList.reduce((a, c) => {
+    const filtered = a.filter(
+      el => el.investment_primary === c.investment_primary,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[a.indexOf(filtered[0])].scf_funds += +c.scf_funds;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+  const summedLeverage = datas.projectList.reduce((a, c) => {
+    const filtered = a.filter(
+      el => el.investment_primary === c.investment_primary,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[a.indexOf(filtered[0])].leverage += +c.leverage;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+
+  console.log(summedScfFund, 'scf');
+  console.log(summedLeverage, 'leverage');
+  const summedTotal = summedLeverage;
+
+  const barLabelsScfFund = summedLeverage.map(label => {
+    return label.investment_primary;
+  });
+  const totalScfFund = summedLeverage.map(data => {
+    return Math.round(data.scf_funds);
+  });
+  // const barLabelsLeverage = summedLeverage.map(label => {
+  //   return label.investment_primary;
+  // });
+  const totalLeverage = summedLeverage.map(data => {
+    return Math.round(data.leverage);
+  });
+  const finaleTotalScfFund = {
+    name: 'Total ScfFund',
+    type: 'column',
+    data: totalScfFund,
+  };
+  const finaleTotalLeverage = {
+    name: 'Total Leverage',
+    type: 'column',
+    data: totalLeverage,
+  };
+  return {
+    scf: {
+      labels: barLabelsScfFund,
+      series: [finaleTotalScfFund],
+    },
+    leverage: {
+      labels: barLabelsScfFund,
+      series: [finaleTotalLeverage],
+    },
   };
 };
 
@@ -229,6 +310,28 @@ const getFilteredMapDataChoropleth = (state, action) => {
     ...state,
   };
 };
+const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
+  const federalType = action.payload;
+  const choroplethFormat = action.payload.map(data => {
+    return {
+      ...data,
+      id: data.code,
+      count: data.blb
+        ? data.blb
+        : data.branch
+        ? data.branch
+        : data.tablet
+        ? data.tablet
+        : 0,
+    };
+  });
+  console.log(choroplethFormat, 'formated circleMarker ');
+  return {
+    ...state,
+    mapDataForCircleMarker: choroplethFormat,
+  };
+};
+
 // const choroplethFormat = action.payload.map(data => {
 //   return {
 //     id: data.code,
@@ -539,6 +642,7 @@ const getMapDataByProvince = (state, action) => {
   return {
     ...state,
     filteredMapData: action.payload,
+    mapDataForCircleMarker: action.payload,
     mapDataByProvince: action.payload,
   };
 };
@@ -583,6 +687,14 @@ const filterMunListFromDistrict = (state, action) => {
     ...state,
     allMunicipalityList: municipalityList,
     isDataFetched: true,
+  };
+};
+const getLeverageData = (state, action) => {
+  // console.log(action.payload, 'action');
+  const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    barDataByLeverage: filteredLeverage,
   };
 };
 export default function(state = initialState, action) {
@@ -636,6 +748,10 @@ export default function(state = initialState, action) {
       return getOverviewData(state, action);
     case FILTER_OVERVIEW_DATA:
       return filterOverviewData(state, action);
+    case FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY:
+      return filterMapDataOfCircleMarkerWithViewDataBy(state, action);
+    case GET_LEVERAGE_DATA:
+      return getLeverageData(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:
