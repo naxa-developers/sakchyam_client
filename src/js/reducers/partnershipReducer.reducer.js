@@ -46,6 +46,7 @@ const initialState = {
   allDistrictList: [],
   allMunicipalityList: [],
   overviewData: [],
+  barDataByLeverage: [],
 };
 
 // {
@@ -109,21 +110,79 @@ const filterBudgetBarChart = datas => {
 };
 const filterLeverageChart = datas => {
   console.log(datas, 'datas');
-  // const barLabels = datas.map(label => {
-  //   return label.name.replace('Province', '');
+  // const ages = datas.projectList.reduce(
+  //   // eslint-disable-next-line
+  //   (a, { investment_primary, leverage }) => (
+  //     // eslint-disable-next-line no-param-reassign
+  //     (a[investment_primary] =
+  //       // eslint-disable-next-line no-sequences
+  //       (a[investment_primary] || 0) + +leverage),
+  //     a
+  //   ),
+  //   {},
+  // );
+  // console.log(ages);
+  const summedScfFund = datas.projectList.reduce((a, c) => {
+    const filtered = a.filter(
+      el => el.investment_primary === c.investment_primary,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[a.indexOf(filtered[0])].scf_funds += +c.scf_funds;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+  const summedLeverage = datas.projectList.reduce((a, c) => {
+    const filtered = a.filter(
+      el => el.investment_primary === c.investment_primary,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[a.indexOf(filtered[0])].leverage += +c.leverage;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+
+  console.log(summedScfFund, 'scf');
+  console.log(summedLeverage, 'leverage');
+  const summedTotal = summedLeverage;
+
+  const barLabelsScfFund = summedLeverage.map(label => {
+    return label.investment_primary;
+  });
+  const totalScfFund = summedLeverage.map(data => {
+    return Math.round(data.scf_funds);
+  });
+  // const barLabelsLeverage = summedLeverage.map(label => {
+  //   return label.investment_primary;
   // });
-  // const totalBeneficiary = datas.map(data => {
-  //   return Math.round(data.allocated_budget);
-  // });
-  // const finaleTotalBudget = {
-  //   name: 'Total Budget',
-  //   type: 'line',
-  //   data: totalBeneficiary,
-  // };
-  // return {
-  //   labels: barLabels,
-  //   series: [finaleTotalBudget],
-  // };
+  const totalLeverage = summedLeverage.map(data => {
+    return Math.round(data.leverage);
+  });
+  const finaleTotalScfFund = {
+    name: 'Total ScfFund',
+    type: 'column',
+    data: totalScfFund,
+  };
+  const finaleTotalLeverage = {
+    name: 'Total Leverage',
+    type: 'column',
+    data: totalLeverage,
+  };
+  return {
+    scf: {
+      labels: barLabelsScfFund,
+      series: [finaleTotalScfFund],
+    },
+    leverage: {
+      labels: barLabelsScfFund,
+      series: [finaleTotalLeverage],
+    },
+  };
 };
 
 function sortArrayByKey(arrayData, sortKey) {
@@ -635,6 +694,7 @@ const getLeverageData = (state, action) => {
   const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
+    barDataByLeverage: filteredLeverage,
   };
 };
 export default function(state = initialState, action) {

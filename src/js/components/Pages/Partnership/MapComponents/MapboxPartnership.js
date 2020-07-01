@@ -70,7 +70,7 @@ class MapboxPartnership extends Component {
         : [0, 2, 4, 6, 8, 10, 12, 14, 20];
     const {
       state: { map },
-      props: { vectorTileUrl },
+      props: { vectorTileUrl, mapViewDataBy },
     } = this;
     const {
       filteredMapData,
@@ -82,6 +82,7 @@ class MapboxPartnership extends Component {
           <div>
             <VectorTileMapbox
               mapViewBy={mapViewBy}
+              mapViewDataBy={mapViewDataBy}
               choroplethData={filteredMapData}
               circleMarkerData={mapDataForCircleMarker}
               vectorTileUrl={vectorTileUrl}

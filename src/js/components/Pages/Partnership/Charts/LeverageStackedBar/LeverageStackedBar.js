@@ -21,28 +21,27 @@ class StackedBar extends Component {
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     const that = this;
     const series = [
-      {
-        name: 'Income',
-        type: 'column',
-        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
-      },
-      {
-        name: 'Cashflow',
-        type: 'column',
-        data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
-      },
-      {
-        name: 'Revenue',
-        type: 'line',
-        data: [20, 29, 37, 36, 44, 45, 50, 58],
-      },
+      // {
+      //   name: 'Income',
+      //   type: 'column',
+      //   data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
+      // },
+      // {
+      //   name: 'Cashflow',
+      //   type: 'column',
+      //   data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
+      // },
+      // {
+      //   name: 'Revenue',
+      //   type: 'line',
+      //   data: [20, 29, 37, 36, 44, 45, 50, 58],
+      // },
     ];
 
     const options = {
       chart: {
         height: 350,
         type: 'line',
-        stacked: true,
         // events: {
         //   click(
         //     event,
@@ -98,6 +97,7 @@ class StackedBar extends Component {
       plotOptions: {
         bar: {
           columnWidth: '40%',
+          //  horizontal: true,
         },
       },
       dataLabels: {
@@ -111,9 +111,13 @@ class StackedBar extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
-      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
+      colors: ['#13A8BE', '#5ae7a6'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+        labels: {
+          show: false,
+          hideOverlappingLabels: false,
+        },
       },
 
       grid: {
@@ -134,7 +138,7 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Beneficiaries (Male & Female)',
+            text: 'S-CF Funds',
             style: {
               color: '#008FFB',
             },
@@ -208,7 +212,7 @@ class StackedBar extends Component {
         offsetX: 40,
       },
     };
-    this.setState({ options, series });
+    this.setState({ series });
   };
 
   componentDidMount() {
@@ -224,32 +228,17 @@ class StackedBar extends Component {
   updateBarChart = () => {
     const that = this;
     const {
-      partnershipReducer: { barDatas },
+      partnershipReducer: { barDataByLeverage },
     } = this.props;
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
-    // const series = [
-    //   {
-    //     name: 'PRODUCT A',
-    //     data: [44, 55, 41, 67, 22, 43],
-    //   },
-    //   {
-    //     name: 'PRODUCT B',
-    //     data: [13, 23, 20, 8, 13, 27],
-    //   },
-    //   {
-    //     name: 'PRODUCT C',
-    //     data: [11, 17, 15, 15, 21, 14],
-    //   },
-    //   {
-    //     name: 'PRODUCT D',
-    //     data: [21, 7, 25, 13, 22, 8],
-    //   },
-    // ];
+    const series = [
+      barDataByLeverage.scf.series[0],
+      barDataByLeverage.leverage.series[0],
+    ];
     const options = {
       chart: {
         height: 350,
         type: 'line',
-        stacked: true,
         // events: {
         //   click(
         //     event,
@@ -347,12 +336,17 @@ class StackedBar extends Component {
       //   offsetX: 110,
       // },
       xaxis: {
-        categories: barDatas.labels,
+        categories: barDataByLeverage.scf.labels,
+        labels: {
+          // show: false,
+          trim: true,
+          hideOverlappingLabels: false,
+        },
       },
       yaxis: [
         {
           // min: 0,
-          max: 600000,
+          // max: 600000,
           axisTicks: {
             show: true,
           },
@@ -370,7 +364,7 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Beneficiaries (Male & Female)',
+            text: 'S-CF Funds',
             style: {
               color: '#008FFB',
             },
@@ -379,31 +373,31 @@ class StackedBar extends Component {
           //   enabled: true,
           // },
         },
-        {
-          // min: 0,
-          max: 600000,
-          seriesName: 'Incomessss',
-          show: false,
-          opposite: true,
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: '#00E396',
-          },
-          labels: {
-            style: {
-              colors: '#00E396',
-            },
-          },
-          //   title: {
-          //     text: 'Operating Cashflow (thousand crores)',
-          //     style: {
-          //       color: '#00E396',
-          //     },
-          //   },
-        },
+        // {
+        //   // min: 0,
+        //   max: 600000,
+        //   seriesName: 'Incomessss',
+        //   show: false,
+        //   opposite: true,
+        //   axisTicks: {
+        //     show: true,
+        //   },
+        //   axisBorder: {
+        //     show: true,
+        //     color: '#00E396',
+        //   },
+        //   labels: {
+        //     style: {
+        //       colors: '#00E396',
+        //     },
+        //   },
+        //   //   title: {
+        //   //     text: 'Operating Cashflow (thousand crores)',
+        //   //     style: {
+        //   //       color: '#00E396',
+        //   //     },
+        //   //   },
+        // },
         {
           // min: 0,
           // max: 5000000,
@@ -414,11 +408,11 @@ class StackedBar extends Component {
           },
           axisBorder: {
             show: true,
-            color: '#FEB019',
+            color: '#5ae7a6',
           },
           labels: {
             style: {
-              colors: '#FEB019',
+              colors: '#5ae7a6',
             },
             formatter: value => {
               // console.log(value, 'value');
@@ -426,9 +420,9 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Budget Allocated',
+            text: 'Leverage',
             style: {
-              color: '#FEB019',
+              color: '#5ae7a6',
             },
           },
           // tooltip: {
@@ -449,15 +443,18 @@ class StackedBar extends Component {
         offsetX: 40,
       },
     };
-    this.setState({ options, series: barDatas.series });
+    this.setState({ options, series });
   };
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      partnershipReducer: { projectList },
+      partnershipReducer: { barDataByLeverage },
     } = this.props;
-    if (prevProps.partnershipReducer.projectList !== projectList) {
-      console.log(projectList, 'projectList');
+    if (
+      prevProps.partnershipReducer.barDataByLeverage !==
+      barDataByLeverage
+    ) {
+      console.log(barDataByLeverage, 'projectList');
       this.updateBarChart();
     }
   }

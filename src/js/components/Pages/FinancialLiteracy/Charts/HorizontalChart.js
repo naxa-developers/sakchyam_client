@@ -263,6 +263,12 @@ class HorizontalChart extends Component {
         // },
         type: 'category',
         categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
+        labels: {
+          offsetY: 0,
+          style: {
+            fontSize: '10px',
+          },
+        },
       },
       yaxis: {
         // tooltip: {
@@ -294,13 +300,21 @@ class HorizontalChart extends Component {
         filteredByProgramDefault,
         filteredByProgram,
       },
+      checkedPartnerItems,
     } = this.props;
 
     let columnWidth = '100%';
-    if (this.props.activeModal) {
+    if (activeModal) {
       columnWidth = '60%';
     } else {
       columnWidth = '60%';
+    }
+
+    let partnerWidth = '100%';
+    if (activeModal) {
+      partnerWidth = '90%';
+    } else {
+      partnerWidth = '100%';
     }
 
     if (activeModal) {
@@ -402,12 +416,12 @@ class HorizontalChart extends Component {
               ...preState.options.plotOptions,
               bar: {
                 ...preState.options.plotOptions.bar,
-                columnWidth:
-                  this.props.checkedPartnerItems &&
-                  this.props.checkedPartnerItems.length === 0
-                    ? '100%'
-                    : // '60%'
-                      '50%',
+                columnWidth: partnerWidth,
+                // this.props.checkedPartnerItems &&
+                // this.props.checkedPartnerItems.length === 0
+                //   ? '100%'
+                //   : // '60%'
+                //     '50%',
                 // startingShape: 'flat',
                 // endingShape: 'flat',
               },
@@ -660,10 +674,16 @@ class HorizontalChart extends Component {
               <>
                 <span
                   onClick={() => {
-                    downloadPng('horizontal-chart');
+                    downloadPng(
+                      'horizontal-chart',
+                      'Beneficiary Reached Per Program by Partners',
+                    );
                   }}
                   onKeyDown={() => {
-                    downloadPng('horizontal-chart');
+                    downloadPng(
+                      'horizontal-chart',
+                      'Beneficiary Reached Per Program by Partners',
+                    );
                   }}
                   className=""
                   role="tab"
@@ -695,6 +715,7 @@ class HorizontalChart extends Component {
         <div className="card-body">
           <div
             className="horizontal-chart"
+            id="horizontal-chart"
             style={{
               height: activeModal ? '512px' : '412px',
               // width: '1400px',
@@ -711,8 +732,10 @@ class HorizontalChart extends Component {
                 type="bar"
                 height={height}
                 width={
-                  activeModal
+                  activeModal && window.innerWidth < 1600
                     ? 1400
+                    : activeModal && window.innerWidth > 1600
+                    ? 1750
                     : showRightSidebar && window.innerWidth < 1600
                     ? 780
                     : showRightSidebar && window.innerWidth > 1600
@@ -731,8 +754,10 @@ class HorizontalChart extends Component {
                 type="bar"
                 height={height}
                 width={
-                  activeModal
+                  activeModal && window.innerWidth < 1600
                     ? 1400
+                    : activeModal && window.innerWidth > 1600
+                    ? 1750
                     : showRightSidebar && window.innerWidth < 1600
                     ? 780
                     : showRightSidebar && window.innerWidth > 1600
@@ -750,7 +775,11 @@ class HorizontalChart extends Component {
                   type="bar"
                   height={height}
                   width={
-                    showRightSidebar && window.innerWidth < 1600
+                    activeModal && window.innerWidth < 1600
+                      ? 1400
+                      : activeModal && window.innerWidth > 1600
+                      ? 1750
+                      : showRightSidebar && window.innerWidth < 1600
                       ? 780
                       : showRightSidebar && window.innerWidth > 1600
                       ? 1100

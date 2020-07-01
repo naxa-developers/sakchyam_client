@@ -133,6 +133,23 @@ class MiddleChartSection extends Component {
             />
           </div>
         );
+      case 'leverageChart':
+        return (
+          <div
+            id="barContainer"
+            style={{ width: '1900px', overflowX: 'scroll' }}
+          >
+            <LeverageStackedBar
+              viewDataBy={viewDataBy}
+              activeModal={activeModal}
+              partnerSelection={partnerSelection}
+              projectSelection={projectSelection}
+              projectStatus={projectStatus}
+              showBarof={showBarof}
+              handleShowBarOf={handleShowBarOf}
+            />
+          </div>
+        );
       case 'timeline':
         return (
           <div className="time-line-container">
@@ -244,7 +261,7 @@ class MiddleChartSection extends Component {
               }}
             />
             <CardTab
-              cardTitle="Province Wise Programme Results"
+              cardTitle="S-CF Fund & Leverage By Investment Focus"
               cardClass="col-xl-6"
               cardChartId="sunburst"
               handleModal={this.handleModal}
@@ -289,7 +306,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            {/* <CardTab
+            <CardTab
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
@@ -305,7 +322,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            /> */}
+            />
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

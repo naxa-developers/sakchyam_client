@@ -353,23 +353,20 @@ class Choropleth extends Component {
       // map.fitBounds()
 
       const popup = new mapboxgl.Popup();
-      map.on('mousemove', 'vector-tile-fill', function(e) {
+      map.on('mousemove', 'circles1', function(e) {
         console.log(e, 'event1st');
         console.log(e.features[0], 'event');
         popup
           .setLngLat(e.lngLat)
           .setHTML(
-            `<div class="leaflet-popup-content" style="width: 281px;">
+            `<div class="leaflet-popup-content" style="width: 100px;">
               <div class="map-popup-view">
                   <div class="map-popup-view-header">
                       <h5>${e.features[0].properties.name}</h5>
                       <div class="icons">
-                      <i class="material-icons">tablet_mac</i><b>${232}</b>
+                      <i class="material-icons">tablet_mac</i><b>${e.features[0].properties.count}</b>
                       </div>
                   </div>
-                  <ul style="height:112px;overflow-y: scroll">
-                  ${232}
-                  </ul>
                   <div class="map-view-footer">
                   </div>
                       </div>
@@ -609,7 +606,7 @@ class Choropleth extends Component {
     if (prevProps.circleMarkerData !== this.props.circleMarkerData) {
       console.log(this.props.circleMarkerData, 'circlemarker ');
       if (this.props.mapViewBy === 'district') {
-        alert('district');
+        // alert('district');
         // map.removeLayer('fullGeojsonProvince');
         // map.removeSource('fullGeojsonProvince');
         // map.removeLayer('fullGeojson');
