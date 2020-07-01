@@ -111,7 +111,7 @@ class StackedBar extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
-      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
+      colors: ['#13A8BE', '#5ae7a6'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
         labels: {
@@ -138,7 +138,7 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Beneficiaries (Male & Female)',
+            text: 'S-CF Funds',
             style: {
               color: '#008FFB',
             },
@@ -364,7 +364,7 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Beneficiaries (Male & Female)',
+            text: 'S-CF Funds',
             style: {
               color: '#008FFB',
             },
@@ -408,11 +408,11 @@ class StackedBar extends Component {
           },
           axisBorder: {
             show: true,
-            color: '#FEB019',
+            color: '#5ae7a6',
           },
           labels: {
             style: {
-              colors: '#FEB019',
+              colors: '#5ae7a6',
             },
             formatter: value => {
               // console.log(value, 'value');
@@ -420,9 +420,9 @@ class StackedBar extends Component {
             },
           },
           title: {
-            text: 'Budget Allocated',
+            text: 'Leverage',
             style: {
-              color: '#FEB019',
+              color: '#5ae7a6',
             },
           },
           // tooltip: {
