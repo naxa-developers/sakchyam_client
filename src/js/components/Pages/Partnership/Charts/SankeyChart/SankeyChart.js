@@ -54,7 +54,7 @@ class SankeyChart extends Component {
       partnershipReducer: { sankeyChartData },
     } = this.props;
     return (
-      <div id="sankey_chart" style={{ height: '800px' }}>
+      <div id="sankey_chart" style={{ height: '1400px' }}>
         {sankeyChartData.nodes && (
           <ResponsiveSankey
             key={Math.random()}
