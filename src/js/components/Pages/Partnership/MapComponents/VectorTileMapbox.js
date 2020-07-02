@@ -9,6 +9,7 @@ import {
   calculateRange,
   choroplethColorArray,
 } from '../../../common/Functions';
+import TimelineChart from './TimelineChart';
 
 const defaultData = [
   { id: '1', count: 0 },
@@ -81,9 +82,9 @@ municipality.map(data => {
   });
 });
 
-console.log(fullGeojsonProvince, 'province');
-console.log(fullGeojsonDistrict, 'district');
-console.log(fullGeojsonMunicipality, 'municipality');
+// console.log(fullGeojsonProvince, 'province');
+// console.log(fullGeojsonDistrict, 'district');
+// console.log(fullGeojsonMunicipality, 'municipality');
 class Choropleth extends Component {
   constructor(props) {
     super(props);
@@ -158,7 +159,7 @@ class Choropleth extends Component {
       (max - min) / (gradeCount - 1) < 1
         ? [0, 2, 4, 6, 8, 10, 12]
         : calculateRange(min, max, (max - min) / (gradeCount - 1));
-    // console.log(range, "range")
+    console.log(calculateRange(0, 100, (100 - 0) / (8 - 1), 'range'));
     this.setState({
       grade: fullRange.length > 0 ? fullRange : range,
     }); // add grade provided from props if available
@@ -354,8 +355,8 @@ class Choropleth extends Component {
 
       const popup = new mapboxgl.Popup();
       map.on('mousemove', 'circles1', function(e) {
-        console.log(e, 'event1st');
-        console.log(e.features[0], 'event');
+        // console.log(e, 'event1st');
+        // console.log(e.features[0], 'event');
         popup
           .setLngLat(e.lngLat)
           .setHTML(
@@ -592,7 +593,7 @@ class Choropleth extends Component {
         popup.remove();
       });
     });
-    console.log(document.getElementById('vector-tile-fill'), 'vctor');
+    // console.log(document.getElementById('vector-tile-fill'), 'vctor');
     // map.addControl(new mapboxgl.NavigationControl());
   };
 
@@ -603,8 +604,14 @@ class Choropleth extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { map, vectorTileUrl } = this.props;
+    if (
+      prevProps.partnershipAllData !==
+      this.props.partnershipReducer.partnershipAllData
+    ) {
+      console.log(this.props.partnershipAllData, 'alldata');
+    }
     if (prevProps.circleMarkerData !== this.props.circleMarkerData) {
-      console.log(this.props.circleMarkerData, 'circlemarker ');
+      // console.log(this.props.circleMarkerData, 'circlemarker ');
       if (this.props.mapViewBy === 'district') {
         // alert('district');
         // map.removeLayer('fullGeojsonProvince');
@@ -676,7 +683,7 @@ class Choropleth extends Component {
             }
           });
         });
-        console.log(fullGeojsonMunicipality, 'fullgeojson');
+        // console.log(fullGeojsonMunicipality, 'fullgeojson');
         if (map.getSource('fullGeojsonProvince')) {
           map
             .getSource('fullGeojsonProvince')
@@ -972,12 +979,13 @@ class Choropleth extends Component {
             </div>
           </div> */}
         </div>
+        <TimelineChart />
       </>
     );
   }
 }
-const mapStateToProps = ({ automationReducer }) => ({
-  automationReducer,
+const mapStateToProps = ({ partnershipReducer }) => ({
+  partnershipReducer,
 });
 
 export default connect(mapStateToProps, {})(Choropleth);

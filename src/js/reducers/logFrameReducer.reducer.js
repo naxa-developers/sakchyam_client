@@ -1,3 +1,4 @@
+import { active } from 'd3';
 import {
   GET_INDICATORS_GRAPHDATA,
   GET_INDICATORS_CATEGORY,
@@ -410,9 +411,24 @@ const filterIndicatorGraphData = (state, action) => {
 // };
 const filterIndicatorGraphDataWithDate = (state, action) => {
   const { activeLayer, activeDate } = action.payload;
+  console.log(`[${activeLayer}]`, 'activeLayer');
+  console.log(activeDate, 'activeYear');
+  const activeDateClone = activeDate;
+  let activeDates = [];
+  if (activeLayer === 'Output Indicator 1.5') {
+    // activeDate = activeDate.map(data => {
+    //   if (data === '2020') {
+    //     return data;
+    //   }
+    // });
+    activeDates = activeDateClone.filter(date => date !== '2020');
+    console.log(activeDates, 'activeDateClone');
+  } else {
+    activeDates = activeDate;
+  }
   const filtered = [];
   // eslint-disable-next-line array-callback-return
-  activeDate.map(date => {
+  activeDates.map(date => {
     // eslint-disable-next-line array-callback-return
     state.logDataGraph.map(data => {
       if (

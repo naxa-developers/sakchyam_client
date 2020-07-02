@@ -25,6 +25,9 @@ import {
   FILTER_MUNLIST_FROM_DISTRICT,
   FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
   GET_LEVERAGE_DATA,
+  GET_PARTNERSHIP_ALL_DATA,
+  RESET_BAR_DATA,
+  RESET_RADIAL_DATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -37,7 +40,7 @@ const initialState = {
   filteredMapData: [],
   mapDataForCircleMarker: [],
   mapDataByMunicipality: [],
-  radialData: [],
+  radialData: {},
   spiderChartData: [],
   sankeyChartData: {},
   filteredPartnerList: [],
@@ -47,6 +50,9 @@ const initialState = {
   allMunicipalityList: [],
   overviewData: [],
   barDataByLeverage: [],
+  // default Datas
+  defaultBarDatas: [],
+  defaultRadialData: {},
 };
 
 // {
@@ -71,7 +77,7 @@ const filterBeneficiaryBarChart = datas => {
     return label.name.replace('Province', '');
   });
   const maleBeneficiary = datas.map(data => {
-    return data.total_beneficiary;
+    return data.total_beneficiary - data.female_beneficiary;
   });
   const femaleBeneficiary = datas.map(data => {
     return data.female_beneficiary;
@@ -109,19 +115,6 @@ const filterBudgetBarChart = datas => {
   };
 };
 const filterLeverageChart = datas => {
-  console.log(datas, 'datas');
-  // const ages = datas.projectList.reduce(
-  //   // eslint-disable-next-line
-  //   (a, { investment_primary, leverage }) => (
-  //     // eslint-disable-next-line no-param-reassign
-  //     (a[investment_primary] =
-  //       // eslint-disable-next-line no-sequences
-  //       (a[investment_primary] || 0) + +leverage),
-  //     a
-  //   ),
-  //   {},
-  // );
-  // console.log(ages);
   const summedScfFund = datas.projectList.reduce((a, c) => {
     const filtered = a.filter(
       el => el.investment_primary === c.investment_primary,
@@ -147,8 +140,8 @@ const filterLeverageChart = datas => {
     return a;
   }, []);
 
-  console.log(summedScfFund, 'scf');
-  console.log(summedLeverage, 'leverage');
+  // console.log(summedScfFund, 'scf');
+  // console.log(summedLeverage, 'leverage');
   const summedTotal = summedLeverage;
 
   const barLabelsScfFund = summedLeverage.map(label => {
@@ -248,15 +241,16 @@ const getBarDataByBenefBudget = (state, action) => {
   // }
   sortArrayByKey(allocatedBudget, 'code');
   const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(filteredBenefValues, 'filteredBenefValues');
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  console.log(filteredBenefValues, 'filteredBudgetValues');
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
   // );
   return {
     ...state,
     // mapDataByProvince: finalBeneficiaryArray,
     barDatas: filteredBenefValues,
+    defaultBarDatas: filteredBenefValues,
     // filteredMapData: choroplethFormat,
   };
 };
@@ -325,7 +319,7 @@ const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
         : 0,
     };
   });
-  console.log(choroplethFormat, 'formated circleMarker ');
+  // console.log(choroplethFormat, 'formated circleMarker ');
   return {
     ...state,
     mapDataForCircleMarker: choroplethFormat,
@@ -342,9 +336,16 @@ const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
 // });
 
 const getRadialData = (state, action) => {
+  if (state.defaultRadialData.name) {
+    return {
+      ...state,
+      radialData: action.payload,
+    };
+  }
   return {
     ...state,
     radialData: action.payload,
+    defaultRadialData: action.payload,
   };
 };
 const getSpiderChartData = (state, action) => {
@@ -697,6 +698,30 @@ const getLeverageData = (state, action) => {
     barDataByLeverage: filteredLeverage,
   };
 };
+const getPartnershipAllData = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    partnershipAllData: action.payload,
+  };
+};
+const resetBarData = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    barDatas: state.defaultBarDatas,
+  };
+};
+const resetRadialData = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    radialData: state.defaultRadialData,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERSHIP_INVESTMENT_FOCUS:
@@ -752,6 +777,12 @@ export default function(state = initialState, action) {
       return filterMapDataOfCircleMarkerWithViewDataBy(state, action);
     case GET_LEVERAGE_DATA:
       return getLeverageData(state, action);
+    case GET_PARTNERSHIP_ALL_DATA:
+      return getPartnershipAllData(state, action);
+    case RESET_BAR_DATA:
+      return resetBarData(state, action);
+    case RESET_RADIAL_DATA:
+      return resetRadialData(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:

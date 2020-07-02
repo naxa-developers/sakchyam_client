@@ -36,6 +36,7 @@ class LeftSideBar extends Component {
         handlePartnerParentCheckbox,
         handleProjectParentCheckbox,
         handleInvestmentParentCheckbox,
+        resetFilters,
       },
     } = this;
     const {
@@ -280,6 +281,7 @@ class LeftSideBar extends Component {
             <div className="apply-buttons buttons end">
               <button
                 type="button"
+                onClick={resetFilters}
                 className="common-button is-clear "
               >
                 reset
