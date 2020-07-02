@@ -77,12 +77,12 @@ class ProductProcess extends React.Component {
           }
         >
           <LeftSideBar
-            innovationArea={innovationAreaList}
-            productCategory={productCategoryList}
-            productName={productNameList}
-            partnerType={partnerTypeList}
-            partnerInstitution={partnerInstitutionList}
-            marketFailure={marketFailureList}
+            // innovationArea={innovationAreaList}
+            // productCategory={productCategoryList}
+            // productName={productNameList}
+            // partnerType={partnerTypeList}
+            // partnerInstitution={partnerInstitutionList}
+            // marketFailure={marketFailureList}
             handleInnovationAreaCheckbox={
               this.handleInnovationAreaCheckbox
             }

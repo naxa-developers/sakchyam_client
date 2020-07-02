@@ -538,7 +538,7 @@ class HorizontalChart extends Component {
       this.props.financialReducer.filteredByProgramDefault
     ) {
       this.setState(preState => ({
-        isToggled: false,
+        // isToggled: false,
         isBarChartClicked: false,
         programChart: {
           series: filteredByProgramDefault.series,
@@ -559,6 +559,10 @@ class HorizontalChart extends Component {
               },
             },
             colors: filteredByProgramDefault.color,
+            title: {
+              // ...preState.programChart.options.title,
+              text: '',
+            },
           },
         },
       }));
@@ -586,14 +590,6 @@ class HorizontalChart extends Component {
           title: {
             ...prevState.programChart.options.title,
             text: '',
-            // floating: true,
-            // offsetY: 0,
-            // align: 'center',
-            // style: {
-            //   color: '#444',
-            //   fontFamily: 'Avenir Book',
-            //   fontSize: '17px',
-            // },
           },
         },
       },

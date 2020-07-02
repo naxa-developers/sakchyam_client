@@ -432,6 +432,8 @@ class RightSideBar extends Component {
       initial += 1;
     }
 
+    years.sort((a, b) => b - a);
+
     const arr = [];
 
     years.map((item, index) => {

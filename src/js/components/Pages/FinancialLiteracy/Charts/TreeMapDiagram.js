@@ -154,7 +154,10 @@ class TreeMapDiagram extends Component {
       prevProps.financialReducer.treeMapData !==
       this.props.financialReducer.treeMapData
     ) {
-      this.setState({ treeMapData1: treeMapData });
+      this.setState({
+        treeMapData1: treeMapData,
+        isTreeMapClicked: false,
+      });
     }
     if (
       prevProps.financialReducer.financialData !==
@@ -328,6 +331,7 @@ class TreeMapDiagram extends Component {
               ? {
                   // display: activeModal ? 'none' : 'flex',
                   border: 'none',
+                  padding: '0',
                   backgroundColor: '#fff',
                 }
               : {}
@@ -346,7 +350,9 @@ class TreeMapDiagram extends Component {
                 style={
                   activeModal && {
                     position: 'absolute',
-                    right: '62px',
+                    top: '36px',
+                    // right: '62px',
+                    right: '150px',
                   }
                 }
               >

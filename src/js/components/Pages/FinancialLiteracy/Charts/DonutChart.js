@@ -229,9 +229,16 @@ class DonutChart extends Component {
               <div className="legend-list">
                 <h5>
                   <small style={{ backgroundColor: '#e11d3f' }} />
-                  <span>Microfinance Institutions</span>
+                  <span>
+                    <strong style={{ fontSize: '12px' }}>
+                      Microfinance Institutions
+                    </strong>
+                  </span>
                 </h5>
-                <div className="legend-count">
+                <div
+                  className="legend-count"
+                  style={{ fontSize: '12px' }}
+                >
                   <b className="numeric">
                     {numberWithCommas(series[1])}
                   </b>
@@ -243,9 +250,16 @@ class DonutChart extends Component {
               <div className="legend-list">
                 <h5>
                   <small style={{ backgroundColor: '#13a8be' }} />
-                  <span>Commercial Bank & Other Partners</span>
+                  <span>
+                    <strong style={{ fontSize: '12px' }}>
+                      Commercial Bank & Other Partners
+                    </strong>
+                  </span>
                 </h5>
-                <div className="legend-count">
+                <div
+                  className="legend-count"
+                  style={{ fontSize: '12px' }}
+                >
                   <b className="numeric">
                     {numberWithCommas(series[0])}
                   </b>
