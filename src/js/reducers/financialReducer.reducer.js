@@ -375,6 +375,7 @@ const filterProgramWiseChartData = (data, type) => {
     if (item.name === 'Centre Meeting') newArr[3] = item;
     if (item.name === 'IVR') newArr[4] = item;
     if (item.name === 'Street Drama') newArr[5] = item;
+    return true;
   });
 
   // const categoriesNew = newArr.map(item => item.name);
@@ -639,6 +640,7 @@ const getFinancialData = (state, action) => {
     if (item.name === 'Centre Meeting') newArr[3] = item;
     if (item.name === 'IVR') newArr[4] = item;
     if (item.name === 'Street Drama') newArr[5] = item;
+    return true;
   });
 
   const colr = newArr.map(item => colorPicker(item.id));

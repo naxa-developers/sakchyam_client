@@ -54,7 +54,7 @@ class LeftSideBar extends Component {
                           <CheckBox
                             id={index}
                             className="investment_checkbox"
-                            key={index}
+                            // key={index}
                             label={item}
                             name={item}
                             changeHandler={
@@ -94,7 +94,7 @@ class LeftSideBar extends Component {
                           <CheckBox
                             id={index}
                             className="investment_checkbox"
-                            key={index}
+                            // key={index}
                             label={item}
                             name={item}
                             // changeHandler={
@@ -134,7 +134,7 @@ class LeftSideBar extends Component {
                           <CheckBox
                             id={index}
                             className="investment_checkbox"
-                            key={index}
+                            // key={index}
                             label={item}
                             name={item}
                             // changeHandler={
@@ -225,7 +225,7 @@ class LeftSideBar extends Component {
                           <CheckBox
                             id={index}
                             className="investment_checkbox"
-                            key={index}
+                            // key={index}
                             label={item}
                             name={item}
                             // changeHandler={
@@ -265,7 +265,7 @@ class LeftSideBar extends Component {
                           <CheckBox
                             id={index}
                             className="investment_checkbox"
-                            key={index}
+                            // key={index}
                             label={item}
                             name={item}
                             // changeHandler={

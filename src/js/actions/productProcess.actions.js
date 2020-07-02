@@ -1,6 +1,7 @@
 import { GET_PRODUCT_PROCESS_LIST } from './index.actions';
 import axiosInstance from '../axiosApi';
 
+// eslint-disable-next-line import/prefer-default-export
 export const getProductProcessList = () => dispatch => {
   try {
     const response = axiosInstance

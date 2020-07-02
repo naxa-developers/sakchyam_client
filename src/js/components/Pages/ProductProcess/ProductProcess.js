@@ -9,20 +9,20 @@ class ProductProcess extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      innovationArea: [],
-      productCategory: [],
-      productName: [],
-      partnerType: [],
-      partnerInstitution: [],
-      marketFailure: [],
+      // innovationArea: [],
+      // productCategory: [],
+      // productName: [],
+      // partnerType: [],
+      // partnerInstitution: [],
+      // marketFailure: [],
 
       showRightSidebar: true,
     };
   }
 
   componentDidMount() {
-    const { getProductProcessList } = this.props;
-    getProductProcessList();
+    // const { getProductProcessList } = this.props;
+    this.props.getProductProcessList();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -40,6 +40,7 @@ class ProductProcess extends React.Component {
       prevProps.productProcessReducer.innovationAreaList !==
       this.props.productProcessReducer.innovationAreaList
     ) {
+      // comment
     }
   }
 
