@@ -109,9 +109,7 @@ const CardTab = ({
               >
                 Reset
               </button>
-            ) : (
-              <label>Test</label>
-            )}
+            ) : null}
             <span
               className=""
               onClick={() => {

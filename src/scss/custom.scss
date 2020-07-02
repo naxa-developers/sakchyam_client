@@ -475,3 +475,18 @@
   .mapboxgl-popup{
     max-width: 300px!important;
   }
+
+  .literacy-tab-item{
+    #map{
+        .apexcharts-inner {
+          transform: translate(10px, 10px);
+        }
+    }
+    .chart-timeline {
+      
+      max-width: 546px;
+      // max-height: 300px;
+      height: 80px;
+      width: 557px;
+  }
+}

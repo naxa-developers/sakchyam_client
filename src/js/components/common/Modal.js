@@ -86,8 +86,110 @@ const Modal = props => {
               close
             </i>
           </span>
+
           <div className="popup-header no-flex">
             <h3>{modalHeader}</h3>
+            {selectedModal === 'sunburst' ? (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '140px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
+                }}
+                onClick={
+                  () => downloadPng(selectedChartId, modalHeader)
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+                onKeyDown={
+                  () => downloadPng(selectedChartId, modalHeader)
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+                role="button"
+                tabIndex="-1"
+              >
+                <button
+                  id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    // resetFunction();
+                  }}
+                  className="is-border common-button"
+                >
+                  Reset
+                </button>
+              </span>
+            ) : selectedModal === 'groupedChart' ? (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '140px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
+                }}
+                onClick={
+                  () => downloadPng(selectedChartId, modalHeader)
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+                onKeyDown={
+                  () => downloadPng(selectedChartId, modalHeader)
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+                role="button"
+                tabIndex="-1"
+              >
+                <button
+                  id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    // resetFunction();
+                  }}
+                  className="is-border common-button"
+                >
+                  Reset
+                </button>
+              </span>
+            ) : (
+              <label>ssd</label>
+            )}
+            {/* <span
+              style={{
+                position: 'absolute',
+                right: '90px',
+                top: '30px',
+                padding: '5px 6px',
+                border: '1px solid #F0F0F0',
+                // borderColor: 'lightgrey',
+                cursor: 'pointer',
+              }}
+              onClick={
+                () => downloadPng(selectedChartId, modalHeader)
+                // eslint-disable-next-line react/jsx-curly-newline
+              }
+              onKeyDown={
+                () => downloadPng(selectedChartId, modalHeader)
+                // eslint-disable-next-line react/jsx-curly-newline
+              }
+              role="button"
+              tabIndex="-1"
+            >
+              <button
+                id="chart-reset"
+                type="button"
+                onClick={() => {
+                  // resetFunction();
+                }}
+                className="is-border common-button"
+              >
+                Reset
+              </button>
+            </span> */}
             <span
               style={{
                 position: 'absolute',

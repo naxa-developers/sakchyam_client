@@ -874,7 +874,7 @@ class Choropleth extends Component {
       <>
         <div className="map-legend newmap-legend">
           <div className="color-list">
-            <h6>Population</h6>
+            <h6>Number of Projects</h6>
             <ul id="state-legend" className="color-legend">
               {this.state.grade &&
                 this.state.grade.map((grade, i) => {

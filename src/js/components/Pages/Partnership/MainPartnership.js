@@ -32,6 +32,9 @@ import {
   filterMunListFromDistrict,
   filterFinancialDataWithAllFiltersAndFederal,
   getPartnershipAllData,
+  resetBarDatas,
+  resetRadialData,
+  resetSankeyChartData,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
@@ -520,6 +523,9 @@ class MainPartnership extends Component {
     console.log('resertfiles');
     const that = this;
     that.resetLeftSideBarSelection();
+    this.props.resetBarDatas();
+    this.props.resetRadialData();
+    this.props.resetSankeyChartData();
   };
 
   render() {
@@ -1001,4 +1007,7 @@ export default connect(mapStateToProps, {
   filterMunListFromDistrict,
   filterFinancialDataWithAllFiltersAndFederal,
   getPartnershipAllData,
+  resetBarDatas,
+  resetRadialData,
+  resetSankeyChartData,
 })(MainPartnership);

@@ -263,6 +263,8 @@ class Sunburst extends React.Component {
       if (this.props.isLegend) {
         this.legend = el.append("svg");
         console.log(data,"sunburstData");
+        data[0].children && data[0].children.sort() 
+        console.log(data[0].children && data[0].children.sort((a,b) => b.value - a.value),"sunburstDataSort");
         this.legend
           .style("class", "sunbrust-legend")
           .attr("x","100px")
@@ -271,7 +273,7 @@ class Sunburst extends React.Component {
           .style("height", "200px");
         var legendEntries = this.legend
           .selectAll("g")
-          .data(data[0].children ? data[0].children: [])
+          .data(data[0].children ? data[0].children.sort(): [])
           .enter()
           .append("g");
         legendEntries.exit().remove();

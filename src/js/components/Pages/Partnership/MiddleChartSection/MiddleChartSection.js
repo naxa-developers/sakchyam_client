@@ -15,6 +15,7 @@ import {
   getRadialData,
   resetBarDatas,
   resetRadialData,
+  resetSankeyChartData,
 } from '../../../../actions/partnership.actions';
 import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
 
@@ -319,7 +320,8 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
+              resetFunction={this.props.resetSankeyChartData}
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
@@ -335,7 +337,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"
@@ -370,4 +372,5 @@ export default connect(mapStateToProps, {
   getRadialData,
   resetBarDatas,
   resetRadialData,
+  resetSankeyChartData,
 })(MiddleChartSection);

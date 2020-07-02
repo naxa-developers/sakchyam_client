@@ -374,12 +374,15 @@ class StackedBar extends Component {
       colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         categories: barDatas.labels,
+        title: {
+          text: 'Provinces',
+        },
       },
       yaxis: [
         {
           // min: 0,
           max(max) {
-            // console.log(max, 'max');
+            console.log(max, 'max');
             // console.log(that.props.showBarof, 'showBarof');
             if (that.props.showBarof === 'Provinces') {
               return 600000;
@@ -497,6 +500,14 @@ class StackedBar extends Component {
         //   offsetY: 30,
         //   offsetX: 60,
         // },
+        x: {
+          show: true,
+          // format: 'dd MMM',
+          formatter(x) {
+            console.log(x, 'x');
+            return `Province ${x}`;
+          },
+        },
       },
       legend: {
         horizontalAlign: 'left',

@@ -28,6 +28,7 @@ import {
   GET_PARTNERSHIP_ALL_DATA,
   RESET_BAR_DATA,
   RESET_RADIAL_DATA,
+  RESET_SANKEYCHART_DATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -53,6 +54,7 @@ const initialState = {
   // default Datas
   defaultBarDatas: [],
   defaultRadialData: {},
+  defaultSankeyChartData: {},
 };
 
 // {
@@ -73,9 +75,18 @@ const initialState = {
 // },
 
 const filterBeneficiaryBarChart = datas => {
-  const barLabels = datas.map(label => {
-    return label.name.replace('Province', '');
-  });
+  const checkProvince = datas.some(i => i.name.includes('Province'));
+  console.log(checkProvince, 'check');
+  console.log(datas, 'datas');
+  const barLabels = checkProvince
+    ? datas.map(label => {
+        return label.code;
+        // return label.code;
+      })
+    : datas.map(label => {
+        return label.name.replace('Province', '');
+        // return label.name.replace('Province', '');
+      });
   const maleBeneficiary = datas.map(data => {
     return data.total_beneficiary - data.female_beneficiary;
   });
@@ -99,7 +110,8 @@ const filterBeneficiaryBarChart = datas => {
 };
 const filterBudgetBarChart = datas => {
   const barLabels = datas.map(label => {
-    return label.name.replace('Province', '');
+    // return label.name.replace('Province', '');
+    return label.code;
   });
   const totalBeneficiary = datas.map(data => {
     return Math.round(data.allocated_budget);
@@ -157,12 +169,12 @@ const filterLeverageChart = datas => {
     return Math.round(data.leverage);
   });
   const finaleTotalScfFund = {
-    name: 'Total ScfFund',
+    name: 'S-CF Fund',
     type: 'column',
     data: totalScfFund,
   };
   const finaleTotalLeverage = {
-    name: 'Total Leverage',
+    name: 'Leverage',
     type: 'column',
     data: totalLeverage,
   };
@@ -619,6 +631,7 @@ const getSankeyChartData = (state, action) => {
   return {
     ...state,
     sankeyChartData: action.payload,
+    defaultSankeyChartData: action.payload,
   };
 };
 const filterSankeyChartData = (state, action) => {
@@ -722,6 +735,14 @@ const resetRadialData = (state, action) => {
     radialData: state.defaultRadialData,
   };
 };
+const resetSankeyChartData = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    sankeyChartData: state.defaultSankeyChartData,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERSHIP_INVESTMENT_FOCUS:
@@ -783,6 +804,8 @@ export default function(state = initialState, action) {
       return resetBarData(state, action);
     case RESET_RADIAL_DATA:
       return resetRadialData(state, action);
+    case RESET_SANKEYCHART_DATA:
+      return resetSankeyChartData(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:

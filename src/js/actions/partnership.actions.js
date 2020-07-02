@@ -32,6 +32,7 @@ import {
   FILTER_MAPDATA_OF_CHOROPLETH_WITH_FEDERAL,
   RESET_BAR_DATA,
   RESET_RADIAL_DATA,
+  RESET_SANKEYCHART_DATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -1662,5 +1663,10 @@ export const resetBarDatas = () => dispatch => {
 export const resetRadialData = () => dispatch => {
   return dispatch({
     type: RESET_RADIAL_DATA,
+  });
+};
+export const resetSankeyChartData = () => dispatch => {
+  return dispatch({
+    type: RESET_SANKEYCHART_DATA,
   });
 };
