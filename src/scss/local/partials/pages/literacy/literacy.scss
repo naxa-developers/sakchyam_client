@@ -335,9 +335,9 @@
       @include justify-content-end;
       @include align-items-center;
       b {
-        font-family: $avenir-heavy;
+        // font-family: $avenir-heavy;
         &:not(:first-child) {
-          margin-left: 3rem;
+          margin-left: 1rem;
         }
       }
     }
