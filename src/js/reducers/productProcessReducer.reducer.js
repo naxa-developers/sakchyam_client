@@ -100,9 +100,8 @@ const getProductProcessList = (state, action) => {
         id: item.id,
         name: item.market_failure,
       });
+    return true;
   });
-
-  console.log(productNameList, 'innovation area');
 
   return {
     ...state,
