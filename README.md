@@ -1,7 +1,7 @@
 # Sakchyam Client
 
 
->The Sakcyam Access to Finance for the Poor Programme (Sakchyam) is funded by UKaid as part of an agreement between the >Governments of Nepal and the UK. Sakchyam is implemented by Louis Berger for the Department for International Development >(DFID Nepal) in partnership with local and international 
+>The Sakchyam Access to Finance for the Poor Programme (Sakchyam) is funded by UKaid as part of an agreement between the >Governments of Nepal and the UK. Sakchyam is implemented by Louis Berger for the Department for International Development >(DFID Nepal) in partnership with local and international 
 
 [![Requirements Status](https://requires.io/github/varun2948/react_test/requirements.svg?branch=master)](https://requires.io/github/varun2948/react_test/requirements/?branch=master) [![CircleCI](https://circleci.com/gh/naxa-developers/sakchyam_client/tree/master.svg?style=svg)](https://circleci.com/gh/naxa-developers/sakchyam_client/tree/master)         [![Maintainability](https://api.codeclimate.com/v1/badges/82c78ef99f19f77e7c0d/maintainability)](https://codeclimate.com/github/naxa-developers/sakchyam_client/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/82c78ef99f19f77e7c0d/test_coverage)](https://codeclimate.com/github/naxa-developers/sakchyam_client/test_coverage) 
 
