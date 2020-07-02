@@ -15,3 +15,4 @@ export const getProductProcessList = () => dispatch => {
     console.log(err);
   }
 };
+export default getProductProcessList;

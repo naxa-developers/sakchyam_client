@@ -11,19 +11,19 @@ const initialState = {
   marketFailureList: [],
 };
 
-const getDistinctObjectItems = name => {
-  const result = [];
-  for (const item of array) {
-    if (!map.has(item.id)) {
-      map.set(item.id, true); // set any value to Map
-      result.push({
-        id: item.id,
-        name: item.name,
-      });
-    }
-  }
-  return result;
-};
+// const getDistinctObjectItems = name => {
+//   const result = [];
+//   for (const item of array) {
+//     if (!map.has(item.id)) {
+//       map.set(item.id, true); // set any value to Map
+//       result.push({
+//         id: item.id,
+//         name: item.name,
+//       });
+//     }
+//   }
+//   return result;
+// };
 
 // GET LEFTSIDEBAR OPTIONS FROM A SINGLE API
 const getProductProcessList = (state, action) => {

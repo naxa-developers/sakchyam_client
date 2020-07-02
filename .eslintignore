@@ -17,5 +17,6 @@ MarkerClusterMapbox.js
 SunBurst.js
 # VectorTileMapbox.js
 # /AutomaMainComponent.js
-*.js
+# *.js
+ProductProcess
 # Select.js
