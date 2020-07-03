@@ -204,7 +204,12 @@ class MiddleChartSection extends Component {
         },
         xaxis: {
           title: {
-            text: 'Milestones',
+            text: 'Milestone/year',
+            style: {
+              fontFamily: 'Avenir Heavy',
+              fontSize: '20px',
+              color: '#f37b2e',
+            },
           },
           labels: {
             style: {
@@ -258,7 +263,8 @@ class MiddleChartSection extends Component {
           //   },
           // },
           title: {
-            text: 'Points',
+            // text: 'Points',
+            text: undefined,
 
             style: {
               color: undefined,
@@ -278,7 +284,6 @@ class MiddleChartSection extends Component {
             minWidth: 0,
             maxWidth: 160,
             style: {
-              colors: [],
               fontSize: '12px',
               fontFamily: 'Helvetica, Arial, sans-serif',
               fontWeight: 400,
@@ -315,7 +320,11 @@ class MiddleChartSection extends Component {
           offsetX: 0,
           offsetY: 0,
           style: {
-            color: undefined,
+            color: '#f37b2e',
+            // style: {
+            //   fontFamily: 'Avenir Heavy',
+            //   fontSize: '20px',
+            // },
             fontSize: '12px',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 600,
@@ -1501,7 +1510,7 @@ class MiddleChartSection extends Component {
                     marginLeft: '15px',
                   }}
                 >
-                  No Data Selected
+                  {/* No Data Selected */}
                 </label>
               </div>
               <div
