@@ -38,30 +38,42 @@ import DownloadIcon from '../../img/save_alt.svg';
 //   return _number;
 // }
 /* eslint-disable no-param-reassign */
-function convert(x) {
-  // eslint-disable-next-line no-restricted-globals
-  if (isNaN(x)) return x;
+// function convert(x) {
+//   // eslint-disable-next-line no-restricted-globals
+//   if (isNaN(x)) return x;
 
-  if (x < 9999) {
-    return x;
-  }
+//   if (x < 9999) {
+//     return x;
+//   }
 
-  if (x < 1000000) {
-    return `${Math.round(x / 1000)}K`;
-  }
-  if (x < 10000000) {
-    return `${Math.round(x / 1000000)}M`;
-  }
+//   if (x < 1000000) {
+//     return `${Math.round(x / 1000)}K`;
+//   }
+//   if (x < 10000000) {
+//     return `${Math.round(x / 1000000)}M`;
+//   }
 
-  if (x < 1000000000) {
-    return `${Math.round(x / 1000000)}M`;
-  }
+//   if (x < 1000000000) {
+//     return `${Math.round(x / 1000000)}M`;
+//   }
 
-  if (x < 1000000000000) {
-    return `${Math.round(x / 1000000000)}B`;
-  }
+//   if (x < 1000000000000) {
+//     return `${Math.round(x / 1000000000)}B`;
+//   }
 
-  return '1T+';
+//   return '1T+';
+// }
+function convert(labelValue) {
+  // Nine Zeroes for Billions
+  return Math.abs(Number(labelValue)) >= 1.0e9
+    ? `${Math.abs(Number(labelValue)) / 1.0e9}B`
+    : // Six Zeroes for Millions
+    Math.abs(Number(labelValue)) >= 1.0e6
+    ? `${Math.abs(Number(labelValue)) / 1.0e6}M`
+    : // Three Zeroes for Thousands
+    Math.abs(Number(labelValue)) >= 1.0e3
+    ? `${Math.abs(Number(labelValue)) / 1.0e3}K`
+    : Math.abs(Number(labelValue));
 }
 const initialState = {
   dateRange: [],
@@ -186,14 +198,18 @@ const initialState = {
         offsetY: -5,
         rotate: 0,
         formatter: value => {
+          console.log(value, 'value');
+          if (value === 0) {
+            return value;
+          }
           if (value <= 1) {
             return value.toFixed(1);
           }
           // console.log(value, 'v');
-          const roundNumber = Math.round(value);
+          // const roundNumber = Math.round(value);
           // console.log(convert(roundNumber));
           //   console.log(convert(roundNumber));
-          return convert(roundNumber);
+          return convert(value);
         },
       },
       min: 0,
@@ -421,7 +437,9 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     //     return data;
     //   }
     // });
-    activeDates = activeDateClone.filter(date => date !== '2020');
+    activeDates = activeDateClone.filter(
+      date => date === '2020' || date === '2019',
+    );
     console.log(activeDates, 'activeDateClone');
   } else {
     activeDates = activeDate;

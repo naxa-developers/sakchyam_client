@@ -505,7 +505,10 @@ class StackedBar extends Component {
           // format: 'dd MMM',
           formatter(x) {
             console.log(x, 'x');
-            return `Province ${x}`;
+            if (x.toString().includes('Province')) {
+              return `Province ${x}`;
+            }
+            return x;
           },
         },
       },

@@ -529,43 +529,83 @@ const filterFinancialDataOfMunicipalityFromDistrict = (
 //   };
 // };
 const filterFinancialDataWithAllFilters = (state, action) => {
+  console.log(action.payload, 'actionPayload');
   const { selectedDataView, allocatedBudget } = action.payload;
+  const testValues = allocatedBudget;
+  // console.log(JSON.stringify(testValues));
+  // const holder = {};
+
+  // testValues.forEach(function(d) {
+  //   // eslint-disable-next-line
+  //   if (holder.hasOwnProperty(d.province_code)) {
+  //     // eslint-disable-next-line
+  //     holder[d.province_code] = holder[d.province_code] + d.allocated_budget;
+  //   } else {
+  //     holder[d.province_code] = d.allocated_budget;
+  //   }
+  // });
+
+  // const obj2 = [];
+
+  // // eslint-disable-next-line
+  // for (const prop in holder) {
+  //   obj2.push({ name: prop, value: holder[prop] });
+  // }
+  // console.log(obj2, 'finalOBj');
+  const summedScfFund = testValues.reduce((a, c) => {
+    console.log(a, 'a');
+    console.log(c, 'c');
+
+    const filtered = a.filter(
+      el => el.province_code === c.province_code,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[
+        a.indexOf(filtered[0])
+      ].allocated_budget += +c.allocated_budget;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+  console.log(summedScfFund, 'test');
   // if (selectedDataView === 'allocated_beneficiary') {
   const { totalBeneficiary, femaleBeneficiary } = action.payload;
   const totalbeneficiary = totalBeneficiary;
   const femalebeneficiary = femaleBeneficiary;
   // debugger;
-  const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
-    ...item,
-    ...femalebeneficiary[i],
-  }));
-  const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
-    el,
-  ) {
-    const o = { ...el };
-    o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
-    return o;
-  });
-  sortArrayByKey(finalBeneficiaryArray, 'code');
-  const filteredBenefValues = filterBeneficiaryBarChart(
-    finalBeneficiaryArray,
-  );
-  // console.log(result, 'rest');
-
-  // }
-  sortArrayByKey(allocatedBudget, 'code');
-  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // console.log(filteredBenefValues, 'filteredBenefValues');
-  // console.log(
-  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  // const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+  //   ...item,
+  //   ...femalebeneficiary[i],
+  // }));
+  // const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+  //   el,
+  // ) {
+  //   const o = { ...el };
+  //   o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+  //   return o;
+  // });
+  // sortArrayByKey(finalBeneficiaryArray, 'code');
+  // const filteredBenefValues = filterBeneficiaryBarChart(
+  //   finalBeneficiaryArray,
   // );
-  return {
-    ...state,
-    // mapDataByProvince: finalBeneficiaryArray,
-    barDatas: filteredBenefValues,
-    // filteredMapData: choroplethFormat,
-  };
+  // // console.log(result, 'rest');
+
+  // // }
+  // sortArrayByKey(allocatedBudget, 'code');
+  // const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
+  // // console.log(filteredBenefValues, 'filteredBenefValues');
+  // // console.log(
+  // filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  // // console.log(filteredBenefValues, 'filteredBudgetValues');
+  // // );
+  // return {
+  //   ...state,
+  //   // mapDataByProvince: finalBeneficiaryArray,
+  //   barDatas: filteredBenefValues,
+  //   // filteredMapData: choroplethFormat,
+  // };
   // }
 };
 const getProvinceData = (state, action) => {
