@@ -192,7 +192,11 @@ class MiddleChartSection extends Component {
         },
         xaxis: {
           title: {
-            text: 'Milestones',
+            text: 'Milestone/year',
+            style: {
+              fontFamily: 'Avenir Heavy',
+              fontSize: '15px',
+            },
           },
           labels: {
             style: {
@@ -246,7 +250,8 @@ class MiddleChartSection extends Component {
           //   },
           // },
           title: {
-            text: 'Points',
+            // text: 'Points',
+            text: undefined,
 
             style: {
               color: undefined,

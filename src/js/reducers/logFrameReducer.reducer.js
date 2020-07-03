@@ -319,6 +319,10 @@ const filterIndicatorGraphData = (state, action) => {
               ? `(${dataUnit})`
               : ''
           }`,
+          style: {
+            fontFamily: 'Avenir Heavy',
+            fontSize: '15px',
+          },
         },
       },
       tooltip: {
@@ -505,6 +509,10 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
               ? `(${dataUnit})`
               : ''
           }`,
+          style: {
+            fontFamily: 'Avenir Heavy',
+            fontSize: '15px',
+          },
         },
       },
       tooltip: {
