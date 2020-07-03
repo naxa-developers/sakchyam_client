@@ -314,9 +314,10 @@ const filterPartnerWiseChartData = (data, type) => {
 };
 
 // FUNCTION TO FILTER PROGRAMWISE CHART DATA
-const filterProgramWiseChartData = data => {
+const filterProgramWiseChartData = (data, type) => {
   const arr = [];
   const categories = [];
+
   data.map(item => {
     const obj1 = arr.some(obj => item.program_id === obj.program_id);
     const obj2 = categories.some(i => item.partner_name === i);
@@ -356,15 +357,40 @@ const filterProgramWiseChartData = data => {
     }
     return true;
   });
+
   // const categories = arr.map(item => item.name);
+
   const programWiseColor = arr.map(item =>
     colorPicker(item.program_id),
   );
 
+  const newArr = [];
+
+  // ORDER: Tab PGT Other Initiative Centre Meeting IVR Street Drama
+
+  arr.map(item => {
+    if (item.name === 'Tab') newArr[0] = item;
+    if (item.name === 'PGT') newArr[1] = item;
+    if (item.name === 'Other Initiatives') newArr[2] = item;
+    if (item.name === 'Centre Meeting') newArr[3] = item;
+    if (item.name === 'IVR') newArr[4] = item;
+    if (item.name === 'Street Drama') newArr[5] = item;
+    return true;
+  });
+
+  // const categoriesNew = newArr.map(item => item.name);
+  const programWiseColorNew = newArr.map(item =>
+    colorPicker(item.program_id),
+  );
+
+  const series = type === 'program' ? arr : newArr;
+  const colors =
+    type === 'program' ? programWiseColor : programWiseColorNew;
+
   return {
-    series: arr,
+    series,
     categories: multiLineLabel,
-    colors: programWiseColor,
+    colors,
   };
 };
 
@@ -603,6 +629,22 @@ const getFinancialData = (state, action) => {
     return x + b.single_count;
   }, 0);
 
+  const newArr = [];
+
+  // ORDER: Tab PGT Other Initiative Centre Meeting IVR Street Drama
+
+  allProgramData.map(item => {
+    if (item.name === 'Tab') newArr[0] = item;
+    if (item.name === 'PGT') newArr[1] = item;
+    if (item.name === 'Other Initiatives') newArr[2] = item;
+    if (item.name === 'Centre Meeting') newArr[3] = item;
+    if (item.name === 'IVR') newArr[4] = item;
+    if (item.name === 'Street Drama') newArr[5] = item;
+    return true;
+  });
+
+  const colr = newArr.map(item => colorPicker(item.id));
+
   return {
     ...state,
     sankeyData,
@@ -616,9 +658,11 @@ const getFinancialData = (state, action) => {
       color: ['#16A085'],
     },
     filteredByProgram: {
-      series: allProgramData, // allSingleCountData,
+      // series: allProgramData, // allSingleCountData,
+      series: newArr, // allSingleCountData,
       label: multiLineLabel,
-      color: allProgramColor,
+      // color: allProgramColor,
+      color: colr,
     },
     pieData: {
       series: [totalCommercialBenef, totalMicroBenef],
@@ -987,7 +1031,10 @@ const filterFinancialDataForGraph = (state, action) => {
     newSankeyData = filterSankeyData(filteredData);
     newTreeMapData = filterTreeMapData(filteredData);
     newPieData = filterPieChartData(donutData, 'value');
-    newProgramWiseData = filterProgramWiseChartData(filteredData);
+    newProgramWiseData = filterProgramWiseChartData(
+      filteredData,
+      'program',
+    );
     newPartnerWiseData = filterPartnerWiseChartData(
       filteredData,
       'value',
@@ -1112,6 +1159,7 @@ const filterFinancialDataForGraph = (state, action) => {
 
     newProgramWiseData = filterProgramWiseChartData(
       filteredDataSankey,
+      'program',
     );
     newPartnerWiseData = filterPartnerWiseChartData(
       filteredDataSankey,

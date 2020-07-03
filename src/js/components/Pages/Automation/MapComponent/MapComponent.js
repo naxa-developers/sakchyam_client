@@ -372,7 +372,7 @@ class MapComponent extends Component {
             key={vectorGridKey}
             mapRef={this.props.mapRef}
             style={inputStyle} // Province style setting
-            choroplethTitle="Tablet Deployed"
+            choroplethTitle="Number of Tablet Deployed"
             // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
             // provinceCounts={
             //   filteredProvinceChoropleth && filteredProvinceChoropleth

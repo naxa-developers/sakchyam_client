@@ -57,7 +57,7 @@ class HorizontalChart extends Component {
       programChart: {},
       chartData2: {},
       isBarChartClicked: false,
-      isToggled: false,
+      // isToggled: false,
       clickedPartnerName: '',
     };
   }
@@ -214,7 +214,7 @@ class HorizontalChart extends Component {
           ) {
             if (
               !this.state.isBarChartClicked &&
-              !this.state.isToggled
+              !this.props.isToggled
             ) {
               if (dataPointIndex >= 0)
                 this.generateBarChartData(dataPointIndex);
@@ -303,16 +303,18 @@ class HorizontalChart extends Component {
       checkedPartnerItems,
     } = this.props;
 
+    console.log(checkedPartnerItems, 'checkedPartnerItems');
+
     let columnWidth = '100%';
     if (activeModal) {
-      columnWidth = '60%';
+      columnWidth = '40%';
     } else {
       columnWidth = '60%';
     }
 
     let partnerWidth = '100%';
     if (activeModal) {
-      partnerWidth = '90%';
+      partnerWidth = '80%';
     } else {
       partnerWidth = '100%';
     }
@@ -366,7 +368,7 @@ class HorizontalChart extends Component {
         }));
       }
       this.setState(preState => ({
-        isToggled: false,
+        // isToggled: false,
         isBarChartClicked: false,
         programChart: {
           series: filteredByProgramDefault.series,
@@ -529,6 +531,7 @@ class HorizontalChart extends Component {
                 // endingShape: 'flat',
               },
             },
+            legend: { show: true, fontSize: '10px' },
           },
         },
       }));
@@ -538,7 +541,7 @@ class HorizontalChart extends Component {
       this.props.financialReducer.filteredByProgramDefault
     ) {
       this.setState(preState => ({
-        isToggled: false,
+        // isToggled: false,
         isBarChartClicked: false,
         programChart: {
           series: filteredByProgramDefault.series,
@@ -554,11 +557,15 @@ class HorizontalChart extends Component {
                 columnWidth:
                   this.props.checkedPartnerItems &&
                   this.props.checkedPartnerItems.length === 0
-                    ? '60%'
+                    ? '50%'
                     : '15%',
               },
             },
             colors: filteredByProgramDefault.color,
+            title: {
+              // ...preState.programChart.options.title,
+              text: '',
+            },
           },
         },
       }));
@@ -586,30 +593,21 @@ class HorizontalChart extends Component {
           title: {
             ...prevState.programChart.options.title,
             text: '',
-            // floating: true,
-            // offsetY: 0,
-            // align: 'center',
-            // style: {
-            //   color: '#444',
-            //   fontFamily: 'Avenir Book',
-            //   fontSize: '17px',
-            // },
           },
         },
       },
     }));
   };
 
-  handleBarChartToggle = () => {
-    this.setState(prevState => ({
-      isToggled: !prevState.isToggled,
-    }));
-  };
+  // handleBarChartToggle = () => {
+  //   this.setState(prevState => ({
+  //     isToggled: !prevState.isToggled,
+  //   }));
+  // };
 
   render() {
     const {
       // height,
-      isToggled,
       isBarChartClicked,
       chartData2,
       series,
@@ -621,6 +619,7 @@ class HorizontalChart extends Component {
       handleModal,
       handleSelectedModal,
       activeModal,
+      isToggled,
     } = this.props;
     const {
       financialReducer: { filteredByProgram },
@@ -645,7 +644,7 @@ class HorizontalChart extends Component {
                   <input
                     type="checkbox"
                     checked={isToggled}
-                    onChange={this.handleBarChartToggle}
+                    onChange={this.props.handleBarChartToggle}
                   />
                   <span className="slider" />
                 </label>

@@ -213,7 +213,7 @@ class RightSideBar extends Component {
                                 .automationRightSidePartnerData[0]
                                 .total_beneficiary,
                             )
-                          : NaN}
+                          : 'N/A'}
                       </span>
                     </div>
                     <div className="widget-icon">

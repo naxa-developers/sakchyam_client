@@ -1,14 +1,47 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
+import { getProductProcessList } from '../../../actions/productProcess.actions';
 
 class ProductProcess extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // innovationArea: [],
+      // productCategory: [],
+      // productName: [],
+      // partnerType: [],
+      // partnerInstitution: [],
+      // marketFailure: [],
+
       showRightSidebar: true,
     };
+  }
+
+  componentDidMount() {
+    // const { getProductProcessList } = this.props;
+    this.props.getProductProcessList();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      productProcessReducer: {
+        innovationAreaList,
+        productCategoryList,
+        productNameList,
+        partnerTypeList,
+        partnerInstitutionList,
+        marketFailureList,
+      },
+    } = this.props;
+    if (
+      prevProps.productProcessReducer.innovationAreaList !==
+      this.props.productProcessReducer.innovationAreaList
+    ) {
+      // comment
+    }
   }
 
   handleRightSidebarShow = () => {
@@ -17,9 +50,23 @@ class ProductProcess extends React.Component {
     }));
   };
 
+  handleInnovationAreaCheckbox = e => {
+    console.log(e.target);
+  };
+
   render() {
     const { showRightSidebar } = this.state;
     const { visualizationType } = this.props;
+    const {
+      productProcessReducer: {
+        innovationAreaList,
+        productCategoryList,
+        productNameList,
+        partnerTypeList,
+        partnerInstitutionList,
+        marketFailureList,
+      },
+    } = this.props;
     return (
       <>
         <Header />
@@ -30,7 +77,17 @@ class ProductProcess extends React.Component {
               : 'automation-wrapper literacy-wrapper expand-right-sidebar'
           }
         >
-          <LeftSideBar />
+          <LeftSideBar
+            // innovationArea={innovationAreaList}
+            // productCategory={productCategoryList}
+            // productName={productNameList}
+            // partnerType={partnerTypeList}
+            // partnerInstitution={partnerInstitutionList}
+            // marketFailure={marketFailureList}
+            handleInnovationAreaCheckbox={
+              this.handleInnovationAreaCheckbox
+            }
+          />
 
           <main className="main">
             <div className="main-card map-card" />
@@ -164,4 +221,9 @@ class ProductProcess extends React.Component {
   }
 }
 
-export default ProductProcess;
+const mapStateToProps = ({ productProcessReducer }) => ({
+  productProcessReducer,
+});
+export default connect(mapStateToProps, {
+  getProductProcessList,
+})(ProductProcess);

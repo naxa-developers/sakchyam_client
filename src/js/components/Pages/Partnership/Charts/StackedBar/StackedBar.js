@@ -165,6 +165,10 @@ class StackedBar extends Component {
             style: {
               colors: '#00E396',
             },
+            formatter: value => {
+              // console.log(value, 'value');
+              return convert(value);
+            },
           },
           //   title: {
           //     text: 'Operating Cashflow (thousand crores)',
@@ -267,6 +271,10 @@ class StackedBar extends Component {
         height: 350,
         type: 'line',
         stacked: true,
+        toolbar: {
+          show: false,
+          // download: false,
+        },
         events: {
           click(
             event,
@@ -366,11 +374,25 @@ class StackedBar extends Component {
       colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         categories: barDatas.labels,
+        title: {
+          text: 'Provinces',
+        },
       },
       yaxis: [
         {
           // min: 0,
-          max: 600000,
+          max(max) {
+            console.log(max, 'max');
+            // console.log(that.props.showBarof, 'showBarof');
+            if (that.props.showBarof === 'Provinces') {
+              return 600000;
+            }
+            if (that.props.showBarof === 'Districts') {
+              return 80000;
+            }
+
+            return 10000;
+          },
           axisTicks: {
             show: true,
           },
@@ -399,7 +421,18 @@ class StackedBar extends Component {
         },
         {
           // min: 0,
-          max: 600000,
+          max(max) {
+            // console.log(max, 'max');
+            // console.log(that.props.showBarof, 'showBarof');
+            if (that.props.showBarof === 'Provinces') {
+              return 600000;
+            }
+            if (that.props.showBarof === 'Districts') {
+              return 80000;
+            }
+
+            return 10000;
+          },
           seriesName: 'Incomessss',
           show: false,
           opposite: true,
@@ -467,6 +500,17 @@ class StackedBar extends Component {
         //   offsetY: 30,
         //   offsetX: 60,
         // },
+        x: {
+          show: true,
+          // format: 'dd MMM',
+          formatter(x) {
+            console.log(x, 'x');
+            if (x.toString().includes('Province')) {
+              return `Province ${x}`;
+            }
+            return x;
+          },
+        },
       },
       legend: {
         horizontalAlign: 'left',
@@ -489,13 +533,15 @@ class StackedBar extends Component {
     const { options, series } = this.state;
     const { activeModal } = this.props;
     return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="bar"
-        height={activeModal ? 600 : 350}
-        // width={activeModal === true ? 1600 : '100%'}
-      />
+      <div id="stacked_chart">
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="bar"
+          height={activeModal ? 600 : 350}
+          // width={activeModal === true ? 1600 : '100%'}
+        />
+      </div>
     );
   }
 }

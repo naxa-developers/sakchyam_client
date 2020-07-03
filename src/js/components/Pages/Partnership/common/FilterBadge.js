@@ -19,12 +19,10 @@ const FilterBadge = ({
       role="tab"
       tabIndex="-1"
     >
-      <div className="widget-tag">
-        <a>
-          <i className="material-icons">{icon ? icon : 'store'}</i>
-          <span>{title}</span>
-        </a>
-      </div>
+      <a>
+        <i className="material-icons">{icon ? icon : 'store'}</i>
+        <span>{title}</span>
+      </a>
       {/* <a>{title}</a> */}
     </li>
   );

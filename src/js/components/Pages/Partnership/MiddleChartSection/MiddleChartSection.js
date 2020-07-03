@@ -11,7 +11,12 @@ import SankeyChart from '../Charts/SankeyChart/SankeyChart';
 import Modal from '../../../common/Modal';
 import CardTab from '../common/CardTab';
 import StackedBar from '../Charts/StackedBar/StackedBar';
-import { getRadialData } from '../../../../actions/partnership.actions';
+import {
+  getRadialData,
+  resetBarDatas,
+  resetRadialData,
+  resetSankeyChartData,
+} from '../../../../actions/partnership.actions';
 import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
 
 function formatData(fulldata) {
@@ -57,7 +62,9 @@ class MiddleChartSection extends Component {
       partnershipInvestmentFocus,
       projectLists,
     } = this.props.partnershipReducer;
+    // const that = this;
     const clickedName = e.data.name;
+    this.props.resetLeftSideBarSelection();
     // console.log(clickedName, 'clicked');
     // console.log(
     //   partnershipInvestmentFocus.filter(investment => {
@@ -172,6 +179,7 @@ class MiddleChartSection extends Component {
     const {
       state: { selectedModal, activeModal },
       props: {
+        resetLeftSideBarSelection,
         activeView,
         activeOverview,
         sankeyChartwidth,
@@ -216,6 +224,10 @@ class MiddleChartSection extends Component {
         <div className="graph-view">
           <div className="row">
             <CardTab
+              resetFunction={() => {
+                this.props.resetLeftSideBarSelection();
+                this.props.resetRadialData();
+              }}
               cardTitle="Sakchyam Investment Focus"
               cardClass="col-xl-12"
               cardChartId="sunburst"
@@ -239,9 +251,11 @@ class MiddleChartSection extends Component {
               }}
             />
             <CardTab
+              resetFunction={this.props.resetBarDatas}
+              handleShowBarOf={handleShowBarOf}
               cardTitle="Province Wise Programme Results"
               cardClass="col-xl-6"
-              cardChartId="sunburst"
+              cardChartId="groupedChart"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
                 this.handleSelectedModal('groupedChart');
@@ -263,7 +277,7 @@ class MiddleChartSection extends Component {
             <CardTab
               cardTitle="S-CF Fund & Leverage By Investment Focus"
               cardClass="col-xl-6"
-              cardChartId="sunburst"
+              cardChartId="leverageChart"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
                 this.handleSelectedModal('leverageChart');
@@ -307,6 +321,7 @@ class MiddleChartSection extends Component {
               }}
             /> */}
             <CardTab
+              resetFunction={this.props.resetSankeyChartData}
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
@@ -353,6 +368,9 @@ class MiddleChartSection extends Component {
 const mapStateToProps = ({ partnershipReducer }) => ({
   partnershipReducer,
 });
-export default connect(mapStateToProps, { getRadialData })(
-  MiddleChartSection,
-);
+export default connect(mapStateToProps, {
+  getRadialData,
+  resetBarDatas,
+  resetRadialData,
+  resetSankeyChartData,
+})(MiddleChartSection);

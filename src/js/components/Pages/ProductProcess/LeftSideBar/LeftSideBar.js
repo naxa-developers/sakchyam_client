@@ -3,6 +3,7 @@
 /* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import CheckBox from '../../../common/Checkbox';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -10,6 +11,17 @@ class LeftSideBar extends Component {
     this.state = {};
   }
   render() {
+    const {
+      innovationArea,
+      productCategory,
+      productName,
+      partnerType,
+      partnerInstitution,
+      marketFailure,
+
+      handleInnovationAreaCheckbox,
+    } = this.props;
+
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -30,33 +42,110 @@ class LeftSideBar extends Component {
                         type="checkbox"
                         name="Initiative"
                         // checked={isAllPartnerSelected}
+                        onClick={handleInnovationAreaCheckbox}
+                      />
+                      <label htmlFor="all_partner">All</label>
+                    </div>
+                  </div>
+                  <ul className="checkbox-list">
+                    {productCategory &&
+                      productCategory.map((item, index) => {
+                        return (
+                          <CheckBox
+                            id={index}
+                            className="investment_checkbox"
+                            // key={index}
+                            label={item}
+                            name={item}
+                            changeHandler={
+                              handleInnovationAreaCheckbox
+                            }
+                            // checked={investmentFocusSelection.includes(
+                            //   partnershipFocus.investment_primary,
+                            // )}
+                          />
+                        );
+                      })}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="sidebar-widget partner-institue">
+              <h6 className="title">Product Category</h6>
+              <div className="widget-body">
+                <div className="checklist-group">
+                  <div className="checklist-header">
+                    <div className="custom-checkbox">
+                      <input
+                        id="all_partner"
+                        type="checkbox"
+                        name="Initiative"
+                        // checked={isAllPartnerSelected}
                         // onClick={handlePartnerParentCheckbox}
                       />
                       <label htmlFor="all_partner">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {/* {filteredPartnersList &&
-                      filteredPartnersList.map(data => {
+                    {innovationArea &&
+                      innovationArea.map((item, index) => {
                         return (
-                          <li key={data.id}>
-                            <a>
-                              <div className="custom-checkbox">
-                                <input
-                                  id={data.partner_id}
-                                  className="partner_checkbox"
-                                  type="checkbox"
-                                  name={data.partner_name}
-                                  onClick={handlePartnerChange}
-                                />
-                                <label htmlFor={data.partner_id}>
-                                  <span>{data.partner_name}</span>
-                                </label>
-                              </div>
-                            </a>
-                          </li>
+                          <CheckBox
+                            id={index}
+                            className="investment_checkbox"
+                            // key={index}
+                            label={item}
+                            name={item}
+                            // changeHandler={
+                            //   handleInvestmentFocusCheckbox
+                            // }
+                            // checked={investmentFocusSelection.includes(
+                            //   partnershipFocus.investment_primary,
+                            // )}
+                          />
                         );
-                      })} */}
+                      })}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="sidebar-widget partner-institue">
+              <h6 className="title">Product Name</h6>
+              <div className="widget-body">
+                <div className="checklist-group">
+                  <div className="checklist-header">
+                    <div className="custom-checkbox">
+                      <input
+                        id="all_partner"
+                        type="checkbox"
+                        name="Initiative"
+                        // checked={isAllPartnerSelected}
+                        // onClick={handlePartnerParentCheckbox}
+                      />
+                      <label htmlFor="all_partner">All</label>
+                    </div>
+                  </div>
+                  <ul className="checkbox-list">
+                    {productName &&
+                      productName.map((item, index) => {
+                        return (
+                          <CheckBox
+                            id={index}
+                            className="investment_checkbox"
+                            // key={index}
+                            label={item}
+                            name={item}
+                            // changeHandler={
+                            //   handleInvestmentFocusCheckbox
+                            // }
+                            // checked={investmentFocusSelection.includes(
+                            //   partnershipFocus.investment_primary,
+                            // )}
+                          />
+                        );
+                      })}
                   </ul>
                 </div>
               </div>
@@ -113,12 +202,86 @@ class LeftSideBar extends Component {
               </div>
             </div>
 
-            <div className="sidebar-widget">
-              <h6 className="title">Financial Literacy Initiative</h6>
+            <div className="sidebar-widget partner-institue">
+              <h6 className="title">Partner Institution</h6>
               <div className="widget-body">
-                <div className="widget-tag Program-tag" />
+                <div className="checklist-group">
+                  <div className="checklist-header">
+                    <div className="custom-checkbox">
+                      <input
+                        id="all_partner"
+                        type="checkbox"
+                        name="Initiative"
+                        // checked={isAllPartnerSelected}
+                        // onClick={handlePartnerParentCheckbox}
+                      />
+                      <label htmlFor="all_partner">All</label>
+                    </div>
+                  </div>
+                  <ul className="checkbox-list">
+                    {partnerInstitution &&
+                      partnerInstitution.map((item, index) => {
+                        return (
+                          <CheckBox
+                            id={index}
+                            className="investment_checkbox"
+                            // key={index}
+                            label={item}
+                            name={item}
+                            // changeHandler={
+                            //   handleInvestmentFocusCheckbox
+                            // }
+                            // checked={investmentFocusSelection.includes(
+                            //   partnershipFocus.investment_primary,
+                            // )}
+                          />
+                        );
+                      })}
+                  </ul>
+                </div>
               </div>
             </div>
+
+            <div className="sidebar-widget partner-institue">
+              <h6 className="title">Market Failures</h6>
+              <div className="widget-body">
+                <div className="checklist-group">
+                  <div className="checklist-header">
+                    <div className="custom-checkbox">
+                      <input
+                        id="all_partner"
+                        type="checkbox"
+                        name="Initiative"
+                        // checked={isAllPartnerSelected}
+                        // onClick={handlePartnerParentCheckbox}
+                      />
+                      <label htmlFor="all_partner">All</label>
+                    </div>
+                  </div>
+                  <ul className="checkbox-list">
+                    {marketFailure &&
+                      marketFailure.map((item, index) => {
+                        return (
+                          <CheckBox
+                            id={index}
+                            className="investment_checkbox"
+                            // key={index}
+                            label={item}
+                            name={item}
+                            // changeHandler={
+                            //   handleInvestmentFocusCheckbox
+                            // }
+                            // checked={investmentFocusSelection.includes(
+                            //   partnershipFocus.investment_primary,
+                            // )}
+                          />
+                        );
+                      })}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div className="apply-buttons buttons end">
               <button
                 // onClick={resetClick}

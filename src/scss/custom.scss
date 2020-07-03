@@ -220,8 +220,9 @@
   //       display: none !important;
   //   }
   .apexcharts-yaxis-title-text {
-    font-variant: petite-caps !important;
-    font-size: 0.875rem !important;
+    text-transform: capitalize;
+    // font-variant: petite-caps !important;
+    // font-size: 0.875rem !important;
   }
   // .apexcharts-svg .apexcharts-yaxis {
   //   transform: translate(40px, 2px) !important;
@@ -258,7 +259,7 @@
     transform: translate(75.6875, 30) !important;
   }
   .apexcharts-svg .apexcharts-yaxis {
-    transform: translate(55px, 10px);
+    transform: translate(50.6875px, 8px);
   }
 }
 .loader {
@@ -425,8 +426,8 @@
 .mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon {
   background-image: url('../img/svg/mapboxgl-ctrl-zoom-in.svg');
 }
-.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon{
-  background-image: url('../img/svg/mapboxgl-ctrl-zoom-in.svg')
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon {
+  background-image: url('../img/svg/mapboxgl-ctrl-zoom-in.svg');
 }
 
 .time-line-container {
@@ -448,30 +449,48 @@
   position: absolute;
   right: 10px;
   z-index: 1;
-  }
-   
-  .legend h4 {
+}
+
+.legend h4 {
   margin: 0 0 10px;
-  }
-   
-  .legend div span {
+}
+
+.legend div span {
   border-radius: 50%;
   display: inline-block;
   height: 10px;
   margin-right: 5px;
   width: 10px;
-  }
-  .circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 50px;
-    color: #fff;
-    line-height: 500px;
-    text-align: center;
-    background: rgba(40, 112, 120, 0.48)
-  }
+}
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 50px;
+  color: #fff;
+  line-height: 500px;
+  text-align: center;
+  background: rgba(40, 112, 120, 0.48);
+}
 
   .mapboxgl-popup{
     max-width: 300px!important;
   }
+
+  .literacy-tab-item{
+    #map{
+        .apexcharts-inner {
+          transform: translate(10px, 10px);
+        }
+    }
+    .chart-timeline {
+      
+      max-width: 546px;
+      // max-height: 300px;
+      height: 80px;
+      width: 557px;
+  }
+}
+.mapboxgl-popup {
+  max-width: 300px !important;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { ResponsiveTreeMap } from '@nivo/treemap';
@@ -154,7 +155,11 @@ class TreeMapDiagram extends Component {
       prevProps.financialReducer.treeMapData !==
       this.props.financialReducer.treeMapData
     ) {
-      this.setState({ treeMapData1: treeMapData });
+      // this.props.setTreeMapBackBtnFalse();
+      this.setState({
+        treeMapData1: treeMapData,
+        isTreeMapClicked: false,
+      });
     }
     if (
       prevProps.financialReducer.financialData !==
@@ -221,6 +226,7 @@ class TreeMapDiagram extends Component {
 
   onProgramClick = e => {
     const updatedTreeMapData = this.generateTreeMapData(e.data.id);
+    // this.props.handleTreeMapBackBtn();
     this.setState(prevState => ({
       treeMapData2: updatedTreeMapData,
       isTreeMapClicked: !prevState.isTreeMapClicked,
@@ -247,23 +253,6 @@ class TreeMapDiagram extends Component {
       return true;
     });
     return arr;
-    // return [
-    //   {
-    //     id: 'color1',
-    //     type: 'linearGradient',
-    //     colors: [{ color: '#651FFF' }],
-    //   },
-    //   {
-    //     id: 'color2',
-    //     type: 'linearGradient',
-    //     colors: [{ color: '#91664E' }],
-    //   },
-    //   {
-    //     id: 'color3',
-    //     type: 'linearGradient',
-    //     colors: [{ color: '#91664E' }],
-    //   },
-    // ];
   };
 
   fillFunction = i => {
@@ -275,11 +264,6 @@ class TreeMapDiagram extends Component {
       arr.push({ match: { id: item.name }, id: `color${index}` });
       return true;
     });
-    // return [
-    //   { match: { id: 9 }, id: 'color1' },
-    //   { match: { id: 10 }, id: 'color2' },
-    //   { match: { id: 2 }, id: 'color3' },
-    // ];
     return arr;
   };
 
@@ -305,6 +289,7 @@ class TreeMapDiagram extends Component {
       handleModal,
       handleSelectedModal,
       activeModal,
+      // isTreeMapClicked,
     } = this.props;
 
     const screenSize = window.innerWidth;
@@ -328,6 +313,7 @@ class TreeMapDiagram extends Component {
               ? {
                   // display: activeModal ? 'none' : 'flex',
                   border: 'none',
+                  padding: '0',
                   backgroundColor: '#fff',
                 }
               : {}
@@ -346,7 +332,9 @@ class TreeMapDiagram extends Component {
                 style={
                   activeModal && {
                     position: 'absolute',
-                    right: '62px',
+                    top: '36px',
+                    // right: '62px',
+                    right: '150px',
                   }
                 }
               >
@@ -379,11 +367,13 @@ class TreeMapDiagram extends Component {
                   role="tab"
                   tabIndex="0"
                   onClick={() => {
-                    handleModal();
-                    handleSelectedModal(
-                      'tree',
-                      'Contribution of program initiatives',
-                    );
+                    // eslint-disable-next-line no-unused-expressions
+                    !isTreeMapClicked && handleModal();
+                    !isTreeMapClicked &&
+                      handleSelectedModal(
+                        'tree',
+                        'Contribution of program initiatives',
+                      );
                   }}
                   onKeyDown={() => {
                     handleModal();

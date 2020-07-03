@@ -4,6 +4,7 @@ import authenticationReducer from './authenticationReducer.reducer';
 import automationReducer from './automationReducer.reducer';
 import financialReducer from './financialReducer.reducer';
 import partnershipReducer from './partnershipReducer.reducer';
+import productProcessReducer from './productProcessReducer.reducer';
 
 export default combineReducers({
   authenticationReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   automationReducer,
   financialReducer,
   partnershipReducer,
+  productProcessReducer,
 });

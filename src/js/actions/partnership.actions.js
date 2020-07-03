@@ -28,10 +28,31 @@ import {
   FILTER_MUNLIST_FROM_DISTRICT,
   FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
   GET_LEVERAGE_DATA,
+  GET_PARTNERSHIP_ALL_DATA,
+  FILTER_MAPDATA_OF_CHOROPLETH_WITH_FEDERAL,
+  RESET_BAR_DATA,
+  RESET_RADIAL_DATA,
+  RESET_SANKEYCHART_DATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
+export const getPartnershipAllData = () => dispatch => {
+  try {
+    axiosInstance
+      .get('/api/v1/partnership/partnership-all/')
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_PARTNERSHIP_ALL_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
 export const getPartnershipInvestmentFocus = () => dispatch => {
   try {
     axiosInstance
@@ -1222,6 +1243,90 @@ export const filterOverviewData = (
     console.error(err);
   }
 };
+export const filterMapDataOfChoroplethByFederal = (
+  selectedFederalType,
+  selectedFederalList,
+) => dispatch => {
+  const federalFilter =
+    selectedFederalList &&
+    selectedFederalList.selectedMunicipality &&
+    selectedFederalList.selectedMunicipality.length > 0
+      ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
+          mun => {
+            return mun.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedDistrict &&
+        selectedFederalList.selectedDistrict.length > 0
+      ? `district_id=${selectedFederalList.selectedDistrict.map(
+          dist => {
+            return dist.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedProvince &&
+        selectedFederalList.selectedProvince.length > 0
+      ? `province_id=${selectedFederalList.selectedProvince.map(
+          prov => {
+            return prov.code;
+          },
+        )}`
+      : '';
+  // console.log(investmentFocusSelection, 'investm');
+  if (selectedFederalType === 'municipality') {
+    try {
+      axiosInstance
+        .get(
+          `/api/v1/partnership/map-data/?municipality_id=${federalFilter}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: FILTER_MAPDATA_OF_CHOROPLETH_WITH_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (selectedFederalType === 'district') {
+    try {
+      axiosInstance
+        .get(
+          `/api/v1/partnership/map-data/?district_id=${federalFilter}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: GET_MAP_DATA_BY_PROVINCE,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      axiosInstance
+        .get(
+          `/api/v1/partnership/map-data/?province_id=${federalFilter}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: GET_MAP_DATA_BY_PROVINCE,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
 export const getMapDataByProvince = () => dispatch => {
   // console.log(investmentFocusSelection, 'investm');
   try {
@@ -1549,4 +1654,19 @@ export const getLeverageData = () => dispatch => {
   } catch (err) {
     console.error(err);
   }
+};
+export const resetBarDatas = () => dispatch => {
+  return dispatch({
+    type: RESET_BAR_DATA,
+  });
+};
+export const resetRadialData = () => dispatch => {
+  return dispatch({
+    type: RESET_RADIAL_DATA,
+  });
+};
+export const resetSankeyChartData = () => dispatch => {
+  return dispatch({
+    type: RESET_SANKEYCHART_DATA,
+  });
 };
