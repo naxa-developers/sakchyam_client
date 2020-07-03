@@ -254,10 +254,10 @@ class Sunburst extends React.Component {
         .style("width", w + "px")
         .style("height", h + "px")
         .attr("viewBox", `${-w / 2} ${-h / 2} ${w} ${h}`)
-        .append("circle")
-        .attr("cx", this.x)
-        .attr("cy", this.y)
-        .attr("r", this.radius);
+        // .append("circle")
+        // .attr("cx", this.x)
+        // .attr("cy", this.y)
+        // .attr("r", this.radius);
 
       //added block start
       if (this.props.isLegend) {
