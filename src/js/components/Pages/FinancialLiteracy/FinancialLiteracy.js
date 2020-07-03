@@ -37,6 +37,7 @@ function numberWithCommas(x) {
   }
   return x;
 }
+
 function colorPicker(i) {
   if (i % 12 === 0) return '#E11D3F';
   if (i % 12 === 1) return '#FF6D00';
@@ -71,6 +72,7 @@ class FinancialLiteracy extends Component {
       activeSortBy: false,
       activeModal: false,
       modalHeader: '',
+      isBarChartToggled: false,
     };
     this.sankeyRef = React.createRef();
   }
@@ -93,6 +95,12 @@ class FinancialLiteracy extends Component {
       this.setState({ checkedPartnerItems: [] });
     }
   }
+
+  handleBarChartToggle = () => {
+    this.setState(prevState => ({
+      isBarChartToggled: !prevState.isBarChartToggled,
+    }));
+  };
 
   handleRightSidebarShow = () => {
     this.setState(prevState => ({
@@ -307,6 +315,10 @@ class FinancialLiteracy extends Component {
         return (
           <TreeMapDiagram
             activeModal={activeModal}
+            // isTreeMapClicked={this.state.isTreeMapClicked}
+            // handleTreeMapBackBtn={this.handleTreeMapBackBtn}
+            // setTreeMapBackBtnFalse={this.setTreeMapBackBtnFalse}
+            // generateTreeMapData={this.generateTreeMapData}
             DownloadIcon={DownloadIcon}
             ExpandIcon={ExpandIcon}
             downloadPng={this.downloadPng}
@@ -319,6 +331,8 @@ class FinancialLiteracy extends Component {
         // return <HorizontalChart activeModal />;
         return (
           <HorizontalChart
+            isToggled={this.state.isBarChartToggled}
+            handleBarChartToggle={this.handleBarChartToggle}
             activeModal={activeModal}
             DownloadIcon={DownloadIcon}
             ExpandIcon={ExpandIcon}
@@ -522,10 +536,14 @@ class FinancialLiteracy extends Component {
                           </div>
                         </div> */}
                           <HorizontalChart
+                            isToggled={this.state.isBarChartToggled}
                             DownloadIcon={DownloadIcon}
                             ExpandIcon={ExpandIcon}
                             downloadPng={this.downloadPng}
                             handleModal={this.handleModal}
+                            handleBarChartToggle={
+                              this.handleBarChartToggle
+                            }
                             handleSelectedModal={
                               this.handleSelectedModal
                             }
@@ -598,6 +616,18 @@ class FinancialLiteracy extends Component {
                       <div className="col-xl-6">
                         <div className="card" id="">
                           <TreeMapDiagram
+                            // isTreeMapClicked={
+                            //   this.state.isTreeMapClicked
+                            // }
+                            // handleTreeMapBackBtn={
+                            //   this.handleTreeMapBackBtn
+                            // }
+                            // setTreeMapBackBtnFalse={
+                            //   this.setTreeMapBackBtnFalse
+                            // }
+                            // generateTreeMapData={
+                            //   this.generateTreeMapData
+                            // }
                             DownloadIcon={DownloadIcon}
                             ExpandIcon={ExpandIcon}
                             downloadPng={this.downloadPng}
