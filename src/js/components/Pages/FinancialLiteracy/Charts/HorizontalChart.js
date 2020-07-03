@@ -303,16 +303,18 @@ class HorizontalChart extends Component {
       checkedPartnerItems,
     } = this.props;
 
+    console.log(checkedPartnerItems, 'checkedPartnerItems');
+
     let columnWidth = '100%';
     if (activeModal) {
-      columnWidth = '60%';
+      columnWidth = '40%';
     } else {
       columnWidth = '60%';
     }
 
     let partnerWidth = '100%';
     if (activeModal) {
-      partnerWidth = '90%';
+      partnerWidth = '80%';
     } else {
       partnerWidth = '100%';
     }
@@ -555,7 +557,7 @@ class HorizontalChart extends Component {
                 columnWidth:
                   this.props.checkedPartnerItems &&
                   this.props.checkedPartnerItems.length === 0
-                    ? '60%'
+                    ? '50%'
                     : '15%',
               },
             },
