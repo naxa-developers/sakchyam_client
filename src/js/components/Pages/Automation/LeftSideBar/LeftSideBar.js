@@ -78,7 +78,7 @@ class LeftSideBar extends Component {
                 }
                 className="inline-group"
               >
-                <b>Outreach</b>
+                <b>Coverage</b>
                 <label className="switch">
                   <input
                     type="checkbox"

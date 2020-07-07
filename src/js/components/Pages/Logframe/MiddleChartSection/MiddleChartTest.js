@@ -1227,7 +1227,8 @@ class MiddleChartSection extends Component {
 
   handleChange = selectedOption => {
     // console.log('selectedOption', selectedOption);
-    this.setState({ selectedOption }};
+    this.setState({ selectedOption });
+  };
 
   handleLegend1Click = () => {
     if (this.state.activeBar1 === true) {

@@ -9,7 +9,39 @@ import {
   calculateRange,
   choroplethColorArray,
 } from '../../../common/Functions';
+import TimelineChart from './TimelineChart';
 
+function CaculateCount(date, finalData, api) {
+  const startDate = date[0];
+  const endDate = date[1];
+  // console.log(date, 'date');
+  // console.log(finalData, 'finalData');
+  // console.log(api, 'api');
+  finalData.map((prov, i) => {
+    // console.log(prov, 'prov 1st loop');
+    api.map(data => {
+      if (prov.id === data.municipality_id) {
+        // console.log(startDate, ' local startDate');
+        // console.log(data.start_date, 'api startDate');
+        // console.log(endDate, 'endDate');
+        // console.log(data.start_date, 'api startDate');
+        // console.log(startDate >= data.start_date, '1st date');
+        // console.log(endDate <= data.start_date, '2nd date');
+        if (
+          data.start_date >= startDate &&
+          data.start_date <= endDate
+        ) {
+          // console.log(data, 'data 3rd Loop');
+          // console.log(data,'')
+          // eslint-disable-next-line no-param-reassign
+          finalData[i].count += 1;
+        }
+      }
+      return true;
+    });
+    return true;
+  });
+}
 const defaultData = [
   { id: '1', count: 0 },
   { id: '2', count: 0 },
@@ -80,10 +112,10 @@ municipality.map(data => {
     },
   });
 });
-
-console.log(fullGeojsonProvince, 'province');
-console.log(fullGeojsonDistrict, 'district');
-console.log(fullGeojsonMunicipality, 'municipality');
+let timelineKey = 1;
+// console.log(fullGeojsonProvince, 'province');
+// console.log(fullGeojsonDistrict, 'district');
+// console.log(fullGeojsonMunicipality, 'municipality');
 class Choropleth extends Component {
   constructor(props) {
     super(props);
@@ -91,6 +123,10 @@ class Choropleth extends Component {
       grade: [],
       legendColors: [],
       finalStyle: null,
+      minValue: '2015-01-01',
+      maxValue: '2020-01-01',
+      key: 1,
+      playClick: false,
     };
   }
 
@@ -158,7 +194,7 @@ class Choropleth extends Component {
       (max - min) / (gradeCount - 1) < 1
         ? [0, 2, 4, 6, 8, 10, 12]
         : calculateRange(min, max, (max - min) / (gradeCount - 1));
-    // console.log(range, "range")
+    console.log(calculateRange(0, 100, (100 - 0) / (8 - 1), 'range'));
     this.setState({
       grade: fullRange.length > 0 ? fullRange : range,
     }); // add grade provided from props if available
@@ -354,8 +390,8 @@ class Choropleth extends Component {
 
       const popup = new mapboxgl.Popup();
       map.on('mousemove', 'circles1', function(e) {
-        console.log(e, 'event1st');
-        console.log(e.features[0], 'event');
+        // console.log(e, 'event1st');
+        // console.log(e.features[0], 'event');
         popup
           .setLngLat(e.lngLat)
           .setHTML(
@@ -592,7 +628,7 @@ class Choropleth extends Component {
         popup.remove();
       });
     });
-    console.log(document.getElementById('vector-tile-fill'), 'vctor');
+    // console.log(document.getElementById('vector-tile-fill'), 'vctor');
     // map.addControl(new mapboxgl.NavigationControl());
   };
 
@@ -603,8 +639,53 @@ class Choropleth extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { map, vectorTileUrl } = this.props;
+    // if (
+    //   prevProps.partnershipAllData !==
+    //   this.props.partnershipReducer.partnershipAllData
+    // ) {
+    //   const { partnershipAllData } = this.props.partnershipReducer;
+    //   console.log(
+    //     this.props.partnershipReducer.partnershipAllData,
+    //     'alldata',
+    //   );
+    //   const provincedata = [];
+    //   // const finalData = [];
+    //   // district.map(mun => {
+    //   //   provincedata.push({
+    //   //     id: mun.districtid,
+    //   //     count: 0,
+    //   //   });
+    //   //   return true;
+    //   // });
+    //   const finalData = [];
+    //   municipality.map(mun => {
+    //     provincedata.push({
+    //       id: mun.munid,
+    //       count: 0,
+    //     });
+    //     return true;
+    //   });
+    //   // const workers = new WebWorker(worker);
+    //   // workers.postMessage({
+    //   //   state: { clonePrimaryGeojson, primaryGeojson },
+    //   //   action: { payload },
+    //   // });
+    //   // workers.addEventListener('message', event => {
+    //   //   dispatch({
+    //   //     type: FILTER_PRIMARYGEOJSON,
+    //   //     payload: event.data,
+    //   //   });
+    //   // });
+    //   CaculateCount(
+    //     ['2015-01-01', '2019-02-01'],
+    //     provincedata,
+    //     partnershipAllData,
+    //   );
+    //   console.log(provincedata, 'finalData');
+    //   // console.log(provincedata, 'provincedata');
+    // }
     if (prevProps.circleMarkerData !== this.props.circleMarkerData) {
-      console.log(this.props.circleMarkerData, 'circlemarker ');
+      // console.log(this.props.circleMarkerData, 'circlemarker ');
       if (this.props.mapViewBy === 'district') {
         // alert('district');
         // map.removeLayer('fullGeojsonProvince');
@@ -676,7 +757,7 @@ class Choropleth extends Component {
             }
           });
         });
-        console.log(fullGeojsonMunicipality, 'fullgeojson');
+        // console.log(fullGeojsonMunicipality, 'fullgeojson');
         if (map.getSource('fullGeojsonProvince')) {
           map
             .getSource('fullGeojsonProvince')
@@ -813,7 +894,7 @@ class Choropleth extends Component {
           'fill-color',
           this.state.finalStyle,
         );
-      }, 1000);
+      }, 2000);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
       // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
@@ -861,13 +942,58 @@ class Choropleth extends Component {
     // }
   }
 
+  getYear = minDate => {
+    const d = new Date(minDate);
+
+    const day = d.getDate();
+    const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
+    const year = d.getFullYear();
+
+    const dateStr = `${month}/${day}/${year}`;
+    // time = dateStr;
+    // console.log(time ,"time returns")
+    // this.setState({ time: dateStr });
+    return dateStr;
+  };
+
+  playBtn = (min, max) => {
+    console.log(min, 'min');
+    console.log(max, 'max');
+    this.setState({
+      minValue: this.getYear(min),
+      maxValue: this.getYear(max),
+      key: timelineKey,
+      playClick: true,
+    });
+    timelineKey += 1;
+    // global.timerId = null;
+  };
+
+  getShortNumbers = (n, d) => {
+    let x = `${n}`.length;
+    // eslint-disable-next-line no-restricted-properties
+    const p = Math.pow;
+    // eslint-disable-next-line no-param-reassign
+    d = p(10, d);
+    x -= x % 3;
+    return Math.round((n * d) / p(10, x)) / d + ' kMGTPE'[x / 3];
+  };
+
   render() {
-    const { choroplethLegend, legendColors } = this.state;
+    const { mapViewBy } = this.props;
+    const {
+      choroplethLegend,
+      legendColors,
+      minValue,
+      maxValue,
+      key,
+      playClick,
+    } = this.state;
     return (
       <>
         <div className="map-legend newmap-legend">
           <div className="color-list">
-            <h6>Population</h6>
+            <h6>Number of Projects</h6>
             <ul id="state-legend" className="color-legend">
               {this.state.grade &&
                 this.state.grade.map((grade, i) => {
@@ -972,12 +1098,18 @@ class Choropleth extends Component {
             </div>
           </div> */}
         </div>
+        <TimelineChart
+          minValue={minValue}
+          maxValue={maxValue}
+          playBtn={this.playBtn}
+          mapViewBy={mapViewBy}
+        />
       </>
     );
   }
 }
-const mapStateToProps = ({ automationReducer }) => ({
-  automationReducer,
+const mapStateToProps = ({ partnershipReducer }) => ({
+  partnershipReducer,
 });
 
 export default connect(mapStateToProps, {})(Choropleth);

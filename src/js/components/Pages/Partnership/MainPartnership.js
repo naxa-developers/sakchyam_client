@@ -31,6 +31,12 @@ import {
   filterDistrictListFromProvince,
   filterMunListFromDistrict,
   filterFinancialDataWithAllFiltersAndFederal,
+  getPartnershipAllData,
+  resetBarDatas,
+  resetRadialData,
+  resetSankeyChartData,
+  resetOverviewData,
+  filterLeverageData,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
@@ -72,13 +78,14 @@ class MainPartnership extends Component {
     this.props.getPartnersList();
     this.props.getProjectListData();
     this.props.getPartnershipInvestmentFocus();
+    this.props.getPartnershipAllData();
+    this.props.getProvinceData();
     // this.props.getSpiderChartData();
     // this.props.getOverviewData();
     // this.props.getSankeyChartData();
     this.props.getBarDataByBenefBudget(viewDataBy);
     // this.props.getMapDataByDistrict(viewDataBy);
     // this.props.getMapDataByMunicipality(viewDataBy);
-    this.props.getProvinceData();
     this.props.getDistrictData();
     this.props.getMunicipalityData();
   }
@@ -452,6 +459,7 @@ class MainPartnership extends Component {
       projectSelection,
       partnerType,
       partnerSelection,
+      projectStatus,
     );
     // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
     //   return data.
@@ -462,6 +470,7 @@ class MainPartnership extends Component {
       partnerType,
       partnerSelection,
     );
+    this.props.filterLeverageData(investmentFocusSelection);
   };
 
   // eslint-disable-next-line consistent-return
@@ -476,29 +485,53 @@ class MainPartnership extends Component {
       selectedMunicipality,
       selectedDistrict,
       selectedProvince,
+      activeView,
     } = this.state;
-    this.props.filterFinancialDataWithAllFiltersAndFederal(
-      { selectedMunicipality, selectedDistrict, selectedProvince },
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-    );
-    this.props.filterOverviewData(
-      investmentFocusSelection,
-      projectSelection,
-      partnerType,
-      partnerSelection,
-      { selectedMunicipality, selectedDistrict, selectedProvince },
-    );
-    this.props.filterRadialData(
-      viewDataBy,
-      investmentFocusSelection,
-      projectSelection,
-      partnerType,
-      partnerSelection,
-      { selectedMunicipality, selectedDistrict, selectedProvince },
-    );
+    if (activeView === 'visualization') {
+      this.props.filterFinancialDataWithAllFiltersAndFederal(
+        { selectedMunicipality, selectedDistrict, selectedProvince },
+        viewDataBy,
+        partnerSelection,
+        projectSelection,
+        projectStatus,
+      );
+      this.props.filterOverviewData(
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
+      );
+      this.props.filterRadialData(
+        viewDataBy,
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+        projectStatus,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
+      );
+    } else {
+      this.props.filterMapDataWithFederal();
+    }
+  };
+
+  resetLeftSideBarSelection = () => {
+    this.setState({
+      investmentFocusSelection: [],
+      partnerSelection: [],
+      projectSelection: [],
+    });
+  };
+
+  resetFilters = () => {
+    console.log('resertfiles');
+    const that = this;
+    that.resetLeftSideBarSelection();
+    this.props.resetBarDatas();
+    this.props.resetRadialData();
+    this.props.resetSankeyChartData();
+    this.props.resetOverviewData();
   };
 
   render() {
@@ -543,6 +576,7 @@ class MainPartnership extends Component {
           }`}
         >
           <LeftSideBar
+            resetFilters={this.resetFilters}
             applyBtnClick={this.applyBtnClick}
             investmentFocusSelection={investmentFocusSelection}
             handleInvestmentFocusCheckbox={
@@ -714,6 +748,7 @@ class MainPartnership extends Component {
                       <div className="buttons is-end">
                         <button
                           type="button"
+                          // onClick={this.resetFilters}
                           className="common-button is-clear"
                         >
                           <i className="material-icons">refresh</i>
@@ -872,6 +907,10 @@ class MainPartnership extends Component {
               </div>
               <div className="literacy-tab-content">
                 <MiddleChartSection
+                  resetLeftSideBarSelection={
+                    this.resetLeftSideBarSelection
+                  }
+                  resetFilters={this.resetFilters}
                   viewDataBy={viewDataBy}
                   mapViewDataBy={mapViewDataBy}
                   sankeyChartwidth={sankeyChartwidth}
@@ -974,4 +1013,10 @@ export default connect(mapStateToProps, {
   filterDistrictListFromProvince,
   filterMunListFromDistrict,
   filterFinancialDataWithAllFiltersAndFederal,
+  getPartnershipAllData,
+  resetBarDatas,
+  resetRadialData,
+  resetSankeyChartData,
+  resetOverviewData,
+  filterLeverageData,
 })(MainPartnership);

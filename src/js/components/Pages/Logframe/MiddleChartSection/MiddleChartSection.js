@@ -13,30 +13,42 @@ import {
   loadingTrue,
 } from '../../../../actions/logFrame.actions';
 
-function convert(x) {
-  // eslint-disable-next-line no-restricted-globals
-  if (isNaN(x)) return x;
+// function convert(x) {
+//   // eslint-disable-next-line no-restricted-globals
+//   if (isNaN(x)) return x;
 
-  if (x < 9999) {
-    return x;
-  }
+//   if (x < 9999) {
+//     return x;
+//   }
 
-  if (x < 1000000) {
-    return `${Math.round(x / 1000)}K`;
-  }
-  if (x < 10000000) {
-    return `${(x / 1000000).toFixed(2)}M`;
-  }
+//   if (x < 1000000) {
+//     return `${Math.round(x / 1000)}K`;
+//   }
+//   if (x < 10000000) {
+//     return `${(x / 1000000).toFixed(2)}M`;
+//   }
 
-  if (x < 1000000000) {
-    return `${Math.round(x / 1000000)}M`;
-  }
+//   if (x < 1000000000) {
+//     return `${Math.round(x / 1000000)}M`;
+//   }
 
-  if (x < 1000000000000) {
-    return `${Math.round(x / 1000000000)}B`;
-  }
+//   if (x < 1000000000000) {
+//     return `${Math.round(x / 1000000000)}B`;
+//   }
 
-  return '1T+';
+//   return '1T+';
+// }
+function convert(labelValue) {
+  // Nine Zeroes for Billions
+  return Math.abs(Number(labelValue)) >= 1.0e9
+    ? `${Math.abs(Number(labelValue)) / 1.0e9}B`
+    : // Six Zeroes for Millions
+    Math.abs(Number(labelValue)) >= 1.0e6
+    ? `${Math.abs(Number(labelValue)) / 1.0e6}M`
+    : // Three Zeroes for Thousands
+    Math.abs(Number(labelValue)) >= 1.0e3
+    ? `${Math.abs(Number(labelValue)) / 1.0e3}K`
+    : Math.abs(Number(labelValue));
 }
 class MiddleChartSection extends Component {
   constructor(props) {
@@ -147,7 +159,7 @@ class MiddleChartSection extends Component {
           // },
         },
         stroke: {
-          width: [0, 1, 1],
+          width: [0, 1, 6, 6],
           curve: 'straight',
         },
         plotOptions: {
@@ -157,7 +169,7 @@ class MiddleChartSection extends Component {
         },
         colors: ['#b41833', '#5794a6'],
         fill: {
-          opacity: [0.75, 0.75, 0.15, 0.15],
+          opacity: [0.75, 0.75, 0, 0],
           // opacity: [0.65, 0.65, 0.15, 0.15],
           // opacity: [0.45, 0.75, 0.15, 0.2],
           gradient: {
@@ -195,7 +207,8 @@ class MiddleChartSection extends Component {
             text: 'Milestone/year',
             style: {
               fontFamily: 'Avenir Heavy',
-              fontSize: '15px',
+              fontSize: '20px',
+              color: '#f37b2e',
             },
           },
           labels: {
@@ -236,7 +249,7 @@ class MiddleChartSection extends Component {
         },
         yaxis: {
           // floating: true
-          decimalsInFloat: 2,
+          // decimalsInFloat: 2,
           tickPlacement: 'between',
           // y: 8200,
           // y: 1000,
@@ -271,7 +284,6 @@ class MiddleChartSection extends Component {
             minWidth: 0,
             maxWidth: 160,
             style: {
-              colors: [],
               fontSize: '12px',
               fontFamily: 'Helvetica, Arial, sans-serif',
               fontWeight: 400,
@@ -281,14 +293,14 @@ class MiddleChartSection extends Component {
             offsetY: 0,
             rotate: 0,
             formatter: value => {
-              if (value <= 1) {
-                return value.toFixed(1);
-              }
+              // if (value <= 1) {
+              //   return value.toFixed(1);
+              // }
               // console.log(value, 'v');
-              const roundNumber = Math.round(value);
+              // const roundNumber = Math.round(value);
               // console.log(convert(roundNumber));
               //   console.log(convert(roundNumber));
-              return convert(roundNumber);
+              return convert(value);
             },
           },
           min: 0,
@@ -308,14 +320,20 @@ class MiddleChartSection extends Component {
           offsetX: 0,
           offsetY: 0,
           style: {
-            color: undefined,
+            color: '#f37b2e',
+            // style: {
+            //   fontFamily: 'Avenir Heavy',
+            //   fontSize: '20px',
+            // },
             fontSize: '12px',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 600,
             cssClass: 'apexcharts-yaxis-title',
           },
         },
-
+        noData: {
+          text: 'No Data Selected',
+        },
         tooltip: {
           shared: true,
           intersect: false,
@@ -996,6 +1014,11 @@ class MiddleChartSection extends Component {
   };
 
   downloadPng = () => {
+    const {
+      props: {
+        logFrameReducer: { filteredDynamicData },
+      },
+    } = this;
     document.querySelector('.info-header-bottom').style.display =
       'none';
     document
@@ -1017,7 +1040,7 @@ class MiddleChartSection extends Component {
         // useCORS: true,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
-          saveAs(blob, 'Dashboard.png');
+          saveAs(blob, filteredDynamicData[0].category.title);
         });
         document.querySelector('.info-header-bottom').style.display =
           'block';
@@ -1494,7 +1517,7 @@ class MiddleChartSection extends Component {
                     marginLeft: '15px',
                   }}
                 >
-                  No Data Selected
+                  {/* No Data Selected */}
                 </label>
               </div>
               <div
@@ -1523,22 +1546,28 @@ class MiddleChartSection extends Component {
               </div>
             </div>
           </div>
-          <div className="info-content-footer">
-            <p className="span_book_14">
-              {filteredDynamicData &&
-                filteredDynamicData[0] &&
-                filteredDynamicData[0].sub_category.description}
-            </p>
-            <a
-              role="button"
-              tabIndex="0"
-              onClick={handleModal}
-              onKeyDown={handleModal}
-              className="more"
-            >
-              more
-            </a>
-          </div>
+          {filteredDynamicData &&
+            filteredDynamicData[0] &&
+            !filteredDynamicData[0].sub_category.name.includes(
+              'Output',
+            ) && (
+              <div className="info-content-footer">
+                <p className="span_book_14">
+                  {filteredDynamicData &&
+                    filteredDynamicData[0] &&
+                    filteredDynamicData[0].sub_category.description}
+                </p>
+                <a
+                  role="button"
+                  tabIndex="0"
+                  onClick={handleModal}
+                  onKeyDown={handleModal}
+                  className="more"
+                >
+                  more
+                </a>
+              </div>
+            )}
         </div>
       </div>
     );

@@ -516,7 +516,7 @@
                         @include transition(all .4s ease-in-out);
                         visibility: visible;
                         opacity: 1;
-                        top: 10%;
+                        top:0%;
                         right: 0;
                     }
                 }
@@ -575,13 +575,13 @@
                 }
             }
             .info-content-footer{
-                background-color: $color-pink-light;
-                @include radius(10px);
+                background-color: $white-color;
+                @include radius(5px);
                 padding: 19px 64px 18px;
                 margin-top: 20px;
                 margin-left: 10px;
-                @include display-flex(flex);
-                align-items: center;
+                // @include display-flex(flex);
+                // align-items: center;
                 position: relative;
                 span.important{
                     position: absolute;
@@ -597,11 +597,11 @@
                 }
                 p{
                     &.span_book_14{
-                        color: $primary-light;
+                        color: $black-color;
                         line-height: 1.4;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
+                        // white-space: nowrap;
+                        // overflow: hidden;
+                        // text-overflow: ellipsis;
                         transition: all 0.2s linear;
                         &:hover{
                             cursor: pointer;
@@ -611,6 +611,7 @@
                 a.more{
                     color: $text-color;
                     cursor: pointer;
+                    display: none;
                 }
             }
         }

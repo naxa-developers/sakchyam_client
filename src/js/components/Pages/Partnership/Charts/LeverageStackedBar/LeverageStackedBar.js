@@ -42,6 +42,10 @@ class StackedBar extends Component {
       chart: {
         height: 350,
         type: 'line',
+        toolbar: {
+          show: false,
+          // download: false,
+        },
         // events: {
         //   click(
         //     event,
@@ -239,6 +243,10 @@ class StackedBar extends Component {
       chart: {
         height: 350,
         type: 'line',
+        toolbar: {
+          show: false,
+          // download: false,
+        },
         // events: {
         //   click(
         //     event,
@@ -463,13 +471,15 @@ class StackedBar extends Component {
     const { options, series } = this.state;
     const { activeModal } = this.props;
     return (
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="bar"
-        height={activeModal ? 600 : 350}
-        // width={activeModal === true ? 1600 : '100%'}
-      />
+      <div id="leverage_chart">
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="bar"
+          height={activeModal ? 600 : 350}
+          // width={activeModal === true ? 1600 : '100%'}
+        />
+      </div>
     );
   }
 }

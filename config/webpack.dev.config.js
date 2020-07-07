@@ -104,7 +104,7 @@ module.exports = env => {
       //   inline: true,
       //   port: 3000,
       // },
-      devtool: PLATFORM === 'production' ? '' : 'eval-source-map',
+      devtool: PLATFORM === 'production' ? '' : '#eval-source-map',
     },
   ]);
 };
