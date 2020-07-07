@@ -42,9 +42,15 @@ class StackedBar extends Component {
       chart: {
         height: 350,
         type: 'line',
-        toolbar: {
-          show: false,
-          // download: false,
+        events: {
+          click: function(
+            event,
+            chartContext,
+            { seriesIndex, dataPointIndex, config },
+          ) {
+            if (dataPointIndex >= 0)
+              this.generateBarChartData(dataPointIndex);
+          }.bind(this),
         },
         // events: {
         //   click(
@@ -219,6 +225,11 @@ class StackedBar extends Component {
     this.setState({ series });
   };
 
+  generateBarChartData = i => {
+    const clickedPartner = this.state.options.xaxis.categories[i];
+    console.log(clickedPartner);
+  };
+
   componentDidMount() {
     this.plotChart();
     this.props.getLeverageData();
@@ -246,6 +257,16 @@ class StackedBar extends Component {
         toolbar: {
           show: false,
           // download: false,
+        },
+        events: {
+          click: function(
+            event,
+            chartContext,
+            { seriesIndex, dataPointIndex, config },
+          ) {
+            if (dataPointIndex >= 0)
+              this.generateBarChartData(dataPointIndex);
+          }.bind(this),
         },
         // events: {
         //   click(
