@@ -551,6 +551,17 @@ class TableData extends Component {
                   </tr> */}
                 </tbody>
               </table>
+              <p
+                className="description"
+                style={{ background: '#fdeaef' }}
+              >
+                Other Initiatives include ranges of financial literacy
+                activities carried out by partners which are not
+                included in pre-defined financial literacy
+                initiatives. Dedicated financial literacy event, door
+                to door campaign, financial literacy conducted in
+                school/college are some examples
+              </p>
             </div>
           </div>
         </div>

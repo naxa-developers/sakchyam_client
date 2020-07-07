@@ -255,12 +255,6 @@ class HorizontalChart extends Component {
         position: 'bottom',
         show: true,
         offsetX: 0,
-        // labels: {
-        //   show: true,
-        //   style: {
-        //     fontSize: '2px',
-        //   },
-        // },
         type: 'category',
         categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
         labels: {
@@ -286,6 +280,8 @@ class HorizontalChart extends Component {
           //   fontWeight: 400,
           //   cssClass: 'apexcharts-xaxis-label',
           // },
+          // show: false,
+          formatter: val => numberWithCommas(val),
         },
       },
     };
@@ -302,8 +298,6 @@ class HorizontalChart extends Component {
       },
       checkedPartnerItems,
     } = this.props;
-
-    console.log(checkedPartnerItems, 'checkedPartnerItems');
 
     let columnWidth = '100%';
     if (activeModal) {
@@ -627,15 +621,18 @@ class HorizontalChart extends Component {
     const { showRightSidebar } = this.props;
 
     const height = activeModal ? 500 : 400;
+
+    const title = !isToggled
+      ? 'Financial Literacy Beneficiaries by Partners'
+      : 'Initiative-wise beneficiary breakdown';
+
     return (
       <>
         <div
           className="card-header"
           style={activeModal && { backgroundColor: '#fff' }}
         >
-          {!activeModal && (
-            <h5>Beneficiary Reached Per Program by Partners</h5>
-          )}
+          {!activeModal && <h5>{title}</h5>}
           <div className="header-icons">
             {!isBarChartClicked && (
               <div className="card-switcher">
@@ -648,7 +645,7 @@ class HorizontalChart extends Component {
                   />
                   <span className="slider" />
                 </label>
-                <small>Program Wise</small>
+                <small>Programme Wise</small>
               </div>
             )}
             {/* {!isBarChartClicked && (
@@ -673,16 +670,10 @@ class HorizontalChart extends Component {
               <>
                 <span
                   onClick={() => {
-                    downloadPng(
-                      'horizontal-chart',
-                      'Beneficiary Reached Per Program by Partners',
-                    );
+                    downloadPng('horizontal-chart', `${title}`);
                   }}
                   onKeyDown={() => {
-                    downloadPng(
-                      'horizontal-chart',
-                      'Beneficiary Reached Per Program by Partners',
-                    );
+                    downloadPng('horizontal-chart', `${title}`);
                   }}
                   className=""
                   role="tab"
@@ -695,10 +686,7 @@ class HorizontalChart extends Component {
                   tabIndex="0"
                   onClick={() => {
                     handleModal();
-                    handleSelectedModal(
-                      'bar',
-                      'Beneficiary Reached Per Program by Partners',
-                    );
+                    handleSelectedModal('bar', `${title}`);
                   }}
                   onKeyDown={() => {
                     handleModal();

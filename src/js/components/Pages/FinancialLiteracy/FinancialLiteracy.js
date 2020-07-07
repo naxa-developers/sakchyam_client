@@ -559,7 +559,8 @@ class FinancialLiteracy extends Component {
                         <div className="card" id="chart-donut">
                           <div className="card-header">
                             <h5>
-                              Ratio of Microfinance and Commercial
+                              Financial Literacy Beneficiaries Mix by
+                              Partner Type
                             </h5>
                             <div className="header-icons">
                               <span
@@ -567,13 +568,13 @@ class FinancialLiteracy extends Component {
                                 onClick={() => {
                                   this.downloadPng(
                                     'donut-chart',
-                                    'Ratio of Microfinance and Commercial',
+                                    'Financial Literacy Beneficiaries Mix by Partner Type',
                                   );
                                 }}
                                 onKeyDown={() => {
                                   this.downloadPng(
                                     'donut-chart',
-                                    'Ratio of Microfinance and Commercial',
+                                    'Financial Literacy Beneficiaries Mix by Partner Type',
                                   );
                                 }}
                                 role="tab"
@@ -589,14 +590,14 @@ class FinancialLiteracy extends Component {
                                   this.handleModal();
                                   this.handleSelectedModal(
                                     'donut',
-                                    'Ratio of Microfinance and Commercial',
+                                    'Financial Literacy Beneficiaries Mix by Partner Type',
                                   );
                                 }}
                                 onKeyDown={() => {
                                   this.handleModal();
                                   this.handleSelectedModal(
                                     'donut',
-                                    'Ratio of Microfinance and Commercial',
+                                    'Financial Literacy Beneficiaries Mix by Partner Type',
                                   );
                                 }}
                               >

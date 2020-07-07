@@ -748,8 +748,8 @@ class RightSideBar extends Component {
                                       className="timeline-text"
                                     >
                                       <span>
-                                        {`${dateNumber}
-                                        ${monthName}`}
+                                        {`${monthName}
+                                        ${item.year}`}
                                       </span>
                                       <p>{list.name}</p>
                                     </div>

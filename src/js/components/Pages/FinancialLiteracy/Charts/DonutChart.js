@@ -90,10 +90,11 @@ class DonutChart extends Component {
                 fontWeight: 100,
                 color: '#d9202c',
                 formatter(w) {
-                  return w.globals.seriesTotals.reduce((a, b) => {
-                    const x = a + b;
-                    return x;
-                  }, 0);
+                  let x = 0;
+                  w.globals.seriesTotals.forEach(i => {
+                    x += i;
+                  });
+                  return numberWithCommas(x);
                 },
               },
             },
@@ -105,8 +106,11 @@ class DonutChart extends Component {
         // enabled: false,
         style: {
           fontSize: '11px',
-          fontColor: '#000',
+          fontColor: '#fff',
           backgroundColor: '#fff',
+        },
+        y: {
+          formatter: val => numberWithCommas(val),
         },
         // followCursor: false,
         // fixed: {
