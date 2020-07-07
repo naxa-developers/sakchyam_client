@@ -105,7 +105,7 @@ class DonutChart extends Component {
         // enabled: false,
         style: {
           fontSize: '11px',
-          fontColor: '#000',
+          fontColor: '#fff',
           backgroundColor: '#fff',
         },
         // followCursor: false,

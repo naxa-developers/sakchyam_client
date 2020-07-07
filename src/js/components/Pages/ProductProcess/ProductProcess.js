@@ -4,6 +4,9 @@ import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
 import { getProductProcessList } from '../../../actions/productProcess.actions';
+import BubbleChart from './Charts/BubbleChart/BubbleChart';
+import HeatmapChart from './Charts/Heatmap/HeatmapChart';
+import RadarChart from './Charts/Radar/RadarChart';
 
 class ProductProcess extends React.Component {
   constructor(props) {
@@ -32,7 +35,7 @@ class ProductProcess extends React.Component {
         productCategoryList,
         productNameList,
         partnerTypeList,
-        partnerInstitutionList,
+        partnerNameList,
         marketFailureList,
       },
     } = this.props;
@@ -63,7 +66,7 @@ class ProductProcess extends React.Component {
         productCategoryList,
         productNameList,
         partnerTypeList,
-        partnerInstitutionList,
+        partnerNameList,
         marketFailureList,
       },
     } = this.props;
@@ -78,12 +81,12 @@ class ProductProcess extends React.Component {
           }
         >
           <LeftSideBar
-            // innovationArea={innovationAreaList}
-            // productCategory={productCategoryList}
-            // productName={productNameList}
-            // partnerType={partnerTypeList}
-            // partnerInstitution={partnerInstitutionList}
-            // marketFailure={marketFailureList}
+            innovationArea={innovationAreaList}
+            productCategory={productCategoryList}
+            productName={productNameList}
+            partnerType={partnerTypeList}
+            partnerName={partnerNameList}
+            marketFailure={marketFailureList}
             handleInnovationAreaCheckbox={
               this.handleInnovationAreaCheckbox
             }
@@ -94,24 +97,15 @@ class ProductProcess extends React.Component {
             <div className="main-card literacy-main-card">
               <div className="literacy-tab-content">
                 <div className="literacy-tab-item">
-                  <div
-                    className="graph-view"
-                    style={
-                      visualizationType === 'Visualisation'
-                        ? { display: 'block' }
-                        : { display: 'none' }
-                    }
-                  >
+                  <div className="graph-view">
                     <div className="row">
-                      <div className="col-xl-12">
+                      {/* <div className="col-xl-12">
                         <div className="card" />
-                      </div>
+                      </div> */}
                       <div className="col-xl-6">
                         <div className="card" id="chart-donut">
                           <div className="card-header">
-                            <h5>
-                              Ratio of Microfinance and Commercial
-                            </h5>
+                            <h5>Product Results</h5>
                             <div className="header-icons">
                               <span
                                 className=""
@@ -149,18 +143,67 @@ class ProductProcess extends React.Component {
                               </span>
                             </div>
                           </div>
-                          <div className="card-body" />
+                          <div className="card-body">
+                            <BubbleChart />
+                          </div>
                         </div>
                       </div>
-
                       <div className="col-xl-6">
-                        <div className="card" id="" />
+                        <div className="card" id="chart-donut">
+                          <div className="card-header">
+                            <h5>Innovation Area Radar Chart</h5>
+                            <div className="header-icons">
+                              <span
+                                className=""
+                                onClick={() => {
+                                  this.downloadPng('donut-chart');
+                                }}
+                                onKeyDown={() => {
+                                  this.downloadPng('donut-chart');
+                                }}
+                                role="tab"
+                                tabIndex="0"
+                              >
+                                {/* <img src={DownloadIcon} alt="open" /> */}
+                              </span>
+                              <span
+                                className=""
+                                role="tab"
+                                tabIndex="0"
+                                onClick={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal(
+                                    'donut',
+                                    'Ratio of Microfinance and Commercial',
+                                  );
+                                }}
+                                onKeyDown={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal(
+                                    'donut',
+                                    'Ratio of Microfinance and Commercial',
+                                  );
+                                }}
+                              >
+                                {/* <img src={ExpandIcon} alt="open" /> */}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="card-body">
+                            <RadarChart />
+                          </div>
+                        </div>
                       </div>
+                      {/* <div className="col-xl-6">
+                        <div className="card" id="">
+                          <RadarChart />
+                        </div>
+                      </div> */}
                     </div>
 
                     <div className="card" ref={this.sankeyRef}>
                       <div className="card-header">
-                        <h5>Beneficiaries Reached By Partners</h5>
+                        <h5>Heatmap Chart</h5>
                         <div className="header-icons">
                           <span
                             className
@@ -198,7 +241,9 @@ class ProductProcess extends React.Component {
                           </span>
                         </div>
                       </div>
-                      <div className="card-body" />
+                      <div className="card-body">
+                        <HeatmapChart />
+                      </div>
                     </div>
                   </div>
                 </div>

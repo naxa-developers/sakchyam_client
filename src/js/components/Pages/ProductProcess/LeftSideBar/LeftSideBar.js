@@ -16,7 +16,7 @@ class LeftSideBar extends Component {
       productCategory,
       productName,
       partnerType,
-      partnerInstitution,
+      partnerName,
       marketFailure,
 
       handleInnovationAreaCheckbox,
@@ -49,14 +49,14 @@ class LeftSideBar extends Component {
                   </div>
                   <ul className="checkbox-list">
                     {productCategory &&
-                      productCategory.map((item, index) => {
+                      productCategory.map(item => {
                         return (
                           <CheckBox
-                            id={index}
+                            id={item.id}
                             className="investment_checkbox"
-                            // key={index}
-                            label={item}
-                            name={item}
+                            key={item.id}
+                            label={item.name}
+                            name={item.name}
                             changeHandler={
                               handleInnovationAreaCheckbox
                             }
@@ -89,14 +89,14 @@ class LeftSideBar extends Component {
                   </div>
                   <ul className="checkbox-list">
                     {innovationArea &&
-                      innovationArea.map((item, index) => {
+                      innovationArea.map(item => {
                         return (
                           <CheckBox
-                            id={index}
+                            id={item.id}
                             className="investment_checkbox"
-                            // key={index}
-                            label={item}
-                            name={item}
+                            key={item.id}
+                            label={item.name}
+                            name={item.name}
                             // changeHandler={
                             //   handleInvestmentFocusCheckbox
                             // }
@@ -129,14 +129,14 @@ class LeftSideBar extends Component {
                   </div>
                   <ul className="checkbox-list">
                     {productName &&
-                      productName.map((item, index) => {
+                      productName.map(item => {
                         return (
                           <CheckBox
-                            id={index}
+                            id={item.id}
                             className="investment_checkbox"
-                            // key={index}
-                            label={item}
-                            name={item}
+                            key={item.id}
+                            label={item.name}
+                            name={item.name}
                             // changeHandler={
                             //   handleInvestmentFocusCheckbox
                             // }
@@ -155,6 +155,17 @@ class LeftSideBar extends Component {
               <h6 className="title">Partner Type</h6>
               <div className="widget-body">
                 <div className="widget-tag partner-tag">
+                  {partnerType &&
+                    partnerType.map(item => {
+                      return (
+                        <a>
+                          <span>{item.name}</span>
+                        </a>
+                      );
+                    })}
+                </div>
+
+                {/* <div className="widget-tag partner-tag">
                   <a
                   // onClick={() => {
                   // handlePartnerType('Microfinance Institutions');
@@ -168,37 +179,13 @@ class LeftSideBar extends Component {
                   // )
                   //   ? 'active'
                   //   : ''
-
                   // }
                   // role="tab"
                   // tabIndex="0"
                   >
                     <span>Microfinance</span>
                   </a>
-                  <a
-                  // onClick={() => {
-                  //   handlePartnerType(
-                  //     'Commercial Bank and Other Partners',
-                  //   );
-                  // }}
-                  // onKeyDown={() => {
-                  //   handlePartnerType(
-                  //     'Commercial Bank and Other Partners',
-                  //   );
-                  // }}
-                  // className={
-                  //   partnerType.includes(
-                  //     'Commercial Bank and Other Partners',
-                  //   )
-                  //     ? 'active'
-                  //     : ''
-                  // }
-                  // tabIndex="0"
-                  // role="tab"
-                  >
-                    <span>Commercial Bank / Other Partners</span>
-                  </a>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -219,15 +206,15 @@ class LeftSideBar extends Component {
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {partnerInstitution &&
-                      partnerInstitution.map((item, index) => {
+                    {partnerName &&
+                      partnerName.map(item => {
                         return (
                           <CheckBox
-                            id={index}
+                            id={item.id}
                             className="investment_checkbox"
-                            // key={index}
-                            label={item}
-                            name={item}
+                            key={item.id}
+                            label={item.name}
+                            name={item.name}
                             // changeHandler={
                             //   handleInvestmentFocusCheckbox
                             // }
@@ -260,14 +247,14 @@ class LeftSideBar extends Component {
                   </div>
                   <ul className="checkbox-list">
                     {marketFailure &&
-                      marketFailure.map((item, index) => {
+                      marketFailure.map(item => {
                         return (
                           <CheckBox
-                            id={index}
+                            id={item.id}
                             className="investment_checkbox"
-                            // key={index}
-                            label={item}
-                            name={item}
+                            key={item.id}
+                            label={item.name}
+                            name={item.name}
                             // changeHandler={
                             //   handleInvestmentFocusCheckbox
                             // }

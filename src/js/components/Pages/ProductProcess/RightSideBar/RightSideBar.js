@@ -1,14 +1,51 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      innovationAreaCount: '-',
+      partnerInstitutionCount: '-',
+      productCount: '-',
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      productProcessReducer: {
+        overviewData: {
+          innovationAreaCount,
+          partnerInstitutionCount,
+          productCount,
+        },
+      },
+    } = this.props;
+    if (
+      this.props.productProcessReducer.overviewData !==
+      prevProps.productProcessReducer.overviewData
+    ) {
+      this.setState({
+        innovationAreaCount,
+        partnerInstitutionCount,
+        productCount,
+      });
+    }
   }
 
   render() {
-    const { showRightSidebar } = this.props;
+    const {
+      showRightSidebar,
+      productProcessReducer: { overviewData },
+    } = this.props;
+
+    const {
+      innovationAreaCount,
+      partnerInstitutionCount,
+      productCount,
+    } = this.state;
+
     return (
       <aside className="sidebar right-sidebar literacy-right-sidebar">
         <div className="sidebar-in">
@@ -23,7 +60,7 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Innovation area</h6>
                       <span>
-                        32
+                        {innovationAreaCount}
                         {/* {numberWithCommas(totalBeneficiaries)} */}
                       </span>
                     </div>
@@ -36,7 +73,7 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Partner Institutions</h6>
-                      <span>43</span>
+                      <span>{partnerInstitutionCount}</span>
                       {/* <span>{partnerCount}</span> */}
                     </div>
                     <div className="widget-icon">
@@ -50,7 +87,7 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Products</h6>
-                      <span>345</span>
+                      <span>{productCount}</span>
                       {/* <span>{programCount}</span> */}
                     </div>
                     <div className="widget-icon">
@@ -99,11 +136,8 @@ class RightSideBar extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = ({ productProcessReducer }) => ({
+  productProcessReducer,
+});
 
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RightSideBar);
+export default connect(mapStateToProps)(RightSideBar);
