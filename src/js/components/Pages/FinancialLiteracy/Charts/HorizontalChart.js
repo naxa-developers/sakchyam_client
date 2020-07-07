@@ -255,12 +255,6 @@ class HorizontalChart extends Component {
         position: 'bottom',
         show: true,
         offsetX: 0,
-        // labels: {
-        //   show: true,
-        //   style: {
-        //     fontSize: '2px',
-        //   },
-        // },
         type: 'category',
         categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
         labels: {
@@ -286,6 +280,8 @@ class HorizontalChart extends Component {
           //   fontWeight: 400,
           //   cssClass: 'apexcharts-xaxis-label',
           // },
+          // show: false,
+          formatter: val => numberWithCommas(val),
         },
       },
     };

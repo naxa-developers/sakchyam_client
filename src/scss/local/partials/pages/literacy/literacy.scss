@@ -154,13 +154,13 @@
         text-transform: capitalize;
         cursor: pointer;
         @include display-flex(flex);
-      @include justify-content-start;
-      @include align-items-center;
+        @include justify-content-start;
+        @include align-items-center;
 
         font-size: 0.9125rem;
-        i{
+        i {
           font-size: 1rem;
-          margin-right: .5rem;
+          margin-right: 0.5rem;
         }
         @media #{$breakpoint-xxl} {
           font-size: 0.875rem;
@@ -280,7 +280,7 @@
     }
   }
   .apexcharts-tooltip {
-    max-width: 200px;
+    max-width: 350px;
     white-space: initial;
     flex-wrap: wrap;
     overflow: initial;
