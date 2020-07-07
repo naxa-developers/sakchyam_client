@@ -16,6 +16,7 @@ import {
   resetBarDatas,
   resetRadialData,
   resetSankeyChartData,
+  resetLeverageData,
 } from '../../../../actions/partnership.actions';
 import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
 
@@ -278,6 +279,7 @@ class MiddleChartSection extends Component {
               }}
             />
             <CardTab
+              resetFunction={this.props.resetLeverageData}
               cardTitle="S-CF Fund & Leverage By Investment Focus"
               cardClass="col-xl-6"
               cardChartId="leverageChart"
@@ -323,7 +325,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            {/* <CardTab
+            <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
@@ -340,7 +342,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            /> */}
+            />
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"
@@ -374,6 +376,7 @@ const mapStateToProps = ({ partnershipReducer }) => ({
 export default connect(mapStateToProps, {
   getRadialData,
   resetBarDatas,
+  resetLeverageData,
   resetRadialData,
   resetSankeyChartData,
 })(MiddleChartSection);

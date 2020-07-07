@@ -33,9 +33,11 @@ import {
   RESET_BAR_DATA,
   RESET_RADIAL_DATA,
   RESET_SANKEYCHART_DATA,
+  RESET_LEVERAGE_DATA,
   FILTER_TIMELINE_DATA,
   FILTER_LEVERAGE_DATA,
   RESET_OVERVIEW_DATA,
+  FILTER_LEVERAGE_DATA_FOR_BARCLICK,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -1721,9 +1723,20 @@ export const resetOverviewData = () => dispatch => {
     type: RESET_OVERVIEW_DATA,
   });
 };
+export const resetLeverageData = () => dispatch => {
+  return dispatch({
+    type: RESET_LEVERAGE_DATA,
+  });
+};
 export const filterTimelineData = (min, max, fedtype) => dispatch => {
   return dispatch({
     type: FILTER_TIMELINE_DATA,
     payload: { min, max, fedtype },
+  });
+};
+export const filterLeverageDataForBarClick = data => dispatch => {
+  return dispatch({
+    type: FILTER_LEVERAGE_DATA_FOR_BARCLICK,
+    payload: data,
   });
 };

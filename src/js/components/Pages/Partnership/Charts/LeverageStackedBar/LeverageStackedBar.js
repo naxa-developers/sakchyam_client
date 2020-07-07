@@ -5,6 +5,7 @@ import {
   filterFinancialDataOfDistrictFromProvince,
   filterFinancialDataOfMunicipalityFromDistrict,
   getLeverageData,
+  filterLeverageDataForBarClick,
 } from '../../../../../actions/partnership.actions';
 import convert from '../../../../utils/convertNumbers';
 
@@ -226,8 +227,14 @@ class StackedBar extends Component {
   };
 
   generateBarChartData = i => {
-    const clickedPartner = this.state.options.xaxis.categories[i];
-    console.log(clickedPartner);
+    const clickedItem = this.state.options.xaxis.categories[i];
+    const {
+      partnershipReducer: { projectLists },
+    } = this.props;
+    const data = projectLists.filter(
+      item => item.investment_primary === clickedItem,
+    );
+    this.props.filterLeverageDataForBarClick(data);
   };
 
   componentDidMount() {
@@ -511,4 +518,5 @@ export default connect(mapStateToProps, {
   filterFinancialDataOfDistrictFromProvince,
   filterFinancialDataOfMunicipalityFromDistrict,
   getLeverageData,
+  filterLeverageDataForBarClick,
 })(StackedBar);
