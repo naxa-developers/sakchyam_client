@@ -36,6 +36,7 @@ import {
   resetRadialData,
   resetSankeyChartData,
   resetOverviewData,
+  resetLeverageData,
   filterLeverageData,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
@@ -548,10 +549,10 @@ class MainPartnership extends Component {
     console.log('resertfiles');
     const that = this;
     that.resetLeftSideBarSelection();
-    this.props.resetBarDatas();
     this.props.resetRadialData();
     this.props.resetSankeyChartData();
     this.props.resetOverviewData();
+    this.props.resetLeverageData();
   };
 
   render() {
@@ -1050,5 +1051,6 @@ export default connect(mapStateToProps, {
   resetRadialData,
   resetSankeyChartData,
   resetOverviewData,
+  resetLeverageData,
   filterLeverageData,
 })(MainPartnership);

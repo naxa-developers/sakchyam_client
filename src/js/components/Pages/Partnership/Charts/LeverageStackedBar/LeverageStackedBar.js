@@ -5,6 +5,7 @@ import {
   filterFinancialDataOfDistrictFromProvince,
   filterFinancialDataOfMunicipalityFromDistrict,
   getLeverageData,
+  filterLeverageDataForBarClick,
 } from '../../../../../actions/partnership.actions';
 import convert from '../../../../utils/convertNumbers';
 
@@ -42,9 +43,15 @@ class StackedBar extends Component {
       chart: {
         height: 350,
         type: 'line',
-        toolbar: {
-          show: false,
-          // download: false,
+        events: {
+          click: function(
+            event,
+            chartContext,
+            { seriesIndex, dataPointIndex, config },
+          ) {
+            if (dataPointIndex >= 0)
+              this.generateBarChartData(dataPointIndex);
+          }.bind(this),
         },
         // events: {
         //   click(
@@ -219,6 +226,17 @@ class StackedBar extends Component {
     this.setState({ series });
   };
 
+  generateBarChartData = i => {
+    const clickedItem = this.state.options.xaxis.categories[i];
+    const {
+      partnershipReducer: { projectLists },
+    } = this.props;
+    const data = projectLists.filter(
+      item => item.investment_primary === clickedItem,
+    );
+    this.props.filterLeverageDataForBarClick(data);
+  };
+
   componentDidMount() {
     this.plotChart();
     this.props.getLeverageData();
@@ -246,6 +264,16 @@ class StackedBar extends Component {
         toolbar: {
           show: false,
           // download: false,
+        },
+        events: {
+          click: function(
+            event,
+            chartContext,
+            { seriesIndex, dataPointIndex, config },
+          ) {
+            if (dataPointIndex >= 0)
+              this.generateBarChartData(dataPointIndex);
+          }.bind(this),
         },
         // events: {
         //   click(
@@ -490,4 +518,5 @@ export default connect(mapStateToProps, {
   filterFinancialDataOfDistrictFromProvince,
   filterFinancialDataOfMunicipalityFromDistrict,
   getLeverageData,
+  filterLeverageDataForBarClick,
 })(StackedBar);

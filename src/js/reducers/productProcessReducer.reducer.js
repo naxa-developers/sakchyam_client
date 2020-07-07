@@ -1,7 +1,10 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable camelcase */
 import { GET_PRODUCT_PROCESS_LIST } from '../actions/index.actions';
 
 const initialState = {
-  // leftsidebar options
+  // LEFTSIDEBAR OPTIONS
   productProcessList: [],
   innovationAreaList: [],
   productCategoryList: [],
@@ -11,44 +14,203 @@ const initialState = {
   marketFailureList: [],
 };
 
-// const getDistinctObjectItems = name => {
-//   const result = [];
-//   for (const item of array) {
-//     if (!map.has(item.id)) {
-//       map.set(item.id, true); // set any value to Map
-//       result.push({
-//         id: item.id,
-//         name: item.name,
-//       });
-//     }
-//   }
-//   return result;
-// };
+const getOverviewData = data => {
+  const innovationAreaCount = [
+    ...new Set(data.map(item => item.innovation_area)),
+  ].length;
+  const partnerInstitutionCount = [
+    ...new Set(data.map(item => item.partner_name)),
+  ].length;
+  const productCount = [
+    ...new Set(data.map(item => item.product_name)),
+  ].length;
+
+  return {
+    innovationAreaCount,
+    partnerInstitutionCount,
+    productCount,
+  };
+};
+
+const generateBubbleChartData = data => {
+  const arr1 = [];
+  const arr2 = [];
+  const arr3 = [];
+
+  data.forEach(item => {
+    const obj = arr1.some(i => i.name === item.innovation_area);
+    if (!obj) {
+      arr1.push({
+        id: 'innovation_area',
+        name: item.innovation_area,
+        children: [
+          {
+            id: 'product_category',
+            name: item.product_category,
+            children: [],
+          },
+        ],
+      });
+    } else {
+      const objIndex = arr1.findIndex(
+        p => p.name === item.innovation_area,
+      );
+      const obj1 = arr1[objIndex].children.some(
+        j => j.name === item.product_category,
+      );
+      if (!obj1) {
+        arr1[objIndex].children.push({
+          id: 'product_category',
+          name: item.product_category,
+          children: [],
+        });
+      }
+    }
+  });
+
+  data.forEach(item => {
+    const obj = arr2.some(i => i.name === item.product_category);
+    if (!obj) {
+      arr2.push({
+        // id: 'product_category',
+        name: item.product_category,
+        children: [
+          {
+            // id: 'partner_type',
+            name: item.partner_type,
+          },
+        ],
+      });
+    } else {
+      const objIndex = arr2.findIndex(
+        p => p.name === item.product_category,
+      );
+      const obj1 = arr2[objIndex].children.some(
+        j => j.name === item.partner_type,
+      );
+      if (!obj1) {
+        arr2[objIndex].children.push({
+          // id: 'partner_type',
+          name: item.partner_type,
+        });
+      }
+    }
+  });
+
+  data.forEach(item => {
+    const obj = arr3.some(i => i.name === item.partner_type);
+    if (!obj) {
+      arr3.push({
+        // id: 'partner_type',
+        name: item.partner_type,
+        children: [
+          {
+            // id: 'partner_name',
+            name: item.partner_name,
+            value: 1,
+          },
+        ],
+      });
+    } else {
+      const objIndex = arr3.findIndex(
+        i => i.name === item.partner_type,
+      );
+      const obj1 = arr3[objIndex].children.some(
+        j => j.name === item.partner_name,
+      );
+      // arr3[objIndex].children[0].value += 1;
+      if (!obj1) {
+        arr3[objIndex].children.push({
+          // id: 'partner_name',
+          name: item.partner_name,
+          value: 1,
+        });
+      } else {
+        const objIndex1 = arr3[objIndex].children.findIndex(
+          k => k.name === item.partner_name,
+        );
+        arr3[objIndex].children[objIndex1].value += 1;
+      }
+    }
+  });
+
+  const arr = [...arr1];
+
+  arr.forEach(x => {
+    arr2.forEach(y => {
+      arr3.forEach(z => {
+        x.children.forEach(a => {
+          y.children.forEach(b => {
+            if (a.name === y.name && b.name === z.name) {
+              a.children.push(z);
+            }
+          });
+        });
+      });
+    });
+  });
+
+  return { name: 'bubble', color: '', children: arr };
+};
+
+const generateHeatMapData = data => {
+  const arr = [];
+  const name = [];
+  const series = [];
+
+  const innovation_area = [
+    ...new Set(data.map(item => item.innovation_area)),
+  ];
+  const market_failure = [
+    ...new Set(data.map(item => item.market_failure)),
+  ];
+
+  // data.forEach(item => {
+  //   innovation_area.forEach(i => {
+  //     if (i === item.innovation_area) {
+  //       series.push({
+  //         x: j,
+  //       });
+  //     }
+  //   });
+  // });
+
+  market_failure.forEach(j => {
+    arr.push({ x: j });
+  });
+
+  innovation_area.forEach(item => {
+    series.push({ name: item, data: arr });
+  });
+
+  data.forEach(item => {
+    series.forEach((i, index1) => {
+      if (item.innovation_area === i.name) {
+        i.data.forEach((j, index2) => {
+          if (item.market_failure === j.x) {
+            const obj = j.hasOwnProperty('y');
+            if (!obj) {
+              i.data[index2] = { ...j, y: 1 };
+            } else {
+              i.data[index2].y += 1;
+            }
+          }
+        });
+      }
+    });
+  });
+
+  return series;
+};
 
 // GET LEFTSIDEBAR OPTIONS FROM A SINGLE API
 const getProductProcessList = (state, action) => {
   const data = action.payload;
 
-  // GET UNIQUE VALUES FROM API
-  // const innovationAreaList = [
-  //   ...new Set(data.map(item => item.innovation_area)),
-  // ];
-  // const productCategoryList = [
-  //   ...new Set(data.map(item => item.product_category)),
-  // ];
-  // const productNameList = [
-  //   ...new Set(data.map(item => item.product_name)),
-  // ];
-  // const partnerTypeList = [
-  //   ...new Set(data.map(item => item.partner_type)),
-  // ];
-  // const partnerNameList = [
-  //   ...new Set(data.map(item => item.partner_name)),
-  // ];
-  // const marketFailureList = [
-  //   ...new Set(data.map(item => item.market_failure)),
-  // ];
+  const bubbleChartData = generateBubbleChartData(data);
+  const heatMapData = generateHeatMapData(data);
 
+  // GET UNIQUE VALUES FROM API
   const innovationAreaList = [];
   const productCategoryList = [];
   const productNameList = [];
@@ -103,6 +265,8 @@ const getProductProcessList = (state, action) => {
     return true;
   });
 
+  const overviewData = getOverviewData(data);
+
   return {
     ...state,
     innovationAreaList,
@@ -111,6 +275,9 @@ const getProductProcessList = (state, action) => {
     partnerTypeList,
     partnerNameList,
     marketFailureList,
+    bubbleChartData,
+    overviewData,
+    heatMapData,
     // productProcessList: action.payload,
   };
 };

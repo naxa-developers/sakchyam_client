@@ -29,9 +29,11 @@ import {
   RESET_BAR_DATA,
   RESET_RADIAL_DATA,
   RESET_SANKEYCHART_DATA,
+  RESET_LEVERAGE_DATA,
   FILTER_TIMELINE_DATA,
   FILTER_LEVERAGE_DATA,
   RESET_OVERVIEW_DATA,
+  FILTER_LEVERAGE_DATA_FOR_BARCLICK,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -101,6 +103,7 @@ const initialState = {
   defaultBarDatas: [],
   defaultRadialData: {},
   defaultSankeyChartData: {},
+  defaultBarDataByLeverage: [],
 };
 
 // {
@@ -204,6 +207,44 @@ const filterLeverageChart = datas => {
 
   const barLabelsScfFund = summedLeverage.map(label => {
     return label.investment_primary;
+  });
+  const totalScfFund = summedLeverage.map(data => {
+    return Math.round(data.scf_funds);
+  });
+  // const barLabelsLeverage = summedLeverage.map(label => {
+  //   return label.investment_primary;
+  // });
+  const totalLeverage = summedLeverage.map(data => {
+    return Math.round(data.leverage);
+  });
+  const finaleTotalScfFund = {
+    name: 'S-CF Fund',
+    type: 'column',
+    data: totalScfFund,
+  };
+  const finaleTotalLeverage = {
+    name: 'Leverage',
+    type: 'column',
+    data: totalLeverage,
+  };
+  return {
+    scf: {
+      labels: barLabelsScfFund,
+      series: [finaleTotalScfFund],
+    },
+    leverage: {
+      labels: barLabelsScfFund,
+      series: [finaleTotalLeverage],
+    },
+  };
+};
+
+const filterLeverageDataForBarClick = datas => {
+  const summedLeverage = datas;
+  const summedTotal = summedLeverage;
+
+  const barLabelsScfFund = summedLeverage.map(label => {
+    return label.name;
   });
   const totalScfFund = summedLeverage.map(data => {
     return Math.round(data.scf_funds);
@@ -836,11 +877,22 @@ const getLeverageData = (state, action) => {
   return {
     ...state,
     barDataByLeverage: filteredLeverage,
+    defaultBarDataByLeverage: filteredLeverage,
   };
 };
 const filterLeverageData = (state, action) => {
   // console.log(action.payload, 'action');
   const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    barDataByLeverage: filteredLeverage,
+  };
+};
+const filterLeverageDataOnClick = (state, action) => {
+  // console.log(action.payload, 'action');
+  const filteredLeverage = filterLeverageDataForBarClick(
+    action.payload,
+  );
   return {
     ...state,
     barDataByLeverage: filteredLeverage,
@@ -884,6 +936,14 @@ const resetOverviewData = (state, action) => {
   return {
     ...state,
     overviewData: state.defaultOveviewData,
+  };
+};
+const resetLeverageData = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    barDataByLeverage: state.defaultBarDataByLeverage,
   };
 };
 const filterTimelineData = (state, action) => {
@@ -1018,8 +1078,12 @@ export default function(state = initialState, action) {
       return resetSankeyChartData(state, action);
     case RESET_OVERVIEW_DATA:
       return resetOverviewData(state, action);
+    case RESET_LEVERAGE_DATA:
+      return resetLeverageData(state, action);
     case FILTER_TIMELINE_DATA:
       return filterTimelineData(state, action);
+    case FILTER_LEVERAGE_DATA_FOR_BARCLICK:
+      return filterLeverageDataOnClick(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:

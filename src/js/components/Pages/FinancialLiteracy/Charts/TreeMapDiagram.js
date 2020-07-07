@@ -320,7 +320,7 @@ class TreeMapDiagram extends Component {
           }
         >
           {!activeModal && (
-            <h5>Contribution of program initiatives</h5>
+            <h5>Contribution of programme initiatives</h5>
           )}
           <div className="header-icons">
             {isTreeMapClicked && (
@@ -348,13 +348,13 @@ class TreeMapDiagram extends Component {
                   onClick={() => {
                     downloadPng(
                       'treemap-chart',
-                      'Contribution of program initiatives',
+                      'Contribution of programme initiatives',
                     );
                   }}
                   onKeyDown={() => {
                     downloadPng(
                       'treemap-chart',
-                      'Contribution of program initiatives',
+                      'Contribution of programme initiatives',
                     );
                   }}
                   role="tab"
@@ -372,7 +372,7 @@ class TreeMapDiagram extends Component {
                     !isTreeMapClicked &&
                       handleSelectedModal(
                         'tree',
-                        'Contribution of program initiatives',
+                        'Contribution of programme initiatives',
                       );
                   }}
                   onKeyDown={() => {
@@ -454,6 +454,7 @@ class TreeMapDiagram extends Component {
                     },
                     fontSize: '14px',
                     fontFamily: 'Avenir Book',
+                    transition: 'opacity',
                   }}
                 />
               )

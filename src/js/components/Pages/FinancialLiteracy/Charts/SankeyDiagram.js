@@ -68,7 +68,7 @@ class SankeyDiagram extends Component {
     const { showRightSidebar } = this.props;
     const width = window.innerWidth;
     return (
-      <div id="sankey-chart" style={{ height: '800px' }}>
+      <div id="sankey-chart" style={{ height: '750px' }}>
         {Object.entries(sankeyData).length !== 0 ? (
           sankeyData.nodes.length !== 0 ? (
             <ResponsiveSankey
@@ -92,7 +92,7 @@ class SankeyDiagram extends Component {
               nodeOpacity={1}
               nodeThickness={18}
               nodeInnerPadding={3}
-              nodeSpacing={24}
+              nodeSpacing={15}
               nodeBorderWidth={0}
               nodeBorderColor={{
                 from: 'color',

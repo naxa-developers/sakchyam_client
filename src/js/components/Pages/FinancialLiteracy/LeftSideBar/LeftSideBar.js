@@ -118,7 +118,9 @@ class LeftSideBar extends Component {
                     tabIndex="0"
                     role="tab"
                   >
-                    <span>Commercial Bank / Other Partners</span>
+                    <span style={{ textTransform: 'none' }}>
+                      Commercial Banks and PSPs
+                    </span>
                   </a>
                 </div>
               </div>
