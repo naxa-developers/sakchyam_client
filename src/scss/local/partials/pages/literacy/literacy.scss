@@ -235,20 +235,20 @@
     padding: 0 15px;
 
     &::-webkit-scrollbar {
-      width: 4px;
-      background: $border-color;
+      width: 6px;
+      background: $red-color;
       @include radius(4px);
-    }
+  }
 
-    &::-webkit-scrollbar-track {
-      background-color: $border-color;
+  &::-webkit-scrollbar-track {
+      background-color:$red-color;
       @include radius(4px);
-    }
+  }
 
-    &::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
       @include radius(4px);
-      background: $border-color;
-    }
+      background: $red-hover;
+  }
     .card {
       .card-body {
         padding: 0 0.6125rem 1rem 0.6125rem;
@@ -263,20 +263,20 @@
       max-height: calc(100vh - 232px);
 
       &::-webkit-scrollbar {
-        width: 4px;
-        background: $border-color;
+        width: 6px;
+        background: $red-color;
         @include radius(4px);
-      }
+    }
 
-      &::-webkit-scrollbar-track {
-        background-color: $border-color;
+    &::-webkit-scrollbar-track {
+        background-color:$red-color;
         @include radius(4px);
-      }
+    }
 
-      &::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
         @include radius(4px);
-        background: $border-color;
-      }
+        background: $red-hover;
+    }
     }
   }
   .apexcharts-tooltip {
@@ -296,20 +296,20 @@
   // -ms-overflow-style: -ms-autohiding-scrollbar;
 
   &::-webkit-scrollbar {
-    width: 4px;
-    background: $border-color;
+    width: 6px;
+    background: $orange-color;
     @include radius(4px);
-  }
+}
 
-  &::-webkit-scrollbar-track {
-    background-color: $border-color;
+&::-webkit-scrollbar-track {
+    background-color:$orange-color;
     @include radius(4px);
-  }
+}
 
-  &::-webkit-scrollbar-thumb {
+&::-webkit-scrollbar-thumb {
     @include radius(4px);
-    background: $border-color;
-  }
+    background: $yellow-color;
+}
 }
 
 .pie-legend {
