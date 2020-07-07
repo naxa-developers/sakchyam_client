@@ -331,7 +331,9 @@ class MiddleChartSection extends Component {
             cssClass: 'apexcharts-yaxis-title',
           },
         },
-
+        noData: {
+          text: 'No Data Selected',
+        },
         tooltip: {
           shared: true,
           intersect: false,
@@ -1012,6 +1014,11 @@ class MiddleChartSection extends Component {
   };
 
   downloadPng = () => {
+    const {
+      props: {
+        logFrameReducer: { filteredDynamicData },
+      },
+    } = this;
     document.querySelector('.info-header-bottom').style.display =
       'none';
     document
@@ -1033,7 +1040,7 @@ class MiddleChartSection extends Component {
         // useCORS: true,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
-          saveAs(blob, 'Dashboard.png');
+          saveAs(blob, filteredDynamicData[0].category.title);
         });
         document.querySelector('.info-header-bottom').style.display =
           'block';

@@ -378,6 +378,9 @@ class StackedBar extends Component {
           text: 'Provinces',
         },
       },
+      grid: {
+        show: false,
+      },
       yaxis: [
         {
           // min: 0,
@@ -447,6 +450,10 @@ class StackedBar extends Component {
             style: {
               colors: '#00E396',
             },
+            formatter: value => {
+              // console.log(value, 'value');
+              return convert(value);
+            },
           },
           //   title: {
           //     text: 'Operating Cashflow (thousand crores)',
@@ -504,7 +511,7 @@ class StackedBar extends Component {
           show: true,
           // format: 'dd MMM',
           formatter(x) {
-            console.log(x, 'x');
+            // console.log(x, 'x');
             if (x.toString().includes('Province')) {
               return `Province ${x}`;
             }

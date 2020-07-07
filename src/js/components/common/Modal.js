@@ -38,10 +38,12 @@ const downloadPng = (chartid, imageTitle) => {
 const Modal = props => {
   const {
     handleModal,
+    handleShowBarOf,
     component,
     selectedModal,
     header,
     activeModal,
+    resetFilters,
   } = props;
   const selectedChartId =
     selectedModal === 'groupedChart'
@@ -57,7 +59,7 @@ const Modal = props => {
     selectedModal === 'sunburst'
       ? 'Sakchyam Investment Focus'
       : selectedModal === 'groupedChart'
-      ? 'Province Wise Programme Results'
+      ? 'Province Wise Budget & Beneficiaries Count'
       : selectedModal === 'leverageChart'
       ? 'S-CF Fund & Leverage By Investment Focus'
       : selectedModal === 'radar'
@@ -90,74 +92,75 @@ const Modal = props => {
           <div className="popup-header no-flex">
             <h3>{modalHeader}</h3>
             {selectedModal === 'sunburst' ? (
-              <span
-                style={{
-                  position: 'absolute',
-                  right: '140px',
-                  top: '30px',
-                  padding: '5px 6px',
-                  // border: '1px solid #F0F0F0',
-                  // borderColor: 'lightgrey',
-                  cursor: 'pointer',
+              // <span
+              //   style={{
+              //     position: 'absolute',
+              //     right: '140px',
+              //     top: '30px',
+              //     padding: '5px 6px',
+              //     // border: '1px solid #F0F0F0',
+              //     // borderColor: 'lightgrey',
+              //     cursor: 'pointer',
+              //   }}
+              //   onClick={
+              //     () => downloadPng(selectedChartId, modalHeader)
+              //     // eslint-disable-next-line react/jsx-curly-newline
+              //   }
+              //   onKeyDown={
+              //     () => downloadPng(selectedChartId, modalHeader)
+              //     // eslint-disable-next-line react/jsx-curly-newline
+              //   }
+              //   role="button"
+              //   tabIndex="-1"
+              // >
+              <button
+                id="chart-reset"
+                type="button"
+                onClick={() => {
+                  resetFilters();
+                  // resetFunction();
                 }}
-                onClick={
-                  () => downloadPng(selectedChartId, modalHeader)
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
-                onKeyDown={
-                  () => downloadPng(selectedChartId, modalHeader)
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
-                role="button"
-                tabIndex="-1"
+                className="is-border common-button"
               >
-                <button
-                  id="chart-reset"
-                  type="button"
-                  onClick={() => {
-                    // resetFunction();
-                  }}
-                  className="is-border common-button"
-                >
-                  Reset
-                </button>
-              </span>
-            ) : selectedModal === 'groupedChart' ? (
-              <span
-                style={{
-                  position: 'absolute',
-                  right: '140px',
-                  top: '30px',
-                  padding: '5px 6px',
-                  // border: '1px solid #F0F0F0',
-                  // borderColor: 'lightgrey',
-                  cursor: 'pointer',
+                Reset
+              </button>
+            ) : // </span>
+            selectedModal === 'groupedChart' ? (
+              // <span
+              //   style={{
+              //     position: 'absolute',
+              //     right: '140px',
+              //     top: '30px',
+              //     padding: '5px 6px',
+              //     // border: '1px solid #F0F0F0',
+              //     // borderColor: 'lightgrey',
+              //     cursor: 'pointer',
+              //   }}
+              //   onClick={
+              //     () => downloadPng(selectedChartId, modalHeader)
+              //     // eslint-disable-next-line react/jsx-curly-newline
+              //   }
+              //   onKeyDown={
+              //     () => downloadPng(selectedChartId, modalHeader)
+              //     // eslint-disable-next-line react/jsx-curly-newline
+              //   }
+              //   role="button"
+              //   tabIndex="-1"
+              // >
+              <button
+                id="chart-reset"
+                type="button"
+                onClick={() => {
+                  resetFilters();
+                  handleShowBarOf('Provinces');
+                  // resetFunction();
                 }}
-                onClick={
-                  () => downloadPng(selectedChartId, modalHeader)
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
-                onKeyDown={
-                  () => downloadPng(selectedChartId, modalHeader)
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
-                role="button"
-                tabIndex="-1"
+                className="is-border common-button"
               >
-                <button
-                  id="chart-reset"
-                  type="button"
-                  onClick={() => {
-                    // resetFunction();
-                  }}
-                  className="is-border common-button"
-                >
-                  Reset
-                </button>
-              </span>
-            ) : (
-              <label>ssd</label>
-            )}
+                Reset
+              </button>
+            ) : // </span>
+            null}
             {/* <span
               style={{
                 position: 'absolute',

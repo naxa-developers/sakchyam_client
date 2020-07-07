@@ -29,8 +29,54 @@ import {
   RESET_BAR_DATA,
   RESET_RADIAL_DATA,
   RESET_SANKEYCHART_DATA,
+  FILTER_TIMELINE_DATA,
+  FILTER_LEVERAGE_DATA,
+  RESET_OVERVIEW_DATA,
 } from '../actions/index.actions';
+import province from '../../data/province.json';
+import district from '../../data/district.json';
+import municipality from '../../data/municipality.json';
 
+import WebWorker from '../WebWorker/webWorker';
+import workerfile from '../WebWorker/worker';
+
+function CaculateCount(date, finalData, api, fedType) {
+  const startDate = date[0];
+  const endDate = date[1];
+  // console.log(date, 'date');
+  // console.log(finalData, 'finalData');
+  // console.log(api, 'api');
+  finalData.map((prov, i) => {
+    // console.log(prov, 'prov 1st loop');
+    api.map(data => {
+      let idString = data.province_id;
+      if (fedType === 'municipality') {
+        idString = data.municipality_id;
+      } else if (fedType === 'district') {
+        idString = data.district_id;
+      } else {
+        idString = data.province_id;
+      }
+      const parsedDate = Date.parse(data.start_date);
+      if (prov.id === idString) {
+        // console.log(startDate, ' local startDate');
+        // console.log(data.start_date, 'api startDate');
+        // console.log(endDate, 'endDate');
+        // console.log(data.start_date, 'api startDate');
+        // console.log(startDate >= data.start_date, '1st date');
+        // console.log(endDate <= data.start_date, '2nd date');
+        if (parsedDate >= startDate && parsedDate <= endDate) {
+          // console.log(data, 'data 3rd Loop');
+          // console.log(data,'')
+          // eslint-disable-next-line no-param-reassign
+          finalData[i].count += 1;
+        }
+      }
+      return true;
+    });
+    return true;
+  });
+}
 const initialState = {
   isDataFetched: false,
   partnershipInvestmentFocus: [],
@@ -117,7 +163,7 @@ const filterBudgetBarChart = datas => {
     return Math.round(data.allocated_budget);
   });
   const finaleTotalBudget = {
-    name: 'Total Budget',
+    name: 'Budget Allocated',
     type: 'line',
     data: totalBeneficiary,
   };
@@ -530,8 +576,15 @@ const filterFinancialDataOfMunicipalityFromDistrict = (
 // };
 const filterFinancialDataWithAllFilters = (state, action) => {
   console.log(action.payload, 'actionPayload');
-  const { selectedDataView, allocatedBudget } = action.payload;
-  const testValues = allocatedBudget;
+  const {
+    selectedDataView,
+    allocatedBudget,
+    totalBeneficiary,
+    femaleBeneficiary,
+  } = action.payload;
+  const totalBudget = [...allocatedBudget];
+  const totalBenef = [...totalBeneficiary];
+  const femaleBenef = [...femaleBeneficiary];
   // console.log(JSON.stringify(testValues));
   // const holder = {};
 
@@ -552,9 +605,9 @@ const filterFinancialDataWithAllFilters = (state, action) => {
   //   obj2.push({ name: prop, value: holder[prop] });
   // }
   // console.log(obj2, 'finalOBj');
-  const summedScfFund = testValues.reduce((a, c) => {
-    console.log(a, 'a');
-    console.log(c, 'c');
+  const summedBudget = totalBudget.reduce((a, c) => {
+    // console.log(a, 'a');
+    // console.log(c, 'c');
 
     const filtered = a.filter(
       el => el.province_code === c.province_code,
@@ -569,44 +622,77 @@ const filterFinancialDataWithAllFilters = (state, action) => {
     }
     return a;
   }, []);
-  console.log(summedScfFund, 'test');
-  // if (selectedDataView === 'allocated_beneficiary') {
-  const { totalBeneficiary, femaleBeneficiary } = action.payload;
-  const totalbeneficiary = totalBeneficiary;
-  const femalebeneficiary = femaleBeneficiary;
-  // debugger;
-  // const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
-  //   ...item,
-  //   ...femalebeneficiary[i],
-  // }));
-  // const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
-  //   el,
-  // ) {
-  //   const o = { ...el };
-  //   o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
-  //   return o;
-  // });
-  // sortArrayByKey(finalBeneficiaryArray, 'code');
-  // const filteredBenefValues = filterBeneficiaryBarChart(
-  //   finalBeneficiaryArray,
-  // );
-  // // console.log(result, 'rest');
+  const summedTotalBenef = totalBenef.reduce((a, c) => {
+    // console.log(a, 'a');
+    // console.log(c, 'c');
 
-  // // }
-  // sortArrayByKey(allocatedBudget, 'code');
-  // const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // // console.log(filteredBenefValues, 'filteredBenefValues');
-  // // console.log(
-  // filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // // console.log(filteredBenefValues, 'filteredBudgetValues');
-  // // );
-  // return {
-  //   ...state,
-  //   // mapDataByProvince: finalBeneficiaryArray,
-  //   barDatas: filteredBenefValues,
-  //   // filteredMapData: choroplethFormat,
-  // };
+    const filtered = a.filter(
+      el => el.province_code === c.province_code,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[
+        a.indexOf(filtered[0])
+      ].allocated_budget += +c.allocated_budget;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+  const summedFemaleBenef = femaleBenef.reduce((a, c) => {
+    // console.log(a, 'a');
+    // console.log(c, 'c');
+
+    const filtered = a.filter(
+      el => el.province_code === c.province_code,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[
+        a.indexOf(filtered[0])
+      ].allocated_budget += +c.allocated_budget;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+  // console.log(summedScfFund, 'test');
+  // if (selectedDataView === 'allocated_beneficiary') {
+
+  // debugger;
+  const mergedBeneficiaryArray = summedTotalBenef.map((item, i) => ({
+    ...item,
+    ...summedFemaleBenef[i],
+  }));
+  const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+    el,
+  ) {
+    const o = { ...el };
+    o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+    return o;
+  });
+  // summedScfFund;
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChart(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
   // }
+  sortArrayByKey(summedBudget, 'code');
+  const filteredBudgetValues = filterBudgetBarChart(summedBudget);
+  // console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
+  return {
+    ...state,
+    // mapDataByProvince: finalBeneficiaryArray,
+    barDatas: filteredBenefValues,
+
+    // filteredMapData: choroplethFormat,
+  };
 };
 const getProvinceData = (state, action) => {
   function GetSortOrder(prop) {
@@ -684,6 +770,7 @@ const getOverviewData = (state, action) => {
   return {
     ...state,
     overviewData: action.payload,
+    defaultOveviewData: action.payload,
   };
 };
 const filterOverviewData = (state, action) => {
@@ -751,6 +838,14 @@ const getLeverageData = (state, action) => {
     barDataByLeverage: filteredLeverage,
   };
 };
+const filterLeverageData = (state, action) => {
+  // console.log(action.payload, 'action');
+  const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    barDataByLeverage: filteredLeverage,
+  };
+};
 const getPartnershipAllData = (state, action) => {
   // console.log(action.payload, 'action');
   // const filteredLeverage = filterLeverageChart(action.payload);
@@ -781,6 +876,79 @@ const resetSankeyChartData = (state, action) => {
   return {
     ...state,
     sankeyChartData: state.defaultSankeyChartData,
+  };
+};
+const resetOverviewData = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    overviewData: state.defaultOveviewData,
+  };
+};
+const filterTimelineData = (state, action) => {
+  const { min, max, fedtype } = action.payload;
+  const { partnershipAllData } = state;
+  // const that = this;
+  const finalchoroplethData = [];
+  // const finalData = [];
+  if (fedtype === 'municipality') {
+    municipality.map(mun => {
+      finalchoroplethData.push({
+        id: mun.munid,
+        count: 0,
+      });
+      return true;
+    });
+  } else if (fedtype === 'district') {
+    district.map(mun => {
+      finalchoroplethData.push({
+        id: mun.districtid,
+        count: 0,
+      });
+      return true;
+    });
+  } else {
+    province.map(mun => {
+      finalchoroplethData.push({
+        id: mun.FIRST_PROV,
+        count: 0,
+      });
+      return true;
+    });
+  }
+  // const workers = new WebWorker(workerfile);
+
+  // workers.postMessage({
+  //   minmax: [min, max],
+  //   provincedata,
+  //   partnershipAllData,
+  // });
+
+  // workers.addEventListener('message', event => {
+  //   console.log('message addevenet');
+  //   console.log(event, 'event');
+  //   // dispatch({
+  //   //   type: FILTER_PRIMARYGEOJSON,
+  //   //   payload: event.data,
+  //   // });
+  // });
+  // this.worker.postMessage(
+  //   [min, max],
+  //   provincedata,
+  //   partnershipAllData,
+  // );
+  CaculateCount(
+    [min, max],
+    finalchoroplethData,
+    partnershipAllData,
+    fedtype,
+  );
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    filteredMapData: finalchoroplethData,
   };
 };
 export default function(state = initialState, action) {
@@ -838,6 +1006,8 @@ export default function(state = initialState, action) {
       return filterMapDataOfCircleMarkerWithViewDataBy(state, action);
     case GET_LEVERAGE_DATA:
       return getLeverageData(state, action);
+    case FILTER_LEVERAGE_DATA:
+      return filterLeverageData(state, action);
     case GET_PARTNERSHIP_ALL_DATA:
       return getPartnershipAllData(state, action);
     case RESET_BAR_DATA:
@@ -846,6 +1016,10 @@ export default function(state = initialState, action) {
       return resetRadialData(state, action);
     case RESET_SANKEYCHART_DATA:
       return resetSankeyChartData(state, action);
+    case RESET_OVERVIEW_DATA:
+      return resetOverviewData(state, action);
+    case FILTER_TIMELINE_DATA:
+      return filterTimelineData(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:

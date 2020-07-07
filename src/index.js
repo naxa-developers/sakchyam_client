@@ -9,10 +9,13 @@ import './css/apexcharts.css';
 import './css/slick.css';
 import './scss/style.scss';
 import store from './js/store';
+import ErrorBoundary from './js/components/common/ErrorBoundary';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </Provider>,
   document.getElementById('root'),
 );
