@@ -33,6 +33,9 @@ import {
   RESET_BAR_DATA,
   RESET_RADIAL_DATA,
   RESET_SANKEYCHART_DATA,
+  FILTER_TIMELINE_DATA,
+  FILTER_LEVERAGE_DATA,
+  RESET_OVERVIEW_DATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -396,12 +399,19 @@ export const filterRadialData = (
   selectedProjectId,
   selectedPartnerType,
   selectedPartnerId,
+  selectedProjectStatus,
   selectedFederalList,
 ) => dispatch => {
   // console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
   // console.log(selectedProjectId, 'selectedProjectId');
   // console.log(selectedPartnerType, 'selectedPartnerType');
-  // console.log(selectedPartnerId, 'selectedPartnerId');
+  console.log(viewDataBy, 'viewDataBy');
+  console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
+  console.log(selectedProjectId, 'selectedProjectId');
+  console.log(selectedPartnerType, 'selectedPartnerType');
+  console.log(selectedPartnerId, 'selectedPartnerId');
+  console.log(selectedFederalList, 'selectedFederalList');
+  console.log(selectedProjectStatus, 'selectedFederalList');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
       ? `investment_filter=${selectedInvestmentFocus}`
@@ -413,6 +423,10 @@ export const filterRadialData = (
   const partnerTypeFilter =
     selectedPartnerType.length > 0
       ? `partner_type_filter=${selectedPartnerType}`
+      : '';
+  const projectStatusFilter =
+    selectedProjectStatus.length > 0
+      ? `status=${selectedProjectStatus}`
       : '';
   const partnerIdFilter =
     selectedPartnerId.length > 0
@@ -468,7 +482,7 @@ export const filterRadialData = (
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/radial/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${viewData}&${federalFilter}`,
+        `/api/v1/partnership/radial/?${investmentFilter}&${projectStatusFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${viewData}&${federalFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
@@ -1655,6 +1669,38 @@ export const getLeverageData = () => dispatch => {
     console.error(err);
   }
 };
+export const filterLeverageData = selectedInvestment => dispatch => {
+  try {
+    // const requestOne = axiosInstance.get(
+    //   '/api/v1/partnership/partnership-investment/',
+    // );
+    const requestTwo = axiosInstance.post(
+      '/api/v1/project/project/',
+      { investment_primary: selectedInvestment },
+    );
+
+    axios
+      .all([requestTwo])
+      .then(
+        axios.spread((...responses) => {
+          // const responseOne = responses[0];
+          const responseTwo = responses[0];
+          return dispatch({
+            type: FILTER_LEVERAGE_DATA,
+            payload: {
+              // investmentFocusList: responseOne.data,
+              projectList: responseTwo.data,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
 export const resetBarDatas = () => dispatch => {
   return dispatch({
     type: RESET_BAR_DATA,
@@ -1668,5 +1714,16 @@ export const resetRadialData = () => dispatch => {
 export const resetSankeyChartData = () => dispatch => {
   return dispatch({
     type: RESET_SANKEYCHART_DATA,
+  });
+};
+export const resetOverviewData = () => dispatch => {
+  return dispatch({
+    type: RESET_OVERVIEW_DATA,
+  });
+};
+export const filterTimelineData = (min, max, fedtype) => dispatch => {
+  return dispatch({
+    type: FILTER_TIMELINE_DATA,
+    payload: { min, max, fedtype },
   });
 };

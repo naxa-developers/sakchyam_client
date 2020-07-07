@@ -252,7 +252,8 @@ const filterIndicatorGraphData = (state, action) => {
 
   let unit = '';
   let type = '';
-  console.log(dataUnit, 'dataUnit');
+  // console.log(dataUnit, 'dataUnit');
+  // console.log(dataType, 'dataType');
   if (dataType === 'percentage') {
     type = '%';
   } else if (dataUnit === 'pound') {
@@ -469,15 +470,17 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
 
   let unit = '';
   let type = '';
+  console.log(dataUnit, 'dataUnit');
+  console.log(dataType, 'dataType');
   // console.log(dataUnit, 'dataUnit');
-  if (dataType === 'percentage') {
+  if (dataType === 'Percent') {
     type = '%';
-  } else if (dataUnit === 'pound') {
+  } else if (dataUnit === 'GBP') {
     unit = '£';
-  } else if (dataUnit === 'nrs') {
+  } else if (dataUnit === 'NPR') {
     unit = 'Rs';
-  } else if (dataUnit === 'percentage') {
-    unit = 'Rs';
+  } else if (dataType.includes('Percent')) {
+    type = '%';
   }
   const planned = filtered.map(el => {
     return `${el.planned_afp}`;

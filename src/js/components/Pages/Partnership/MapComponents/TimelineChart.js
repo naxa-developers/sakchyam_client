@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 // import { githubdata } from './data';
 import playIcon from '../../../../../img/play-black.png';
 import pauseIcon from '../../../../../img/pause.png';
-import {
-  filterTimeline,
-  selectChoroplethDataOfMunicipality,
-} from '../../../../actions/automation.actions';
+import { filterTimelineData } from '../../../../actions/partnership.actions';
 
-let time = '1/1/2015';
+let time = '2015-1-1';
 
 class TimelineChart extends Component {
   constructor(props) {
@@ -83,7 +80,7 @@ class TimelineChart extends Component {
           //     console.log(e, opts);
           //   },
           selection(chartContext, { xaxis, yaxis }) {
-            that.props.filterTimeline(xaxis.min, xaxis.max);
+            // that.props.filterTimeline(xaxis.min, xaxis.max);
             that.setState({
               minCurrent: xaxis.min,
               maxCurrent: xaxis.max,
@@ -183,24 +180,31 @@ class TimelineChart extends Component {
         // alert('selected');
         // this.setState({});
       });
-    }, 500);
+    }, 1500);
   }
 
   getAddedYear = minDate => {
     const d = new Date(minDate);
 
     const day = d.getDate();
-    const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
-    const year = d.getFullYear() + 1;
+    let month = d.getMonth() + 2; // Since getMonth() returns month from 0-11 not 1-12
+    let year = d.getFullYear();
+    if (month === 13) {
+      month = 1;
+      year = d.getFullYear() + 1;
+    } else {
+      month = d.getMonth() + 2;
+    }
 
-    const dateStr = `${month}/${day}/${year}`;
+    const dateStr = `${year}-${month}-${day}`;
     time = dateStr;
-    // console.log(time, 'time returns');
+    console.log(time, 'time returns');
     // this.setState({ time: dateStr });
     return dateStr;
   };
 
   updateChart = (minValue, maxValue) => {
+    const that = this;
     time = minValue;
     global.timerId = setInterval(() => {
       // console.log(time, 'didupdate min val');
@@ -210,7 +214,13 @@ class TimelineChart extends Component {
       if (new Date(time).getTime() < new Date(maxValue).getTime()) {
         const minval = new Date(minValue).getTime();
         const maxval = new Date(this.getAddedYear(time)).getTime();
-        // console.log(minval, maxval);
+        console.log(new Date(minval));
+        console.log(new Date(maxval));
+        this.props.filterTimelineData(
+          minval,
+          maxval,
+          this.props.mapViewBy,
+        );
         ApexCharts.exec('chart1', 'updateOptions', {
           // global.chart.updateOptions({
           chart: {
@@ -219,6 +229,8 @@ class TimelineChart extends Component {
               events: {
                 selection(chartContext, { xaxis, yaxis }) {
                   // that.props.playBtn(xaxis.min, xaxis.max);
+                  // console.log(xaxis.min, 'xaxis min');
+                  // console.log(xaxis.max, 'xaxis maz');
                 },
               },
               xaxis: {
@@ -262,7 +274,7 @@ class TimelineChart extends Component {
       >
         <a
           onClick={() => {
-            time = '1/1/2015';
+            time = '2015-1-1';
             // console.log(new Date(minCurrent), 'onClick maxValue');
             // console.log(new Date(this.props.minValue), ' Current min Value');
             // global.chart.render();
@@ -279,7 +291,7 @@ class TimelineChart extends Component {
             // this.setState({ key: Math.random() });
           }}
           onKeyDown={() => {
-            time = '1/1/2015';
+            time = '2015-1-1';
             // console.log(new Date(minCurrent), 'onClick maxValue');
             // console.log(new Date(this.props.minValue), ' Current min Value');
             // global.chart.render();
@@ -324,10 +336,11 @@ class TimelineChart extends Component {
     );
   }
 }
-const mapStateToProps = ({ automationReducer }) => ({
-  automationReducer,
+const mapStateToProps = ({ partnershipReducer }) => ({
+  partnershipReducer,
 });
 export default connect(mapStateToProps, {
-  filterTimeline,
-  selectChoroplethDataOfMunicipality,
+  filterTimelineData,
+  // filterTimeline,
+  // selectChoroplethDataOfMunicipality,
 })(TimelineChart);

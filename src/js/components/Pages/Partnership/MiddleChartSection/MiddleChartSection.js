@@ -179,6 +179,7 @@ class MiddleChartSection extends Component {
     const {
       state: { selectedModal, activeModal },
       props: {
+        resetFilters,
         resetLeftSideBarSelection,
         activeView,
         activeOverview,
@@ -215,6 +216,8 @@ class MiddleChartSection extends Component {
           <Modal
             // visible={selectedModal === 'bar' ? true : false}
             // modalHeader="Sakchyam Investment Focus"
+            handleShowBarOf={handleShowBarOf}
+            resetFilters={resetFilters}
             selectedModal={selectedModal}
             handleModal={this.handleModal}
             activeModal={activeModal}
@@ -253,7 +256,7 @@ class MiddleChartSection extends Component {
             <CardTab
               resetFunction={this.props.resetBarDatas}
               handleShowBarOf={handleShowBarOf}
-              cardTitle="Province Wise Programme Results"
+              cardTitle="Province Wise Budget & Beneficiaries Count"
               cardClass="col-xl-6"
               cardChartId="groupedChart"
               handleModal={this.handleModal}
@@ -320,7 +323,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
@@ -337,7 +340,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

@@ -35,6 +35,8 @@ import {
   resetBarDatas,
   resetRadialData,
   resetSankeyChartData,
+  resetOverviewData,
+  filterLeverageData,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
@@ -457,6 +459,7 @@ class MainPartnership extends Component {
       projectSelection,
       partnerType,
       partnerSelection,
+      projectStatus,
     );
     // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
     //   return data.
@@ -467,6 +470,7 @@ class MainPartnership extends Component {
       partnerType,
       partnerSelection,
     );
+    this.props.filterLeverageData(investmentFocusSelection);
   };
 
   // eslint-disable-next-line consistent-return
@@ -504,6 +508,7 @@ class MainPartnership extends Component {
         projectSelection,
         partnerType,
         partnerSelection,
+        projectStatus,
         { selectedMunicipality, selectedDistrict, selectedProvince },
       );
     } else {
@@ -526,6 +531,7 @@ class MainPartnership extends Component {
     this.props.resetBarDatas();
     this.props.resetRadialData();
     this.props.resetSankeyChartData();
+    this.props.resetOverviewData();
   };
 
   render() {
@@ -904,6 +910,7 @@ class MainPartnership extends Component {
                   resetLeftSideBarSelection={
                     this.resetLeftSideBarSelection
                   }
+                  resetFilters={this.resetFilters}
                   viewDataBy={viewDataBy}
                   mapViewDataBy={mapViewDataBy}
                   sankeyChartwidth={sankeyChartwidth}
@@ -1010,4 +1017,6 @@ export default connect(mapStateToProps, {
   resetBarDatas,
   resetRadialData,
   resetSankeyChartData,
+  resetOverviewData,
+  filterLeverageData,
 })(MainPartnership);
