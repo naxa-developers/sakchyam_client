@@ -78,7 +78,7 @@ class SankeyChart extends Component {
             nodeOpacity={1}
             nodeThickness={18}
             nodeInnerPadding={3}
-            nodeSpacing={24}
+            nodeSpacing={2}
             nodeBorderWidth={0}
             nodeBorderColor={{
               from: 'color',

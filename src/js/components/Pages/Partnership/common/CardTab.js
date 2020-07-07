@@ -109,6 +109,17 @@ const CardTab = ({
               >
                 Reset
               </button>
+            ) : cardChartId === 'leverageChart' ? (
+              <button
+                id="chart-reset"
+                type="button"
+                onClick={() => {
+                  resetFunction();
+                }}
+                className="is-border common-button"
+              >
+                Reset
+              </button>
             ) : null}
             <span
               className=""

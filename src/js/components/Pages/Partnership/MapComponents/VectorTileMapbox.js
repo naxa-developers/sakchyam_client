@@ -10,6 +10,7 @@ import {
   choroplethColorArray,
 } from '../../../common/Functions';
 import TimelineChart from './TimelineChart';
+import { getCenterBboxProvince } from '../common/ProvinceFunction';
 
 function CaculateCount(date, finalData, api) {
   const startDate = date[0];
@@ -387,7 +388,44 @@ class Choropleth extends Component {
       //   return bounds.extend(coord);
       //   }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
       // map.fitBounds()
-
+      map.on('zoom', function() {
+        // const that = this;
+        // upto 6 province view after 6 and upto 9  district and after 9 municipality
+        // console.log(map.getZoom(), 'zoom Level');
+        // if (map.getZoom() <= 6) {
+        //   console.log('province');
+        //   that.props.setMapViewBy('province');
+        // } else if (map.getZoom() <= 9) {
+        //   console.log('district');
+        //   that.props.setMapViewBy('district');
+        // } else if (map.getZoom() > 9) {
+        //   console.log('municipality');
+        //   that.props.setMapViewBy('municipality');
+        // }
+        // if (map.getZoom() >= 4) {
+        //   stateLegendEl.style.display = 'none';
+        //   countyLegendEl.style.display = 'block';
+        // } else if (map.getZoom() >= 8) {
+        //   stateLegendEl.style.display = 'block';
+        //   countyLegendEl.style.display = 'none';
+        // }
+      });
+      map.on('click', 'vector-tile-fill', function(e) {
+        // console.log(e.features[0].properties.code, 'e');
+        // console.log(e.features[0], 'e');
+        // console.log(
+        //   getCenterBboxProvince(e.features[0].properties.code),
+        // );
+        const getBbox = getCenterBboxProvince(
+          e.features[0].properties.code,
+        );
+        map.fitBounds(getBbox.bbox);
+        that.props.handleFederalClickOnMap(
+          'district',
+          e.features[0].properties.code,
+        );
+        that.props.setMapViewBy('district');
+      });
       const popup = new mapboxgl.Popup();
       map.on('mousemove', 'circles1', function(e) {
         // console.log(e, 'event1st');

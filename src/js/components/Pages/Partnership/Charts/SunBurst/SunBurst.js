@@ -253,6 +253,7 @@ class Sunburst extends React.Component {
         .style("class", "sunburst-svg")
         .style("width", w + "px")
         .style("height", h + "px")
+        .style("transform", "translate(-76px, 0px)")
         .attr("viewBox", `${-w / 2} ${-h / 2} ${w} ${h}`)
         // .append("circle")
         // .attr("cx", this.x)
@@ -262,15 +263,17 @@ class Sunburst extends React.Component {
       //added block start
       if (this.props.isLegend) {
         this.legend = el.append("svg");
-        console.log(data,"sunburstData");
+        // console.log(data,"sunburstData");
         data[0].children && data[0].children.sort() 
-        console.log(data[0].children && data[0].children.sort((a,b) => b.value - a.value),"sunburstDataSort");
+        // console.log(data[0].children && data[0].children.sort((a,b) => b.value - a.value),"sunburstDataSort");
         this.legend
           .style("class", "sunbrust-legend")
-          .attr("x","100px")
-          .style("width", "500px")
-          .style("transform", "translate(810px, -303px)")
-          .style("height", "200px");
+          .attr("x","100px") 
+          .style("width", "359px")
+          // .style("transform", "translate(447px, -287px)") // small screen
+          .style("transform", "translate(119px, 84px)") //big screen
+          .style("position", "absolute")
+          .style("height", "186px");
         var legendEntries = this.legend
           .selectAll("g")
           .data(data[0].children ? data[0].children.sort(): [])
@@ -288,7 +291,7 @@ class Sunburst extends React.Component {
         legendEntries
           .append("text")
           .attr("x", 18)
-          .attr("y", (_, i) => 7 + i * 20)
+          .attr("y", (_, i) => 12 + i * 20)
           .text((d) => d.data.name)
           .attr("text-anchor", "left")
           .style("alignment-baseline", "middle")

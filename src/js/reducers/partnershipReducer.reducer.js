@@ -29,9 +29,12 @@ import {
   RESET_BAR_DATA,
   RESET_RADIAL_DATA,
   RESET_SANKEYCHART_DATA,
+  RESET_LEVERAGE_DATA,
   FILTER_TIMELINE_DATA,
   FILTER_LEVERAGE_DATA,
   RESET_OVERVIEW_DATA,
+  FILTER_LEVERAGE_DATA_FOR_BARCLICK,
+  GET_BARDATA_BY_INVESTMENTFOCUS,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -92,6 +95,8 @@ const initialState = {
   sankeyChartData: {},
   filteredPartnerList: [],
   barDatas: [],
+  barDatasByInvestment: [],
+  defaultBarDatasByInvestment: [],
   allProvinceList: [],
   allDistrictList: [],
   allMunicipalityList: [],
@@ -101,6 +106,7 @@ const initialState = {
   defaultBarDatas: [],
   defaultRadialData: {},
   defaultSankeyChartData: {},
+  defaultBarDataByLeverage: [],
 };
 
 // {
@@ -138,6 +144,40 @@ const filterBeneficiaryBarChart = datas => {
   });
   const femaleBeneficiary = datas.map(data => {
     return data.female_beneficiary;
+  });
+  const finaleMaleBeneficiary = {
+    name: 'Male Beneficiary',
+    type: 'column',
+    data: maleBeneficiary,
+  };
+  const finaleFemaleBeneficiary = {
+    name: 'Female Beneficiary',
+    type: 'column',
+    data: femaleBeneficiary,
+  };
+  return {
+    labels: barLabels,
+    series: [finaleMaleBeneficiary, finaleFemaleBeneficiary],
+  };
+};
+const filterBeneficiaryBarChartForInvestment = datas => {
+  const checkProvince = datas.some(i => i.name.includes('Province'));
+  // console.log(checkProvince, 'check');
+  // console.log(datas, 'datas');
+  const barLabels = checkProvince
+    ? datas.map(label => {
+        return label.code;
+        // return label.code;
+      })
+    : datas.map(label => {
+        return label.name;
+        // return label.name.replace('Province', '');
+      });
+  const maleBeneficiary = datas.map(data => {
+    return data.total_beneficiary - data.female;
+  });
+  const femaleBeneficiary = datas.map(data => {
+    return data.female;
   });
   const finaleMaleBeneficiary = {
     name: 'Male Beneficiary',
@@ -204,6 +244,44 @@ const filterLeverageChart = datas => {
 
   const barLabelsScfFund = summedLeverage.map(label => {
     return label.investment_primary;
+  });
+  const totalScfFund = summedLeverage.map(data => {
+    return Math.round(data.scf_funds);
+  });
+  // const barLabelsLeverage = summedLeverage.map(label => {
+  //   return label.investment_primary;
+  // });
+  const totalLeverage = summedLeverage.map(data => {
+    return Math.round(data.leverage);
+  });
+  const finaleTotalScfFund = {
+    name: 'S-CF Fund',
+    type: 'column',
+    data: totalScfFund,
+  };
+  const finaleTotalLeverage = {
+    name: 'Leverage',
+    type: 'column',
+    data: totalLeverage,
+  };
+  return {
+    scf: {
+      labels: barLabelsScfFund,
+      series: [finaleTotalScfFund],
+    },
+    leverage: {
+      labels: barLabelsScfFund,
+      series: [finaleTotalLeverage],
+    },
+  };
+};
+
+const filterLeverageDataForBarClick = datas => {
+  const summedLeverage = datas;
+  const summedTotal = summedLeverage;
+
+  const barLabelsScfFund = summedLeverage.map(label => {
+    return label.name;
   });
   const totalScfFund = summedLeverage.map(data => {
     return Math.round(data.scf_funds);
@@ -309,6 +387,46 @@ const getBarDataByBenefBudget = (state, action) => {
     // mapDataByProvince: finalBeneficiaryArray,
     barDatas: filteredBenefValues,
     defaultBarDatas: filteredBenefValues,
+    // filteredMapData: choroplethFormat,
+  };
+};
+const getBarDataByInvestmentFocus = (state, action) => {
+  const { selectedDataView, allocatedBudget } = action.payload;
+  // if (selectedDataView === 'allocated_beneficiary') {
+  const { totalBeneficiary } = action.payload;
+  const finalBeneficiaryArray = totalBeneficiary;
+  // const femalebeneficiary = femaleBeneficiary;
+  // debugger;
+  // const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+  //   ...item,
+  //   ...femalebeneficiary[i],
+  // }));
+  // const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+  //   el,
+  // ) {
+  //   const o = { ...el };
+  //   o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+  //   return o;
+  // });
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChartForInvestment(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
+  // }
+  sortArrayByKey(allocatedBudget, 'code');
+  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
+  // console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
+  return {
+    ...state,
+    // mapDataByProvince: finalBeneficiaryArray,
+    barDatasByInvestment: filteredBenefValues,
+    defaultBarDatasByInvestment: filteredBenefValues,
     // filteredMapData: choroplethFormat,
   };
 };
@@ -574,95 +692,17 @@ const filterFinancialDataOfMunicipalityFromDistrict = (
 //     barDatas: filteredBarValues,
 //   };
 // };
+
 const filterFinancialDataWithAllFilters = (state, action) => {
-  console.log(action.payload, 'actionPayload');
-  const {
-    selectedDataView,
-    allocatedBudget,
-    totalBeneficiary,
-    femaleBeneficiary,
-  } = action.payload;
-  const totalBudget = [...allocatedBudget];
-  const totalBenef = [...totalBeneficiary];
-  const femaleBenef = [...femaleBeneficiary];
-  // console.log(JSON.stringify(testValues));
-  // const holder = {};
-
-  // testValues.forEach(function(d) {
-  //   // eslint-disable-next-line
-  //   if (holder.hasOwnProperty(d.province_code)) {
-  //     // eslint-disable-next-line
-  //     holder[d.province_code] = holder[d.province_code] + d.allocated_budget;
-  //   } else {
-  //     holder[d.province_code] = d.allocated_budget;
-  //   }
-  // });
-
-  // const obj2 = [];
-
-  // // eslint-disable-next-line
-  // for (const prop in holder) {
-  //   obj2.push({ name: prop, value: holder[prop] });
-  // }
-  // console.log(obj2, 'finalOBj');
-  const summedBudget = totalBudget.reduce((a, c) => {
-    // console.log(a, 'a');
-    // console.log(c, 'c');
-
-    const filtered = a.filter(
-      el => el.province_code === c.province_code,
-    );
-    if (filtered.length > 0) {
-      // eslint-disable-next-line no-param-reassign
-      a[
-        a.indexOf(filtered[0])
-      ].allocated_budget += +c.allocated_budget;
-    } else {
-      a.push(c);
-    }
-    return a;
-  }, []);
-  const summedTotalBenef = totalBenef.reduce((a, c) => {
-    // console.log(a, 'a');
-    // console.log(c, 'c');
-
-    const filtered = a.filter(
-      el => el.province_code === c.province_code,
-    );
-    if (filtered.length > 0) {
-      // eslint-disable-next-line no-param-reassign
-      a[
-        a.indexOf(filtered[0])
-      ].allocated_budget += +c.allocated_budget;
-    } else {
-      a.push(c);
-    }
-    return a;
-  }, []);
-  const summedFemaleBenef = femaleBenef.reduce((a, c) => {
-    // console.log(a, 'a');
-    // console.log(c, 'c');
-
-    const filtered = a.filter(
-      el => el.province_code === c.province_code,
-    );
-    if (filtered.length > 0) {
-      // eslint-disable-next-line no-param-reassign
-      a[
-        a.indexOf(filtered[0])
-      ].allocated_budget += +c.allocated_budget;
-    } else {
-      a.push(c);
-    }
-    return a;
-  }, []);
-  // console.log(summedScfFund, 'test');
+  const { selectedDataView, allocatedBudget } = action.payload;
   // if (selectedDataView === 'allocated_beneficiary') {
-
+  const { totalBeneficiary, femaleBeneficiary } = action.payload;
+  const totalbeneficiary = totalBeneficiary;
+  const femalebeneficiary = femaleBeneficiary;
   // debugger;
-  const mergedBeneficiaryArray = summedTotalBenef.map((item, i) => ({
+  const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
     ...item,
-    ...summedFemaleBenef[i],
+    ...femalebeneficiary[i],
   }));
   const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
     el,
@@ -671,7 +711,6 @@ const filterFinancialDataWithAllFilters = (state, action) => {
     o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
     return o;
   });
-  // summedScfFund;
   sortArrayByKey(finalBeneficiaryArray, 'code');
   const filteredBenefValues = filterBeneficiaryBarChart(
     finalBeneficiaryArray,
@@ -679,21 +718,141 @@ const filterFinancialDataWithAllFilters = (state, action) => {
   // console.log(result, 'rest');
 
   // }
-  sortArrayByKey(summedBudget, 'code');
-  const filteredBudgetValues = filterBudgetBarChart(summedBudget);
+  sortArrayByKey(allocatedBudget, 'code');
+  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
   // console.log(filteredBenefValues, 'filteredBenefValues');
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  console.log(filteredBenefValues, 'filteredBudgetValues');
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
   // );
   return {
     ...state,
     // mapDataByProvince: finalBeneficiaryArray,
     barDatas: filteredBenefValues,
-
     // filteredMapData: choroplethFormat,
   };
+  // }
 };
+// const filterFinancialDataWithAllFiltersOfProvinceOnly = (state, action) => {
+//   console.log(action.payload, 'actionPayload');
+//   const {
+//     selectedDataView,
+//     allocatedBudget,
+//     totalBeneficiary,
+//     femaleBeneficiary,
+//   } = action.payload;
+//   const totalBudget = [...allocatedBudget];
+//   const totalBenef = [...totalBeneficiary];
+//   const femaleBenef = [...femaleBeneficiary];
+//   // console.log(JSON.stringify(testValues));
+//   // const holder = {};
+
+//   // testValues.forEach(function(d) {
+//   //   // eslint-disable-next-line
+//   //   if (holder.hasOwnProperty(d.province_code)) {
+//   //     // eslint-disable-next-line
+//   //     holder[d.province_code] = holder[d.province_code] + d.allocated_budget;
+//   //   } else {
+//   //     holder[d.province_code] = d.allocated_budget;
+//   //   }
+//   // });
+
+//   // const obj2 = [];
+
+//   // // eslint-disable-next-line
+//   // for (const prop in holder) {
+//   //   obj2.push({ name: prop, value: holder[prop] });
+//   // }
+//   // console.log(obj2, 'finalOBj');
+//   const summedBudget = totalBudget.reduce((a, c) => {
+//     // console.log(a, 'a');
+//     // console.log(c, 'c');
+
+//     const filtered = a.filter(
+//       el => el.province_code === c.province_code,
+//     );
+//     if (filtered.length > 0) {
+//       // eslint-disable-next-line no-param-reassign
+//       a[
+//         a.indexOf(filtered[0])
+//       ].allocated_budget += +c.allocated_budget;
+//     } else {
+//       a.push(c);
+//     }
+//     return a;
+//   }, []);
+//   const summedTotalBenef = totalBenef.reduce((a, c) => {
+//     // console.log(a, 'a');
+//     // console.log(c, 'c');
+
+//     const filtered = a.filter(
+//       el => el.province_code === c.province_code,
+//     );
+//     if (filtered.length > 0) {
+//       // eslint-disable-next-line no-param-reassign
+//       a[
+//         a.indexOf(filtered[0])
+//       ].allocated_budget += +c.allocated_budget;
+//     } else {
+//       a.push(c);
+//     }
+//     return a;
+//   }, []);
+//   const summedFemaleBenef = femaleBenef.reduce((a, c) => {
+//     // console.log(a, 'a');
+//     // console.log(c, 'c');
+
+//     const filtered = a.filter(
+//       el => el.province_code === c.province_code,
+//     );
+//     if (filtered.length > 0) {
+//       // eslint-disable-next-line no-param-reassign
+//       a[
+//         a.indexOf(filtered[0])
+//       ].allocated_budget += +c.allocated_budget;
+//     } else {
+//       a.push(c);
+//     }
+//     return a;
+//   }, []);
+//   // console.log(summedScfFund, 'test');
+//   // if (selectedDataView === 'allocated_beneficiary') {
+
+//   // debugger;
+//   const mergedBeneficiaryArray = summedTotalBenef.map((item, i) => ({
+//     ...item,
+//     ...summedFemaleBenef[i],
+//   }));
+//   const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+//     el,
+//   ) {
+//     const o = { ...el };
+//     o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+//     return o;
+//   });
+//   // summedScfFund;
+//   sortArrayByKey(finalBeneficiaryArray, 'code');
+//   const filteredBenefValues = filterBeneficiaryBarChart(
+//     finalBeneficiaryArray,
+//   );
+//   // console.log(result, 'rest');
+
+//   // }
+//   sortArrayByKey(summedBudget, 'code');
+//   const filteredBudgetValues = filterBudgetBarChart(summedBudget);
+//   // console.log(filteredBenefValues, 'filteredBenefValues');
+//   // console.log(
+//   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+//   console.log(filteredBenefValues, 'filteredBudgetValues');
+//   // );
+//   return {
+//     ...state,
+//     // mapDataByProvince: finalBeneficiaryArray,
+//     barDatas: filteredBenefValues,
+
+//     // filteredMapData: choroplethFormat,
+//   };
+// };
 const getProvinceData = (state, action) => {
   function GetSortOrder(prop) {
     return function(a, b) {
@@ -836,11 +995,22 @@ const getLeverageData = (state, action) => {
   return {
     ...state,
     barDataByLeverage: filteredLeverage,
+    defaultBarDataByLeverage: filteredLeverage,
   };
 };
 const filterLeverageData = (state, action) => {
   // console.log(action.payload, 'action');
   const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    barDataByLeverage: filteredLeverage,
+  };
+};
+const filterLeverageDataOnClick = (state, action) => {
+  // console.log(action.payload, 'action');
+  const filteredLeverage = filterLeverageDataForBarClick(
+    action.payload,
+  );
   return {
     ...state,
     barDataByLeverage: filteredLeverage,
@@ -884,6 +1054,14 @@ const resetOverviewData = (state, action) => {
   return {
     ...state,
     overviewData: state.defaultOveviewData,
+  };
+};
+const resetLeverageData = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    barDataByLeverage: state.defaultBarDataByLeverage,
   };
 };
 const filterTimelineData = (state, action) => {
@@ -961,6 +1139,8 @@ export default function(state = initialState, action) {
       return getPartnersList(state, action);
     case GET_BARDATA_BY_BENEF_BUDGET:
       return getBarDataByBenefBudget(state, action);
+    case GET_BARDATA_BY_INVESTMENTFOCUS:
+      return getBarDataByInvestmentFocus(state, action);
     case GET_MAP_DATA_BY_PROVINCE:
       return getMapDataByProvince(state, action);
     case GET_MAP_DATA_BY_DISTRICT:
@@ -1018,8 +1198,12 @@ export default function(state = initialState, action) {
       return resetSankeyChartData(state, action);
     case RESET_OVERVIEW_DATA:
       return resetOverviewData(state, action);
+    case RESET_LEVERAGE_DATA:
+      return resetLeverageData(state, action);
     case FILTER_TIMELINE_DATA:
       return filterTimelineData(state, action);
+    case FILTER_LEVERAGE_DATA_FOR_BARCLICK:
+      return filterLeverageDataOnClick(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:
