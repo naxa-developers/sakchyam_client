@@ -10,7 +10,8 @@ import CirclePackChart from '../Charts/CirclePack/CirclePackChart';
 import SankeyChart from '../Charts/SankeyChart/SankeyChart';
 import Modal from '../../../common/Modal';
 import CardTab from '../common/CardTab';
-import StackedBar from '../Charts/StackedBar/StackedBar';
+import StackedBarWithProvince from '../Charts/StackedBarWithProvince/StackedBarWithProvince';
+import StackedBarWithInvestment from '../Charts/StackedBarWithInvestment/StackedBarWithInvestment';
 import {
   getRadialData,
   resetBarDatas,
@@ -130,7 +131,24 @@ class MiddleChartSection extends Component {
             id="barContainer"
             style={{ width: '1900px', overflowX: 'scroll' }}
           >
-            <StackedBar
+            <StackedBarWithProvince
+              viewDataBy={viewDataBy}
+              activeModal={activeModal}
+              partnerSelection={partnerSelection}
+              projectSelection={projectSelection}
+              projectStatus={projectStatus}
+              showBarof={showBarof}
+              handleShowBarOf={handleShowBarOf}
+            />
+          </div>
+        );
+      case 'stackedWithInvestment':
+        return (
+          <div
+            id="barContainer"
+            style={{ width: '1900px', overflowX: 'scroll' }}
+          >
+            <StackedBarWithInvestment
               viewDataBy={viewDataBy}
               activeModal={activeModal}
               partnerSelection={partnerSelection}
@@ -245,8 +263,8 @@ class MiddleChartSection extends Component {
                   radialData && (
                     <Sunburst
                       data={radialData}
-                      height={500}
-                      width={900}
+                      height={400}
+                      width={690}
                       count_member="size"
                       onClick={this.handleSunburstClick}
                     />
@@ -266,7 +284,7 @@ class MiddleChartSection extends Component {
               }}
               renderChartComponent={() => {
                 return (
-                  <StackedBar
+                  <StackedBarWithProvince
                     viewDataBy={viewDataBy}
                     activeModal={activeModal}
                     partnerSelection={partnerSelection}
@@ -278,29 +296,57 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
-            <CardTab
-              resetFunction={this.props.resetLeverageData}
-              cardTitle="S-CF Fund & Leverage By Investment Focus"
-              cardClass="col-xl-6"
-              cardChartId="leverageChart"
-              handleModal={this.handleModal}
-              handleSelectedModal={() => {
-                this.handleSelectedModal('leverageChart');
-              }}
-              renderChartComponent={() => {
-                return (
-                  <LeverageStackedBar
-                    viewDataBy={viewDataBy}
-                    activeModal={activeModal}
-                    partnerSelection={partnerSelection}
-                    projectSelection={projectSelection}
-                    projectStatus={projectStatus}
-                    showBarof={showBarof}
-                    handleShowBarOf={handleShowBarOf}
-                  />
-                );
-              }}
-            />
+            {viewDataBy !== 'Leverage' && (
+              <CardTab
+                resetFunction={this.props.resetBarDatas}
+                handleShowBarOf={handleShowBarOf}
+                cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
+                cardClass="col-xl-6"
+                cardChartId="stackedWithInvestment"
+                handleModal={this.handleModal}
+                handleSelectedModal={() => {
+                  this.handleSelectedModal('stackedWithInvestment');
+                }}
+                renderChartComponent={() => {
+                  return (
+                    <StackedBarWithInvestment
+                      viewDataBy={viewDataBy}
+                      activeModal={activeModal}
+                      partnerSelection={partnerSelection}
+                      projectSelection={projectSelection}
+                      projectStatus={projectStatus}
+                      showBarof={showBarof}
+                      handleShowBarOf={handleShowBarOf}
+                    />
+                  );
+                }}
+              />
+            )}
+            {viewDataBy === 'Leverage' && (
+              <CardTab
+                resetFunction={this.props.resetLeverageData}
+                cardTitle="S-CF Fund & Leverage By Investment Focus"
+                cardClass="col-xl-6"
+                cardChartId="leverageChart"
+                handleModal={this.handleModal}
+                handleSelectedModal={() => {
+                  this.handleSelectedModal('leverageChart');
+                }}
+                renderChartComponent={() => {
+                  return (
+                    <LeverageStackedBar
+                      viewDataBy={viewDataBy}
+                      activeModal={activeModal}
+                      partnerSelection={partnerSelection}
+                      projectSelection={projectSelection}
+                      projectStatus={projectStatus}
+                      showBarof={showBarof}
+                      handleShowBarOf={handleShowBarOf}
+                    />
+                  );
+                }}
+              />
+            )}
             {/* <CardTab
               cardTitle="Key Services Introduced"
               cardClass="col-xl-6"

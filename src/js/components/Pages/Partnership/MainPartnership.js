@@ -23,6 +23,7 @@ import {
   getMunicipalityData,
   filterRadialData,
   getBarDataByBenefBudget,
+  getBarDataByInvestmentFocus,
   // getSpiderChartData,
   getSankeyChartData,
   filterSankeyChartData,
@@ -85,6 +86,7 @@ class MainPartnership extends Component {
     // this.props.getOverviewData();
     // this.props.getSankeyChartData();
     this.props.getBarDataByBenefBudget(viewDataBy);
+    this.props.getBarDataByInvestmentFocus(viewDataBy);
     // this.props.getMapDataByDistrict(viewDataBy);
     // this.props.getMapDataByMunicipality(viewDataBy);
     this.props.getDistrictData();
@@ -113,22 +115,31 @@ class MainPartnership extends Component {
     }
     if (prevState.viewDataBy !== viewDataBy) {
       // this.props.getMapDataByProvince(viewDataBy);
-      this.props.filterFinancialDataWithAllFilters(
-        'province',
-        viewDataBy,
-        partnerSelection,
-        projectSelection,
-        projectStatus,
-      );
-      this.props.filterRadialData(
-        // 'province',
-        viewDataBy,
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        // projectStatus,
-      );
+      // this.props.filterFinancialDataWithAllFilters(
+      //   'province',
+      //   viewDataBy,
+      //   partnerSelection,
+      //   projectSelection,
+      //   projectStatus,
+      // );
+      if (viewDataBy !== 'Leverage') {
+        this.props.filterSankeyChartData(
+          investmentFocusSelection,
+          projectSelection,
+          partnerType,
+          partnerSelection,
+          projectStatus,
+        );
+        this.props.filterRadialData(
+          // 'province',
+          viewDataBy,
+          investmentFocusSelection,
+          projectSelection,
+          partnerType,
+          partnerSelection,
+          projectStatus,
+        );
+      }
     }
     if (prevState.partnerType !== partnerType) {
       this.props.filterPartnerListByPartnerType(partnerType);
@@ -490,6 +501,7 @@ class MainPartnership extends Component {
       projectSelection,
       partnerType,
       partnerSelection,
+      projectStatus,
     );
     this.props.filterLeverageData(investmentFocusSelection);
   };
@@ -1053,4 +1065,5 @@ export default connect(mapStateToProps, {
   resetOverviewData,
   resetLeverageData,
   filterLeverageData,
+  getBarDataByInvestmentFocus,
 })(MainPartnership);

@@ -7,7 +7,7 @@ import {
 } from '../../../../../actions/partnership.actions';
 import convert from '../../../../utils/convertNumbers';
 
-class StackedBar extends Component {
+class StackedBarWithInvestment extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,21 +20,21 @@ class StackedBar extends Component {
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     const that = this;
     const series = [
-      {
-        name: 'Income',
-        type: 'column',
-        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
-      },
-      {
-        name: 'Cashflow',
-        type: 'column',
-        data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
-      },
-      {
-        name: 'Revenue',
-        type: 'line',
-        data: [20, 29, 37, 36, 44, 45, 50, 58],
-      },
+      // {
+      //   name: 'Income',
+      //   type: 'column',
+      //   data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
+      // },
+      // {
+      //   name: 'Cashflow',
+      //   type: 'column',
+      //   data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
+      // },
+      // {
+      //   name: 'Revenue',
+      //   type: 'line',
+      //   data: [20, 29, 37, 36, 44, 45, 50, 58],
+      // },
     ];
 
     const options = {
@@ -110,7 +110,7 @@ class StackedBar extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
-      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
+      colors: ['#84A59D', '#932F6D', '#43B929'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
       },
@@ -187,11 +187,11 @@ class StackedBar extends Component {
           },
           axisBorder: {
             show: true,
-            color: '#FEB019',
+            color: '#43B929',
           },
           labels: {
             style: {
-              colors: '#FEB019',
+              colors: '#43B929',
             },
             formatter: value => {
               // console.log(value, 'value');
@@ -201,7 +201,7 @@ class StackedBar extends Component {
           title: {
             text: 'Budget Allocated',
             style: {
-              color: '#FEB019',
+              color: '#43B929',
             },
           },
           // tooltip: {
@@ -245,7 +245,7 @@ class StackedBar extends Component {
   updateBarChart = () => {
     const that = this;
     const {
-      partnershipReducer: { barDatas },
+      partnershipReducer: { barDatasByInvestment },
     } = this.props;
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     // const series = [
@@ -378,12 +378,17 @@ class StackedBar extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
-      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
+      colors: ['#84A59D', '#932F6D', '#43B929'],
+      // colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
-        categories: barDatas.labels,
-        title: {
-          text: 'Provinces',
+        labels: {
+          trim: true,
+          hideOverlappingLabels: false,
         },
+        categories: barDatasByInvestment.labels,
+        // title: {
+        //   text: 'Provinces',
+        // },
       },
       grid: {
         show: false,
@@ -392,16 +397,18 @@ class StackedBar extends Component {
         {
           // min: 0,
           max(max) {
-            console.log(max, 'max');
-            // console.log(that.props.showBarof, 'showBarof');
-            if (that.props.showBarof === 'Provinces') {
-              return 600000;
-            }
-            if (that.props.showBarof === 'Districts') {
-              return 80000;
-            }
+            // console.log(max, 'max');
+            // // // console.log(that.props.showBarof, 'showBarof');
+            // if (that.props.showBarof === 'Provinces') {
+            //   return 600000;
+            // }
+            // if (that.props.showBarof === 'Districts') {
+            //   return 80000;
+            // }
 
-            return 10000;
+            return 1000000;
+            // global.totalMaxValue = max / 120;
+            // return max / 120;
           },
           axisTicks: {
             show: true,
@@ -432,16 +439,18 @@ class StackedBar extends Component {
         {
           // min: 0,
           max(max) {
-            // console.log(max, 'max');
+            console.log(max, '2ndmax');
             // console.log(that.props.showBarof, 'showBarof');
-            if (that.props.showBarof === 'Provinces') {
-              return 600000;
-            }
-            if (that.props.showBarof === 'Districts') {
-              return 80000;
-            }
+            // if (that.props.showBarof === 'Provinces') {
+            //   return 600000;
+            // }
+            // if (that.props.showBarof === 'Districts') {
+            //   return 80000;
+            // }
 
-            return 10000;
+            return 1000000;
+            // global.totaMaxValue = max / 35;
+            // return global.totalMaxValue;
           },
           seriesName: 'Incomessss',
           show: false,
@@ -479,11 +488,11 @@ class StackedBar extends Component {
           },
           axisBorder: {
             show: true,
-            color: '#FEB019',
+            color: '#43B929',
           },
           labels: {
             style: {
-              colors: '#FEB019',
+              colors: '#43B929',
             },
             formatter: value => {
               // console.log(value, 'value');
@@ -493,7 +502,7 @@ class StackedBar extends Component {
           title: {
             text: 'Budget Allocated',
             style: {
-              color: '#FEB019',
+              color: '#43B929',
             },
           },
           // tooltip: {
@@ -503,8 +512,8 @@ class StackedBar extends Component {
       ],
       markers: {
         size: 5,
-        colors: ['#f7bc48'],
-        strokeColor: '#f7bc48',
+        colors: ['#43B929'],
+        strokeColor: '#43B929',
         strokeWidth: 3,
       },
       tooltip: {
@@ -531,14 +540,17 @@ class StackedBar extends Component {
         offsetX: 40,
       },
     };
-    this.setState({ options, series: barDatas.series });
+    this.setState({ options, series: barDatasByInvestment.series });
   };
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      partnershipReducer: { barDatas },
+      partnershipReducer: { barDatasByInvestment },
     } = this.props;
-    if (prevProps.partnershipReducer.barDatas !== barDatas) {
+    if (
+      prevProps.partnershipReducer.barDatasByInvestment !==
+      barDatasByInvestment
+    ) {
       this.updateBarChart();
     }
   }
@@ -565,4 +577,4 @@ const mapStateToProps = ({ partnershipReducer }) => ({
 export default connect(mapStateToProps, {
   filterFinancialDataOfDistrictFromProvince,
   filterFinancialDataOfMunicipalityFromDistrict,
-})(StackedBar);
+})(StackedBarWithInvestment);
