@@ -140,6 +140,26 @@ class MainPartnership extends Component {
     }
   }
 
+  handleFederalClickOnMap = (statelevel, code) => {
+    console.log(statelevel, code);
+    if (statelevel === 'municipality') {
+      const query = `code=${code}`;
+      this.setState({
+        vectorTileUrl: `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`,
+      });
+    } else if (statelevel === 'district') {
+      const query = `code=${code}`;
+      this.setState({
+        vectorTileUrl: `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`,
+      });
+    } else {
+      const query = `code=${code}`;
+      this.setState({
+        vectorTileUrl: `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&${query}`,
+      });
+    }
+  };
+
   setFilterTab = () => {
     this.setState(prevState => ({
       activeFilter: !prevState.activeFilter,
@@ -801,6 +821,14 @@ class MainPartnership extends Component {
                         <FilterBadge
                           viewDataBy={mapViewDataBy}
                           onclick={() => {
+                            this.setMapViewDataBy('investment_focus');
+                          }}
+                          dataTitle="investment_focus"
+                          title="Investment Focus"
+                        />
+                        <FilterBadge
+                          viewDataBy={mapViewDataBy}
+                          onclick={() => {
                             this.setMapViewDataBy(
                               'allocated_beneficiary',
                             );
@@ -821,12 +849,12 @@ class MainPartnership extends Component {
                         <FilterBadge
                           viewDataBy={mapViewDataBy}
                           onclick={() => {
-                            this.setMapViewDataBy('blb');
+                            this.setMapViewDataBy('allocated_budget');
                           }}
-                          dataTitle="blb"
-                          title="BLB"
+                          dataTitle="allocated_budget"
+                          title="Allocated Budget"
                         />
-                        <FilterBadge
+                        {/* <FilterBadge
                           viewDataBy={mapViewDataBy}
                           onclick={() => {
                             this.setMapViewDataBy('branch');
@@ -842,7 +870,7 @@ class MainPartnership extends Component {
                           dataTitle="tablet"
                           title="Tablet"
                           icon="tablet"
-                        />
+                        /> */}
                         {/* <FilterBadge
                           viewDataBy={viewDataBy}
                           onclick={() => {
@@ -935,10 +963,14 @@ class MainPartnership extends Component {
                   {/* <div id="map" className="map"> */}
                   {activeView === 'map' && (
                     <MapboxPartnership
+                      handleFederalClickOnMap={
+                        this.handleFederalClickOnMap
+                      }
                       map={map}
                       vectorTileUrl={vectorTileUrl}
                       mapViewBy={mapViewBy}
                       mapViewDataBy={mapViewDataBy}
+                      setMapViewBy={this.setMapViewBy}
                     />
                   )}
                   {/* </div> */}

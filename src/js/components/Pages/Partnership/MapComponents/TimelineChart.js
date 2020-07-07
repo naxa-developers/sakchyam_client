@@ -27,31 +27,31 @@ class TimelineChart extends Component {
           },
 
           {
-            x: new Date('2015-2-1').getTime(),
+            x: new Date('2016-1-1').getTime(),
             // a: 25,
             // d: 16,
             y: 10,
           },
           {
-            x: new Date('2015-3-1').getTime(),
+            x: new Date('2017-1-1').getTime(),
             // a: 55,
             // d: 86,
             y: 12,
           },
           {
-            x: new Date('2015-4-1').getTime(),
+            x: new Date('2018-1-1').getTime(),
             // a: 47,
             // d: 24,
             y: 36,
           },
           {
-            x: new Date('2015-5-1').getTime(),
+            x: new Date('2019-1-1').getTime(),
             // a: 78,
             // d: 98,
             y: 21,
           },
           {
-            x: new Date('2015-6-1').getTime(),
+            x: new Date('2020-1-1').getTime(),
             y: 29,
           },
         ],
@@ -85,6 +85,11 @@ class TimelineChart extends Component {
               minCurrent: xaxis.min,
               maxCurrent: xaxis.max,
             });
+            that.props.filterTimelineData(
+              xaxis.min,
+              xaxis.max,
+              that.props.mapViewBy,
+            );
             // that.props.playBtn(xaxis.min, xaxis.max);
           },
         },

@@ -202,6 +202,9 @@ const initialState = {
           if (value === 0) {
             return value;
           }
+          if (value === 1) {
+            return value;
+          }
           if (value <= 1) {
             return value.toFixed(1);
           }
@@ -479,7 +482,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     unit = '£';
   } else if (dataUnit === 'NPR') {
     unit = 'Rs';
-  } else if (dataType.includes('Percent')) {
+  } else if (dataType !== undefined && dataType.includes('Percent')) {
     type = '%';
   }
   const planned = filtered.map(el => {

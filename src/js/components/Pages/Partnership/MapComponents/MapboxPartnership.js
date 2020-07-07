@@ -63,7 +63,7 @@ class MapboxPartnership extends Component {
   }
 
   render() {
-    const { mapViewBy } = this.props;
+    const { mapViewBy, setMapViewBy } = this.props;
     const inputDivisions =
       mapViewBy === 'province'
         ? [0, 10, 20, 30, 40, 50, 60, 70]
@@ -81,6 +81,10 @@ class MapboxPartnership extends Component {
         {map && (
           <div>
             <VectorTileMapbox
+              handleFederalClickOnMap={
+                this.props.handleFederalClickOnMap
+              }
+              setMapViewBy={setMapViewBy}
               mapViewBy={mapViewBy}
               mapViewDataBy={mapViewDataBy}
               choroplethData={filteredMapData}

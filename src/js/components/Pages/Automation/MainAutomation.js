@@ -1785,9 +1785,9 @@ class MainAutomation extends Component {
 
   handleResetButtonForFilter = () => {
     const { dataTypeLevel, activeClickPartners } = this.state;
-    if (activeClickPartners.length < 1) {
-      this.props.getAllAutomationDataByPartner();
-    }
+    // if (activeClickPartners.length < 1) {
+    this.props.getAllAutomationDataByPartner();
+    // }
     this.setState({
       selectedProvince: [],
       selectedProvinceName: [],
@@ -1799,6 +1799,7 @@ class MainAutomation extends Component {
       selectedMunicipality: [],
       selectedMunicipalityName: [],
       showBeneficiary: true,
+      activeClickPartners: [],
       // vectorGridKey: Math.random(),
     });
     // if (this.state.selectedMunicipality.length > 0) {
@@ -1830,9 +1831,7 @@ class MainAutomation extends Component {
     const map = this.mapRef.current.leafletElement;
     // console.log(extendedValue, 'bbox');
     // this.handleStateLevel(this.state.dataTypeLevel);
-    this.props.partnerSelectWithOutreach(
-      this.state.activeClickPartners,
-    );
+    this.props.partnerSelectWithOutreach([]);
     const bounds = [
       [30.84603378690058, 88.45810947185424],
       [25.21816603999243, 79.96658480384404],

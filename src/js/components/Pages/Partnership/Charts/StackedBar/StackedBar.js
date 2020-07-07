@@ -286,10 +286,10 @@ class StackedBar extends Component {
             // console.log(chartContext, 'chartContext');
             // console.log(dataPointIndex, 'dataPointIndex');
             // console.log(config, 'config');
-            // console.log(
-            //   config.xaxis.categories[dataPointIndex],
-            //   'dataPointIndex Calc',
-            // );
+            console.log(
+              config.xaxis.categories[dataPointIndex],
+              'dataPointIndex Calc',
+            );
             const {
               partnerSelection,
               projectSelection,
@@ -301,12 +301,19 @@ class StackedBar extends Component {
               // console.log(showBarof, 'inside showBarOf');
               const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
                 data => {
-                  return data.label.includes(
-                    config.xaxis.categories[dataPointIndex],
+                  console.log(data, 'data');
+                  return (
+                    data.code ===
+                    config.xaxis.categories[dataPointIndex]
                   );
+                  // return data.label
+                  //   .replace('Province')
+                  //   .includes(
+                  //     config.xaxis.categories[dataPointIndex],
+                  //   );
                 },
               );
-              // console.log(filteredProvinceId, 'filteredProvinceId');
+              console.log(filteredProvinceId, 'filteredProvinceId');
               const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
                 data => {
                   return (
@@ -314,7 +321,7 @@ class StackedBar extends Component {
                   );
                 },
               );
-              // console.log(finalDistrictId, 'finalDistrtic');
+              console.log(finalDistrictId, 'finalDistrtic');
               const districtIdList = finalDistrictId.map(data => {
                 return data.n_code;
               });
