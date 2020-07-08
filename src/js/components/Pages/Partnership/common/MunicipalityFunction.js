@@ -1,5 +1,5 @@
 import React from 'react';
-import municipalityData from '../../../data/municipality.json';
+import municipalityData from '../../../../../data/municipality.json';
 
 export const getCenterBboxMunicipality = id => {
   let munData = [];

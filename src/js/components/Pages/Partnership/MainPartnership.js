@@ -44,6 +44,9 @@ import {
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
 import FilterBadge from './common/FilterBadge';
+import { getCenterBboxProvince } from './common/ProvinceFunction';
+import { getCenterBboxDistrict } from './common/DistrictFunction';
+import { getCenterBboxMunicipality } from './common/MunicipalityFunction';
 
 class MainPartnership extends Component {
   constructor() {
@@ -228,6 +231,250 @@ class MainPartnership extends Component {
       });
     }
   };
+
+  // handleStateLevel = clickedValue => {
+  //   // console.log(e.target.value, 'target value');
+  //   const {
+  //     dataTypeLevel,
+  //     activeClickPartners,
+  //     selectedProvince,
+  //     selectedDistrict,
+  //     selectedMunicipality,
+  //   } = this.state;
+  //   if (
+  //     selectedProvince.length > 0 ||
+  //     selectedDistrict.length > 0 ||
+  //     selectedMunicipality.length > 0
+  //   ) {
+  //     if (clickedValue === 'municipality') {
+  //       // if (selectedMunicipality.length > 0) {
+  //       // } else if (selectedDistrict.length > 0) {
+  //       // } else {
+
+  //       // }
+  //       const map = this.mapRef.current.leafletElement;
+  //       if (selectedMunicipality.length > 0) {
+  //         const combinedBbox = [];
+  //         // console.log(selectedMunicipality, 'selectedMunicipality');
+  //         const getBboxValue = getCenterBboxMunicipality(
+  //           selectedMunicipality,
+  //         );
+  //         // console.log(getBboxValue, 'bboxValue');
+  //         getBboxValue.map(data => {
+  //           combinedBbox.push(data.bbox);
+  //           return true;
+  //         });
+  //         const extendedValue = extendBounds(combinedBbox);
+  //         // console.log(extendedValue, 'bbox');
+  //         map.flyToBounds(extendedValue, {
+  //           animate: true,
+  //           duration: 2,
+  //         });
+  //         const query = selectedMunicipality
+  //           .map(data => {
+  //             return `code=${data}`;
+  //           })
+  //           .join('&');
+  //         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
+  //         this.setState({
+  //           vectorTileUrl: municipalityFilterUrl,
+  //           // vectorGridKey: Math.random(),
+  //         });
+  //       } else if (selectedDistrict.length > 0) {
+  //         const combinedBbox = [];
+  //         // console.log(selectedDistrict, 'selectedDistrict');
+  //         const getBboxValue = getCenterBboxDistrict(
+  //           selectedDistrict,
+  //         );
+  //         // console.log(getBboxValue, 'bboxValue');
+  //         getBboxValue.map(data => {
+  //           combinedBbox.push(data.bbox);
+  //           return true;
+  //         });
+  //         const extendedValue = extendBounds(combinedBbox);
+  //         // console.log(extendedValue, 'bbox');
+  //         map.flyToBounds(extendedValue, {
+  //           animate: true,
+  //           duration: 2,
+  //         });
+  //         const query = selectedDistrict
+  //           .map(data => {
+  //             return `district_code=${data}`;
+  //           })
+  //           .join('&');
+  //         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
+  //         this.setState({
+  //           vectorTileUrl: municipalityFilterUrl,
+  //           // vectorGridKey: Math.random(),
+  //         });
+  //       } else if (selectedProvince.length > 0) {
+  //         const combinedBbox = [];
+  //         // console.log(selectedProvince, 'selectedProvine');
+  //         const getBboxValue = getCenterBboxProvince(
+  //           selectedProvince,
+  //         );
+  //         getBboxValue.map(data => {
+  //           combinedBbox.push(data.bbox);
+  //           return true;
+  //         });
+  //         const extendedValue = extendBounds(combinedBbox);
+  //         // console.log(extendedValue, 'bbox');
+  //         map.flyToBounds(extendedValue, {
+  //           animate: true,
+  //           duration: 2,
+  //         });
+  //         const query = selectedProvince
+  //           .map(data => {
+  //             return `province_id_id=${data}`;
+  //           })
+  //           .join('&');
+  //         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
+  //         this.setState({
+  //           vectorTileUrl: municipalityFilterUrl,
+  //           // vectorGridKey: Math.random(),
+  //         });
+  //       }
+  //     } else if (clickedValue === 'district') {
+  //       // if (selectedMunicipality.length > 0) {
+  //       //   const query = selectedMunicipality
+  //       //     .map(data => {
+  //       //       return `code=${data}`;
+  //       //     })
+  //       //     .join('&');
+  //       //   const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
+  //       //   this.setState({
+  //       //     vectorGridInputUrl: municipalityFilterUrl,
+  //       //     vectorGridKey: Math.random(),
+  //       //   });
+  //       // } else
+  //       if (selectedDistrict.length > 0) {
+  //         const combinedBbox = [];
+  //         // console.log(selectedDistrict, 'selectedDistrict');
+  //         const getBboxValue = getCenterBboxDistrict(
+  //           selectedDistrict,
+  //         );
+  //         // console.log(getBboxValue, 'bboxValue');
+  //         getBboxValue.map(data => {
+  //           combinedBbox.push(data.bbox);
+  //           return true;
+  //         });
+  //         const extendedValue = extendBounds(combinedBbox);
+  //         const map = this.mapRef.current.leafletElement;
+  //         // console.log(extendedValue, 'bbox');
+  //         map.flyToBounds(extendedValue, {
+  //           animate: true,
+  //           duration: 2,
+  //         });
+  //         const query = selectedDistrict
+  //           .map(data => {
+  //             return `code=${data}`;
+  //           })
+  //           .join('&');
+  //         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
+  //         this.setState({
+  //           vectorTileUrl: municipalityFilterUrl,
+  //           // vectorGridKey: Math.random(),
+  //         });
+  //       } else if (selectedProvince.length > 0) {
+  //         const combinedBbox = [];
+  //         // console.log(selectedProvince, 'selectedProvine');
+  //         const getBboxValue = getCenterBboxProvince(
+  //           selectedProvince,
+  //         );
+  //         getBboxValue.map(data => {
+  //           combinedBbox.push(data.bbox);
+  //           return true;
+  //         });
+  //         const extendedValue = extendBounds(combinedBbox);
+  //         const map = this.mapRef.current.leafletElement;
+  //         // console.log(extendedValue, 'bbox');
+  //         map.flyToBounds(extendedValue, {
+  //           animate: true,
+  //           duration: 2,
+  //         });
+  //         const query = selectedProvince
+  //           .map(data => {
+  //             return `province_id_id=${data}`;
+  //           })
+  //           .join('&');
+  //         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
+  //         this.setState({
+  //           vectorTileUrl: municipalityFilterUrl,
+  //           // vectorGridKey: Math.random(),
+  //         });
+  //       }
+  //     } else if (clickedValue === 'province') {
+  //       if (selectedProvince.length > 0) {
+  //         const combinedBbox = [];
+  //         // console.log(selectedProvince, 'selectedProvine');
+  //         const getBboxValue = getCenterBboxProvince(
+  //           selectedProvince,
+  //         );
+  //         getBboxValue.map(data => {
+  //           combinedBbox.push(data.bbox);
+  //           return true;
+  //         });
+  //         const extendedValue = extendBounds(combinedBbox);
+  //         const map = this.mapRef.current.leafletElement;
+  //         // console.log(extendedValue, 'bbox');
+  //         map.flyToBounds(extendedValue, {
+  //           animate: true,
+  //           duration: 2,
+  //         });
+  //         const query = selectedProvince
+  //           .map(data => {
+  //             return `code=${data}`;
+  //           })
+  //           .join('&');
+  //         const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&${query}`;
+  //         this.setState({
+  //           vectorTileUrl: municipalityFilterUrl,
+  //           // vectorGridKey: Math.random(),
+  //         });
+  //       }
+  //     }
+  //     // alert('atleast on state is number');
+  //   } else if (clickedValue === 'province') {
+  //     // alert('province ');
+  //     this.setState({
+  //       vectorTileUrl:
+  //         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
+  //       // vectorGridKey: Math.random(),
+  //       // color: '#55b110',
+  //     });
+  //     this.props.filterAutomationDataForVectorTiles(clickedValue);
+  //   } else if (clickedValue === 'district') {
+  //     this.setState({
+  //       vectorTileUrl:
+  //         'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
+  //       // vectorGridKey: '1',
+  //       // vectorGridKey: Math.random(),
+  //       // color: '#FF0000',
+  //     });
+  //     this.props.filterAutomationDataForVectorTiles(clickedValue);
+  //   } else if (clickedValue === 'municipality') {
+  //     this.setState({
+  //       vectorTileUrl:
+  //         'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
+  //       // 'https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Municipality@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
+  //       // vectorGridKey: '2',
+  //       // vectorGridKey: Math.random(),
+  //       // color: '#FF000',
+  //     });
+  //     this.props.filterAutomationDataForVectorTiles(clickedValue);
+  //   }
+  //   // this.setState({
+  //   //   selectedProvince: [],
+  //   //   selectedProvinceName: [],
+  //   //   selectedProvinceDropdown: [],
+  //   //   selectedDistrict: [],
+  //   //   selectedDistrictName: [],
+  //   //   selectedDistrictDropdown: [],
+  //   //   selectedMunicipality: [],
+  //   //   selectedMunicipalityName: [],
+  //   // });
+  //   // this.setState({ dataTypeLevel: clickedValue });
+  // };
 
   handleShowBarOf = value => {
     this.setState({ showBarof: value });

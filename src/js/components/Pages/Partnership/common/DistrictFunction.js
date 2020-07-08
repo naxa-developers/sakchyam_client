@@ -1,5 +1,5 @@
 import React from 'react';
-import districtData from '../../../data/district.json';
+import districtData from '../../../../../data/district.json';
 
 export const getCenterBboxDistrict = id => {
   let distData = [];
