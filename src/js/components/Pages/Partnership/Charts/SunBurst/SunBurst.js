@@ -267,13 +267,13 @@ class Sunburst extends React.Component {
         data[0].children && data[0].children.sort() 
         // console.log(data[0].children && data[0].children.sort((a,b) => b.value - a.value),"sunburstDataSort");
         this.legend
-          .style("class", "sunbrust-legend")
+          .attr("class", "sunbrust-legend")
           .attr("x","100px") 
-          .style("width", "359px")
+          // .style("width", "359px")
           // .style("transform", "translate(447px, -287px)") // small screen
-          .style("transform", "translate(119px, 84px)") //big screen
-          .style("position", "absolute")
-          .style("height", "186px");
+          // .style("transform", "translate(119px, 84px)") //big screen
+          // .style("position", "absolute")
+          // .style("height", "186px");
         var legendEntries = this.legend
           .selectAll("g")
           .data(data[0].children ? data[0].children.sort(): [])

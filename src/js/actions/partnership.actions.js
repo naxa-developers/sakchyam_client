@@ -39,6 +39,7 @@ import {
   RESET_OVERVIEW_DATA,
   FILTER_LEVERAGE_DATA_FOR_BARCLICK,
   GET_BARDATA_BY_INVESTMENTFOCUS,
+  FILTER_BARDATA_BY_INVESTMENTFOCUS,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -1026,6 +1027,135 @@ export const filterFinancialDataWithAllFilters = (
               selectedDataView,
               totalBeneficiary: responseOne.data,
               femaleBeneficiary: responseTwo.data,
+              allocatedBudget: responseThree.data,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
+  // } else if (selectedDataView === 'allocated_budget') {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         view: selectedDataView,
+  //         partner_id: partnerId,
+  //         project_id: projectId,
+  //         status: !statusSelected ? '' : statusSelected,
+  //         province_id: [0],
+  //         district_id: [],
+  //         municipality_id: [],
+  //       })
+  //       .then(function(result) {
+  //         return dispatch({
+  //           type: GET_MAP_DATA_BY_PROVINCE,
+  //           payload: {
+  //             selectedDataView,
+  //             allocatedBudget: result.data,
+  //           },
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
+};
+export const filterBarDataByInvestment = (
+  selectedFederalTypes,
+  selectedDataView,
+  selectedPartnerId,
+  selectedProjectId,
+  selectedStatus,
+  selectedInvestment,
+) => dispatch => {
+  // console.log(selectedFederalTypes, 'selectedFederalTypes');
+  // console.log(selectedDataView, 'selectedDataView');
+  // console.log(selectedPartnerId, 'selectedPartnerId');
+  // console.log(selectedProjectId, 'selectedProjectId');
+  console.log(selectedStatus, 'selectedStatus');
+  // debugger;
+  let partnerId = [];
+  let projectId = [];
+  let investmentFocus = [];
+  let statusSelected = '';
+  const data = selectedDataView;
+  if (selectedPartnerId.length === 0) {
+    partnerId = [0];
+  } else {
+    partnerId = selectedPartnerId;
+  }
+  if (selectedProjectId.length === 0) {
+    projectId = [0];
+  } else {
+    projectId = selectedProjectId;
+  }
+  if (selectedInvestment.length === 0) {
+    investmentFocus = [
+      'Automation of MFIs',
+      'Channel Innovations',
+      'Digital Financial Services',
+      'Downscaling and Value Chain Financing By Banks',
+      'Increased uptake of microinsurance',
+      'Outreach Expansion',
+      'Product Innovations',
+      'Remittance Based Products',
+      'SME Financing',
+    ];
+  } else {
+    investmentFocus = selectedInvestment;
+  }
+  if (selectedStatus === [] || selectedStatus.length > 1) {
+    statusSelected = '';
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    statusSelected = selectedStatus[0];
+  }
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
+
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'total_beneficiary',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: [],
+        municipality_id: [],
+        investment: investmentFocus,
+      },
+    );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'allocated_budget',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: [],
+        municipality_id: [],
+        investment: investmentFocus,
+      },
+    );
+
+    axios
+      .all([requestOne, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseThree = responses[1];
+          return dispatch({
+            type: FILTER_BARDATA_BY_INVESTMENTFOCUS,
+            payload: {
+              selectedDataView,
+              totalBeneficiary: responseOne.data,
               allocatedBudget: responseThree.data,
             },
           });

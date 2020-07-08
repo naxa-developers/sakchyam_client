@@ -39,6 +39,7 @@ import {
   resetOverviewData,
   resetLeverageData,
   filterLeverageData,
+  filterBarDataByInvestment,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
@@ -484,6 +485,14 @@ class MainPartnership extends Component {
       partnerSelection,
       projectSelection,
       projectStatus,
+    );
+    this.props.filterBarDataByInvestment(
+      'province',
+      viewDataBy,
+      partnerSelection,
+      projectSelection,
+      projectStatus,
+      investmentFocusSelection,
     );
     this.props.filterRadialData(
       viewDataBy,
@@ -1066,4 +1075,5 @@ export default connect(mapStateToProps, {
   resetLeverageData,
   filterLeverageData,
   getBarDataByInvestmentFocus,
+  filterBarDataByInvestment,
 })(MainPartnership);
