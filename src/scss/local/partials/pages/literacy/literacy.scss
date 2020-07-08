@@ -236,18 +236,18 @@
 
     &::-webkit-scrollbar {
       width: 6px;
-      background: $red-color;
+      background: $gray-light;
       @include radius(4px);
   }
 
   &::-webkit-scrollbar-track {
-      background-color:$red-color;
+      background-color:$gray-light;
       @include radius(4px);
   }
 
   &::-webkit-scrollbar-thumb {
       @include radius(4px);
-      background: $red-hover;
+      background: $text-color-hover;
   }
     .card {
       .card-body {
@@ -264,18 +264,18 @@
 
       &::-webkit-scrollbar {
         width: 6px;
-        background: $red-color;
+        background: $gray-light;
         @include radius(4px);
     }
-
+  
     &::-webkit-scrollbar-track {
-        background-color:$red-color;
+        background-color:$gray-light;
         @include radius(4px);
     }
-
+  
     &::-webkit-scrollbar-thumb {
         @include radius(4px);
-        background: $red-hover;
+        background: $text-color-hover;
     }
     }
   }
@@ -297,18 +297,18 @@
 
   &::-webkit-scrollbar {
     width: 6px;
-    background: $orange-color;
+    background: $gray-light;
     @include radius(4px);
 }
 
 &::-webkit-scrollbar-track {
-    background-color:$orange-color;
+    background-color:$gray-light;
     @include radius(4px);
 }
 
 &::-webkit-scrollbar-thumb {
     @include radius(4px);
-    background: $yellow-color;
+    background: $text-color-hover;
 }
 }
 
