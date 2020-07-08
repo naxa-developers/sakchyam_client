@@ -35,7 +35,13 @@ const downloadPng = (chartid, filename) => {
   // this.setState({ downloadActive: false });
 };
 const Modal = props => {
-  const { handleModal, component, selectedModal, header } = props;
+  const {
+    handleModal,
+    component,
+    selectedModal,
+    header,
+    isBarChartToggled,
+  } = props;
   const selectedChartId =
     selectedModal === 'bar'
       ? 'horizontal-chart'
@@ -44,6 +50,11 @@ const Modal = props => {
       : selectedModal === 'tree'
       ? 'treemap-chart'
       : 'sankey-chart';
+
+  const barHeader = isBarChartToggled
+    ? 'Initiative-wise beneficiary breakdown'
+    : 'Financial Literacy Beneficiaries by Partners';
+
   return (
     <div
       className="popup open"
@@ -77,7 +88,9 @@ const Modal = props => {
             </i>
           </span>
           <div className="popup-header no-flex">
-            <h3 style={{ color: '#C2002F' }}>{header}</h3>
+            <h3 style={{ color: '#C2002F' }}>
+              {selectedModal === 'bar' ? barHeader : header}
+            </h3>
             <span
               style={{
                 position: 'absolute',

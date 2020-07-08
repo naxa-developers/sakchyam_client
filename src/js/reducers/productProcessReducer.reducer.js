@@ -32,6 +32,41 @@ const getOverviewData = data => {
   };
 };
 
+const generateRadarChartData = data => {
+  const innovationArea = [
+    ...new Set(data.map(item => item.innovation_area)),
+  ];
+  const partnerType = [
+    ...new Set(data.map(item => item.partner_type)),
+  ];
+
+  const series = [];
+
+  partnerType.forEach(item => {
+    series.push({
+      name: item,
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    });
+  });
+
+  data.forEach(item => {
+    series.forEach(x => {
+      if (item.partner_type === x.name) {
+        const index = innovationArea.findIndex(
+          i => i === item.innovation_area,
+        );
+        x.data[index] += 1;
+      }
+    });
+  });
+
+  console.log(series);
+  console.log(innovationArea);
+  const categories = innovationArea;
+
+  return { series, categories };
+};
+
 const generateBubbleChartData = data => {
   const arr1 = [];
   const arr2 = [];
@@ -209,7 +244,7 @@ const getProductProcessList = (state, action) => {
 
   const bubbleChartData = generateBubbleChartData(data);
   const heatMapData = generateHeatMapData(data);
-
+  const radarChartData = generateRadarChartData(data);
   // GET UNIQUE VALUES FROM API
   const innovationAreaList = [];
   const productCategoryList = [];
@@ -278,6 +313,7 @@ const getProductProcessList = (state, action) => {
     bubbleChartData,
     overviewData,
     heatMapData,
+    radarChartData,
     // productProcessList: action.payload,
   };
 };

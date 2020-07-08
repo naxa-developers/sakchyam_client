@@ -1,5 +1,8 @@
+/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
+import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
+import { getProductProcessList } from '../../../../../actions/productProcess.actions';
 
 class RadarChart extends React.Component {
   constructor(props) {
@@ -9,7 +12,7 @@ class RadarChart extends React.Component {
       series: [
         {
           name: 'Series 1',
-          data: [80, 50, 30, 40, 100, 20, 40, 100, 20, 100, 20],
+          data: [80, 0, 30, 0, 100, 20, 4, 0, 0, 100, 0],
         },
         {
           name: 'Series 2',
@@ -48,6 +51,9 @@ class RadarChart extends React.Component {
           size: 0,
         },
         xaxis: {
+          labels: {
+            show: false,
+          },
           categories: [
             'I1',
             'I2',
@@ -66,6 +72,27 @@ class RadarChart extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      productProcessReducer: { radarChartData },
+    } = this.props;
+    if (
+      this.props.productProcessReducer.heatMapData !==
+      prevProps.productProcessReducer.heatMapData
+    ) {
+      this.setState(preState => ({
+        series: radarChartData.series,
+        options: {
+          ...preState.options,
+          xaxis: {
+            ...preState.options.xaxis,
+            categories: radarChartData.categories,
+          },
+        },
+      }));
+    }
+  }
+
   render() {
     return (
       <div id="chart">
@@ -80,4 +107,10 @@ class RadarChart extends React.Component {
   }
 }
 
-export default RadarChart;
+const mapStateToProps = ({ productProcessReducer }) => ({
+  productProcessReducer,
+});
+
+export default connect(mapStateToProps, { getProductProcessList })(
+  RadarChart,
+);

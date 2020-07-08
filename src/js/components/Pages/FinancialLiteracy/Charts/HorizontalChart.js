@@ -200,6 +200,7 @@ class HorizontalChart extends Component {
       },
     ];
     const options = {
+      grid: { show: false },
       chart: {
         type: 'bar',
         // height: 2000,
@@ -690,7 +691,7 @@ class HorizontalChart extends Component {
                   }}
                   onKeyDown={() => {
                     handleModal();
-                    handleSelectedModal('bar');
+                    handleSelectedModal('bar', `${title}`);
                   }}
                 >
                   <img src={ExpandIcon} alt="open" />
