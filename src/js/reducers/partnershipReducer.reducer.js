@@ -35,6 +35,7 @@ import {
   RESET_OVERVIEW_DATA,
   FILTER_LEVERAGE_DATA_FOR_BARCLICK,
   GET_BARDATA_BY_INVESTMENTFOCUS,
+  FILTER_BARDATA_BY_INVESTMENTFOCUS,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -733,6 +734,46 @@ const filterFinancialDataWithAllFilters = (state, action) => {
   };
   // }
 };
+const filterBarDataByInvestmentFocus = (state, action) => {
+  const { selectedDataView, allocatedBudget } = action.payload;
+  // if (selectedDataView === 'allocated_beneficiary') {
+  const { totalBeneficiary } = action.payload;
+  const finalBeneficiaryArray = totalBeneficiary;
+  // const femalebeneficiary = femaleBeneficiary;
+  // debugger;
+  // const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+  //   ...item,
+  //   ...femalebeneficiary[i],
+  // }));
+  // const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+  //   el,
+  // ) {
+  //   const o = { ...el };
+  //   o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+  //   return o;
+  // });
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChartForInvestment(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
+  // }
+  sortArrayByKey(allocatedBudget, 'code');
+  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
+  // console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
+  return {
+    ...state,
+    // mapDataByProvince: finalBeneficiaryArray,
+    barDatasByInvestment: filteredBenefValues,
+    // filteredMapData: choroplethFormat,
+  };
+  // }
+};
 // const filterFinancialDataWithAllFiltersOfProvinceOnly = (state, action) => {
 //   console.log(action.payload, 'actionPayload');
 //   const {
@@ -1160,6 +1201,8 @@ export default function(state = initialState, action) {
       );
     case FILTER_FINANCIALDATA_WITH_ALL_FILTERS:
       return filterFinancialDataWithAllFilters(state, action);
+    case FILTER_BARDATA_BY_INVESTMENTFOCUS:
+      return filterBarDataByInvestmentFocus(state, action);
     case GET_RADIAL_DATA:
       return getRadialData(state, action);
     case GET_SPIDERCHART_DATA:

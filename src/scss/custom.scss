@@ -398,6 +398,19 @@
     border: 2px solid blue;
   }
 }
+.mapboxgl-map {
+  .pause-btn {
+    top: 17px;
+    left: 2px;
+    position: absolute;
+    img {
+      &:hover {
+        background-color: #fce495;
+      }
+      border: 2px solid blue;
+    }
+  }
+}
 // .mapContainer {
 //   position: absolute;
 //   top: 0;
