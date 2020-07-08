@@ -60,8 +60,6 @@ const generateRadarChartData = data => {
     });
   });
 
-  console.log(series);
-  console.log(innovationArea);
   const categories = innovationArea;
 
   return { series, categories };
