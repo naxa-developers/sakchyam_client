@@ -38,6 +38,8 @@ import {
   FILTER_LEVERAGE_DATA,
   RESET_OVERVIEW_DATA,
   FILTER_LEVERAGE_DATA_FOR_BARCLICK,
+  GET_BARDATA_BY_INVESTMENTFOCUS,
+  FILTER_BARDATA_BY_INVESTMENTFOCUS,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -157,6 +159,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         district_id: [],
         view: 'total_beneficiary',
         municipality_id: [],
+        investment: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -169,6 +172,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         district_id: [],
         view: 'female_beneficiary',
         municipality_id: [],
+        investment: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -181,6 +185,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         district_id: [],
         view: 'allocated_budget',
         municipality_id: [],
+        investment: [],
       },
     );
 
@@ -197,6 +202,131 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
               selectedDataView,
               totalBeneficiary: responseOne.data,
               femaleBeneficiary: responseTwo.data,
+              allocatedBudget: responseThree.data,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
+  // } else {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         status: '',
+  //         partner_id: [0],
+  //         project_id: [0],
+  //         province_id: [0],
+  //         district_id: [],
+  //         view: data,
+  //         municipality_id: [],
+  //       })
+  //       .then(function(result) {
+  //         return dispatch({
+  //           type: GET_MAP_DATA_BY_PROVINCE,
+  //           payload: {
+  //             selectedDataView,
+  //             allocatedBudget: result.data,
+  //           },
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
+};
+export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
+  const data = selectedDataView;
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
+
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: '',
+        partner_id: [0],
+        project_id: [0],
+        province_id: [],
+        district_id: [],
+        view: 'total_beneficiary',
+        municipality_id: [],
+        investment: [
+          'Automation of MFIs',
+          'Channel Innovations',
+          'Digital Financial Services',
+          'Downscaling and Value Chain Financing By Banks',
+          'Increased uptake of microinsurance',
+          'Outreach Expansion',
+          'Product Innovations',
+          'Remittance Based Products',
+          'SME Financing',
+        ],
+      },
+    );
+    // const requestTwo = axiosInstance.post(
+    //   '/api/v1/partnership/partnership-filter/',
+    //   {
+    //     status: '',
+    //     partner_id: [0],
+    //     project_id: [0],
+    //     province_id: [0],
+    //     district_id: [],
+    //     view: 'female_beneficiary',
+    //     municipality_id: [],
+    //     investment: [
+    //       'Automation of MFIs',
+    //       'Channel Innovations',
+    //       'Digital Financial Services',
+    //       'Downscaling and Value Chain Financing By Banks',
+    //       'Increased uptake of microinsurance',
+    //       'Outreach Expansion',
+    //       'Product Innovations',
+    //       'Remittance Based Products',
+    //       'SME Financing',
+    //     ],
+    //   },
+    // );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: '',
+        partner_id: [0],
+        project_id: [0],
+        province_id: [],
+        district_id: [],
+        view: 'allocated_budget',
+        municipality_id: [],
+        investment: [
+          'Automation of MFIs',
+          'Channel Innovations',
+          'Digital Financial Services',
+          'Downscaling and Value Chain Financing By Banks',
+          'Increased uptake of microinsurance',
+          'Outreach Expansion',
+          'Product Innovations',
+          'Remittance Based Products',
+          'SME Financing',
+        ],
+      },
+    );
+
+    axios
+      .all([requestOne, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseThree = responses[1];
+          return dispatch({
+            type: GET_BARDATA_BY_INVESTMENTFOCUS,
+            payload: {
+              selectedDataView,
+              totalBeneficiary: responseOne.data,
+              // femaleBeneficiary: responseTwo.d0ata,
               allocatedBudget: responseThree.data,
             },
           });
@@ -429,7 +559,7 @@ export const filterRadialData = (
   const projectStatusFilter =
     selectedProjectStatus.length > 0
       ? `status=${selectedProjectStatus}`
-      : '';
+      : [];
   const partnerIdFilter =
     selectedPartnerId.length > 0
       ? `partner_filter=${selectedPartnerId}`
@@ -542,6 +672,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         district_id: provinceIndex,
         view: 'total_beneficiary',
         municipality_id: [],
+        investment: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -554,6 +685,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         district_id: provinceIndex,
         view: 'female_beneficiary',
         municipality_id: [],
+        investment: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -566,6 +698,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         district_id: provinceIndex,
         view: 'allocated_budget',
         municipality_id: [],
+        investment: [],
       },
     );
 
@@ -640,6 +773,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         district_id: [],
         view: 'total_beneficiary',
         municipality_id: districtIndex,
+        investment: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -652,6 +786,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         district_id: [],
         view: 'female_beneficiary',
         municipality_id: districtIndex,
+        investment: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -664,6 +799,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         district_id: [],
         view: 'allocated_budget',
         municipality_id: districtIndex,
+        investment: [],
       },
     );
 
@@ -848,6 +984,7 @@ export const filterFinancialDataWithAllFilters = (
         province_id: [0],
         district_id: [],
         municipality_id: [],
+        investment: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -860,6 +997,7 @@ export const filterFinancialDataWithAllFilters = (
         province_id: [0],
         district_id: [],
         municipality_id: [],
+        investment: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -872,6 +1010,7 @@ export const filterFinancialDataWithAllFilters = (
         province_id: [0],
         district_id: [],
         municipality_id: [],
+        investment: [],
       },
     );
 
@@ -888,6 +1027,135 @@ export const filterFinancialDataWithAllFilters = (
               selectedDataView,
               totalBeneficiary: responseOne.data,
               femaleBeneficiary: responseTwo.data,
+              allocatedBudget: responseThree.data,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
+  // } else if (selectedDataView === 'allocated_budget') {
+  //   try {
+  //     axiosInstance
+  //       .post('/api/v1/partnership/partnership-filter/', {
+  //         view: selectedDataView,
+  //         partner_id: partnerId,
+  //         project_id: projectId,
+  //         status: !statusSelected ? '' : statusSelected,
+  //         province_id: [0],
+  //         district_id: [],
+  //         municipality_id: [],
+  //       })
+  //       .then(function(result) {
+  //         return dispatch({
+  //           type: GET_MAP_DATA_BY_PROVINCE,
+  //           payload: {
+  //             selectedDataView,
+  //             allocatedBudget: result.data,
+  //           },
+  //         });
+  //       });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
+};
+export const filterBarDataByInvestment = (
+  selectedFederalTypes,
+  selectedDataView,
+  selectedPartnerId,
+  selectedProjectId,
+  selectedStatus,
+  selectedInvestment,
+) => dispatch => {
+  // console.log(selectedFederalTypes, 'selectedFederalTypes');
+  // console.log(selectedDataView, 'selectedDataView');
+  // console.log(selectedPartnerId, 'selectedPartnerId');
+  // console.log(selectedProjectId, 'selectedProjectId');
+  console.log(selectedStatus, 'selectedStatus');
+  // debugger;
+  let partnerId = [];
+  let projectId = [];
+  let investmentFocus = [];
+  let statusSelected = '';
+  const data = selectedDataView;
+  if (selectedPartnerId.length === 0) {
+    partnerId = [0];
+  } else {
+    partnerId = selectedPartnerId;
+  }
+  if (selectedProjectId.length === 0) {
+    projectId = [0];
+  } else {
+    projectId = selectedProjectId;
+  }
+  if (selectedInvestment.length === 0) {
+    investmentFocus = [
+      'Automation of MFIs',
+      'Channel Innovations',
+      'Digital Financial Services',
+      'Downscaling and Value Chain Financing By Banks',
+      'Increased uptake of microinsurance',
+      'Outreach Expansion',
+      'Product Innovations',
+      'Remittance Based Products',
+      'SME Financing',
+    ];
+  } else {
+    investmentFocus = selectedInvestment;
+  }
+  if (selectedStatus === [] || selectedStatus.length > 1) {
+    statusSelected = '';
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    statusSelected = selectedStatus[0];
+  }
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
+
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'total_beneficiary',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: [],
+        municipality_id: [],
+        investment: investmentFocus,
+      },
+    );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: !statusSelected ? '' : statusSelected,
+        view: 'allocated_budget',
+        partner_id: partnerId,
+        project_id: projectId,
+        province_id: [],
+        district_id: [],
+        municipality_id: [],
+        investment: investmentFocus,
+      },
+    );
+
+    axios
+      .all([requestOne, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseThree = responses[1];
+          return dispatch({
+            type: FILTER_BARDATA_BY_INVESTMENTFOCUS,
+            payload: {
+              selectedDataView,
+              totalBeneficiary: responseOne.data,
               allocatedBudget: responseThree.data,
             },
           });
@@ -1071,7 +1339,7 @@ export const filterSpiderChartData = (
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/radar//?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
+        `/api/v1/partnership/radar/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
@@ -1113,8 +1381,10 @@ export const filterSankeyChartData = (
   selectedProjectId,
   selectedPartnerType,
   selectedPartnerId,
+  selectedProjectStatus,
   selectedFederalList,
 ) => dispatch => {
+  console.log(selectedProjectStatus, 'projectStatus');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
       ? `investment_filter=${selectedInvestmentFocus}`
@@ -1130,6 +1400,11 @@ export const filterSankeyChartData = (
   const partnerIdFilter =
     selectedPartnerId.length > 0
       ? `partner_filter=${selectedPartnerId}`
+      : '';
+  const projectStatusFilter =
+    selectedProjectStatus.length > 0 &&
+    selectedProjectStatus.length < 2
+      ? `status=${selectedProjectStatus}`
       : '';
   const federalFilter =
     selectedFederalList &&
@@ -1161,7 +1436,7 @@ export const filterSankeyChartData = (
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/sankey/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
+        `/api/v1/partnership/sankey/?${investmentFilter}&${projectIdFilter}&${projectStatusFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
@@ -1527,6 +1802,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         province_id: province,
         district_id: district,
         municipality_id: municipality,
+        investment: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -1539,6 +1815,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         province_id: province,
         district_id: district,
         municipality_id: municipality,
+        investment: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -1551,6 +1828,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         province_id: province,
         district_id: district,
         municipality_id: municipality,
+        investment: [],
       },
     );
 
@@ -1627,6 +1905,7 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
         district_id: district,
         view: selectedViewDataBy,
         municipality_id: municipality,
+        investment: [],
       })
       .then(function(result) {
         console.log(result.data, 'filteredData');

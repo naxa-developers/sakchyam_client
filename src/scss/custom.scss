@@ -256,10 +256,15 @@
     font-weight: 900;
   }
   .apexcharts-inner .apexcharts-graphical {
-    transform: translate(75.6875, 30) !important;
+    // transform: translate(75.6875, 30) !important;
   }
   .apexcharts-svg .apexcharts-yaxis {
-    transform: translate(50.6875px, 8px);
+    // transform: translate(50.6875px, 8px);
+    // transform: translate(28.6875px, 8px);
+    // transform: translate(34.6875px, 8px);
+    transform: translate(40px, 8px);
+
+    
   }
 }
 .loader {
@@ -368,6 +373,20 @@
     border: 2px solid blue;
   }
 }
+
+.mapboxgl-map {
+  .play-btn {
+    top: 17px;
+    left: 2px;
+    position: absolute;
+    img {
+      &:hover {
+        background-color: #fce495;
+      }
+      border: 2px solid blue;
+    }
+  }
+}
 .pause-btn {
   top: 47px;
   left: 2px;
@@ -377,6 +396,19 @@
       background-color: #fce495;
     }
     border: 2px solid blue;
+  }
+}
+.mapboxgl-map {
+  .pause-btn {
+    top: 17px;
+    left: 2px;
+    position: absolute;
+    img {
+      &:hover {
+        background-color: #fce495;
+      }
+      border: 2px solid blue;
+    }
   }
 }
 // .mapContainer {
