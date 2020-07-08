@@ -1257,8 +1257,8 @@ const filterFinancialDataForGraph = (state, action) => {
       series: newPartnerWiseData.series,
       label: newPartnerWiseData.categories,
       // color: newPartnerWiseData.colors,
-      // color: ['#16A085'],
-      color: ['#2b544f'],
+      color: ['#16A085'],
+      // color: ['#2b544f'],
 
       // #900C3F #7F8C8D #8E44AD #AEB6BF
     },
