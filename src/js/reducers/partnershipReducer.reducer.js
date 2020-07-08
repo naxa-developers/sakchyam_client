@@ -1067,7 +1067,7 @@ const filterLeverageDataOnClick = (state, action) => {
   };
 };
 const getPartnershipAllData = (state, action) => {
-  // console.log(action.payload, 'action');
+  console.log(action.payload, 'action');
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,

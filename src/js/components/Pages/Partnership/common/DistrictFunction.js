@@ -12,8 +12,8 @@ export const getCenterBboxDistrict = id => {
           const a = bboxArray.map(datas => {
             return parseFloat(datas);
           });
-          const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
-          // const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
+          // const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
+          const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
           distData.push({
             name: data.name,
             center: [data.centroid_x, data.centroid_y],
@@ -30,8 +30,8 @@ export const getCenterBboxDistrict = id => {
       const a = bboxArray.map(datas => {
         return parseFloat(datas);
       });
-      const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
-      // const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
+      // const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
+      const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
       const c = {
         name: data.name,
         center: [data.centroid_x, data.centroid_y],

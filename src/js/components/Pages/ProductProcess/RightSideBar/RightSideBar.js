@@ -54,7 +54,7 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget">
-              <div className="widget-body is-dark">
+              <div className="widget-body">
                 <ul className="widget-list">
                   <li>
                     <div className="widget-content">
