@@ -159,9 +159,7 @@
                                 padding: 1rem 1.2rem;
                                 border-top: 1px solid #e2e2e2;
                                 border-bottom: 1px solid #e2e2e2;
-                                overflow-y: auto;
-                                -webkit-overflow-scrolling: touch;
-                                -ms-overflow-style: -ms-autohiding-scrollbar;
+                                overflow: hidden;
                                 max-height: 170px;
 
                                 @media #{$breakpoint-xxl} {
@@ -172,6 +170,10 @@
                                     padding: .6125rem 0;
                                 }
 
+                               &:hover{
+                                overflow-y: auto;
+                                -webkit-overflow-scrolling: touch;
+                                -ms-overflow-style: -ms-autohiding-scrollbar;
                                 &::-webkit-scrollbar {
                                     width: 6px;
                                     background: $gray-light;
@@ -187,6 +189,7 @@
                                     @include radius(4px);
                                     background: $text-color-hover;
                                 }
+                               }
 
                                 .checklist-header {
                                     .custom-checkbox {
@@ -423,5 +426,14 @@
             }
         }
     }
-
+    .sunburst-wrapper{
+        position: relative;
+        svg.sunbrust-legend{
+            position: absolute;
+            top:50%;
+            transform:translateY(-50%);
+            right: 0;
+            font-size: 13px;
+        }
+    }
 }
