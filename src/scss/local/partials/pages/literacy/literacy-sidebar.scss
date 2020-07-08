@@ -423,5 +423,14 @@
             }
         }
     }
-
+    .sunburst-wrapper{
+        position: relative;
+        svg.sunbrust-legend{
+            position: absolute;
+            top:50%;
+            transform:translateY(-50%);
+            right: 0;
+            font-size: 13px;
+        }
+    }
 }
