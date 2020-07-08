@@ -82,7 +82,7 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget">
-              <div className="widget-body is-dark">
+              <div className="widget-body">
                 <ul className="widget-list">
                   <OutreachTab
                     title="Investment Focus"
