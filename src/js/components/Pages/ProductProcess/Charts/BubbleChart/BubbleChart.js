@@ -41,7 +41,9 @@ class BubbleChart extends React.Component {
             identity="name"
             value="value"
             colors={{ scheme: 'nivo' }}
-            padding={6}
+            padding={20}
+            label="name"
+            // labelSkipRadius="0"
             labelTextColor={{
               from: 'color',
               modifiers: [['darker', 0.8]],

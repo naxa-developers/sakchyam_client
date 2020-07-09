@@ -32,6 +32,32 @@ const getOverviewData = data => {
   };
 };
 
+const generateBarChartData = data => {
+  const marketFailure = [
+    ...new Set(data.map(item => item.market_failure)),
+  ];
+  const product = [...new Set(data.map(item => item.product_name))];
+
+  const arr = [];
+  for (let i = 0; i < marketFailure.length; i += 1) arr.push(0);
+
+  data.forEach(item => {
+    product.forEach(x => {
+      if (item.product_name === x) {
+        const index = marketFailure.findIndex(
+          i => i === item.market_failure,
+        );
+        arr[index] += 1;
+      }
+    });
+  });
+
+  return {
+    series: [{ data: arr }],
+    categories: marketFailure,
+  };
+};
+
 const generateRadarChartData = data => {
   const innovationArea = [
     ...new Set(data.map(item => item.innovation_area)),
@@ -243,6 +269,7 @@ const getProductProcessList = (state, action) => {
   const bubbleChartData = generateBubbleChartData(data);
   const heatMapData = generateHeatMapData(data);
   const radarChartData = generateRadarChartData(data);
+  const barChartData = generateBarChartData(data);
   // GET UNIQUE VALUES FROM API
   const innovationAreaList = [];
   const productCategoryList = [];
@@ -312,6 +339,7 @@ const getProductProcessList = (state, action) => {
     overviewData,
     heatMapData,
     radarChartData,
+    barChartData,
     // productProcessList: action.payload,
   };
 };

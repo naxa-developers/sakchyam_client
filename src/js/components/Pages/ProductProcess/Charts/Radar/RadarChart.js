@@ -28,6 +28,10 @@ class RadarChart extends React.Component {
         },
       ],
       options: {
+        tooltip: {
+          enabled: true,
+          // shared: true,
+        },
         chart: {
           height: 350,
           type: 'radar',

@@ -7,6 +7,7 @@ import { getProductProcessList } from '../../../actions/productProcess.actions';
 import BubbleChart from './Charts/BubbleChart/BubbleChart';
 import HeatmapChart from './Charts/Heatmap/HeatmapChart';
 import RadarChart from './Charts/Radar/RadarChart';
+import BarChart from './Charts/BarChart/BarChart';
 
 class ProductProcess extends React.Component {
   constructor(props) {
@@ -194,11 +195,52 @@ class ProductProcess extends React.Component {
                           </div>
                         </div>
                       </div>
-                      {/* <div className="col-xl-6">
-                        <div className="card" id="">
-                          <RadarChart />
+                      <div className="col-xl-6">
+                        <div className="card" id="chart-donut">
+                          <div className="card-header">
+                            <h5>Bar Chart</h5>
+                            <div className="header-icons">
+                              <span
+                                className=""
+                                onClick={() => {
+                                  this.downloadPng('donut-chart');
+                                }}
+                                onKeyDown={() => {
+                                  this.downloadPng('donut-chart');
+                                }}
+                                role="tab"
+                                tabIndex="0"
+                              >
+                                {/* <img src={DownloadIcon} alt="open" /> */}
+                              </span>
+                              <span
+                                className=""
+                                role="tab"
+                                tabIndex="0"
+                                onClick={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal(
+                                    'donut',
+                                    'Ratio of Microfinance and Commercial',
+                                  );
+                                }}
+                                onKeyDown={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal(
+                                    'donut',
+                                    'Ratio of Microfinance and Commercial',
+                                  );
+                                }}
+                              >
+                                {/* <img src={ExpandIcon} alt="open" /> */}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="card-body">
+                            <BarChart />
+                          </div>
                         </div>
-                      </div> */}
+                      </div>
                     </div>
 
                     <div className="card" ref={this.sankeyRef}>
