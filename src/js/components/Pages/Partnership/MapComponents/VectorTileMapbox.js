@@ -1,16 +1,19 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
+import * as d3 from 'd3';
+import powerplants from '../../../../../data/testcircledata.json';
 import province from '../../../../../data/province.json';
 import district from '../../../../../data/district.json';
 import municipality from '../../../../../data/municipality.json';
-
 import {
   calculateRange,
   choroplethColorArray,
 } from '../../../common/Functions';
 import TimelineChart from './TimelineChart';
 import { getCenterBboxProvince } from '../common/ProvinceFunction';
+import MarkerPieChart from '../Charts/MarkerPieChart/MarkerPieChart';
 
 function CaculateCount(date, finalData, api) {
   const startDate = date[0];
@@ -110,6 +113,8 @@ municipality.map(data => {
       name: data.lu_name,
       id: data.gid,
       code: data.munid,
+      allocated_beneficiary: 0,
+      allocated_budget: 0,
     },
   });
 });
@@ -117,6 +122,7 @@ let timelineKey = 1;
 // console.log(fullGeojsonProvince, 'province');
 // console.log(fullGeojsonDistrict, 'district');
 // console.log(fullGeojsonMunicipality, 'municipality');
+
 class Choropleth extends Component {
   constructor(props) {
     super(props);
@@ -128,6 +134,7 @@ class Choropleth extends Component {
       maxValue: '2020-01-01',
       key: 1,
       playClick: false,
+      circleMarkerRadius: null,
     };
   }
 
@@ -246,11 +253,85 @@ class Choropleth extends Component {
     // console.log(this.state.finalStyle,"finalstyl")
   }
 
+  setCircleMarkerRadius(values, viewdataBy) {
+    // console.log(values, 'values');
+    // const expression = ['match', ['get', 'code']];
+    values.forEach(value => {
+      // console.log(value.properties, 'prop');
+      // console.log(
+      //   value.properties.allocated_beneficiary,
+      //   'all benef',
+      // );
+      // console.log(value, 'Circleradius FUnction');
+      const color = this.getLegendColor(
+        value.properties.allocated_beneficiary,
+      );
+      // expression.push(value.properties.id.toString(), color);
+    });
+    // eslint-disable-next-line prefer-spread
+    const maxValue = Math.max.apply(
+      Math,
+      values.map(function(o) {
+        return viewdataBy === 'allocated_beneficiary'
+          ? o.properties.allocated_beneficiary
+          : o.properties.allocated_budget;
+      }),
+    );
+    // eslint-disable-next-line prefer-spread
+    const minValue = Math.min.apply(
+      Math,
+      values.map(function(o) {
+        return viewdataBy === 'allocated_beneficiary'
+          ? o.properties.allocated_beneficiary
+          : o.properties.allocated_budget;
+      }),
+    );
+    // console.log(maxValue, 'maxValue');
+    // console.log(minValue, 'minValue');
+    // New Value=(( Old Value - Old minimum value) / (old maximum value - old minimum value))*(New maximum value- New minimum Value) + New minimum value
+    const a = values.map(data => {
+      return {
+        ...data,
+        properties: {
+          ...data.properties,
+          radiusRange:
+            ((viewdataBy === 'allocated_beneficiary'
+              ? data.properties.allocated_beneficiary
+              : data.properties.allocated_budget - minValue) /
+              (maxValue - minValue)) *
+              (30 - 10) +
+            10,
+        },
+      };
+    });
+    console.log(a);
+    return a;
+    // console.log(a);
+    // const data = this.props.choroplethData;
+    // const maxValue = this.props.maxValue;
+    // // Calculate color for each state based on the unemployment rate
+    // data.forEach(function(row) {
+    //     console.log(row);
+    //     var red = "";
+    //     var green = "";
+    //     var blue = "";
+    //     green = (row['count'] / maxValue) * 255;
+    //     var color = 'rgba(' + green + ', ' + 0 + ', ' + 0 + ', 1)';
+    //     expression.push(row['code'], color);
+    // });
+
+    // Last value is the default, used where there is no data
+    // expression.push('rgba(0,0,0,0)');
+    // console.log(expression, 'exp');
+    // this.setState({ circleMarkerRadius: expression });
+    // console.log(this.state.finalStyle,"finalstyl")
+  }
+
   plotVectorTile = () => {
     const { map } = this.props;
     const that = this;
     // console.log(this.state.finalStyle, "this finalstyle")
-    const hoveredStateId = null;
+    let hoveredStateId = null;
     map.on('load', function() {
       // Add Mapillary sequence layer.
       // https://www.mapillary.com/developer/tiles-documentation/#sequence-layer
@@ -289,11 +370,18 @@ class Choropleth extends Component {
           'line-width': [
             'case',
             ['boolean', ['feature-state', 'hover'], false],
-            5,
+            2,
             1,
           ],
         },
       });
+      // filters for classifying earthquakes into five categories based on magnitude
+     
+      // console.log(fullGeojsonProvince, 'fullgeojsonpro');
+      // console.log(powerplants, 'powerplants');
+      // PieChart in Marker Start
+
+      // PieChart in Marker End
 
       // fullGeojsonProvince.features.forEach((item, index) => {
       //   this.props.choroplethData.forEach(p => {
@@ -438,7 +526,11 @@ class Choropleth extends Component {
                   <div class="map-popup-view-header">
                       <h5>${e.features[0].properties.name}</h5>
                       <div class="icons">
-                      <i class="material-icons">tablet_mac</i><b>${e.features[0].properties.count}</b>
+                      <i class="material-icons">tablet_mac</i><b>${
+                        e.features[0].properties[
+                          that.props.mapViewDataBy
+                        ]
+                      }</b>
                       </div>
                   </div>
                   <div class="map-view-footer">
@@ -447,214 +539,46 @@ class Choropleth extends Component {
                   </div>`,
           )
           .addTo(map);
-        // console.log(e.features[0],'e');
-        // e.features[0].id = e.features[0].properties.id;
-        // console.log(e.features[0], "feature code")
-        // console.log(that.props.automationReducer.automationAllDataByPartner,'allData');
-        // const {
-        //   automationAllDataByPartner,
-        // } = that.props.automationReducer;
-        // const { activeClickPartners, dataTypeLevel } = that.props;
-        // // console.log(e.layer);
-        // const b = [];
-        // const c = [];
-        // const v = [];
-        // if (dataTypeLevel === 'municipality') {
-        //   if (activeClickPartners.length > 0) {
-        //     activeClickPartners.map(x => {
-        //       // console.log(x,'x1st');
-        //       that.props.automationReducer.automationTableData.filter(
-        //         data => {
-        //           if (
-        //             data.partner_id === x &&
-        //             data.municipality_code ===
-        //               parseInt(e.features[0].properties.code, 10)
-        //           ) {
-        //             b.push(data);
-        //           }
-        //           return true;
-        //         },
-        //       );
-        //       return true;
-        //     });
-        //     // console.log(b,'b');
-        //   } else {
-        //     that.props.automationReducer.automationTableData.map(
-        //       data => {
-        //         if (
-        //           data.municipality_code ===
-        //           parseInt(e.features[0].properties.code, 10)
-        //         ) {
-        //           b.push({
-        //             partner_id: data.partner_id,
-        //             tablets: data.tablets,
-        //           });
-        //         }
-        //         return true;
-        //       },
-        //     );
-        //   }
-        // } else if (dataTypeLevel === 'district') {
-        //   if (activeClickPartners.length > 0) {
-        //     activeClickPartners.map(x => {
-        //       that.props.automationReducer.automationTableData.filter(
-        //         data => {
-        //           if (
-        //             data.partner_id === x &&
-        //             data.district_code ===
-        //               parseInt(e.features[0].properties.code, 10)
-        //           ) {
-        //             b.push(data);
-        //           }
-        //           return true;
-        //         },
-        //       );
-        //       return true;
-        //     });
-        //     // console.log(b,'b');
-        //   } else {
-        //     that.props.automationReducer.automationTableData.map(
-        //       data => {
-        //         if (
-        //           data.district_code ===
-        //           parseInt(e.features[0].properties.code, 10)
-        //         ) {
-        //           b.push({
-        //             partner_id: data.partner_id,
-        //             tablets: data.tablets,
-        //           });
-        //         }
-        //         return true;
-        //       },
-        //     );
-        //   }
-        // } else if (dataTypeLevel === 'province') {
-        //   if (activeClickPartners.length > 0) {
-        //     activeClickPartners.map(x => {
-        //       that.props.automationReducer.automationTableData.filter(
-        //         data => {
-        //           if (
-        //             data.partner_id === x &&
-        //             data.province_code ===
-        //               parseInt(e.features[0].properties.code, 10)
-        //           ) {
-        //             b.push(data);
-        //           }
-        //           return true;
-        //         },
-        //       );
-        //       return true;
-        //     });
-        //     // console.log(b,'b');
-        //   } else {
-        //     that.props.automationReducer.automationTableData.map(
-        //       data => {
-        //         if (
-        //           data.province_code ===
-        //           parseInt(e.features[0].properties.code, 10)
-        //         ) {
-        //           b.push({
-        //             partner_id: data.partner_id,
-        //             tablets: data.tablets,
-        //           });
-        //         }
-        //         return true;
-        //       },
-        //     );
-        //   }
-        // }
-        // // console.log(b,'beforefilter');
-        // b.map(data => {
-        //   // eslint-disable-next-line no-unused-expressions
-        //   automationAllDataByPartner[0] &&
-        //     automationAllDataByPartner[0].partner_data.filter(
-        //       // eslint-disable-next-line array-callback-return
-        //       function(x) {
-        //         // console.log(data,'data');
-        //         // console.log(e,'e');
-        //         if (x.partner_id === data.partner_id) {
-        //           // eslint-disable-next-line no-param-reassign
-        //           x.single_tablets = data.tablets;
-        //           c.push(x);
-        //         }
-        //       },
-        //     );
-        //   return true;
-        // });
-        // // var result =
-        // // console.log(c)
-        // let totalTablets = 0;
-        // const popupHtml =
-        //   c &&
-        //   c.map(data => {
-        //     totalTablets += data.single_tablets;
-        //     return `<li>
-        //                 <div class="organization-icon"><span></span></div>
-        //                     <div class="organization-content">
-        //                         <div class="org-header">
-        //                             <h5>${data.partner_name}</h5>
-        //                                 <div class="icon-list">
-        //                                         <div class="icons"><i class="material-icons">tablet_mac</i><b>${data.single_tablets}</b></div>
-        //                                     </div>
-        //                                 </div>
-        //                                 </div>
-        //                                 </li>`;
-        //   });
-        // map.getCanvas().style.cursor = 'pointer';
-        // if (e.features.length > 0) {
-        //   if (hoveredStateId) {
-        //     map.setFeatureState(
-        //       {
-        //         source: 'municipality',
-        //         sourceLayer: 'default',
-        //         id: hoveredStateId,
-        //       },
-        //       { hover: false },
-        //     );
-        //     const colorCheck =
-        //       e.features[0].layer.paint['fill-color'];
-        //     const checkChoropleth =
-        //       JSON.stringify(colorCheck) ===
-        //       '{"r":0,"g":0,"b":0,"a":0}';
-        //     // console.log(that.props.activeOutreachButton,'check')
-        //     // console.log(c.length >0,'check1')
-        //     if (that.props.activeOutreachButton && c.length > 0) {
-        //       popup
-        //         .setLngLat(e.lngLat)
-        //         .setHTML(
-        //           `<div class="leaflet-popup-content" style="width: 281px;">
-        //   <div class="map-popup-view">
-        //       <div class="map-popup-view-header">
-        //           <h5>${e.features[0].properties.name}</h5>
-        //           <div class="icons">
-        //           <i class="material-icons">tablet_mac</i><b>${totalTablets}</b>
-        //           </div>
-        //       </div>
-        //       <ul style="height:112px;overflow-y: scroll">
-        //       ${popupHtml}
-        //       </ul>
-        //       <div class="map-view-footer">
-        //       </div>
-        //           </div>
-        //       </div>`,
-        //         )
-        //         .addTo(map);
-        //     }
-        //     hoveredStateId = e.features[0].id;
-        //     // console.log(hoveredStateId, "hoverstateid")
-        //     map.setFeatureState(
-        //       {
-        //         source: 'municipality',
-        //         sourceLayer: 'default',
-        //         id: hoveredStateId,
-        //       },
-        //       { hover: false },
-        //     );
-        //   }
-        // }
-        // Popup On Hover
+      });
+      map.on('mousemove', 'vector-tile-fill', function(e) {
+        if (e.features.length > 0) {
+          if (hoveredStateId) {
+            map.setFeatureState(
+              {
+                source: 'municipality',
+                sourceLayer: 'default',
+                id: hoveredStateId,
+              },
+              { hover: false },
+            );
+          }
+          hoveredStateId = e.features[0].id;
+          map.setFeatureState(
+            {
+              source: 'municipality',
+              sourceLayer: 'default',
+              id: hoveredStateId,
+            },
+            { hover: true },
+          );
+        }
       });
 
+      // When the mouse leaves the state-fill layer, update the feature state of the
+      // previously hovered feature.
+      map.on('mouseleave', 'vector-tile-fill', function() {
+        if (hoveredStateId) {
+          map.setFeatureState(
+            {
+              source: 'municipality',
+              sourceLayer: 'default',
+              id: hoveredStateId,
+            },
+            { hover: false },
+          );
+        }
+        hoveredStateId = null;
+      });
       map.on('mouseleave', 'vector-tile-fill', function() {
         // if (hoveredStateId) {
         // map.setFeatureState(
@@ -665,7 +589,182 @@ class Choropleth extends Component {
         // hoveredStateId = null;
         popup.remove();
       });
+      fullGeojsonProvince.features.forEach((item, index) => {
+        that.props.circleMarkerData.forEach(p => {
+          if (p.code === item.properties.code) {
+            fullGeojsonProvince.features[index].properties = {
+              ...item.properties,
+              ...p,
+            };
+          }
+        });
+      });
+      fullGeojsonProvince.features.forEach(data=>{
+        console.log(data,'data');
+        const testElMain = document.createElement('div');
+        testElMain.className = 'marker';
+        testElMain.innerHTML='<svg width="100" height="100" viewBox="0 0 100 100" text-anchor="middle" style="font: 22px sans-serif; display: block"><path d="M 50 20 L 50 0 A 50 50 0 1 1 0.005684784409183408 50.75395366180185 L 20.00341087064551 50.45237219708111 A 30 30 0 1 0 50 20 " fill="#fed976"></path><path d="M 20.00341087064551 50.45237219708111 L 0.005684784409183408 50.75395366180185 A 50 50 0 0 1 34.728529581887344 2.3892639075102053 L 40.8371177491324 21.433558344506125 A 30 30 0 0 0 20.00341087064551 50.45237219708111 " fill="#feb24c"></path><path d="M 40.8371177491324 21.433558344506125 L 34.728529581887344 2.3892639075102053 A 50 50 0 0 1 47.61329688057537 0.05699600324657439 L 48.567978128345224 20.034197601947945 A 30 30 0 0 0 40.8371177491324 21.433558344506125 " fill="#fd8d3c"></path><path d="M 48.567978128345224 20.034197601947945 L 47.61329688057537 0.05699600324657439 A 50 50 0 0 1 49.68584280172206 0.0009869571931417909 L 49.81150568103324 20.000592174315887 A 30 30 0 0 0 48.567978128345224 20.034197601947945 " fill="#fc4e2a"></path><path d="M 49.81150568103324 20.000592174315887 L 49.68584280172206 0.0009869571931417909 A 50 50 0 0 1 49.99999999999999 0 L 49.99999999999999 20 A 30 30 0 0 0 49.81150568103324 20.000592174315887 " fill="#e31a1c"></path><circle cx="50" cy="50" r="30" fill="white"></circle><text dominant-baseline="central" transform="translate(50, 50)"></text></svg>'
+        global.marker=new mapboxgl.Marker(testElMain)
+        .setLngLat(data.geometry.coordinates)
+        .addTo(map);
+      })
+      // global.marker.remove();
+      const withRadius = that.setCircleMarkerRadius(
+        fullGeojsonProvince.features,
+        that.props.mapViewDataBy,
+      );
+      fullGeojsonProvince.features = withRadius;
+      // console.log(fullGeojsonProvince, 'outputProvince');
+
+      // if (map.getSource('fullGeojsonProvince')) {
+      //   map
+      //     .getSource('fullGeojsonProvince')
+      //     .setData(fullGeojsonProvince);
+      // } else {
+      //   map.addSource('fullGeojsonProvince', {
+      //     type: 'geojson',
+      //     data: fullGeojsonProvince,
+      //   });
+      //   map.addLayer({
+      //     id: 'circles1',
+      //     source: 'fullGeojsonProvince',
+      //     type: 'circle',
+      //     // 'source-layer': 'default',
+      //     paint: {
+      //       'circle-radius': ['get', 'radiusRange'],
+      //       // 'circle-radius': 20,
+      //       'circle-color': '#FFE300',
+      //       'circle-opacity': 0.5,
+      //       'circle-stroke-width': 0,
+      //     },
+      //     // filter: ['==', 'modelId', 1],
+      //   });
+
+        // map.addLayer({
+        //   id: 'singles-count',
+        //   type: 'symbol',
+        //   source: 'fullGeojsonProvince',
+        //   // filter: ["has", "singles_count"],
+        //   layout: {
+        //     'text-field': ['get', 'allocated_beneficiary'],
+        //     'text-allow-overlap': true,
+        //     'text-font': [
+        //       'DIN Offc Pro Medium',
+        //       'Arial Unicode MS Bold',
+        //     ],
+        //     'text-size': 12,
+        //     'text-ignore-placement': true,
+        //   },
+        //   paint: {
+        //     'text-color': '#000000',
+        //     'text-halo-color': 'rgba(255,255,255,0.95)',
+        //     'text-halo-width': 1.5,
+        //     'text-halo-blur': 1,
+        //   },
+        // });
+      // }
     });
+    function createDonutChart(props) {
+      var offsets = [];
+      var counts = [
+      props.mag1,
+      props.mag2,
+      props.mag3,
+      props.mag4,
+      props.mag5
+      ];
+      var total = 0;
+      for (var i = 0; i < counts.length; i++) {
+      offsets.push(total);
+      total += counts[i];
+      }
+      var fontSize =
+      total >= 1000 ? 22 : total >= 100 ? 20 : total >= 10 ? 18 : 16;
+      var r = total >= 1000 ? 50 : total >= 100 ? 32 : total >= 10 ? 24 : 18;
+      var r0 = Math.round(r * 0.6);
+      var w = r * 2;
+       
+      var html =
+      '<div><svg width="' +
+      w +
+      '" height="' +
+      w +
+      '" viewbox="0 0 ' +
+      w +
+      ' ' +
+      w +
+      '" text-anchor="middle" style="font: ' +
+      fontSize +
+      'px sans-serif; display: block">';
+       
+      for (i = 0; i < counts.length; i++) {
+      html += donutSegment(
+      offsets[i] / total,
+      (offsets[i] + counts[i]) / total,
+      r,
+      r0,
+      colors[i]
+      );
+      }
+      html +=
+      '<circle cx="' +
+      r +
+      '" cy="' +
+      r +
+      '" r="' +
+      r0 +
+      '" fill="white" /><text dominant-baseline="central" transform="translate(' +
+      r +
+      ', ' +
+      r +
+      ')">' +
+      total.toLocaleString() +
+      '</text></svg></div>';
+       
+      var el = document.createElement('div');
+      el.innerHTML = html;
+      return el.firstChild;
+      }
+       
+      function donutSegment(start, end, r, r0, color) {
+      if (end - start === 1) end -= 0.00001;
+      var a0 = 2 * Math.PI * (start - 0.25);
+      var a1 = 2 * Math.PI * (end - 0.25);
+      var x0 = Math.cos(a0),
+      y0 = Math.sin(a0);
+      var x1 = Math.cos(a1),
+      y1 = Math.sin(a1);
+      var largeArc = end - start > 0.5 ? 1 : 0;
+       
+      return [
+      '<path d="M',
+      r + r0 * x0,
+      r + r0 * y0,
+      'L',
+      r + r * x0,
+      r + r * y0,
+      'A',
+      r,
+      r,
+      0,
+      largeArc,
+      1,
+      r + r * x1,
+      r + r * y1,
+      'L',
+      r + r0 * x1,
+      r + r0 * y1,
+      'A',
+      r0,
+      r0,
+      0,
+      largeArc,
+      0,
+      r + r0 * x0,
+      r + r0 * y0,
+      '" fill="' + color + '" />'
+      ].join(' ');
+      }
     // console.log(document.getElementById('vector-tile-fill'), 'vctor');
     // map.addControl(new mapboxgl.NavigationControl());
   };
@@ -722,8 +821,50 @@ class Choropleth extends Component {
     //   console.log(provincedata, 'finalData');
     //   // console.log(provincedata, 'provincedata');
     // }
+
+    // if ( prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
+    //  if(this.props.mapViewDataBy === 'investment_focus'){
+     
+    //     fullGeojsonProvince.features.forEach((item, index) => {
+    //       this.props.circleMarkerData.forEach(p => {
+    //         if (p.code === item.properties.code) {
+    //           fullGeojsonProvince.features[index].properties = {
+    //             ...item.properties,
+    //             ...p,
+    //           };
+    //         }
+    //       });
+    //     });
+    //     const withRadius = this.setCircleMarkerRadius(
+    //       fullGeojsonProvince.features,
+    //       this.props.mapViewDataBy,
+    //     );
+    //     fullGeojsonProvince.features = withRadius;
+    //     fullGeojsonProvince.features.forEach(data=>{
+    //       // console.log(data,'data');
+    //       const testElMain = document.createElement('div');
+    //       testElMain.className = 'marker';
+    //       testElMain.innerHTML='<svg width="100" height="100" viewBox="0 0 100 100" text-anchor="middle" style="font: 22px sans-serif; display: block"><path d="M 50 20 L 50 0 A 50 50 0 1 1 0.005684784409183408 50.75395366180185 L 20.00341087064551 50.45237219708111 A 30 30 0 1 0 50 20 " fill="#fed976"></path><path d="M 20.00341087064551 50.45237219708111 L 0.005684784409183408 50.75395366180185 A 50 50 0 0 1 34.728529581887344 2.3892639075102053 L 40.8371177491324 21.433558344506125 A 30 30 0 0 0 20.00341087064551 50.45237219708111 " fill="#feb24c"></path><path d="M 40.8371177491324 21.433558344506125 L 34.728529581887344 2.3892639075102053 A 50 50 0 0 1 47.61329688057537 0.05699600324657439 L 48.567978128345224 20.034197601947945 A 30 30 0 0 0 40.8371177491324 21.433558344506125 " fill="#fd8d3c"></path><path d="M 48.567978128345224 20.034197601947945 L 47.61329688057537 0.05699600324657439 A 50 50 0 0 1 49.68584280172206 0.0009869571931417909 L 49.81150568103324 20.000592174315887 A 30 30 0 0 0 48.567978128345224 20.034197601947945 " fill="#fc4e2a"></path><path d="M 49.81150568103324 20.000592174315887 L 49.68584280172206 0.0009869571931417909 A 50 50 0 0 1 49.99999999999999 0 L 49.99999999999999 20 A 30 30 0 0 0 49.81150568103324 20.000592174315887 " fill="#e31a1c"></path><circle cx="50" cy="50" r="30" fill="white"></circle><text dominant-baseline="central" transform="translate(50, 50)">5,000</text></svg>'
+    //       var marker = new mapboxgl.Marker(testElMain)
+    //       .setLngLat(data.geometry.coordinates)
+    //       .addTo(map);
+    //     });
+        
+    //     // this.setCircleMarkerRadius(fullGeojsonProvince.features);
+    //     // if (map.getSource('fullGeojsonProvince')) {
+          
+    //     // } else {
+          
+    //     // }
+      
+      
+    //   // if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
+     
+    //  }
+    // } 
     if (prevProps.circleMarkerData !== this.props.circleMarkerData) {
-      // console.log(this.props.circleMarkerData, 'circlemarker ');
+      // if(this.props.mapViewDataBy === )
+      console.log(this.props.circleMarkerData, 'circlemarker ');
       if (this.props.mapViewBy === 'district') {
         // alert('district');
         // map.removeLayer('fullGeojsonProvince');
@@ -740,6 +881,13 @@ class Choropleth extends Component {
             }
           });
         });
+        const withRadius = this.setCircleMarkerRadius(
+          fullGeojsonDistrict.features,
+          this.props.mapViewDataBy,
+        );
+        fullGeojsonDistrict.features = withRadius;
+
+        // this.setCircleMarkerRadius(fullGeojsonMunicipality.features);
         map
           .getSource('fullGeojsonProvince')
           .setData(fullGeojsonDistrict);
@@ -795,6 +943,12 @@ class Choropleth extends Component {
             }
           });
         });
+        const withRadius = this.setCircleMarkerRadius(
+          fullGeojsonMunicipality.features,
+          this.props.mapViewDataBy,
+        );
+        fullGeojsonMunicipality.features = withRadius;
+        // this.setCircleMarkerRadius(fullGeojsonDistrict.features);
         // console.log(fullGeojsonMunicipality, 'fullgeojson');
         if (map.getSource('fullGeojsonProvince')) {
           map
@@ -841,6 +995,46 @@ class Choropleth extends Component {
         //   },
         // });
       } else {
+        console.log(this.props.mapViewDataBy,'mapView')
+        if(this.props.mapViewDataBy === "investment_focus"){
+             map.removeLayer('fullGeojsonProvince');
+            map.removeSource('fullGeojsonProvince');
+          fullGeojsonProvince.features.forEach((item, index) => {
+            this.props.circleMarkerData.forEach(p => {
+              if (p.code === item.properties.code) {
+                fullGeojsonProvince.features[index].properties = {
+                  ...item.properties,
+                  ...p,
+                };
+              }
+            });
+          });
+          // const withRadius = this.setCircleMarkerRadius(
+          //   fullGeojsonProvince.features,
+          //   this.props.mapViewDataBy,
+          // );
+          fullGeojsonProvince.features = withRadius;
+          fullGeojsonProvince.features.forEach(data=>{
+            console.log(data,'data');
+            const testElMain = document.createElement('div');
+            testElMain.className = 'marker';
+            testElMain.innerHTML='<svg width="100" height="100" viewBox="0 0 100 100" text-anchor="middle" style="font: 22px sans-serif; display: block"><path d="M 50 20 L 50 0 A 50 50 0 1 1 0.005684784409183408 50.75395366180185 L 20.00341087064551 50.45237219708111 A 30 30 0 1 0 50 20 " fill="#fed976"></path><path d="M 20.00341087064551 50.45237219708111 L 0.005684784409183408 50.75395366180185 A 50 50 0 0 1 34.728529581887344 2.3892639075102053 L 40.8371177491324 21.433558344506125 A 30 30 0 0 0 20.00341087064551 50.45237219708111 " fill="#feb24c"></path><path d="M 40.8371177491324 21.433558344506125 L 34.728529581887344 2.3892639075102053 A 50 50 0 0 1 47.61329688057537 0.05699600324657439 L 48.567978128345224 20.034197601947945 A 30 30 0 0 0 40.8371177491324 21.433558344506125 " fill="#fd8d3c"></path><path d="M 48.567978128345224 20.034197601947945 L 47.61329688057537 0.05699600324657439 A 50 50 0 0 1 49.68584280172206 0.0009869571931417909 L 49.81150568103324 20.000592174315887 A 30 30 0 0 0 48.567978128345224 20.034197601947945 " fill="#fc4e2a"></path><path d="M 49.81150568103324 20.000592174315887 L 49.68584280172206 0.0009869571931417909 A 50 50 0 0 1 49.99999999999999 0 L 49.99999999999999 20 A 30 30 0 0 0 49.81150568103324 20.000592174315887 " fill="#e31a1c"></path><circle cx="50" cy="50" r="30" fill="white"></circle><text dominant-baseline="central" transform="translate(50, 50)">5,000</text></svg>'
+            new mapboxgl.Marker(testElMain)
+            .setLngLat(data.geometry.coordinates)
+            .addTo(map);
+          });
+          
+          // this.setCircleMarkerRadius(fullGeojsonProvince.features);
+          // if (map.getSource('fullGeojsonProvince')) {
+            
+          // } else {
+            
+          // }
+        
+        
+        // if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
+       
+       }else{
         // map.removeLayer('fullGeojson');
         // map.removeSource('fullGeojson');
         fullGeojsonProvince.features.forEach((item, index) => {
@@ -853,6 +1047,13 @@ class Choropleth extends Component {
             }
           });
         });
+        const withRadius = this.setCircleMarkerRadius(
+          fullGeojsonProvince.features,
+          this.props.mapViewDataBy,
+        );
+        fullGeojsonProvince.features = withRadius;
+
+        // this.setCircleMarkerRadius(fullGeojsonProvince.features);
         if (map.getSource('fullGeojsonProvince')) {
           map
             .getSource('fullGeojsonProvince')
@@ -868,37 +1069,23 @@ class Choropleth extends Component {
             type: 'circle',
             // 'source-layer': 'default',
             paint: {
-              'circle-radius': ['get', 'count'],
-              'circle-color': '#007cbf',
+              'circle-radius': ['get', 'radiusRange'],
+              // 'circle-radius': 20,
+              'circle-color': '#FFE300',
               'circle-opacity': 0.5,
               'circle-stroke-width': 0,
             },
             // filter: ['==', 'modelId', 1],
           });
-          map.addLayer({
-            id: 'singles-count',
-            type: 'symbol',
-            source: 'fullGeojsonProvince',
-            // filter: ["has", "singles_count"],
-            layout: {
-              'text-field': ['get', 'count'],
-              'text-allow-overlap': true,
-              'text-font': [
-                'DIN Offc Pro Medium',
-                'Arial Unicode MS Bold',
-              ],
-              'text-size': 12,
-              'text-ignore-placement': true,
-            },
-            paint: {
-              'text-color': '#000000',
-              'text-halo-color': 'rgba(255,255,255,0.95)',
-              'text-halo-width': 1.5,
-              'text-halo-blur': 1,
-            },
-          });
         }
       }
+    }
+      // if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
+      map.setLayoutProperty('singles-count', 'text-field', [
+        'get',
+        `${this.props.mapViewDataBy}`,
+      ]);
+      // }
     }
     if (prevProps.choroplethData !== this.props.choroplethData) {
       // map.addLayer({
@@ -1026,6 +1213,7 @@ class Choropleth extends Component {
       maxValue,
       key,
       playClick,
+      circleMarkerRadius,
     } = this.state;
     return (
       <>
@@ -1136,6 +1324,7 @@ class Choropleth extends Component {
             </div>
           </div> */}
         </div>
+        <label>End Date: 2015-01-01</label>
         <TimelineChart
           minValue={minValue}
           maxValue={maxValue}

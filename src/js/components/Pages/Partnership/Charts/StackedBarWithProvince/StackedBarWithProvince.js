@@ -216,12 +216,12 @@ class StackedBarWithProvince extends Component {
         strokeWidth: 3,
       },
       tooltip: {
-        // fixed: {
-        //   enabled: true,
-        //   position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
-        //   offsetY: 30,
-        //   offsetX: 60,
-        // },
+        fixed: {
+          enabled: true,
+          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+          // offsetY: 30,
+          // offsetX: 60,
+        },
       },
       legend: {
         horizontalAlign: 'left',
@@ -535,6 +535,7 @@ class StackedBarWithProvince extends Component {
         offsetX: 40,
       },
     };
+    console.log(barDatas.series, 'bardataxx');
     this.setState({ options, series: barDatas.series });
   };
 

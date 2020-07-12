@@ -101,8 +101,10 @@ class RightSideBar extends Component {
                   : {
                       opacity: 1,
                       pointerEvents: 'auto',
+                      cursor: 'pointer',
                     }
               }
+              // style={{ cursor: 'pointer' }}
               onClick={toggleTableViewButton}
               onKeyDown={toggleTableViewButton}
               role="tab"
@@ -113,7 +115,7 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget">
-              <div className="widget-body is-dark">
+              <div className="widget-body">
                 <ul className="widget-list is-clear">
                   <li>
                     <div className="widget-content">

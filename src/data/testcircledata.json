@@ -1,0 +1,6432 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Afghanistan",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          65.119,
+          32.322
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Afghanistan",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          69.4787,
+          34.556
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Afghanistan",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          69.717,
+          34.641
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Afghanistan",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          70.3633,
+          34.4847
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Afghanistan",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          69.1134,
+          34.5638
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Afghanistan",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          68.71,
+          35.9416
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Afghanistan",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          69.7757,
+          34.5865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Albania",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.1047,
+          39.9116
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Albania",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.0431,
+          42.2514
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Albania",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.8224,
+          42.1033
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Albania",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.8964,
+          41.3428
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Albania",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.8305,
+          41.6796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Albania",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.8936,
+          41.6796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Albania",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.6359,
+          42.0137
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Albania",
+        "fuel1": "Other"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.434,
+          40.4874
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0262,
+          35.8665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.7634,
+          36.8924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.1375,
+          36.5988
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.9223,
+          36.5914
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.878,
+          36.596
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.9386,
+          35.5658
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.3619,
+          35.7666
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.0797,
+          36.5767
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.0823,
+          36.7489
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0531,
+          31.6703
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0531,
+          31.6703
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.0517,
+          31.7877
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.9924,
+          31.8065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.2719,
+          36.4739
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.876,
+          36.8139
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.2476,
+          35.8064
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.0778,
+          36.885
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.9848,
+          34.5056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.1924,
+          35.8
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.1924,
+          35.8
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.4804,
+          35.7071
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.6983,
+          36.8509
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.6319,
+          35.7095
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.5407,
+          35.7835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.9296,
+          36.1399
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.9366,
+          36.8789
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.238,
+          32.9475
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.935,
+          36.88
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.2295,
+          35.4608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.3562,
+          35.3396
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.348,
+          33.1319
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Algeria",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.3678,
+          33.1377
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.7319,
+          -12.4706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.7319,
+          -12.4706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.4809,
+          -9.7523
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.4672,
+          -9.7955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2344,
+          -8.8383
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.75,
+          -12.76
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.57,
+          -12.37
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2344,
+          -8.8383
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2344,
+          -8.8383
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2,
+          -5.55
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.0333,
+          -14.7333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1522,
+          -15.1961
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.85,
+          -7.3
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Angola",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15,
+          -15.3333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Antarctica",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          166.6605,
+          -77.847
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Antarctica",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          166.7271,
+          -77.8428
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3556,
+          -38.9368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3556,
+          -38.9368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.9892,
+          -34.5792
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.7489,
+          -40.58
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.4033,
+          -34.8386
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.0218,
+          -38.9524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.0218,
+          -38.9524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Other"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.0218,
+          -38.9524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.0218,
+          -38.9524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Other"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.0218,
+          -38.9524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.9157,
+          -39.2145
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.0516,
+          -33.0452
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.5982,
+          -39.1009
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Nuclear"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.2059,
+          -33.967
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Nuclear"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.2045,
+          -33.9674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.7847,
+          -23.8219
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.4167,
+          -41.1167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.3233,
+          -32.1883
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -53.6469,
+          -26.2545
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.7107,
+          -34.2605
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.4237,
+          -35.0241
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.6205,
+          -27.7534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.3298,
+          -25.2712
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.1109,
+          -33.0291
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.2106,
+          -25.1089
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.9876,
+          -26.0715
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7841,
+          -28.4537
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7872,
+          -28.4773
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7797,
+          -28.4684
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.1908,
+          -38.2143
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.2006,
+          -31.3992
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.2536,
+          -38.7872
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.6048,
+          -38.5127
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9463,
+          -38.062
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.7334,
+          -34.9027
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.7334,
+          -34.9027
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.7811,
+          -31.7112
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.0513,
+          -24.7456
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.0425,
+          -24.6894
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.2655,
+          -27.7528
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.7664,
+          -22.3497
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.3881,
+          -34.7208
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.5438,
+          -34.6268
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.0425,
+          -24.6894
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.791,
+          -32.5778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.9814,
+          -31.5192
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.5069,
+          -29.1578
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Solar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.5402,
+          -31.9881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9427,
+          -38.9121
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -54.0419,
+          -25.6669
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -54.6278,
+          -25.9913
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -54.6278,
+          -25.9913
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.4964,
+          -45.8467
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.8042,
+          -27.4708
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.3393,
+          -34.626
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.7971,
+          -33.0349
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.7538,
+          -30.7636
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.1537,
+          -32.1613
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.2298,
+          -43.0907
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.5753,
+          -38.8706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -54.8625,
+          -27.0922
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.1297,
+          -34.0414
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.8569,
+          -28.4431
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.8569,
+          -28.4431
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2633,
+          -41.1497
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.6864,
+          -32.6103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.4311,
+          -35.1364
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.7683,
+          -34.1636
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7647,
+          -28.4706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.6136,
+          -38.0528
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.9297,
+          -29.8883
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.1939,
+          -27.2369
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.5072,
+          -29.1581
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9414,
+          -38.9133
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.0769,
+          -33.9222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.2672,
+          -32.4767
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.8042,
+          -27.4708
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.3961,
+          -38.6871
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.9557,
+          -34.8597
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.5294,
+          -30.055
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.2094,
+          -26.1764
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.9981,
+          -35.0347
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.2728,
+          -29.1583
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.2247,
+          -26.8666
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.8342,
+          -23.9078
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7275,
+          -28.4733
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.395,
+          -33.2425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.6204,
+          -25.9564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.9161,
+          -34.5708
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.016,
+          -34.9344
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.8325,
+          -29.3811
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.8319,
+          -29.3808
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.2597,
+          -25.1286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.8181,
+          -37.0781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.8181,
+          -37.0781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.6997,
+          -27.0289
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.0869,
+          -40.8421
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.5206,
+          -34.8578
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.0808,
+          -35.1917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.4839,
+          -35.1001
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.8372,
+          -34.3931
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.9,
+          -37.4102
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.8242,
+          -38.2472
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.2361,
+          -36.9439
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.3069,
+          -23.1258
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.4553,
+          -31.7764
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7997,
+          -28.5339
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.5667,
+          -27.3236
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.8758,
+          -35.8336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.8789,
+          -37.0953
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.0756,
+          -25.6786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.166,
+          -26.9955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.5203,
+          -31.2567
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.2406,
+          -35.055
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.0106,
+          -31.8919
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.4114,
+          -26.8156
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.4125,
+          -26.8153
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.6055,
+          -27.4597
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.6206,
+          -34.5252
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.166,
+          -26.9955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.6206,
+          -34.5252
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.0006,
+          -28.2628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.8056,
+          -22.5406
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7878,
+          -28.4289
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.5667,
+          -28.0486
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.166,
+          -26.9955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.9564,
+          -33.7736
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.0106,
+          -31.8919
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.7094,
+          -27.5808
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0881,
+          -39.0872
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.0667,
+          -30.1833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.2059,
+          -31.3934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.933,
+          -34.8902
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.342,
+          -34.6533
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.1929,
+          -26.6156
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.7199,
+          -33.2993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.7483,
+          -39.2577
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.6136,
+          -34.61
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.4762,
+          -25.2323
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Nuclear"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.4422,
+          -32.2316
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7633,
+          -27.6589
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.5321,
+          -30.0102
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.3382,
+          -34.627
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.652,
+          -37.2742
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.4207,
+          -32.1784
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.4815,
+          -43.6996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.63,
+          -43.1288
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.1228,
+          -28.6072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.716,
+          -37.4309
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.9217,
+          -34.0364
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.9219,
+          -33.0449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.2277,
+          -29.1388
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.2277,
+          -29.1388
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.6817,
+          -39.56
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.9918,
+          -40.012
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.3946,
+          -33.2422
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.3341,
+          -27.4252
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.6726,
+          -27.5785
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.038,
+          -38.8367
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.6394,
+          -29.1762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.9206,
+          -34.889
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.8325,
+          -29.3823
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -55.9097,
+          -27.4184
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.0349,
+          -31.8708
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.2203,
+          -24.4438
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.5285,
+          -34.6
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.4452,
+          -31.838
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.4452,
+          -31.838
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.3618,
+          -27.6509
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.6383,
+          -34.6028
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Other"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.981,
+          -33.0551
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Other"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.981,
+          -33.0551
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.981,
+          -33.0551
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.981,
+          -33.0551
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.981,
+          -33.0551
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.981,
+          -33.0551
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.1977,
+          -36.7208
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.546,
+          -38.0495
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.6497,
+          -39.2291
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.2285,
+          -28.0441
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.0793,
+          -29.1808
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.3656,
+          -33.1608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.7108,
+          -38.5785
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.6237,
+          -34.9907
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.6177,
+          -34.9039
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.576,
+          -34.8821
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.5168,
+          -34.833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.2477,
+          -26.2072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.3835,
+          -34.5721
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -55.1245,
+          -27.5019
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.7804,
+          -38.6851
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.1718,
+          -33.3549
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.7524,
+          -28.6684
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.7524,
+          -28.6684
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.6953,
+          -45.7458
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9081,
+          -45.8507
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.2298,
+          -43.0907
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.1734,
+          -43.3522
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.1734,
+          -43.3522
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.0933,
+          -29.7148
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.5145,
+          -45.7934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.6077,
+          -29.34
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9808,
+          -46.8065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9498,
+          -46.7842
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.8314,
+          -31.6651
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.2438,
+          -32.1675
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.8314,
+          -31.6651
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.8344,
+          -31.6662
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7997,
+          -28.5339
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Solar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.6752,
+          -31.3891
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.5399,
+          -31.5129
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.7523,
+          -27.1149
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.1048,
+          -42.7069
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.3788,
+          -34.5754
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.8984,
+          -38.7833
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.5203,
+          -31.2567
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -65.686,
+          -24.983
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.3649,
+          -33.1614
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.7222,
+          -53.7862
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.8861,
+          -27.5225
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.8296,
+          -38.8244
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.6752,
+          -31.3891
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.1119,
+          -31.4391
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.334,
+          -40.1511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.1729,
+          -33.3562
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -54.1102,
+          -26.6253
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.3938,
+          -31.3533
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.9381,
+          -36.2314
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.0722,
+          -28.5497
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.6807,
+          -32.9053
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.2388,
+          -31.463
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.797,
+          -22.5099
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.1435,
+          -33.3655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.7577,
+          -29.2352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.7556,
+          -31.4557
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -54.5687,
+          -25.8766
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.9555,
+          -33.7777
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.9973,
+          -37.2487
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0881,
+          -39.0872
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.7903,
+          -32.5807
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Argentina",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.7397,
+          -27.4827
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Armenia",
+        "fuel1": "Nuclear"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.1498,
+          40.1805
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Armenia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.7479,
+          40.564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Armenia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.4973,
+          40.1152
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Armenia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.7606,
+          40.5078
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Armenia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          46.1306,
+          39.4743
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Armenia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.85,
+          39.6494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Armenia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          46.2578,
+          39.3956
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Armenia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.5038,
+          40.1138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Solar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.5882,
+          -34.9453
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.7977,
+          -35.0641
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.7659,
+          -34.5509
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.0245,
+          -34.5035
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.1828,
+          -38.3861
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.7722,
+          -34.2082
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4031,
+          -16.7162
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.5497,
+          -33.025
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.5639,
+          -37.8429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.8469,
+          -37.5596
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.5258,
+          -34.903
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          148.8696,
+          -34.6058
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.4594,
+          -36.5342
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.0332,
+          -33.9197
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.0531,
+          -34.4318
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.3142,
+          -23.5525
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.6465,
+          -16.8502
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.5321,
+          -41.736
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.9491,
+          -32.3953
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          148.9872,
+          -35.2142
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.903,
+          -41.1429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.6585,
+          -29.9623
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.4669,
+          -34.7337
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.9195,
+          -12.4262
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.2665,
+          -38.1197
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.7848,
+          -18.6816
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.1982,
+          -33.6219
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          148.2463,
+          -35.3986
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.6869,
+          -40.7207
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.1297,
+          -36.5914
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.059,
+          -32.4137
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.228,
+          -36.8055
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.6839,
+          -30.4994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.9053,
+          -27.1109
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.9049,
+          -27.1128
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.3888,
+          -34.4018
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          133.8281,
+          -23.8817
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.9663,
+          -37.6878
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Biomass"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          153.4335,
+          -29.0118
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.4203,
+          -31.9863
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Solar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.3915,
+          -31.9867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.8319,
+          -37.818
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          122.2046,
+          -17.981
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.4741,
+          -36.5951
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          153.0663,
+          -27.6721
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          153.1363,
+          -27.4036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          142.2617,
+          -34.1013
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.108,
+          -32.6646
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          148.5834,
+          -35.0025
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.7821,
+          -20.6286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.7802,
+          -20.5937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.2618,
+          -42.2669
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Solar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.7275,
+          -32.8835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.628,
+          -24.334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.6197,
+          -24.3449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.6182,
+          -24.3449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.1621,
+          -18.0278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.8914,
+          -32.0739
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          140.9158,
+          -21.8601
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          140.4033,
+          -37.7603
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.385,
+          -38.3577
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.1407,
+          -20.6488
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.543,
+          -38.3676
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.543,
+          -38.412
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.159,
+          -21.0767
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.6209,
+          -38.3976
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.5186,
+          -35.166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.4813,
+          -32.7897
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.6754,
+          -24.8692
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.5977,
+          -42.4524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5852,
+          -34.8509
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1635,
+          -30.3808
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.1348,
+          -41.4802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.114,
+          -37.3898
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.8666,
+          -12.555
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.6936,
+          -32.9643
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.732,
+          -22.399
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.1187,
+          -37.9502
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.1192,
+          -33.5086
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.404,
+          -22.3247
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.2205,
+          -36.7853
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.6812,
+          -42.5064
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.7737,
+          -32.2001
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.9547,
+          -38.2835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.4633,
+          -31.5002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.229,
+          -33.331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.2612,
+          -33.3422
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.8049,
+          -20.5447
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.5448,
+          -33.2099
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.27,
+          -26.6682
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Biomass"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          153.4341,
+          -28.3138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.9235,
+          -29.9102
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.7762,
+          -23.1521
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.4056,
+          -38.0587
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.5425,
+          -34.5165
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.4001,
+          -34.805
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.943,
+          -27.0863
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.7219,
+          -20.648
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.8942,
+          -27.1169
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2698,
+          -27.8972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.5206,
+          -36.5564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.534,
+          -25.9167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.6441,
+          -17.3141
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.2632,
+          -41.3505
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.4833,
+          -20.7837
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.5818,
+          -34.8475
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.042,
+          -33.8204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.8537,
+          -33.8142
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.8617,
+          -33.8125
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.9215,
+          -37.222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.8974,
+          -37.2431
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.337,
+          -30.4881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.4137,
+          -38.2546
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Oil"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.5223,
+          -33.0617
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.5206,
+          -33.0621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.8998,
+          -33.8762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.7778,
+          -33.8927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.769,
+          -33.8802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.125,
+          -21.9465
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.2685,
+          -41.6732
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.5597,
+          -18.1956
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Biomass"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          148.1371,
+          -35.2959
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.6485,
+          -28.7701
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          148.5515,
+          -22.9281
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.2187,
+          -23.8508
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.9982,
+          -32.1097
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.1286,
+          -32.4598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.255,
+          -42.8415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.9812,
+          -42.7386
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.0129,
+          -32.0228
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.8312,
+          -33.7029
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.7638,
+          -35.0507
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Solar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.1119,
+          -28.9043
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.3832,
+          -34.6958
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Hydro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          148.4135,
+          -36.3501
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.2699,
+          -38.0533
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.7517,
+          -33.3487
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.7323,
+          -33.3397
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.7299,
+          -33.395
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.8552,
+          -33.5226
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.858,
+          -33.5717
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.7296,
+          -33.3093
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Wind"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.7928,
+          -33.3855
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.6619,
+          -18.2328
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Coal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.3923,
+          -38.2731
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.8008,
+          -32.165
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country_long": "Australia",
+        "fuel1": "Waste"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.7203,
+          -34.849
+        ]
+      }
+    }
+    
+  ]
+}

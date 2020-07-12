@@ -448,6 +448,7 @@ class TableViewComponent extends Component {
               tabIndex="0"
               onClick={toggleTableViewButton}
               onKeyDown={toggleTableViewButton}
+              style={{ cursor: 'pointer' }}
             >
               View on map
             </a>

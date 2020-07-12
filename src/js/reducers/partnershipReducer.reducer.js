@@ -50,8 +50,10 @@ function CaculateCount(date, finalData, api, fedType) {
   // console.log(date, 'date');
   // console.log(finalData, 'finalData');
   // console.log(api, 'api');
+  const ProjectIdList = [];
   finalData.map((prov, i) => {
     // console.log(prov, 'prov 1st loop');
+
     api.map(data => {
       let idString = data.province_id;
       if (fedType === 'municipality') {
@@ -63,23 +65,31 @@ function CaculateCount(date, finalData, api, fedType) {
       }
       const parsedDate = Date.parse(data.start_date);
       if (prov.id === idString) {
+        if (
+          !ProjectIdList.includes(data.project_id + data.province_id)
+        ) {
+          if (parsedDate >= startDate && parsedDate < endDate) {
+            // console.log(data, 'data 3rd Loop');
+            // console.log(data,'')
+            // eslint-disable-next-line no-param-reassign
+            finalData[i].count += 1;
+          }
+        }
         // console.log(startDate, ' local startDate');
         // console.log(data.start_date, 'api startDate');
         // console.log(endDate, 'endDate');
         // console.log(data.start_date, 'api startDate');
         // console.log(startDate >= data.start_date, '1st date');
         // console.log(endDate <= data.start_date, '2nd date');
-        if (parsedDate >= startDate && parsedDate <= endDate) {
-          // console.log(data, 'data 3rd Loop');
-          // console.log(data,'')
-          // eslint-disable-next-line no-param-reassign
-          finalData[i].count += 1;
-        }
+      }
+      if (!ProjectIdList.includes(data.project_id)) {
+        ProjectIdList.push(data.project_id + data.province_id);
       }
       return true;
     });
     return true;
   });
+  console.log(finalData, 'finalData');
 }
 const initialState = {
   isDataFetched: false,
@@ -262,7 +272,7 @@ const filterLeverageChart = datas => {
   };
   const finaleTotalLeverage = {
     name: 'Leverage',
-    type: 'column',
+    type: 'line',
     data: totalLeverage,
   };
   return {
@@ -300,7 +310,7 @@ const filterLeverageDataForBarClick = datas => {
   };
   const finaleTotalLeverage = {
     name: 'Leverage',
-    type: 'column',
+    type: 'line',
     data: totalLeverage,
   };
   return {
@@ -383,11 +393,19 @@ const getBarDataByBenefBudget = (state, action) => {
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
   // console.log(filteredBenefValues, 'filteredBudgetValues');
   // );
+  const circleMarkerData = totalBeneficiary.map(item => {
+    return {
+      ...item,
+      allocated_beneficiary: Math.round(item.total_beneficiary),
+    };
+  });
   return {
     ...state,
     // mapDataByProvince: finalBeneficiaryArray,
     barDatas: filteredBenefValues,
     defaultBarDatas: filteredBenefValues,
+    mapDataForCircleMarker: circleMarkerData,
+
     // filteredMapData: choroplethFormat,
   };
 };
@@ -496,10 +514,14 @@ const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
         : 0,
     };
   });
-  // console.log(choroplethFormat, 'formated circleMarker ');
+  const roundedFormat = choroplethFormat.map(item => ({
+    ...item,
+    allocated_beneficiary: Math.round(item.allocated_beneficiary),
+    allocated_budget: Math.round(item.allocated_budget),
+  })); // console.log(choroplethFormat, 'formated circleMarker ');
   return {
     ...state,
-    mapDataForCircleMarker: choroplethFormat,
+    mapDataForCircleMarker: roundedFormat,
   };
 };
 
@@ -983,7 +1005,7 @@ const getMapDataByProvince = (state, action) => {
   return {
     ...state,
     filteredMapData: action.payload,
-    mapDataForCircleMarker: action.payload,
+    // mapDataForCircleMarker: action.payload,
     mapDataByProvince: action.payload,
   };
 };
@@ -1033,6 +1055,8 @@ const filterMunListFromDistrict = (state, action) => {
 const getLeverageData = (state, action) => {
   // console.log(action.payload, 'action');
   const filteredLeverage = filterLeverageChart(action.payload);
+  console.log(filteredLeverage, 'bardatax');
+
   return {
     ...state,
     barDataByLeverage: filteredLeverage,
@@ -1058,7 +1082,7 @@ const filterLeverageDataOnClick = (state, action) => {
   };
 };
 const getPartnershipAllData = (state, action) => {
-  // console.log(action.payload, 'action');
+  console.log(action.payload, 'action');
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,

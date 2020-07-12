@@ -551,16 +551,23 @@ class TableData extends Component {
                   </tr> */}
                 </tbody>
               </table>
+              <hr />
+              {/* <br /> */}
+
               <p
                 className="description"
-                style={{ background: '#fdeaef' }}
+                style={{
+                  padding: '0px 16px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                }}
               >
                 Other Initiatives include ranges of financial literacy
                 activities carried out by partners which are not
                 included in pre-defined financial literacy
                 initiatives. Dedicated financial literacy event, door
                 to door campaign, financial literacy conducted in
-                school/college are some examples
+                school/college are some examples.
               </p>
             </div>
           </div>

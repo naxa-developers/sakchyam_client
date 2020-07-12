@@ -274,6 +274,7 @@ class MiddleChartSection extends Component {
             />
             <CardTab
               resetFunction={this.props.resetBarDatas}
+              showBarof={showBarof}
               handleShowBarOf={handleShowBarOf}
               cardTitle="Province Wise Budget & Beneficiaries Count"
               cardClass="col-xl-6"

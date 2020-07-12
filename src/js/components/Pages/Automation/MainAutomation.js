@@ -1843,7 +1843,14 @@ class MainAutomation extends Component {
   };
 
   refreshSelectedPartnerBtn = () => {
+    const { dataTypeLevel } = this.state;
+    this.props.filterAutomationDataForVectorTiles(dataTypeLevel);
     this.setState({ activeClickPartners: [] });
+    // this.setState({
+    //   vectorGridInputUrl: `https://vectortile.naxa.com.np/federal/${dataTypeLevel}.mvt/?tile={z}/{x}/{y}`,
+    //   vectorGridKey: Math.random(),
+    //   color: '#55b110',
+    // });
     // this.handleStateLevel(this.state.dataTypeLevel);
     this.props.getAllAutomationDataByPartner();
     const bounds = [
@@ -2008,6 +2015,8 @@ class MainAutomation extends Component {
                     <ul className="tab-list">
                       <li
                         role="tab"
+                        tabIndex="-1"
+                        style={{ cursor: 'pointer' }}
                         className={`${
                           dataTypeLevel === 'province' ? 'active' : ''
                         }`}
@@ -2022,6 +2031,7 @@ class MainAutomation extends Component {
                       </li>
                       <li
                         role="tab"
+                        style={{ cursor: 'pointer' }}
                         className={`${
                           dataTypeLevel === 'district' ? 'active' : ''
                         }`}
@@ -2036,6 +2046,7 @@ class MainAutomation extends Component {
                       </li>
                       <li
                         role="tab"
+                        style={{ cursor: 'pointer' }}
                         className={`${
                           dataTypeLevel === 'municipality'
                             ? 'active'
