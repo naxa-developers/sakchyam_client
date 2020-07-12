@@ -372,7 +372,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            {/* <CardTab
+            <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
@@ -389,7 +389,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            /> */}
+            />
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"
