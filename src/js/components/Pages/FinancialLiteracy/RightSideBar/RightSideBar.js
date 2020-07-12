@@ -751,25 +751,27 @@ class RightSideBar extends Component {
                       return (
                         <ul className="year">
                           <div className="date-time">
-                            <time
-                              onClick={e =>
-                                this.handleTimelineToggle(
-                                  item.year,
-                                  e,
-                                )
-                              }
-                              style={{
-                                cursor: 'pointer',
-                              }}
-                            >
-                              <button
+                            <span>
+                              <time
+                                onClick={e =>
+                                  this.handleTimelineToggle(
+                                    item.year,
+                                    e,
+                                  )
+                                }
+                                style={{
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                {/* <button
                                 type="button"
                                 className="common-button is-bg"
                               >
                                 {item.year}
-                              </button>
-                              {/* {item.year} */}
-                            </time>
+                              </button> */}
+                                {item.year}
+                              </time>
+                            </span>
                           </div>
                           <div
                             id={item.year}

@@ -19,7 +19,25 @@ class LeftSideBar extends Component {
       partnerName,
       marketFailure,
 
+      handleInnovationAreaParentCheckbox,
       handleInnovationAreaCheckbox,
+      innovationAreaSelection,
+      handleProductCategoryParentCheckbox,
+      handleProductCategoryCheckbox,
+      productCategorySelection,
+      handleProductNameParentCheckbox,
+      handleProductNameCheckbox,
+      productNameSelection,
+      handlePartnerNameParentCheckbox,
+      handlePartnerNameCheckbox,
+      partnerNameSelection,
+      handleMarketFailureParentCheckbox,
+      handleMarketFailureCheckbox,
+      marketFailureSelection,
+      handlePartnerType,
+      partnerTypeSelection,
+
+      applyClick,
     } = this.props;
 
     return (
@@ -38,31 +56,31 @@ class LeftSideBar extends Component {
                   <div className="checklist-header">
                     <div className="custom-checkbox">
                       <input
-                        id="all_partner"
+                        id="innovation_area"
                         type="checkbox"
-                        name="Initiative"
-                        // checked={isAllPartnerSelected}
-                        onClick={handleInnovationAreaCheckbox}
+                        name="InnovationArea"
+                        value="all"
+                        onChange={handleInnovationAreaParentCheckbox}
                       />
-                      <label htmlFor="all_partner">All</label>
+                      <label htmlFor="innovation_area">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {productCategory &&
-                      productCategory.map(item => {
+                    {innovationArea &&
+                      innovationArea.map(item => {
                         return (
                           <CheckBox
-                            id={item.id}
-                            className="investment_checkbox"
+                            id={`${item.id}innovation`}
+                            className="innovationarea_checkbox"
                             key={item.id}
                             label={item.name}
                             name={item.name}
                             changeHandler={
                               handleInnovationAreaCheckbox
                             }
-                            // checked={investmentFocusSelection.includes(
-                            //   partnershipFocus.investment_primary,
-                            // )}
+                            checked={innovationAreaSelection.includes(
+                              item.name,
+                            )}
                           />
                         );
                       })}
@@ -78,31 +96,31 @@ class LeftSideBar extends Component {
                   <div className="checklist-header">
                     <div className="custom-checkbox">
                       <input
-                        id="all_partner"
+                        id="product_category"
                         type="checkbox"
-                        name="Initiative"
-                        // checked={isAllPartnerSelected}
-                        // onClick={handlePartnerParentCheckbox}
+                        name="product_category"
+                        value="all"
+                        onChange={handleProductCategoryParentCheckbox}
                       />
-                      <label htmlFor="all_partner">All</label>
+                      <label htmlFor="product_category">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {innovationArea &&
-                      innovationArea.map(item => {
+                    {productCategory &&
+                      productCategory.map(item => {
                         return (
                           <CheckBox
-                            id={item.id}
-                            className="investment_checkbox"
+                            id={`${item.id}productCat`}
+                            className="productcategory_checkbox"
                             key={item.id}
                             label={item.name}
                             name={item.name}
-                            // changeHandler={
-                            //   handleInvestmentFocusCheckbox
-                            // }
-                            // checked={investmentFocusSelection.includes(
-                            //   partnershipFocus.investment_primary,
-                            // )}
+                            changeHandler={
+                              handleProductCategoryCheckbox
+                            }
+                            checked={productCategorySelection.includes(
+                              item.name,
+                            )}
                           />
                         );
                       })}
@@ -118,13 +136,13 @@ class LeftSideBar extends Component {
                   <div className="checklist-header">
                     <div className="custom-checkbox">
                       <input
-                        id="all_partner"
+                        id="product_name"
                         type="checkbox"
-                        name="Initiative"
-                        // checked={isAllPartnerSelected}
-                        // onClick={handlePartnerParentCheckbox}
+                        name="ProductName"
+                        value="all"
+                        onChange={handleProductNameParentCheckbox}
                       />
-                      <label htmlFor="all_partner">All</label>
+                      <label htmlFor="product_name">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
@@ -132,17 +150,15 @@ class LeftSideBar extends Component {
                       productName.map(item => {
                         return (
                           <CheckBox
-                            id={item.id}
-                            className="investment_checkbox"
+                            id={`${item.id}productNam`}
+                            className="productname_checkbox"
                             key={item.id}
                             label={item.name}
                             name={item.name}
-                            // changeHandler={
-                            //   handleInvestmentFocusCheckbox
-                            // }
-                            // checked={investmentFocusSelection.includes(
-                            //   partnershipFocus.investment_primary,
-                            // )}
+                            changeHandler={handleProductNameCheckbox}
+                            checked={productNameSelection.includes(
+                              item.name,
+                            )}
                           />
                         );
                       })}
@@ -158,34 +174,28 @@ class LeftSideBar extends Component {
                   {partnerType &&
                     partnerType.map(item => {
                       return (
-                        <a>
+                        <a
+                          onClick={() => {
+                            handlePartnerType(`${item.name}`);
+                          }}
+                          onKeyDown={() => {
+                            handlePartnerType(`${item.name}`);
+                          }}
+                          className={
+                            partnerTypeSelection.includes(
+                              `${item.name}`,
+                            )
+                              ? 'active'
+                              : ''
+                          }
+                          role="tab"
+                          tabIndex="0"
+                        >
                           <span>{item.name}</span>
                         </a>
                       );
                     })}
                 </div>
-
-                {/* <div className="widget-tag partner-tag">
-                  <a
-                  // onClick={() => {
-                  // handlePartnerType('Microfinance Institutions');
-                  // }}
-                  // onKeyDown={() => {
-                  // handlePartnerType('Microfinance Institutions');
-                  // }}
-                  // className={}
-                  // partnerType.includes(
-                  //   'Microfinance Institutions',
-                  // )
-                  //   ? 'active'
-                  //   : ''
-                  // }
-                  // role="tab"
-                  // tabIndex="0"
-                  >
-                    <span>Microfinance</span>
-                  </a>
-                </div> */}
               </div>
             </div>
 
@@ -196,13 +206,13 @@ class LeftSideBar extends Component {
                   <div className="checklist-header">
                     <div className="custom-checkbox">
                       <input
-                        id="all_partner"
+                        id="partner_name"
                         type="checkbox"
-                        name="Initiative"
-                        // checked={isAllPartnerSelected}
-                        // onClick={handlePartnerParentCheckbox}
+                        name="PartnerName"
+                        value="all"
+                        onChange={handlePartnerNameParentCheckbox}
                       />
-                      <label htmlFor="all_partner">All</label>
+                      <label htmlFor="partner_name">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
@@ -210,17 +220,15 @@ class LeftSideBar extends Component {
                       partnerName.map(item => {
                         return (
                           <CheckBox
-                            id={item.id}
-                            className="investment_checkbox"
+                            id={`${item.id}partner`}
+                            className="partnername_checkbox"
                             key={item.id}
                             label={item.name}
                             name={item.name}
-                            // changeHandler={
-                            //   handleInvestmentFocusCheckbox
-                            // }
-                            // checked={investmentFocusSelection.includes(
-                            //   partnershipFocus.investment_primary,
-                            // )}
+                            changeHandler={handlePartnerNameCheckbox}
+                            checked={partnerNameSelection.includes(
+                              item.name,
+                            )}
                           />
                         );
                       })}
@@ -236,13 +244,13 @@ class LeftSideBar extends Component {
                   <div className="checklist-header">
                     <div className="custom-checkbox">
                       <input
-                        id="all_partner"
+                        id="market_failure"
                         type="checkbox"
-                        name="Initiative"
-                        // checked={isAllPartnerSelected}
-                        // onClick={handlePartnerParentCheckbox}
+                        name="MarketFailure"
+                        value="all"
+                        onChange={handleMarketFailureParentCheckbox}
                       />
-                      <label htmlFor="all_partner">All</label>
+                      <label htmlFor="market_failure">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
@@ -250,17 +258,17 @@ class LeftSideBar extends Component {
                       marketFailure.map(item => {
                         return (
                           <CheckBox
-                            id={item.id}
-                            className="investment_checkbox"
+                            id={`${item.id}market`}
+                            className="marketfailure_checkbox"
                             key={item.id}
                             label={item.name}
                             name={item.name}
-                            // changeHandler={
-                            //   handleInvestmentFocusCheckbox
-                            // }
-                            // checked={investmentFocusSelection.includes(
-                            //   partnershipFocus.investment_primary,
-                            // )}
+                            changeHandler={
+                              handleMarketFailureCheckbox
+                            }
+                            checked={marketFailureSelection.includes(
+                              item.name,
+                            )}
                           />
                         );
                       })}
@@ -278,7 +286,7 @@ class LeftSideBar extends Component {
                 reset
               </button>
               <button
-                // onClick={applyClick}
+                onClick={applyClick}
                 type="button"
                 className="common-button is-bg"
               >

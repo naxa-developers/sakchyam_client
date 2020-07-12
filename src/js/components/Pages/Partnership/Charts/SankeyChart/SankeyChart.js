@@ -53,6 +53,8 @@ class SankeyChart extends Component {
     const {
       partnershipReducer: { sankeyChartData },
     } = this.props;
+
+    console.log(sankeyChartData, 'sankeydata');
     return (
       <div id="sankey_chart" style={{ height: '800px' }}>
         {sankeyChartData.nodes && (

@@ -655,7 +655,8 @@ const getFinancialData = (state, action) => {
       series: allSingleCountData, // allSingleCountData,
       label: multiLineLabel,
       // color: allPartnerColor,
-      color: ['#16A085'],
+      // color: ['#16A085'],
+      color: ['#007078'],
     },
     filteredByProgram: {
       // series: allProgramData, // allSingleCountData,
