@@ -66,13 +66,14 @@ class RightSideBar extends Component {
                 View on map
               </a>
             ) : (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
               <a
                 onClick={() => {
                   setActiveView('visualization');
                 }}
-                onKeyUp={() => {
-                  setActiveView('visualization');
-                }}
+                // onKeyDown={() => {
+                //   setActiveView('visualization');
+                // }}
                 role="tab"
                 tabIndex="0"
               >

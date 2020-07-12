@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
+import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import saveAlt from '../../../../../img/save_alt.svg';
 import CustomChart from '../CustomChart';
 import {
@@ -12,6 +13,7 @@ import {
   filterIndicatorGraphDataWithDate,
   loadingTrue,
 } from '../../../../actions/logFrame.actions';
+import Modal from '../../../common/Modal';
 
 // function convert(x) {
 //   // eslint-disable-next-line no-restricted-globals
@@ -64,6 +66,7 @@ class MiddleChartSection extends Component {
       secondAchievedSelected: false,
       downloadActive: false,
       options: null,
+      activeModal: false,
     };
   }
 
@@ -799,7 +802,7 @@ class MiddleChartSection extends Component {
             plotOptions: {
               ...options.plotOptions,
               bar: {
-                columnWidth: '80%',
+                columnWidth: '60%',
               },
             },
           },
@@ -964,6 +967,12 @@ class MiddleChartSection extends Component {
     // });
   }
 
+  handleModal = () => {
+    this.setState(prevState => ({
+      activeModal: !prevState.activeModal,
+    }));
+  };
+
   handleToggleTimePeriodDropdown = () => {
     this.setState(prevState => ({
       toggleTimePeriodDropdown: !prevState.toggleTimePeriodDropdown,
@@ -1072,6 +1081,7 @@ class MiddleChartSection extends Component {
       // activeLine1,
       // activeLine2,
       downloadActive,
+      activeModal,
       // dateRange,
     } = this.state;
     // const settings = {
@@ -1125,6 +1135,37 @@ class MiddleChartSection extends Component {
     // console.log(active)
     return (
       <div className="info-content">
+        {activeModal && (
+          <Modal
+            // visible={selectedModal === 'bar' ? true : false}
+            modalHeader="Sakchyam Investment Focus"
+            // handleShowBarOf={handleShowBarOf}
+            // resetFilters={resetFilters}
+            // selectedModal="groupedChart"
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={
+              () => {
+                // eslint-disable-next-line no-unused-expressions
+                <>
+                  <label>Varun</label>
+                  <CustomChart
+                    activeDateValues={activeDateValues}
+                    activeLayer={activeLayer}
+                    activeDate={activeDate}
+                    updateChart={updateChart}
+                    series={series}
+                    options={options}
+                    chartRef={arg => {
+                      this.chartRef = arg;
+                    }}
+                  />
+                </>;
+              }
+              // eslint-disable-next-line react/jsx-curly-newline
+            }
+          />
+        )}
         <a className="toggle_button">
           <i className="material-icons">keyboard_backspace</i>
         </a>
@@ -1399,11 +1440,23 @@ class MiddleChartSection extends Component {
               // onClick={this.downloadPng}
               onClick={this.toggleDownloadDropdown}
               onKeyPress={this.toggleDownloadDropdown}
-              // style={{ right: '44px' }}
+              style={{ right: '37px' }}
             >
               {/* <label>Download</label> */}
               <img src={saveAlt} alt="" />
               {/* <i className="fa fa-download" aria-hidden="true" /> */}
+            </a>
+            <a
+              role="tab"
+              tabIndex="0"
+              // id="downloadDropdown"
+              className="download-icon-image"
+              onClick={this.handleModal}
+              onKeyPress={this.handleModal}
+              // onClick={this.toggleDownloadDropdown}
+              // onKeyPress={this.toggleDownloadDropdown}
+            >
+              <img src={ExpandIcon} alt="open" />
             </a>
 
             {/* <a

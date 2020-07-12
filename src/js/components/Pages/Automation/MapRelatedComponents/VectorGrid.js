@@ -45,8 +45,11 @@ class VectorGridComponent extends Component {
             choroplethTitle: "dataCategory1",
             grade: [],
             legendColors: [],
-            bbox:[0,0,0,0],
-            count: 0,
+            // bbox:[0,0,0,0],
+            bbox:[[31.20760822325616,88.35364117396077],[24.829497538181023,80.04754532996917]],
+            // count: 0,lat: 31.20760822325616, lng: 88.35364117396077 }
+            // ​
+            // _southWest: Object { lat: 24.829497538181023, lng: 80.04754532996917
         };
         this.vectorGridRef = React.createRef();
         this.infoDivRef = React.createRef();
@@ -201,11 +204,11 @@ class VectorGridComponent extends Component {
             const b = [[a[0],a[1]],[a[2],a[3]]];
             // console.log(b,'b');
             // if(this.mapRef && this.mapRef.current){
-                global.maps =this.props.mapRef.current.leafletElement;
+                global.map =this.props.mapRef.current.leafletElement;
                 const map =this.props.mapRef.current.leafletElement;
                 if(this.props.vectorGridFirstLoad === true){
                     // console.log(b,'fitbound Up');
-                    // map.fitBounds(b);
+                    // map.fitBounds([[31.20760822325616,88.35364117396077],[24.829497538181023,80.04754532996917]]);
                 } 
                 // this.props.handleVectorGridFirstLoad();
         });

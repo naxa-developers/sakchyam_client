@@ -274,6 +274,7 @@ class MiddleChartSection extends Component {
             />
             <CardTab
               resetFunction={this.props.resetBarDatas}
+              showBarof={showBarof}
               handleShowBarOf={handleShowBarOf}
               cardTitle="Province Wise Budget & Beneficiaries Count"
               cardClass="col-xl-6"
@@ -371,7 +372,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle="Beneficiaries Reached"
               cardClass="col-xl-12"
@@ -388,7 +389,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

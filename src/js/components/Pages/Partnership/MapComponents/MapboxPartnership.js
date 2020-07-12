@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 // import 'mapbox-gl/src/css/svg/mapboxgl-ctrl-compass.svg';
 // import 'mapbox-gl/src/css/svg/mapboxgl-ctrl-geolocate.svg';
 // import 'mapbox-gl/src/css/svg/mapboxgl-ctrl-zoom-in.svg';
@@ -11,6 +10,7 @@ import {
   getMapDataByDistrict,
   getMapDataByMunicipality,
   filterMapDataOfCircleMarkerWithViewDataBy,
+  getPartnershipAllData,
 } from '../../../../actions/partnership.actions';
 
 class MapboxPartnership extends Component {
@@ -19,6 +19,8 @@ class MapboxPartnership extends Component {
     this.state = {
       // map: null,
     };
+    this.markerRef = React.createRef();
+    this.keyRef = React.createRef();
   }
 
   // addMap = () => {
@@ -39,6 +41,7 @@ class MapboxPartnership extends Component {
   componentDidMount() {
     this.props.getMapDataByProvince();
     this.props.getMapDataByDistrict();
+    this.props.getPartnershipAllData();
     this.props.getMapDataByMunicipality();
     this.props.addMap();
   }
@@ -75,37 +78,54 @@ class MapboxPartnership extends Component {
       mapDataForCircleMarker,
     } = this.props.partnershipReducer;
     return (
-      <div id="map">
-        {map && (
-          <div>
-            <VectorTileMapbox
-              handleFederalClickOnMap={
-                this.props.handleFederalClickOnMap
-              }
-              setMapViewBy={setMapViewBy}
-              mapViewBy={mapViewBy}
-              mapViewDataBy={mapViewDataBy}
-              choroplethData={filteredMapData}
-              circleMarkerData={mapDataForCircleMarker}
-              vectorTileUrl={vectorTileUrl}
-              map={map}
-              // divisions={inputDivisions}
-              label
-              color="#007078"
-            />
-            {/* <MarkerCluster
+      <>
+        <div id="key" ref={this.keyRef} />
+        <div id="map">
+          {map && (
+            <div>
+              <VectorTileMapbox
+                keyRef={this.keyRef}
+                handleFederalClickOnMap={
+                  this.props.handleFederalClickOnMap
+                }
+                markerRef={this.markerRef}
+                setMapViewBy={setMapViewBy}
+                mapViewBy={mapViewBy}
+                mapViewDataBy={mapViewDataBy}
+                choroplethData={filteredMapData}
+                circleMarkerData={mapDataForCircleMarker}
+                vectorTileUrl={vectorTileUrl}
+                map={map}
+                // divisions={inputDivisions}
+                label
+                color="#007078"
+              />
+              <div
+                // id="bargraph"
+                // className="marker mapboxgl-marker mapboxgl-marker-anchor-center"
+                ref={this.markerRef}
+                // style={{
+                // backgroundImage: url(
+                //   'https://placekitten.com/g/40/40',
+                // ),
+                // width: '40px',
+                // height: '40px',
+                // }}
+              />
+              {/* <MarkerCluster
               filteredByPartner={filteredByPartner}
               handleActiveClickPartners={handleActiveClickPartners}
               map={map}
               geojsonData={automationLeftSidePartnerData}
             /> */}
-            {/* <MigrationLines
+              {/* <MigrationLines
               map={map}
               migrationData={migrationArray}
             /> */}
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
+      </>
     );
   }
 }
@@ -118,4 +138,5 @@ export default connect(mapStateToProps, {
   getMapDataByDistrict,
   getMapDataByMunicipality,
   filterMapDataOfCircleMarkerWithViewDataBy,
+  getPartnershipAllData,
 })(MapboxPartnership);

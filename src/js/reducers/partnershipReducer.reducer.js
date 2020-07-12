@@ -89,6 +89,7 @@ function CaculateCount(date, finalData, api, fedType) {
     });
     return true;
   });
+  console.log(finalData, 'finalData');
 }
 const initialState = {
   isDataFetched: false,
@@ -392,11 +393,19 @@ const getBarDataByBenefBudget = (state, action) => {
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
   // console.log(filteredBenefValues, 'filteredBudgetValues');
   // );
+  const circleMarkerData = totalBeneficiary.map(item => {
+    return {
+      ...item,
+      allocated_beneficiary: Math.round(item.total_beneficiary),
+    };
+  });
   return {
     ...state,
     // mapDataByProvince: finalBeneficiaryArray,
     barDatas: filteredBenefValues,
     defaultBarDatas: filteredBenefValues,
+    mapDataForCircleMarker: circleMarkerData,
+
     // filteredMapData: choroplethFormat,
   };
 };
@@ -505,10 +514,14 @@ const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
         : 0,
     };
   });
-  // console.log(choroplethFormat, 'formated circleMarker ');
+  const roundedFormat = choroplethFormat.map(item => ({
+    ...item,
+    allocated_beneficiary: Math.round(item.allocated_beneficiary),
+    allocated_budget: Math.round(item.allocated_budget),
+  })); // console.log(choroplethFormat, 'formated circleMarker ');
   return {
     ...state,
-    mapDataForCircleMarker: choroplethFormat,
+    mapDataForCircleMarker: roundedFormat,
   };
 };
 
@@ -992,7 +1005,7 @@ const getMapDataByProvince = (state, action) => {
   return {
     ...state,
     filteredMapData: action.payload,
-    mapDataForCircleMarker: action.payload,
+    // mapDataForCircleMarker: action.payload,
     mapDataByProvince: action.payload,
   };
 };

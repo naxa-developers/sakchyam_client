@@ -63,17 +63,29 @@ import DownloadIcon from '../../img/save_alt.svg';
 
 //   return '1T+';
 // }
-function convert(labelValue) {
-  // Nine Zeroes for Billions
-  return Math.abs(Number(labelValue)) >= 1.0e9
-    ? `${Math.abs(Number(labelValue)) / 1.0e9}B`
-    : // Six Zeroes for Millions
-    Math.abs(Number(labelValue)) >= 1.0e6
-    ? `${Math.abs(Number(labelValue)) / 1.0e6}M`
-    : // Three Zeroes for Thousands
-    Math.abs(Number(labelValue)) >= 1.0e3
-    ? `${Math.abs(Number(labelValue)) / 1.0e3}K`
-    : Math.abs(Number(labelValue));
+// function convert(labelValue) {
+//   // Nine Zeroes for Billions
+//   return Math.abs(Number(labelValue)) >= 1.0e9
+//     ? `${Math.abs(Number(labelValue)) / 1.0e9}B`
+//     : // Six Zeroes for Millions
+//     Math.abs(Number(labelValue)) >= 1.0e6
+//     ? `${Math.abs(Number(labelValue)) / 1.0e6}M`
+//     : // Three Zeroes for Thousands
+//     Math.abs(Number(labelValue)) >= 1.0e3
+//     ? `${Math.abs(Number(labelValue)) / 1.0e3}K`
+//     : Math.abs(Number(labelValue));
+// }
+function convert(num) {
+  if (num > 999 && num < 1000000) {
+    return `${num / 1000000}M`; // convert to K for number from > 1000 < 1 million
+  }
+  if (num > 1000000) {
+    return `${num / 1000000}M`; // convert to M for number from > 1 million
+  }
+  if (num < 900) {
+    return num; // if value < 1000, nothing to do
+  }
+  return num;
 }
 const initialState = {
   dateRange: [],

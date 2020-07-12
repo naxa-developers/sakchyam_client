@@ -83,7 +83,9 @@ class MapComponent extends Component {
 
   moveEnd = () => {
     setTimeout(() => {
-      global.migrationLayer.pause();
+      if (global.migrationLayer) {
+        global.migrationLayer.pause();
+      }
     }, 500);
   };
 
@@ -303,7 +305,7 @@ class MapComponent extends Component {
           // scrollWheelZoom={this.props.zoomControl}
           // preferCanvas
           animate
-          // zoom={9}
+          // zoom={12}
           maxZoom={18}
           minZoom={5}
           attributionControl
@@ -492,15 +494,15 @@ class MapComponent extends Component {
             })}
           {/* </Pane> */}
           <Loading loaderState={dataLoading && dataLoading} />
-          {!activeOutreachButton ? (
-            <TimelineChart
-              // key={Math.random()}
-              // key={this.state.key}
-              minValue={minValue}
-              maxValue={maxValue}
-              playBtn={this.playBtn}
-            />
-          ) : null}
+          {/* {!activeOutreachButton ? ( */}
+          <TimelineChart
+            // key={Math.random()}
+            // key={this.state.key}
+            minValue={minValue}
+            maxValue={maxValue}
+            playBtn={this.playBtn}
+          />
+          {/* ) : null} */}
 
           <Control position="topleft">
             <div
