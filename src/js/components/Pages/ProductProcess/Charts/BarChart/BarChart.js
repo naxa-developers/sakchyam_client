@@ -1,10 +1,13 @@
 /* eslint-disable react/no-did-update-set-state */
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import { getProductProcessList } from '../../../../../actions/productProcess.actions';
+import {
+  getProductProcessList,
+  filterBarChartData,
+} from '../../../../../actions/productProcess.actions';
 
-class RadarChart extends React.Component {
+class BarChart extends Component {
   constructor(props) {
     super(props);
 
@@ -16,43 +19,41 @@ class RadarChart extends React.Component {
 
   plotChart = () => {
     const options = {
-      tooltip: {
-        enabled: true,
-        // shared: true,
-      },
+      colors: ['#E11D3F'],
       chart: {
         toolbar: { show: false },
+        type: 'bar',
         height: 350,
-        type: 'radar',
-        dropShadow: {
-          enabled: true,
-          blur: 1,
-          left: 1,
-          top: 1,
+      },
+      plotOptions: {
+        bar: {
+          // horizontal: false,
+          columnWidth: '60%',
         },
-      },
-      title: {
-        text: undefined,
-      },
-      stroke: {
-        width: 2,
-      },
-      fill: {
-        opacity: 0.1,
-      },
-      markers: {
-        size: 4,
-      },
-      xaxis: {
-        labels: {
-          show: false,
-          // show: true,
-        },
-        categories: [],
       },
       legend: {
-        onItemClick: {
-          toggleDataSeries: false,
+        show: true,
+        position: 'bottom',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: [],
+        labels: {
+          trim: true,
+          hideOverlappingLabels: false,
+        },
+      },
+      grid: {
+        show: false,
+      },
+      tooltip: {
+        fixed: {
+          enabled: true,
+          position: 'topRight',
+          offsetX: 0,
+          offsetY: 0,
         },
       },
     };
@@ -62,16 +63,16 @@ class RadarChart extends React.Component {
 
   updateChartData = () => {
     const {
-      productProcessReducer: { radarChartData },
+      productProcessReducer: { barChartData },
     } = this.props;
 
     this.setState(preState => ({
-      series: radarChartData.series,
+      series: barChartData.series,
       options: {
         ...preState.options,
         xaxis: {
           ...preState.options.xaxis,
-          categories: radarChartData.categories,
+          categories: barChartData.categories,
         },
       },
     }));
@@ -86,8 +87,8 @@ class RadarChart extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
-      this.props.productProcessReducer.radarChartData !==
-      prevProps.productProcessReducer.radarChartData
+      this.props.productProcessReducer.barChartData !==
+      prevProps.productProcessReducer.barChartData
     ) {
       this.updateChartData();
     }
@@ -101,8 +102,8 @@ class RadarChart extends React.Component {
         <ReactApexChart
           options={options}
           series={series}
-          type="radar"
-          height={385}
+          type="bar"
+          height={450}
         />
       </div>
     );
@@ -113,6 +114,7 @@ const mapStateToProps = ({ productProcessReducer }) => ({
   productProcessReducer,
 });
 
-export default connect(mapStateToProps, { getProductProcessList })(
-  RadarChart,
-);
+export default connect(mapStateToProps, {
+  getProductProcessList,
+  filterBarChartData,
+})(BarChart);

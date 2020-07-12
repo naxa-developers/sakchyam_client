@@ -535,6 +535,7 @@ class StackedBarWithProvince extends Component {
         offsetX: 40,
       },
     };
+    console.log(barDatas.series, 'bardataxx');
     this.setState({ options, series: barDatas.series });
   };
 

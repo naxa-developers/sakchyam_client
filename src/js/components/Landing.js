@@ -188,7 +188,7 @@ class Landing extends Component {
                     ]}
                     permissions={permissions}
                     cardUrl="/productprocess"
-                    cardPermission=""
+                    cardPermission="view_automation"
                     cardImage={GridImg}
                   />
                   <LandingCard

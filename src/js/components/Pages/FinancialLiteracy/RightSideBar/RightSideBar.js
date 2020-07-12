@@ -1,5 +1,10 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CaretDown, CaretUp } from './Caret';
+import './custom.css';
 
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
@@ -380,6 +385,13 @@ class RightSideBar extends Component {
     });
   };
 
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     const x = document.getElementById('2018');
+  //     x.style.display = 'block';
+  //   }, 300);
+  // }
+
   componentDidUpdate(prevProps, prevState) {
     if (
       prevProps.financialReducer.financialData !==
@@ -459,6 +471,13 @@ class RightSideBar extends Component {
       });
       return true;
     });
+
+    setTimeout(() => {
+      const x = document.getElementById(`${years[0]}`);
+      x.style.display = 'block';
+      this.setState({ [years[0]]: true });
+    }, 200);
+
     this.setState({
       timelineData: arr,
     });
@@ -473,6 +492,26 @@ class RightSideBar extends Component {
 
   handleUnhover = () => {
     this.setState({ isHovered: false, hoverID: 1 });
+  };
+
+  handleTimelineToggle = (key, e) => {
+    const x = document.getElementById(`${key}`);
+    const y = document.querySelectorAll('.timeline-display');
+
+    // for (let i = 0; i < y.length; i += 1) {
+    //   if (y[i].contains(e.target)) {
+    //     y[i].style.display = 'block';
+    //   } else {
+    //     y[i].style.display = 'none';
+    //   }
+    // }
+    if (x.style.display !== 'none') {
+      x.style.display = 'none';
+      this.setState({ [key]: false });
+    } else {
+      x.style.display = 'block';
+      this.setState({ [key]: true });
+    }
   };
 
   render() {
@@ -550,9 +589,7 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget program-widget">
-              <h5 style={{ textTransform: 'none' }}>
-                Beneficiaries and Partner Count
-              </h5>
+              <h5>Beneficiaries and Partner Count</h5>
               <div className="widget-body">
                 {filteredData &&
                   filteredData.map(item => {
@@ -718,49 +755,91 @@ class RightSideBar extends Component {
                     timelineData.map(item => {
                       return (
                         <ul className="year">
-                          <div className="date-time">
-                            <time>{item.year}</time>
+                          <div className="date-time" id="timeline-id">
+                            <div
+                              style={{
+                                // display: 'inline-flex',
+                                background: '#f7f7f7',
+                                width: 'inherit',
+                              }}
+                            >
+                              <time
+                                onClick={e =>
+                                  this.handleTimelineToggle(
+                                    item.year,
+                                    e,
+                                  )
+                                }
+                                style={{
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                }}
+                              >
+                                {/* <button
+                                type="button"
+                                className="common-button is-bg"
+                              >
+                                {item.year}
+                              </button> */}
+                                {item.year}
+                                <div style={{ height: 'auto' }}>
+                                  {this.state[item.year] ? (
+                                    <CaretUp />
+                                  ) : (
+                                    <CaretDown />
+                                  )}
+                                </div>
+                              </time>
+                            </div>
                           </div>
-                          {item.program.map((list, index) => {
-                            const date = new Date(list.date);
-                            const dateNumber = date.getDate();
-                            const monthName = date
-                              .toDateString()
-                              .split(' ')[1];
+                          <div
+                            id={item.year}
+                            className="timeline-display"
+                            style={{ display: 'none' }}
+                          >
+                            {item.program.map((list, index) => {
+                              const date = new Date(list.date);
+                              const dateNumber = date.getDate();
+                              const monthName = date
+                                .toDateString()
+                                .split(' ')[1];
 
-                            let temp = '';
-                            if (Object.entries(list).length !== 0) {
-                              temp = (
-                                <li
-                                  key={item.id}
-                                  className={
-                                    hoverID === index ? 'active' : ''
-                                  }
-                                >
-                                  <div className="timeline-content ">
-                                    <div
-                                      onMouseEnter={() => {
-                                        this.handleHover(index);
-                                      }}
-                                      onMouseLeave={() => {
-                                        this.handleUnhover(index);
-                                      }}
-                                      className="timeline-text"
-                                    >
-                                      <span>
-                                        {`${monthName}
+                              let temp = '';
+                              if (Object.entries(list).length !== 0) {
+                                temp = (
+                                  <li
+                                    key={item.id}
+                                    className={
+                                      hoverID === index
+                                        ? 'active'
+                                        : ''
+                                    }
+                                  >
+                                    <div className="timeline-content ">
+                                      <div
+                                        onMouseEnter={() => {
+                                          this.handleHover(index);
+                                        }}
+                                        onMouseLeave={() => {
+                                          this.handleUnhover(index);
+                                        }}
+                                        className="timeline-text"
+                                      >
+                                        <span>
+                                          {`${monthName}
                                         ${item.year}`}
-                                      </span>
-                                      <p>{list.name}</p>
+                                        </span>
+                                        <p>{list.name}</p>
+                                      </div>
                                     </div>
-                                  </div>
-                                </li>
-                              );
-                            } else {
-                              temp = <li className="blank" />;
-                            }
-                            return temp;
-                          })}
+                                  </li>
+                                );
+                              } else {
+                                temp = <li className="blank" />;
+                              }
+                              return temp;
+                            })}
+                          </div>
                         </ul>
                       );
                     })}

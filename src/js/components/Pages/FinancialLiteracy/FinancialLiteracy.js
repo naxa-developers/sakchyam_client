@@ -735,7 +735,7 @@ class FinancialLiteracy extends Component {
           {activeModal && (
             <Modal
               // visible={selectedModal === 'bar' ? true : false}
-
+              isBarChartToggled={this.state.isBarChartToggled}
               selectedModal={selectedModal}
               handleModal={this.handleModal}
               activeModal={activeModal}

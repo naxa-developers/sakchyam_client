@@ -122,6 +122,7 @@ class StackedBar extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
+      // colors: ['#13A8BE', '#5ae7a6'],
       colors: ['#13A8BE', '#5ae7a6'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
@@ -167,11 +168,11 @@ class StackedBar extends Component {
           },
           axisBorder: {
             show: true,
-            color: '#00E396',
+            color: '#5ae7a6',
           },
           labels: {
             style: {
-              colors: '#00E396',
+              colors: '#5ae7a6',
             },
           },
           //   title: {
@@ -252,11 +253,22 @@ class StackedBar extends Component {
     const {
       partnershipReducer: { barDataByLeverage },
     } = this.props;
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
     const series = [
       barDataByLeverage.scf.series[0],
       barDataByLeverage.leverage.series[0],
     ];
+    // const series = [
+    //   {
+    //     name: 'Website Blog',
+    //     type: 'column',
+    //     data: barDataByLeverage.scf.series[0],
+    //   },
+    //   {
+    //     name: 'Social Media',
+    //     type: 'line',
+    //     data: barDataByLeverage.leverage.series[0],
+    //   },
+    // ];
     const options = {
       chart: {
         height: 350,
@@ -363,8 +375,10 @@ class StackedBar extends Component {
       dataLabels: {
         enabled: false,
       },
+
+      colors: ['#008ffb', '#00E396'],
       stroke: {
-        width: [1, 1, 4],
+        width: [1, 4],
       },
       // title: {
       //   text: 'XYZ - Stock Analysis (2009 - 2016)',
@@ -378,6 +392,9 @@ class StackedBar extends Component {
           trim: true,
           hideOverlappingLabels: false,
         },
+      },
+      grid: {
+        show: false,
       },
       yaxis: [
         {
@@ -466,6 +483,12 @@ class StackedBar extends Component {
           // },
         },
       ],
+      markers: {
+        size: 5,
+        colors: ['#00E396'],
+        strokeColor: '#00E396',
+        strokeWidth: 3,
+      },
       tooltip: {
         // fixed: {
         //   enabled: true,

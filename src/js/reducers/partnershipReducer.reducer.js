@@ -272,7 +272,7 @@ const filterLeverageChart = datas => {
   };
   const finaleTotalLeverage = {
     name: 'Leverage',
-    type: 'column',
+    type: 'line',
     data: totalLeverage,
   };
   return {
@@ -310,7 +310,7 @@ const filterLeverageDataForBarClick = datas => {
   };
   const finaleTotalLeverage = {
     name: 'Leverage',
-    type: 'column',
+    type: 'line',
     data: totalLeverage,
   };
   return {
@@ -1055,6 +1055,8 @@ const filterMunListFromDistrict = (state, action) => {
 const getLeverageData = (state, action) => {
   // console.log(action.payload, 'action');
   const filteredLeverage = filterLeverageChart(action.payload);
+  console.log(filteredLeverage, 'bardatax');
+
   return {
     ...state,
     barDataByLeverage: filteredLeverage,
