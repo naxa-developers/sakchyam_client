@@ -22,6 +22,30 @@ const initialState = {
   marketFailureList: [],
 };
 
+function convertLabelName(name) {
+  const nameArr = name.split(' ');
+  let firstElement;
+  let rest;
+  if (nameArr.length < 3) {
+    // eslint-disable-next-line prefer-destructuring
+    firstElement = nameArr[0];
+    rest = name
+      .split(' ')
+      .slice(1)
+      .join(' ');
+  } else {
+    firstElement = `${nameArr[0]} ${nameArr[1]}`;
+    rest = name
+      .split(' ')
+      .slice(2)
+      .join(' ');
+  }
+
+  const newName = [firstElement, rest];
+
+  return newName;
+}
+
 const getOptionsList = (data, name) => {
   const arr = [];
   data.forEach(item => {
@@ -351,8 +375,14 @@ const generateHeatMapData = dataa => {
     arraySelected[i].data.sort(compare);
   }
 
+  const finalArray = arraySelected.map(item => {
+    // return { ...item, name: item.name.split(' ') };
+    return { ...item, name: convertLabelName(item.name) };
+  });
+
   // return series;
-  return arraySelected;
+  // return arraySelected;
+  return finalArray;
 };
 
 const filterRadarChartData = (state, action) => {

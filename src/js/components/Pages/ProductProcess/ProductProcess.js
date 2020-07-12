@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
+import Modal from './Modal';
 import {
   getProductProcessData,
   getProductProcessList,
@@ -16,6 +17,16 @@ import BubbleChart from './Charts/BubbleChart/BubbleChart';
 import HeatmapChart from './Charts/Heatmap/HeatmapChart';
 import RadarChart from './Charts/Radar/RadarChart';
 import BarChart from './Charts/BarChart/BarChart';
+import DownloadIcon from '../../../../img/get_app.png';
+import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
+
+// CHART CARD TITLES
+const chartTitles = {
+  bubbleTitle: 'Product Results',
+  radarTitle: 'Innovation Area Radar Chart',
+  barTitle: 'Bar Chart',
+  heatmapTitle: 'Heatmap Chart',
+};
 
 class ProductProcess extends React.Component {
   constructor(props) {
@@ -42,6 +53,9 @@ class ProductProcess extends React.Component {
       // marketFailure: [],
 
       showRightSidebar: true,
+      activeModal: false,
+      selectedModal: '',
+      // modalHeader: '',
     };
   }
 
@@ -438,6 +452,38 @@ class ProductProcess extends React.Component {
     }
   };
 
+  getModalContent = contentType => {
+    const { activeModal } = this.state;
+
+    switch (contentType) {
+      case 'bubble':
+        return <BubbleChart />;
+      case 'radar':
+        return <RadarChart activeModal />;
+      case 'bar':
+        return <BarChart activeModal />;
+      case 'heatmap':
+        return <HeatmapChart activeModal />;
+
+      default:
+        break;
+    }
+    return true;
+  };
+
+  handleModal = () => {
+    this.setState(prevState => ({
+      activeModal: !prevState.activeModal,
+    }));
+  };
+
+  handleSelectedModal = (value, title) => {
+    this.setState({
+      selectedModal: value,
+      // modalHeader: title,
+    });
+  };
+
   applyClick = () => {
     const {
       innovationAreaSelection,
@@ -469,8 +515,11 @@ class ProductProcess extends React.Component {
       partnerNameSelection,
       marketFailureSelection,
       partnerTypeSelection,
+
+      activeModal,
+      selectedModal,
     } = this.state;
-    const { visualizationType } = this.props;
+
     const {
       productProcessReducer: {
         innovationAreaList,
@@ -481,6 +530,14 @@ class ProductProcess extends React.Component {
         marketFailureList,
       },
     } = this.props;
+
+    const {
+      bubbleTitle,
+      barTitle,
+      radarTitle,
+      heatmapTitle,
+    } = chartTitles;
+
     return (
       <>
         <Header />
@@ -539,6 +596,21 @@ class ProductProcess extends React.Component {
             <div className="main-card literacy-main-card">
               <div className="literacy-tab-content">
                 <div className="literacy-tab-item">
+                  {activeModal && (
+                    <Modal
+                      // visible={selectedModal === 'bar' ? true : false}
+                      // modalHeader="Sakchyam Investment Focus"
+                      // handleShowBarOf={handleShowBarOf}
+                      // resetFilters={resetFilters}
+                      selectedModal={selectedModal}
+                      handleModal={this.handleModal}
+                      activeModal={activeModal}
+                      component={
+                        () => this.getModalContent(selectedModal)
+                        // eslint-disable-next-line react/jsx-curly-newline
+                      }
+                    />
+                  )}
                   <div className="graph-view">
                     <div className="row">
                       {/* <div className="col-xl-12">
@@ -547,7 +619,7 @@ class ProductProcess extends React.Component {
                       <div className="col-xl-6">
                         <div className="card" id="chart-donut">
                           <div className="card-header">
-                            <h5>Product Results</h5>
+                            <h5>{bubbleTitle}</h5>
                             <div className="header-icons">
                               <span
                                 className=""
@@ -560,7 +632,7 @@ class ProductProcess extends React.Component {
                                 role="tab"
                                 tabIndex="0"
                               >
-                                {/* <img src={DownloadIcon} alt="open" /> */}
+                                <img src={DownloadIcon} alt="open" />
                               </span>
                               <span
                                 className=""
@@ -569,19 +641,19 @@ class ProductProcess extends React.Component {
                                 onClick={() => {
                                   this.handleModal();
                                   this.handleSelectedModal(
-                                    'donut',
-                                    'Ratio of Microfinance and Commercial',
+                                    'bubble',
+                                    `${bubbleTitle}`,
                                   );
                                 }}
                                 onKeyDown={() => {
                                   this.handleModal();
                                   this.handleSelectedModal(
-                                    'donut',
-                                    'Ratio of Microfinance and Commercial',
+                                    'bubble',
+                                    `${bubbleTitle}`,
                                   );
                                 }}
                               >
-                                {/* <img src={ExpandIcon} alt="open" /> */}
+                                <img src={ExpandIcon} alt="open" />
                               </span>
                             </div>
                           </div>
@@ -593,7 +665,7 @@ class ProductProcess extends React.Component {
                       <div className="col-xl-6">
                         <div className="card" id="chart-donut">
                           <div className="card-header">
-                            <h5>Innovation Area Radar Chart</h5>
+                            <h5>{radarTitle}</h5>
                             <div className="header-icons">
                               <span
                                 className=""
@@ -606,7 +678,7 @@ class ProductProcess extends React.Component {
                                 role="tab"
                                 tabIndex="0"
                               >
-                                {/* <img src={DownloadIcon} alt="open" /> */}
+                                <img src={DownloadIcon} alt="open" />
                               </span>
                               <span
                                 className=""
@@ -615,19 +687,19 @@ class ProductProcess extends React.Component {
                                 onClick={() => {
                                   this.handleModal();
                                   this.handleSelectedModal(
-                                    'donut',
-                                    'Ratio of Microfinance and Commercial',
+                                    'radar',
+                                    `${radarTitle}`,
                                   );
                                 }}
                                 onKeyDown={() => {
                                   this.handleModal();
                                   this.handleSelectedModal(
-                                    'donut',
-                                    'Ratio of Microfinance and Commercial',
+                                    'radar',
+                                    `${radarTitle}`,
                                   );
                                 }}
                               >
-                                {/* <img src={ExpandIcon} alt="open" /> */}
+                                <img src={ExpandIcon} alt="open" />
                               </span>
                             </div>
                           </div>
@@ -636,7 +708,7 @@ class ProductProcess extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-xl-6">
+                      <div className="col-xl-12">
                         <div className="card" id="chart-donut">
                           <div className="card-header">
                             <h5>Bar Chart</h5>
@@ -652,7 +724,7 @@ class ProductProcess extends React.Component {
                                 role="tab"
                                 tabIndex="0"
                               >
-                                {/* <img src={DownloadIcon} alt="open" /> */}
+                                <img src={DownloadIcon} alt="open" />
                               </span>
                               <span
                                 className=""
@@ -661,19 +733,19 @@ class ProductProcess extends React.Component {
                                 onClick={() => {
                                   this.handleModal();
                                   this.handleSelectedModal(
-                                    'donut',
-                                    'Ratio of Microfinance and Commercial',
+                                    'bar',
+                                    `${barTitle}`,
                                   );
                                 }}
                                 onKeyDown={() => {
                                   this.handleModal();
                                   this.handleSelectedModal(
-                                    'donut',
-                                    'Ratio of Microfinance and Commercial',
+                                    'bar',
+                                    `${barTitle}`,
                                   );
                                 }}
                               >
-                                {/* <img src={ExpandIcon} alt="open" /> */}
+                                <img src={ExpandIcon} alt="open" />
                               </span>
                             </div>
                           </div>
@@ -699,7 +771,7 @@ class ProductProcess extends React.Component {
                             role="tab"
                             tabIndex="0"
                           >
-                            {/* <img src={DownloadIcon} alt="open" /> */}
+                            <img src={DownloadIcon} alt="open" />
                           </span>
                           <span
                             className=""
@@ -708,19 +780,19 @@ class ProductProcess extends React.Component {
                             onClick={() => {
                               this.handleModal();
                               this.handleSelectedModal(
-                                'sankey',
-                                'Beneficiaries Reached By Partners',
+                                'heatmap',
+                                `${heatmapTitle}`,
                               );
                             }}
                             onKeyDown={() => {
                               this.handleModal();
                               this.handleSelectedModal(
-                                'sankey',
-                                'Beneficiaries Reached By Partners',
+                                'heatmap',
+                                `${heatmapTitle}`,
                               );
                             }}
                           >
-                            {/* <img src={ExpandIcon} alt="open" /> */}
+                            <img src={ExpandIcon} alt="open" />
                           </span>
                         </div>
                       </div>
@@ -730,14 +802,6 @@ class ProductProcess extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div
-                  className="literacy-tab-item"
-                  style={
-                    visualizationType === 'Data'
-                      ? { display: 'block' }
-                      : { display: 'none' }
-                  }
-                />
               </div>
             </div>
           </main>

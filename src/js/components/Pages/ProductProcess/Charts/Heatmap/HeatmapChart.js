@@ -7,177 +7,103 @@ import {
   filterHeatmapChartData,
 } from '../../../../../actions/productProcess.actions';
 
-function generateData(count, yrange) {
-  let i = 0;
-  const series = [];
-  while (i < count) {
-    const x = (i + 1).toString();
-    const y =
-      Math.floor(Math.random() * (yrange.max - yrange.min + 1)) +
-      yrange.min;
-
-    series.push({
-      x,
-      y,
-    });
-    i += 1;
-  }
-  return series;
-}
-
 class HeatmapChart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [
-        {
-          name: 'Metric1',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-        {
-          name: 'Metric2',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-        {
-          name: 'Metric3',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-        {
-          name: 'Metric4',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-        {
-          name: 'Metric5',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-        {
-          name: 'Metric6',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-        {
-          name: 'Metric7',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-        {
-          name: 'Metric8',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-        {
-          name: 'Metric9',
-          data: generateData(10, {
-            min: 0,
-            max: 90,
-          }),
-        },
-      ],
-      // series: [
-      //   {
-      //     name: 'Innovation Area 1',
-      //     data: [
-      //       {
-      //         x: 'Market Failure 1',
-      //         y: 0,
-      //       },
-      //       {
-      //         x: 'Market Failure 2',
-      //         y: 29,
-      //       },
-      //       {
-      //         x: 'Market Failure 3',
-      //         y: 13,
-      //       },
-      //       {
-      //         x: 'Market Failure 4',
-      //         y: 32,
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     name: 'Innovation Area 2',
-      //     data: [
-      //       {
-      //         x: 'Market Failure 1',
-      //         y: 43,
-      //       },
-      //       {
-      //         x: 'Market Failure 2',
-      //         y: 43,
-      //       },
-      //       {
-      //         x: 'Market Failure 3',
-      //         y: 43,
-      //       },
-      //       {
-      //         x: 'Market Failure 4',
-      //         y: 43,
-      //       },
-      //     ],
-      //   },
-      // ],
-      options: {
-        chart: {
-          toolbar: { show: false },
-          height: 350,
-          type: 'heatmap',
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        colors: ['#008FFB'],
-        title: {
-          text: undefined,
-        },
-      },
+      series: [],
+      options: {},
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  plotChart = () => {
+    const options = {
+      chart: {
+        toolbar: { show: false },
+        height: 350,
+        type: 'heatmap',
+        width: 900,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ['#008FFB'],
+      title: {
+        text: undefined,
+      },
+      yaxis: {
+        // labels: {
+        //   // show: false,
+        //   trim: true,
+        //   // hideOverlappingLabels: false,
+        // },
+        labels: {
+          show: true,
+          trim: true,
+          hideOverlappingLabels: false,
+          align: 'right',
+          minWidth: 0,
+          maxWidth: 500,
+          style: {
+            colors: [],
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 400,
+            cssClass: 'apexcharts-yaxis-label',
+          },
+          offsetX: 0,
+          offsetY: 0,
+          rotate: 0,
+        },
+      },
+      xaxis: {
+        labels: {
+          // show: false,
+          trim: true,
+          hideOverlappingLabels: false,
+        },
+      },
+    };
+
+    this.setState({ options });
+  };
+
+  updateChartData = () => {
     const {
       productProcessReducer: { heatMapData },
     } = this.props;
+
+    this.setState({
+      series: heatMapData,
+    });
+  };
+
+  componentDidMount() {
+    this.plotChart();
+
+    const { activeModal } = this.props;
+    if (activeModal) this.updateChartData();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     if (
       this.props.productProcessReducer.heatMapData !==
       prevProps.productProcessReducer.heatMapData
     ) {
-      this.setState({
-        series: heatMapData,
-      });
+      this.updateChartData();
     }
   }
 
   render() {
+    const { options, series } = this.state;
     return (
-      <div id="chart">
+      <div id="chart" style={{ paddingLeft: '30px' }}>
         <ReactApexChart
-          options={this.state.options}
-          series={this.state.series}
+          options={options}
+          series={series}
           type="heatmap"
-          height={450}
+          height={550}
         />
       </div>
     );

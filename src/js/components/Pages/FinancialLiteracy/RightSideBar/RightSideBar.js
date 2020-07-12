@@ -3,6 +3,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CaretDown, CaretUp } from './Caret';
+import './custom.css';
 
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
@@ -473,6 +475,7 @@ class RightSideBar extends Component {
     setTimeout(() => {
       const x = document.getElementById(`${years[0]}`);
       x.style.display = 'block';
+      this.setState({ [years[0]]: true });
     }, 200);
 
     this.setState({
@@ -504,8 +507,10 @@ class RightSideBar extends Component {
     // }
     if (x.style.display !== 'none') {
       x.style.display = 'none';
+      this.setState({ [key]: false });
     } else {
       x.style.display = 'block';
+      this.setState({ [key]: true });
     }
   };
 
@@ -750,8 +755,14 @@ class RightSideBar extends Component {
                     timelineData.map(item => {
                       return (
                         <ul className="year">
-                          <div className="date-time">
-                            <span>
+                          <div className="date-time" id="timeline-id">
+                            <div
+                              style={{
+                                // display: 'inline-flex',
+                                background: '#f7f7f7',
+                                width: 'inherit',
+                              }}
+                            >
                               <time
                                 onClick={e =>
                                   this.handleTimelineToggle(
@@ -761,6 +772,7 @@ class RightSideBar extends Component {
                                 }
                                 style={{
                                   cursor: 'pointer',
+                                  display: 'flex',
                                 }}
                               >
                                 {/* <button
@@ -770,8 +782,15 @@ class RightSideBar extends Component {
                                 {item.year}
                               </button> */}
                                 {item.year}
+                                <div style={{ height: 'auto' }}>
+                                  {this.state[item.year] ? (
+                                    <CaretUp />
+                                  ) : (
+                                    <CaretDown />
+                                  )}
+                                </div>
                               </time>
-                            </span>
+                            </div>
                           </div>
                           <div
                             id={item.year}

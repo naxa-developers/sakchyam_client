@@ -18,11 +18,6 @@ class BarChart extends Component {
   }
 
   plotChart = () => {
-    const series = [
-      {
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
-      },
-    ];
     const options = {
       colors: ['#E11D3F'],
       chart: {
@@ -33,6 +28,7 @@ class BarChart extends Component {
       plotOptions: {
         bar: {
           // horizontal: false,
+          columnWidth: '60%',
         },
       },
       legend: {
@@ -65,39 +61,49 @@ class BarChart extends Component {
     this.setState({ options });
   };
 
-  componentDidMount() {
-    this.plotChart();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
+  updateChartData = () => {
     const {
       productProcessReducer: { barChartData },
     } = this.props;
+
+    this.setState(preState => ({
+      series: barChartData.series,
+      options: {
+        ...preState.options,
+        xaxis: {
+          ...preState.options.xaxis,
+          categories: barChartData.categories,
+        },
+      },
+    }));
+  };
+
+  componentDidMount() {
+    this.plotChart();
+
+    const { activeModal } = this.props;
+    if (activeModal) this.updateChartData();
+  }
+
+  componentDidUpdate(prevProps) {
     if (
       this.props.productProcessReducer.barChartData !==
       prevProps.productProcessReducer.barChartData
     ) {
-      this.setState(preState => ({
-        series: barChartData.series,
-        options: {
-          ...preState.options,
-          xaxis: {
-            ...preState.options.xaxis,
-            categories: barChartData.categories,
-          },
-        },
-      }));
+      this.updateChartData();
     }
   }
 
   render() {
+    const { options, series } = this.state;
+
     return (
       <div id="chart">
         <ReactApexChart
-          options={this.state.options}
-          series={this.state.series}
+          options={options}
+          series={series}
           type="bar"
-          height={350}
+          height={450}
         />
       </div>
     );

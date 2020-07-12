@@ -60,52 +60,47 @@ class RadarChart extends React.Component {
     this.setState({ options });
   };
 
-  componentDidMount() {
-    this.plotChart();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
+  updateChartData = () => {
     const {
       productProcessReducer: { radarChartData },
     } = this.props;
-    // if (
-    //   this.props.productProcessReducer.heatMapData !==
-    //   prevProps.productProcessReducer.heatMapData
-    // ) {
-    //   this.setState(preState => ({
-    //     series: radarChartData.series,
-    //     options: {
-    //       ...preState.options,
-    //       xaxis: {
-    //         ...preState.options.xaxis,
-    //         categories: radarChartData.categories,
-    //       },
-    //     },
-    //   }));
-    // }
+
+    this.setState(preState => ({
+      series: radarChartData.series,
+      options: {
+        ...preState.options,
+        xaxis: {
+          ...preState.options.xaxis,
+          categories: radarChartData.categories,
+        },
+      },
+    }));
+  };
+
+  componentDidMount() {
+    this.plotChart();
+
+    const { activeModal } = this.props;
+    if (activeModal) this.updateChartData();
+  }
+
+  componentDidUpdate(prevProps) {
     if (
       this.props.productProcessReducer.radarChartData !==
       prevProps.productProcessReducer.radarChartData
     ) {
-      this.setState(preState => ({
-        series: radarChartData.series,
-        options: {
-          ...preState.options,
-          xaxis: {
-            ...preState.options.xaxis,
-            categories: radarChartData.categories,
-          },
-        },
-      }));
+      this.updateChartData();
     }
   }
 
   render() {
+    const { options, series } = this.state;
+
     return (
       <div id="chart">
         <ReactApexChart
-          options={this.state.options}
-          series={this.state.series}
+          options={options}
+          series={series}
           type="radar"
           height={385}
         />
