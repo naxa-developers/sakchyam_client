@@ -55,7 +55,7 @@ class ProductProcess extends React.Component {
       showRightSidebar: true,
       activeModal: false,
       selectedModal: '',
-      // modalHeader: '',
+      modalHeader: '',
     };
   }
 
@@ -480,7 +480,7 @@ class ProductProcess extends React.Component {
   handleSelectedModal = (value, title) => {
     this.setState({
       selectedModal: value,
-      // modalHeader: title,
+      modalHeader: title,
     });
   };
 
@@ -518,6 +518,7 @@ class ProductProcess extends React.Component {
 
       activeModal,
       selectedModal,
+      modalHeader,
     } = this.state;
 
     const {
@@ -599,7 +600,7 @@ class ProductProcess extends React.Component {
                   {activeModal && (
                     <Modal
                       // visible={selectedModal === 'bar' ? true : false}
-                      // modalHeader="Sakchyam Investment Focus"
+                      modalHeader={modalHeader}
                       // handleShowBarOf={handleShowBarOf}
                       // resetFilters={resetFilters}
                       selectedModal={selectedModal}
