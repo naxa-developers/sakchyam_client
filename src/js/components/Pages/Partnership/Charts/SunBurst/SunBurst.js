@@ -131,6 +131,7 @@ class Sunburst extends React.Component {
       .endAngle((d) => {
         return Math.max(0, Math.min(2 * Math.PI, this.x(d.x1)));
       })
+      .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
       .innerRadius((d) => {
         return Math.max(0, this.y(d.y0));
       })
@@ -170,6 +171,7 @@ class Sunburst extends React.Component {
     if (shallowEqual(this.props.data, nextProps.data)) {
       return false;
     }
+    
     return true;
   }
 
@@ -178,6 +180,9 @@ class Sunburst extends React.Component {
     this.props._debug && this.props._log("Sunburst: componentDidUpdate()");
     this._destroy_svg();
     this._create();
+    // if(this.props.reset === true){
+    //   return true;
+    // }
   }
 
   componentWillUnmount() {
@@ -328,6 +333,7 @@ class Sunburst extends React.Component {
         .on(
           "click",
           function (node) {
+            // console.log('onClick ')
             // console.log(node,'node');
             this._onClick(node);
             this.props.onClick && this.props.onClick(node);

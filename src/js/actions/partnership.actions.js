@@ -38,8 +38,10 @@ import {
   FILTER_LEVERAGE_DATA,
   RESET_OVERVIEW_DATA,
   FILTER_LEVERAGE_DATA_FOR_BARCLICK,
+  FILTER_BENEFBUDGET_DATA_FOR_BARCLICK,
   GET_BARDATA_BY_INVESTMENTFOCUS,
   FILTER_BARDATA_BY_INVESTMENTFOCUS,
+  RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -2007,6 +2009,11 @@ export const resetLeverageData = () => dispatch => {
     type: RESET_LEVERAGE_DATA,
   });
 };
+export const resetBarDataByInvestmentFocus = () => dispatch => {
+  return dispatch({
+    type: RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
+  });
+};
 export const filterTimelineData = (min, max, fedtype) => dispatch => {
   return dispatch({
     type: FILTER_TIMELINE_DATA,
@@ -2018,4 +2025,84 @@ export const filterLeverageDataForBarClick = data => dispatch => {
     type: FILTER_LEVERAGE_DATA_FOR_BARCLICK,
     payload: data,
   });
+};
+export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
+  // const data = selectedDataView;
+  // if (data === 'allocated_beneficiary') {
+  // data = ['total_beneficiary', 'female_beneficiary'];
+
+  try {
+    const requestOne = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: '',
+        partner_id: [0],
+        project_id: [0],
+        province_id: [],
+        district_id: [],
+        view: 'total_beneficiary',
+        municipality_id: [],
+        investment: [clicked],
+      },
+    );
+    // const requestTwo = axiosInstance.post(
+    //   '/api/v1/partnership/partnership-filter/',
+    //   {
+    //     status: '',
+    //     partner_id: [0],
+    //     project_id: [0],
+    //     province_id: [0],
+    //     district_id: [],
+    //     view: 'female_beneficiary',
+    //     municipality_id: [],
+    //     investment: [
+    //       'Automation of MFIs',
+    //       'Channel Innovations',
+    //       'Digital Financial Services',
+    //       'Downscaling and Value Chain Financing By Banks',
+    //       'Increased uptake of microinsurance',
+    //       'Outreach Expansion',
+    //       'Product Innovations',
+    //       'Remittance Based Products',
+    //       'SME Financing',
+    //     ],
+    //   },
+    // );
+    const requestThree = axiosInstance.post(
+      '/api/v1/partnership/partnership-filter/',
+      {
+        status: '',
+        partner_id: [0],
+        project_id: [0],
+        province_id: [],
+        district_id: [],
+        view: 'allocated_budget',
+        municipality_id: [],
+        investment: [clicked],
+      },
+    );
+
+    axios
+      .all([requestOne, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseThree = responses[1];
+          return dispatch({
+            type: FILTER_BENEFBUDGET_DATA_FOR_BARCLICK,
+            payload: {
+              // selectedDataView,
+              totalBeneficiary: responseOne.data,
+              // femaleBeneficiary: responseTwo.d0ata,
+              allocatedBudget: responseThree.data,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
 };
