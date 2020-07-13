@@ -11,6 +11,7 @@ import {
   FILTER_HEATMAP_CHART_DATA,
   FILTER_OVERVIEW_DATA_PP,
   FILTER_BUBBLE_CHART_DATA,
+  RESET_ALL_CHART_PP,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -77,6 +78,65 @@ const getOverviewData = data => {
     partnerInstitutionCount,
     productCount,
   };
+};
+
+const generateTimelineData = data => {
+  // remove data with null date values
+  const filteredData = [];
+  data.forEach(item => {
+    if (item.date !== null)
+      filteredData.push({
+        date: item.date,
+        name: item.product_name,
+      });
+  });
+
+  const allYears = [];
+  filteredData.filter(item => {
+    const year = item.date.substring(0, 4);
+    if (!allYears.includes(year)) allYears.push(year);
+    return true;
+  });
+
+  const a = Math.min(...allYears);
+  const b = Math.max(...allYears);
+  const years = [];
+
+  let initial = a;
+  for (let i = 0; i <= b - a; i += 1) {
+    years.push(initial);
+    initial += 1;
+  }
+
+  years.sort((c, d) => d - c);
+
+  const arr = [];
+
+  years.map((item, index) => {
+    arr.push({
+      id: index + 1,
+      year: item,
+      program: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+    });
+    return true;
+  });
+
+  filteredData.map(item => {
+    const date = new Date(item.date);
+    const year = item.date.substring(0, 4);
+    const month = date.getMonth();
+
+    arr.map(i => {
+      if (i.year.toString() === year) {
+        // eslint-disable-next-line no-param-reassign
+        i.program[month] = { ...item };
+      }
+      return true;
+    });
+    return true;
+  });
+
+  return arr;
 };
 
 const generateBarChartData = data => {
@@ -740,6 +800,33 @@ const filterPartnerNameList = (state, action) => {
   };
 };
 
+// RESET BUTTON ON LEFTSIDEBAR
+const resetAllChartPP = (state, action) => {
+  const {
+    defaultBubbleData,
+    defaultHeatmapData,
+    defaultRadarData,
+    defaultBarData,
+    defaultOverviewData,
+  } = state;
+
+  const bubbleChartData = defaultBubbleData;
+  const heatMapData = defaultHeatmapData;
+  const radarChartData = defaultRadarData;
+  const barChartData = defaultBarData;
+
+  const overviewData = defaultOverviewData;
+
+  return {
+    ...state,
+    bubbleChartData,
+    heatMapData,
+    radarChartData,
+    barChartData,
+    overviewData,
+  };
+};
+
 const getProductProcessData = (state, action) => {
   const allData = action.payload;
 
@@ -772,8 +859,18 @@ const getProductProcessList = (state, action) => {
   // GET RIGHT SIDEBAR OVERVIEW DATA
   const overviewData = getOverviewData(data);
 
+  const timelineData = generateTimelineData(data);
+
+  // DEFAULT DATA FOR RESET BUTTON
+  const defaultBubbleData = bubbleChartData;
+  const defaultHeatmapData = heatMapData;
+  const defaultRadarData = radarChartData;
+  const defaultBarData = barChartData;
+  const defaultOverviewData = overviewData;
+
   return {
     ...state,
+    allData: data,
     innovationAreaList,
     productCategoryList,
     productNameList,
@@ -782,9 +879,15 @@ const getProductProcessList = (state, action) => {
     marketFailureList,
     bubbleChartData,
     overviewData,
+    timelineData,
     heatMapData,
     radarChartData,
     barChartData,
+    defaultBubbleData,
+    defaultHeatmapData,
+    defaultRadarData,
+    defaultBarData,
+    defaultOverviewData,
     // productProcessList: action.payload,
   };
 };
@@ -809,6 +912,8 @@ export default function(state = initialState, action) {
       return filterHeatmapChartData(state, action);
     case FILTER_OVERVIEW_DATA_PP:
       return filterOverviewData(state, action);
+    case RESET_ALL_CHART_PP:
+      return resetAllChartPP(state, action);
 
     default:
       return state;

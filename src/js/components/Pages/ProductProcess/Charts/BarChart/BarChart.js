@@ -97,6 +97,8 @@ class BarChart extends Component {
   render() {
     const { options, series } = this.state;
 
+    const { showRightSidebar } = this.props;
+
     return (
       <div id="chart">
         <ReactApexChart
@@ -104,6 +106,15 @@ class BarChart extends Component {
           series={series}
           type="bar"
           height={450}
+          width={
+            showRightSidebar && window.innerWidth < 1600
+              ? 780
+              : showRightSidebar && window.innerWidth > 1600
+              ? 1100
+              : !showRightSidebar && window.innerWidth < 1600
+              ? 1100
+              : 1400
+          }
         />
       </div>
     );

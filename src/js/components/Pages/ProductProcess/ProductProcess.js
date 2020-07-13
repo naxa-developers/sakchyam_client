@@ -14,6 +14,7 @@ import {
   filterBarChartData,
   filterHeatmapChartData,
   filterOverviewDataPP,
+  resetAllChartPP,
 } from '../../../actions/productProcess.actions';
 import BubbleChart from './Charts/BubbleChart/BubbleChart';
 import HeatmapChart from './Charts/Heatmap/HeatmapChart';
@@ -62,12 +63,8 @@ class ProductProcess extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      productCategorySelection,
-      partnerTypeSelection,
-    } = this.state;
     this.props.getProductProcessList();
-    this.props.getProductProcessData();
+    // this.props.getProductProcessData();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -521,6 +518,26 @@ class ProductProcess extends React.Component {
     );
   };
 
+  // handleUnCheck = () => {};
+
+  resetClick = () => {
+    this.setState({
+      innovationAreaSelection: [],
+      isAllInnovationAreaSelected: false,
+      productCategorySelection: [],
+      isAllProductCategorySelected: false,
+      productNameSelection: [],
+      isAllProductNameSelected: false,
+      partnerNameSelection: [],
+      isAllPartnerNameSelected: false,
+      marketFailureSelection: [],
+      isAllMarketFailureSelected: false,
+      partnerTypeSelection: [],
+    });
+    // this.handleUnCheck();
+    this.props.resetAllChartPP();
+  };
+
   render() {
     const {
       showRightSidebar,
@@ -604,6 +621,7 @@ class ProductProcess extends React.Component {
               this.handleMarketFailureCheckbox
             }
             handlePartnerType={this.handlePartnerType}
+            resetClick={this.resetClick}
             applyClick={this.applyClick}
           />
 
@@ -766,7 +784,9 @@ class ProductProcess extends React.Component {
                             </div>
                           </div>
                           <div className="card-body">
-                            <BarChart />
+                            <BarChart
+                              showRightSidebar={showRightSidebar}
+                            />
                           </div>
                         </div>
                       </div>
@@ -822,7 +842,10 @@ class ProductProcess extends React.Component {
             </div>
           </main>
 
-          <RightSideBar showRightSidebar={showRightSidebar} />
+          <RightSideBar
+            showRightSidebar={showRightSidebar}
+            handleRightSidebarShow={this.handleRightSidebarShow}
+          />
         </div>
       </>
     );
@@ -842,4 +865,5 @@ export default connect(mapStateToProps, {
   filterBarChartData,
   filterHeatmapChartData,
   filterOverviewDataPP,
+  resetAllChartPP,
 })(ProductProcess);

@@ -16,10 +16,13 @@ class RadarChart extends React.Component {
 
   plotChart = () => {
     const options = {
-      tooltip: {
-        enabled: true,
-        // shared: true,
-      },
+      // dataLabels: {
+      //   enabled: true,
+      //   background: {
+      //     enabled: true,
+      //     borderRadius: 2,
+      //   },
+      // },
       chart: {
         toolbar: { show: false },
         height: 350,
@@ -49,6 +52,16 @@ class RadarChart extends React.Component {
           // show: true,
         },
         categories: [],
+      },
+      yaxis: {
+        min: 0,
+        max: 10,
+        tickAmount: 5,
+        // labels: {
+        //   formatter(val) {
+        //     return val.toFixed(0);
+        //   },
+        // },
       },
       legend: {
         onItemClick: {
@@ -97,7 +110,7 @@ class RadarChart extends React.Component {
     const { options, series } = this.state;
 
     return (
-      <div id="chart">
+      <div id="chart" style={{ height: '400px' }}>
         <ReactApexChart
           options={options}
           series={series}

@@ -9,6 +9,7 @@ import {
   FILTER_BAR_CHART_DATA,
   FILTER_HEATMAP_CHART_DATA,
   FILTER_OVERVIEW_DATA_PP,
+  RESET_ALL_CHART_PP,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -123,5 +124,12 @@ export const filterOverviewDataPP = (
       partnerName,
       productName,
     },
+  });
+};
+
+export const resetAllChartPP = () => dispatch => {
+  return dispatch({
+    type: RESET_ALL_CHART_PP,
+    payload: {},
   });
 };
