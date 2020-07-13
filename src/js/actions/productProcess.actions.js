@@ -4,9 +4,12 @@ import {
   GET_INITIAL_CHART_DATA,
   FILTER_PRODUCT_NAME_LIST,
   FILTER_PARTNER_NAME_LIST,
+  FILTER_BUBBLE_CHART_DATA,
   FILTER_RADAR_CHART_DATA,
   FILTER_BAR_CHART_DATA,
   FILTER_HEATMAP_CHART_DATA,
+  FILTER_OVERVIEW_DATA_PP,
+  RESET_ALL_CHART_PP,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -62,6 +65,23 @@ export const filterPartnerNameList = partnerType => dispatch => {
   });
 };
 
+export const filterBubbleChartData = (
+  innovationArea,
+  productCategory,
+  partnerType,
+  partnerName,
+) => dispatch => {
+  return dispatch({
+    type: FILTER_BUBBLE_CHART_DATA,
+    payload: {
+      innovationArea,
+      productCategory,
+      partnerType,
+      partnerName,
+    },
+  });
+};
+
 export const filterRadarChartData = (
   innovationArea,
   partnerType,
@@ -89,5 +109,27 @@ export const filterHeatmapChartData = (
   return dispatch({
     type: FILTER_HEATMAP_CHART_DATA,
     payload: { innovationArea, marketFailure },
+  });
+};
+
+export const filterOverviewDataPP = (
+  innovationArea,
+  partnerName,
+  productName,
+) => dispatch => {
+  return dispatch({
+    type: FILTER_OVERVIEW_DATA_PP,
+    payload: {
+      innovationArea,
+      partnerName,
+      productName,
+    },
+  });
+};
+
+export const resetAllChartPP = () => dispatch => {
+  return dispatch({
+    type: RESET_ALL_CHART_PP,
+    payload: {},
   });
 };
