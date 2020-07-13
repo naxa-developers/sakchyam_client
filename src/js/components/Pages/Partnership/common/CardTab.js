@@ -47,6 +47,7 @@ const CardTab = ({
   handleModal,
   handleSelectedModal,
   renderChartComponent,
+  showBarof,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -87,17 +88,19 @@ const CardTab = ({
                       <small>ON</small>
                     </div> */}
             {cardChartId === 'groupedChart' ? (
-              <button
-                id="chart-reset"
-                type="button"
-                onClick={() => {
-                  handleShowBarOf('Provinces');
-                  resetFunction();
-                }}
-                className="is-border common-button"
-              >
-                Reset
-              </button>
+              showBarof !== 'Provinces' && (
+                <button
+                  id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    handleShowBarOf('Provinces');
+                    resetFunction();
+                  }}
+                  className="is-border common-button"
+                >
+                  Reset
+                </button>
+              )
             ) : cardChartId === 'sunburst' ? (
               <button
                 id="chart-reset"

@@ -74,7 +74,7 @@ class MainPartnership extends Component {
       activeFilter: false,
       activeOverview: false,
       viewDataBy: 'allocated_beneficiary',
-      mapViewDataBy: 'allocated_beneficiary',
+      mapViewDataBy: 'investment_focus',
       activeView: 'visualization',
       // map Section
       map: null,
@@ -89,7 +89,7 @@ class MainPartnership extends Component {
     this.props.getPartnersList();
     this.props.getProjectListData();
     this.props.getPartnershipInvestmentFocus();
-    this.props.getPartnershipAllData();
+    // this.props.getPartnershipAllData();
     this.props.getProvinceData();
     // this.props.getSpiderChartData();
     // this.props.getOverviewData();
@@ -100,6 +100,47 @@ class MainPartnership extends Component {
     // this.props.getMapDataByMunicipality(viewDataBy);
     this.props.getDistrictData();
     this.props.getMunicipalityData();
+
+    // const provinceEl = document.getElementById(
+    //   'filter_dropdown_province',
+    // );
+    // const districtEl = document.getElementById(
+    //   'filter_dropdown_district',
+    // );
+    // const municipalityEl = document.getElementById(
+    //   'filter_dropdown_municipality',
+    // );
+    // // console.log(specifiedElement, 'ss');
+    // document.addEventListener('click', async event => {
+    //   const isClickInside = provinceEl.contains(event.target);
+    //   if (!isClickInside) {
+    //     this.setState({
+    //       activeProvince: false,
+    //       // searchDropdown: false,
+    //     });
+    //     // the click was outside the specifiedElement, do something
+    //   }
+    // });
+    // document.addEventListener('click', async event => {
+    //   const isClickInside = districtEl.contains(event.target);
+    //   if (!isClickInside) {
+    //     this.setState({
+    //       activeDistrict: false,
+    //       // searchDropdown: false,
+    //     });
+    //     // the click was outside the specifiedElement, do something
+    //   }
+    // });
+    // document.addEventListener('click', async event => {
+    //   const isClickInside = municipalityEl.contains(event.target);
+    //   if (!isClickInside) {
+    //     this.setState({
+    //       activeMunicipality: false,
+    //       // searchDropdown: false,
+    //     });
+    //     // the click was outside the specifiedElement, do something
+    //   }
+    // });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -186,7 +227,8 @@ class MainPartnership extends Component {
       'pk.eyJ1IjoiZ2VvbWF0dXBlbiIsImEiOiJja2E5bDFwb2swdHNyMnNvenZxa2Vpeml2In0.fCStqdwmFYFP-cUvb5vMCw';
     const map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+      // style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+      style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
       center: [84.0, 27.5], // starting position [lng, lat]
       zoom: 7, // starting zoom
     });

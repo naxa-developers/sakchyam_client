@@ -101,8 +101,10 @@ class RightSideBar extends Component {
                   : {
                       opacity: 1,
                       pointerEvents: 'auto',
+                      cursor: 'pointer',
                     }
               }
+              // style={{ cursor: 'pointer' }}
               onClick={toggleTableViewButton}
               onKeyDown={toggleTableViewButton}
               role="tab"

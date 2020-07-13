@@ -538,3 +538,24 @@
 //    height: 100% !important;
 //   width:100% !important;
 //  }
+#key {
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 22.22%;
+  height: auto;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.total {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+// .table {
+//   font-family: 'Montserrat', sans-serif;
+//   color: white;
+//   border-collapse: collapse;
+// }

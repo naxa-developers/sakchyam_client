@@ -48,6 +48,7 @@
         height: 286px;
         overflow-y: scroll;
         top: 140%;
+        z-index: 99;
         &.active{
             opacity: 1;
             display: block;

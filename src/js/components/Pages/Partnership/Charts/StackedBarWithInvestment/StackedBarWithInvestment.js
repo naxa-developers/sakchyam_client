@@ -110,7 +110,8 @@ class StackedBarWithInvestment extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
-      colors: ['#84A59D', '#932F6D', '#43B929'],
+      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
+      // colors: ['#84A59D', '#932F6D', '#43B929'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
       },
@@ -187,11 +188,11 @@ class StackedBarWithInvestment extends Component {
           },
           axisBorder: {
             show: true,
-            color: '#43B929',
+            color: '#f7bc48',
           },
           labels: {
             style: {
-              colors: '#43B929',
+              colors: '#f7bc48',
             },
             formatter: value => {
               // console.log(value, 'value');
@@ -201,7 +202,7 @@ class StackedBarWithInvestment extends Component {
           title: {
             text: 'Budget Allocated',
             style: {
-              color: '#43B929',
+              color: '#f7bc48',
             },
           },
           // tooltip: {
@@ -378,8 +379,8 @@ class StackedBarWithInvestment extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
-      colors: ['#84A59D', '#932F6D', '#43B929'],
-      // colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
+      // colors: ['#84A59D', '#932F6D', '#43B929'],
+      colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         labels: {
           trim: true,
@@ -488,11 +489,11 @@ class StackedBarWithInvestment extends Component {
           },
           axisBorder: {
             show: true,
-            color: '#43B929',
+            color: '#f7bc48',
           },
           labels: {
             style: {
-              colors: '#43B929',
+              colors: '#f7bc48',
             },
             formatter: value => {
               // console.log(value, 'value');
@@ -502,7 +503,7 @@ class StackedBarWithInvestment extends Component {
           title: {
             text: 'Budget Allocated',
             style: {
-              color: '#43B929',
+              color: '#f7bc48',
             },
           },
           // tooltip: {
@@ -512,8 +513,8 @@ class StackedBarWithInvestment extends Component {
       ],
       markers: {
         size: 5,
-        colors: ['#43B929'],
-        strokeColor: '#43B929',
+        colors: ['#f7bc48'],
+        strokeColor: '#f7bc48',
         strokeWidth: 3,
       },
       tooltip: {

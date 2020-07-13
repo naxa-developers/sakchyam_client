@@ -128,14 +128,19 @@ a:focus {
     background-color: transparent;
 }
 
-
+.li-wrap{
+  a:not([href]):not([tabindex]) {
+    color: #13A8BE;
+    text-decoration: none;
+}
+}
 a:not([href]):not([tabindex]) {
-  color: inherit;
+  // color: inherit;
   text-decoration: none;
 }
 
 a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
-  color: inherit;
+  // color: inherit;
   text-decoration: none;
 }
 
