@@ -9,9 +9,11 @@ import {
   getProductProcessList,
   filterProductNameList,
   filterPartnerNameList,
+  filterBubbleChartData,
   filterRadarChartData,
   filterBarChartData,
   filterHeatmapChartData,
+  filterOverviewDataPP,
 } from '../../../actions/productProcess.actions';
 import BubbleChart from './Charts/BubbleChart/BubbleChart';
 import HeatmapChart from './Charts/Heatmap/HeatmapChart';
@@ -489,9 +491,17 @@ class ProductProcess extends React.Component {
       innovationAreaSelection,
       partnerTypeSelection,
       marketFailureSelection,
+      partnerNameSelection,
       productNameSelection,
+      productCategorySelection,
     } = this.state;
 
+    this.props.filterBubbleChartData(
+      innovationAreaSelection,
+      productCategorySelection,
+      partnerTypeSelection,
+      partnerNameSelection,
+    );
     this.props.filterRadarChartData(
       innovationAreaSelection,
       partnerTypeSelection,
@@ -503,6 +513,11 @@ class ProductProcess extends React.Component {
     this.props.filterHeatmapChartData(
       innovationAreaSelection,
       marketFailureSelection,
+    );
+    this.props.filterOverviewDataPP(
+      innovationAreaSelection,
+      partnerNameSelection,
+      productNameSelection,
     );
   };
 
@@ -822,7 +837,9 @@ export default connect(mapStateToProps, {
   getProductProcessList,
   filterProductNameList,
   filterPartnerNameList,
+  filterBubbleChartData,
   filterRadarChartData,
   filterBarChartData,
   filterHeatmapChartData,
+  filterOverviewDataPP,
 })(ProductProcess);

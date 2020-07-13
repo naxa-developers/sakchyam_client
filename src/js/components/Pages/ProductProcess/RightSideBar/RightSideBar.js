@@ -9,6 +9,9 @@ class RightSideBar extends Component {
       innovationAreaCount: '-',
       partnerInstitutionCount: '-',
       productCount: '-',
+      defaultInnovation: '',
+      defaultPartner: '',
+      defaultProduct: '',
     };
   }
 
@@ -31,6 +34,17 @@ class RightSideBar extends Component {
         partnerInstitutionCount,
         productCount,
       });
+      if (
+        innovationAreaCount !== 0 &&
+        partnerInstitutionCount !== 0 &&
+        productCount !== 0
+      ) {
+        this.setState({
+          defaultInnovation: innovationAreaCount,
+          defaultPartner: partnerInstitutionCount,
+          defaultProduct: productCount,
+        });
+      }
     }
   }
 
@@ -44,6 +58,10 @@ class RightSideBar extends Component {
       innovationAreaCount,
       partnerInstitutionCount,
       productCount,
+
+      defaultInnovation,
+      defaultPartner,
+      defaultProduct,
     } = this.state;
 
     return (
@@ -60,7 +78,9 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Innovation area</h6>
                       <span>
-                        {innovationAreaCount}
+                        {innovationAreaCount !== 0
+                          ? innovationAreaCount
+                          : defaultInnovation}
                         {/* {numberWithCommas(totalBeneficiaries)} */}
                       </span>
                     </div>
@@ -73,7 +93,11 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Partner Institutions</h6>
-                      <span>{partnerInstitutionCount}</span>
+                      <span>
+                        {partnerInstitutionCount !== 0
+                          ? partnerInstitutionCount
+                          : defaultPartner}
+                      </span>
                       {/* <span>{partnerCount}</span> */}
                     </div>
                     <div className="widget-icon">
@@ -87,7 +111,11 @@ class RightSideBar extends Component {
                   <li>
                     <div className="widget-content">
                       <h6>Products</h6>
-                      <span>{productCount}</span>
+                      <span>
+                        {productCount !== 0
+                          ? productCount
+                          : defaultProduct}
+                      </span>
                       {/* <span>{programCount}</span> */}
                     </div>
                     <div className="widget-icon">

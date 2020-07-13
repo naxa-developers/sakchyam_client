@@ -9,6 +9,8 @@ import {
   FILTER_RADAR_CHART_DATA,
   FILTER_BAR_CHART_DATA,
   FILTER_HEATMAP_CHART_DATA,
+  FILTER_OVERVIEW_DATA_PP,
+  FILTER_BUBBLE_CHART_DATA,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -385,6 +387,201 @@ const generateHeatMapData = dataa => {
   return finalArray;
 };
 
+const filterOverviewData = (state, action) => {
+  const { innovationArea, partnerName, productName } = action.payload;
+
+  const innovationAreaCount = innovationArea.length;
+  const partnerInstitutionCount = partnerName.length;
+  const productCount = productName.length;
+
+  return {
+    ...state,
+    overviewData: {
+      innovationAreaCount,
+      partnerInstitutionCount,
+      productCount,
+    },
+  };
+};
+
+const filterBubbleChartData = (state, action) => {
+  const { allData } = state;
+  const {
+    innovationArea,
+    productCategory,
+    partnerType,
+    partnerName,
+  } = action.payload;
+
+  let filteredData;
+  const innovationLen = innovationArea.length;
+  const productLen = productCategory.length;
+  const partnerTypeLen = partnerType.length;
+  const partnerLen = partnerName.length;
+
+  if (
+    innovationLen === 0 &&
+    productLen === 0 &&
+    partnerTypeLen === 0 &&
+    partnerLen === 0
+  ) {
+    filteredData = allData;
+  } else if (
+    innovationLen > 0 &&
+    productLen === 0 &&
+    partnerTypeLen === 0 &&
+    partnerLen === 0
+  ) {
+    filteredData = allData.filter(item =>
+      innovationArea.includes(item.innovation_area),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen > 0 &&
+    partnerTypeLen === 0 &&
+    partnerLen === 0
+  ) {
+    filteredData = allData.filter(item =>
+      productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen === 0 &&
+    partnerTypeLen > 0 &&
+    partnerLen === 0
+  ) {
+    filteredData = allData.filter(item =>
+      partnerType.includes(item.partner_type),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen === 0 &&
+    partnerTypeLen === 0 &&
+    partnerLen > 0
+  ) {
+    filteredData = allData.filter(item =>
+      partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen > 0 &&
+    partnerTypeLen === 0 &&
+    partnerLen === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen === 0 &&
+    partnerTypeLen > 0 &&
+    partnerLen === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        partnerType.includes(item.partner_type),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen === 0 &&
+    partnerTypeLen === 0 &&
+    partnerLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen > 0 &&
+    partnerTypeLen > 0 &&
+    partnerLen === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productCategory.includes(item.product_category) &&
+        partnerType.includes(item.partner_type),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen === 0 &&
+    partnerTypeLen > 0 &&
+    partnerLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        partnerType.includes(item.partner_type) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen > 0 &&
+    partnerTypeLen > 0 &&
+    partnerLen === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productCategory.includes(item.product_category) &&
+        partnerType.includes(item.partner_type),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen > 0 &&
+    partnerTypeLen > 0 &&
+    partnerLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productCategory.includes(item.product_category) &&
+        partnerType.includes(item.partner_type) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen === 0 &&
+    partnerTypeLen > 0 &&
+    partnerLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        partnerType.includes(item.partner_type) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen > 0 &&
+    partnerTypeLen === 0 &&
+    partnerLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productCategory.includes(item.product_category) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productCategory.includes(item.product_category) &&
+        partnerType.includes(item.partner_type) &&
+        partnerName.includes(item.partner_name),
+    );
+  }
+
+  const filteredBubbleChartData = generateBubbleChartData(
+    filteredData,
+  );
+
+  return { ...state, bubbleChartData: filteredBubbleChartData };
+};
+
 const filterRadarChartData = (state, action) => {
   const { allData } = state;
   const { innovationArea, partnerType } = action.payload;
@@ -602,12 +799,16 @@ export default function(state = initialState, action) {
       return filterProductNameList(state, action);
     case FILTER_PARTNER_NAME_LIST:
       return filterPartnerNameList(state, action);
+    case FILTER_BUBBLE_CHART_DATA:
+      return filterBubbleChartData(state, action);
     case FILTER_RADAR_CHART_DATA:
       return filterRadarChartData(state, action);
     case FILTER_BAR_CHART_DATA:
       return filterBarChartData(state, action);
     case FILTER_HEATMAP_CHART_DATA:
       return filterHeatmapChartData(state, action);
+    case FILTER_OVERVIEW_DATA_PP:
+      return filterOverviewData(state, action);
 
     default:
       return state;
