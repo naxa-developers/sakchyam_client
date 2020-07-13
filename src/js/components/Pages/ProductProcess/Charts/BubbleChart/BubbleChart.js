@@ -44,7 +44,7 @@ class BubbleChart extends React.Component {
 
     return (
       <div style={{ height: '400px', width: 'auto' }}>
-        {bubbleChartData && (
+        {bubbleChartData && bubbleChartData.children.length !== 0 && (
           <ResponsiveBubble
             // root={data}
             root={bubbleChartData}

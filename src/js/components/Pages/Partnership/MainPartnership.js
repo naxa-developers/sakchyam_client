@@ -42,6 +42,7 @@ import {
   resetSankeyChartData,
   resetOverviewData,
   resetLeverageData,
+  resetBarDataByInvestmentFocus,
   filterLeverageData,
   filterBarDataByInvestment,
 } from '../../../actions/partnership.actions';
@@ -76,6 +77,7 @@ class MainPartnership extends Component {
       viewDataBy: 'allocated_beneficiary',
       mapViewDataBy: 'investment_focus',
       activeView: 'visualization',
+      // resetSunburst: false,
       // map Section
       map: null,
       mapViewBy: 'province',
@@ -801,14 +803,14 @@ class MainPartnership extends Component {
       projectStatus,
       investmentFocusSelection,
     );
-    this.props.filterRadialData(
-      viewDataBy,
-      investmentFocusSelection,
-      projectSelection,
-      partnerType,
-      partnerSelection,
-      projectStatus,
-    );
+    // this.props.filterRadialData(
+    //   viewDataBy,
+    //   investmentFocusSelection,
+    //   projectSelection,
+    //   partnerType,
+    //   partnerSelection,
+    //   projectStatus,
+    // );
     // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
     //   return data.
     // })
@@ -885,6 +887,7 @@ class MainPartnership extends Component {
       this.props.resetSankeyChartData();
       this.props.resetOverviewData();
       this.props.resetLeverageData();
+      this.props.resetBarDataByInvestmentFocus();
     } else {
       this.setMapViewBy(mapViewBy);
     }
@@ -1391,4 +1394,5 @@ export default connect(mapStateToProps, {
   filterLeverageData,
   getBarDataByInvestmentFocus,
   filterBarDataByInvestment,
+  resetBarDataByInvestmentFocus,
 })(MainPartnership);

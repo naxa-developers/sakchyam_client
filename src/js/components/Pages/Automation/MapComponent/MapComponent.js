@@ -496,6 +496,7 @@ class MapComponent extends Component {
           <Loading loaderState={dataLoading && dataLoading} />
           {/* {!activeOutreachButton ? ( */}
           <TimelineChart
+            activeOutreachButton={activeOutreachButton}
             // key={Math.random()}
             // key={this.state.key}
             minValue={minValue}

@@ -37,6 +37,7 @@ class LeftSideBar extends Component {
       handlePartnerType,
       partnerTypeSelection,
 
+      resetClick,
       applyClick,
     } = this.props;
 
@@ -279,7 +280,7 @@ class LeftSideBar extends Component {
 
             <div className="apply-buttons buttons end">
               <button
-                // onClick={resetClick}
+                onClick={resetClick}
                 type="button"
                 className="common-button is-clear "
               >
@@ -302,9 +303,4 @@ class LeftSideBar extends Component {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LeftSideBar);
+export default connect(mapStateToProps)(LeftSideBar);

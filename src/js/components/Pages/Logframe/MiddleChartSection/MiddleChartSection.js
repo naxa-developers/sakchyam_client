@@ -14,7 +14,7 @@ import {
   loadingTrue,
 } from '../../../../actions/logFrame.actions';
 import Modal from '../../../common/Modal';
-
+import ModalChart from '../ModalChart';
 // function convert(x) {
 //   // eslint-disable-next-line no-restricted-globals
 //   if (isNaN(x)) return x;
@@ -170,7 +170,7 @@ class MiddleChartSection extends Component {
             columnWidth: '80%',
           },
         },
-        colors: ['#b41833', '#5794a6'],
+        colors: ['#2A7178', '#AC3238'],
         fill: {
           opacity: [0.75, 0.75, 0, 0],
           // opacity: [0.65, 0.65, 0.15, 0.15],
@@ -545,6 +545,11 @@ class MiddleChartSection extends Component {
             'apexcharts-tooltip-series-group',
           )[2]
           .classList.add('none');
+        document
+          .getElementsByClassName(
+            'apexcharts-tooltip-series-group',
+          )[6]
+          .classList.add('none');
       }, 200);
     } else {
       // alert('else activeLine1 activeBar1');
@@ -553,6 +558,11 @@ class MiddleChartSection extends Component {
           .getElementsByClassName(
             'apexcharts-tooltip-series-group',
           )[2]
+          .classList.remove('none');
+        document
+          .getElementsByClassName(
+            'apexcharts-tooltip-series-group',
+          )[6]
           .classList.remove('none');
       }, 200);
     }
@@ -564,6 +574,11 @@ class MiddleChartSection extends Component {
             'apexcharts-tooltip-series-group',
           )[3]
           .classList.add('none');
+        document
+          .getElementsByClassName(
+            'apexcharts-tooltip-series-group',
+          )[7]
+          .classList.add('none');
       }, 200);
     } else {
       // alert('else activeLine1 activeBar1');
@@ -572,6 +587,11 @@ class MiddleChartSection extends Component {
           .getElementsByClassName(
             'apexcharts-tooltip-series-group',
           )[3]
+          .classList.remove('none');
+        document
+          .getElementsByClassName(
+            'apexcharts-tooltip-series-group',
+          )[7]
           .classList.remove('none');
       }, 200);
     }
@@ -1117,6 +1137,7 @@ class MiddleChartSection extends Component {
       // options,
       handleLegend1Click,
       handleLegend2Click,
+      expandMore,
     } = this.props;
     const {
       props: {
@@ -1135,37 +1156,38 @@ class MiddleChartSection extends Component {
     // console.log(active)
     return (
       <div className="info-content">
-        {activeModal && (
-          <Modal
-            // visible={selectedModal === 'bar' ? true : false}
-            modalHeader="Sakchyam Investment Focus"
-            // handleShowBarOf={handleShowBarOf}
-            // resetFilters={resetFilters}
-            // selectedModal="groupedChart"
-            handleModal={this.handleModal}
-            activeModal={activeModal}
-            component={
-              () => {
-                // eslint-disable-next-line no-unused-expressions
+        <Modal
+          // visible={selectedModal === 'bar' ? true : false}
+          modalHeader="Sakchyam Investment Focus"
+          // handleShowBarOf={handleShowBarOf}
+          // resetFilters={resetFilters}
+          selectedModal="logframe"
+          handleModal={this.handleModal}
+          activeModal={activeModal}
+          component={
+            () => {
+              // eslint-disable-next-line no-unused-expressions
+              return (
                 <>
-                  <label>Varun</label>
                   <CustomChart
+                    activeModal
                     activeDateValues={activeDateValues}
                     activeLayer={activeLayer}
                     activeDate={activeDate}
                     updateChart={updateChart}
                     series={series}
                     options={options}
-                    chartRef={arg => {
-                      this.chartRef = arg;
-                    }}
+                    // chartRef={arg => {
+                    //   this.chartRef = arg;
+                    // }}
                   />
-                </>;
-              }
-              // eslint-disable-next-line react/jsx-curly-newline
+                </>
+              );
             }
-          />
-        )}
+            // eslint-disable-next-line react/jsx-curly-newline
+          }
+        />
+
         <a className="toggle_button">
           <i className="material-icons">keyboard_backspace</i>
         </a>
@@ -1515,6 +1537,7 @@ class MiddleChartSection extends Component {
                 Previous
               </button>
               <CustomChart
+                activeModal={activeModal}
                 activeDateValues={activeDateValues}
                 activeLayer={activeLayer}
                 activeDate={activeDate}
@@ -1604,13 +1627,26 @@ class MiddleChartSection extends Component {
             !filteredDynamicData[0].sub_category.name.includes(
               'Output',
             ) && (
-              <div className="info-content-footer">
+              <div
+                className={`info-content-footer footer-flex ${
+                  expandMore ? 'active' : ''
+                }`}
+              >
+                <span className="important" />
                 <p className="span_book_14">
                   {filteredDynamicData &&
                     filteredDynamicData[0] &&
                     filteredDynamicData[0].sub_category.description}
                 </p>
+                {/* eslint-disable-next-line */}
                 <a
+                  className="more span_heavy_15"
+                  role="button"
+                  tabIndex="0"
+                  onClick={handleModal}
+                  onKeyDown={handleModal}
+                />
+                {/* <a
                   role="button"
                   tabIndex="0"
                   onClick={handleModal}
@@ -1618,7 +1654,7 @@ class MiddleChartSection extends Component {
                   className="more"
                 >
                   more
-                </a>
+                </a> */}
               </div>
             )}
         </div>

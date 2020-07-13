@@ -45,7 +45,7 @@ const Modal = props => {
     activeModal,
     resetFilters,
   } = props;
-  console.log(component, 'component');
+  // console.log(component, 'component');
   const selectedChartId =
     selectedModal === 'groupedChart'
       ? 'stacked_chart'
@@ -68,7 +68,9 @@ const Modal = props => {
       : selectedModal === 'sankey'
       ? 'Beneficiaries Reached'
       : selectedModal === 'timeline'
-      ? 'Projects Timeline'
+      ? 'Beneficiaries Reached'
+      : selectedModal === 'logframe'
+      ? 'Logframe'
       : 'sankey-chart';
   return (
     <div

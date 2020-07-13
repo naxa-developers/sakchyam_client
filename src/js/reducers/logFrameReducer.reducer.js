@@ -164,6 +164,9 @@ const initialState = {
       ],
       type: 'category',
     },
+    grid: {
+      show: false,
+    },
     yaxis: {
       // floating: true
       decimalsInFloat: 2,
@@ -341,11 +344,23 @@ const filterIndicatorGraphData = (state, action) => {
     dateRange: totalDateList,
     options: {
       ...state.options,
+      grid: {
+        show: false,
+      },
       filteredDynamicData: filtered,
       labels: label,
-      xaxis: { ...state.options.xaxis, categories: category },
+      xaxis: {
+        ...state.options.xaxis,
+        categories: category,
+        axisBorder: {
+          show: true,
+        },
+      },
       yaxis: {
         ...state.options.yaxis,
+        axisBorder: {
+          show: true,
+        },
         title: {
           text: `${dataType}  ${
             dataUnit !== null && dataUnit !== undefined
@@ -548,10 +563,22 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     // dateRange: totalDateList,
     options: {
       ...state.options,
+      grid: {
+        show: false,
+      },
       labels: label,
-      xaxis: { ...state.options.xaxis, categories: category },
+      xaxis: {
+        ...state.options.xaxis,
+        categories: category,
+        axisBorder: {
+          show: true,
+        },
+      },
       yaxis: {
         ...state.options.yaxis,
+        axisBorder: {
+          show: true,
+        },
         title: {
           text: `${
             dataType !== null && dataType !== undefined
