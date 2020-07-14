@@ -399,13 +399,13 @@ class Choropleth extends Component {
       },
     ];
 
-    const thickness = 15;
+    const thickness = 10;
     const scale = d3
       .scaleLinear()
       .domain([d3.min(totals), d3.max(totals)])
       .range([d3.min(totals), d3.max(totals)]);
 
-    const radius = scale(props.point_count);
+    const radius = scale(props.point_count - 10);
     const circleRadius = radius - thickness;
     const svg = d3
       .select(div)
@@ -418,7 +418,11 @@ class Choropleth extends Component {
     const g = svg
       .append('g')
       .attr('transform', `translate(${radius}, ${radius})`);
-
+    const piepopup = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'tooltip-donut')
+      .style('opacity', 0);
     const arc = d3
       .arc()
       .innerRadius(radius - thickness)
@@ -438,12 +442,20 @@ class Choropleth extends Component {
       .attr('fill', d => colorScale(d.data.type))
       .on('mouseover', function(d, i) {
         console.log(d, 'mouseover');
+        piepopup
+          .transition()
+          .duration(50)
+          .style('opacity', 1);
         d3.select(this)
           .transition()
           .duration('50')
-          .attr('opacity', '.85');
+          .attr('opacity', '.65');
       })
       .on('mouseout', function(d, i) {
+        piepopup
+          .transition()
+          .duration('50')
+          .style('opacity', 0);
         d3.select(this)
           .transition()
           .duration('50')
@@ -453,16 +465,16 @@ class Choropleth extends Component {
     const circle = g
       .append('circle')
       .attr('r', circleRadius)
-      .attr('fill', 'rgba(0, 0, 0, 0.7)')
+      .attr('fill', 'rgba(0, 0, 0, 0)')
       .attr('class', 'center-circle');
 
-    const text = g
-      .append('text')
-      .attr('class', 'total')
-      .text(props.point_count)
-      .attr('text-anchor', 'middle')
-      .attr('dy', 5)
-      .attr('fill', 'white');
+    // const text = g
+    //   .append('text')
+    //   .attr('class', 'total')
+    //   .text(props.point_count)
+    //   .attr('text-anchor', 'middle')
+    //   .attr('dy', 5)
+    //   .attr('fill', 'white');
 
     // const infoEl = createTable(props);
 

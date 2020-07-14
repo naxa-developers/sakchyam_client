@@ -2051,7 +2051,8 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         district_id: [],
         view: 'total_beneficiary',
         municipality_id: [],
-        investment: [clicked],
+        investment_project: [clicked],
+        investment: [],
       },
     );
     // const requestTwo = axiosInstance.post(
@@ -2087,7 +2088,8 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         district_id: [],
         view: 'allocated_budget',
         municipality_id: [],
-        investment: [clicked],
+        investment_project: [clicked],
+        investment: [],
       },
     );
 
