@@ -138,15 +138,16 @@ class BubbleChart extends React.Component {
           )}
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          {legendItems.map(legend => {
-            return (
-              <BubbleLegend
-                radius={6}
-                fill={legend.fill}
-                label={legend.label}
-              />
-            );
-          })}
+          {bubbleChartData &&
+            legendItems.map(legend => {
+              return (
+                <BubbleLegend
+                  radius={6}
+                  fill={legend.fill}
+                  label={legend.label}
+                />
+              );
+            })}
         </div>
       </>
     );
