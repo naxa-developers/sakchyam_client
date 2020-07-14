@@ -1138,6 +1138,7 @@ class MainPartnership extends Component {
                             );
                           }}
                           dataTitle="allocated_beneficiary"
+                          icon="people"
                           title="Beneficiaries"
                         />
                         <FilterBadge
@@ -1146,6 +1147,7 @@ class MainPartnership extends Component {
                             this.setViewDataBy('allocated_budget');
                           }}
                           dataTitle="allocated_budget"
+                          icon="monetization_on"
                           title="Budget Allocated"
                         />
                         <FilterBadge
@@ -1165,6 +1167,7 @@ class MainPartnership extends Component {
                             this.setMapViewDataBy('investment_focus');
                           }}
                           dataTitle="investment_focus"
+                          icon="payments"
                           title="Investment Focus"
                         />
                         <FilterBadge
@@ -1175,6 +1178,7 @@ class MainPartnership extends Component {
                             );
                           }}
                           dataTitle="allocated_beneficiary"
+                          icon="people"
                           title="Beneficiaries"
                         />
                         {/* <FilterBadge
@@ -1192,6 +1196,7 @@ class MainPartnership extends Component {
                           onclick={() => {
                             this.setMapViewDataBy('allocated_budget');
                           }}
+                          icon="monetization_on"
                           dataTitle="allocated_budget"
                           title="Allocated Budget"
                         />
