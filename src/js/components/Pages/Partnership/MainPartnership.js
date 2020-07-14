@@ -175,13 +175,14 @@ class MainPartnership extends Component {
       //   projectStatus,
       // );
       if (viewDataBy !== 'Leverage') {
-        this.props.filterSankeyChartData(
-          investmentFocusSelection,
-          projectSelection,
-          partnerType,
-          partnerSelection,
-          projectStatus,
-        );
+        this.props.getSankeyChartData(viewDataBy);
+        // this.props.filterSankeyChartData(
+        //   investmentFocusSelection,
+        //   projectSelection,
+        //   partnerType,
+        //   partnerSelection,
+        //   projectStatus,
+        // );
         this.props.filterRadialData(
           // 'province',
           viewDataBy,
@@ -815,6 +816,7 @@ class MainPartnership extends Component {
     //   return data.
     // })
     this.props.filterSankeyChartData(
+      viewDataBy,
       investmentFocusSelection,
       projectSelection,
       partnerType,
