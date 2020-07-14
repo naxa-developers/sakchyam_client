@@ -316,7 +316,12 @@ const generateBubbleChartData = data => {
     });
   });
 
-  return { name: 'bubble', id: 'bubble', color: '', children: arr };
+  return {
+    name: 'Product/Process Innovations',
+    id: 'bubble',
+    color: '',
+    children: arr,
+  };
 };
 
 const generateHeatMapData = dataa => {

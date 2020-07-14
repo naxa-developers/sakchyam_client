@@ -97,13 +97,14 @@ class HeatmapChart extends React.Component {
 
   render() {
     const { options, series } = this.state;
+    const { activeModal } = this.props;
     return (
       <div id="chart" style={{ paddingLeft: '30px' }}>
         <ReactApexChart
           options={options}
           series={series}
           type="heatmap"
-          height={550}
+          height={!activeModal ? 550 : 650}
         />
       </div>
     );
