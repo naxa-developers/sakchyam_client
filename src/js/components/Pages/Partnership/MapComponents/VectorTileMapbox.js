@@ -1417,7 +1417,7 @@ class Choropleth extends Component {
       // }
     }
     if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
-      alert('pie marker');
+      // alert('pie marker');
       if (this.props.mapViewDataBy === 'investment_focus') {
         map.removeLayer('circles1');
         map.removeSource('fullGeojsonProvince');
