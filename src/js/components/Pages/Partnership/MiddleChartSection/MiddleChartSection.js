@@ -380,7 +380,11 @@ class MiddleChartSection extends Component {
             /> */}
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
-              cardTitle="Beneficiaries Reached"
+              cardTitle={
+                viewDataBy === 'allocated_budget'
+                  ? 'Budget Reached'
+                  : 'Beneficiary Reached'
+              }
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
               handleModal={this.handleModal}

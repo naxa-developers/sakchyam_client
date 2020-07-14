@@ -426,7 +426,8 @@ class RightSideBar extends Component {
     const {
       financialReducer: { financialProgram },
     } = this.props;
-    const data = financialProgram.filter(item => item.total === 0);
+    // const data = financialProgram.filter(item => item.total === 0);
+    const data = financialProgram;
 
     const allYears = [];
     data.filter(item => {
@@ -546,7 +547,10 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget">
-              <div className="widget-body">
+              <div
+                className="widget-body"
+                style={{ backgroundColor: '#f7f7f7' }}
+              >
                 <ul className="widget-list">
                   <li>
                     <div className="widget-content">

@@ -48,7 +48,7 @@ class RadarChart extends React.Component {
       },
       xaxis: {
         labels: {
-          show: false,
+          show: !this.props.activeModal ? false : true,
           // show: true,
         },
         categories: [],
@@ -64,6 +64,14 @@ class RadarChart extends React.Component {
         // },
       },
       legend: {
+        show: true,
+        // offsetX: 0,
+        // offsetY: 50,
+        fontFamily: 'Avenir Book',
+        // itemMargin: {
+        //   horizontal: 5,
+        //   vertical: 50,
+        // },
         onItemClick: {
           toggleDataSeries: false,
         },
@@ -109,13 +117,18 @@ class RadarChart extends React.Component {
   render() {
     const { options, series } = this.state;
 
+    const { activeModal } = this.props;
+
     return (
-      <div id="chart" style={{ height: '400px' }}>
+      <div
+        id="chart"
+        style={{ height: !activeModal ? '434px' : '700px' }}
+      >
         <ReactApexChart
           options={options}
           series={series}
           type="radar"
-          height={385}
+          height={!activeModal ? 425 : 685}
         />
       </div>
     );

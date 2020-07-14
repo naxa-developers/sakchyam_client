@@ -55,7 +55,7 @@ const Modal = props => {
           </span>
 
           <div className="popup-header no-flex">
-            <h3>{modalHeader}</h3>
+            <h3 style={{ color: '#C2002F' }}>{modalHeader}</h3>
             {selectedModal === 'sunburst' ? (
               <button
                 id="chart-reset"

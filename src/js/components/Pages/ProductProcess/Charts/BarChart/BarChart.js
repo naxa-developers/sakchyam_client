@@ -45,6 +45,27 @@ class BarChart extends Component {
           hideOverlappingLabels: false,
         },
       },
+      yaxis: {
+        title: {
+          text: 'No. of Products',
+          rotate: 90,
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            color: undefined,
+            fontSize: '12px',
+            fontFamily: 'Avenir Book, sans-serif',
+            fontWeight: 500,
+            cssClass: 'apexcharts-yaxis-title',
+          },
+        },
+        axisBorder: {
+          show: true,
+        },
+        axisTicks: {
+          show: true,
+        },
+      },
       grid: {
         show: false,
       },
@@ -97,7 +118,7 @@ class BarChart extends Component {
   render() {
     const { options, series } = this.state;
 
-    const { showRightSidebar } = this.props;
+    const { showRightSidebar, activeModal } = this.props;
 
     return (
       <div id="chart">
@@ -105,7 +126,7 @@ class BarChart extends Component {
           options={options}
           series={series}
           type="bar"
-          height={450}
+          height={!activeModal ? 450 : 685}
           width={
             showRightSidebar && window.innerWidth < 1600
               ? 780

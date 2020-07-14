@@ -1355,7 +1355,11 @@ export const filterSpiderChartData = (
     console.error(err);
   }
 };
-export const getSankeyChartData = () => dispatch => {
+export const getSankeyChartData = selectedView => dispatch => {
+  const selected =
+    selectedView === 'allocated_budget'
+      ? 'allocated_budget'
+      : 'total_beneficiary';
   // let data = selectedInvestmentFocus;
   // if (
   //   selectedInvestmentFocus === undefined ||
@@ -1365,7 +1369,7 @@ export const getSankeyChartData = () => dispatch => {
   // }
   try {
     axiosInstance
-      .get('/api/v1/partnership/sankey/')
+      .get(`/api/v1/partnership/sankey/?view=${selected}`)
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -1379,6 +1383,7 @@ export const getSankeyChartData = () => dispatch => {
   }
 };
 export const filterSankeyChartData = (
+  selectedViewDataBy,
   selectedInvestmentFocus,
   selectedProjectId,
   selectedPartnerType,
@@ -1386,6 +1391,10 @@ export const filterSankeyChartData = (
   selectedProjectStatus,
   selectedFederalList,
 ) => dispatch => {
+  const selected =
+    selectedViewDataBy === 'allocated_budget'
+      ? 'allocated_budget'
+      : 'total_beneficiary';
   console.log(selectedProjectStatus, 'projectStatus');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
@@ -1438,7 +1447,7 @@ export const filterSankeyChartData = (
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/sankey/?${investmentFilter}&${projectIdFilter}&${projectStatusFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
+        `/api/v1/partnership/sankey/?view=${selected}&${investmentFilter}&${projectIdFilter}&${projectStatusFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
@@ -2042,7 +2051,8 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         district_id: [],
         view: 'total_beneficiary',
         municipality_id: [],
-        investment: [clicked],
+        investment_project: [clicked],
+        investment: [],
       },
     );
     // const requestTwo = axiosInstance.post(
@@ -2078,7 +2088,8 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         district_id: [],
         view: 'allocated_budget',
         municipality_id: [],
-        investment: [clicked],
+        investment_project: [clicked],
+        investment: [],
       },
     );
 

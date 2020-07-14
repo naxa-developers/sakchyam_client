@@ -48,19 +48,21 @@ class MapboxPartnership extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
-      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-        this.props.mapViewDataBy,
-        this.props.mapViewBy,
-      );
+      if (this.props.mapViewDataBy !== 'investment_focus') {
+        this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+          this.props.mapViewDataBy,
+          this.props.mapViewBy,
+        );
+      }
     }
-    if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
-      // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
-      // this.changeGrades();
-      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-        this.props.mapViewDataBy,
-        this.props.mapViewBy,
-      );
-    }
+    // if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
+    //   // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
+    //   // this.changeGrades();
+    //   this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+    //     this.props.mapViewDataBy,
+    //     this.props.mapViewBy,
+    //   );
+    // }
   }
 
   render() {
