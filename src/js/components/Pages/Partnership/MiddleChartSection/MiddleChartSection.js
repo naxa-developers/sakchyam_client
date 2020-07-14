@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Timeline from 'react-gantt-timeline';
 import data from './timelineData';
 import links from './timelineLinks';
 import Sunburst from '../Charts/SunBurst/SunBurst';
@@ -78,7 +77,12 @@ class MiddleChartSection extends Component {
     //     return investment.investment_primary === clickedName;
     //   })
     // ) {
-    console.log('found if');
+    // console.log('found if');
+    if (clickedName === 'Partnership') {
+      // alert('partnership');
+      this.props.resetRadialData();
+      this.props.resetFilters();
+    }
     document
       .querySelectorAll(`[data-label='${clickedName}']`)[0]
       .click();
@@ -116,6 +120,7 @@ class MiddleChartSection extends Component {
             width={900}
             count_member="size"
             activeModal={activeModal}
+            // reset={this.props.resetSunburst}
           />
         );
 
@@ -176,17 +181,17 @@ class MiddleChartSection extends Component {
             />
           </div>
         );
-      case 'timeline':
-        return (
-          <div className="time-line-container">
-            <Timeline
-              nonEditableName
-              data={data}
-              links={links}
-              mode="year"
-            />
-          </div>
-        );
+      // case 'timeline':
+      //   return (
+      //     <div className="time-line-container">
+      //       <Timeline
+      //         nonEditableName
+      //         data={data}
+      //         links={links}
+      //         mode="year"
+      //       />
+      //     </div>
+      //   );
 
       default:
         break;
@@ -267,6 +272,7 @@ class MiddleChartSection extends Component {
                       width={690}
                       count_member="size"
                       onClick={this.handleSunburstClick}
+                      // reset={this.props.resetSunburst}
                     />
                   )
                 );

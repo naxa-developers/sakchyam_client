@@ -256,16 +256,34 @@
     font-weight: 900;
   }
   .apexcharts-inner .apexcharts-graphical {
+    // apexcharts-inner apexcharts-graphical  translate(155px, 31px)
     // transform: translate(75.6875, 30) !important;
+    transform: translate(155px, 31px) !important;
   }
   .apexcharts-svg .apexcharts-yaxis {
-    // transform: translate(50.6875px, 8px);
-    // transform: translate(28.6875px, 8px);
-    // transform: translate(34.6875px, 8px);
-    transform: translate(40px, 8px);
-
+    // transform: translate(40px, 8px);
+    transform: translate(50px, 8px);
+    
     
   }
+}
+#modal-content{
+  .apexcharts-inner {
+    transform: translate(90px, 36px);
+  }
+  .apexcharts-svg .apexcharts-yaxis {
+    // transform: translate(40px, 8px);
+    // transform: translate(74px, 8px); 
+    transform: translate(95px, 8px); 
+  }
+  .apexcharts-yaxis-title{
+    transform: translate(20px, -6px);
+    // transform: translate(40px, 10px);
+  }
+  .apexcharts-yaxis-label {
+    transform: translate(-22px, 8px)
+  }
+
 }
 .loader {
   position: fixed;
@@ -508,7 +526,14 @@
   .mapboxgl-popup{
     max-width: 300px!important;
   }
-
+.automation-wrapper{
+  .chart-timeline{
+    max-width: 582px;
+    width: 582px;
+      max-height: 300px;
+      height: 101px;
+  }
+}
   .literacy-tab-item{
     #map{
         .apexcharts-inner {

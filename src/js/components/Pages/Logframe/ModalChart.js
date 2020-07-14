@@ -5,7 +5,7 @@ import ReactApexChart from 'react-apexcharts';
 // require 'apexcharts';
 require('apexcharts');
 
-export default class CustomChart extends Component {
+export default class ModalChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,7 +47,7 @@ export default class CustomChart extends Component {
     } = this.props;
     // const { series, options } = this.state;
     return (
-      <div id="chart">
+      <div id="chartmodal">
         {/* {activeDateValues.length === 0 ? (
           <label>
             {activeDateValues.length === 0
@@ -57,7 +57,7 @@ export default class CustomChart extends Component {
         ) : ( */}
         <ReactApexChart
           // modal={modal}
-          key={series}
+          //   key={series}
           ref={chartRef}
           options={options}
           series={series}

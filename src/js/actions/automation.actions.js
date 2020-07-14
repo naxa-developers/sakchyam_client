@@ -362,11 +362,29 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
     } catch (err) {
       console.error(err);
     }
-  } else {
+  } else if (federalSelect.province.length > 0) {
     try {
       const response = axiosInstance
         .get(
           `api/v1/automation/automation-partner/?filter_type=fed&${provinceSelect}`,
+        )
+        .then(function(result) {
+          // console.log(result, 'result');
+
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-partner/?filter_type=fed&province=1&province=2&province=3&province=4&province=5&province=6&province=7`,
+          // `api/v1/automation/automation-partner/?filter_type=fed&province=0,`,
         )
         .then(function(result) {
           // console.log(result, 'result');

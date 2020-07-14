@@ -64,7 +64,7 @@ class MainComponent extends Component {
       activeListItem: '',
       activeDataType: 'Cumulative',
       dateRange: [],
-      activeModal: false,
+      expandMore: false,
       allIndicatorCategory: null,
       // width: '',
       // height: '',
@@ -442,17 +442,23 @@ class MainComponent extends Component {
     window.removeEventListener('scroll', this.updateScrollResponsive);
   }
 
-  handleModal = () => {
+  handleModal = clicked => {
     // console.log('statemodal', this.state.activeModal);
-    this.setState(prevState => ({
-      activeModal: !prevState.activeModal,
-    }));
-    const bodyEl = document.getElementById('body');
-    if (this.state.activeModal === false) {
-      bodyEl.className = 'modal-open';
+    if (!clicked) {
+      this.setState(prevState => ({
+        expandMore: !prevState.expandMore,
+      }));
     } else {
-      bodyEl.className = '';
+      this.setState(prevState => ({
+        expandMore: clicked,
+      }));
     }
+    // const bodyEl = document.getElementById('body');
+    // if (this.state.activeModal === false) {
+    //   bodyEl.className = 'modal-open';
+    // } else {
+    //   bodyEl.className = '';
+    // }
   };
 
   updateWindowDimensions = () => {
@@ -659,6 +665,7 @@ class MainComponent extends Component {
   }
 
   nextBtnClick = () => {
+    this.handleModal(false);
     // this.setState({
     //   activeBar: true,
     //   activeTimeGraph: true,
@@ -835,6 +842,7 @@ class MainComponent extends Component {
       options,
       activeListItem,
       activeListFilteredData,
+      expandMore,
     } = this.state;
     const {
       props: {
@@ -847,7 +855,7 @@ class MainComponent extends Component {
 
         <main className="main">
           <section className="content content-mod">
-            <div
+            {/* <div
               className={`modal fade modal-wrapper ${
                 activeModal === true ? 'show' : ''
               }`}
@@ -861,8 +869,8 @@ class MainComponent extends Component {
               role="dialog"
               aria-labelledby="exampleModalCenterTitle"
               aria-modal="true"
-            >
-              <div
+            > */}
+            {/* <div
                 className="modal-dialog modal-dialog-centered"
                 role="document"
               >
@@ -891,8 +899,8 @@ class MainComponent extends Component {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
             <LeftSidebarMain
               activeListItem={activeListItem}
               handleActiveListItem={this.handleActiveListItem}
@@ -914,6 +922,7 @@ class MainComponent extends Component {
               nextBtnClick={this.nextBtnClick}
               options={options}
               activeBar={activeBar}
+              expandMore={expandMore}
               activeTimeGraph={activeTimeGraph}
               activeBar1={activeBar1}
               activeBar2={activeBar2}

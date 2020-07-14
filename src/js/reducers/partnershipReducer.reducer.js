@@ -36,6 +36,8 @@ import {
   FILTER_LEVERAGE_DATA_FOR_BARCLICK,
   GET_BARDATA_BY_INVESTMENTFOCUS,
   FILTER_BARDATA_BY_INVESTMENTFOCUS,
+  RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
+  FILTER_BENEFBUDGET_DATA_FOR_BARCLICK,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -446,6 +448,46 @@ const getBarDataByInvestmentFocus = (state, action) => {
     // mapDataByProvince: finalBeneficiaryArray,
     barDatasByInvestment: filteredBenefValues,
     defaultBarDatasByInvestment: filteredBenefValues,
+    // filteredMapData: choroplethFormat,
+  };
+};
+const filterBenefBudgetDataonClick = (state, action) => {
+  const { selectedDataView, allocatedBudget } = action.payload;
+  // if (selectedDataView === 'allocated_beneficiary') {
+  const { totalBeneficiary } = action.payload;
+  const finalBeneficiaryArray = totalBeneficiary;
+  // const femalebeneficiary = femaleBeneficiary;
+  // debugger;
+  // const mergedBeneficiaryArray = totalbeneficiary.map((item, i) => ({
+  //   ...item,
+  //   ...femalebeneficiary[i],
+  // }));
+  // const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+  //   el,
+  // ) {
+  //   const o = { ...el };
+  //   o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+  //   return o;
+  // });
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChartForInvestment(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
+  // }
+  sortArrayByKey(allocatedBudget, 'code');
+  const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
+  // console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
+  return {
+    ...state,
+    // mapDataByProvince: finalBeneficiaryArray,
+    barDatasByInvestment: filteredBenefValues,
+    // defaultBarDatasByInvestment: filteredBenefValues,
     // filteredMapData: choroplethFormat,
   };
 };
@@ -1102,7 +1144,10 @@ const resetRadialData = (state, action) => {
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
-    radialData: state.defaultRadialData,
+    radialData: {
+      ...state.defaultRadialData,
+      changes: Math.random(),
+    },
   };
 };
 const resetSankeyChartData = (state, action) => {
@@ -1127,6 +1172,14 @@ const resetLeverageData = (state, action) => {
   return {
     ...state,
     barDataByLeverage: state.defaultBarDataByLeverage,
+  };
+};
+const resetBarDataByInvestmentFocus = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    barDatasByInvestment: state.defaultBarDatasByInvestment,
   };
 };
 const filterTimelineData = (state, action) => {
@@ -1261,6 +1314,8 @@ export default function(state = initialState, action) {
       return resetBarData(state, action);
     case RESET_RADIAL_DATA:
       return resetRadialData(state, action);
+    case RESET_BAR_DATA_BY_INVESTMENT_FOCUS:
+      return resetBarDataByInvestmentFocus(state, action);
     case RESET_SANKEYCHART_DATA:
       return resetSankeyChartData(state, action);
     case RESET_OVERVIEW_DATA:
@@ -1271,6 +1326,8 @@ export default function(state = initialState, action) {
       return filterTimelineData(state, action);
     case FILTER_LEVERAGE_DATA_FOR_BARCLICK:
       return filterLeverageDataOnClick(state, action);
+    case FILTER_BENEFBUDGET_DATA_FOR_BARCLICK:
+      return filterBenefBudgetDataonClick(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:

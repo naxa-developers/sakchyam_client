@@ -103,7 +103,6 @@
     "react-compound-slider": "^2.5.0",
     "react-content-loader": "^5.0.4",
     "react-dom": "^16.13.0",
-    "react-gantt-timeline": "^0.4.3",
     "react-leaflet": "^2.6.3",
     "react-leaflet-choropleth": "^2.0.1",
     "react-leaflet-control": "^2.1.2",

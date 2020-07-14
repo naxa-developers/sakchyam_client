@@ -47,6 +47,7 @@
                             font-family: $avenir-heavy;
                             font-size: .875rem;
                             margin-bottom: 1rem;
+                            color:$color-blue;
                             text-transform: uppercase;
                         }
 
@@ -407,7 +408,12 @@
 
             .apply-buttons {
                 padding: 1rem 1.2rem;
-
+                background-color: #fff;
+                position: fixed;
+                bottom:10px;
+                left:0;
+                right:auto;
+                z-index: 1;
                 @media #{$breakpoint-xxl} {
                     padding: 1rem;
                 }

@@ -516,7 +516,7 @@
                         @include transition(all .4s ease-in-out);
                         visibility: visible;
                         opacity: 1;
-                        top:0%;
+                        top: 0%;
                         right: 0;
                     }
                 }
@@ -580,8 +580,8 @@
                 padding: 19px 64px 18px;
                 margin-top: 20px;
                 margin-left: 10px;
-                // @include display-flex(flex);
-                // align-items: center;
+                @include display-flex(flex);
+                align-items: center;
                 position: relative;
                 span.important{
                     position: absolute;
@@ -595,13 +595,30 @@
                         color: $color-pink-dark;
                     }
                 }
+                &.active{
+                    @include flex-direction-column(column);
+                    @include align-items-start;
+                    p{
+                        &.span_book_14{
+                            white-space: initial;
+                            overflow: visible;
+                            text-overflow: initial;
+                        }
+                    }
+                    a.more{
+                        &:after{
+                            content: 'less';
+                        }
+                    }
+                    
+                }
                 p{
                     &.span_book_14{
                         color: $black-color;
                         line-height: 1.4;
-                        // white-space: nowrap;
-                        // overflow: hidden;
-                        // text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                         transition: all 0.2s linear;
                         &:hover{
                             cursor: pointer;
@@ -611,7 +628,19 @@
                 a.more{
                     color: $text-color;
                     cursor: pointer;
-                    display: none;
+                    &:after{
+                        content: 'more';
+                        font-size: 14px;
+                        line-height: 18px;
+                        color: $text-color;
+                        @include transition(all .4s ease);
+                    }
+                    &:hover{
+                        &::after{
+                            font-family: 'Avenir heavy';
+                            color: $secondary-color;
+                        }
+                    }
                 }
             }
         }

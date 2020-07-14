@@ -192,6 +192,7 @@ class LeftSideBar extends Component {
               <div className="widget-body">
                 <div className="widget-tag partner-tag">
                   <a
+                    data-label="Microfinance Institutions/Cooperatives"
                     className={
                       partnerType.includes(
                         'Microfinance Institutions/Cooperatives',
@@ -215,6 +216,7 @@ class LeftSideBar extends Component {
                     <span>Microfinance</span>
                   </a>
                   <a
+                    data-label="Commercial Bank and Other Partners"
                     className={
                       partnerType.includes(
                         'Commercial Bank and Other Partners',

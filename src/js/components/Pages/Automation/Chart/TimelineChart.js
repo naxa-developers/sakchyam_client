@@ -252,13 +252,18 @@ class TimelineChart extends Component {
 
   render() {
     const { playSelected, minCurrent, maxCurrent, key } = this.state;
+    const { activeOutreachButton } = this.props;
     // console.log(this.props.minValue, 'minValue render');
     // console.log(this.props.maxValue, 'maxValue Render');
     return (
       <div
         id="wrapper"
         className="chart-timeline"
-        style={{ background: 'white' }}
+        style={
+          activeOutreachButton === true
+            ? { background: 'white', display: 'none' }
+            : { background: 'white', display: 'block' }
+        }
       >
         <a
           onClick={() => {
