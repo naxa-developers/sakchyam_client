@@ -23,18 +23,30 @@ function removeMarker() {
   }
 }
 // var colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c'];
+// const colors = [
+//   '#8dd3c7',
+//   '#ffffb3',
+//   '#bebada',
+//   '#fb8072',
+//   '#80b1d3',
+//   '#fdb462',
+//   '#b3de69',
+//   '#fccde5',
+//   '#d9d9d9',
+//   '#bc80bd',
+//   '#ccebc5',
+// ];
 const colors = [
-  '#8dd3c7',
-  '#ffffb3',
-  '#bebada',
-  '#fb8072',
-  '#80b1d3',
-  '#fdb462',
-  '#b3de69',
-  '#fccde5',
-  '#d9d9d9',
-  '#bc80bd',
-  '#ccebc5',
+  '#E11D3F',
+  '#FF6D00',
+  '#13A8BE',
+  '#651FFF',
+  '#B1B424',
+  '#2196F3',
+  '#4CE2A7',
+  '#1967A0',
+  '#FFCD00',
+  '#DE2693',
 ];
 const colorScale = d3
   .scaleOrdinal()
