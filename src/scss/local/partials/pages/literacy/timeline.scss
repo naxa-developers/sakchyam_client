@@ -12,6 +12,14 @@
             width:100%;
             font-family: $avenir-heavy;
             margin:1rem 0;
+            time{
+                position: relative;
+                svg{
+                    position: absolute;
+                    right: 10px;
+                    top:5px;
+                }
+            }
         }
         li {
             // @include display-flex(flex);
