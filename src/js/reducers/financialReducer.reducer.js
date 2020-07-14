@@ -1008,10 +1008,15 @@ const filterFinancialDataForGraph = (state, action) => {
     });
 
     let newData = [];
+    let newFilteredData = [];
     if (partnerType.length === 0 || partnerType.length === 2) {
       newData = data;
+      newFilteredData = filteredData;
     } else {
       newData = data.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+      newFilteredData = filteredData.filter(item =>
         partnerType.includes(item.partner_type),
       );
     }
@@ -1029,15 +1034,15 @@ const filterFinancialDataForGraph = (state, action) => {
       return true;
     });
 
-    newSankeyData = filterSankeyData(filteredData);
-    newTreeMapData = filterTreeMapData(filteredData);
+    newSankeyData = filterSankeyData(newFilteredData);
+    newTreeMapData = filterTreeMapData(newFilteredData);
     newPieData = filterPieChartData(donutData, 'value');
     newProgramWiseData = filterProgramWiseChartData(
-      filteredData,
+      newFilteredData,
       'program',
     );
     newPartnerWiseData = filterPartnerWiseChartData(
-      filteredData,
+      newFilteredData,
       'value',
     );
   } else if (

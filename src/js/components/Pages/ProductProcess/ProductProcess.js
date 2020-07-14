@@ -1,5 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
+
 import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
@@ -25,10 +29,11 @@ import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 
 // CHART CARD TITLES
 const chartTitles = {
-  bubbleTitle: 'Product Results',
-  radarTitle: 'Innovation Area Radar Chart',
-  barTitle: 'Bar Chart',
-  heatmapTitle: 'Heatmap Chart',
+  bubbleTitle: 'Product/Process Innovations',
+  radarTitle: 'Number of products in Innovation Area by Partner Type',
+  barTitle: 'Number of products by Market Failure',
+  heatmapTitle:
+    'Number of products by Market Failure and Innovation Area',
 };
 
 class ProductProcess extends React.Component {
@@ -91,6 +96,18 @@ class ProductProcess extends React.Component {
       this.props.filterPartnerNameList(partnerTypeSelection);
     }
   }
+
+  downloadPng = (chartid, imageTitle) => {
+    setTimeout(() => {
+      html2canvas(document.querySelector(`#${chartid}`), {
+        allowTaint: true,
+      }).then(canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, `${imageTitle}.png`);
+        });
+      });
+    }, 500);
+  };
 
   handleRightSidebarShow = () => {
     this.setState(prevState => ({
@@ -456,7 +473,7 @@ class ProductProcess extends React.Component {
 
     switch (contentType) {
       case 'bubble':
-        return <BubbleChart />;
+        return <BubbleChart activeModal />;
       case 'radar':
         return <RadarChart activeModal />;
       case 'bar':
@@ -651,17 +668,23 @@ class ProductProcess extends React.Component {
                         <div className="card" />
                       </div> */}
                       <div className="col-xl-6">
-                        <div className="card" id="chart-donut">
+                        <div className="card" id="bubble-chart">
                           <div className="card-header">
                             <h5>{bubbleTitle}</h5>
                             <div className="header-icons">
                               <span
                                 className=""
                                 onClick={() => {
-                                  this.downloadPng('donut-chart');
+                                  this.downloadPng(
+                                    'bubble-chart',
+                                    `${bubbleTitle}`,
+                                  );
                                 }}
                                 onKeyDown={() => {
-                                  this.downloadPng('donut-chart');
+                                  this.downloadPng(
+                                    'bubble-chart',
+                                    `${bubbleTitle}`,
+                                  );
                                 }}
                                 role="tab"
                                 tabIndex="0"
@@ -697,17 +720,23 @@ class ProductProcess extends React.Component {
                         </div>
                       </div>
                       <div className="col-xl-6">
-                        <div className="card" id="chart-donut">
+                        <div className="card" id="radar-chart">
                           <div className="card-header">
                             <h5>{radarTitle}</h5>
                             <div className="header-icons">
                               <span
                                 className=""
                                 onClick={() => {
-                                  this.downloadPng('donut-chart');
+                                  this.downloadPng(
+                                    'radar-chart',
+                                    `${radarTitle}`,
+                                  );
                                 }}
                                 onKeyDown={() => {
-                                  this.downloadPng('donut-chart');
+                                  this.downloadPng(
+                                    'radar-chart',
+                                    `${radarTitle}`,
+                                  );
                                 }}
                                 role="tab"
                                 tabIndex="0"
@@ -743,17 +772,23 @@ class ProductProcess extends React.Component {
                         </div>
                       </div>
                       <div className="col-xl-12">
-                        <div className="card" id="chart-donut">
+                        <div className="card" id="bar-chart">
                           <div className="card-header">
-                            <h5>Bar Chart</h5>
+                            <h5>{barTitle}</h5>
                             <div className="header-icons">
                               <span
                                 className=""
                                 onClick={() => {
-                                  this.downloadPng('donut-chart');
+                                  this.downloadPng(
+                                    'bar-chart',
+                                    `${barTitle}`,
+                                  );
                                 }}
                                 onKeyDown={() => {
-                                  this.downloadPng('donut-chart');
+                                  this.downloadPng(
+                                    'bar-chart',
+                                    `${barTitle}`,
+                                  );
                                 }}
                                 role="tab"
                                 tabIndex="0"
@@ -792,17 +827,23 @@ class ProductProcess extends React.Component {
                       </div>
                     </div>
 
-                    <div className="card" ref={this.sankeyRef}>
+                    <div className="card" id="heatmap-chart">
                       <div className="card-header">
-                        <h5>Heatmap Chart</h5>
+                        <h5>{heatmapTitle}</h5>
                         <div className="header-icons">
                           <span
                             className
                             onClick={() => {
-                              this.downloadPng('sankey-chart');
+                              this.downloadPng(
+                                'heatmap-chart',
+                                `${heatmapTitle}`,
+                              );
                             }}
                             onKeyDown={() => {
-                              this.downloadPng('sankey-chart');
+                              this.downloadPng(
+                                'heatmap-chart',
+                                `${heatmapTitle}`,
+                              );
                             }}
                             role="tab"
                             tabIndex="0"

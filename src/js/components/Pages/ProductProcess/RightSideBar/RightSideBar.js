@@ -12,7 +12,8 @@ class RightSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hoverID: 1,
+      isHoverd: false,
+      hoverID: 0,
       innovationAreaCount: '-',
       partnerInstitutionCount: '-',
       productCount: '-',
@@ -61,8 +62,49 @@ class RightSideBar extends Component {
       this.setState({
         timelineData,
       });
+
+      const years = [];
+      timelineData.forEach(item => years.push(item.year));
+
+      const maxYear = Math.max(...years);
+
+      setTimeout(() => {
+        const x = document.getElementById(maxYear);
+        x.style.display = 'block';
+        this.setState({ [maxYear]: true });
+      }, 200);
     }
+    //   setTimeout(() => {
+    //     const x = document.getElementById(`${years[0]}`);
+    //     x.style.display = 'block';
+    //     this.setState({ [years[0]]: true });
+    //   }, 200);
+    // }
   }
+
+  handleHover = id => {
+    this.setState(prevState => ({
+      isHovered: !prevState.isHovered,
+      hoverID: id,
+    }));
+  };
+
+  handleUnhover = () => {
+    this.setState({ isHovered: false, hoverID: '' });
+  };
+
+  handleTimelineToggle = key => {
+    const x = document.getElementById(`${key}`);
+    const y = document.querySelectorAll('.timeline-display');
+
+    if (x.style.display !== 'none') {
+      x.style.display = 'none';
+      this.setState({ [key]: false });
+    } else {
+      x.style.display = 'block';
+      this.setState({ [key]: true });
+    }
+  };
 
   render() {
     const {
@@ -91,7 +133,10 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget">
-              <div className="widget-body">
+              <div
+                className="widget-body"
+                style={{ backgroundColor: '#f7f7f7' }}
+              >
                 <ul className="widget-list">
                   <li>
                     <div className="widget-content">
@@ -172,10 +217,9 @@ class RightSideBar extends Component {
                             >
                               <time
                                 onClick={
-                                  e =>
+                                  () =>
                                     this.handleTimelineToggle(
                                       item.year,
-                                      e,
                                     )
                                   // eslint-disable-next-line react/jsx-curly-newline
                                 }
@@ -204,7 +248,7 @@ class RightSideBar extends Component {
                           <div
                             id={item.year}
                             className="timeline-display"
-                            // style={{ display: 'none' }}
+                            style={{ display: 'none' }}
                           >
                             {item.program.map((list, index) => {
                               const date = new Date(list.date);
