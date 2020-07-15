@@ -170,7 +170,7 @@ class MiddleChartSection extends Component {
             columnWidth: '80%',
           },
         },
-        colors: ['#2A7178', '#AC3238'],
+        colors: ['#AC3238', '#2A7178'],
         fill: {
           opacity: [0.75, 0.75, 0, 0],
           // opacity: [0.65, 0.65, 0.15, 0.15],

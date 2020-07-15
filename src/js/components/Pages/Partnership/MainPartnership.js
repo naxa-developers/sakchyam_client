@@ -71,6 +71,7 @@ class MainPartnership extends Component {
       isAllProjectSelected: false,
       isAllInvestmentFocusSelected: false,
       showBarof: 'Provinces',
+      showBarofInvestmentBudgetBenef: 'investmentFocus',
       // UI Section
       activeFilter: false,
       activeOverview: false,
@@ -86,7 +87,20 @@ class MainPartnership extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    // const windowPos = window.pageYOffset;
+    // const siteHeader = document.getElementsByClassName(
+    //   '.main-header',
+    // );
+    // const scrollLink = document.getElementsByClassName('.scroll-top');
+    // if (windowPos >= 110) {
+    //   siteHeader.addClass('fixed-header');
+    //   scrollLink.addClass('open');
+    // } else {
+    //   siteHeader.removeClass('fixed-header');
+    //   scrollLink.removeClass('open');
+    // }
+
     const { viewDataBy } = this.state;
     this.props.getPartnersList();
     this.props.getProjectListData();
@@ -102,7 +116,29 @@ class MainPartnership extends Component {
     // this.props.getMapDataByMunicipality(viewDataBy);
     this.props.getDistrictData();
     this.props.getMunicipalityData();
+    const filterBar = document.getElementsByClassName(
+      'filter-bar',
+    )[0];
+    const provinceList = document.getElementsByClassName(
+      'filter-bar',
+    )[0];
+    const districtList = document.getElementsByClassName(
+      'filter-bar',
+    )[0];
+    const munList = document.getElementsByClassName('filter-bar')[0];
+    // console.log(specifiedElement, 'ss');
+    document.addEventListener('click', async event => {
+      const isClickInside = filterBar.contains(event.target);
 
+      if (!isClickInside) {
+        console.log('clickoutside');
+        this.setState({
+          activeFilter: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
     // const provinceEl = document.getElementById(
     //   'filter_dropdown_province',
     // );
@@ -175,13 +211,14 @@ class MainPartnership extends Component {
       //   projectStatus,
       // );
       if (viewDataBy !== 'Leverage') {
-        this.props.filterSankeyChartData(
-          investmentFocusSelection,
-          projectSelection,
-          partnerType,
-          partnerSelection,
-          projectStatus,
-        );
+        this.props.getSankeyChartData(viewDataBy);
+        // this.props.filterSankeyChartData(
+        //   investmentFocusSelection,
+        //   projectSelection,
+        //   partnerType,
+        //   partnerSelection,
+        //   projectStatus,
+        // );
         this.props.filterRadialData(
           // 'province',
           viewDataBy,
@@ -542,6 +579,10 @@ class MainPartnership extends Component {
     this.setState({ showBarof: value });
   };
 
+  handleShowBarOfInvestmentBudgetBenefBar = value => {
+    this.setState({ showBarofInvestmentBudgetBenef: value });
+  };
+
   handleInvestmentParentCheckbox = e => {
     // e.stopPropagation();
     const {
@@ -815,6 +856,7 @@ class MainPartnership extends Component {
     //   return data.
     // })
     this.props.filterSankeyChartData(
+      viewDataBy,
       investmentFocusSelection,
       projectSelection,
       partnerType,
@@ -910,6 +952,7 @@ class MainPartnership extends Component {
         partnerSelection,
         partnerType,
         showBarof,
+        showBarofInvestmentBudgetBenef,
         selectedProvince,
         selectedDistrict,
         selectedMunicipality,
@@ -1136,6 +1179,7 @@ class MainPartnership extends Component {
                             );
                           }}
                           dataTitle="allocated_beneficiary"
+                          icon="people"
                           title="Beneficiaries"
                         />
                         <FilterBadge
@@ -1144,6 +1188,7 @@ class MainPartnership extends Component {
                             this.setViewDataBy('allocated_budget');
                           }}
                           dataTitle="allocated_budget"
+                          icon="monetization_on"
                           title="Budget Allocated"
                         />
                         <FilterBadge
@@ -1163,6 +1208,7 @@ class MainPartnership extends Component {
                             this.setMapViewDataBy('investment_focus');
                           }}
                           dataTitle="investment_focus"
+                          icon="payments"
                           title="Investment Focus"
                         />
                         <FilterBadge
@@ -1173,6 +1219,7 @@ class MainPartnership extends Component {
                             );
                           }}
                           dataTitle="allocated_beneficiary"
+                          icon="people"
                           title="Beneficiaries"
                         />
                         {/* <FilterBadge
@@ -1190,6 +1237,7 @@ class MainPartnership extends Component {
                           onclick={() => {
                             this.setMapViewDataBy('allocated_budget');
                           }}
+                          icon="monetization_on"
                           dataTitle="allocated_budget"
                           title="Allocated Budget"
                         />
@@ -1289,6 +1337,12 @@ class MainPartnership extends Component {
                   projectStatus={projectStatus}
                   showBarof={showBarof}
                   handleShowBarOf={this.handleShowBarOf}
+                  showBarofInvestmentBudgetBenef={
+                    showBarofInvestmentBudgetBenef
+                  }
+                  handleShowBarOfInvestmentBudgetBenefBar={
+                    this.handleShowBarOfInvestmentBudgetBenefBar
+                  }
                   applyBtnClick={this.applyBtnClick}
                 />
                 <div

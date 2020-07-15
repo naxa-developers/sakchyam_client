@@ -162,6 +162,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         view: 'total_beneficiary',
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -175,6 +176,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         view: 'female_beneficiary',
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -188,6 +190,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         view: 'allocated_budget',
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
 
@@ -268,6 +271,7 @@ export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
           'Remittance Based Products',
           'SME Financing',
         ],
+        investment_project: [],
       },
     );
     // const requestTwo = axiosInstance.post(
@@ -314,6 +318,7 @@ export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
           'Remittance Based Products',
           'SME Financing',
         ],
+        investment_project: [],
       },
     );
 
@@ -675,6 +680,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         view: 'total_beneficiary',
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -688,6 +694,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         view: 'female_beneficiary',
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -701,6 +708,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         view: 'allocated_budget',
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
 
@@ -776,6 +784,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'total_beneficiary',
         municipality_id: districtIndex,
         investment: [],
+        investment_project: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -789,6 +798,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'female_beneficiary',
         municipality_id: districtIndex,
         investment: [],
+        investment_project: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -802,6 +812,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'allocated_budget',
         municipality_id: districtIndex,
         investment: [],
+        investment_project: [],
       },
     );
 
@@ -987,6 +998,7 @@ export const filterFinancialDataWithAllFilters = (
         district_id: [],
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -1000,6 +1012,7 @@ export const filterFinancialDataWithAllFilters = (
         district_id: [],
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -1013,6 +1026,7 @@ export const filterFinancialDataWithAllFilters = (
         district_id: [],
         municipality_id: [],
         investment: [],
+        investment_project: [],
       },
     );
 
@@ -1131,6 +1145,7 @@ export const filterBarDataByInvestment = (
         district_id: [],
         municipality_id: [],
         investment: investmentFocus,
+        investment_project: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -1144,6 +1159,7 @@ export const filterBarDataByInvestment = (
         district_id: [],
         municipality_id: [],
         investment: investmentFocus,
+        investment_project: [],
       },
     );
 
@@ -1355,7 +1371,11 @@ export const filterSpiderChartData = (
     console.error(err);
   }
 };
-export const getSankeyChartData = () => dispatch => {
+export const getSankeyChartData = selectedView => dispatch => {
+  const selected =
+    selectedView === 'allocated_budget'
+      ? 'allocated_budget'
+      : 'total_beneficiary';
   // let data = selectedInvestmentFocus;
   // if (
   //   selectedInvestmentFocus === undefined ||
@@ -1365,7 +1385,7 @@ export const getSankeyChartData = () => dispatch => {
   // }
   try {
     axiosInstance
-      .get('/api/v1/partnership/sankey/')
+      .get(`/api/v1/partnership/sankey/?view=${selected}`)
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -1379,6 +1399,7 @@ export const getSankeyChartData = () => dispatch => {
   }
 };
 export const filterSankeyChartData = (
+  selectedViewDataBy,
   selectedInvestmentFocus,
   selectedProjectId,
   selectedPartnerType,
@@ -1386,6 +1407,10 @@ export const filterSankeyChartData = (
   selectedProjectStatus,
   selectedFederalList,
 ) => dispatch => {
+  const selected =
+    selectedViewDataBy === 'allocated_budget'
+      ? 'allocated_budget'
+      : 'total_beneficiary';
   console.log(selectedProjectStatus, 'projectStatus');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
@@ -1438,7 +1463,7 @@ export const filterSankeyChartData = (
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/sankey/?${investmentFilter}&${projectIdFilter}&${projectStatusFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
+        `/api/v1/partnership/sankey/?view=${selected}&${investmentFilter}&${projectIdFilter}&${projectStatusFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
       )
       .then(function(result) {
         // console.log(result, 'result');
@@ -1805,6 +1830,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         district_id: district,
         municipality_id: municipality,
         investment: [],
+        investment_project: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -1818,6 +1844,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         district_id: district,
         municipality_id: municipality,
         investment: [],
+        investment_project: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -1831,6 +1858,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         district_id: district,
         municipality_id: municipality,
         investment: [],
+        investment_project: [],
       },
     );
 
@@ -1908,6 +1936,7 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
         view: selectedViewDataBy,
         municipality_id: municipality,
         investment: [],
+        investment_project: [],
       })
       .then(function(result) {
         console.log(result.data, 'filteredData');
@@ -2042,7 +2071,8 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         district_id: [],
         view: 'total_beneficiary',
         municipality_id: [],
-        investment: [clicked],
+        investment_project: [clicked],
+        investment: [],
       },
     );
     // const requestTwo = axiosInstance.post(
@@ -2078,7 +2108,8 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         district_id: [],
         view: 'allocated_budget',
         municipality_id: [],
-        investment: [clicked],
+        investment_project: [clicked],
+        investment: [],
       },
     );
 
