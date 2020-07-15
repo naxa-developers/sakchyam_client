@@ -121,7 +121,7 @@ class StackedBarWithProvince extends Component {
       yaxis: [
         {
           // min: 0,
-          max: 600000,
+          // max: 600000,
           axisTicks: {
             show: true,
           },
@@ -150,7 +150,7 @@ class StackedBarWithProvince extends Component {
         },
         {
           // min: 0,
-          max: 600000,
+          // max: 600000,
           seriesName: 'Incomessss',
           show: false,
           opposite: true,
@@ -392,18 +392,25 @@ class StackedBarWithProvince extends Component {
         {
           // min: 0,
           max(max) {
+            console.log(barDatas, 'barDatas');
+            const newArray = barDatas.series[0].data.map(
+              (e, i) => e + barDatas.series[1].data[i],
+            );
+            console.log(newArray, 'newArray');
+            console.log(Math.max(...newArray));
+            global.maxValue = Math.max(...newArray);
             console.log(max, 'max');
             // // console.log(that.props.showBarof, 'showBarof');
-            if (that.props.showBarof === 'Provinces') {
-              return 600000;
-            }
-            if (that.props.showBarof === 'Districts') {
-              return 80000;
-            }
+            // if (that.props.showBarof === 'Provinces') {
+            //   return 600000;
+            // }
+            // if (that.props.showBarof === 'Districts') {
+            //   return 80000;
+            // }
 
-            return 10000;
+            // return 10000;
             // global.totalMaxValue = max / 120;
-            // return max / 120;
+            return global.maxValue;
           },
           axisTicks: {
             show: true,
@@ -434,18 +441,18 @@ class StackedBarWithProvince extends Component {
         {
           // min: 0,
           max(max) {
-            console.log(max, '2ndmax');
-            // console.log(that.props.showBarof, 'showBarof');
-            if (that.props.showBarof === 'Provinces') {
-              return 600000;
-            }
-            if (that.props.showBarof === 'Districts') {
-              return 80000;
-            }
+            // console.log(max, '2ndmax');
+            // // console.log(that.props.showBarof, 'showBarof');
+            // if (that.props.showBarof === 'Provinces') {
+            //   return 600000;
+            // }
+            // if (that.props.showBarof === 'Districts') {
+            //   return 80000;
+            // }
 
-            return 10000;
+            // return 10000;
             // global.totaMaxValue = max / 35;
-            // return global.totalMaxValue;
+            return global.maxValue;
           },
           seriesName: 'Incomessss',
           show: false,

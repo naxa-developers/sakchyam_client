@@ -15,6 +15,7 @@ import TimelineChart from './TimelineChart';
 import { getCenterBboxProvince } from '../common/ProvinceFunction';
 import MarkerPieChart from '../Charts/MarkerPieChart/MarkerPieChart';
 
+global.markerList = [];
 function removeMarker() {
   if (global.markerList !== null) {
     for (let i = global.markerList.length - 1; i >= 0; i -= 1) {
@@ -417,15 +418,17 @@ class Choropleth extends Component {
       .domain([d3.min(totals), d3.max(totals)])
       .range([d3.min(totals), d3.max(totals)]);
 
-    const radius = scale(props.point_count - 10);
-    const circleRadius = radius - thickness;
+    const radius = scale(props.point_count);
+    // const radius = scale(props.point_count - 10);
+    // const circleRadius = radius - thickness;
+    const circleRadius = radius;
     const svg = d3
       .select(div)
       .append('svg')
       .attr('class', 'pie')
       .attr('width', radius * 2)
       .attr('height', radius * 2);
-
+    // console.log(circleRadius, 'circleRadiuS');
     // center
     const g = svg
       .append('g')
@@ -765,7 +768,7 @@ class Choropleth extends Component {
         // hoveredStateId = null;
         popup.remove();
       });
-      global.markerList = [];
+
       fullGeojsonProvince.features.forEach((item, index) => {
         that.props.choroplethData.forEach(p => {
           if (p.code === item.properties.code) {
@@ -1105,6 +1108,231 @@ class Choropleth extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { map, vectorTileUrl } = this.props;
+    if (prevProps.choroplethData !== this.props.choroplethData) {
+      if (this.props.mapViewBy === 'municipality') {
+        removeMarker();
+        let singleData = {};
+        let singleData2nd = {};
+        const total = [];
+        const total2nd = [];
+
+        fullGeojsonMunicipality.features.forEach((item, index) => {
+          this.props.choroplethData.forEach(p => {
+            if (p.code === item.properties.code) {
+              fullGeojsonMunicipality.features[index].properties = {
+                ...item.properties,
+                ...p,
+              };
+            }
+          });
+        });
+        // console.log(
+        //   fullGeojsonMunicipality,
+        //   'fullGeojsonMunicipality',
+        // );
+        // const getPointCount = features => {
+        //   features.forEach(f => {
+        //     if (f.properties.cluster) {
+        //       total.push(f.properties.point_count);
+        //     }
+        //   });
+
+        //   return total;
+        // };
+        // console.log(fullGeojsonDistrict, 'fullGeojsonDistrict');
+        fullGeojsonMunicipality.features.forEach(data => {
+          // console.log(data, 'data');
+          singleData2nd = {
+            point_count: 0,
+          };
+          if (data.properties.pie) {
+            data.properties.pie.forEach(piedata => {
+              // console.log(piedata);
+              singleData2nd[`${piedata.investment_primary}`] =
+                piedata.project_count;
+              singleData2nd.point_count += piedata.project_count;
+            });
+            total2nd.push(singleData2nd.point_count);
+          }
+        });
+
+        // console.log(total2nd, 'total');
+        fullGeojsonMunicipality.features.forEach(data => {
+          // console.log(data, 'data');
+          singleData = {
+            point_count: 0,
+          };
+          if (data.properties.pie) {
+            data.properties.pie.forEach(piedata => {
+              // console.log(piedata);
+              singleData[`${piedata.investment_primary}`] =
+                piedata.project_count;
+              singleData.point_count += piedata.project_count;
+            });
+            total.push(singleData.point_count);
+          }
+          // console.log(singleData, 'singleData');
+          // console.log(total, 'total');
+          const testElMain = document.createElement('div');
+          testElMain.className = 'marker';
+          const props = data.properties;
+          // eslint-disable-next-line no-use-before-define
+          const testEl = this.createDonutChart(singleData, total2nd);
+
+          const marker = new mapboxgl.Marker({ element: testEl })
+            .setLngLat(data.geometry.coordinates)
+            .addTo(map);
+          global.markerList.push(marker);
+        });
+      } else if (this.props.mapViewBy === 'district') {
+        removeMarker();
+        let singleData = {};
+        let singleData2nd = {};
+        const total = [];
+        const total2nd = [];
+
+        fullGeojsonDistrict.features.forEach((item, index) => {
+          this.props.choroplethData.forEach(p => {
+            if (p.code === item.properties.code) {
+              fullGeojsonDistrict.features[index].properties = {
+                ...item.properties,
+                ...p,
+              };
+            }
+          });
+        });
+        // console.log(fullGeojsonDistrict, 'fullGeojsonDistrict');
+        // const getPointCount = features => {
+        //   features.forEach(f => {
+        //     if (f.properties.cluster) {
+        //       total.push(f.properties.point_count);
+        //     }
+        //   });
+
+        //   return total;
+        // };
+        // console.log(fullGeojsonDistrict, 'fullGeojsonDistrict');
+        fullGeojsonDistrict.features.forEach(data => {
+          // console.log(data, 'data');
+          singleData2nd = {
+            point_count: 0,
+          };
+          if (data.properties.pie) {
+            data.properties.pie.forEach(piedata => {
+              // console.log(piedata);
+              singleData2nd[`${piedata.investment_primary}`] =
+                piedata.project_count;
+              singleData2nd.point_count += piedata.project_count;
+            });
+            total2nd.push(singleData2nd.point_count);
+          }
+        });
+
+        // console.log(total2nd, 'total');
+        fullGeojsonDistrict.features.forEach(data => {
+          // console.log(data, 'data');
+          singleData = {
+            point_count: 0,
+          };
+          if (data.properties.pie) {
+            data.properties.pie.forEach(piedata => {
+              // console.log(piedata);
+              singleData[`${piedata.investment_primary}`] =
+                piedata.project_count;
+              singleData.point_count += piedata.project_count;
+            });
+            total.push(singleData.point_count);
+          }
+          // console.log(singleData, 'singleData');
+          // console.log(total, 'total');
+          const testElMain = document.createElement('div');
+          testElMain.className = 'marker';
+          const props = data.properties;
+          // eslint-disable-next-line no-use-before-define
+          const testEl = this.createDonutChart(singleData, total2nd);
+
+          const marker = new mapboxgl.Marker({ element: testEl })
+            .setLngLat(data.geometry.coordinates)
+            .addTo(map);
+          global.markerList.push(marker);
+        });
+      } else {
+        removeMarker();
+        let singleData = {};
+        let singleData2nd = {};
+        const total = [];
+        const total2nd = [];
+
+        fullGeojsonProvince.features.forEach((item, index) => {
+          this.props.choroplethData.forEach(p => {
+            if (p.code === item.properties.code) {
+              fullGeojsonProvince.features[index].properties = {
+                ...item.properties,
+                ...p,
+              };
+            }
+          });
+        });
+        // console.log(
+        //   fullGeojsonProvince,
+        //   'fullGeojsonProvince',
+        // );
+        // const getPointCount = features => {
+        //   features.forEach(f => {
+        //     if (f.properties.cluster) {
+        //       total.push(f.properties.point_count);
+        //     }
+        //   });
+
+        //   return total;
+        // };
+        // console.log(fullGeojsonDistrict, 'fullGeojsonDistrict');
+        fullGeojsonProvince.features.forEach(data => {
+          // console.log(data, 'data');
+          singleData2nd = {
+            point_count: 0,
+          };
+          if (data.properties.pie) {
+            data.properties.pie.forEach(piedata => {
+              // console.log(piedata);
+              singleData2nd[`${piedata.investment_primary}`] =
+                piedata.project_count;
+              singleData2nd.point_count += piedata.project_count;
+            });
+            total2nd.push(singleData2nd.point_count);
+          }
+        });
+
+        // console.log(total2nd, 'total');
+        fullGeojsonProvince.features.forEach(data => {
+          // console.log(data, 'data');
+          singleData = {
+            point_count: 0,
+          };
+          if (data.properties.pie) {
+            data.properties.pie.forEach(piedata => {
+              // console.log(piedata);
+              singleData[`${piedata.investment_primary}`] =
+                piedata.project_count;
+              singleData.point_count += piedata.project_count;
+            });
+            total.push(singleData.point_count);
+          }
+          // console.log(singleData, 'singleData');
+          // console.log(total, 'total');
+          const testElMain = document.createElement('div');
+          testElMain.className = 'marker';
+          const props = data.properties;
+          // eslint-disable-next-line no-use-before-define
+          const testEl = this.createDonutChart(singleData, total2nd);
+
+          const marker = new mapboxgl.Marker({ element: testEl })
+            .setLngLat(data.geometry.coordinates)
+            .addTo(map);
+          global.markerList.push(marker);
+        });
+      }
+    }
     // if (
     //   prevProps.partnershipAllData !==
     //   this.props.partnershipReducer.partnershipAllData

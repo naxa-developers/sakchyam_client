@@ -520,9 +520,16 @@ class StackedBar extends Component {
 
   render() {
     const { options, series } = this.state;
-    const { activeModal } = this.props;
+    const { activeModal, viewDataBy } = this.props;
     return (
-      <div id="leverage_chart">
+      <div
+        id="leverage_chart"
+        // style={
+        //   viewDataBy === 'Leverage'
+        //     ? { display: 'block' }
+        //     : { display: 'none' }
+        // }
+      >
         <ReactApexChart
           options={options}
           series={series}
@@ -537,9 +544,14 @@ class StackedBar extends Component {
 const mapStateToProps = ({ partnershipReducer }) => ({
   partnershipReducer,
 });
-export default connect(mapStateToProps, {
-  filterFinancialDataOfDistrictFromProvince,
-  filterFinancialDataOfMunicipalityFromDistrict,
-  getLeverageData,
-  filterLeverageDataForBarClick,
-})(StackedBar);
+export default connect(
+  mapStateToProps,
+  {
+    filterFinancialDataOfDistrictFromProvince,
+    filterFinancialDataOfMunicipalityFromDistrict,
+    getLeverageData,
+    filterLeverageDataForBarClick,
+  },
+  null,
+  { pure: false },
+)(StackedBar);

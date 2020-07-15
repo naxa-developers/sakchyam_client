@@ -174,7 +174,9 @@ const filterBeneficiaryBarChart = datas => {
   };
 };
 const filterBeneficiaryBarChartForInvestment = datas => {
-  const checkProvince = datas.some(i => i.name.includes('Province'));
+  const checkProvince = datas.some(i =>
+    i.name.includes('Provincesss'),
+  );
   // console.log(checkProvince, 'check');
   // console.log(datas, 'datas');
   const barLabels = checkProvince

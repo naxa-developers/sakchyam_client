@@ -71,6 +71,7 @@ class MainPartnership extends Component {
       isAllProjectSelected: false,
       isAllInvestmentFocusSelected: false,
       showBarof: 'Provinces',
+      showBarofInvestmentBudgetBenef: 'investmentFocus',
       // UI Section
       activeFilter: false,
       activeOverview: false,
@@ -86,7 +87,20 @@ class MainPartnership extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    // const windowPos = window.pageYOffset;
+    // const siteHeader = document.getElementsByClassName(
+    //   '.main-header',
+    // );
+    // const scrollLink = document.getElementsByClassName('.scroll-top');
+    // if (windowPos >= 110) {
+    //   siteHeader.addClass('fixed-header');
+    //   scrollLink.addClass('open');
+    // } else {
+    //   siteHeader.removeClass('fixed-header');
+    //   scrollLink.removeClass('open');
+    // }
+
     const { viewDataBy } = this.state;
     this.props.getPartnersList();
     this.props.getProjectListData();
@@ -102,7 +116,29 @@ class MainPartnership extends Component {
     // this.props.getMapDataByMunicipality(viewDataBy);
     this.props.getDistrictData();
     this.props.getMunicipalityData();
+    const filterBar = document.getElementsByClassName(
+      'filter-bar',
+    )[0];
+    const provinceList = document.getElementsByClassName(
+      'filter-bar',
+    )[0];
+    const districtList = document.getElementsByClassName(
+      'filter-bar',
+    )[0];
+    const munList = document.getElementsByClassName('filter-bar')[0];
+    // console.log(specifiedElement, 'ss');
+    document.addEventListener('click', async event => {
+      const isClickInside = filterBar.contains(event.target);
 
+      if (!isClickInside) {
+        console.log('clickoutside');
+        this.setState({
+          activeFilter: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
     // const provinceEl = document.getElementById(
     //   'filter_dropdown_province',
     // );
@@ -543,6 +579,10 @@ class MainPartnership extends Component {
     this.setState({ showBarof: value });
   };
 
+  handleShowBarOfInvestmentBudgetBenefBar = value => {
+    this.setState({ showBarofInvestmentBudgetBenef: value });
+  };
+
   handleInvestmentParentCheckbox = e => {
     // e.stopPropagation();
     const {
@@ -912,6 +952,7 @@ class MainPartnership extends Component {
         partnerSelection,
         partnerType,
         showBarof,
+        showBarofInvestmentBudgetBenef,
         selectedProvince,
         selectedDistrict,
         selectedMunicipality,
@@ -1296,6 +1337,12 @@ class MainPartnership extends Component {
                   projectStatus={projectStatus}
                   showBarof={showBarof}
                   handleShowBarOf={this.handleShowBarOf}
+                  showBarofInvestmentBudgetBenef={
+                    showBarofInvestmentBudgetBenef
+                  }
+                  handleShowBarOfInvestmentBudgetBenefBar={
+                    this.handleShowBarOfInvestmentBudgetBenefBar
+                  }
                   applyBtnClick={this.applyBtnClick}
                 />
                 <div
