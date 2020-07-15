@@ -53,11 +53,27 @@ class BubbleChart extends React.Component {
 
     const getColor = color => colors[color.id];
 
+    let height = 425;
+    let width = 425;
+
+    if (activeModal) {
+      if (window.innerWidth > 1600) {
+        height = 900;
+        width = 1500;
+      } else if (window.innerWidth < 1600) {
+        height = 550;
+        width = 1000;
+      }
+    } else {
+      height = 400;
+    }
+
     return (
       <>
         <div
           style={{
-            height: !activeModal ? '400px' : '665px',
+            // height: !activeModal ? '400px' : '665px',
+            height,
             width: 'auto',
           }}
         >
@@ -142,6 +158,7 @@ class BubbleChart extends React.Component {
             legendItems.map(legend => {
               return (
                 <BubbleLegend
+                  // key={}
                   radius={6}
                   fill={legend.fill}
                   label={legend.label}

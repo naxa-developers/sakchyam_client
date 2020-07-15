@@ -198,7 +198,7 @@ class RightSideBar extends Component {
               <div className="widget-body"></div>
             </div> */}
             <div className="sidebar-widget timeline-widget">
-              <h5 style={{ textTransform: 'none' }}>
+              <h5 style={{ textTransform: 'none', marginBottom: 0 }}>
                 PRODUCT TIMELINE
               </h5>
               <div className="widget-body">
@@ -261,7 +261,7 @@ class RightSideBar extends Component {
                               if (Object.entries(list).length !== 0) {
                                 temp = (
                                   <li
-                                    key={item.id}
+                                    // key={item.id}
                                     className={
                                       hoverID === index
                                         ? 'active'
