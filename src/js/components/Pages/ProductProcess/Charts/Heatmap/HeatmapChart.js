@@ -43,7 +43,7 @@ class HeatmapChart extends React.Component {
           // trim: true,
           // hideOverlappingLabels: false,
           align: 'right',
-          minWidth: 0,
+          minWidth: 150,
           maxWidth: 500,
           style: {
             colors: [],
