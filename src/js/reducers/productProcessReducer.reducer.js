@@ -160,7 +160,7 @@ const generateBarChartData = data => {
   });
 
   return {
-    series: [{ data: arr }],
+    series: [{ data: arr, name: 'No. of products' }],
     categories: marketFailure,
   };
 };

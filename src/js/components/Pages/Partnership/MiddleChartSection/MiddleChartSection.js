@@ -17,6 +17,7 @@ import {
   resetRadialData,
   resetSankeyChartData,
   resetLeverageData,
+  resetBarDataByInvestmentFocus,
 } from '../../../../actions/partnership.actions';
 import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
 
@@ -106,6 +107,8 @@ class MiddleChartSection extends Component {
         projectStatus,
         showBarof,
         handleShowBarOf,
+        showBarofInvestmentBudgetBenef,
+        handleShowBarOfInvestmentBudgetBenefBar,
       },
     } = this;
     const {
@@ -214,6 +217,8 @@ class MiddleChartSection extends Component {
         projectStatus,
         showBarof,
         handleShowBarOf,
+        showBarofInvestmentBudgetBenef,
+        handleShowBarOfInvestmentBudgetBenefBar,
       },
     } = this;
     const {
@@ -279,7 +284,10 @@ class MiddleChartSection extends Component {
               }}
             />
             <CardTab
-              resetFunction={this.props.resetBarDatas}
+              resetFunction={() => {
+                this.props.resetBarDatas();
+                this.props.handleShowBarOf('Provinces');
+              }}
               showBarof={showBarof}
               handleShowBarOf={handleShowBarOf}
               cardTitle="Province Wise Budget & Beneficiaries Count"
@@ -305,7 +313,12 @@ class MiddleChartSection extends Component {
             />
             {viewDataBy !== 'Leverage' && (
               <CardTab
-                resetFunction={this.props.resetBarDatas}
+                resetFunction={() => {
+                  this.props.resetBarDataByInvestmentFocus();
+                  this.props.handleShowBarOfInvestmentBudgetBenefBar(
+                    'investmentFocus',
+                  );
+                }}
                 handleShowBarOf={handleShowBarOf}
                 cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
                 cardClass="col-xl-6"
@@ -324,6 +337,12 @@ class MiddleChartSection extends Component {
                       projectStatus={projectStatus}
                       showBarof={showBarof}
                       handleShowBarOf={handleShowBarOf}
+                      showBarofInvestmentBudgetBenef={
+                        showBarofInvestmentBudgetBenef
+                      }
+                      handleShowBarOfInvestmentBudgetBenefBar={
+                        handleShowBarOfInvestmentBudgetBenefBar
+                      }
                     />
                   );
                 }}
@@ -378,7 +397,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'
@@ -399,7 +418,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"
@@ -436,4 +455,5 @@ export default connect(mapStateToProps, {
   resetLeverageData,
   resetRadialData,
   resetSankeyChartData,
+  resetBarDataByInvestmentFocus,
 })(MiddleChartSection);

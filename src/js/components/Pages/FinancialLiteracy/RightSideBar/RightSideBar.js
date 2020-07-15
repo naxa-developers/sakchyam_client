@@ -752,7 +752,7 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget timeline-widget">
-              <h5>Initiative Timeline</h5>
+              <h5 style={{ marginBottom: 0 }}>Initiative Timeline</h5>
               <div className="widget-body">
                 <div className="timeline">
                   {timelineData &&

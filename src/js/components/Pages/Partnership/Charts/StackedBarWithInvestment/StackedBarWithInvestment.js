@@ -10,6 +10,7 @@ class StackedBarWithInvestment extends Component {
     this.state = {
       series: [],
       options: {},
+      update: false,
     };
   }
 
@@ -206,13 +207,25 @@ class StackedBarWithInvestment extends Component {
 
   componentDidMount() {
     this.plotChart();
+    // alert('didmount 2nd barChart');
+    // this.updateBarChart();
 
     const { activeModal } = this.props;
     if (activeModal) {
       // this.plotChart();
       this.updateBarChart();
     }
-    // this.updateBarChart();
+    if (
+      Object.keys(this.props.partnershipReducer.barDatasByInvestment)
+        .length > 0
+    ) {
+      // alert('run');
+      this.updateBarChart();
+    }
+    // if (this.state.update === true) {
+    //   this.updateBarChart();
+    // }
+    // this.forceUpdate();
   }
 
   updateBarChart = () => {
@@ -262,8 +275,21 @@ class StackedBarWithInvestment extends Component {
             const clickedBar =
               config.xaxis.categories[dataPointIndex];
 
-            // console.log(that.state.options.categories, 'categories');
-            that.props.filterBenefBudgetDataForBarClick(clickedBar);
+            // alert(clickedBar);
+            if (clickedBar !== undefined) {
+              // console.log(that.state.options.categories, 'categories');
+              if (
+                that.props.showBarofInvestmentBudgetBenef ===
+                'investmentFocus'
+              ) {
+                that.props.filterBenefBudgetDataForBarClick(
+                  clickedBar,
+                );
+              }
+              that.props.handleShowBarOfInvestmentBudgetBenefBar(
+                'projects',
+              );
+            }
             // console.log(showBarof, 'showBarOf');
             // if (showBarof === 'Provinces') {
             //   // console.log(showBarof, 'inside showBarOf');
@@ -521,13 +547,34 @@ class StackedBarWithInvestment extends Component {
     ) {
       this.updateBarChart();
     }
+    // console.log(prevProps.viewDataBy, 'viewDataBy');
+    // console.log(this.props.viewDataBy, 'props viewDataBy');
+    if (prevProps.viewDataBy !== this.props.viewDataBy) {
+      // alert('test');
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ update: true });
+      this.updateBarChart();
+    }
   }
 
   render() {
-    const { options, series } = this.state;
+    const {
+      options,
+      series,
+      update,
+      showDataOf,
+      viewDataBy,
+    } = this.state;
     const { activeModal } = this.props;
     return (
-      <div id="stacked_chart">
+      <div
+        id="stacked_chart"
+        // style={
+        //   viewDataBy !== 'Leverage'
+        //     ? { display: 'block' }
+        //     : { display: 'none' }
+        // }
+      >
         <ReactApexChart
           options={options}
           series={series}

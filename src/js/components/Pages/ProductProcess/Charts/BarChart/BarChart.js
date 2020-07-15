@@ -47,7 +47,9 @@ class BarChart extends Component {
       },
       yaxis: {
         title: {
-          text: 'No. of Products',
+          text: !this.props.activeModal
+            ? 'No. of Products'
+            : undefined,
           rotate: 90,
           offsetX: 0,
           offsetY: 0,
@@ -60,23 +62,23 @@ class BarChart extends Component {
           },
         },
         axisBorder: {
-          show: true,
+          show: !this.props.activeModal ? true : false,
         },
         axisTicks: {
-          show: true,
+          show: !this.props.activeModal ? true : false,
         },
       },
       grid: {
         show: false,
       },
-      tooltip: {
-        fixed: {
-          enabled: true,
-          position: 'topRight',
-          offsetX: 0,
-          offsetY: 0,
-        },
-      },
+      // tooltip: {
+      //   fixed: {
+      //     enabled: true,
+      //     position: 'topRight',
+      //     offsetX: 0,
+      //     offsetY: 0,
+      //   },
+      // },
     };
 
     this.setState({ options });
@@ -120,13 +122,33 @@ class BarChart extends Component {
 
     const { showRightSidebar, activeModal } = this.props;
 
+    let height = 425;
+    let width = 425;
+
+    if (activeModal) {
+      if (window.innerWidth > 1600) {
+        height = 900;
+        width = 1500;
+      } else if (window.innerWidth < 1600) {
+        height = 570;
+        width = 1000;
+        // } else if (window.innerWidth < 1600) {
+        //   height = 570;
+        //   width = 1000;
+      }
+    } else {
+      // height = 425;
+      height = 434;
+      width = 450;
+    }
+
     return (
       <div id="chart">
         <ReactApexChart
           options={options}
           series={series}
           type="bar"
-          height={!activeModal ? 450 : 685}
+          // height={!activeModal ? 450 : 685}
           width={
             showRightSidebar && window.innerWidth < 1600
               ? 780
@@ -136,6 +158,8 @@ class BarChart extends Component {
               ? 1100
               : 1400
           }
+          height={height}
+          // width={width}
         />
       </div>
     );

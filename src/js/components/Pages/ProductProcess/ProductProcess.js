@@ -874,7 +874,9 @@ class ProductProcess extends React.Component {
                         </div>
                       </div>
                       <div className="card-body">
-                        <HeatmapChart />
+                        <HeatmapChart
+                          showRightSidebar={showRightSidebar}
+                        />
                       </div>
                     </div>
                   </div>
