@@ -176,6 +176,7 @@ class LeftSideBar extends Component {
                     partnerType.map(item => {
                       return (
                         <a
+                          key={item.id}
                           onClick={() => {
                             handlePartnerType(`${item.name}`);
                           }}

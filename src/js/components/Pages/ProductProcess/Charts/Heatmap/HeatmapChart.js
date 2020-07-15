@@ -23,7 +23,7 @@ class HeatmapChart extends React.Component {
         toolbar: { show: false },
         height: 350,
         type: 'heatmap',
-        width: 900,
+        // width: 900,
       },
       dataLabels: {
         enabled: false,
@@ -82,7 +82,7 @@ class HeatmapChart extends React.Component {
   componentDidMount() {
     this.plotChart();
 
-    const { activeModal } = this.props;
+    const { activeModal, showRightSidebar } = this.props;
     if (activeModal) this.updateChartData();
   }
 
@@ -97,14 +97,49 @@ class HeatmapChart extends React.Component {
 
   render() {
     const { options, series } = this.state;
-    const { activeModal } = this.props;
+    const { activeModal, showRightSidebar } = this.props;
+
+    let height = 425;
+    let width = 425;
+
+    if (activeModal) {
+      if (window.innerWidth > 1600) {
+        height = 900;
+        width = 1500;
+      } else if (window.innerWidth < 1600) {
+        height = 570;
+        width = 1000;
+        // } else if (window.innerWidth < 1600) {
+        //   height = 570;
+        //   width = 1000;
+      }
+    } else {
+      // height = 425;
+      height = 550;
+      width = 450;
+    }
+
     return (
-      <div id="chart" style={{ paddingLeft: '30px' }}>
+      <div
+        id="chart"
+        // style={{ paddingLeft: '30px' }}
+        style={{ width: 'auto' }}
+      >
         <ReactApexChart
           options={options}
           series={series}
           type="heatmap"
-          height={!activeModal ? 550 : 650}
+          // height={!activeModal ? 550 : 650}
+          height={height}
+          width={
+            showRightSidebar && window.innerWidth < 1600
+              ? 780
+              : showRightSidebar && window.innerWidth > 1600
+              ? 1100
+              : !showRightSidebar && window.innerWidth < 1600
+              ? 1100
+              : 1400
+          }
         />
       </div>
     );

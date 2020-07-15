@@ -54,6 +54,7 @@ class RadarChart extends React.Component {
         categories: [],
       },
       yaxis: {
+        show: false,
         min: 0,
         max: 10,
         tickAmount: 5,
@@ -119,16 +120,42 @@ class RadarChart extends React.Component {
 
     const { activeModal } = this.props;
 
+    let height = 425;
+    let width = 425;
+
+    if (activeModal) {
+      if (window.innerWidth > 1600) {
+        height = 900;
+        width = 1500;
+      } else if (window.innerWidth < 1600) {
+        height = 570;
+        width = 1000;
+        // } else if (window.innerWidth < 1600) {
+        //   height = 570;
+        //   width = 1000;
+      }
+    } else {
+      // height = 425;
+      height = 434;
+      width = 450;
+    }
+
     return (
       <div
         id="chart"
-        style={{ height: !activeModal ? '434px' : '700px' }}
+        // style={
+        // height: {!activeModal ? '434px' : height},
+        // width: {width}
+        // }
+        style={{ height: !activeModal && 434 }}
       >
         <ReactApexChart
           options={options}
           series={series}
           type="radar"
-          height={!activeModal ? 425 : 685}
+          // height={!activeModal ? 425 : 685}
+          height={height}
+          // width={width}
         />
       </div>
     );
