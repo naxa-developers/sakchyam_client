@@ -25,10 +25,95 @@ class HeatmapChart extends React.Component {
         type: 'heatmap',
         // width: 900,
       },
+      plotOptions: {
+        heatmap: {
+          shadeIntensity: 0.5,
+          radius: 0,
+          // useFillColorAsStroke: true,
+          useFillColorAsStroke: false,
+          colorScale: {
+            ranges: [
+              {
+                from: 0,
+                to: 1,
+                name: '',
+                color: '#4CE2A7',
+              },
+              {
+                from: 1,
+                to: 2,
+                name: '',
+                color: '#1EC853',
+              },
+              {
+                from: 2,
+                to: 3,
+                name: '',
+                color: '#FFF095',
+              },
+              {
+                from: 4,
+                to: 5,
+                name: '',
+                color: '#FFCD00',
+              },
+              {
+                from: 6,
+                to: 7,
+                name: '',
+                color: '#FF6D00',
+                // color: '',
+              },
+              {
+                from: 8,
+                to: 9,
+                name: '',
+                color: '#FBCAD4',
+              },
+              // {
+              //   from: 0,
+              //   to: 1,
+              //   name: '',
+              //   color: '',
+              // },
+
+              // {
+              //   from: 0,
+              //   to: 1,
+              //   name: 'low',
+              //   color: '#00A100', // green
+              //   // color: '#B1B424', // green
+              // },
+              // {
+              //   from: 2,
+              //   to: 5,
+              //   name: 'medium',
+              //   color: '#128FD9', // blue // #B1B424
+              //   // color: '#007078', // blue // #B1B424
+              // },
+              // {
+              //   from: 6,
+              //   to: 15,
+              //   name: 'high',
+              //   color: '#FFB200',
+              // },
+              // {
+              //   from: 8,
+              //   to: 15,
+              //   name: 'extreme',
+              //   color: '#FF0000',
+              // },
+            ],
+          },
+        },
+      },
       dataLabels: {
         enabled: false,
       },
-      colors: ['#008FFB'],
+      stroke: {
+        width: 1,
+      },
+      // colors: ['#008FFB'],
       title: {
         text: undefined,
       },
@@ -43,7 +128,7 @@ class HeatmapChart extends React.Component {
           // trim: true,
           // hideOverlappingLabels: false,
           align: 'right',
-          minWidth: 150,
+          minWidth: !this.props.activeModal ? 150 : 400,
           maxWidth: 500,
           style: {
             colors: [],
@@ -74,9 +159,18 @@ class HeatmapChart extends React.Component {
       productProcessReducer: { heatMapData },
     } = this.props;
 
-    this.setState({
+    this.setState(preState => ({
       series: heatMapData,
-    });
+      // options: {
+      //   ...preState.options,
+      //   yaxis: {
+      //     ...preState.options.yaxis,
+      //     labels: {
+      //       ...preState.options.yaxis.labels,
+      //     },
+      //   },
+      // },
+    }));
   };
 
   componentDidMount() {
@@ -123,7 +217,7 @@ class HeatmapChart extends React.Component {
       <div
         id="chart"
         // style={{ paddingLeft: '30px' }}
-        style={{ width: 'auto' }}
+        // style={{ width: 'auto' }}
       >
         <ReactApexChart
           options={options}

@@ -285,6 +285,11 @@ class HorizontalChart extends Component {
           formatter: val => numberWithCommas(val),
         },
       },
+      tooltip: {
+        marker: {
+          show: false,
+        },
+      },
     };
     this.setState({ options, series });
   };
