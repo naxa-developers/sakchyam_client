@@ -141,16 +141,16 @@ const initialState = {
 
 const filterBeneficiaryBarChart = datas => {
   const checkProvince = datas.some(i => i.name.includes('Province'));
-  console.log(checkProvince, 'check');
-  console.log(datas, 'datas');
+  // console.log(checkProvince, 'check');
+  // console.log(datas, 'datas');
   const barLabels = checkProvince
     ? datas.map(label => {
-        return label.code;
+        return label.name;
         // return label.code;
       })
     : datas.map(label => {
-        return label.name.replace('Province', '');
         // return label.name.replace('Province', '');
+        return label.name;
       });
   const maleBeneficiary = datas.map(data => {
     return data.total_beneficiary - data.female_beneficiary;

@@ -48,7 +48,7 @@ export const getAllAutomationDataByPartner = () => dispatch => {
 export const getAutomationDataByProvince = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('api/v1/automation/map-data/?partner=0&province=0')
+      .get('api/v1/automation/map-data/?partner=0&province_id=0')
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -72,7 +72,7 @@ export const getAutomationDataByProvince = () => dispatch => {
 export const getAutomationDataByDistrict = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('api/v1/automation/map-data/?partner=0&district=0')
+      .get('api/v1/automation/map-data/?partner=0&district_id=0')
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -88,7 +88,7 @@ export const getAutomationDataByDistrict = () => dispatch => {
 export const getAutomationDataByMunicipality = () => dispatch => {
   try {
     const response = axiosInstance
-      .get('api/v1/automation/map-data/?partner=0&municipality=0')
+      .get('api/v1/automation/map-data/?partner=0&municipality_id=0')
       .then(function(result) {
         // console.log(result, 'result');
         return dispatch({
@@ -127,7 +127,7 @@ export const filterDistrictFromProvinceColor = dataCode => dispatch => {
   const token = localStorage.getItem('userToken');
   axios
     .get(
-      `${process.env.PUBLIC_URL}/api/v1/automation/map-data/?partner=0&municipality=${dataCode}
+      `${process.env.PUBLIC_URL}/api/v1/automation/map-data/?partner=0&municipality_id=${dataCode}
       `,
       {
         headers: {
@@ -574,11 +574,7 @@ export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
   try {
     let query = '';
     if (clickedPartner.length > 0) {
-      query = clickedPartner
-        .map(data => {
-          return `partner=${data}`;
-        })
-        .join('&');
+      query = `partner=${clickedPartner}`;
     } else {
       query = 'partner=0';
     }
@@ -602,9 +598,7 @@ export const getBranchesTableData = statelevel => dispatch => {
   if (statelevel === 'province') {
     try {
       const response = axiosInstance
-        .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&province=0`,
-        )
+        .get(`api/v1/automation/table-data/`)
         .then(function(result) {
           // console.log(result, 'result');
           return dispatch({
@@ -618,9 +612,7 @@ export const getBranchesTableData = statelevel => dispatch => {
   } else if (statelevel === 'district') {
     try {
       const response = axiosInstance
-        .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&district=0`,
-        )
+        .get(`api/v1/automation/table-data/`)
         .then(function(result) {
           // console.log(result, 'result');
           return dispatch({
@@ -634,9 +626,7 @@ export const getBranchesTableData = statelevel => dispatch => {
   } else {
     try {
       const response = axiosInstance
-        .get(
-          `api/v1/automation/table-data/?filter_type=partner&partner=0&municipality=0`,
-        )
+        .get(`api/v1/automation/table-data/`)
         .then(function(result) {
           // console.log(result, 'result');
           return dispatch({
@@ -655,18 +645,18 @@ export const partnerSelectWithOutreach = (
 ) => dispatch => {
   let query = 'partner=0';
   if (selectedPartner.length > 0) {
-    query = selectedPartner
-      .map(data => {
-        return `partner=${data}`;
-      })
-      .join('&');
+    query = `partner=${selectedPartner}`;
+    // .map(data => {
+    //   return `partner=${data}`;
+    // })
+    // .join('&');
   } else {
     query = 'partner=0';
   }
   if (selectedState === 'province') {
     try {
       const response = axiosInstance
-        .get(`api/v1/automation/map-data/?${query}&province=0`)
+        .get(`api/v1/automation/map-data/?${query}&province_id=0`)
         .then(function(result) {
           // console.log(result, 'result');
           return dispatch({
@@ -680,7 +670,7 @@ export const partnerSelectWithOutreach = (
   } else if (selectedState === 'district') {
     try {
       const response = axiosInstance
-        .get(`api/v1/automation/map-data/?${query}&district=0`)
+        .get(`api/v1/automation/map-data/?${query}&district_id=0`)
         .then(function(result) {
           // console.log(result, 'result');
           return dispatch({
@@ -694,7 +684,7 @@ export const partnerSelectWithOutreach = (
   } else {
     try {
       const response = axiosInstance
-        .get(`api/v1/automation/map-data/?${query}&municipality=0`)
+        .get(`api/v1/automation/map-data/?${query}&municipality_id=0`)
         .then(function(result) {
           // console.log(result, 'result');
           return dispatch({
@@ -734,45 +724,31 @@ export const getBranchesTableDataByFed = (
   // console.log(federalSelect, 'fedselect');
   console.log(partnerSelect, 'partnersekle');
   let partners = 'partner=0';
-  let provinceSelect = 'province=0';
-  let districtSelect = 'district=0';
-  let municipalitySelect = 'municipality=0';
+  let provinceSelect = 'province_id=0';
+  let districtSelect = 'district_id=0';
+  let municipalitySelect = 'municipality_id=0';
   if (partnerSelect.length > 0) {
-    partners = partnerSelect
-      .map(data => {
-        return `partner=${data}`;
-      })
-      .join('&');
+    partners = `partner=${partnerSelect}`;
   }
   if (
     federalSelect.province.length > 0 &&
     federalSelect.province.length < 15
   ) {
-    provinceSelect = federalSelect.province
-      .map(data => {
-        return `province=${data}`;
-      })
-      .join('&');
+    provinceSelect = `province_id=${federalSelect.province}`;
+    // })
+    // .join('&');
   }
   if (
     federalSelect.district.length > 0 &&
     federalSelect.district.length < 15
   ) {
-    districtSelect = federalSelect.district
-      .map(data => {
-        return `district=${data}`;
-      })
-      .join('&');
+    districtSelect = `district_id=${federalSelect.district}`;
   }
   if (
     federalSelect.municipality.length > 0 &&
     federalSelect.municipality.length < 15
   ) {
-    municipalitySelect = federalSelect.municipality
-      .map(data => {
-        return `municipality=${data}`;
-      })
-      .join('&');
+    municipalitySelect = `municipality_id=${federalSelect.municipality}`;
   }
   // console.log(federalSelect, 'fedSelect');
   // console.log(provinceSelect, 'prov');
@@ -890,7 +866,7 @@ export const filterAutomationByState = () => dispatch => {
   try {
     const response = axiosInstance
       .get(
-        `api/v1/automation/table-data/?filter_type=partner&partner=32&partner=16&province=1`,
+        `api/v1/automation/table-data/?filter_type=partner&partner=32,16&province_id=1`,
       )
       .then(function(result) {
         // console.log(result, 'result');

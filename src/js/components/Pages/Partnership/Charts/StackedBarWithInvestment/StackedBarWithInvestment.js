@@ -51,16 +51,24 @@ class StackedBarWithInvestment extends Component {
             // console.log(chartContext, 'chartContext');
             // console.log(dataPointIndex, 'dataPointIndex');
             // console.log(config, 'config');
-            console.log(
-              config.xaxis.categories[dataPointIndex],
-              'dataPointIndex Calc',
-            );
-            const {
-              partnerSelection,
-              projectSelection,
-              projectStatus,
-              showBarOf,
-            } = that.props;
+            const clickedBar =
+              config.xaxis.categories[dataPointIndex];
+
+            // alert(clickedBar);
+            if (clickedBar !== undefined) {
+              // console.log(that.state.options.categories, 'categories');
+              if (
+                that.props.showBarofInvestmentBudgetBenef ===
+                'investmentFocus'
+              ) {
+                that.props.filterBenefBudgetDataForBarClick(
+                  clickedBar,
+                );
+              }
+              that.props.handleShowBarOfInvestmentBudgetBenefBar(
+                'projects',
+              );
+            }
             // if (showBarOf === 'Provinces') {
 
             // console.log(filteredProvinceId, 'filteredProvinceID');
@@ -109,6 +117,9 @@ class StackedBarWithInvestment extends Component {
             },
             formatter: value => {
               // console.log(value, 'value');
+              if (value % 1 !== 0) {
+                return convert(value.toFixed(2));
+              }
               return convert(value);
             },
           },
@@ -141,6 +152,9 @@ class StackedBarWithInvestment extends Component {
             },
             formatter: value => {
               // console.log(value, 'value');
+              if (value % 1 !== 0) {
+                return convert(value.toFixed(2));
+              }
               return convert(value);
             },
           },
@@ -275,13 +289,13 @@ class StackedBarWithInvestment extends Component {
             const clickedBar =
               config.xaxis.categories[dataPointIndex];
 
-            // alert(clickedBar);
             if (clickedBar !== undefined) {
               // console.log(that.state.options.categories, 'categories');
               if (
                 that.props.showBarofInvestmentBudgetBenef ===
                 'investmentFocus'
               ) {
+                alert(clickedBar);
                 that.props.filterBenefBudgetDataForBarClick(
                   clickedBar,
                 );
@@ -417,8 +431,28 @@ class StackedBarWithInvestment extends Component {
             },
             formatter: value => {
               // console.log(value, 'value');
+              // if (value === 0) {
+              //   return value;
+              // }
+              // if (value === 1) {
+              //   return value;
+              // }
+              // if (value <= 1) {
+              //   return value.toFixed(1);
+              // }
+              console.log(value, 'v');
+              // const roundNumber = Math.round(value);
+              // console.log(convert(roundNumber));
+              //   console.log(convert(roundNumber));
+              if (value % 1 !== 0) {
+                return convert(value.toFixed(2));
+              }
               return convert(value);
             },
+            // formatter: value => {
+            //   // console.log(value, 'value');
+            //   return convert(value);
+            // },
           },
           title: {
             text: 'Beneficiaries (Male & Female)',
@@ -461,7 +495,10 @@ class StackedBarWithInvestment extends Component {
               colors: '#00E396',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              console.log(value, 'value');
+              if (value % 1 !== 0) {
+                return convert(value.toFixed(2));
+              }
               return convert(value);
             },
           },

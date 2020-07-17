@@ -167,7 +167,7 @@ class ProductProcess extends React.Component {
             ...preState.innovationAreaSelection,
             name,
           ],
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       if (!checked) {
@@ -176,7 +176,7 @@ class ProductProcess extends React.Component {
         );
         return {
           innovationAreaSelection: newArr,
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       return null;
@@ -667,6 +667,119 @@ class ProductProcess extends React.Component {
                       {/* <div className="col-xl-12">
                         <div className="card" />
                       </div> */}
+                      <div className="col-xl-12">
+                        <div className="card" id="heatmap-chart">
+                          <div className="card-header">
+                            <h5>{heatmapTitle}</h5>
+                            <div className="header-icons">
+                              <span
+                                className=""
+                                onClick={() => {
+                                  this.downloadPng(
+                                    'heatmap-chart',
+                                    `${heatmapTitle}`,
+                                  );
+                                }}
+                                onKeyDown={() => {
+                                  this.downloadPng(
+                                    'heatmap-chart',
+                                    `${heatmapTitle}`,
+                                  );
+                                }}
+                                role="tab"
+                                tabIndex="0"
+                              >
+                                <img src={DownloadIcon} alt="open" />
+                              </span>
+                              <span
+                                className=""
+                                role="tab"
+                                tabIndex="0"
+                                onClick={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal(
+                                    'heatmap',
+                                    `${heatmapTitle}`,
+                                  );
+                                }}
+                                onKeyDown={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal(
+                                    'heatmap',
+                                    `${heatmapTitle}`,
+                                  );
+                                }}
+                              >
+                                <img src={ExpandIcon} alt="open" />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="card-body">
+                            <HeatmapChart
+                              showRightSidebar={showRightSidebar}
+                              // activeModal={activeModal}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-xl-12">
+                        <div className="card" id="bar-chart">
+                          <div className="card-header">
+                            <h5>{barTitle}</h5>
+                            <div className="header-icons">
+                              <span
+                                className=""
+                                onClick={() => {
+                                  this.downloadPng(
+                                    'bar-chart',
+                                    `${barTitle}`,
+                                  );
+                                }}
+                                onKeyDown={() => {
+                                  this.downloadPng(
+                                    'bar-chart',
+                                    `${barTitle}`,
+                                  );
+                                }}
+                                role="tab"
+                                tabIndex="0"
+                              >
+                                <img src={DownloadIcon} alt="open" />
+                              </span>
+                              <span
+                                className=""
+                                role="tab"
+                                tabIndex="0"
+                                onClick={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal(
+                                    'bar',
+                                    `${barTitle}`,
+                                  );
+                                }}
+                                onKeyDown={() => {
+                                  this.handleModal();
+                                  this.handleSelectedModal(
+                                    'bar',
+                                    `${barTitle}`,
+                                  );
+                                }}
+                              >
+                                <img src={ExpandIcon} alt="open" />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="card-body">
+                            <BarChart
+                              showRightSidebar={showRightSidebar}
+                              // activeModal={activeModal}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
                       <div className="col-xl-6">
                         <div className="card" id="bubble-chart">
                           <div className="card-header">
@@ -715,6 +828,7 @@ class ProductProcess extends React.Component {
                             </div>
                           </div>
                           <div className="card-body">
+                            {/* <BubbleChart activeModal={activeModal} /> */}
                             <BubbleChart />
                           </div>
                         </div>
@@ -768,115 +882,9 @@ class ProductProcess extends React.Component {
                           </div>
                           <div className="card-body">
                             <RadarChart />
+                            {/* <RadarChart activeModal={activeModal} /> */}
                           </div>
                         </div>
-                      </div>
-                      <div className="col-xl-12">
-                        <div className="card" id="bar-chart">
-                          <div className="card-header">
-                            <h5>{barTitle}</h5>
-                            <div className="header-icons">
-                              <span
-                                className=""
-                                onClick={() => {
-                                  this.downloadPng(
-                                    'bar-chart',
-                                    `${barTitle}`,
-                                  );
-                                }}
-                                onKeyDown={() => {
-                                  this.downloadPng(
-                                    'bar-chart',
-                                    `${barTitle}`,
-                                  );
-                                }}
-                                role="tab"
-                                tabIndex="0"
-                              >
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span
-                                className=""
-                                role="tab"
-                                tabIndex="0"
-                                onClick={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal(
-                                    'bar',
-                                    `${barTitle}`,
-                                  );
-                                }}
-                                onKeyDown={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal(
-                                    'bar',
-                                    `${barTitle}`,
-                                  );
-                                }}
-                              >
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <BarChart
-                              showRightSidebar={showRightSidebar}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="card" id="heatmap-chart">
-                      <div className="card-header">
-                        <h5>{heatmapTitle}</h5>
-                        <div className="header-icons">
-                          <span
-                            className
-                            onClick={() => {
-                              this.downloadPng(
-                                'heatmap-chart',
-                                `${heatmapTitle}`,
-                              );
-                            }}
-                            onKeyDown={() => {
-                              this.downloadPng(
-                                'heatmap-chart',
-                                `${heatmapTitle}`,
-                              );
-                            }}
-                            role="tab"
-                            tabIndex="0"
-                          >
-                            <img src={DownloadIcon} alt="open" />
-                          </span>
-                          <span
-                            className=""
-                            role="tab"
-                            tabIndex="0"
-                            onClick={() => {
-                              this.handleModal();
-                              this.handleSelectedModal(
-                                'heatmap',
-                                `${heatmapTitle}`,
-                              );
-                            }}
-                            onKeyDown={() => {
-                              this.handleModal();
-                              this.handleSelectedModal(
-                                'heatmap',
-                                `${heatmapTitle}`,
-                              );
-                            }}
-                          >
-                            <img src={ExpandIcon} alt="open" />
-                          </span>
-                        </div>
-                      </div>
-                      <div className="card-body">
-                        <HeatmapChart
-                          showRightSidebar={showRightSidebar}
-                        />
                       </div>
                     </div>
                   </div>

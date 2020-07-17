@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
+import { func } from 'prop-types';
 import {
   filterFinancialDataOfDistrictFromProvince,
   filterFinancialDataOfMunicipalityFromDistrict,
@@ -19,6 +20,9 @@ class StackedBarWithProvince extends Component {
   plotChart = () => {
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     const that = this;
+    const {
+      partnershipReducer: { barDatas },
+    } = this.props;
     const series = [
       // {
       //   name: 'Income',
@@ -53,10 +57,10 @@ class StackedBarWithProvince extends Component {
             // console.log(chartContext, 'chartContext');
             // console.log(dataPointIndex, 'dataPointIndex');
             // console.log(config, 'config');
-            console.log(
-              config.xaxis.categories[dataPointIndex],
-              'dataPointIndex Calc',
-            );
+            // console.log(
+            //   config.xaxis.categories[dataPointIndex],
+            //   'dataPointIndex Calc',
+            // );
             const {
               partnerSelection,
               projectSelection,
@@ -122,6 +126,27 @@ class StackedBarWithProvince extends Component {
         {
           // min: 0,
           // max: 600000,
+          // max(max) {
+          //   const newArray = barDatas.series[0].data.map(
+          //     (e, i) => e + barDatas.series[1].data[i],
+          //   );
+          //   // console.log(newArray, 'newArray');
+          //   // console.log(Math.max(...newArray));
+          //   global.maxValue = Math.max(...newArray);
+          //   // console.log(max, 'max');
+          //   // // console.log(that.props.showBarof, 'showBarof');
+          //   // if (that.props.showBarof === 'Provinces') {
+          //   //   return 600000;
+          //   // }
+          //   // if (that.props.showBarof === 'Districts') {
+          //   //   return 80000;
+          //   // }
+
+          //   // return 10000;
+          //   // global.totalMaxValue = max / 120;
+          //   return global.maxValue;
+          // },
+
           axisTicks: {
             show: true,
           },
@@ -151,6 +176,9 @@ class StackedBarWithProvince extends Component {
         {
           // min: 0,
           // max: 600000,
+          // max(max) {
+          //   return global.maxValue;
+          // },
           seriesName: 'Incomessss',
           show: false,
           opposite: true,
@@ -179,7 +207,7 @@ class StackedBarWithProvince extends Component {
         },
         {
           // min: 0,
-          // max: 5000000,
+
           seriesName: 'Revenue',
           opposite: true,
           axisTicks: {
@@ -247,6 +275,14 @@ class StackedBarWithProvince extends Component {
     const {
       partnershipReducer: { barDatas },
     } = this.props;
+    console.log(barDatas, 'barDatas');
+    // alert('test');
+    const newArray = barDatas.series[0].data.map(
+      (e, i) => e + barDatas.series[1].data[i],
+    );
+    // console.log(newArray, 'newArray');
+    // console.log(Math.max(...newArray));
+    const maxValue = Math.max(...newArray);
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     // const series = [
     //   {
@@ -286,83 +322,83 @@ class StackedBarWithProvince extends Component {
             // console.log(chartContext, 'chartContext');
             // console.log(dataPointIndex, 'dataPointIndex');
             // console.log(config, 'config');
-            console.log(
-              config.xaxis.categories[dataPointIndex],
-              'dataPointIndex Calc',
-            );
-            const {
-              partnerSelection,
-              projectSelection,
-              projectStatus,
-              showBarof,
-            } = that.props;
-            // console.log(showBarof, 'showBarOf');
-            if (showBarof === 'Provinces') {
-              // console.log(showBarof, 'inside showBarOf');
-              const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
-                data => {
-                  console.log(data, 'data');
-                  return (
-                    data.code ===
-                    config.xaxis.categories[dataPointIndex]
-                  );
-                  // return data.label
-                  //   .replace('Province')
-                  //   .includes(
-                  //     config.xaxis.categories[dataPointIndex],
-                  //   );
-                },
-              );
-              console.log(filteredProvinceId, 'filteredProvinceId');
-              const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
-                data => {
-                  return (
-                    data.province_id === filteredProvinceId[0].id
-                  );
-                },
-              );
-              console.log(finalDistrictId, 'finalDistrtic');
-              const districtIdList = finalDistrictId.map(data => {
-                return data.n_code;
-              });
-              that.props.handleShowBarOf('Districts');
-              // console.log(districtIdList, 'districtIdList');
-              that.props.filterFinancialDataOfDistrictFromProvince(
-                that.props.viewDataBy,
-                districtIdList,
+
+            const clicked = config.xaxis.categories[dataPointIndex];
+            if (clicked !== undefined) {
+              const {
                 partnerSelection,
                 projectSelection,
                 projectStatus,
-              );
-            } else if (showBarof === 'Districts') {
-              const filteredDistrictId = that.props.partnershipReducer.allDistrictList.filter(
-                data => {
-                  return data.label.includes(
-                    config.xaxis.categories[dataPointIndex],
-                  );
-                },
-              );
-              // console.log(filteredProvinceId, 'filteredProvinceId');
-              const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
-                data => {
-                  return (
-                    data.district_id === filteredDistrictId[0].id
-                  );
-                },
-              );
-              // console.log(finalMunicipalityId, 'finalMunicipalityId');
-              const districtIdList = finalMunicipalityId.map(data => {
-                return data.code;
-              });
-              that.props.handleShowBarOf('Municipality');
-              // console.log(districtIdList, 'districtIdList');
-              that.props.filterFinancialDataOfMunicipalityFromDistrict(
-                that.props.viewDataBy,
-                districtIdList,
-                partnerSelection,
-                projectSelection,
-                projectStatus,
-              );
+                showBarof,
+              } = that.props;
+              // console.log(showBarof, 'showBarOf');
+              if (showBarof === 'Provinces') {
+                // console.log(clicked, 'clicked');
+                const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
+                  data => {
+                    // console.log(data, 'data');
+                    // return (
+                    //   data.code ===
+                    //   config.xaxis.categories[dataPointIndex]
+                    // );
+                    return data.label.includes(
+                      config.xaxis.categories[dataPointIndex],
+                    );
+                  },
+                );
+                // console.log(filteredProvinceId, 'filteredProvinceId');
+                const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
+                  data => {
+                    return (
+                      data.province_id === filteredProvinceId[0].id
+                    );
+                  },
+                );
+                // console.log(finalDistrictId, 'finalDistrtic');
+                const districtIdList = finalDistrictId.map(data => {
+                  return data.n_code;
+                });
+                that.props.handleShowBarOf('Districts');
+                // console.log(districtIdList, 'districtIdList');
+                that.props.filterFinancialDataOfDistrictFromProvince(
+                  that.props.viewDataBy,
+                  districtIdList,
+                  partnerSelection,
+                  projectSelection,
+                  projectStatus,
+                );
+              } else if (showBarof === 'Districts') {
+                const filteredDistrictId = that.props.partnershipReducer.allDistrictList.filter(
+                  data => {
+                    return data.label.includes(
+                      config.xaxis.categories[dataPointIndex],
+                    );
+                  },
+                );
+                // console.log(filteredProvinceId, 'filteredProvinceId');
+                const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
+                  data => {
+                    return (
+                      data.district_id === filteredDistrictId[0].id
+                    );
+                  },
+                );
+                // console.log(finalMunicipalityId, 'finalMunicipalityId');
+                const districtIdList = finalMunicipalityId.map(
+                  data => {
+                    return data.code;
+                  },
+                );
+                that.props.handleShowBarOf('Municipality');
+                // console.log(districtIdList, 'districtIdList');
+                that.props.filterFinancialDataOfMunicipalityFromDistrict(
+                  that.props.viewDataBy,
+                  districtIdList,
+                  partnerSelection,
+                  projectSelection,
+                  projectStatus,
+                );
+              }
             }
           },
         },
@@ -381,9 +417,9 @@ class StackedBarWithProvince extends Component {
       colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         categories: barDatas.labels,
-        title: {
-          text: 'Provinces',
-        },
+        // title: {
+        //   text: 'Provinces',
+        // },
       },
       grid: {
         show: false,
@@ -392,14 +428,15 @@ class StackedBarWithProvince extends Component {
         {
           // min: 0,
           max(max) {
-            console.log(barDatas, 'barDatas');
-            const newArray = barDatas.series[0].data.map(
-              (e, i) => e + barDatas.series[1].data[i],
-            );
-            console.log(newArray, 'newArray');
-            console.log(Math.max(...newArray));
-            global.maxValue = Math.max(...newArray);
-            console.log(max, 'max');
+            // alert('inside max');
+            // console.log(barDatas, 'barDatas');
+            // const newArray = barDatas.series[0].data.map(
+            //   (e, i) => e + barDatas.series[1].data[i],
+            // );
+            // // console.log(newArray, 'newArray');
+            // // console.log(Math.max(...newArray));
+            // const maxValue = Math.max(...newArray);
+            // console.log(maxValue, 'maxValue');
             // // console.log(that.props.showBarof, 'showBarof');
             // if (that.props.showBarof === 'Provinces') {
             //   return 600000;
@@ -410,7 +447,7 @@ class StackedBarWithProvince extends Component {
 
             // return 10000;
             // global.totalMaxValue = max / 120;
-            return global.maxValue;
+            return maxValue;
           },
           axisTicks: {
             show: true,
@@ -424,7 +461,9 @@ class StackedBarWithProvince extends Component {
               colors: '#008FFB',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              if (value % 1 !== 0) {
+                return convert(value.toFixed(0));
+              }
               return convert(value);
             },
           },
@@ -441,6 +480,15 @@ class StackedBarWithProvince extends Component {
         {
           // min: 0,
           max(max) {
+            // console.log(barDatas, 'barDatas');
+            // const newArray = barDatas.series[0].data.map(
+            //   (e, i) => e + barDatas.series[1].data[i],
+            // );
+            // // console.log(newArray, 'newArray');
+            // // console.log(Math.max(...newArray));
+            // const maxValue = Math.max(...newArray);
+            // console.log(maxValue, 'maxValue');
+
             // console.log(max, '2ndmax');
             // // console.log(that.props.showBarof, 'showBarof');
             // if (that.props.showBarof === 'Provinces') {
@@ -452,7 +500,7 @@ class StackedBarWithProvince extends Component {
 
             // return 10000;
             // global.totaMaxValue = max / 35;
-            return global.maxValue;
+            return maxValue;
           },
           seriesName: 'Incomessss',
           show: false,
@@ -469,7 +517,9 @@ class StackedBarWithProvince extends Component {
               colors: '#00E396',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              if (value % 1 !== 0) {
+                return convert(value.toFixed(0));
+              }
               return convert(value);
             },
           },
@@ -530,9 +580,9 @@ class StackedBarWithProvince extends Component {
           // format: 'dd MMM',
           formatter(x) {
             // console.log(x, 'x');
-            if (x.toString().includes('Province')) {
-              return `Province ${x}`;
-            }
+            // if (x.toString().includes('Province')) {
+            //   return `Province ${x}`;
+            // }
             return x;
           },
         },
@@ -542,7 +592,7 @@ class StackedBarWithProvince extends Component {
         offsetX: 40,
       },
     };
-    console.log(barDatas.series, 'bardataxx');
+    // console.log(barDatas.series, 'bardataxx');
     this.setState({ options, series: barDatas.series });
   };
 
@@ -551,6 +601,7 @@ class StackedBarWithProvince extends Component {
       partnershipReducer: { barDatas },
     } = this.props;
     if (prevProps.partnershipReducer.barDatas !== barDatas) {
+      // alert('test');
       this.updateBarChart();
     }
   }
