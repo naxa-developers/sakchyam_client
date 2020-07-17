@@ -167,7 +167,7 @@ class ProductProcess extends React.Component {
             ...preState.innovationAreaSelection,
             name,
           ],
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       if (!checked) {
@@ -176,7 +176,7 @@ class ProductProcess extends React.Component {
         );
         return {
           innovationAreaSelection: newArr,
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       return null;

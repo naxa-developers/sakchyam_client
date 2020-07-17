@@ -37,38 +37,38 @@ class HeatmapChart extends React.Component {
                 from: 0,
                 to: 1,
                 name: '',
-                color: '#4CE2A7',
+                color: '#F9EBEA',
               },
               {
                 from: 1,
                 to: 2,
                 name: '',
-                color: '#1EC853',
+                color: '#E6B0AA',
               },
               {
                 from: 2,
                 to: 3,
                 name: '',
-                color: '#FFF095',
+                color: '#D98880',
               },
               {
                 from: 4,
                 to: 5,
                 name: '',
-                color: '#FFCD00',
+                color: '#C0392B',
               },
               {
                 from: 6,
                 to: 7,
                 name: '',
-                color: '#FF6D00',
+                color: '#A93226',
                 // color: '',
               },
               {
                 from: 8,
                 to: 9,
                 name: '',
-                color: '#FBCAD4',
+                color: '#7B241C',
               },
               // {
               //   from: 0,
@@ -148,6 +148,9 @@ class HeatmapChart extends React.Component {
           trim: true,
           hideOverlappingLabels: false,
         },
+      },
+      legend: {
+        show: false,
       },
     };
 

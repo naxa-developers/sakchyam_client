@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable camelcase */
@@ -198,129 +199,181 @@ const generateRadarChartData = data => {
   return { series, categories };
 };
 
+// const generateBubbleChartData = data => {
+//   const arr1 = [];
+//   const arr2 = [];
+//   const arr3 = [];
+
+//   data.forEach(item => {
+//     const obj = arr1.some(i => i.name === item.innovation_area);
+//     if (!obj) {
+//       arr1.push({
+//         id: 'innovation_area',
+//         name: item.innovation_area,
+//         children: [
+//           {
+//             id: 'product_category',
+//             name: item.product_category,
+//             children: [],
+//           },
+//         ],
+//       });
+//     } else {
+//       const objIndex = arr1.findIndex(
+//         p => p.name === item.innovation_area,
+//       );
+//       const obj1 = arr1[objIndex].children.some(
+//         j => j.name === item.product_category,
+//       );
+//       if (!obj1) {
+//         arr1[objIndex].children.push({
+//           id: 'product_category',
+//           name: item.product_category,
+//           children: [],
+//         });
+//       }
+//     }
+//   });
+
+//   data.forEach(item => {
+//     const obj = arr2.some(i => i.name === item.product_category);
+//     if (!obj) {
+//       arr2.push({
+//         id: 'product_category',
+//         name: item.product_category,
+//         children: [
+//           {
+//             id: 'partner_type',
+//             name: item.partner_type,
+//           },
+//         ],
+//       });
+//     } else {
+//       const objIndex = arr2.findIndex(
+//         p => p.name === item.product_category,
+//       );
+//       const obj1 = arr2[objIndex].children.some(
+//         j => j.name === item.partner_type,
+//       );
+//       if (!obj1) {
+//         arr2[objIndex].children.push({
+//           id: 'partner_type',
+//           name: item.partner_type,
+//         });
+//       }
+//     }
+//   });
+
+//   data.forEach(item => {
+//     const obj = arr3.some(i => i.name === item.partner_type);
+//     if (!obj) {
+//       arr3.push({
+//         id: 'partner_type',
+//         name: item.partner_type,
+//         children: [
+//           {
+//             id: 'partner_name',
+//             name: item.partner_name,
+//             value: 1,
+//           },
+//         ],
+//       });
+//     } else {
+//       const objIndex = arr3.findIndex(
+//         i => i.name === item.partner_type,
+//       );
+//       const obj1 = arr3[objIndex].children.some(
+//         j => j.name === item.partner_name,
+//       );
+//       // arr3[objIndex].children[0].value += 1;
+//       if (!obj1) {
+//         arr3[objIndex].children.push({
+//           id: 'partner_name',
+//           name: item.partner_name,
+//           value: 1,
+//         });
+//       } else {
+//         const objIndex1 = arr3[objIndex].children.findIndex(
+//           k => k.name === item.partner_name,
+//         );
+//         arr3[objIndex].children[objIndex1].value += 1;
+//       }
+//     }
+//   });
+
+//   const arr = [...arr1];
+
+//   arr.forEach(x => {
+//     arr2.forEach(y => {
+//       arr3.forEach(z => {
+//         x.children.forEach(a => {
+//           y.children.forEach(b => {
+//             if (a.name === y.name && b.name === z.name) {
+//               a.children.push(z);
+//             }
+//           });
+//         });
+//       });
+//     });
+//   });
+
+//   return {
+//     name: 'Product/Process Innovations',
+//     id: 'bubble',
+//     color: '',
+//     children: arr,
+//   };
+// };
+
 const generateBubbleChartData = data => {
-  const arr1 = [];
-  const arr2 = [];
-  const arr3 = [];
-
-  data.forEach(item => {
-    const obj = arr1.some(i => i.name === item.innovation_area);
-    if (!obj) {
-      arr1.push({
-        id: 'innovation_area',
-        name: item.innovation_area,
-        children: [
-          {
-            id: 'product_category',
-            name: item.product_category,
-            children: [],
-          },
-        ],
-      });
-    } else {
-      const objIndex = arr1.findIndex(
-        p => p.name === item.innovation_area,
-      );
-      const obj1 = arr1[objIndex].children.some(
-        j => j.name === item.product_category,
-      );
-      if (!obj1) {
-        arr1[objIndex].children.push({
-          id: 'product_category',
-          name: item.product_category,
-          children: [],
-        });
-      }
-    }
+  function groupBy(array, key) {
+    return array.reduce((r, a) => {
+      r[a[key]] = [...(r[a[key]] || []), a];
+      return r;
+    }, {});
+  }
+  const group1 = groupBy(data, 'innovation_area');
+  const groupingByInnovationArea = Object.keys(group1).map(item => ({
+    id: 'innovation_area',
+    name: item,
+    children: group1[item],
+  }));
+  groupingByInnovationArea.forEach(innovation => {
+    const group2 = groupBy(innovation.children, 'product_category');
+    innovation.children = Object.keys(group2).map(item => ({
+      id: 'product_category',
+      name: item,
+      children: group2[item],
+    }));
   });
-
-  data.forEach(item => {
-    const obj = arr2.some(i => i.name === item.product_category);
-    if (!obj) {
-      arr2.push({
-        id: 'product_category',
-        name: item.product_category,
-        children: [
-          {
-            id: 'partner_type',
-            name: item.partner_type,
-          },
-        ],
-      });
-    } else {
-      const objIndex = arr2.findIndex(
-        p => p.name === item.product_category,
-      );
-      const obj1 = arr2[objIndex].children.some(
-        j => j.name === item.partner_type,
-      );
-      if (!obj1) {
-        arr2[objIndex].children.push({
-          id: 'partner_type',
-          name: item.partner_type,
-        });
-      }
-    }
-  });
-
-  data.forEach(item => {
-    const obj = arr3.some(i => i.name === item.partner_type);
-    if (!obj) {
-      arr3.push({
+  groupingByInnovationArea.forEach(innovation => {
+    innovation.children.forEach(item => {
+      const group3 = groupBy(item.children, 'partner_type');
+      item.children = Object.keys(group3).map(item => ({
         id: 'partner_type',
-        name: item.partner_type,
-        children: [
-          {
-            id: 'partner_name',
-            name: item.partner_name,
-            value: 1,
-          },
-        ],
-      });
-    } else {
-      const objIndex = arr3.findIndex(
-        i => i.name === item.partner_type,
-      );
-      const obj1 = arr3[objIndex].children.some(
-        j => j.name === item.partner_name,
-      );
-      // arr3[objIndex].children[0].value += 1;
-      if (!obj1) {
-        arr3[objIndex].children.push({
-          id: 'partner_name',
-          name: item.partner_name,
-          value: 1,
-        });
-      } else {
-        const objIndex1 = arr3[objIndex].children.findIndex(
-          k => k.name === item.partner_name,
-        );
-        arr3[objIndex].children[objIndex1].value += 1;
-      }
-    }
+        name: item,
+        children: group3[item],
+      }));
+    });
   });
-
-  const arr = [...arr1];
-
-  arr.forEach(x => {
-    arr2.forEach(y => {
-      arr3.forEach(z => {
-        x.children.forEach(a => {
-          y.children.forEach(b => {
-            if (a.name === y.name && b.name === z.name) {
-              a.children.push(z);
-            }
-          });
-        });
+  groupingByInnovationArea.forEach(innovation => {
+    innovation.children.forEach(item => {
+      item.children.forEach(i => {
+        const group4 = groupBy(i.children, 'product_name');
+        i.children = Object.keys(group4).map(item => ({
+          id: 'partner_name',
+          name: item,
+          /* children: group[item], */
+          value: 1,
+        }));
       });
     });
   });
-
+  // console.log('igroupingByInnovationArea', groupingByInnovationArea);
   return {
     name: 'Product/Process Innovations',
     id: 'bubble',
-    color: '',
-    children: arr,
+    children: groupingByInnovationArea,
   };
 };
 
