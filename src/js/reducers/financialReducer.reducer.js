@@ -1273,13 +1273,13 @@ const filterFinancialDataForGraph = (state, action) => {
       label: newProgramWiseData.categories,
       color: newProgramWiseData.colors,
     },
-    pieData: {
-      series: [newPieData.commercial, newPieData.microFinance],
-      label: [
-        'Commercial Bank and Other Partners',
-        'Microfinance Institutions',
-      ],
-    },
+    // pieData: {
+    //   series: [newPieData.commercial, newPieData.microFinance],
+    //   label: [
+    //     'Commercial Bank and Other Partners',
+    //     'Microfinance Institutions',
+    //   ],
+    // },
     sankeyData: newSankeyData,
     treeMapData: newTreeMapData,
     // financialProgram: action.payload,
