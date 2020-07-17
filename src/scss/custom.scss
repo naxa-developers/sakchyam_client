@@ -267,23 +267,24 @@
     
   }
 }
-#modal-content{
-  .apexcharts-inner {
-    transform: translate(90px, 36px);
+#modal-content {
+  #chart{
+    .apexcharts-inner {
+      transform: translate(90px, 36px);
+    }
+    .apexcharts-svg .apexcharts-yaxis {
+      // transform: translate(40px, 8px);
+      // transform: translate(74px, 8px); 
+      transform: translate(95px, 8px); 
+    }
+    .apexcharts-yaxis-title{
+      transform: translate(20px, -6px);
+      // transform: translate(40px, 10px);
+    }
+    .apexcharts-yaxis-label {
+      transform: translate(-22px, 8px)
+    }
   }
-  .apexcharts-svg .apexcharts-yaxis {
-    // transform: translate(40px, 8px);
-    // transform: translate(74px, 8px); 
-    transform: translate(95px, 8px); 
-  }
-  .apexcharts-yaxis-title{
-    transform: translate(20px, -6px);
-    // transform: translate(40px, 10px);
-  }
-  .apexcharts-yaxis-label {
-    transform: translate(-22px, 8px)
-  }
-
 }
 .loader {
   position: fixed;

@@ -227,6 +227,9 @@ const initialState = {
           // const roundNumber = Math.round(value);
           // console.log(convert(roundNumber));
           //   console.log(convert(roundNumber));
+          if (value % 1 !== 0) {
+            return convert(value.toFixed(2));
+          }
           return convert(value);
         },
       },

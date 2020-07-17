@@ -164,6 +164,12 @@ class MiddleChartSection extends Component {
               projectStatus={projectStatus}
               showBarof={showBarof}
               handleShowBarOf={handleShowBarOf}
+              showBarofInvestmentBudgetBenef={
+                showBarofInvestmentBudgetBenef
+              }
+              handleShowBarOfInvestmentBudgetBenefBar={
+                handleShowBarOfInvestmentBudgetBenefBar
+              }
             />
           </div>
         );
@@ -397,7 +403,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'
@@ -418,7 +424,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

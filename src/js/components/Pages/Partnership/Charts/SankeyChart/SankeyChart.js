@@ -33,13 +33,14 @@ class SankeyChart extends Component {
   //   }
   componentDidMount() {
     // this.props.getSankeyChartData();
-    setTimeout(() => {
-      this.props.getSankeyChartData();
-    }, 500);
+    // setTimeout(() => {
+    // this.props.getSankeyChartData();
+    // }, 500);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.sankeyChartData !== this.props.sankeyChartData) {
+      this.props.getSankeyChartData();
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ randomKey: Math.random() });
     }
