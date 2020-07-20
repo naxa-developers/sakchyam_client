@@ -295,7 +295,7 @@ class StackedBarWithInvestment extends Component {
                 that.props.showBarofInvestmentBudgetBenef ===
                 'investmentFocus'
               ) {
-                alert(clickedBar);
+                // alert(clickedBar);
                 that.props.filterBenefBudgetDataForBarClick(
                   clickedBar,
                 );

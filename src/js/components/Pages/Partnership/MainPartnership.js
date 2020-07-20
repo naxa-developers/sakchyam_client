@@ -887,6 +887,7 @@ class MainPartnership extends Component {
     if (activeView === 'visualization') {
       this.props.filterFinancialDataWithAllFiltersAndFederal(
         { selectedMunicipality, selectedDistrict, selectedProvince },
+        investmentFocusSelection,
         viewDataBy,
         partnerSelection,
         projectSelection,

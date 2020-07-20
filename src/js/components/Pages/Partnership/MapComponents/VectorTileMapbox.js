@@ -215,7 +215,7 @@ class Choropleth extends Component {
       this.props.legendDivisions <= 20 &&
       this.props.legendDivisions >= colorArrayLength
         ? this.props.legendDivisions
-        : 7; // set default gradecount
+        : 5; // set default gradecount
 
     const fullRange =
       this.props.divisions && this.props.divisions.length > 0
@@ -374,6 +374,186 @@ class Choropleth extends Component {
     // console.log(this.state.finalStyle,"finalstyl")
   }
 
+  createPieLegend = () => {
+    const that = this;
+    const datas = [
+      {
+        type: 'Automation of MFIs',
+        // count: props['Automation of MFIs'],
+      },
+      {
+        type: 'Channel Innovations',
+        // count: props['Channel Innovations'],
+      },
+      {
+        type: 'Digital Financial Services',
+        // count: props['Digital Financial Services'],
+      },
+      {
+        type: 'Downscaling and Value Chain Financing By Banks',
+        // count:
+        // props['Downscaling and Value Chain Financing By Banks'],
+      },
+      {
+        type: 'Increased uptake of microinsurance',
+        // count: props['Increased uptake of microinsurance'],
+      },
+      {
+        type: 'Outreach Expansion',
+        // count: props['Outreach Expansion'],
+      },
+      {
+        type: 'Product Innovations',
+        // count: props['Product Innovations'],
+      },
+      {
+        type: 'SME Financing',
+        // count: props['SME Financing'],
+      },
+    ];
+    // select the svg area
+    const SVG = d3.select(that.props.pieSquareLegend.current);
+
+    // create a list of keys
+    const keys = [
+      'Mister A',
+      'Brigitte',
+      'Eleonore',
+      'Another friend',
+      'Batman',
+    ];
+
+    // Usually you have a color scale in your chart already
+    const color = d3
+      .scaleOrdinal()
+      .domain(datas)
+      .range(d3.schemeSet1);
+
+    // Add one dot in the legend for each name.
+    const size = 20;
+    SVG.selectAll('mydots')
+      .data(datas)
+      .enter()
+      .append('rect')
+      .attr('x', 100)
+      .attr('y', function(d, i) {
+        return 100 + i * (size + 5);
+      }) // 100 is where the first dot appears. 25 is the distance between dots
+      .attr('width', size)
+      .attr('height', size)
+      .style('fill', function(d) {
+        return colorScale(d.type);
+      });
+
+    // Add one dot in the legend for each name.
+    SVG.selectAll('mylabels')
+      .data(datas)
+      .enter()
+      .append('text')
+      .attr('x', 100 + size * 1.2)
+      .attr('y', function(d, i) {
+        return 100 + i * (size + 5) + size / 2;
+      }) // 100 is where the first dot appears. 25 is the distance between dots
+      .style('fill', function(d) {
+        return colorScale(d.type);
+        // return color(d.type);
+      })
+      .text(function(d) {
+        return d.type;
+      })
+      .attr('text-anchor', 'left')
+      .style('alignment-baseline', 'middle');
+  };
+
+  createCircleLegend = datas => {
+    const pieCountArray = [];
+    datas.forEach(feature => {
+      feature.properties.pie.forEach(singlePie => {
+        return pieCountArray.push(singlePie.project_count);
+      });
+    });
+    console.log(pieCountArray, 'peArray');
+    const min = Math.min.apply(null, pieCountArray);
+    const max = Math.max.apply(null, pieCountArray);
+    console.log(calculateRange(min, max, (max - min) / (3 - 1)));
+
+    // append the svg object to the body of the page
+    const height = 300;
+    const width = 300;
+    const svg = d3
+      .select(this.props.circleLegendRef.current)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+    // .attr('transform', 'translate (-42px,-34px)');
+
+    // The scale you use for bubble size
+    const size = d3
+      .scaleSqrt()
+      .domain([1, 50]) // What's in the data, let's say it is percentage
+      .range([1, 50]); // Size in pixel
+
+    // Add legend: circles
+    // const valuesToShow = [10, 50, 100];
+    const valuesToShow = calculateRange(
+      min,
+      max,
+      (max - min) / (3 - 1),
+    );
+    const xCircle = 130;
+    const xLabel = 280;
+    const yCircle = 230;
+    svg
+      .selectAll('legend')
+      .data(valuesToShow)
+      .enter()
+      .append('circle')
+      .attr('cx', xCircle)
+      .attr('cy', function(d) {
+        return yCircle - size(d);
+      })
+      .attr('r', function(d) {
+        return size(d);
+      })
+      .style('fill', 'none')
+      .attr('stroke', 'black');
+
+    // Add legend: segments
+    svg
+      .selectAll('legend')
+      .data(valuesToShow)
+      .enter()
+      .append('line')
+      .attr('x1', function(d) {
+        return xCircle + size(d);
+      })
+      .attr('x2', xLabel)
+      .attr('y1', function(d) {
+        return yCircle - size(d);
+      })
+      .attr('y2', function(d) {
+        return yCircle - size(d);
+      })
+      .attr('stroke', 'black')
+      .style('stroke-dasharray', '2,2');
+
+    // Add legend: labels
+    svg
+      .selectAll('legend')
+      .data(valuesToShow)
+      .enter()
+      .append('text')
+      .attr('x', xLabel)
+      .attr('y', function(d) {
+        return yCircle - size(d);
+      })
+      .text(function(d) {
+        return d;
+      })
+      .style('font-size', 10)
+      .attr('alignment-baseline', 'middle');
+  };
+
   createDonutChart = (props, totals) => {
     const div = document.createElement('div');
     const data = [
@@ -456,17 +636,38 @@ class Choropleth extends Component {
       .attr('d', arc)
       .attr('fill', d => colorScale(d.data.type))
       .on('mouseover', function(d, i) {
-        console.log(d, 'mouseover');
+        console.log(d, 'ddd');
+        // d3.select(this)
+        //   // .duration(500)
+        //   // .ease('bounce')
+        //   .attr(
+        //     'd',
+        //     d3
+        //       .arc()
+        //       .innerRadius(radius - thickness)
+        //       .outerRadius(radius * 1.8),
+        //   );
         piepopup
           .transition()
           .duration(50)
-          .style('opacity', 1);
+          .style('opacity', 0);
         d3.select(this)
           .transition()
           .duration('50')
           .attr('opacity', '.65');
       })
       .on('mouseout', function(d, i) {
+        console.log(d, 'd');
+        // d3.select(this)
+        //   // .duration(500)
+        //   // .ease('bounce')
+        //   .attr(
+        //     'd',
+        //     d3
+        //       .arc()
+        //       .innerRadius(radius - thickness)
+        //       .outerRadius(radius),
+        //   );
         piepopup
           .transition()
           .duration('50')
@@ -477,11 +678,11 @@ class Choropleth extends Component {
           .attr('opacity', '1');
       });
 
-    const circle = g
-      .append('circle')
-      .attr('r', circleRadius)
-      .attr('fill', 'rgba(0, 0, 0, 0)')
-      .attr('class', 'center-circle');
+    // const circle = g
+    //   .append('circle')
+    //   .attr('r', circleRadius)
+    //   .attr('fill', 'rgba(0, 0, 0, 0)')
+    //   .attr('class', 'center-circle');
 
     // const text = g
     //   .append('text')
@@ -502,7 +703,6 @@ class Choropleth extends Component {
     //   document.getElementById('key').innerHTML = '';
     //   document.getElementById('key').append(infoEl);
     // });
-
     return div;
   };
 
@@ -839,6 +1039,8 @@ class Choropleth extends Component {
         fullGeojsonProvince.features,
         that.props.mapViewDataBy,
       );
+      that.createCircleLegend(fullGeojsonProvince.features);
+      that.createPieLegend();
       fullGeojsonProvince.features = withRadius;
 
       // const test = createDonutChart(a,b);
