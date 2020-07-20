@@ -37,17 +37,28 @@ function removeMarker() {
 //   '#bc80bd',
 //   '#ccebc5',
 // ];
+// const colors = [
+//   '#E11D3F',
+//   '#FF6D00',
+//   '#13A8BE',
+//   '#651FFF',
+//   '#B1B424',
+//   '#2196F3',
+//   '#4CE2A7',
+//   '#1967A0',
+//   '#FFCD00',
+//   '#DE2693',
+// ];
 const colors = [
-  '#E11D3F',
-  '#FF6D00',
-  '#13A8BE',
+  '#e45642',
+  '#f7c349',
+  '#4dd291',
+  '#225687',
   '#651FFF',
-  '#B1B424',
-  '#2196F3',
-  '#4CE2A7',
-  '#1967A0',
-  '#FFCD00',
-  '#DE2693',
+  '#70356f',
+  '#8f1c52',
+  '#cc4967',
+  '#E11D3F',
 ];
 const colorScale = d3
   .scaleOrdinal()
@@ -435,9 +446,9 @@ class Choropleth extends Component {
       .data(datas)
       .enter()
       .append('rect')
-      .attr('x', 100)
+      .attr('x', 10)
       .attr('y', function(d, i) {
-        return 100 + i * (size + 5);
+        return 10 + i * (size + 5);
       }) // 100 is where the first dot appears. 25 is the distance between dots
       .attr('width', size)
       .attr('height', size)
@@ -450,9 +461,9 @@ class Choropleth extends Component {
       .data(datas)
       .enter()
       .append('text')
-      .attr('x', 100 + size * 1.2)
+      .attr('x', 10 + size * 1.2)
       .attr('y', function(d, i) {
-        return 100 + i * (size + 5) + size / 2;
+        return 10 + i * (size + 5) + size / 2;
       }) // 100 is where the first dot appears. 25 is the distance between dots
       .style('fill', function(d) {
         return colorScale(d.type);
@@ -485,6 +496,7 @@ class Choropleth extends Component {
       .append('svg')
       .attr('width', width)
       .attr('height', height);
+    // .style('transform', 'translate(-44px, -73px)');
     // .attr('transform', 'translate (-42px,-34px)');
 
     // The scale you use for bubble size
@@ -500,9 +512,9 @@ class Choropleth extends Component {
       max,
       (max - min) / (3 - 1),
     );
-    const xCircle = 130;
-    const xLabel = 280;
-    const yCircle = 230;
+    const xCircle = 60;
+    const xLabel = 210;
+    const yCircle = 160;
     svg
       .selectAll('legend')
       .data(valuesToShow)
@@ -527,7 +539,7 @@ class Choropleth extends Component {
       .attr('x1', function(d) {
         return xCircle + size(d);
       })
-      .attr('x2', xLabel)
+      .attr('x2', xLabel - 60)
       .attr('y1', function(d) {
         return yCircle - size(d);
       })
@@ -543,7 +555,7 @@ class Choropleth extends Component {
       .data(valuesToShow)
       .enter()
       .append('text')
-      .attr('x', xLabel)
+      .attr('x', xLabel - 60)
       .attr('y', function(d) {
         return yCircle - size(d);
       })

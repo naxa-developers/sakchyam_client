@@ -287,7 +287,9 @@ class MiddleChartSection extends Component {
                       width={690}
                       count_member="size"
                       onClick={this.handleSunburstClick}
-                      colorFunc={this.sunburstColorFn}
+                      // labelFunc={node => node.data.name}
+                      // colorFunc={node => 'red'}
+
                       // reset={this.props.resetSunburst}
                     />
                   )
