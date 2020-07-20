@@ -275,3 +275,24 @@
         }
     }
 }
+.legend-wrapper{
+        position: absolute;
+        bottom: 100px;
+        left: 0;
+        .markercircleLegend,.pieSquareLegend{
+                position: initial;
+                display: initial;
+                top:unset;
+                max-width: 200px;
+                width:100%;
+                height: initial;
+                display: flex;
+                flex-wrap: wrap;
+                svg{
+                        max-width: 200px;
+                        width:initial !important;
+                        height: initial !important;
+                        flex-wrap: wrap;
+                }
+        }
+}
