@@ -46,22 +46,6 @@ import municipality from '../../data/municipality.json';
 import WebWorker from '../WebWorker/webWorker';
 import workerfile from '../WebWorker/worker';
 
-function getRandomColor() {
-  let color = '#';
-  let i;
-  for (i = 0; i < 6; i += 1) {
-    color += Math.floor(Math.random() * 16).toString(16);
-  }
-  return color;
-}
-
-const getColor = (function() {
-  const colors = {};
-  return function(id) {
-    // eslint-disable-next-line no-return-assign
-    return (colors[id] = colors[id] || getRandomColor());
-  };
-})();
 function colorPicker(i) {
   if (i % 25 === 0) return '#91664E';
   if (i % 25 === 1) return '#13A8BE';
@@ -91,6 +75,23 @@ function colorPicker(i) {
   if (i % 25 === 25) return '#5D6D7E';
   return '#FFD400';
 }
+function getRandomColor() {
+  let color = '#';
+  let i;
+  for (i = 0; i < 6; i += 1) {
+    color += Math.floor(Math.random() * 16).toString(16);
+  }
+  return color;
+}
+
+const getColor = (function() {
+  const colors = {};
+  return function(id) {
+    // eslint-disable-next-line no-return-assign
+    return (colors[id] = colors[id] || getRandomColor());
+  };
+})();
+
 function CaculateCount(date, finalData, api, fedType) {
   const startDate = date[0];
   const endDate = date[1];
@@ -629,7 +630,7 @@ const getRadialData = (state, action) => {
   action.payload.children.map((data, i) => {
     console.log(data, 'dat');
     // eslint-disable-next-line no-param-reassign
-    data.color = colorPicker(i);
+    data.color = colorPicker(i + 2);
   });
   if (state.defaultRadialData.name) {
     return {
