@@ -991,7 +991,7 @@ export const filterFinancialDataWithAllFilters = (
     projectId = selectedProjectId;
   }
   if (investmentFocusSelection.length === 0) {
-    selectedInvestment = [0];
+    selectedInvestment = [];
   } else {
     selectedInvestment = investmentFocusSelection;
   }
@@ -1805,15 +1805,18 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
     projectId = selectedProjectId;
   }
   if (investmentFocusSelection.length === 0) {
-    selectedInvestment = [0];
+    selectedInvestment = [];
   } else {
     selectedInvestment = investmentFocusSelection;
   }
-  if (selectedStatus === [] || selectedStatus.length > 1) {
+  if (
+    selectedStatus === [] ||
+    (selectedStatus && selectedStatus.length > 1)
+  ) {
     statusSelected = '';
   } else {
     // eslint-disable-next-line prefer-destructuring
-    statusSelected = selectedStatus[0];
+    statusSelected = selectedStatus && selectedStatus[0];
   }
   if (
     selectedFederalTypes.selectedMunicipality &&
@@ -1859,8 +1862,8 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         province_id: province,
         district_id: district,
         municipality_id: municipality,
-        investment: selectedInvestment,
-        investment_filter: [],
+        investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );
@@ -1874,8 +1877,8 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         province_id: province,
         district_id: district,
         municipality_id: municipality,
-        investment: selectedInvestment,
-        investment_filter: [],
+        investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );
@@ -1889,8 +1892,8 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         province_id: province,
         district_id: district,
         municipality_id: municipality,
-        investment: selectedInvestment,
-        investment_filter: [],
+        investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );

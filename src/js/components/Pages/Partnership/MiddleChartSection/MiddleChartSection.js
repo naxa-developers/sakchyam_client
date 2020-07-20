@@ -94,6 +94,10 @@ class MiddleChartSection extends Component {
     // console.log(e.data.name);
   };
 
+  sunburstColorFn = () => {
+    alert('test');
+  };
+
   getModalContent = contentType => {
     const { activeModal } = this.state;
     const {
@@ -283,6 +287,7 @@ class MiddleChartSection extends Component {
                       width={690}
                       count_member="size"
                       onClick={this.handleSunburstClick}
+                      colorFunc={this.sunburstColorFn}
                       // reset={this.props.resetSunburst}
                     />
                   )

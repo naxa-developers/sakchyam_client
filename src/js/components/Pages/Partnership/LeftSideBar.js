@@ -56,7 +56,7 @@ class LeftSideBar extends Component {
               sakchyam partnerships
             </button>
           </div>
-          <div className="aside-body">
+          <div className="aside-body apply-body">
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Investment Focus</h6>
               <div className="widget-body">

@@ -585,3 +585,22 @@
 //   color: white;
 //   border-collapse: collapse;
 // }
+
+.markercircleLegend{
+  max-width: 100%;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-wrap: wrap;
+  top: 32%;
+  position: absolute;
+  background-color: white;
+}
+.pieSquareLegend{
+  position: absolute;
+  background: white;
+  width: 250px;
+  height: 250px;
+}
