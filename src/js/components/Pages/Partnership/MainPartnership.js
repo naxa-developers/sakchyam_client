@@ -76,7 +76,7 @@ class MainPartnership extends Component {
       activeFilter: false,
       activeOverview: false,
       viewDataBy: 'allocated_beneficiary',
-      mapViewDataBy: 'investment_focus',
+      mapViewDataBy: '',
       activeView: 'visualization',
       // resetSunburst: false,
       // map Section
