@@ -162,6 +162,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         view: 'total_beneficiary',
         municipality_id: [],
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -176,6 +177,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         view: 'female_beneficiary',
         municipality_id: [],
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -190,6 +192,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         view: 'allocated_budget',
         municipality_id: [],
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -271,6 +274,7 @@ export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
           'Remittance Based Products',
           'SME Financing',
         ],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -318,6 +322,7 @@ export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
           'Remittance Based Products',
           'SME Financing',
         ],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -680,6 +685,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         view: 'total_beneficiary',
         municipality_id: [],
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -694,6 +700,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         view: 'female_beneficiary',
         municipality_id: [],
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -708,6 +715,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
         view: 'allocated_budget',
         municipality_id: [],
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -784,6 +792,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'total_beneficiary',
         municipality_id: districtIndex,
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -798,6 +807,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'female_beneficiary',
         municipality_id: districtIndex,
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -812,6 +822,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'allocated_budget',
         municipality_id: districtIndex,
         investment: [],
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -952,6 +963,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
 // };
 export const filterFinancialDataWithAllFilters = (
   selectedFederalTypes,
+  investmentFocusSelection,
   selectedDataView,
   selectedPartnerId,
   selectedProjectId,
@@ -965,6 +977,7 @@ export const filterFinancialDataWithAllFilters = (
   // debugger;
   let partnerId = [];
   let projectId = [];
+  let selectedInvestment = [];
   let statusSelected = '';
   const data = selectedDataView;
   if (selectedPartnerId.length === 0) {
@@ -976,6 +989,11 @@ export const filterFinancialDataWithAllFilters = (
     projectId = [0];
   } else {
     projectId = selectedProjectId;
+  }
+  if (investmentFocusSelection.length === 0) {
+    selectedInvestment = [];
+  } else {
+    selectedInvestment = investmentFocusSelection;
   }
   if (selectedStatus === [] || selectedStatus.length > 1) {
     statusSelected = '';
@@ -998,6 +1016,7 @@ export const filterFinancialDataWithAllFilters = (
         district_id: [],
         municipality_id: [],
         investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );
@@ -1012,6 +1031,7 @@ export const filterFinancialDataWithAllFilters = (
         district_id: [],
         municipality_id: [],
         investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );
@@ -1026,6 +1046,7 @@ export const filterFinancialDataWithAllFilters = (
         district_id: [],
         municipality_id: [],
         investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );
@@ -1145,6 +1166,7 @@ export const filterBarDataByInvestment = (
         district_id: [],
         municipality_id: [],
         investment: investmentFocus,
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -1159,6 +1181,7 @@ export const filterBarDataByInvestment = (
         district_id: [],
         municipality_id: [],
         investment: investmentFocus,
+        investment_filter: [],
         investment_project: [],
       },
     );
@@ -1756,6 +1779,7 @@ export const filterMunListFromDistrict = districtId => dispatch => {
 };
 export const filterFinancialDataWithAllFiltersAndFederal = (
   selectedFederalTypes,
+  investmentFocusSelection,
   selectedDataView,
   selectedPartnerId,
   selectedProjectId,
@@ -1767,6 +1791,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   const province = [];
   let partnerId = [];
   let projectId = [];
+  let selectedInvestment = [];
   let statusSelected = '';
   const data = selectedDataView;
   if (selectedPartnerId.length === 0) {
@@ -1779,11 +1804,19 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   } else {
     projectId = selectedProjectId;
   }
-  if (selectedStatus === [] || selectedStatus.length > 1) {
+  if (investmentFocusSelection.length === 0) {
+    selectedInvestment = [];
+  } else {
+    selectedInvestment = investmentFocusSelection;
+  }
+  if (
+    selectedStatus === [] ||
+    (selectedStatus && selectedStatus.length > 1)
+  ) {
     statusSelected = '';
   } else {
     // eslint-disable-next-line prefer-destructuring
-    statusSelected = selectedStatus[0];
+    statusSelected = selectedStatus && selectedStatus[0];
   }
   if (
     selectedFederalTypes.selectedMunicipality &&
@@ -1830,6 +1863,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         district_id: district,
         municipality_id: municipality,
         investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );
@@ -1844,6 +1878,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         district_id: district,
         municipality_id: municipality,
         investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );
@@ -1858,6 +1893,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         district_id: district,
         municipality_id: municipality,
         investment: [],
+        investment_filter: selectedInvestment,
         investment_project: [],
       },
     );
@@ -1936,6 +1972,7 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
         view: selectedViewDataBy,
         municipality_id: municipality,
         investment: [],
+        investment_filter: [],
         investment_project: [],
       })
       .then(function(result) {
@@ -2072,6 +2109,7 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         view: 'total_beneficiary',
         municipality_id: [],
         investment_project: [clicked],
+        investment_filter: [],
         investment: [],
       },
     );
@@ -2109,6 +2147,7 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         view: 'allocated_budget',
         municipality_id: [],
         investment_project: [clicked],
+        investment_filter: [],
         investment: [],
       },
     );

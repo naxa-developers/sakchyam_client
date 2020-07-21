@@ -212,7 +212,14 @@
                             ;
                         }
                     }
-
+                    &.apply-body{
+                        max-height: calc(100vh - 230px);
+                        @media #{$breakpoint-ls} {
+                            height: auto;
+                            max-height: initial;
+                            overflow-y: initial;
+                        }
+                    }
                 }
             }
 
@@ -407,15 +414,24 @@
             }
 
             .apply-buttons {
-                padding: 1rem 1.2rem;
-                background-color: #fff;
+                padding: .6125rem 1.2rem;
+                background-color: $white-color;
                 position: fixed;
                 bottom:10px;
-                left:0;
+                left:15px;
                 right:auto;
                 z-index: 1;
+                min-width: 300px;
                 @media #{$breakpoint-xxl} {
                     padding: 1rem;
+                }
+                @media #{$breakpoint-ls} {
+                    position: initial;
+                    left:unset;
+                    right: unset;
+                    bottom:unset;
+                    min-width: initial;
+                    width: 100%;
                 }
 
                 button {
@@ -428,6 +444,30 @@
                     &.is-disable{
                         color:$primary-light;
                     }
+                }
+            }
+            .timeline-date{
+                padding: .6125rem 1.2rem;
+                background-color: $white-color;
+                position: fixed;
+                bottom:10px;
+                right:15px;
+                left:auto;
+                z-index: 1;
+                min-width: 300px;
+                text-transform: uppercase;
+                font-family: $avenir-heavy;
+                color:$blue-color;
+                text-align: center;
+                border-top:1px solid #efefef;
+                @media #{$breakpoint-ls} {
+                    position: initial;
+                    left:unset;
+                    right: unset;
+                    bottom:unset;
+                    width:100%;
+                    min-width: initial;
+                    width: 100%;
                 }
             }
         }

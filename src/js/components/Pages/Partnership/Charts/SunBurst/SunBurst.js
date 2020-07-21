@@ -258,7 +258,7 @@ class Sunburst extends React.Component {
         .style("class", "sunburst-svg")
         .style("width", w + "px")
         .style("height", h + "px")
-        .style("transform", "translate(77px, 0px)")
+        .style("transform", "translate(-34px, 0px)")
         .attr("viewBox", `${-w / 2} ${-h / 2} ${w} ${h}`)
         // .append("circle")
         // .attr("cx", this.x)
@@ -288,7 +288,7 @@ class Sunburst extends React.Component {
         legendEntries
           .append("rect")
           .attr("x", 0)
-          .attr("y", (_, i) => 0 + i * 20)
+          .attr("y", (_, i) => 2 + i * 20)
           .attr("width", 15)
           .attr("height", 12)
           .style("padding", "20px")
@@ -296,7 +296,7 @@ class Sunburst extends React.Component {
         legendEntries
           .append("text")
           .attr("x", 18)
-          .attr("y", (_, i) => 12 + i * 20)
+          .attr("y", (_, i) => 10 + i * 20)
           .text((d) => d.data.name)
           .attr("text-anchor", "left")
           .style("alignment-baseline", "middle")
@@ -355,11 +355,11 @@ class Sunburst extends React.Component {
           .style("dominant-baseline", "middle")
           .style("text-anchor", "middle");
 
-        text
-          .append("textPath")
-          .attr("startOffset", "50%")
-          .attr("xlink:href", (_, i) => `#hiddenArc${i}`)
-          .text((d) => this._getLabelText(d) || "");
+        // text
+        //   .append("textPath")
+        //   .attr("startOffset", "50%")
+        //   .attr("xlink:href", (_, i) => `#hiddenArc${i}`)
+        //   .text((d) => this._getLabelText(d) || "");
       }
     }
     this.props.tooltip && this._setTooltips();
@@ -545,6 +545,7 @@ class Sunburst extends React.Component {
     const c = d.data.color
       ? d3Hsl(d.data.color)
       : d3Hsl(colorshift, thishsl.s, thishsl.l);
+      // return (this.props.colorFunc || this.props.colorFunc(d,c)) || c
     return c || this.props.colorFunc || this.props.colorFunc(d, c);
   }
 

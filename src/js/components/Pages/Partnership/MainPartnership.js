@@ -112,6 +112,8 @@ class MainPartnership extends Component {
     // this.props.getSankeyChartData();
     this.props.getBarDataByBenefBudget(viewDataBy);
     this.props.getBarDataByInvestmentFocus(viewDataBy);
+    this.props.getSankeyChartData();
+
     // this.props.getMapDataByDistrict(viewDataBy);
     // this.props.getMapDataByMunicipality(viewDataBy);
     this.props.getDistrictData();
@@ -831,6 +833,7 @@ class MainPartnership extends Component {
     );
     this.props.filterFinancialDataWithAllFilters(
       'province',
+      investmentFocusSelection,
       viewDataBy,
       partnerSelection,
       projectSelection,
@@ -884,6 +887,7 @@ class MainPartnership extends Component {
     if (activeView === 'visualization') {
       this.props.filterFinancialDataWithAllFiltersAndFederal(
         { selectedMunicipality, selectedDistrict, selectedProvince },
+        investmentFocusSelection,
         viewDataBy,
         partnerSelection,
         projectSelection,
@@ -929,6 +933,7 @@ class MainPartnership extends Component {
       this.props.resetSankeyChartData();
       this.props.resetOverviewData();
       this.props.resetLeverageData();
+      this.props.resetBarDatas();
       this.props.resetBarDataByInvestmentFocus();
     } else {
       this.setMapViewBy(mapViewBy);

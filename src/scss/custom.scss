@@ -267,23 +267,24 @@
     
   }
 }
-#modal-content{
-  .apexcharts-inner {
-    transform: translate(90px, 36px);
+#modal-content {
+  #chart{
+    .apexcharts-inner {
+      transform: translate(90px, 36px);
+    }
+    .apexcharts-svg .apexcharts-yaxis {
+      // transform: translate(40px, 8px);
+      // transform: translate(74px, 8px); 
+      transform: translate(95px, 8px); 
+    }
+    .apexcharts-yaxis-title{
+      transform: translate(20px, -6px);
+      // transform: translate(40px, 10px);
+    }
+    .apexcharts-yaxis-label {
+      transform: translate(-22px, 8px)
+    }
   }
-  .apexcharts-svg .apexcharts-yaxis {
-    // transform: translate(40px, 8px);
-    // transform: translate(74px, 8px); 
-    transform: translate(95px, 8px); 
-  }
-  .apexcharts-yaxis-title{
-    transform: translate(20px, -6px);
-    // transform: translate(40px, 10px);
-  }
-  .apexcharts-yaxis-label {
-    transform: translate(-22px, 8px)
-  }
-
 }
 .loader {
   position: fixed;
@@ -584,3 +585,22 @@
 //   color: white;
 //   border-collapse: collapse;
 // }
+
+.markercircleLegend{
+  max-width: 100%;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-wrap: wrap;
+  top: 32%;
+  position: absolute;
+  background-color: white;
+}
+.pieSquareLegend{
+  position: absolute;
+  background: white;
+  width: 250px;
+  height: 250px;
+}
