@@ -277,6 +277,12 @@ class TimelineChart extends Component {
         className="chart-timeline"
         style={{ background: 'white' }}
       >
+        <div className="timeline-date end-data">
+          <time>StartDate:1 January 2019</time>
+        </div>
+        <div className="timeline-date start-date">
+          <time>EndDate:1 December 2019</time>
+        </div>
         <a
           onClick={() => {
             time = '2015-1-1';

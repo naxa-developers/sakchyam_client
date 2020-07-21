@@ -143,9 +143,6 @@ class RightSideBar extends Component {
               </div>
             </div>
           </div>
-          <div className="timeline-date">
-            <time>1 March 2019</time>
-          </div>
         </div>
         <div
           className={`expand-button ${

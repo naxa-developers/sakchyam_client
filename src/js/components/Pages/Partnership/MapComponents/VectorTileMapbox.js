@@ -680,23 +680,21 @@ class Choropleth extends Component {
     const tooltip = d3
       .select(div)
       .append('div')
-      .attr('class', 'leaflet-popup  leaflet-zoom-animated')
+      .attr('class', 'pie-mapbox-popup')
       .style('opacity', 0);
 
-    tooltip
-      .append('div')
-      .attr('class', 'leaflet-popup-content-wrapper');
+    tooltip.append('div').attr('class', 'popup-div');
 
     tooltip
-      .select('.leaflet-popup-content-wrapper')
-      .append('div')
-      .attr('class', 'leaflet-popup-content')
-      .style('width', '281px');
+      .select('.popup-div')
+      .append('ul')
+      .attr('class', 'mapbox-popup-content');
+    // .style('width', '281px');
 
-    tooltip
-      .select('.leaflet-popup-content')
-      .append('div')
-      .attr('class', 'organization-content');
+    // tooltip
+    //   .select('.leaflet-popup-content')
+    //   .append('div')
+    //   .attr('class', 'organization-content');
 
     const arc = d3
       .arc()
@@ -719,10 +717,8 @@ class Choropleth extends Component {
         console.log(d, 'd');
 
         tooltip
-          .select('.organization-content')
-          .html(
-            `<h5>${d.data.type}</h5><br/><h6>${d.data.count}</h6>`,
-          )
+          .select('.mapbox-popup-content')
+          .html(`<li>${d.data.type}</li>`)
           .style('color', 'black');
         // .style('background-color', 'white');
         // tooltip.select('.count').html('Test');
@@ -1897,7 +1893,6 @@ class Choropleth extends Component {
             </div>
           </div> */}
         </div>
-        <label>End Date: 2015-01-01</label>
         <TimelineChart
           minValue={minValue}
           maxValue={maxValue}
