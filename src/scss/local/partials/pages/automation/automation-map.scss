@@ -279,6 +279,7 @@
         position: absolute;
         bottom: 100px;
         left: 0;
+        
         .markercircleLegend,.pieSquareLegend{
                 position: initial;
                 display: initial;
@@ -288,11 +289,37 @@
                 height: initial;
                 display: flex;
                 flex-wrap: wrap;
+                background-color: rgba($white-color,.5);
+                @include radius(5px);
+                
                 svg{
                         max-width: 200px;
                         width:initial !important;
-                        height: initial !important;
+                        height: auto !important;
                         flex-wrap: wrap;
+                        
+                }
+        }
+        svg{
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+                max-height: 200px;
+
+                &::-webkit-scrollbar {
+                width: 6px;
+                background: $gray-light;
+                @include radius(4px);
+                }
+
+                &::-webkit-scrollbar-track {
+                background-color:$gray-light;
+                @include radius(4px);
+                }
+
+                &::-webkit-scrollbar-thumb {
+                @include radius(4px);
+                background: $text-color-hover;
                 }
         }
 }
