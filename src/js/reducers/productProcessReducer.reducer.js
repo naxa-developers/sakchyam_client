@@ -423,7 +423,6 @@ const generateBubbleChartData = data => {
       });
     });
   });
-  // console.log('igroupingByInnovationArea', groupingByInnovationArea);
   return {
     name: 'Product/Process Innovations',
     id: 'bubble',
