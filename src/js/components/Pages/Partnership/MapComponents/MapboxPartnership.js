@@ -41,21 +41,43 @@ class MapboxPartnership extends Component {
   // };
 
   componentDidMount() {
-    this.props.getMapDataByProvince();
-    this.props.getMapDataByDistrict();
+    this.props.getMapDataByProvince('investment');
+    this.props.getMapDataByDistrict('investment');
     this.props.getPartnershipAllData();
-    this.props.getMapDataByMunicipality();
+    this.props.getMapDataByMunicipality('investment');
     this.props.addMap();
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
+    // }
+    // if (prevProps.mapViewBy !== this.props.mapViewBy) {
     if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
-      if (this.props.mapViewDataBy !== 'investment_focus') {
-        this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-          this.props.mapViewDataBy,
-          this.props.mapViewBy,
-        );
+      let view = 'investment';
+      if (this.props.mapViewDataBy === 'allocated_beneficiary') {
+        view = 'total_beneficiary';
+      } else if (this.props.mapViewDataBy === 'allocated_budget') {
+        view = 'total_beneficiary';
       }
+      // this.props.getMapDataByProvince(view);
+      // if (this.props.mapViewDataBy !== 'investment_focus') {
+      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+        view,
+        this.props.mapViewBy,
+      );
+      // }
+    }
+    if (prevProps.mapViewBy !== this.props.mapViewBy) {
+      let view = 'investment';
+      if (this.props.mapViewDataBy === 'allocated_beneficiary') {
+        view = 'total_beneficiary';
+      } else if (this.props.mapViewDataBy === 'allocated_budget') {
+        view = 'total_beneficiary';
+      }
+      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+        view,
+        this.props.mapViewBy,
+      );
     }
     // if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
     //   // console.log(this.props.vectorTileUrl,'vectorTIleUrl');

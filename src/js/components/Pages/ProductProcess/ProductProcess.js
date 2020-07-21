@@ -53,13 +53,6 @@ class ProductProcess extends React.Component {
       isAllMarketFailureSelected: false,
       partnerTypeSelection: [],
 
-      // innovationArea: [],
-      // productCategory: [],
-      // productName: [],
-      // partnerType: [],
-      // partnerInstitution: [],
-      // marketFailure: [],
-
       showRightSidebar: true,
       activeModal: false,
       selectedModal: '',
@@ -239,7 +232,7 @@ class ProductProcess extends React.Component {
             ...preState.productCategorySelection,
             name,
           ],
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       if (!checked) {
@@ -248,7 +241,7 @@ class ProductProcess extends React.Component {
         );
         return {
           productCategorySelection: newArr,
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       return null;
@@ -305,7 +298,7 @@ class ProductProcess extends React.Component {
             ...preState.productNameSelection,
             name,
           ],
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       if (!checked) {
@@ -314,7 +307,7 @@ class ProductProcess extends React.Component {
         );
         return {
           productNameSelection: newArr,
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       return null;
@@ -371,7 +364,7 @@ class ProductProcess extends React.Component {
             ...preState.partnerNameSelection,
             name,
           ],
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       if (!checked) {
@@ -380,7 +373,7 @@ class ProductProcess extends React.Component {
         );
         return {
           partnerNameSelection: newArr,
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       return null;
@@ -437,7 +430,7 @@ class ProductProcess extends React.Component {
             ...preState.marketFailureSelection,
             name,
           ],
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       if (!checked) {
@@ -446,7 +439,7 @@ class ProductProcess extends React.Component {
         );
         return {
           marketFailureSelection: newArr,
-          projectSelection: [],
+          // projectSelection: [],
         };
       }
       return null;
@@ -479,7 +472,12 @@ class ProductProcess extends React.Component {
       case 'bar':
         return <BarChart activeModal />;
       case 'heatmap':
-        return <HeatmapChart activeModal />;
+        return (
+          <HeatmapChart
+            showRightSidebar={this.state.showRightSidebar}
+            activeModal={this.state.activeModal}
+          />
+        );
 
       default:
         break;
@@ -514,7 +512,8 @@ class ProductProcess extends React.Component {
       innovationAreaSelection,
       productCategorySelection,
       partnerTypeSelection,
-      partnerNameSelection,
+      // partnerNameSelection,
+      productNameSelection,
     );
     this.props.filterRadarChartData(
       innovationAreaSelection,
@@ -717,7 +716,7 @@ class ProductProcess extends React.Component {
                           <div className="card-body">
                             <HeatmapChart
                               showRightSidebar={showRightSidebar}
-                              // activeModal={activeModal}
+                              activeModal={activeModal}
                             />
                           </div>
                         </div>

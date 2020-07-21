@@ -590,28 +590,28 @@ const getFilteredMapDataChoropleth = (state, action) => {
   };
 };
 const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
-  const federalType = action.payload;
-  const choroplethFormat = action.payload.map(data => {
-    return {
-      ...data,
-      id: data.code,
-      count: data.blb
-        ? data.blb
-        : data.branch
-        ? data.branch
-        : data.tablet
-        ? data.tablet
-        : 0,
-    };
-  });
-  const roundedFormat = choroplethFormat.map(item => ({
-    ...item,
-    allocated_beneficiary: Math.round(item.allocated_beneficiary),
-    allocated_budget: Math.round(item.allocated_budget),
-  })); // console.log(choroplethFormat, 'formated circleMarker ');
+  // const federalType = action.payload;
+  // const choroplethFormat = action.payload.map(data => {
+  //   return {
+  //     ...data,
+  //     id: data.code,
+  //     count: data.blb
+  //       ? data.blb
+  //       : data.branch
+  //       ? data.branch
+  //       : data.tablet
+  //       ? data.tablet
+  //       : 0,
+  //   };
+  // });
+  // const roundedFormat = choroplethFormat.map(item => ({
+  //   ...item,
+  //   allocated_beneficiary: Math.round(item.allocated_beneficiary),
+  //   allocated_budget: Math.round(item.allocated_budget),
+  // })); // console.log(choroplethFormat, 'formated circleMarker ');
   return {
     ...state,
-    mapDataForCircleMarker: roundedFormat,
+    mapDataForCircleMarker: action.payload,
   };
 };
 
