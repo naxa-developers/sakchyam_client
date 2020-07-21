@@ -1668,11 +1668,16 @@ export const filterMapDataOfChoroplethByFederal = (
     }
   }
 };
-export const getMapDataByProvince = () => dispatch => {
+export const getMapDataByProvince = selectedView => dispatch => {
   // console.log(investmentFocusSelection, 'investm');
+  const selected = selectedView ? selectedView : 'investment';
+
   try {
     axiosInstance
-      .get(`/api/v1/partnership/map-data/?province_id=0`)
+      .get(
+        // `/api/v1/partnership/map-data/?province_id=0&pie="investment,total_beneficiary,allocated_budget"`,
+        `/api/v1/partnership/map-data/?province_id=0&pie=${selected}`,
+      )
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -1685,11 +1690,15 @@ export const getMapDataByProvince = () => dispatch => {
     console.error(err);
   }
 };
-export const getMapDataByDistrict = () => dispatch => {
+export const getMapDataByDistrict = selectedView => dispatch => {
+  const selected = selectedView ? selectedView : 'investment';
+
   // console.log(investmentFocusSelection, 'investm');
   try {
     axiosInstance
-      .get(`/api/v1/partnership/map-data/?district_id=0`)
+      .get(
+        `/api/v1/partnership/map-data/?district_id=0&pie=${selected}`,
+      )
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -1702,11 +1711,15 @@ export const getMapDataByDistrict = () => dispatch => {
     console.error(err);
   }
 };
-export const getMapDataByMunicipality = () => dispatch => {
+export const getMapDataByMunicipality = selectedView => dispatch => {
   // console.log(investmentFocusSelection, 'investm');
+  const selected = selectedView ? selectedView : 'investment';
+
   try {
     axiosInstance
-      .get(`/api/v1/partnership/map-data/?municipality_id=0`)
+      .get(
+        `/api/v1/partnership/map-data/?municipality_id=0&pie=${selected}`,
+      )
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -1957,24 +1970,20 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
   // console.log(selectedPartnerId, 'selectedPartnerId');
   // console.log(selectedProjectId, 'selectedProjectId');
   console.log(selectedViewDataBy, 'selectedStatus');
-  const province = selectedFederalType === 'province' ? [0] : [];
-  const district = selectedFederalType === 'district' ? [0] : [];
-  const municipality =
-    selectedFederalType === 'municipality' ? [0] : [];
+  // const selectedView= selecte
+  const federalParam =
+    selectedFederalType === 'province'
+      ? 'province_id=0'
+      : selectedFederalType === 'district'
+      ? 'district_id=0'
+      : selectedFederalType === 'municipality'
+      ? 'municipality_id=0'
+      : 'province_id=0';
   try {
     axiosInstance
-      .post('/api/v1/partnership/partnership-filter/', {
-        status: '',
-        partner_id: [0],
-        project_id: [0],
-        province_id: province,
-        district_id: district,
-        view: selectedViewDataBy,
-        municipality_id: municipality,
-        investment: [],
-        investment_filter: [],
-        investment_project: [],
-      })
+      .get(
+        `/api/v1/partnership/map-data/?${federalParam}&pie=${selectedViewDataBy}`,
+      )
       .then(function(result) {
         console.log(result.data, 'filteredData');
         return dispatch({
@@ -1986,6 +1995,44 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
     console.error(err);
   }
 };
+// export const filterMapDataOfCircleMarkerWithViewDataBy = (
+//   selectedViewDataBy,
+//   selectedFederalType,
+// ) => dispatch => {
+//   // console.log(selectedFederalTypes, 'selectedFederalTypes');
+//   // console.log(selectedDataView, 'selectedDataView');
+//   // console.log(selectedPartnerId, 'selectedPartnerId');
+//   // console.log(selectedProjectId, 'selectedProjectId');
+//   console.log(selectedViewDataBy, 'selectedStatus');
+//   const province = selectedFederalType === 'province' ? [0] : [];
+//   const district = selectedFederalType === 'district' ? [0] : [];
+//   const municipality =
+//     selectedFederalType === 'municipality' ? [0] : [];
+//   try {
+//     axiosInstance
+//       .post('/api/v1/partnership/partnership-filter/', {
+//         status: '',
+//         partner_id: [0],
+//         project_id: [0],
+//         province_id: province,
+//         district_id: district,
+//         view: selectedViewDataBy,
+//         municipality_id: municipality,
+//         investment: [],
+//         investment_filter: [],
+//         investment_project: [],
+//       })
+//       .then(function(result) {
+//         console.log(result.data, 'filteredData');
+//         return dispatch({
+//           type: FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
+//           payload: result.data,
+//         });
+//       });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 export const getLeverageData = () => dispatch => {
   try {
     const requestOne = axiosInstance.get(

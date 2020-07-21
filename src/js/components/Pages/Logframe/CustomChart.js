@@ -47,7 +47,7 @@ export default class CustomChart extends Component {
     } = this.props;
     // const { series, options } = this.state;
     return (
-      <div id="chart">
+      <div id="logframe-chart">
         {/* {activeDateValues.length === 0 ? (
           <label>
             {activeDateValues.length === 0
