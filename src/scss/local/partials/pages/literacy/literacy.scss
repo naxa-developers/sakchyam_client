@@ -33,7 +33,7 @@
 
         @media #{$breakpoint-ls} {
           @include flex(0 0 100%);
-          max-width: 100%;
+          max-width: 100% !important;
         }
       }
     }
@@ -254,6 +254,11 @@
         padding: 0 0.6125rem 1rem 0.6125rem;
       }
     }
+    @media #{$breakpoint-ls}{
+      height: auto;
+      max-height: initial;
+      overflow-y: initial;
+  }
   }
   .table-card {
     .table-card-body {
@@ -278,6 +283,11 @@
         background: $text-color-hover;
     }
     }
+    @media #{$breakpoint-ls}{
+      height: auto;
+      max-height: initial;
+      overflow-y: initial;
+  }
   }
   .apexcharts-tooltip {
     max-width: 350px;
@@ -309,6 +319,11 @@
 &::-webkit-scrollbar-thumb {
     @include radius(4px);
     background: $text-color-hover;
+}
+@media #{$breakpoint-ls}{
+  height: auto;
+  max-height: initial;
+  overflow-y: initial;
 }
 }
 
