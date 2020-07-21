@@ -651,7 +651,7 @@ class HorizontalChart extends Component {
                   />
                   <span className="slider" />
                 </label>
-                <small>Programme Wise</small>
+                <small>Initiative Wise</small>
               </div>
             )}
             {/* {!isBarChartClicked && (

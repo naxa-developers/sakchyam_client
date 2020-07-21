@@ -320,7 +320,7 @@ class TreeMapDiagram extends Component {
           }
         >
           {!activeModal && (
-            <h5>Contribution of programme initiatives</h5>
+            <h5>Contribution of Financial Literacy Initiatives</h5>
           )}
           <div className="header-icons">
             {isTreeMapClicked && (
@@ -348,13 +348,13 @@ class TreeMapDiagram extends Component {
                   onClick={() => {
                     downloadPng(
                       'treemap-chart',
-                      'Contribution of programme initiatives',
+                      'Contribution of Financial Literacy Initiatives',
                     );
                   }}
                   onKeyDown={() => {
                     downloadPng(
                       'treemap-chart',
-                      'Contribution of programme initiatives',
+                      'Contribution of Financial Literacy Initiatives',
                     );
                   }}
                   role="tab"
@@ -372,7 +372,7 @@ class TreeMapDiagram extends Component {
                     !isTreeMapClicked &&
                       handleSelectedModal(
                         'tree',
-                        'Contribution of programme initiatives',
+                        'Contribution of Financial Literacy Initiatives',
                       );
                   }}
                   onKeyDown={() => {
