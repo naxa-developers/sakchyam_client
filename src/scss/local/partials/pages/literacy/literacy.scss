@@ -190,7 +190,6 @@
       @include align-items-center;
 
       h5 {
-        @include line-clamp(1);
         font-family: $body-fonts;
         color: $red-color;
         font-size: 1.25rem;
