@@ -427,7 +427,16 @@ class RightSideBar extends Component {
       financialReducer: { financialProgram },
     } = this.props;
     // const data = financialProgram.filter(item => item.total === 0);
-    const data = financialProgram;
+    const data = [];
+    financialProgram.forEach(item => {
+      if (item.date !== null)
+        data.push({
+          date: item.date,
+          name: item.name,
+        });
+    });
+
+    // const data = financialProgram;
 
     const allYears = [];
     data.filter(item => {
