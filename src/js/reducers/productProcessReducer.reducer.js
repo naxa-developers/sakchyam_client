@@ -700,7 +700,11 @@ const filterOverviewData = (state, action) => {
         innovationArea.includes(item.innovation_area) &&
         productName.includes(item.product_name),
     );
-  } else {
+  } else if (
+    innovationArea.length > 0 &&
+    partnerName.length > 0 &&
+    productName.length > 0
+  ) {
     filteredData = allData.filter(
       item =>
         innovationArea.includes(item.innovation_area) &&
