@@ -1333,10 +1333,20 @@
                 font-family: $body-fonts;
                 font-size: 0.95rem;
                 line-height: 1.5;
+                font-family: $avenir-heavy;
                 @media screen and (max-width:1440px){
                     font-size: 1rem;
                 }
             }
         }
     }
+}
+
+#sunburst-wrapper .sunburst-tooltips{
+    background: $white-color !important;
+    font-family: $avenir-heavy;
+    @include box-shadow(0 2px 6px rgba(0,0,0,0.5));
+}
+.sunbrust-legend{
+    font-family: $avenir-heavy;
 }
