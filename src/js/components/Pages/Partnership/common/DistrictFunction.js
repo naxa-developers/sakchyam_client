@@ -26,7 +26,7 @@ export const getCenterBboxDistrict = id => {
       // console.log(munData,'munData');
     } else if (id === data.districtid) {
       const bboxArray = data.bbox.split(',');
-      // console.log(bboxArray,'bboxaray')
+      // console.log(bboxArray, 'bboxaray');
       const a = bboxArray.map(datas => {
         return parseFloat(datas);
       });
@@ -41,7 +41,7 @@ export const getCenterBboxDistrict = id => {
     }
     return true;
   });
-  console.log(distData, 'munData');
+  // console.log(distData, 'munData');
   return distData;
 };
 
