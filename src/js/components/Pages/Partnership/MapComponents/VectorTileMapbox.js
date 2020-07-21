@@ -1435,6 +1435,7 @@ class Choropleth extends Component {
             }
           });
         });
+        // console.log(FederalData, 'federalData');
         //
         // const testEl = createDonutChart(a,b);
         let singleData = {};
@@ -1494,6 +1495,8 @@ class Choropleth extends Component {
             .addTo(map);
           global.markerList.push(marker);
         });
+        // console.log('')
+
         // global.marker.remove();
         // const withRadius = this.setCircleMarkerRadius(
         //   fullGeojsonProvince.features,
@@ -1530,12 +1533,13 @@ class Choropleth extends Component {
         //   return total;
         // };
         FederalData.features.forEach(data => {
-          //
+          // console.log(data, '1stLoop');
           singleData2nd = {
             point_count: 0,
           };
           if (data.properties.pie) {
             data.properties.pie.forEach(piedata => {
+              // console.log(piedata, '2ndLoop');
               //
               singleData2nd[`${piedata.investment_primary}`] =
                 piedata.total_beneficiary;
@@ -1543,6 +1547,7 @@ class Choropleth extends Component {
             });
           }
           total2nd.push(singleData2nd.point_count);
+          // console.log(singleData2nd, 'singleData2nd');
         });
         //
         FederalData.features.forEach(data => {
@@ -1559,6 +1564,12 @@ class Choropleth extends Component {
             });
           }
           total.push(singleData.point_count);
+          const allCount = [];
+          Object.values(singleData).forEach(singledata => {
+            //
+            allCount.push(singledata);
+          });
+          console.log(allCount, 'allCount');
           //
           //
           const testElMain = document.createElement('div');
