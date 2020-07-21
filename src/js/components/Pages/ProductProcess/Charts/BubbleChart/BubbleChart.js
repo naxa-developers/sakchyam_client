@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { connect } from 'react-redux';
 import { ResponsiveBubble } from '@nivo/circle-packing';
@@ -150,6 +151,30 @@ class BubbleChart extends React.Component {
               animate
               motionStiffness={90}
               motionDamping={12}
+              tooltip={({ id, value, color }) => (
+                <span style={{ display: 'flex' }}>
+                  <div
+                    style={{
+                      margin: '1px',
+                      marginRight: '5px',
+                      marginTop: '5px',
+                      height: '15px',
+                      width: '15px',
+                      backgroundColor: color,
+                    }}
+                  />
+                  <strong>
+                    {id}: {value}
+                  </strong>
+                </span>
+              )}
+              theme={{
+                tooltip: {
+                  container: {
+                    background: '#fff',
+                  },
+                },
+              }}
             />
           )}
         </div>

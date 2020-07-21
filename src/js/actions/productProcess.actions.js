@@ -69,7 +69,7 @@ export const filterBubbleChartData = (
   innovationArea,
   productCategory,
   partnerType,
-  partnerName,
+  productName,
 ) => dispatch => {
   return dispatch({
     type: FILTER_BUBBLE_CHART_DATA,
@@ -77,7 +77,7 @@ export const filterBubbleChartData = (
       innovationArea,
       productCategory,
       partnerType,
-      partnerName,
+      productName,
     },
   });
 };

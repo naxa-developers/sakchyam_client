@@ -23,7 +23,7 @@ class BarChart extends Component {
       chart: {
         toolbar: { show: false },
         type: 'bar',
-        height: 350,
+        // height: 350,
       },
       plotOptions: {
         bar: {
@@ -47,14 +47,15 @@ class BarChart extends Component {
       },
       yaxis: {
         title: {
-          text: !this.props.activeModal
-            ? 'No. of Products'
-            : undefined,
+          // text: !this.props.activeModal
+          //   ? 'No. of Products'
+          //   : undefined,
+          text: 'No. of Products',
           rotate: 90,
           offsetX: 0,
           offsetY: 0,
           style: {
-            color: undefined,
+            // color: undefined,
             fontSize: '12px',
             fontFamily: 'Avenir Book, sans-serif',
             fontWeight: 500,
@@ -62,10 +63,12 @@ class BarChart extends Component {
           },
         },
         axisBorder: {
-          show: !this.props.activeModal ? true : false,
+          // show: !this.props.activeModal ? true : false,
+          show: true,
         },
         axisTicks: {
-          show: !this.props.activeModal ? true : false,
+          // show: !this.props.activeModal ? true : false,
+          show: true,
         },
       },
       grid: {
@@ -128,10 +131,10 @@ class BarChart extends Component {
     if (activeModal) {
       if (window.innerWidth > 1600) {
         height = 900;
-        width = 1500;
+        // width = 1500;
       } else if (window.innerWidth < 1600) {
         height = 570;
-        width = 1000;
+        // width = 1000;
         // } else if (window.innerWidth < 1600) {
         //   height = 570;
         //   width = 1000;
@@ -139,7 +142,18 @@ class BarChart extends Component {
     } else {
       // height = 425;
       height = 434;
-      width = 450;
+      // width = 450;
+    }
+
+    if (!activeModal) {
+      if (showRightSidebar && window.innerWidth < 1600) width = 780;
+      else if (showRightSidebar && window.innerWidth > 1600)
+        width = 1100;
+      else if (!showRightSidebar && window.innerWidth < 1600)
+        width = 1100;
+      else width = 1400;
+    } else {
+      width = 1400;
     }
 
     return (
@@ -149,15 +163,16 @@ class BarChart extends Component {
           series={series}
           type="bar"
           // height={!activeModal ? 450 : 685}
-          width={
-            showRightSidebar && window.innerWidth < 1600
-              ? 780
-              : showRightSidebar && window.innerWidth > 1600
-              ? 1100
-              : !showRightSidebar && window.innerWidth < 1600
-              ? 1100
-              : 1400
-          }
+          width={width}
+          // width={
+          //   showRightSidebar && window.innerWidth < 1600
+          //     ? 780
+          //     : showRightSidebar && window.innerWidth > 1600
+          //     ? 1100
+          //     : !showRightSidebar && window.innerWidth < 1600
+          //     ? 1100
+          //     : 1400
+          // }
           height={height}
           // width={width}
         />
