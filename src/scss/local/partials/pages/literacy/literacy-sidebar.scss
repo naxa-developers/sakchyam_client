@@ -418,12 +418,16 @@
                 background-color: $white-color;
                 position: fixed;
                 bottom:10px;
-                left:15px;
+                left:10px;
                 right:auto;
                 z-index: 1;
-                min-width: 300px;
+                min-width:300px;
                 @media #{$breakpoint-xxl} {
                     padding: 1rem;
+                    min-width: 250px;
+                }
+                @media screen and (max-width:1366px) {
+                    min-width: 200px;
                 }
                 @media #{$breakpoint-ls} {
                     position: initial;
@@ -446,30 +450,7 @@
                     }
                 }
             }
-            .timeline-date{
-                padding: .6125rem 1.2rem;
-                background-color: $white-color;
-                position: fixed;
-                bottom:10px;
-                right:15px;
-                left:auto;
-                z-index: 1;
-                min-width: 300px;
-                text-transform: uppercase;
-                font-family: $avenir-heavy;
-                color:$blue-color;
-                text-align: center;
-                border-top:1px solid #efefef;
-                @media #{$breakpoint-ls} {
-                    position: initial;
-                    left:unset;
-                    right: unset;
-                    bottom:unset;
-                    width:100%;
-                    min-width: initial;
-                    width: 100%;
-                }
-            }
+            
         }
     }
     .sunburst-wrapper{

@@ -505,7 +505,7 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
         data.tablets_deployed === null ? 0 : data.tablets_deployed,
     };
   });
-  const allData = [];
+  // const allData = [];
   // eslint-disable-next-line array-callback-return
   // const c = action.payload.selectedPartner.map(partner => {
   //   state.automationLeftSidePartnerData.filter(data => {
@@ -514,11 +514,11 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
   //     return data.id === partner ? allData.push(data) : null;
   //   });
   // });
-  const c = state.automationLeftSidePartnerData.filter(
-    // eslint-disable-next-line camelcase
-    ({ partner_id }) =>
-      action.payload.selectedPartner.includes(partner_id),
-  );
+  // const c = state.automationLeftSidePartnerData.filter(
+  //   // eslint-disable-next-line camelcase
+  //   ({ partner_id }) =>
+  //     action.payload.selectedPartner.includes(partner_id),
+  // );
   return {
     ...state,
     automationChoroplethData: a,

@@ -1314,3 +1314,39 @@
         background-color: rgba($white-color,.8);
     }
 }
+.pie-mapbox-popup{
+    background-color: $white-color;
+    @include box-shadow(0 5px 15px rgba(0,0,0,.2));
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    z-index: 110001;
+    @include radius(5px);
+    display: block;
+    ul {
+        li{
+            padding:5px 10px;
+            display: block;
+            h5{
+                font-weight: normal;
+                font-family: $body-fonts;
+                font-size: 0.95rem;
+                line-height: 1.5;
+                font-family: $avenir-heavy;
+                @media screen and (max-width:1440px){
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}
+
+#sunburst-wrapper .sunburst-tooltips{
+    background: $white-color !important;
+    font-family: $avenir-heavy;
+    @include box-shadow(0 2px 6px rgba(0,0,0,0.5));
+}
+.sunbrust-legend,.pieSquareLegend{
+    font-family: $avenir-heavy;
+}

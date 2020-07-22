@@ -122,3 +122,27 @@
         }
     }
 }
+.timeline-date{
+    padding: .6125rem 1.2rem;
+    background-color: $white-color;
+    position: absolute;
+    bottom:80px;
+    right:30px;
+    left:auto;
+    z-index: 1;
+    min-width: 200px;
+    text-transform: uppercase;
+    font-family: $avenir-heavy;
+    color:$red-color;
+    text-align: center;
+    border-top:1px solid #efefef;
+    @media #{$breakpoint-ls} {
+        position: initial;
+        left:unset;
+        right: unset;
+        bottom:unset;
+        width:100%;
+        min-width: initial;
+        width: 100%;
+    }
+}
