@@ -659,7 +659,11 @@ export const partnerSelectWithOutreach = (
           // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
-            payload: { selectedPartner, result: result.data },
+            payload: {
+              selectedFed: 'province',
+              selectedPartner,
+              result: result.data,
+            },
           });
         });
     } catch (err) {
@@ -673,7 +677,11 @@ export const partnerSelectWithOutreach = (
           // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
-            payload: { selectedPartner, result: result.data },
+            payload: {
+              selectedFed: 'district',
+              selectedPartner,
+              result: result.data,
+            },
           });
         });
     } catch (err) {
@@ -687,7 +695,11 @@ export const partnerSelectWithOutreach = (
           // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
-            payload: { selectedPartner, result: result.data },
+            payload: {
+              selectedFed: 'municipality',
+              selectedPartner,
+              result: result.data,
+            },
           });
         });
     } catch (err) {

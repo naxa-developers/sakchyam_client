@@ -55,7 +55,7 @@ function colorPicker(i) {
   if (i % 25 === 4) return '#B1B424';
   if (i % 25 === 5) return '#2196F3';
   if (i % 25 === 6) return '#12fff4db'; // #4CE2A7
-  if (i % 25 === 7) return '#1967A0';
+  if (i % 25 === 7) return '#6f05d0';
   if (i % 25 === 8) return '#00C853';
   if (i % 25 === 9) return '#E11D3F'; // #651FFF
   if (i % 25 === 10) return '#FF6D00'; // #B71DE1
@@ -629,7 +629,7 @@ const getRadialData = (state, action) => {
   // console.log(action.payload);
   // eslint-disable-next-line array-callback-return
   action.payload.children.map((data, i) => {
-    console.log(data, 'dat');
+    console.log(data, 'datx');
     // eslint-disable-next-line no-param-reassign
     data.color = colorPicker(i + 2);
   });

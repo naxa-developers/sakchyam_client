@@ -25,6 +25,9 @@ import {
   GET_TIMELINE_DATA,
   TIMELINE_FILTER,
 } from '../actions/index.actions';
+import province from '../../data/province.json';
+import district from '../../data/district.json';
+import municipality from '../../data/municipality.json';
 
 const initialState = {
   automationAllDataByPartner: [],
@@ -498,13 +501,76 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
   state,
   action,
 ) => {
-  const a = action.payload.result.map(data => {
-    return {
-      id: data.code,
-      count:
-        data.tablets_deployed === null ? 0 : data.tablets_deployed,
-    };
-  });
+  const { selectedFed } = action.payload;
+  // const a = action.payload.result.map(data => {
+  //   return {
+  //     id: data.code,
+  //     count: data.tablets_deployed,
+  //   };
+  // });
+  // console.log(municipality, 'before');
+  // const newMunData = municipality;
+  let newMainData = null;
+  if (selectedFed === 'municipality') {
+    newMainData = [...municipality]; // you get a clone of data
+    newMainData.forEach((item, index) => {
+      action.payload.result.forEach(p => {
+        if (p.code === item.munid) {
+          newMainData[index] = {
+            ...item,
+            ...p,
+            id: item.munid,
+            count: p.tablets_deployed,
+          };
+        }
+      });
+      // eslint-disable-next-line no-param-reassign
+      item.id = item.munid;
+      // eslint-disable-next-line no-param-reassign
+      item.count = 0;
+    });
+  } else if (selectedFed === 'district') {
+    newMainData = [...district]; // you get a clone of data
+    newMainData.forEach((item, index) => {
+      action.payload.result.forEach(p => {
+        if (p.code === item.districtid) {
+          newMainData[index] = {
+            ...item,
+            ...p,
+            id: item.districtid,
+            count: p.tablets_deployed,
+          };
+        }
+      });
+      // eslint-disable-next-line no-param-reassign
+      item.id = item.districtid;
+      // eslint-disable-next-line no-param-reassign
+      item.count = 0;
+    });
+  } else {
+    newMainData = [...province]; // you get a clone of data
+    newMainData.forEach((item, index) => {
+      action.payload.result.forEach(p => {
+        if (p.code === item.FIRST_PROV) {
+          newMainData[index] = {
+            ...item,
+            ...p,
+            id: item.FIRST_PROV,
+            count: p.tablets_deployed,
+          };
+        }
+      });
+      // eslint-disable-next-line no-param-reassign
+      item.id = item.FIRST_PROV;
+      // eslint-disable-next-line no-param-reassign
+      item.count = 0;
+    });
+  }
+  // municipality.sort(function(x, y) {
+  //   return x.id - y.id;
+  // });
+  // console.log(municipality, 'after');
+  // console.log(newMainData, 'after newMUn');
   // const allData = [];
   // eslint-disable-next-line array-callback-return
   // const c = action.payload.selectedPartner.map(partner => {
@@ -521,7 +587,7 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
   // );
   return {
     ...state,
-    automationChoroplethData: a,
+    automationChoroplethData: newMainData,
     // automationLeftSidePartnerData: c,
     // automationTableData: action.payload,
     // tableDataLoading: false,
