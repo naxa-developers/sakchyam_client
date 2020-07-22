@@ -134,11 +134,11 @@ class RightSideBar extends Component {
                     number={overviewData.tablet}
                     iconTitle="tablet_mac"
                   />
-                  <OutreachTab
+                  {/* <OutreachTab
                     title="Innovative Products Introduced"
                     number={overviewData.other_products}
                     iconTitle="local_offer"
-                  />
+                  /> */}
                 </ul>
               </div>
             </div>
