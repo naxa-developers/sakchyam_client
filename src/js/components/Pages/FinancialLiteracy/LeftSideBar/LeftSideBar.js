@@ -73,7 +73,7 @@ class LeftSideBar extends Component {
               Financial Literacy
             </button>
           </div>
-          <div className="aside-body">
+          <div className="aside-body apply-body">
             <div className="sidebar-widget">
               <h6 className="title">Partner Type</h6>
               <div className="widget-body">

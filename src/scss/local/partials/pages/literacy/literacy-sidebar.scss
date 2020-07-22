@@ -212,7 +212,22 @@
                             ;
                         }
                     }
-
+                    &.apply-body{
+                        max-height: calc(100vh - 230px);
+                        @media #{$breakpoint-ls} {
+                            height: auto;
+                            max-height: initial;
+                            overflow-y: initial;
+                        }
+                    }
+                    &.outreach-body{
+                        max-height: calc(100vh - 280px);
+                        @media #{$breakpoint-ls} {
+                            height: auto;
+                            max-height: initial;
+                            overflow-y: initial;
+                        }
+                    }
                 }
             }
 
@@ -407,15 +422,28 @@
             }
 
             .apply-buttons {
-                padding: 1rem 1.2rem;
-                background-color: #fff;
+                padding: .6125rem 1.2rem;
+                background-color: $white-color;
                 position: fixed;
                 bottom:10px;
-                left:0;
+                left:10px;
                 right:auto;
                 z-index: 1;
+                min-width:300px;
                 @media #{$breakpoint-xxl} {
                     padding: 1rem;
+                    min-width: 250px;
+                }
+                @media screen and (max-width:1366px) {
+                    min-width: 200px;
+                }
+                @media #{$breakpoint-ls} {
+                    position: initial;
+                    left:unset;
+                    right: unset;
+                    bottom:unset;
+                    min-width: initial;
+                    width: 100%;
                 }
 
                 button {
@@ -430,6 +458,7 @@
                     }
                 }
             }
+            
         }
     }
     .sunburst-wrapper{

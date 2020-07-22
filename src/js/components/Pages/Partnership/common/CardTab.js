@@ -62,7 +62,9 @@ const CardTab = ({
       ? 'Beneficiaries Reached'
       : cardChartId === 'timeline'
       ? 'Projects Timeline'
-      : 'sankey-chart';
+      : cardChartId === 'stackedWithInvestment'
+      ? 'Investment Focus Wise Budget & Beneficiaries Count'
+      : '';
   const selectedChartId =
     cardChartId === 'groupedChart'
       ? 'stacked_chart'
@@ -72,7 +74,9 @@ const CardTab = ({
       ? 'sankey_chart'
       : cardChartId === 'sunburst'
       ? 'sunburst-wrapper'
-      : 'sankey-chart';
+      : cardChartId === 'stackedWithInvestment'
+      ? 'stackedWithInvestment'
+      : '';
   return (
     <div className={cardClass}>
       <div className="card">

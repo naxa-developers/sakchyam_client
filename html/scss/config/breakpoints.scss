@@ -1,0 +1,30 @@
+// Breakpoints
+
+$breakpoint-xxl: 'only screen and (max-width: 1440px)'; 
+
+$breakpoint-md-desktop: 'only screen and (max-width: 1366px)';
+
+$breakpoint-xl: 'only screen and (max-width:1280px)'; 
+
+$breakpoint-tab: 'only screen and (max-width: 1199px) and (min-width: 1025px)';
+
+$breakpoint-ls: 'only screen and (max-width:1024px)';
+
+$breakpoint-lg: 'only screen and (max-width:992px)';
+
+$breakpoint-pt: 'only screen and (max-width:768px)';
+
+$breakpoint-sm: 'only screen and (max-width:576px) and (max-width:767px)';
+
+$breakpoint-xs: 'only screen and (max-width:575px)';
+
+$breakpoint-xxs: 'only screen and (max-width:376px)';
+
+// $breakpoint-xs-landscape: 'only screen and (max-width:480px) and (max-width:767px)';
+
+// calling method
+
+// @media #{$breakpoint-xl}{
+    
+// }
+// 1366 1440 1540 1640 1920

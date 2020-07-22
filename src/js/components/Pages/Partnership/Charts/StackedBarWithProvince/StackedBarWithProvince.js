@@ -283,6 +283,7 @@ class StackedBarWithProvince extends Component {
     // console.log(newArray, 'newArray');
     // console.log(Math.max(...newArray));
     const maxValue = Math.max(...newArray);
+    console.log(maxValue, 'maxValue');
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     // const series = [
     //   {
@@ -447,6 +448,7 @@ class StackedBarWithProvince extends Component {
 
             // return 10000;
             // global.totalMaxValue = max / 120;
+            console.log(maxValue, 'yaxis Maxvalue');
             return maxValue;
           },
           axisTicks: {
@@ -500,6 +502,7 @@ class StackedBarWithProvince extends Component {
 
             // return 10000;
             // global.totaMaxValue = max / 35;
+
             return maxValue;
           },
           seriesName: 'Incomessss',
@@ -612,6 +615,7 @@ class StackedBarWithProvince extends Component {
     return (
       <div id="stacked_chart">
         <ReactApexChart
+          key={series}
           options={options}
           series={series}
           type="bar"

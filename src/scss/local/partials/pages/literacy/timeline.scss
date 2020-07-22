@@ -8,9 +8,10 @@
     ul{
         .date-time {
             padding-right: 1.5rem;
-            max-width: 60px;
             width:100%;
             font-family: $avenir-heavy;
+            padding:7px;
+            background-color: $bg-color;
             margin:1rem 0;
             time{
                 position: relative;
@@ -22,9 +23,6 @@
             }
         }
         li {
-            // @include display-flex(flex);
-            // @include justify-content-between;
-            // @include align-items-stretch;
             position: relative;
             border-left: 2px solid $border-color;
             margin-left: 1rem;
@@ -32,11 +30,13 @@
             .timeline-content {
                 padding-left: 1.5rem;
                 flex-grow: 1;
+                max-width: 250px;
                 position: relative;
     
                 .timeline-text {
                     padding: .6125rem;
                     background-color: $bg-color;
+                    position: relative;
                     @include radius(5px);
                     p{
                         font-family: $avenir-heavy;
@@ -44,6 +44,15 @@
                     }
                     span{
                         font-size: .775rem;
+                    }
+                    &::before{
+                        content: '';
+                        width: 30px;
+                        height: 2px;
+                        background-color: $border-color;
+                        position: absolute;
+                        left: -30px;
+                        top:4px;
                     }
                 }
     
@@ -99,7 +108,8 @@
                     }
                 }
                 .date-time{
-                    color:$red-color;
+                    background-color: $blue-light;
+                    
                 }
             }
             &.blank{
@@ -121,4 +131,7 @@
             }
         }
     }
+}
+.mb-10{
+    margin-bottom: 10px;
 }

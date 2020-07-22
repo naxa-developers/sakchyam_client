@@ -94,6 +94,10 @@ class MiddleChartSection extends Component {
     // console.log(e.data.name);
   };
 
+  sunburstColorFn = () => {
+    alert('test');
+  };
+
   getModalContent = contentType => {
     const { activeModal } = this.state;
     const {
@@ -283,6 +287,9 @@ class MiddleChartSection extends Component {
                       width={690}
                       count_member="size"
                       onClick={this.handleSunburstClick}
+                      // labelFunc={node => node.data.name}
+                      // colorFunc={node => 'red'}
+
                       // reset={this.props.resetSunburst}
                     />
                   )
@@ -403,7 +410,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            {/* <CardTab
+            <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'
@@ -424,7 +431,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            /> */}
+            />
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

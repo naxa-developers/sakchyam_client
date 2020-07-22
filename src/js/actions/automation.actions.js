@@ -576,13 +576,11 @@ export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
     if (clickedPartner.length > 0) {
       query = `partner=${clickedPartner}`;
     } else {
-      query = 'partner=0';
+      query = '';
     }
 
     const response = axiosInstance
-      .get(
-        `api/v1/automation/table-data/?filter_type=partner&${query}&province=0`,
-      )
+      .get(`api/v1/automation/table-data/?${query}`)
       .then(function(result) {
         // console.log(result, 'result');
         return dispatch({
@@ -661,7 +659,11 @@ export const partnerSelectWithOutreach = (
           // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
-            payload: { selectedPartner, result: result.data },
+            payload: {
+              selectedFed: 'province',
+              selectedPartner,
+              result: result.data,
+            },
           });
         });
     } catch (err) {
@@ -675,7 +677,11 @@ export const partnerSelectWithOutreach = (
           // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
-            payload: { selectedPartner, result: result.data },
+            payload: {
+              selectedFed: 'district',
+              selectedPartner,
+              result: result.data,
+            },
           });
         });
     } catch (err) {
@@ -689,7 +695,11 @@ export const partnerSelectWithOutreach = (
           // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
-            payload: { selectedPartner, result: result.data },
+            payload: {
+              selectedFed: 'municipality',
+              selectedPartner,
+              result: result.data,
+            },
           });
         });
     } catch (err) {
@@ -723,7 +733,7 @@ export const getBranchesTableDataByFed = (
 ) => dispatch => {
   // console.log(federalSelect, 'fedselect');
   console.log(partnerSelect, 'partnersekle');
-  let partners = 'partner=0';
+  let partners = '';
   let provinceSelect = 'province_id=0';
   let districtSelect = 'district_id=0';
   let municipalitySelect = 'municipality_id=0';
@@ -758,7 +768,7 @@ export const getBranchesTableDataByFed = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&${partners}&${municipalitySelect}`,
+          `api/v1/automation/table-data/?${partners}&${municipalitySelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -775,7 +785,7 @@ export const getBranchesTableDataByFed = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&${partners}&${districtSelect}`,
+          `api/v1/automation/table-data/?${partners}&${districtSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -792,7 +802,7 @@ export const getBranchesTableDataByFed = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&${partners}&${provinceSelect}`,
+          `api/v1/automation/table-data/?${partners}&${provinceSelect}`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -809,7 +819,7 @@ export const getBranchesTableDataByFed = (
     try {
       const response = axiosInstance
         .get(
-          `api/v1/automation/table-data/?filter_type=partner&${partners}&province=0`,
+          `api/v1/automation/table-data/?${partners}&province_id=0`,
         )
         .then(function(result) {
           // console.log(result, 'result');
@@ -866,7 +876,7 @@ export const filterAutomationByState = () => dispatch => {
   try {
     const response = axiosInstance
       .get(
-        `api/v1/automation/table-data/?filter_type=partner&partner=32,16&province_id=1`,
+        `api/v1/automation/table-data/?partner=32,16&province_id=1`,
       )
       .then(function(result) {
         // console.log(result, 'result');

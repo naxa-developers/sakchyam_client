@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { connect } from 'react-redux';
 import { ResponsiveBubble } from '@nivo/circle-packing';
@@ -48,7 +49,7 @@ class BubbleChart extends React.Component {
       { label: 'Innovation Area', fill: '#e6294a' },
       { label: 'Product Category', fill: '#f2cb3f' },
       { label: 'Partner Type', fill: '#19b5bd' },
-      { label: 'Partners', fill: '#de2693' },
+      { label: 'Product', fill: '#de2693' },
     ];
 
     const getColor = color => colors[color.id];
@@ -150,10 +151,40 @@ class BubbleChart extends React.Component {
               animate
               motionStiffness={90}
               motionDamping={12}
+              tooltip={({ id, value, color }) => (
+                <span style={{ display: 'flex' }}>
+                  <div
+                    style={{
+                      margin: '1px',
+                      marginRight: '5px',
+                      marginTop: '5px',
+                      height: '15px',
+                      width: '15px',
+                      backgroundColor: color,
+                    }}
+                  />
+                  <strong>
+                    {id}: {value}
+                  </strong>
+                </span>
+              )}
+              theme={{
+                tooltip: {
+                  container: {
+                    background: '#fff',
+                  },
+                },
+              }}
             />
           )}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div
+          className="pie-legend"
+          style={{
+            // display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           {bubbleChartData &&
             legendItems.map(legend => {
               return (

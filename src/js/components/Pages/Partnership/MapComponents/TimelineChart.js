@@ -192,13 +192,13 @@ class TimelineChart extends Component {
     const d = new Date(minDate);
 
     const day = d.getDate();
-    let month = d.getMonth() + 2; // Since getMonth() returns month from 0-11 not 1-12
+    let month = d.getMonth() + 4; // Since getMonth() returns month from 0-11 not 1-12
     let year = d.getFullYear();
     if (month === 13) {
       month = 1;
       year = d.getFullYear() + 1;
     } else {
-      month = d.getMonth() + 2;
+      month = d.getMonth() + 4;
     }
 
     const dateStr = `${year}-${month}-${day}`;
@@ -250,7 +250,7 @@ class TimelineChart extends Component {
         clearInterval(global.timerId);
         this.setState({ playSelected: false });
       }
-    }, 1200);
+    }, 3000);
   };
 
   componentDidUpdate(prevProps, prevStates) {
@@ -269,6 +269,11 @@ class TimelineChart extends Component {
 
   render() {
     const { playSelected, minCurrent, maxCurrent, key } = this.state;
+    const d = new Date(maxCurrent);
+
+    const day = d.getDate();
+    const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
+    const year = d.getFullYear();
     // console.log(this.props.minValue, 'minValue render');
     // console.log(this.props.maxValue, 'maxValue Render');
     return (
@@ -277,6 +282,16 @@ class TimelineChart extends Component {
         className="chart-timeline"
         style={{ background: 'white' }}
       >
+        {/* <div className="timeline-date end-data">
+          <time>StartDate:1 January 2019</time>
+        </div> */}
+        <div className="timeline-date start-date">
+          {/* <time>Date:1 December 2019</time> */}
+          <time>
+            Date:
+            {`${year}-${month}-${day}`}
+          </time>
+        </div>
         <a
           onClick={() => {
             time = '2015-1-1';

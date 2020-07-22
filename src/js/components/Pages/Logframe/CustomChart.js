@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
 // import 'apexcharts';
@@ -10,9 +11,22 @@ export default class CustomChart extends Component {
     super(props);
     this.state = {
       modal: false,
+      keyRandom: 0,
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.activeLine1 !== this.props.activeLine1) {
+      if (this.props.activeModal) {
+        this.setState({ keyRandom: Math.random() });
+      }
+    }
+    if (prevProps.activeBar1 !== this.props.activeBar1) {
+      if (this.props.activeModal) {
+        this.setState({ keyRandom: Math.random() });
+      }
+    }
+  }
   // componentDidMount() {
   //   const firstLegend = document.getElementsByClassName(
   //     'apexcharts-legend-series',
@@ -38,7 +52,7 @@ export default class CustomChart extends Component {
   // }
 
   render() {
-    const { modal } = this.state;
+    const { modal, keyRandom } = this.state;
     const {
       options,
       series,
@@ -47,7 +61,7 @@ export default class CustomChart extends Component {
     } = this.props;
     // const { series, options } = this.state;
     return (
-      <div id="chart">
+      <div id="logframe-chart">
         {/* {activeDateValues.length === 0 ? (
           <label>
             {activeDateValues.length === 0
@@ -58,6 +72,7 @@ export default class CustomChart extends Component {
         <ReactApexChart
           // modal={modal}
           key={series}
+          // key={keyRandom}
           ref={chartRef}
           options={options}
           series={series}

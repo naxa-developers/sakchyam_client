@@ -46,6 +46,19 @@ function numberWithCommas(x) {
   }
   return x;
 }
+
+function convert(labelValue) {
+  // Nine Zeroes for Billions
+  return Math.abs(Number(labelValue)) >= 1.0e9
+    ? `${Math.abs(Number(labelValue)) / 1.0e9}B`
+    : // Six Zeroes for Millions
+    Math.abs(Number(labelValue)) >= 1.0e6
+    ? `${Math.abs(Number(labelValue)) / 1.0e6}M`
+    : // Three Zeroes for Thousands
+    Math.abs(Number(labelValue)) >= 1.0e3
+    ? `${Math.abs(Number(labelValue)) / 1.0e3}K`
+    : Math.abs(Number(labelValue));
+}
 class HorizontalChart extends Component {
   constructor(props) {
     super(props);
@@ -269,7 +282,24 @@ class HorizontalChart extends Component {
         // tooltip: {
         //   enabled: true,
         // },
-        offsetY: 0,
+        title: {
+          text: 'No. of Beneficiaries',
+          offsetX: 5,
+          offsetY: 0,
+          style: {
+            // color: undefined,
+            fontSize: '14px',
+            fontFamily: 'Avenir Book, sans-serif',
+            fontWeight: 500,
+            cssClass: 'apexcharts-yaxis-title',
+          },
+        },
+        axisBorder: {
+          show: true,
+        },
+        axisTicks: {
+          show: true,
+        },
         show: true,
         labels: {
           // hideOverlappingLabels: false,
@@ -282,13 +312,15 @@ class HorizontalChart extends Component {
           //   cssClass: 'apexcharts-xaxis-label',
           // },
           // show: false,
-          formatter: val => numberWithCommas(val),
+          // formatter: val => numberWithCommas(val),
+          formatter: val => convert(val),
         },
       },
       tooltip: {
         marker: {
           show: false,
         },
+        y: { formatter: val => numberWithCommas(val) },
       },
     };
     this.setState({ options, series });
@@ -651,7 +683,7 @@ class HorizontalChart extends Component {
                   />
                   <span className="slider" />
                 </label>
-                <small>Programme Wise</small>
+                <small>Initiative Wise</small>
               </div>
             )}
             {/* {!isBarChartClicked && (

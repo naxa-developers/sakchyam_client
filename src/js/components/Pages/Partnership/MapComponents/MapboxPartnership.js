@@ -21,6 +21,8 @@ class MapboxPartnership extends Component {
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
+    this.circleLegendRef = React.createRef();
+    this.pieSquareLegend = React.createRef();
   }
 
   // addMap = () => {
@@ -39,21 +41,43 @@ class MapboxPartnership extends Component {
   // };
 
   componentDidMount() {
-    this.props.getMapDataByProvince();
-    this.props.getMapDataByDistrict();
+    this.props.getMapDataByProvince('investment');
+    this.props.getMapDataByDistrict('investment');
     this.props.getPartnershipAllData();
-    this.props.getMapDataByMunicipality();
+    this.props.getMapDataByMunicipality('investment');
     this.props.addMap();
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
+    // }
+    // if (prevProps.mapViewBy !== this.props.mapViewBy) {
     if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
-      if (this.props.mapViewDataBy !== 'investment_focus') {
-        this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-          this.props.mapViewDataBy,
-          this.props.mapViewBy,
-        );
+      let view = 'investment';
+      if (this.props.mapViewDataBy === 'allocated_beneficiary') {
+        view = 'total_beneficiary';
+      } else if (this.props.mapViewDataBy === 'allocated_budget') {
+        view = 'total_beneficiary';
       }
+      // this.props.getMapDataByProvince(view);
+      // if (this.props.mapViewDataBy !== 'investment_focus') {
+      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+        view,
+        this.props.mapViewBy,
+      );
+      // }
+    }
+    if (prevProps.mapViewBy !== this.props.mapViewBy) {
+      let view = 'investment';
+      if (this.props.mapViewDataBy === 'allocated_beneficiary') {
+        view = 'total_beneficiary';
+      } else if (this.props.mapViewDataBy === 'allocated_budget') {
+        view = 'total_beneficiary';
+      }
+      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+        view,
+        this.props.mapViewBy,
+      );
     }
     // if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
     //   // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
@@ -87,6 +111,9 @@ class MapboxPartnership extends Component {
             <div>
               <VectorTileMapbox
                 keyRef={this.keyRef}
+                circleLegendRef={this.circleLegendRef}
+                pieSquareLegend={this.pieSquareLegend}
+                handleProvinceClick={this.props.handleProvinceClick}
                 handleFederalClickOnMap={
                   this.props.handleFederalClickOnMap
                 }
@@ -102,7 +129,7 @@ class MapboxPartnership extends Component {
                 label
                 color="#007078"
               />
-              <div
+              {/* <div
                 // id="bargraph"
                 // className="marker mapboxgl-marker mapboxgl-marker-anchor-center"
                 ref={this.markerRef}
@@ -113,7 +140,23 @@ class MapboxPartnership extends Component {
                 // width: '40px',
                 // height: '40px',
                 // }}
-              />
+              /> */}
+              <div className="legend-wrapper">
+                <div
+                  // id="markercircleLegend"
+                  className="markercircleLegend"
+                  ref={this.circleLegendRef}
+                />
+                <div id="markerPieLegend">
+                  <svg
+                    // id="pieSquareLegend"
+                    className="pieSquareLegend"
+                    ref={this.pieSquareLegend}
+                    // height="300"
+                    // width="450"
+                  />
+                </div>
+              </div>
               {/* <MarkerCluster
               filteredByPartner={filteredByPartner}
               handleActiveClickPartners={handleActiveClickPartners}

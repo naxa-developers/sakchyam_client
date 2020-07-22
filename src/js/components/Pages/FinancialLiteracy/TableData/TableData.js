@@ -226,7 +226,12 @@ class TableData extends Component {
                               }}
                             >
                               <div className="table-head">
-                                <span>{programList.name}</span>
+                                <span>
+                                  {programList.name !==
+                                  'Other Initiatives'
+                                    ? programList.name
+                                    : `${programList.name}*`}
+                                </span>
                               </div>
                             </th>
                           );
@@ -562,9 +567,9 @@ class TableData extends Component {
                   fontWeight: '600',
                 }}
               >
-                Other Initiatives include ranges of financial literacy
-                activities carried out by partners which are not
-                included in pre-defined financial literacy
+                *Other Initiatives include ranges of financial
+                literacy activities carried out by partners which are
+                not included in pre-defined financial literacy
                 initiatives. Dedicated financial literacy event, door
                 to door campaign, financial literacy conducted in
                 school/college are some examples.

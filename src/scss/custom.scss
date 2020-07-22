@@ -268,7 +268,7 @@
   }
 }
 #modal-content {
-  #chart{
+  #logframe-chart{
     .apexcharts-inner {
       transform: translate(90px, 36px);
     }
@@ -585,3 +585,56 @@
 //   color: white;
 //   border-collapse: collapse;
 // }
+
+// .markercircleLegend{
+//   max-width: 100%;
+//   display: flex;
+//   -webkit-box-pack: justify;
+//   justify-content: space-between;
+//   -webkit-box-align: center;
+//   align-items: center;
+//   flex-wrap: wrap;
+//   top: 32%;
+//   position: absolute;
+//   background-color: white;
+// }
+// .pieSquareLegend{
+//   position: absolute;
+//   background: white;
+//   width: 250px;
+//   height: 250px;
+// }
+
+.mapboxgl-ctrl-top-right {
+  top: 40px;
+}
+.pie-mapbox-popup{  
+    width: 144px;
+    max-width: 234px;
+}
+#heatmap-chart{
+  .apexcharts-xaxistooltip-text{
+    min-width: 0 !important;
+  }
+  .apexcharts-xaxistooltip{
+    width: 218px;
+    height: 100px;
+  }
+}
+#modal-content{
+  #heatmap-chart{
+    .apexcharts-xaxistooltip-text{
+      min-width: 0 !important;
+    }
+    .apexcharts-xaxistooltip{
+      width: 218px;
+      height: 100px;
+    }
+  }
+}
+
+.product-process-custom{
+  .literacy-tab-content .graph-view{
+    max-height: calc(100vh - 103px)
+  }
+}

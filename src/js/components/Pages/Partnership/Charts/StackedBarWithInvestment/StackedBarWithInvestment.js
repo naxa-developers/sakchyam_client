@@ -117,7 +117,7 @@ class StackedBarWithInvestment extends Component {
             },
             formatter: value => {
               // console.log(value, 'value');
-              if (value % 1 !== 0) {
+              if (value && value % 1 !== 0) {
                 return convert(value.toFixed(2));
               }
               return convert(value);
@@ -247,6 +247,13 @@ class StackedBarWithInvestment extends Component {
     const {
       partnershipReducer: { barDatasByInvestment },
     } = this.props;
+    const newArray = barDatasByInvestment.series[0].data.map(
+      (e, i) => e + barDatasByInvestment.series[1].data[i],
+    );
+    // console.log(newArray, 'newArray');
+    // console.log(Math.max(...newArray));
+    const maxValue = Math.max(...newArray);
+    // console.log(maxValue, 'maxValue');
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     // const series = [
     //   {
@@ -295,7 +302,7 @@ class StackedBarWithInvestment extends Component {
                 that.props.showBarofInvestmentBudgetBenef ===
                 'investmentFocus'
               ) {
-                alert(clickedBar);
+                // alert(clickedBar);
                 that.props.filterBenefBudgetDataForBarClick(
                   clickedBar,
                 );
@@ -414,7 +421,7 @@ class StackedBarWithInvestment extends Component {
             //   return 80000;
             // }
 
-            return 1000000;
+            return maxValue;
             // global.totalMaxValue = max / 120;
             // return max / 120;
           },
@@ -445,9 +452,9 @@ class StackedBarWithInvestment extends Component {
               // console.log(convert(roundNumber));
               //   console.log(convert(roundNumber));
               if (value % 1 !== 0) {
-                return convert(value.toFixed(2));
+                return convert(value.toFixed(0));
               }
-              return convert(value);
+              return convert(Math.trunc(value.toFixed(0)));
             },
             // formatter: value => {
             //   // console.log(value, 'value');
@@ -476,7 +483,7 @@ class StackedBarWithInvestment extends Component {
             //   return 80000;
             // }
 
-            return 1000000;
+            return maxValue;
             // global.totaMaxValue = max / 35;
             // return global.totalMaxValue;
           },
@@ -497,9 +504,9 @@ class StackedBarWithInvestment extends Component {
             formatter: value => {
               console.log(value, 'value');
               if (value % 1 !== 0) {
-                return convert(value.toFixed(2));
+                return convert(value.toFixed(0));
               }
-              return convert(value);
+              return convert(Math.trunc(value.toFixed(0)));
             },
           },
           //   title: {
@@ -605,7 +612,7 @@ class StackedBarWithInvestment extends Component {
     const { activeModal } = this.props;
     return (
       <div
-        id="stacked_chart"
+        id="stackedWithInvestment"
         // style={
         //   viewDataBy !== 'Leverage'
         //     ? { display: 'block' }
