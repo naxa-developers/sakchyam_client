@@ -612,7 +612,7 @@ class StackedBarWithInvestment extends Component {
     const { activeModal } = this.props;
     return (
       <div
-        id="stacked_chart"
+        id="stackedWithInvestment"
         // style={
         //   viewDataBy !== 'Leverage'
         //     ? { display: 'block' }

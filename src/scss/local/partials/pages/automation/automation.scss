@@ -1280,7 +1280,8 @@
                             @include flex-wrap(nowrap);
                             h5{
                                 @include line-clamp(1);
-                                max-width: 80px;
+                                // max-width: 80px;    
+                                max-width: 141px;
                                 font-family: $avenir-heavy;
                             }
                             .icon-list{
