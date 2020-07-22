@@ -207,26 +207,6 @@ const generateRadarChartData = data => {
     ...new Set(data.map(item => item.partner_type)),
   ];
 
-  const arr = [];
-  data.forEach(item => {
-    const obj = arr.some(
-      x => x.innovation_area === item.innovation_area,
-    );
-    if (!obj) {
-      arr.push({
-        innovation_area: item.innovation_area,
-        partner_type: item.partner_type,
-        partner_name: [item.partner_name],
-      });
-    } else {
-      const innoIndex = arr.findIndex(
-        i => i.innovation_area === item.innovation_area,
-      );
-      if (!arr[innoIndex].partner_name.includes(item.partner_name))
-        arr[innoIndex].partner_name.push(item.partner_name);
-    }
-  });
-
   const series = [];
 
   partnerType.forEach(item => {
@@ -236,15 +216,21 @@ const generateRadarChartData = data => {
     });
   });
 
-  arr.forEach(item => {
-    series.forEach(i => {
-      if (item.partner_type === i.name) {
-        // const index = arr.findIndex(x => x.name === i.partner_type);
-        const innoIndex = innovationArea.findIndex(
-          i => i === item.innovation_area,
-        );
-        i.data[innoIndex] = item.partner_name.length;
-      }
+  function getCount(partner_type, innovation_area) {
+    const arr = data
+      .filter(
+        item =>
+          item.partner_type === partner_type &&
+          item.innovation_area === innovation_area,
+      )
+      .map(item => item.partner_name);
+    const count = [...new Set(arr)].length;
+    return count;
+  }
+
+  series.forEach(i => {
+    innovationArea.forEach((j, index) => {
+      i.data[index] = getCount(i.name, j);
     });
   });
 
@@ -252,6 +238,60 @@ const generateRadarChartData = data => {
 
   return { series, categories };
 };
+
+// const generateRadarChartData = data => {
+//   const innovationArea = [
+//     ...new Set(data.map(item => item.innovation_area)),
+//   ];
+//   const partnerType = [
+//     ...new Set(data.map(item => item.partner_type)),
+//   ];
+
+//   const arr = [];
+//   data.forEach(item => {
+//     const obj = arr.some(
+//       x => x.innovation_area === item.innovation_area,
+//     );
+//     if (!obj) {
+//       arr.push({
+//         innovation_area: item.innovation_area,
+//         partner_type: item.partner_type,
+//         partner_name: [item.partner_name],
+//       });
+//     } else {
+//       const innoIndex = arr.findIndex(
+//         i => i.innovation_area === item.innovation_area,
+//       );
+//       if (!arr[innoIndex].partner_name.includes(item.partner_name))
+//         arr[innoIndex].partner_name.push(item.partner_name);
+//     }
+//   });
+
+//   const series = [];
+
+//   partnerType.forEach(item => {
+//     series.push({
+//       name: item,
+//       data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     });
+//   });
+
+//   arr.forEach(item => {
+//     series.forEach(i => {
+//       if (item.partner_type === i.name) {
+//         // const index = arr.findIndex(x => x.name === i.partner_type);
+//         const innoIndex = innovationArea.findIndex(
+//           i => i === item.innovation_area,
+//         );
+//         i.data[innoIndex] = item.partner_name.length;
+//       }
+//     });
+//   });
+
+//   const categories = innovationArea;
+
+//   return { series, categories };
+// };
 
 // const generateBubbleChartData = data => {
 //   const arr1 = [];

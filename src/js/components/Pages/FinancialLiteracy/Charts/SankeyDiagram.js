@@ -118,14 +118,7 @@ class SankeyDiagram extends Component {
               animate
               motionStiffness={140}
               motionDamping={13}
-              tooltipFormat={
-                value =>
-                  // `${Number(value).toLocaleString('ru-RU', {
-                  //   minimumFractionDigits: 2,
-                  // })} ₽`
-                  numberWithCommas(value)
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
+              tooltipFormat={value => numberWithCommas(value)}
               nodeTooltip={node => (
                 <span style={{ display: 'flex' }}>
                   <div
