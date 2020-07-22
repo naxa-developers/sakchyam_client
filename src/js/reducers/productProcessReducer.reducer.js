@@ -328,7 +328,6 @@ const generateRadarChartData = data => {
 //       }
 //     }
 //   });
-
 //   data.forEach(item => {
 //     const obj = arr2.some(i => i.name === item.product_category);
 //     if (!obj) {
@@ -1040,24 +1039,78 @@ const filterRadarChartData = (state, action) => {
 
 const filterBarChartData = (state, action) => {
   const { allData } = state;
-  const { marketFailure, productName } = action.payload;
+  const {
+    marketFailure,
+    productName,
+    productCategory,
+  } = action.payload;
 
   let filteredData;
 
   // BOTH NOT SELECTED MEANING ALL SELECTED
-  if (marketFailure.length === 0 && productName.length === 0) {
+  if (
+    marketFailure.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData;
   }
   // INNOVATION AREA ONLY SELECTED
-  else if (marketFailure.length > 0 && productName.length === 0) {
+  else if (
+    marketFailure.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData.filter(item =>
       marketFailure.includes(item.market_failure),
     );
   }
   // PARTNER TYPE ONLY SELECTED
-  else if (marketFailure.length === 0 && productName.length > 0) {
+  else if (
+    marketFailure.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData.filter(item =>
       productName.includes(item.product_name),
+    );
+  } else if (
+    marketFailure.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(item =>
+      productCategory.includes(item.product_category),
+    );
+  } else if (
+    marketFailure.length > 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        marketFailure.includes(item.market_failure) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    marketFailure.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    marketFailure.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        marketFailure.includes(item.market_failure) &&
+        productCategory.includes(item.product_category),
     );
   }
   // BOTH SELECTED
@@ -1065,7 +1118,8 @@ const filterBarChartData = (state, action) => {
     filteredData = allData.filter(
       item =>
         marketFailure.includes(item.market_failure) &&
-        productName.includes(item.product_name),
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
     );
   }
 
@@ -1079,24 +1133,164 @@ const filterBarChartData = (state, action) => {
 
 const filterHeatmapChartData = (state, action) => {
   const { allData } = state;
-  const { innovationArea, marketFailure } = action.payload;
+  const {
+    innovationArea,
+    marketFailure,
+    productName,
+    productCategory,
+  } = action.payload;
 
   let filteredData;
 
   // BOTH NOT SELECTED MEANING ALL SELECTED
-  if (innovationArea.length === 0 && marketFailure.length === 0) {
+  if (
+    innovationArea.length === 0 &&
+    marketFailure.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData;
   }
   // INNOVATION AREA ONLY SELECTED
-  else if (innovationArea.length > 0 && marketFailure.length === 0) {
+  else if (
+    innovationArea.length > 0 &&
+    marketFailure.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData.filter(item =>
       innovationArea.includes(item.innovation_area),
     );
   }
-  // PARTNER TYPE ONLY SELECTED
-  else if (innovationArea.length === 0 && marketFailure.length > 0) {
+  // MARKET FAILURE ONLY SELECTED
+  else if (
+    innovationArea.length === 0 &&
+    marketFailure.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData.filter(item =>
       marketFailure.includes(item.market_failure),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    marketFailure.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(item =>
+      productName.includes(item.product_name),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    marketFailure.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(item =>
+      productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    marketFailure.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        marketFailure.includes(item.market_failure),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    marketFailure.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    marketFailure.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    marketFailure.length > 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        marketFailure.includes(item.market_failure) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    marketFailure.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        marketFailure.includes(item.market_failure) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    marketFailure.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    marketFailure.length > 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        marketFailure.includes(item.market_failure) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    marketFailure.length > 0 &&
+    productName.length > 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        marketFailure.includes(item.market_failure) &&
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    marketFailure.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        marketFailure.includes(item.market_failure) &&
+        productCategory.includes(item.product_category),
     );
   }
   // BOTH SELECTED
@@ -1104,7 +1298,9 @@ const filterHeatmapChartData = (state, action) => {
     filteredData = allData.filter(
       item =>
         innovationArea.includes(item.innovation_area) &&
-        marketFailure.includes(item.market_failure),
+        marketFailure.includes(item.market_failure) &&
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
     );
   }
 

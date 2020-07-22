@@ -95,20 +95,28 @@ export const filterRadarChartData = (
 export const filterBarChartData = (
   marketFailure,
   productName,
+  productCategory,
 ) => dispatch => {
   return dispatch({
     type: FILTER_BAR_CHART_DATA,
-    payload: { marketFailure, productName },
+    payload: { marketFailure, productName, productCategory },
   });
 };
 
 export const filterHeatmapChartData = (
   innovationArea,
   marketFailure,
+  productName,
+  productCategory,
 ) => dispatch => {
   return dispatch({
     type: FILTER_HEATMAP_CHART_DATA,
-    payload: { innovationArea, marketFailure },
+    payload: {
+      innovationArea,
+      marketFailure,
+      productName,
+      productCategory,
+    },
   });
 };
 
