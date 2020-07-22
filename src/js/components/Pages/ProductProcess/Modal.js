@@ -93,11 +93,11 @@ const Modal = props => {
               }}
               onClick={
                 // () => downloadPng(selectedChartId, modalHeader)
-                () => downloadPng('popup-body', modalHeader)
+                () => downloadPng('modal-content', modalHeader)
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               onKeyDown={
-                () => downloadPng('popup-body', modalHeader)
+                () => downloadPng('modal-content', modalHeader)
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               role="button"
