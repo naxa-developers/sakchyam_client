@@ -53,7 +53,7 @@ class LeftSideBar extends Component {
               type="button"
               className="common-button is-bg partnership-button"
             >
-              sakchyam partnerships
+              outreach expansion
             </button>
           </div>
           <div className="aside-body">

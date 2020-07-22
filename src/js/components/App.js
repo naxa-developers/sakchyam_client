@@ -16,7 +16,7 @@ import MainAutomation from './Pages/Automation/MainAutomation';
 import FinancialLiteracy from './Pages/FinancialLiteracy/FinancialLiteracy';
 import MainPartnership from './Pages/Partnership/MainPartnership';
 import ProductProcess from './Pages/ProductProcess/ProductProcess';
-import OutreachComponent from './Pages/OutreachExpansion/MainPartnership';
+import OutreachComponent from './Pages/OutreachExpansion';
 
 class App extends Component {
   constructor(props) {
