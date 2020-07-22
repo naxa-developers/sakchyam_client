@@ -1,0 +1,46 @@
+.breadcrumb {
+    @include display-flex(flex);
+    @include justify-content-between;
+    @include align-items-center;
+    padding: 1.5rem 0;
+    border-radius: 0;
+    background-color:$primary-color;
+    text-align: center;
+    margin-top:1rem;
+    h2{
+        font-size: 1.5rem;
+        color:$white-color;
+        margin-bottom:.6125rem;
+    }
+
+    ul {
+        @include display-flex(flex);
+        @include justify-content-center;
+        @include align-items-center;
+
+        li {
+            font-size: 1rem;
+            color: $secondary-color;
+            text-transform: capitalize;
+            font-weight: 500;
+            @include display-flex(flex);
+            @include justify-content-start;
+            @include align-items-center;
+
+            &:not(:last-child) {
+                &::after {
+                    content: 'keyboard_arrow_right';
+                    font-family: 'Material Icons';
+                    margin: 0 .5rem;
+                    text-transform: initial;
+                    display: inline-flex;
+                    color:$white-color;
+                    font-size:1.2rem;
+                }
+            }
+            a{
+                color:$white-color
+            }
+        }
+    }
+}
