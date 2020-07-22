@@ -113,6 +113,7 @@ class MapboxPartnership extends Component {
                 keyRef={this.keyRef}
                 circleLegendRef={this.circleLegendRef}
                 pieSquareLegend={this.pieSquareLegend}
+                handleProvinceClick={this.props.handleProvinceClick}
                 handleFederalClickOnMap={
                   this.props.handleFederalClickOnMap
                 }

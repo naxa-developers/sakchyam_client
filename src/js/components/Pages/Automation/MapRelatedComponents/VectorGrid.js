@@ -86,7 +86,7 @@ class VectorGridComponent extends Component {
         })
 
             // console.log(data, "data new")
-            var max = Math.max.apply(null, Object.values(data));
+            var max = Math.max.apply(null, data);
             var min = 0;//Math.min(...data);
             // console.log(max, "max")
             // console.log(min, "min")

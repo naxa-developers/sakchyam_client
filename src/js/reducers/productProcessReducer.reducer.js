@@ -207,26 +207,6 @@ const generateRadarChartData = data => {
     ...new Set(data.map(item => item.partner_type)),
   ];
 
-  const arr = [];
-  data.forEach(item => {
-    const obj = arr.some(
-      x => x.innovation_area === item.innovation_area,
-    );
-    if (!obj) {
-      arr.push({
-        innovation_area: item.innovation_area,
-        partner_type: item.partner_type,
-        partner_name: [item.partner_name],
-      });
-    } else {
-      const innoIndex = arr.findIndex(
-        i => i.innovation_area === item.innovation_area,
-      );
-      if (!arr[innoIndex].partner_name.includes(item.partner_name))
-        arr[innoIndex].partner_name.push(item.partner_name);
-    }
-  });
-
   const series = [];
 
   partnerType.forEach(item => {
@@ -236,15 +216,21 @@ const generateRadarChartData = data => {
     });
   });
 
-  arr.forEach(item => {
-    series.forEach(i => {
-      if (item.partner_type === i.name) {
-        // const index = arr.findIndex(x => x.name === i.partner_type);
-        const innoIndex = innovationArea.findIndex(
-          i => i === item.innovation_area,
-        );
-        i.data[innoIndex] = item.partner_name.length;
-      }
+  function getCount(partner_type, innovation_area) {
+    const arr = data
+      .filter(
+        item =>
+          item.partner_type === partner_type &&
+          item.innovation_area === innovation_area,
+      )
+      .map(item => item.partner_name);
+    const count = [...new Set(arr)].length;
+    return count;
+  }
+
+  series.forEach(i => {
+    innovationArea.forEach((j, index) => {
+      i.data[index] = getCount(i.name, j);
     });
   });
 
@@ -252,6 +238,60 @@ const generateRadarChartData = data => {
 
   return { series, categories };
 };
+
+// const generateRadarChartData = data => {
+//   const innovationArea = [
+//     ...new Set(data.map(item => item.innovation_area)),
+//   ];
+//   const partnerType = [
+//     ...new Set(data.map(item => item.partner_type)),
+//   ];
+
+//   const arr = [];
+//   data.forEach(item => {
+//     const obj = arr.some(
+//       x => x.innovation_area === item.innovation_area,
+//     );
+//     if (!obj) {
+//       arr.push({
+//         innovation_area: item.innovation_area,
+//         partner_type: item.partner_type,
+//         partner_name: [item.partner_name],
+//       });
+//     } else {
+//       const innoIndex = arr.findIndex(
+//         i => i.innovation_area === item.innovation_area,
+//       );
+//       if (!arr[innoIndex].partner_name.includes(item.partner_name))
+//         arr[innoIndex].partner_name.push(item.partner_name);
+//     }
+//   });
+
+//   const series = [];
+
+//   partnerType.forEach(item => {
+//     series.push({
+//       name: item,
+//       data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     });
+//   });
+
+//   arr.forEach(item => {
+//     series.forEach(i => {
+//       if (item.partner_type === i.name) {
+//         // const index = arr.findIndex(x => x.name === i.partner_type);
+//         const innoIndex = innovationArea.findIndex(
+//           i => i === item.innovation_area,
+//         );
+//         i.data[innoIndex] = item.partner_name.length;
+//       }
+//     });
+//   });
+
+//   const categories = innovationArea;
+
+//   return { series, categories };
+// };
 
 // const generateBubbleChartData = data => {
 //   const arr1 = [];
@@ -632,11 +672,15 @@ const generateHeatMapData = dataa => {
 
 const filterOverviewData = (state, action) => {
   const { allData } = state;
-  const { innovationArea, partnerName, productName } = action.payload;
+  const {
+    innovationArea,
+    partnerName,
+    productName,
+    productCategory,
+    partnerType,
+    marketFailure,
+  } = action.payload;
 
-  // const innovationAreaCount = innovationArea.length;
-  // const partnerCount = partnerName.length;
-  // const productCount = productName.length;
   let filteredData;
 
   if (
@@ -644,15 +688,60 @@ const filterOverviewData = (state, action) => {
     partnerName.length === 0 &&
     productName.length === 0
   ) {
-    filteredData = allData;
+    if (
+      productCategory.length > 0 &&
+      partnerType.length === 0 &&
+      marketFailure.length === 0
+    ) {
+      filteredData = allData.filter(item =>
+        productCategory.includes(item.product_category),
+      );
+    } else if (
+      productCategory.length === 0 &&
+      partnerType.length > 0 &&
+      marketFailure.length === 0
+    ) {
+      filteredData = allData.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+    } else if (
+      productCategory.length === 0 &&
+      partnerType.length === 0 &&
+      marketFailure.length > 0
+    ) {
+      filteredData = allData.filter(item =>
+        marketFailure.includes(item.market_failure),
+      );
+    } else if (
+      productCategory.length > 0 &&
+      partnerType.length > 0 &&
+      marketFailure.length > 0
+    ) {
+      filteredData = allData.filter(
+        item =>
+          productCategory.includes(item.product_category) &&
+          partnerType.includes(item.partner_type) &&
+          marketFailure.includes(item.market_failure),
+      );
+    } else {
+      filteredData = allData;
+    }
   } else if (
     innovationArea.length > 0 &&
     partnerName.length === 0 &&
     productName.length === 0
   ) {
-    filteredData = allData.filter(item =>
-      innovationArea.includes(item.innovation_area),
-    );
+    if (productCategory.length > 0) {
+      filteredData = allData.filter(
+        item =>
+          innovationArea.includes(item.innovation_area) &&
+          productCategory.includes(item.product_category),
+      );
+    } else {
+      filteredData = allData.filter(item =>
+        innovationArea.includes(item.innovation_area),
+      );
+    }
   } else if (
     innovationArea.length === 0 &&
     partnerName.length > 0 &&
@@ -713,10 +802,22 @@ const filterOverviewData = (state, action) => {
   }
 
   const overviewData = getOverviewData(filteredData);
+  let newOverviewData;
+
+  if (overviewData.innovationAreaCount === 0) {
+    newOverviewData = {
+      innovationAreaCount: innovationArea.length,
+      partnerInstitutionCount: partnerName.length,
+      productCount: productName.length,
+    };
+  }
 
   return {
     ...state,
-    overviewData,
+    overviewData:
+      overviewData.innovationAreaCount !== 0
+        ? overviewData
+        : newOverviewData,
   };
 };
 

@@ -280,13 +280,19 @@
         bottom: 100px;
         left: 0;
         
-        .markercircleLegend,.pieSquareLegend{
+        // .markercircleLegend,.pieSquareLegend{
+        .pieSquareLegend{
                 position: initial;
                 display: initial;
                 top:unset;
-                max-width: 200px;
-                width:100%;
-                height: initial;
+                // max-width: 200px;
+                max-width: 322px;
+                width: 322px;
+                // display: flex;
+                height: 232px;
+                max-height: 208px;
+                // width:100%;
+                // height: initial;
                 display: flex;
                 flex-wrap: wrap;
                 background-color: rgba($white-color,.5);
@@ -304,7 +310,7 @@
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
                 -ms-overflow-style: -ms-autohiding-scrollbar;
-                max-height: 200px;
+                // max-height: 200px;
 
                 &::-webkit-scrollbar {
                 width: 6px;

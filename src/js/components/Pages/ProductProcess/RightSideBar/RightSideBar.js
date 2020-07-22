@@ -142,10 +142,11 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Innovation area</h6>
                       <span>
-                        {innovationAreaCount !== 0
+                        {/* {innovationAreaCount !== 0
                           ? innovationAreaCount
-                          : defaultInnovation}
+                          : defaultInnovation} */}
                         {/* {numberWithCommas(totalBeneficiaries)} */}
+                        {innovationAreaCount}
                       </span>
                     </div>
                     <div className="widget-icon">
@@ -158,9 +159,10 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Partner Institutions</h6>
                       <span>
-                        {partnerInstitutionCount !== 0
+                        {/* {partnerInstitutionCount !== 0
                           ? partnerInstitutionCount
-                          : defaultPartner}
+                          : defaultPartner} */}
+                        {partnerInstitutionCount}
                       </span>
                       {/* <span>{partnerCount}</span> */}
                     </div>
@@ -176,9 +178,10 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Products</h6>
                       <span>
-                        {productCount !== 0
+                        {/* {productCount !== 0
                           ? productCount
-                          : defaultProduct}
+                          : defaultProduct} */}
+                        {productCount}
                       </span>
                       {/* <span>{programCount}</span> */}
                     </div>

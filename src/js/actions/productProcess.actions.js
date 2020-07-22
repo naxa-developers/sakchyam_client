@@ -116,6 +116,9 @@ export const filterOverviewDataPP = (
   innovationArea,
   partnerName,
   productName,
+  productCategory,
+  partnerType,
+  marketFailure,
 ) => dispatch => {
   return dispatch({
     type: FILTER_OVERVIEW_DATA_PP,
@@ -123,6 +126,9 @@ export const filterOverviewDataPP = (
       innovationArea,
       partnerName,
       productName,
+      productCategory,
+      partnerType,
+      marketFailure,
     },
   });
 };

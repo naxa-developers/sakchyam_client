@@ -531,6 +531,9 @@ class ProductProcess extends React.Component {
       innovationAreaSelection,
       partnerNameSelection,
       productNameSelection,
+      productCategorySelection,
+      partnerTypeSelection,
+      marketFailureSelection,
     );
   };
 
@@ -643,7 +646,7 @@ class ProductProcess extends React.Component {
 
           <main className="main">
             <div className="main-card map-card" />
-            <div className="main-card literacy-main-card">
+            <div className="main-card literacy-main-card product-process-custom">
               <div className="literacy-tab-content">
                 <div className="literacy-tab-item">
                   {activeModal && (

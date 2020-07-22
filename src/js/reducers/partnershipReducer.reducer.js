@@ -38,6 +38,7 @@ import {
   FILTER_BARDATA_BY_INVESTMENTFOCUS,
   RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
   FILTER_BENEFBUDGET_DATA_FOR_BARCLICK,
+  FILTER_MAPDATA_CHOROPLETH,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -48,22 +49,22 @@ import workerfile from '../WebWorker/worker';
 
 function colorPicker(i) {
   if (i % 25 === 0) return '#91664E';
-  if (i % 25 === 1) return '#13A8BE';
+  if (i % 25 === 1) return '#5D6D7E';
   if (i % 25 === 2) return '#13A8BE'; // #FF6D00
   if (i % 25 === 3) return '#DE2693';
   if (i % 25 === 4) return '#B1B424';
   if (i % 25 === 5) return '#2196F3';
-  if (i % 25 === 6) return '#B1B424'; // #4CE2A7
+  if (i % 25 === 6) return '#12fff4db'; // #4CE2A7
   if (i % 25 === 7) return '#1967A0';
   if (i % 25 === 8) return '#00C853';
   if (i % 25 === 9) return '#E11D3F'; // #651FFF
   if (i % 25 === 10) return '#FF6D00'; // #B71DE1
-  if (i % 25 === 11) return '#DE2693'; // #FFCD00
+  if (i % 25 === 11) return '#16A085'; // #FFCD00
   if (i % 25 === 12) return '#1F8AE4'; // #E11D3F
   if (i % 25 === 13) return '#FF1500';
   if (i % 25 === 14) return '#C5E11D';
   if (i % 25 === 15) return '#CDACF2';
-  if (i % 25 === 16) return 'AFDE0E';
+  if (i % 25 === 16) return '#AFDE0E';
   if (i % 25 === 17) return '#FF5576';
   if (i % 25 === 18) return '#BFEDF5';
   if (i % 25 === 19) return '#E0CBAB';
@@ -1237,6 +1238,14 @@ const resetBarDataByInvestmentFocus = (state, action) => {
     barDatasByInvestment: state.defaultBarDatasByInvestment,
   };
 };
+const filterMapdataChoropleth = (state, action) => {
+  // console.log(action.payload, 'action');
+  // const filteredLeverage = filterLeverageChart(action.payload);
+  return {
+    ...state,
+    filteredMapData: action.payload,
+  };
+};
 const filterTimelineData = (state, action) => {
   const { min, max, fedtype } = action.payload;
   const { partnershipAllData } = state;
@@ -1383,6 +1392,8 @@ export default function(state = initialState, action) {
       return filterLeverageDataOnClick(state, action);
     case FILTER_BENEFBUDGET_DATA_FOR_BARCLICK:
       return filterBenefBudgetDataonClick(state, action);
+    case FILTER_MAPDATA_CHOROPLETH:
+      return filterMapdataChoropleth(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:

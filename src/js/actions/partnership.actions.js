@@ -42,6 +42,7 @@ import {
   GET_BARDATA_BY_INVESTMENTFOCUS,
   FILTER_BARDATA_BY_INVESTMENTFOCUS,
   RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
+  FILTER_MAPDATA_CHOROPLETH,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -1577,6 +1578,78 @@ export const filterOverviewData = (
 
         return dispatch({
           type: FILTER_OVERVIEW_DATA,
+          payload: result.data,
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const filterMapChoropleth = (
+  selectedInvestmentFocus,
+  selectedProjectId,
+  selectedProjectStatus,
+  selectedPartnerType,
+  selectedPartnerId,
+  selectedFederalList,
+) => dispatch => {
+  const investmentFilter =
+    selectedInvestmentFocus.length > 0
+      ? `investment_filter=${selectedInvestmentFocus}`
+      : '';
+  const projectIdFilter =
+    selectedProjectId.length > 0
+      ? `project_filter=${selectedProjectId}`
+      : '';
+  const partnerTypeFilter =
+    selectedPartnerType.length > 0
+      ? `partner_type_filter=${selectedPartnerType}`
+      : '';
+  const projectStatusFilter =
+    selectedProjectStatus.length > 0
+      ? `status=${selectedProjectStatus}`
+      : '';
+  const partnerIdFilter =
+    selectedPartnerId.length > 0
+      ? `partner_filter=${selectedPartnerId}`
+      : '';
+  const federalFilter =
+    selectedFederalList &&
+    selectedFederalList.selectedMunicipality &&
+    selectedFederalList.selectedMunicipality.length > 0
+      ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
+          mun => {
+            return mun.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedDistrict &&
+        selectedFederalList.selectedDistrict.length > 0
+      ? `district_id=${selectedFederalList.selectedDistrict.map(
+          dist => {
+            return dist.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedProvince &&
+        selectedFederalList.selectedProvince.length > 0
+      ? `province_id=${selectedFederalList.selectedProvince.map(
+          prov => {
+            return prov.code;
+          },
+        )}`
+      : 'province_id=0';
+  // console.log(investmentFocusSelection, 'investm');
+  try {
+    axiosInstance
+      .get(
+        `/api/v1/partnership/map-data/?${investmentFilter}&${projectStatusFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
+      )
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: FILTER_MAPDATA_CHOROPLETH,
           payload: result.data,
         });
       });

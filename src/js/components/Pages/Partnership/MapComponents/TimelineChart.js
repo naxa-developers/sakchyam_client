@@ -192,13 +192,13 @@ class TimelineChart extends Component {
     const d = new Date(minDate);
 
     const day = d.getDate();
-    let month = d.getMonth() + 2; // Since getMonth() returns month from 0-11 not 1-12
+    let month = d.getMonth() + 4; // Since getMonth() returns month from 0-11 not 1-12
     let year = d.getFullYear();
     if (month === 13) {
       month = 1;
       year = d.getFullYear() + 1;
     } else {
-      month = d.getMonth() + 2;
+      month = d.getMonth() + 4;
     }
 
     const dateStr = `${year}-${month}-${day}`;
@@ -250,7 +250,7 @@ class TimelineChart extends Component {
         clearInterval(global.timerId);
         this.setState({ playSelected: false });
       }
-    }, 1200);
+    }, 3000);
   };
 
   componentDidUpdate(prevProps, prevStates) {

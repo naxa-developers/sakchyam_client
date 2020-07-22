@@ -49,7 +49,7 @@ class BubbleChart extends React.Component {
       { label: 'Innovation Area', fill: '#e6294a' },
       { label: 'Product Category', fill: '#f2cb3f' },
       { label: 'Partner Type', fill: '#19b5bd' },
-      { label: 'Partners', fill: '#de2693' },
+      { label: 'Product', fill: '#de2693' },
     ];
 
     const getColor = color => colors[color.id];
@@ -178,7 +178,13 @@ class BubbleChart extends React.Component {
             />
           )}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div
+          className="pie-legend"
+          style={{
+            // display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           {bubbleChartData &&
             legendItems.map(legend => {
               return (
