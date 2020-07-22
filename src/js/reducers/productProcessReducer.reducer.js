@@ -632,11 +632,15 @@ const generateHeatMapData = dataa => {
 
 const filterOverviewData = (state, action) => {
   const { allData } = state;
-  const { innovationArea, partnerName, productName } = action.payload;
+  const {
+    innovationArea,
+    partnerName,
+    productName,
+    productCategory,
+    partnerType,
+    marketFailure,
+  } = action.payload;
 
-  // const innovationAreaCount = innovationArea.length;
-  // const partnerCount = partnerName.length;
-  // const productCount = productName.length;
   let filteredData;
 
   if (
@@ -644,15 +648,60 @@ const filterOverviewData = (state, action) => {
     partnerName.length === 0 &&
     productName.length === 0
   ) {
-    filteredData = allData;
+    if (
+      productCategory.length > 0 &&
+      partnerType.length === 0 &&
+      marketFailure.length === 0
+    ) {
+      filteredData = allData.filter(item =>
+        productCategory.includes(item.product_category),
+      );
+    } else if (
+      productCategory.length === 0 &&
+      partnerType.length > 0 &&
+      marketFailure.length === 0
+    ) {
+      filteredData = allData.filter(item =>
+        partnerType.includes(item.partner_type),
+      );
+    } else if (
+      productCategory.length === 0 &&
+      partnerType.length === 0 &&
+      marketFailure.length > 0
+    ) {
+      filteredData = allData.filter(item =>
+        marketFailure.includes(item.market_failure),
+      );
+    } else if (
+      productCategory.length > 0 &&
+      partnerType.length > 0 &&
+      marketFailure.length > 0
+    ) {
+      filteredData = allData.filter(
+        item =>
+          productCategory.includes(item.product_category) &&
+          partnerType.includes(item.partner_type) &&
+          marketFailure.includes(item.market_failure),
+      );
+    } else {
+      filteredData = allData;
+    }
   } else if (
     innovationArea.length > 0 &&
     partnerName.length === 0 &&
     productName.length === 0
   ) {
-    filteredData = allData.filter(item =>
-      innovationArea.includes(item.innovation_area),
-    );
+    if (productCategory.length > 0) {
+      filteredData = allData.filter(
+        item =>
+          innovationArea.includes(item.innovation_area) &&
+          productCategory.includes(item.product_category),
+      );
+    } else {
+      filteredData = allData.filter(item =>
+        innovationArea.includes(item.innovation_area),
+      );
+    }
   } else if (
     innovationArea.length === 0 &&
     partnerName.length > 0 &&
@@ -713,10 +762,22 @@ const filterOverviewData = (state, action) => {
   }
 
   const overviewData = getOverviewData(filteredData);
+  let newOverviewData;
+
+  if (overviewData.innovationAreaCount === 0) {
+    newOverviewData = {
+      innovationAreaCount: innovationArea.length,
+      partnerInstitutionCount: partnerName.length,
+      productCount: productName.length,
+    };
+  }
 
   return {
     ...state,
-    overviewData,
+    overviewData:
+      overviewData.innovationAreaCount !== 0
+        ? overviewData
+        : newOverviewData,
   };
 };
 

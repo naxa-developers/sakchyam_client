@@ -531,6 +531,9 @@ class ProductProcess extends React.Component {
       innovationAreaSelection,
       partnerNameSelection,
       productNameSelection,
+      productCategorySelection,
+      partnerTypeSelection,
+      marketFailureSelection,
     );
   };
 
