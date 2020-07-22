@@ -269,6 +269,11 @@ class TimelineChart extends Component {
 
   render() {
     const { playSelected, minCurrent, maxCurrent, key } = this.state;
+    const d = new Date(maxCurrent);
+
+    const day = d.getDate();
+    const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
+    const year = d.getFullYear();
     // console.log(this.props.minValue, 'minValue render');
     // console.log(this.props.maxValue, 'maxValue Render');
     return (
@@ -277,11 +282,15 @@ class TimelineChart extends Component {
         className="chart-timeline"
         style={{ background: 'white' }}
       >
-        <div className="timeline-date end-data">
+        {/* <div className="timeline-date end-data">
           <time>StartDate:1 January 2019</time>
-        </div>
+        </div> */}
         <div className="timeline-date start-date">
-          <time>EndDate:1 December 2019</time>
+          {/* <time>Date:1 December 2019</time> */}
+          <time>
+            Date:
+            {`${year}-${month}-${day}`}
+          </time>
         </div>
         <a
           onClick={() => {

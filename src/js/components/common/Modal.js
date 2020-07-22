@@ -44,8 +44,12 @@ const Modal = props => {
     header,
     activeModal,
     resetFilters,
+    activeLine1,
+    activeBar1,
+    headerTitle,
   } = props;
   // console.log(component, 'component');
+  console.log(headerTitle, 'headerTitle');
   const selectedChartId =
     selectedModal === 'groupedChart'
       ? 'stacked_chart'
@@ -69,9 +73,7 @@ const Modal = props => {
       ? 'Beneficiaries Reached'
       : selectedModal === 'timeline'
       ? 'Beneficiaries Reached'
-      : selectedModal === 'logframe'
-      ? 'Logframe'
-      : 'sankey-chart';
+      : headerTitle;
   return (
     <div
       // className="popup open"
@@ -207,11 +209,11 @@ const Modal = props => {
                 cursor: 'pointer',
               }}
               onClick={
-                () => downloadPng(selectedChartId, modalHeader)
+                () => props.downloadFn()
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               onKeyDown={
-                () => downloadPng(selectedChartId, modalHeader)
+                () => props.downloadFn()
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               role="button"

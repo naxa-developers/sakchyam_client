@@ -1158,7 +1158,12 @@ class MiddleChartSection extends Component {
       <div className="info-content">
         <Modal
           // visible={selectedModal === 'bar' ? true : false}
-          modalHeader="Sakchyam Investment Focus"
+          headerTitle={
+            filteredDynamicData &&
+            filteredDynamicData[0] &&
+            filteredDynamicData[0].sub_category.title
+          }
+          downloadFn={this.downloadPng}
           // handleShowBarOf={handleShowBarOf}
           // resetFilters={resetFilters}
           selectedModal="logframe"
@@ -1170,6 +1175,8 @@ class MiddleChartSection extends Component {
               return (
                 <>
                   <CustomChart
+                    activeBar1={activeBar1}
+                    activeLine1={activeLine1}
                     activeModal
                     activeDateValues={activeDateValues}
                     activeLayer={activeLayer}
