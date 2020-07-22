@@ -1,0 +1,809 @@
+.automation-wrapper{
+    margin-top:94px;
+    color:$text-color;
+    aside{
+        &.sidebar{
+            position: relative;
+            .sidebar-in{
+                border:1px solid $bg-dark;
+                background-color: $bg-color;
+                @media screen and (max-width:1366px){
+                    padding:0.5rem;
+                }
+                @media #{$breakpoint-ls}{
+                    margin-bottom: 1rem;
+                }
+                .aside-header{
+                    
+                    padding:.6125rem;
+                    padding-top:1rem;
+                    background-color: $white-color;
+                    button{
+                        font-family: $avenir-heavy;
+                        &.is-bg{
+                            background-color: $red-color;
+                            border-radius: 0;
+                            font-size:1.125rem;
+                            font-weight: 900;
+                            text-transform: capitalize;
+                            padding:.25rem 1rem;
+                            margin-bottom: .6125rem;
+                            @media #{$breakpoint-xxl} {
+                                font-size:1rem;
+                            }
+                        }
+                    }
+                    .search-bar{
+                        @include align-items-center;
+                        margin-top:1rem;
+                        
+                        .inline-group{
+                            padding-left: 1rem;
+                            b{
+                                color:$primary-light;
+                                margin-right: .5rem;
+                                font-family: $avenir-heavy;
+                                font-size: .9375rem;
+                            }
+                        }
+                        @media screen and (max-width:1440px){
+                            .search-wrap{
+                                input{
+                                    &.form-control{
+                                        min-width: 120px;
+                                        max-width: 120px;
+                                        min-height: calc(1em + .5rem + 2px);
+                                    }
+                                }
+                                span{
+                                    i{
+                                        font-size: 1.2rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .select-org{
+                        @include display-flex(flex);
+                        @include justify-content-between;
+                        @include align-items-start;
+                        margin-top:10px;
+                        b{
+                            flex-grow: 1;
+                            font-family: $avenir-heavy;
+                            font-size:1.125rem;
+                            span{
+                                margin-right: .25rem;
+                            }
+                        }
+                        span{
+                            i{
+                                color:$orange-color;
+                            }
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            .aside-body{
+                overflow-y:auto;
+                -webkit-overflow-scrolling:touch;
+                -ms-overflow-style:-ms-autohiding-scrollbar;
+                padding:10px;
+                position: relative;
+                @media #{$breakpoint-ls}{
+                    padding:.6125rem 0;
+                }
+                &::-webkit-scrollbar {
+                    width: 6px;
+                    background: $gray-light;
+                    @include radius(4px);
+                }
+              
+                &::-webkit-scrollbar-track {
+                    background-color:$gray-light;
+                    @include radius(4px);
+                }
+              
+                &::-webkit-scrollbar-thumb {
+                    @include radius(4px);
+                    background: $text-color-hover;
+                }
+                
+                ul{
+                    &.table-ranking-list{
+                        li{
+                            @include display-flex(flex);
+                            @include justify-content-start;
+                            @include align-items-start;
+                            background-color: $white-color;
+                            @include radius(5px);
+                            padding:.6125rem;
+                            @include transition(all .5s ease-in-out);
+                            border:1px solid $bg-dark;
+                            padding-top:.775rem;
+                            .organization-icon{
+                                
+                                span{
+                                    width:32px;
+                                    height: 32px;
+                                    @include display-flex(flex);
+                                    @include justify-content-center;
+                                    @include align-items-center;
+                                    @include flex-direction-column(center);
+                                    @include radius(100%);
+                                    color:$white-color;
+                                    text-transform: uppercase;
+                                    font-size: .775rem;
+                                    font-weight: 900;
+                                    @media screen and (max-width:1440px){
+                                        width:28px;
+                                        height: 28px;
+                                        font-size: .6125rem;
+                                    }
+                                    
+                                }
+                                &.is-green{
+                                    span{
+                                        background-color: $dark-green;
+                                    }
+                                }
+                                &.is-red{
+                                    span{
+                                        background-color: $red-color;
+                                    }
+                                }
+                                &.is-yellow{
+                                    span{
+                                        background-color: $secondary-color;
+                                    }
+                                }
+                                &.is-color1{
+                                    span{
+                                        background-color: #e69109;
+                                    }
+                                }
+                               
+                                &.is-color2{
+                                    span{
+                                        background-color: #63a4ff;
+                                    }
+                                }
+                                &.is-color3{
+                                    span{
+                                        background-color: #8629ff;
+                                    }
+                                }
+                                &.is-color4{
+                                    span{
+                                        background-color: #e553ed;
+                                    }
+                                }
+                                &.is-color5{
+                                    span{
+                                        background-color: #f2575f;
+                                    }
+                                }
+                                &.is-color6{
+                                    span{
+                                        background-color: #915e0d;
+                                    }
+                                }
+                                &.is-color7{
+                                    span{
+                                        background-color: #a1970d;
+                                    }
+                                }
+                                &.is-color8{
+                                    span{
+                                        background-color: #4f7d14;
+                                    }
+                                }
+                                &.is-color9{
+                                    span{
+                                        background-color: #07aba1;
+                                    }
+                                }
+                                &.is-color10{
+                                    span{
+                                        background-color: #1d4c8f;
+                                    }
+                                }
+                                &.is-color11{
+                                    span{
+                                        background-color: #491991;
+                                    }
+                                }
+                                &.is-color12{
+                                    span{
+                                        background-color: #610766;
+                                    }
+                                }
+                                &.is-color13{
+                                    span{
+                                        background-color: #6e0208;
+                                    }
+                                }
+                                &.is-color14{
+                                    span{
+                                        background-color: #f07818;
+                                    }
+                                }
+                                &.is-color15{
+                                    span{
+                                        background-color: #7F95D1;
+                                    }
+                                }
+                                &.is-color16{
+                                    span{
+                                        background-color: #FF82A9;
+                                    }
+                                }
+                                &.is-color17{
+                                    span{
+                                        background-color: #FFC0BE;
+                                    }
+                                }
+                                &.is-color18{
+                                    span{
+                                        background-color: #f0e111;
+                                    }
+                                }
+                                &.is-color19{
+                                    span{
+                                        background-color: #9ff035;
+                                    }
+                                }
+                                &.is-color20{
+                                    span{
+                                        background-color: #34ede1;
+                                    }
+                                }
+                            }
+                            .organization-content{
+                                flex-grow: 1;
+                                padding-left: .775rem;
+                                @media screen and (max-width:1440px){
+                                    padding-left: .5rem;
+                                }
+                                h5{
+                                    font-weight: normal;
+                                    font-family: $body-fonts;
+                                    font-size: 1.25rem;
+                                    line-height: 1.3;
+                                    @media screen and (max-width:1440px){
+                                        font-size: 1rem;
+                                    }
+                                }
+                                .icon-list{
+                                    @include display-flex(flex);
+                                    @include justify-content-between;
+                                    @include align-items-center;
+                                    @include flex-wrap(wrap);
+                                    margin:1rem 0 .775rem 0;
+                                    .icons{
+                                        @include display-flex(flex);
+                                        @include justify-content-start;
+                                        @include align-items-center;
+                                        i{
+                                            margin-right: .5rem;
+                                            font-size:1.2rem ;
+                                            color:$primary-light;
+                                            
+                                        }
+                                        b{
+                                            font-family: $avenir-heavy;
+                                            font-size: .9375rem;
+                                            color:$text-color;
+                                        }
+                                        @media screen and (max-width:1440px){
+                                            font-size: .775rem;
+                                            i{
+                                                font-size: 1rem;
+                                            }
+                                        }
+                                    }
+                                }
+                                .orgnization-info{
+                                    @include display-flex(flex);
+                                    @include justify-content-start;
+                                    @include align-items-center;
+                                    @include flex-wrap(wrap);
+                                    a{
+                                        font-size: .875rem;
+                                        color:$primary-light;
+                                        @media screen and (max-width:1440px){
+                                            font-size: .6125rem;
+                                        }
+                                        span{
+                                            font-family: $avenir-heavy;
+                                            margin-left: .5rem;
+                                            font-size: .9375rem;
+                                            color:$text-color;
+                                            @media screen and (max-width:1440px){
+                                                margin-left:.35rem;
+                                            }
+                                        }
+                                        &:not(:last-child){
+                                            &::after{
+                                                content:'|';
+                                                display: inline-flex;
+                                                margin:0 .5rem;
+                                                @media screen and (max-width:1440px){
+                                                    margin:0 .25rem;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            &:not(:last-child){
+                                margin-bottom: .6125rem;
+                            }
+                            &:hover{
+                                background-color: $yellow-light;
+                                cursor: pointer;
+                            }
+                            &.active{
+                                background-color: $yellow-light;
+                                border-color: $orange-color;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                    &.widget-list{
+                        li{
+                            @include display-flex(flex);
+                            @include justify-content-between;
+                            @include align-items-center;
+                            .widget-content{
+                                flex-grow: 1;
+                                padding-right: 1rem;
+                                h6{
+                                    font-size:.9125rem;
+                                    font-family: $avenir-heavy;
+                                }
+                                span{
+                                    color:$red-color;
+                                    font-size:1.5rem;
+                                }
+                                @media screen and (max-width:1440px){
+                                    padding-right: .6125rem;
+                                    h6{
+                                        font-size:.8125rem;
+                                    }
+                                    span{
+                                        font-size:1rem;
+                                    }
+                                }
+                            }
+                            .widget-icon{
+                                span{
+                                    width:40px;
+                                    height: 40px;
+                                    @include display-flex(flex);
+                                    @include justify-content-center;
+                                    @include align-items-center;
+                                    @include flex-direction-column(center);
+                                    @include radius(100%);
+                                    background-color:$white-color;
+                                    
+                                }
+                                i{
+                                    line-height: 1;
+                                    color: #c41c34;
+                                }
+                                @media screen and (max-width:1440px){
+                                    
+                                    span{
+                                        width:32px;
+                                        height: 32px;
+                                    }
+                                    i{
+                                        font-size: 15px;
+                                        color: #c41c34;
+                                    }
+                                }
+                            }
+                            &:not(:last-child){
+                                margin-bottom: 1rem;
+                            }
+                        }
+                    }
+                }
+                .sidebar-widget{
+                    h5{
+                        text-transform: uppercase;
+                        font-size:.875rem;
+                        font-family: $avenir-heavy;
+                        margin-bottom: 1rem;
+                        color:$color-blue;
+                        @media screen and (max-width:1440px){
+                           font-size: .775rem;
+                        }
+                    }
+                    
+                    .apexcharts-canvas{
+                        margin:0 auto;
+                    }
+                    
+                    #normal-chart{
+                        .apexcharts-yaxis-label{
+                                width:32px;
+                                height: 32px;
+                                @include display-flex(flex);
+                                @include justify-content-center;
+                                @include align-items-center;
+                                @include flex-direction-column(center);
+                                @include radius(100%);
+                                background-color:$dark-green;
+                                color:$white-color;
+                        }
+                    }
+                    
+                    .widget-body{
+                        background-color:$bg-color;
+                        border:1px solid $bg-dark;
+                        @include radius(5px);
+                        padding:.6125rem;
+                        &.is-dark{
+                            background-color: $red-light;
+                            ul{
+                                &.widget-list{
+                                    padding-top:1rem;
+                                    margin-top:.6125rem;
+                                    border-top:1px solid $primary-light;
+                                    &.is-clear{
+                                        border:0;
+                                        padding:0;
+                                        margin:0;
+                                    }
+                                }
+                            }
+                        }
+                        li.selectedPartner{
+                            @include display-flex(flex);
+                            @include justify-content-start;
+                            @include align-items-start;
+                            background-color: $white-color;
+                            @include radius(5px);
+                            padding:.6125rem;
+                            @include transition(all .5s ease-in-out);
+                            border:1px solid $bg-dark;
+                            padding-top:.775rem;
+                            .organization-icon{
+                                
+                                span{
+                                    width:32px;
+                                    height: 32px;
+                                    @include display-flex(flex);
+                                    @include justify-content-center;
+                                    @include align-items-center;
+                                    @include flex-direction-column(center);
+                                    @include radius(100%);
+                                    color:$white-color;
+                                    text-transform: uppercase;
+                                    font-size: .775rem;
+                                    font-weight: 900;
+                                    @media screen and (max-width:1440px){
+                                        width:28px;
+                                        height: 28px;
+                                        font-size: .6125rem;
+                                    }
+                                    
+                                }
+                                &.is-green{
+                                    span{
+                                        background-color: $dark-green;
+                                    }
+                                }
+                                &.is-red{
+                                    span{
+                                        background-color: $red-color;
+                                    }
+                                }
+                                &.is-yellow{
+                                    span{
+                                        background-color: $secondary-color;
+                                    }
+                                }
+                                &.is-color1{
+                                    span{
+                                        background-color: #e69109;
+                                    }
+                                }
+                               
+                                &.is-color2{
+                                    span{
+                                        background-color: #63a4ff;
+                                    }
+                                }
+                                &.is-color3{
+                                    span{
+                                        background-color: #8629ff;
+                                    }
+                                }
+                                &.is-color4{
+                                    span{
+                                        background-color: #e553ed;
+                                    }
+                                }
+                                &.is-color5{
+                                    span{
+                                        background-color: #f2575f;
+                                    }
+                                }
+                                &.is-color6{
+                                    span{
+                                        background-color: #915e0d;
+                                    }
+                                }
+                                &.is-color7{
+                                    span{
+                                        background-color: #a1970d;
+                                    }
+                                }
+                                &.is-color8{
+                                    span{
+                                        background-color: #4f7d14;
+                                    }
+                                }
+                                &.is-color9{
+                                    span{
+                                        background-color: #07aba1;
+                                    }
+                                }
+                                &.is-color10{
+                                    span{
+                                        background-color: #1d4c8f;
+                                    }
+                                }
+                                &.is-color11{
+                                    span{
+                                        background-color: #491991;
+                                    }
+                                }
+                                &.is-color12{
+                                    span{
+                                        background-color: #610766;
+                                    }
+                                }
+                                &.is-color13{
+                                    span{
+                                        background-color: #6e0208;
+                                    }
+                                }
+                                &.is-color14{
+                                    span{
+                                        background-color: #f07818;
+                                    }
+                                }
+                                &.is-color15{
+                                    span{
+                                        background-color: #7F95D1;
+                                    }
+                                }
+                                &.is-color16{
+                                    span{
+                                        background-color: #FF82A9;
+                                    }
+                                }
+                                &.is-color17{
+                                    span{
+                                        background-color: #FFC0BE;
+                                    }
+                                }
+                                &.is-color18{
+                                    span{
+                                        background-color: #f0e111;
+                                    }
+                                }
+                                &.is-color19{
+                                    span{
+                                        background-color: #9ff035;
+                                    }
+                                }
+                                &.is-color20{
+                                    span{
+                                        background-color: #34ede1;
+                                    }
+                                }
+                            }
+                            .organization-content{
+                                flex-grow: 1;
+                                padding-left: .775rem;
+                                @media screen and (max-width:1440px){
+                                    padding-left: .5rem;
+                                }
+                                h5{
+                                    font-weight: normal;
+                                    font-family: $body-fonts;
+                                    color:$color-blue;
+                                    font-size: 1rem;
+                                    line-height: 1.3;
+                                    @media screen and (max-width:1440px){
+                                        font-size: 1rem;
+                                    }
+                                }
+                                .icon-list{
+                                    @include display-flex(flex);
+                                    @include justify-content-between;
+                                    @include align-items-center;
+                                    @include flex-wrap(wrap);
+                                    margin:1rem 0 .775rem 0;
+                                    .icons{
+                                        @include display-flex(flex);
+                                        @include justify-content-start;
+                                        @include align-items-center;
+                                        i{
+                                            margin-right: .5rem;
+                                            font-size:1.2rem ;
+                                            color:$primary-light;
+                                            
+                                        }
+                                        b{
+                                            font-family: $avenir-heavy;
+                                            font-size: .9375rem;
+                                            color:$text-color;
+                                        }
+                                        @media screen and (max-width:1440px){
+                                            font-size: .775rem;
+                                            i{
+                                                font-size: 1rem;
+                                            }
+                                        }
+                                    }
+                                }
+                                .orgnization-info{
+                                    @include display-flex(flex);
+                                    @include justify-content-start;
+                                    @include align-items-center;
+                                    @include flex-wrap(wrap);
+                                    a{
+                                        font-size: .875rem;
+                                        color:$primary-light;
+                                        @media screen and (max-width:1440px){
+                                            font-size: .6125rem;
+                                        }
+                                        span{
+                                            font-family: $avenir-heavy;
+                                            margin-left: .5rem;
+                                            font-size: .9375rem;
+                                            color:$text-color;
+                                            @media screen and (max-width:1440px){
+                                                margin-left:.35rem;
+                                            }
+                                        }
+                                        &:not(:last-child){
+                                            &::after{
+                                                content:'|';
+                                                display: inline-flex;
+                                                margin:0 .5rem;
+                                                @media screen and (max-width:1440px){
+                                                    margin:0 .25rem;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            &:not(:last-child){
+                                margin-bottom: .6125rem;
+                            }
+                            &:hover{
+                                background-color: $yellow-light;
+                                cursor: pointer;
+                            }
+                            &.active{
+                                background-color: $yellow-light;
+                                border-color: $orange-color;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                    &:not(:last-child){
+                        margin-bottom: 1.5rem;
+                    }
+                }
+                
+            }
+            .expand-button{
+                position: absolute;
+                top:16px;
+                z-index: 1010;
+                @include transform(translateY(-50%));
+                @media #{$breakpoint-ls}{
+                    display: none;
+                }
+                button{
+                    padding:0;
+                    &.is-clear{
+                        color:$bg-color;
+                        width:34px;
+                        height: 34px;
+                        background-color: $dark-green;
+                        @include display-flex(flex);
+                        @include align-items-center;
+                        @include justify-content-center;
+                        @include flex-direction-column(column);
+                        border:1px solid $border-color;                   i{
+                            margin:0;
+                            font-size: 1rem;
+                        }
+                        i{
+                            font-size: 1.5rem;
+                        }
+                        &:focus{
+                            -webkit-outline:none;
+                            outline: none;
+                            color:$white-color;
+                        }
+                        
+                    }
+                }
+                &.active{
+                    @include transform(rotate(180deg));
+                }
+            }
+            &.left-sidebar{
+                .expand-button{
+                    right:-32px;
+                }
+                .aside-body{
+                    max-height: calc(100vh - 264px);
+                    height: 100vh;
+                    @media #{$breakpoint-ls}{
+                        height: auto;
+                        max-height: initial;
+                        overflow-y: initial;
+                    }
+                }
+            }
+            &.right-sidebar{
+                .apexcharts-toolbar {
+                    max-width: 211px;
+                }
+                .expand-button{
+                    left:-32px;
+                }
+                .sidebar-in{
+                    background-color: $white-color;
+                    .right-sidebar-header{
+                        @include display-flex(flex);
+                        @include justify-content-between;
+                        @include align-items-start;
+                        padding:.6125rem .6125rem 0 .6125rem;
+                        h5{
+                            color:$red-color;
+                            font-family: $body-fonts;
+                        }
+                        a{
+                            color:$primary-light;
+                            font-family:$avenir-heavy;
+                            font-size: .8125rem;
+                        }
+                        
+                    }
+                    .aside-body{
+                        background-color: $white-color;
+                        max-height: calc(100vh - 135px);
+                        height: 100vh;
+                        padding:10px 1rem;
+                        @media #{$breakpoint-ls}{
+                            height: auto;
+                            max-height: initial;
+                            overflow-y: initial;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}
+#motivation-pie .apexcharts-tooltip {
+    background: $white-color;
+    color: $white-color;
+  }
+
+
