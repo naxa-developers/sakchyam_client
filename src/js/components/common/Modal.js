@@ -44,8 +44,11 @@ const Modal = props => {
     header,
     activeModal,
     resetFilters,
+    headerTitle,
   } = props;
   // console.log(component, 'component');
+  console.log(headerTitle, 'headerTitle');
+  console.log(selectedModal, 'selectedModal');
   const selectedChartId =
     selectedModal === 'groupedChart'
       ? 'stacked_chart'
@@ -55,7 +58,11 @@ const Modal = props => {
       ? 'sankey_chart'
       : selectedModal === 'sunburst'
       ? 'sunburst-wrapper'
-      : 'sankey-chart';
+      : selectedModal === 'stackedWithInvestment'
+      ? 'stackedWithInvestment'
+      : selectedModal === 'logframe'
+      ? 'logframe-chart'
+      : '';
   const modalHeader =
     selectedModal === 'sunburst'
       ? 'Sakchyam Investment Focus'
@@ -69,9 +76,11 @@ const Modal = props => {
       ? 'Beneficiaries Reached'
       : selectedModal === 'timeline'
       ? 'Beneficiaries Reached'
+      : selectedModal === 'stackedWithInvestment'
+      ? 'Investment Focus Wise Budget & Beneficiaries Count'
       : selectedModal === 'logframe'
-      ? 'Logframe'
-      : 'sankey-chart';
+      ? headerTitle
+      : '';
   return (
     <div
       // className="popup open"

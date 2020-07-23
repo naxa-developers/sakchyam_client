@@ -220,6 +220,14 @@
                             overflow-y: initial;
                         }
                     }
+                    &.outreach-body{
+                        max-height: calc(100vh - 280px);
+                        @media #{$breakpoint-ls} {
+                            height: auto;
+                            max-height: initial;
+                            overflow-y: initial;
+                        }
+                    }
                 }
             }
 

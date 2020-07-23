@@ -721,7 +721,7 @@ class Choropleth extends Component {
       .on('mouseover', function(d, i) {
         tooltip
           .select('.mapbox-popup-content')
-          .html(`<li>${d.data.type}</li>`)
+          .html(`<li>${d.data.type}</li><li>${d.data.count}<li>`)
           .style('color', 'black');
         // .style('background-color', 'white');
         // tooltip.select('.count').html('Test');
