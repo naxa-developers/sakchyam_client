@@ -141,19 +141,19 @@ const generateTimelineData = data => {
 };
 
 const generateBarChartData = data => {
-  const marketFailure = [
-    ...new Set(data.map(item => item.market_failure)),
+  const innovationArea = [
+    ...new Set(data.map(item => item.innovation_area)),
   ];
   const product = [...new Set(data.map(item => item.product_name))];
 
   const arr = [];
-  for (let i = 0; i < marketFailure.length; i += 1) arr.push(0);
+  for (let i = 0; i < innovationArea.length; i += 1) arr.push(0);
 
   data.forEach(item => {
     product.forEach(x => {
       if (item.product_name === x) {
-        const index = marketFailure.findIndex(
-          i => i === item.market_failure,
+        const index = innovationArea.findIndex(
+          i => i === item.innovation_area,
         );
         arr[index] += 1;
       }
@@ -162,7 +162,7 @@ const generateBarChartData = data => {
 
   return {
     series: [{ data: arr, name: 'No. of products' }],
-    categories: marketFailure,
+    categories: innovationArea,
   };
 };
 
@@ -291,131 +291,6 @@ const generateRadarChartData = data => {
 //   const categories = innovationArea;
 
 //   return { series, categories };
-// };
-
-// const generateBubbleChartData = data => {
-//   const arr1 = [];
-//   const arr2 = [];
-//   const arr3 = [];
-
-//   data.forEach(item => {
-//     const obj = arr1.some(i => i.name === item.innovation_area);
-//     if (!obj) {
-//       arr1.push({
-//         id: 'innovation_area',
-//         name: item.innovation_area,
-//         children: [
-//           {
-//             id: 'product_category',
-//             name: item.product_category,
-//             children: [],
-//           },
-//         ],
-//       });
-//     } else {
-//       const objIndex = arr1.findIndex(
-//         p => p.name === item.innovation_area,
-//       );
-//       const obj1 = arr1[objIndex].children.some(
-//         j => j.name === item.product_category,
-//       );
-//       if (!obj1) {
-//         arr1[objIndex].children.push({
-//           id: 'product_category',
-//           name: item.product_category,
-//           children: [],
-//         });
-//       }
-//     }
-//   });
-//   data.forEach(item => {
-//     const obj = arr2.some(i => i.name === item.product_category);
-//     if (!obj) {
-//       arr2.push({
-//         id: 'product_category',
-//         name: item.product_category,
-//         children: [
-//           {
-//             id: 'partner_type',
-//             name: item.partner_type,
-//           },
-//         ],
-//       });
-//     } else {
-//       const objIndex = arr2.findIndex(
-//         p => p.name === item.product_category,
-//       );
-//       const obj1 = arr2[objIndex].children.some(
-//         j => j.name === item.partner_type,
-//       );
-//       if (!obj1) {
-//         arr2[objIndex].children.push({
-//           id: 'partner_type',
-//           name: item.partner_type,
-//         });
-//       }
-//     }
-//   });
-
-//   data.forEach(item => {
-//     const obj = arr3.some(i => i.name === item.partner_type);
-//     if (!obj) {
-//       arr3.push({
-//         id: 'partner_type',
-//         name: item.partner_type,
-//         children: [
-//           {
-//             id: 'partner_name',
-//             name: item.partner_name,
-//             value: 1,
-//           },
-//         ],
-//       });
-//     } else {
-//       const objIndex = arr3.findIndex(
-//         i => i.name === item.partner_type,
-//       );
-//       const obj1 = arr3[objIndex].children.some(
-//         j => j.name === item.partner_name,
-//       );
-//       // arr3[objIndex].children[0].value += 1;
-//       if (!obj1) {
-//         arr3[objIndex].children.push({
-//           id: 'partner_name',
-//           name: item.partner_name,
-//           value: 1,
-//         });
-//       } else {
-//         const objIndex1 = arr3[objIndex].children.findIndex(
-//           k => k.name === item.partner_name,
-//         );
-//         arr3[objIndex].children[objIndex1].value += 1;
-//       }
-//     }
-//   });
-
-//   const arr = [...arr1];
-
-//   arr.forEach(x => {
-//     arr2.forEach(y => {
-//       arr3.forEach(z => {
-//         x.children.forEach(a => {
-//           y.children.forEach(b => {
-//             if (a.name === y.name && b.name === z.name) {
-//               a.children.push(z);
-//             }
-//           });
-//         });
-//       });
-//     });
-//   });
-
-//   return {
-//     name: 'Product/Process Innovations',
-//     id: 'bubble',
-//     color: '',
-//     children: arr,
-//   };
 // };
 
 const generateBubbleChartData = data => {
@@ -827,6 +702,7 @@ const filterBubbleChartData = (state, action) => {
     productCategory,
     partnerType,
     productName,
+    partnerName,
   } = action.payload;
 
   let filteredData;
@@ -834,19 +710,22 @@ const filterBubbleChartData = (state, action) => {
   const productLen = productCategory.length;
   const partnerTypeLen = partnerType.length;
   const productNLen = productName.length;
+  const partnerNLen = partnerName.length;
 
   if (
     innovationLen === 0 &&
     productLen === 0 &&
     partnerTypeLen === 0 &&
-    productNLen === 0
+    productNLen === 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData;
   } else if (
     innovationLen > 0 &&
     productLen === 0 &&
     partnerTypeLen === 0 &&
-    productNLen === 0
+    productNLen === 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(item =>
       innovationArea.includes(item.innovation_area),
@@ -855,7 +734,8 @@ const filterBubbleChartData = (state, action) => {
     innovationLen === 0 &&
     productLen > 0 &&
     partnerTypeLen === 0 &&
-    productNLen === 0
+    productNLen === 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(item =>
       productCategory.includes(item.product_category),
@@ -864,7 +744,8 @@ const filterBubbleChartData = (state, action) => {
     innovationLen === 0 &&
     productLen === 0 &&
     partnerTypeLen > 0 &&
-    productNLen === 0
+    productNLen === 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(item =>
       partnerType.includes(item.partner_type),
@@ -873,16 +754,28 @@ const filterBubbleChartData = (state, action) => {
     innovationLen === 0 &&
     productLen === 0 &&
     partnerTypeLen === 0 &&
-    productNLen > 0
+    productNLen > 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(item =>
       productName.includes(item.product_name),
     );
   } else if (
+    innovationLen === 0 &&
+    productLen === 0 &&
+    partnerTypeLen === 0 &&
+    productNLen === 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(item =>
+      partnerName.includes(item.partner_name),
+    );
+  } else if (
     innovationLen > 0 &&
     productLen > 0 &&
     partnerTypeLen === 0 &&
-    productNLen === 0
+    productNLen === 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(
       item =>
@@ -893,7 +786,8 @@ const filterBubbleChartData = (state, action) => {
     innovationLen > 0 &&
     productLen === 0 &&
     partnerTypeLen > 0 &&
-    productNLen === 0
+    productNLen === 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(
       item =>
@@ -904,7 +798,8 @@ const filterBubbleChartData = (state, action) => {
     innovationLen > 0 &&
     productLen === 0 &&
     partnerTypeLen === 0 &&
-    productNLen > 0
+    productNLen > 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(
       item =>
@@ -912,10 +807,23 @@ const filterBubbleChartData = (state, action) => {
         productName.includes(item.product_name),
     );
   } else if (
+    innovationLen > 0 &&
+    productLen === 0 &&
+    partnerTypeLen === 0 &&
+    productNLen === 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
     innovationLen === 0 &&
     productLen > 0 &&
     partnerTypeLen > 0 &&
-    productNLen === 0
+    productNLen === 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(
       item =>
@@ -924,9 +832,34 @@ const filterBubbleChartData = (state, action) => {
     );
   } else if (
     innovationLen === 0 &&
+    productLen > 0 &&
+    partnerTypeLen === 0 &&
+    productNLen > 0 &&
+    partnerNLen === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productCategory.includes(item.product_category) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen > 0 &&
+    partnerTypeLen === 0 &&
+    productNLen === 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productCategory.includes(item.product_category) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen === 0 &&
     productLen === 0 &&
     partnerTypeLen > 0 &&
-    productNLen > 0
+    productNLen > 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(
       item =>
@@ -934,10 +867,35 @@ const filterBubbleChartData = (state, action) => {
         productName.includes(item.product_name),
     );
   } else if (
+    innovationLen === 0 &&
+    productLen === 0 &&
+    partnerTypeLen > 0 &&
+    productNLen === 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        partnerType.includes(item.partner_type) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen === 0 &&
+    partnerTypeLen === 0 &&
+    productNLen > 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productName.includes(item.product_name) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
     innovationLen > 0 &&
     productLen > 0 &&
     partnerTypeLen > 0 &&
-    productNLen === 0
+    productNLen === 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(
       item =>
@@ -946,10 +904,37 @@ const filterBubbleChartData = (state, action) => {
         partnerType.includes(item.partner_type),
     );
   } else if (
+    innovationLen > 0 &&
+    productLen === 0 &&
+    partnerTypeLen > 0 &&
+    productNLen > 0 &&
+    partnerNLen === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen === 0 &&
+    partnerTypeLen === 0 &&
+    productNLen > 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productName.includes(item.product_name) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
     innovationLen === 0 &&
     productLen > 0 &&
     partnerTypeLen > 0 &&
-    productNLen > 0
+    productNLen > 0 &&
+    partnerNLen === 0
   ) {
     filteredData = allData.filter(
       item =>
@@ -958,28 +943,100 @@ const filterBubbleChartData = (state, action) => {
         productName.includes(item.product_name),
     );
   } else if (
+    innovationLen === 0 &&
+    productLen > 0 &&
+    partnerTypeLen === 0 &&
+    productNLen > 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productCategory.includes(item.product_category) &&
+        productName.includes(item.product_name) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen === 0 &&
+    partnerTypeLen > 0 &&
+    productNLen > 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen > 0 &&
+    partnerTypeLen > 0 &&
+    productNLen > 0 &&
+    partnerNLen === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productCategory.includes(item.product_category) &&
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationLen === 0 &&
+    productLen > 0 &&
+    partnerTypeLen > 0 &&
+    productNLen > 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productCategory.includes(item.product_category) &&
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
     innovationLen > 0 &&
     productLen === 0 &&
     partnerTypeLen > 0 &&
-    productNLen > 0
+    productNLen > 0 &&
+    partnerNLen > 0
   ) {
     filteredData = allData.filter(
       item =>
         innovationArea.includes(item.innovation_area) &&
         partnerType.includes(item.partner_type) &&
-        productName.includes(item.product_name),
+        productName.includes(item.product_name) &&
+        partnerName.includes(item.partner_name),
     );
   } else if (
     innovationLen > 0 &&
     productLen > 0 &&
     partnerTypeLen === 0 &&
-    productNLen > 0
+    productNLen > 0 &&
+    partnerNLen > 0
   ) {
     filteredData = allData.filter(
       item =>
         innovationArea.includes(item.innovation_area) &&
         productCategory.includes(item.product_category) &&
-        productName.includes(item.product_name),
+        productName.includes(item.product_name) &&
+        partnerName.includes(item.partner_name),
+    );
+  } else if (
+    innovationLen > 0 &&
+    productLen > 0 &&
+    partnerTypeLen > 0 &&
+    productNLen === 0 &&
+    partnerNLen > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productCategory.includes(item.product_category) &&
+        partnerType.includes(item.partner_type) &&
+        partnerName.includes(item.partner_name),
     );
   } else {
     filteredData = allData.filter(
@@ -987,7 +1044,8 @@ const filterBubbleChartData = (state, action) => {
         innovationArea.includes(item.innovation_area) &&
         productCategory.includes(item.product_category) &&
         partnerType.includes(item.partner_type) &&
-        productName.includes(item.product_name),
+        productName.includes(item.product_name) &&
+        partnerName.includes(item.partner_name),
     );
   }
 
@@ -1000,24 +1058,163 @@ const filterBubbleChartData = (state, action) => {
 
 const filterRadarChartData = (state, action) => {
   const { allData } = state;
-  const { innovationArea, partnerType } = action.payload;
+  const {
+    innovationArea,
+    partnerType,
+    productName,
+    productCategory,
+  } = action.payload;
 
   let filteredData;
 
   // BOTH NOT SELECTED MEANING ALL SELECTED
-  if (innovationArea.length === 0 && partnerType.length === 0) {
+  if (
+    innovationArea.length === 0 &&
+    partnerType.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData;
   }
   // INNOVATION AREA ONLY SELECTED
-  else if (innovationArea.length > 0 && partnerType.length === 0) {
+  else if (
+    innovationArea.length > 0 &&
+    partnerType.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData.filter(item =>
       innovationArea.includes(item.innovation_area),
     );
-  }
-  // PARTNER TYPE ONLY SELECTED
-  else if (innovationArea.length === 0 && partnerType.length > 0) {
+  } else if (
+    innovationArea.length === 0 &&
+    partnerType.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
     filteredData = allData.filter(item =>
       partnerType.includes(item.partner_type),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    partnerType.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(item =>
+      productName.includes(item.product_name),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    partnerType.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(item =>
+      productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    partnerType.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        partnerType.includes(item.partner_type),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    partnerType.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    partnerType.length === 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    partnerType.length > 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    partnerType.length > 0 &&
+    productName.length === 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        partnerType.includes(item.partner_type) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    partnerType.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    partnerType.length > 0 &&
+    productName.length > 0 &&
+    productCategory.length === 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name),
+    );
+  } else if (
+    innovationArea.length === 0 &&
+    partnerType.length > 0 &&
+    productName.length > 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
+    );
+  } else if (
+    innovationArea.length > 0 &&
+    partnerType.length === 0 &&
+    productName.length > 0 &&
+    productCategory.length > 0
+  ) {
+    filteredData = allData.filter(
+      item =>
+        innovationArea.includes(item.innovation_area) &&
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
     );
   }
   // BOTH SELECTED
@@ -1025,7 +1222,9 @@ const filterRadarChartData = (state, action) => {
     filteredData = allData.filter(
       item =>
         innovationArea.includes(item.innovation_area) &&
-        partnerType.includes(item.partner_type),
+        partnerType.includes(item.partner_type) &&
+        productName.includes(item.product_name) &&
+        productCategory.includes(item.product_category),
     );
   }
 
@@ -1040,7 +1239,7 @@ const filterRadarChartData = (state, action) => {
 const filterBarChartData = (state, action) => {
   const { allData } = state;
   const {
-    marketFailure,
+    innovationArea,
     productName,
     productCategory,
   } = action.payload;
@@ -1049,7 +1248,7 @@ const filterBarChartData = (state, action) => {
 
   // BOTH NOT SELECTED MEANING ALL SELECTED
   if (
-    marketFailure.length === 0 &&
+    innovationArea.length === 0 &&
     productName.length === 0 &&
     productCategory.length === 0
   ) {
@@ -1057,17 +1256,17 @@ const filterBarChartData = (state, action) => {
   }
   // INNOVATION AREA ONLY SELECTED
   else if (
-    marketFailure.length > 0 &&
+    innovationArea.length > 0 &&
     productName.length === 0 &&
     productCategory.length === 0
   ) {
     filteredData = allData.filter(item =>
-      marketFailure.includes(item.market_failure),
+      innovationArea.includes(item.innovation_area),
     );
   }
   // PARTNER TYPE ONLY SELECTED
   else if (
-    marketFailure.length === 0 &&
+    innovationArea.length === 0 &&
     productName.length > 0 &&
     productCategory.length === 0
   ) {
@@ -1075,7 +1274,7 @@ const filterBarChartData = (state, action) => {
       productName.includes(item.product_name),
     );
   } else if (
-    marketFailure.length === 0 &&
+    innovationArea.length === 0 &&
     productName.length === 0 &&
     productCategory.length > 0
   ) {
@@ -1083,17 +1282,17 @@ const filterBarChartData = (state, action) => {
       productCategory.includes(item.product_category),
     );
   } else if (
-    marketFailure.length > 0 &&
+    innovationArea.length > 0 &&
     productName.length > 0 &&
     productCategory.length === 0
   ) {
     filteredData = allData.filter(
       item =>
-        marketFailure.includes(item.market_failure) &&
+        innovationArea.includes(item.innovation_area) &&
         productName.includes(item.product_name),
     );
   } else if (
-    marketFailure.length === 0 &&
+    innovationArea.length === 0 &&
     productName.length > 0 &&
     productCategory.length > 0
   ) {
@@ -1103,13 +1302,13 @@ const filterBarChartData = (state, action) => {
         productCategory.includes(item.product_category),
     );
   } else if (
-    marketFailure.length > 0 &&
+    innovationArea.length > 0 &&
     productName.length === 0 &&
     productCategory.length > 0
   ) {
     filteredData = allData.filter(
       item =>
-        marketFailure.includes(item.market_failure) &&
+        innovationArea.includes(item.innovation_area) &&
         productCategory.includes(item.product_category),
     );
   }
@@ -1117,7 +1316,7 @@ const filterBarChartData = (state, action) => {
   else {
     filteredData = allData.filter(
       item =>
-        marketFailure.includes(item.market_failure) &&
+        innovationArea.includes(item.innovation_area) &&
         productName.includes(item.product_name) &&
         productCategory.includes(item.product_category),
     );
