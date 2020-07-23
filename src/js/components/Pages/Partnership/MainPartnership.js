@@ -381,11 +381,11 @@ class MainPartnership extends Component {
             .join('&');
           map.setFilter('vector-tile-fill', [
             'in',
-            ['get', 'id'],
+            ['get', 'code'],
             [
               'literal',
               selectedMunicipality.map(fed => {
-                return fed.code;
+                return fed.code.toString();
               }),
             ],
           ]);
@@ -483,11 +483,11 @@ class MainPartnership extends Component {
             .join('&');
           map.setFilter('vector-tile-fill', [
             'in',
-            ['get', 'id'],
+            ['get', 'code'],
             [
               'literal',
               selectedDistrict.map(fed => {
-                return fed.code;
+                return fed.code.toString();
               }),
             ],
           ]);
@@ -518,11 +518,11 @@ class MainPartnership extends Component {
             .join('&');
           map.setFilter('vector-tile-fill', [
             'in',
-            ['get', 'id'],
+            ['get', 'code'],
             [
               'literal',
               selectedProvince.map(fed => {
-                return fed.code;
+                return fed.code.toString();
               }),
             ],
           ]);
@@ -561,11 +561,11 @@ class MainPartnership extends Component {
             .join('&');
           map.setFilter('vector-tile-fill', [
             'in',
-            ['get', 'id'],
+            ['get', 'code'],
             [
               'literal',
               selectedProvince.map(fed => {
-                return fed.code;
+                return fed.code.toString();
               }),
             ],
           ]);
@@ -1087,7 +1087,7 @@ class MainPartnership extends Component {
 
   resetFilters = () => {
     console.log('resertfiles');
-    const { mapViewBy, activeView } = this.state;
+    const { mapViewBy, activeView, map } = this.state;
     const that = this;
     this.resetLeftSideBarSelection();
     if (activeView === 'visualization') {
@@ -1116,6 +1116,7 @@ class MainPartnership extends Component {
       });
       const extendedValue = extendBounds(combinedBbox);
       this.state.map.fitBounds(extendedValue);
+      map.setFilter('vector-tile-fill', null);
     }
   };
 

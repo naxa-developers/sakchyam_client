@@ -1081,7 +1081,7 @@ class Choropleth extends Component {
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
-        // console.log(e);
+        console.log(e.features[0]);
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
             return (
