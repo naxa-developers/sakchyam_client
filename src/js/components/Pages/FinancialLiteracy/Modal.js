@@ -30,7 +30,8 @@ const downloadPng = (chartid, filename) => {
         saveAs(blob, `${filename}.png`);
       });
     });
-  }, 500);
+    // }, 500);
+  }, 10);
 
   // this.setState({ downloadActive: false });
 };
@@ -101,7 +102,7 @@ const Modal = props => {
                 // borderColor: 'lightgrey',
                 cursor: 'pointer',
               }}
-              onClick={() => downloadPng(selectedChartId, header)}
+              onClick={() => downloadPng('modal-content', header)}
             >
               <img src={DownloadIcon} alt="open" />
             </span>

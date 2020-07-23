@@ -70,6 +70,7 @@ export const filterBubbleChartData = (
   productCategory,
   partnerType,
   productName,
+  partnerName,
 ) => dispatch => {
   return dispatch({
     type: FILTER_BUBBLE_CHART_DATA,
@@ -78,6 +79,7 @@ export const filterBubbleChartData = (
       productCategory,
       partnerType,
       productName,
+      partnerName,
     },
   });
 };
@@ -85,30 +87,46 @@ export const filterBubbleChartData = (
 export const filterRadarChartData = (
   innovationArea,
   partnerType,
+  productName,
+  productCategory,
 ) => dispatch => {
   return dispatch({
     type: FILTER_RADAR_CHART_DATA,
-    payload: { innovationArea, partnerType },
+    payload: {
+      innovationArea,
+      partnerType,
+      productName,
+      productCategory,
+    },
   });
 };
 
 export const filterBarChartData = (
-  marketFailure,
+  // marketFailure,
+  innovationArea,
   productName,
+  productCategory,
 ) => dispatch => {
   return dispatch({
     type: FILTER_BAR_CHART_DATA,
-    payload: { marketFailure, productName },
+    payload: { innovationArea, productName, productCategory },
   });
 };
 
 export const filterHeatmapChartData = (
   innovationArea,
   marketFailure,
+  productName,
+  productCategory,
 ) => dispatch => {
   return dispatch({
     type: FILTER_HEATMAP_CHART_DATA,
-    payload: { innovationArea, marketFailure },
+    payload: {
+      innovationArea,
+      marketFailure,
+      productName,
+      productCategory,
+    },
   });
 };
 

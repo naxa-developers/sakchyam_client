@@ -514,18 +514,25 @@ class ProductProcess extends React.Component {
       partnerTypeSelection,
       // partnerNameSelection,
       productNameSelection,
+      partnerNameSelection,
     );
     this.props.filterRadarChartData(
       innovationAreaSelection,
       partnerTypeSelection,
+      productNameSelection,
+      productCategorySelection,
     );
     this.props.filterBarChartData(
-      marketFailureSelection,
+      // marketFailureSelection,
+      innovationAreaSelection,
       productNameSelection,
+      productCategorySelection,
     );
     this.props.filterHeatmapChartData(
       innovationAreaSelection,
       marketFailureSelection,
+      productNameSelection,
+      productCategorySelection,
     );
     this.props.filterOverviewDataPP(
       innovationAreaSelection,

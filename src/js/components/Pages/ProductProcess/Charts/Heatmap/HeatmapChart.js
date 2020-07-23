@@ -195,74 +195,110 @@ class HeatmapChart extends React.Component {
             ranges: [
               {
                 from: 0,
-                to: 1,
-                name: '',
-                color: '#F9EBEA',
+                to: 0.9,
+                name: '0 - 1',
+                color: '#F2D7D5',
               },
               {
                 from: 1,
                 to: 2,
                 name: '',
-                color: '#E6B0AA',
-              },
-              {
-                from: 2,
-                to: 3,
-                name: '',
                 color: '#D98880',
               },
+              // {
+              //   from: 2,
+              //   to: 3,
+              //   name: '',
+              //   color: '#CD6155',
+              // },
               {
-                from: 4,
-                to: 5,
+                from: 3,
+                to: 4,
                 name: '',
                 color: '#C0392B',
               },
               {
-                from: 6,
+                from: 5,
                 to: 7,
                 name: '',
                 color: '#A93226',
-                // color: '',
               },
               {
                 from: 8,
-                to: 9,
+                to: 12,
                 name: '',
-                color: '#7B241C',
+                color: '#641E16',
               },
               // {
               //   from: 0,
               //   to: 1,
               //   name: '',
-              //   color: '',
+              //   color: '#F9EBEA',
               // },
-
               // {
-              //   from: 0,
-              //   to: 1,
-              //   name: 'low',
-              //   color: '#00A100', // green
-              //   // color: '#B1B424', // green
+              //   from: 1,
+              //   to: 2,
+              //   name: '',
+              //   color: '#E6B0AA',
               // },
               // {
               //   from: 2,
+              //   to: 3,
+              //   name: '',
+              //   color: '#D98880',
+              // },
+              // {
+              //   from: 4,
               //   to: 5,
-              //   name: 'medium',
-              //   color: '#128FD9', // blue // #B1B424
-              //   // color: '#007078', // blue // #B1B424
+              //   name: '',
+              //   color: '#C0392B',
               // },
               // {
               //   from: 6,
-              //   to: 15,
-              //   name: 'high',
-              //   color: '#FFB200',
+              //   to: 7,
+              //   name: '',
+              //   color: '#A93226',
+              //   // color: '',
               // },
               // {
               //   from: 8,
-              //   to: 15,
-              //   name: 'extreme',
-              //   color: '#FF0000',
+              //   to: 9,
+              //   name: '',
+              //   color: '#7B241C',
               // },
+              // // {
+              // //   from: 0,
+              // //   to: 1,
+              // //   name: '',
+              // //   color: '',
+              // // },
+
+              // // {
+              // //   from: 0,
+              // //   to: 1,
+              // //   name: 'low',
+              // //   color: '#00A100', // green
+              // //   // color: '#B1B424', // green
+              // // },
+              // // {
+              // //   from: 2,
+              // //   to: 5,
+              // //   name: 'medium',
+              // //   color: '#128FD9', // blue // #B1B424
+              // //   // color: '#007078', // blue // #B1B424
+              // // },
+              // // {
+              // //   from: 6,
+              // //   to: 15,
+              // //   name: 'high',
+              // //   color: '#FFB200',
+              // // },
+              // // {
+              // //   from: 8,
+              // //   to: 15,
+              // //   name: 'extreme',
+              // //   color: '#FF0000',
+              // // },
             ],
           },
         },
@@ -313,7 +349,8 @@ class HeatmapChart extends React.Component {
         },
       },
       legend: {
-        show: false,
+        // show: false,
+        show: true,
       },
       tooltip: {
         y: {
