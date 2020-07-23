@@ -140,24 +140,52 @@ const generateTimelineData = data => {
   return arr;
 };
 
+// const generateBarChartData = data => {
+//   const innovationArea = [
+//     ...new Set(data.map(item => item.innovation_area)),
+//   ];
+//   const product = [...new Set(data.map(item => item.product_name))];
+
+//   const arr = [];
+//   for (let i = 0; i < innovationArea.length; i += 1) arr.push(0);
+
+//   data.forEach(item => {
+//     product.forEach(x => {
+//       if (item.product_name === x) {
+//         const index = innovationArea.findIndex(
+//           i => i === item.innovation_area,
+//         );
+//         arr[index] += 1;
+//       }
+//     });
+//   });
+
+//   return {
+//     series: [{ data: arr, name: 'No. of products' }],
+//     categories: innovationArea,
+//   };
+// };
+
 const generateBarChartData = data => {
   const innovationArea = [
     ...new Set(data.map(item => item.innovation_area)),
   ];
-  const product = [...new Set(data.map(item => item.product_name))];
+  // const product = [...new Set(data.map(item => item.product_name))];
 
   const arr = [];
-  for (let i = 0; i < innovationArea.length; i += 1) arr.push(0);
 
-  data.forEach(item => {
-    product.forEach(x => {
-      if (item.product_name === x) {
-        const index = innovationArea.findIndex(
-          i => i === item.innovation_area,
-        );
-        arr[index] += 1;
-      }
-    });
+  // innovationArea.forEach(() => arr.push(0));
+
+  function getCount(innovation_area) {
+    const arr = data
+      .filter(item => item.innovation_area === innovation_area)
+      .map(item => item.product_name);
+    const count = [...new Set(arr)].length;
+    return count;
+  }
+
+  innovationArea.forEach((i, index) => {
+    arr[index] = getCount(i);
   });
 
   return {
