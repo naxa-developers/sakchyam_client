@@ -31,7 +31,7 @@ import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 const chartTitles = {
   bubbleTitle: 'Product/Process Innovations',
   radarTitle: 'Number of products in Innovation Area by Partner Type',
-  barTitle: 'Number of products by Market Failure',
+  barTitle: 'Number of products by Innovation Area',
   heatmapTitle:
     'Number of products by Market Failure and Innovation Area',
 };

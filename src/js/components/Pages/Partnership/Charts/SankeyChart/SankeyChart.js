@@ -74,6 +74,7 @@ class SankeyChart extends Component {
             //     : 1400
             // }
             // width={780}
+            label="name"
             align="justify"
             colors={{ scheme: 'nivo' }}
             // colors={sankeyChartData}

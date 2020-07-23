@@ -43,7 +43,7 @@ import {
 import province from '../../data/province.json';
 import district from '../../data/district.json';
 import municipality from '../../data/municipality.json';
-
+// import demoWorker from '../WebWorker/demo1-hello-world';
 import WebWorker from '../WebWorker/webWorker';
 import workerfile from '../WebWorker/worker';
 
@@ -185,6 +185,36 @@ const initialState = {
 //   name: 'PRODUCT D',
 //   data: [21, 7, 25, 13, 22, 8],
 // },
+
+function generateSankeyChartData(data) {
+  const nodes = [];
+  const links = [];
+
+  data.nodes.forEach((item, index) => {
+    nodes.push({
+      id: index + 1,
+      name: item.id,
+    });
+  });
+
+  function getID(name) {
+    let id;
+    nodes.forEach(item => {
+      if (item.name === name) id = item.id;
+    });
+    return id;
+  }
+
+  data.links.forEach(item => {
+    links.push({
+      source: getID(item.source),
+      target: getID(item.target),
+      value: item.value,
+    });
+  });
+
+  return { nodes, links };
+}
 
 const filterBeneficiaryBarChart = datas => {
   const checkProvince = datas.some(i => i.name.includes('Province'));
@@ -1073,17 +1103,24 @@ const getMunicipalityData = (state, action) => {
     isDataFetched: true,
   };
 };
+
 const getSankeyChartData = (state, action) => {
+  const data = action.payload;
+  const sankeyChartData = generateSankeyChartData(data);
+
   return {
     ...state,
-    sankeyChartData: action.payload,
-    defaultSankeyChartData: action.payload,
+    sankeyChartData,
+    defaultSankeyChartData: sankeyChartData,
   };
 };
 const filterSankeyChartData = (state, action) => {
+  const data = action.payload;
+  const sankeyChartData = generateSankeyChartData(data);
+
   return {
     ...state,
-    sankeyChartData: action.payload,
+    sankeyChartData,
   };
 };
 const getOverviewData = (state, action) => {
@@ -1277,6 +1314,16 @@ const filterTimelineData = (state, action) => {
       return true;
     });
   }
+
+  // const worker = new Worker(demoWorker);
+
+  // // Receive messages from postMessage() calls in the Worker
+  // worker.onmessage = evt => {
+  //   console.log(`Message posted from webworker: ${evt.data}`);
+  // };
+
+  // // Pass data to the WebWorker
+  // worker.postMessage({ data: '123456789' });
   // const workers = new WebWorker(workerfile);
 
   // workers.postMessage({
