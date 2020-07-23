@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -19,13 +20,38 @@ class BubbleChart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      tooltipData: [],
+    };
+  }
+
+  generateTooltipData(data) {
+    const arr = [];
+    data.forEach(item => {
+      const obj = arr.some(x => x.product === item.product_name);
+      if (!obj)
+        arr.push({
+          product: item.product_name,
+          partner: [item.partner_name],
+        });
+      else {
+        const objIndex = arr.findIndex(
+          i => i.product === item.product_name,
+        );
+        arr[objIndex].partner.push(item.partner_name);
+      }
+    });
+
+    this.setState({ tooltipData: arr });
   }
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      productProcessReducer: { bubbleChartData },
+      productProcessReducer: { bubbleChartData, allData },
     } = this.props;
+
+    if (prevProps.productProcessReducer.allData !== allData)
+      this.generateTooltipData(allData);
   }
 
   render() {
@@ -165,6 +191,16 @@ class BubbleChart extends React.Component {
                   />
                   <strong>
                     {id}: {value}
+                    {/* {this.state.tooltipData.map(item => {
+                      if (id === item.product) {
+                        console.log('true');
+                        return true;
+                      }
+                      console.log('false');
+                      return false;
+                    })
+                      ? `${id}: ${value}`
+                      : 'hi'} */}
                   </strong>
                 </span>
               )}
@@ -186,6 +222,7 @@ class BubbleChart extends React.Component {
           }}
         >
           {bubbleChartData &&
+            bubbleChartData.children.length > 0 &&
             legendItems.map(legend => {
               return (
                 <BubbleLegend

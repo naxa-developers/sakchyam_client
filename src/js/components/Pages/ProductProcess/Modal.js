@@ -92,11 +92,12 @@ const Modal = props => {
                 cursor: 'pointer',
               }}
               onClick={
-                () => downloadPng(selectedChartId, modalHeader)
+                // () => downloadPng(selectedChartId, modalHeader)
+                () => downloadPng('modal-content', modalHeader)
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               onKeyDown={
-                () => downloadPng(selectedChartId, modalHeader)
+                () => downloadPng('modal-content', modalHeader)
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               role="button"

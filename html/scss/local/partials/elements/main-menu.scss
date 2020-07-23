@@ -1,0 +1,305 @@
+.bottom-header {
+    border-top: 1px solid $bg-color;
+    position: relative;
+}
+
+nav {
+
+
+    &.main-navigation {
+        
+
+        ul {
+
+            &.main-menu {
+                @include display-flex(flex);
+                @include justify-content-start;
+                @include align-items-center;
+
+                li {
+                    position: relative;
+                    padding: 1rem 1.5rem;
+                    @media #{$breakpoint-xl} {
+                        padding:1rem;
+                    }
+                    a {
+                        color: $primary-color;
+                        display: block;
+                        text-transform: uppercase;
+                        font-size: 1rem;
+                        text-transform: uppercase;
+                        @include transition(all .3s ease-in-out);
+                        font-weight: 600;
+                        @media #{$breakpoint-xl} {
+                            font-size:.875em;
+                        }
+
+                        @media #{$breakpoint-pt} {
+                            padding: 0.5rem 1rem;
+                        }
+                    }
+
+                    &.menu-item-current,
+                    &:hover {
+                        a {
+                            color: $secondary-color;
+                        }
+                    }
+                    
+                    &::after{
+                        content:'';
+                        width:0;
+                        position: absolute;
+                        left:0;
+                        right:0;
+                        bottom:0;
+                        visibility: hidden;
+                        opacity: 0;
+                        height: 2px;
+                        @include radius(5px);
+                        background-color: $secondary-color;
+                        @include transition(width .5s ease-in-out);
+                    }
+                    &.menu-item-current,
+                    &:hover{
+                        &::after{
+                            width:100%;
+                            visibility: visible;
+                            opacity: 1;
+                        }
+                        
+                    }
+                    &.menu-item-has-children{
+                        a{
+                            &::after{
+                                content:'expand_more';
+                                font-family: 'Material Icons';
+                                position: absolute;
+                                right: 0;
+                                top:18%;
+                                text-transform: initial;
+                                font-size: 1.4rem;
+                            }
+                           
+                        }
+
+                        ul{
+                            position: absolute;
+                            top:150%;
+                            left:0;
+                            min-width: 200px;
+                            font-size: 1rem;
+                            @include transition(.5s ease-in-out);
+                            opacity: 0;
+                            visibility: hidden;
+                            text-transform: capitalize;
+                            @include box-shadow(0 5px 15px rgba($primary-color , .7));
+                            z-index: 999;
+                            background-color: $white-color;
+                            li{
+                                border-bottom: 1px solid $bg-color;
+                                padding: .5rem 1rem;
+                                a{
+                                    font-size: 1rem;
+                                    text-transform: capitalize;
+                                }
+                            }
+                        }
+                        &:hover{
+                            ul{
+                                top:100%;
+                                visibility: visible;
+                                opacity: 1;
+                                li{
+                                    a{
+                                        color:$primary-color;
+                                        &::after{
+                                            display: none;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                @media #{$breakpoint-xl} {
+                    position: fixed;
+                    height: 100%;
+                    max-width: 280px;
+                    padding: 15px;
+                    width: 100%;
+                    background-color: $primary-color;
+                    z-index: 999;
+                    top: 0;
+                    right: -100%;
+                    left: auto;
+                    bottom: 0;
+                    text-align: left;
+                    transform: none;
+                    transition: none;
+                    display: inline;
+                    justify-content: initial;
+                    align-items: initial;
+                    @include transition(right 500ms linear);
+
+                    li {
+                        display: block;
+                        width: 100%;
+                        padding:0;
+
+                        a {
+                            display: block;
+                            padding:.5rem 1rem;
+                            text-transform: uppercase;
+                            position: relative;
+                            color: $white-color;
+                            
+
+                        }
+
+                        &.menu-item-current,
+                        &:hover {
+                            a {
+                                color: $white-color;
+                            }
+                        }
+
+                        &.menu-item-has-children {
+                            position: relative;
+
+                            a {
+                                &::after {
+                                    display: none;
+                                }
+                            }
+
+                            ul {
+                                position: inherit;
+                                width: 100%;
+                                padding: 0 15px;
+                                border: none;
+                                z-index: 99;
+                                display: inherit;
+                                text-align: left;
+                                background-color: transparent;
+                                visibility: visible;
+                                opacity: 1;
+                                transform: none;
+                                display: none;
+
+                                li {
+                                    display: block;
+                                    position: relative;
+
+                                    a {
+                                        border-right: none;
+                                        padding: 8px 0;
+                                        display: block;
+                                        border-bottom: 1px solid rgba($white-color, 0.4);
+                                        text-transform: capitalize;
+                                        color: $white-color;
+                                    }
+
+                                    &.menu-item-has-children {
+                                        a {
+                                            &::after {
+                                                display: none;
+                                            }
+                                        }
+
+                                        ul {
+                                            position: inherit;
+                                            width: 100%;
+                                            padding: 0 15px;
+                                            border: none;
+                                            z-index: 99;
+                                            display: inherit;
+                                            background-color: transparent;
+                                            visibility: visible;
+                                            opacity: 1;
+                                            transform: none;
+                                            top: unset;
+                                            right: unset;
+                                            left: unset;
+                                        }
+                                    }
+
+                                    &:last-child {
+                                        text-align: left;
+
+                                        a {
+                                            border-bottom: none;
+                                        }
+
+                                    }
+
+                                    ul {
+                                        li {
+                                            &::after {
+                                                display: none;
+                                            }
+
+                                            &:last-child a {
+                                                border-bottom: none;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            span.fa-angle-down {
+                                width: 20px;
+                                color: $white-color;
+                                height: 20px;
+                                line-height: 18px;
+                                text-align: center;
+                                border: 1px solid rgba($white-color, 0.8);
+                                cursor: pointer;
+                                float: right;
+                                position: relative;
+                                z-index: 1000;
+                                margin-top: 10px;
+                                @include radius(5px);
+
+                                &:hover {
+                                    border-color: $white-color;
+                                }
+                            }
+
+                            &:hover {
+                                transform: none;
+                                transition: none;
+                            }
+                        }
+
+                        &:last-child {
+                            text-align: left;
+                        }
+
+                        &.menu-item-has-current {
+                            a {
+                                color: $white-color;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+@media #{$breakpoint-xl} {
+    .Is-toggle {
+        .main-navigation {
+            ul {
+                &.main-menu {
+                    right: 0;
+                }
+            }
+        }
+
+    }
+}

@@ -1,0 +1,52 @@
+.checkbox{
+    @include transition(all .4s ease-in-out);
+    input[type="checkbox"]{
+        opacity: 0;
+        position: absolute;
+        visibility: hidden;
+        &:checked{
+            ~label{
+                background-color: $yellow-light;
+                color: $text-color;
+                &:after{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    label{
+        margin-bottom: 0;
+        display: inline-block;
+        position: relative;
+        text-transform: capitalize;
+        cursor: pointer;
+        @include transition(all .4s ease-in-out);
+        &::before, 
+        &::after{
+            @include transition(all .4s ease-in-out);
+            border: .8px solid #3c3c3c;
+            border-radius: 2px;
+            display: inline-block;
+            position: absolute;
+            cursor: pointer;
+        }
+        &::before{
+            
+            content: ' ';
+            background-color: transparent;
+        }
+        &::after{
+            // content: '\f00c';
+            // font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            content: 'check';
+            font-family: 'Material Icons';
+            color: #ffffff;
+            opacity: 0;
+            background-color: $yellow-color;
+            border: .8px solid $yellow-color;
+            line-height: 1;
+            text-transform: lowercase;
+        }
+    }
+}

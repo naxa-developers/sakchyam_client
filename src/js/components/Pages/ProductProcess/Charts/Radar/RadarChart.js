@@ -56,7 +56,7 @@ class RadarChart extends React.Component {
       yaxis: {
         show: false,
         min: 0,
-        max: 10,
+        max: 9,
         tickAmount: 5,
         // labels: {
         //   formatter(val) {
