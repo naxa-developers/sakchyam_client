@@ -27,6 +27,8 @@ function removeMarker() {
     }
   }
 }
+const popup = new mapboxgl.Popup();
+
 // var colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c'];
 // const colors = [
 //   '#8dd3c7',
@@ -690,10 +692,10 @@ class Choropleth extends Component {
 
     tooltip.append('div').attr('class', 'popup-div');
 
-    tooltip
-      .select('.popup-div')
-      .append('ul')
-      .attr('class', 'mapbox-popup-content');
+    // tooltip
+    //   .select('.popup-div')
+    //   .append('ul')
+    //   .attr('class', 'mapbox-popup-content');
     // .style('width', '281px');
 
     // tooltip
@@ -719,10 +721,57 @@ class Choropleth extends Component {
       .attr('d', arc)
       .attr('fill', d => colorScale(d.data.type))
       .on('mouseover', function(d, i) {
-        tooltip
-          .select('.mapbox-popup-content')
-          .html(`<li>${d.data.type}</li><li>${d.data.count}<li>`)
-          .style('color', 'black');
+        // console.log(props, 'props');
+        // if (document.querySelector('.federal-popup')) {
+        //   document.querySelector('.federal-popup').style.display =
+        //     'none';
+        // }
+        // popup.remove();
+        /* <div className="icons">
+        <i className="material-icons">tablet_mac</i>
+        <b>4</b></div> */
+        // <div className="icon-list">
+        //             </div>
+        let partnerList = null;
+        partnerList =
+          props[`${d.data.type}_partnerList`] &&
+          props[`${d.data.type}_partnerList`]
+            .map(partner => {
+              return `<li>
+                <div className="organization-icon">
+                  <span />
+                </div>
+                <div className="organization-content">
+                  <div className="org-header">
+                    <h5>
+                      ${partner}
+                    </h5>
+                  </div>
+                </div>
+              </li>`;
+            })
+            .join('');
+        tooltip.select('.popup-div').html(
+          `<div class="leaflet-popup-content" style="width: 100px;">
+            <div class="map-popup-view">
+              <div class="map-popup-view-header">
+                  <h5>${d.data.type}</h5>
+                  <div class="icons">
+                    <i class="material-icons">tablet_mac</i><b>${
+                      d.data.count
+                    }</b>
+                  </div>
+                  <h6>${props.federal_name}</h6>
+              </div>
+                <ul>
+                  ${partnerList !== undefined ? partnerList : ''}
+                </ul>
+              <div class="map-view-footer">
+              </div>
+            </div>
+          </div>` /* eslint-disable-line */
+        );
+        // .style('color', 'black');
         // .style('background-color', 'white');
         // tooltip.select('.count').html('Test');
         // tooltip.select('.percent').html(`${34}%`);
@@ -858,6 +907,7 @@ class Choropleth extends Component {
           ],
         },
       });
+      global.mapGlobal = map;
       // filters for classifying earthquakes into five categories based on magnitude
 
       //
@@ -982,19 +1032,21 @@ class Choropleth extends Component {
         // }
       });
       map.on('click', 'vector-tile-fill', function(e) {
+        console.log(e, 'e Vector');
         //
         //
         // console.log(
         //   getCenterBboxProvince(e.features[0].properties.code),
         // );
-        console.log(that.props);
-        console.log(e.features[0]);
+        // console.log(that.props);
+        // console.log(e.features[0]);
         if (that.props.mapViewBy === 'province') {
           console.log(e.features[0]);
           const getBbox = getCenterBboxProvince(
             e.features[0].properties.code,
           );
           map.fitBounds(getBbox.bbox);
+          console.log(map.getZoom(), 'zoom');
           that.props.handleProvinceClick(
             parseInt(e.features[0].properties.code, 10),
           );
@@ -1028,31 +1080,31 @@ class Choropleth extends Component {
           );
         }
       });
-      const popup = new mapboxgl.Popup();
-      map.on('mousemove', 'circles1', function(e) {
-        //
-        //
-        popup
-          .setLngLat(e.lngLat)
-          .setHTML(
-            `<div class="leaflet-popup-content" style="width: 100px;">
+      map.on('mousemove', 'vector-tile-fill', function(e) {
+        console.log(e.features[0]);
+        const filteredCodeData = that.props.choroplethData.filter(
+          data => {
+            return (
+              parseInt(data.code, 10) ===
+              parseInt(e.features[0].properties.code, 10)
+            );
+          },
+        );
+        popup.setLngLat(e.lngLat).setHTML(
+          `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
               <div class="map-popup-view">
                   <div class="map-popup-view-header">
                       <h5>${e.features[0].properties.name}</h5>
                       <div class="icons">
-                      <i class="material-icons">tablet_mac</i><b>${
-                        e.features[0].properties[
-                          that.props.mapViewDataBy
-                        ]
-                      }</b>
+                      <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
                       </div>
                   </div>
                   <div class="map-view-footer">
                   </div>
                       </div>
                   </div>`,
-          )
-          .addTo(map);
+        );
+        // .addTo(map);
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
@@ -1576,7 +1628,7 @@ class Choropleth extends Component {
         //   return total;
         // };
         FederalData.features.forEach(data => {
-          //
+          console.log(data);
           singleData2nd = {
             point_count: 0,
           };
@@ -1620,12 +1672,16 @@ class Choropleth extends Component {
           //
           singleData = {
             point_count: 0,
+            federal_name: data.properties.name,
           };
           if (data.properties.pie) {
             data.properties.pie.forEach(piedata => {
-              //
               singleData[`${piedata.investment_primary}`] =
                 piedata.partner_count;
+              // console.log(piedata, 'pieData');
+              singleData[
+                `${piedata.investment_primary}_partnerList`
+              ] = piedata.partner_list;
               singleData.point_count += piedata.partner_count;
             });
           }
@@ -1637,6 +1693,7 @@ class Choropleth extends Component {
           const testElMain = document.createElement('div');
           testElMain.className = 'marker';
           // const props = data.properties;
+          console.log(singleData, 'singleData');
           // eslint-disable-next-line no-use-before-define
           const testEl = this.createDonutChart(
             singleData,
@@ -1728,6 +1785,7 @@ class Choropleth extends Component {
           //
           singleData = {
             point_count: 0,
+            federal_name: data.properties.name,
           };
           if (data.properties.pie) {
             data.properties.pie.forEach(piedata => {
@@ -1836,6 +1894,7 @@ class Choropleth extends Component {
           //
           singleData = {
             point_count: 0,
+            federal_name: data.properties.name,
           };
           if (data.properties.pie) {
             data.properties.pie.forEach(piedata => {

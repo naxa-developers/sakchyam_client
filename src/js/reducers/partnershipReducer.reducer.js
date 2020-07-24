@@ -43,7 +43,7 @@ import {
 import province from '../../data/province.json';
 import district from '../../data/district.json';
 import municipality from '../../data/municipality.json';
-
+// import demoWorker from '../WebWorker/demo1-hello-world';
 import WebWorker from '../WebWorker/webWorker';
 import workerfile from '../WebWorker/worker';
 
@@ -1314,6 +1314,16 @@ const filterTimelineData = (state, action) => {
       return true;
     });
   }
+
+  // const worker = new Worker(demoWorker);
+
+  // // Receive messages from postMessage() calls in the Worker
+  // worker.onmessage = evt => {
+  //   console.log(`Message posted from webworker: ${evt.data}`);
+  // };
+
+  // // Pass data to the WebWorker
+  // worker.postMessage({ data: '123456789' });
   // const workers = new WebWorker(workerfile);
 
   // workers.postMessage({

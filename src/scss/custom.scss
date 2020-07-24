@@ -609,8 +609,8 @@
   top: 40px;
 }
 .pie-mapbox-popup{  
-    width: 144px;
-    max-width: 234px;
+    width: 275px;
+    // max-width: 234px;
 }
 #heatmap-chart{
   .apexcharts-xaxistooltip-text{
@@ -636,5 +636,18 @@
 .product-process-custom{
   .literacy-tab-content .graph-view{
     max-height: calc(100vh - 103px)
+  }
+}
+.mapboxgl-map{
+  .automation-wrapper{
+    .leaflet-popup-content {
+      ul {
+        li{ 
+          padding:0;
+          padding-top:0;
+
+        }
+      }
+    }
   }
 }
