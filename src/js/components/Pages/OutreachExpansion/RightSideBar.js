@@ -29,7 +29,7 @@ class RightSideBar extends Component {
   }
 
   componentDidMount() {
-    this.props.getOverviewData();
+    // this.props.getOverviewData();
   }
 
   render() {
@@ -39,6 +39,7 @@ class RightSideBar extends Component {
         activeOverview,
         setActiveView,
         setActiveOverview,
+        mapViewDataBy,
       },
     } = this;
     const {
@@ -82,64 +83,179 @@ class RightSideBar extends Component {
             )}
           </div>
           <div className="aside-body">
-            <div className="sidebar-widget">
+            {mapViewDataBy === 'general_outreach' ? (
+              <div className="sidebar-widget">
+                <div className="widget-body">
+                  <ul className="widget-list">
+                    <li>
+                      <div className="widget-content">
+                        <h6>Branches</h6>
+                        <span>2</span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">business</i>
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="widget-content">
+                        <h6>BlB</h6>
+                        <span>54</span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">flag</i>
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="widget-content">
+                        <h6>Partner Institutions</h6>
+                        <span>112</span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">
+                            location_city
+                          </i>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <div className="sidebar-widget">
+                <div className="widget-body">
+                  <ul className="widget-list">
+                    <OutreachTab
+                      title="Investment Focus"
+                      number={overviewData.investment_focus}
+                      iconTitle="payments"
+                    />
+                    <OutreachTab
+                      title="Projects Implemented"
+                      number={overviewData.project}
+                      iconTitle="assignment"
+                    />
+                    <OutreachTab
+                      title="Total Beneficiaries Reached"
+                      number={numberWithCommas(
+                        parseInt(overviewData.beneficiary, 10),
+                      )}
+                      iconTitle="people"
+                    />
+                    <OutreachTab
+                      title="Sakchyam Investment(GBP)"
+                      number={numberWithCommas(
+                        Math.round(overviewData.total_budget),
+                      )}
+                      iconTitle="monetization_on"
+                    />
+                    <OutreachTab
+                      title="New Physical Branches Established"
+                      number={overviewData.branch}
+                      iconTitle="store"
+                    />
+                    <OutreachTab
+                      title="New BLBs Established"
+                      number={overviewData.blb}
+                      iconTitle="account_balance"
+                    />
+                    {/* <OutreachTab
+                      title="Extension Counter"
+                      number={112}
+                      iconTitle="local_convenience_store"
+                    /> */}
+                    <OutreachTab
+                      title="Number of Tablet Banking Points"
+                      number={overviewData.tablet}
+                      iconTitle="tablet_mac"
+                    />
+                    <OutreachTab
+                      title="Innovative Products Introduced"
+                      number={overviewData.other_products}
+                      iconTitle="local_offer"
+                    />
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            <div className="sidebar-widget timeline-widget">
+              <h5>Initiative Timeline</h5>
               <div className="widget-body">
-                <ul className="widget-list">
-                  <OutreachTab
-                    title="Investment Focus"
-                    number={overviewData.investment_focus}
-                    iconTitle="payments"
-                  />
-                  <OutreachTab
-                    title="Projects Implemented"
-                    number={overviewData.project}
-                    iconTitle="assignment"
-                  />
-                  {/* <OutreachTab
-                    title="Partner Institutions"
-                    number={112}
-                    iconTitle="location_city"
-                  /> */}
-                  <OutreachTab
-                    title="Total Beneficiaries Reached"
-                    number={numberWithCommas(
-                      parseInt(overviewData.beneficiary, 10),
-                    )}
-                    iconTitle="people"
-                  />
-                  <OutreachTab
-                    title="Sakchyam Investment(GBP)"
-                    number={numberWithCommas(
-                      Math.round(overviewData.total_budget),
-                    )}
-                    iconTitle="monetization_on"
-                  />
-                  <OutreachTab
-                    title="New Physical Branches Established"
-                    number={overviewData.branch}
-                    iconTitle="store"
-                  />
-                  <OutreachTab
-                    title="New BLBs Established"
-                    number={overviewData.blb}
-                    iconTitle="account_balance"
-                  />
-                  {/* <OutreachTab
-                    title="Extension Counter"
-                    number={112}
-                    iconTitle="local_convenience_store"
-                  /> */}
-                  <OutreachTab
-                    title="Number of Tablet Banking Points"
-                    number={overviewData.tablet}
-                    iconTitle="tablet_mac"
-                  />
-                  <OutreachTab
-                    title="Innovative Products Introduced"
-                    number={overviewData.other_products}
-                    iconTitle="local_offer"
-                  />
-                </ul>
+                <div className="timeline">
+                  <ul className="year">
+                    <div className="date-time">
+                      <time>2015</time>
+                    </div>
+                    <li className="active">
+                      <div className="timeline-content ">
+                        <div className="timeline-text">
+                          <span>1 june</span>
+                          <p>
+                            Year-round 12 module Financial Literacy
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="active">
+                      <div className="timeline-content ">
+                        <div className="timeline-text">
+                          <span>1 june</span>
+                          <p>
+                            Year-round 12 module Financial Literacy
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="">
+                      <div className="timeline-content ">
+                        <div className="timeline-text">
+                          <p>
+                            Year-round 12 module Financial Literacy
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul className="year">
+                    <div className="date-time">
+                      <time>2016</time>
+                    </div>
+                    <li className="">
+                      <div className="timeline-content ">
+                        <div className="timeline-text">
+                          <span>1 june</span>
+                          <p>
+                            Year-round 12 module Financial Literacy
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="active">
+                      <div className="timeline-content ">
+                        <div className="timeline-text">
+                          <span>1 june</span>
+                          <p>
+                            Year-round 12 module Financial Literacy
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="">
+                      <div className="timeline-content ">
+                        <div className="timeline-text">
+                          <p>
+                            Year-round 12 module Financial Literacy
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

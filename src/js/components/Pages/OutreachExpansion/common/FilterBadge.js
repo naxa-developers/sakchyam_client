@@ -20,7 +20,7 @@ const FilterBadge = ({
       tabIndex="-1"
     >
       <a>
-        <i className="material-icons">{icon ? icon : 'store'}</i>
+        <i className="material-icons">{icon ? icon : ''}</i>
         <span>{title}</span>
       </a>
       {/* <a>{title}</a> */}

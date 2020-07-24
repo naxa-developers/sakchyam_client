@@ -152,11 +152,6 @@ class Choropleth extends Component {
       grade: [],
       legendColors: [],
       finalStyle: null,
-      minValue: '2015-01-01',
-      maxValue: '2020-01-01',
-      key: 1,
-      playClick: false,
-      circleMarkerRadius: null,
     };
   }
 
@@ -727,48 +722,15 @@ class Choropleth extends Component {
   changeGrades() {
     let range = [];
     const data = [];
+    const gradeCount = 7;
+    const fullRange = [];
 
-    const colorArrayLength =
-      this.props.colorArray && this.props.colorArray.length;
-
-    // eslint-disable-next-line no-unused-expressions
-    this.props.colorArray &&
-      console.log('colors of legend', this.props.colorArray);
-
-    const gradeCount =
-      this.props.legendDivisions != null &&
-      typeof this.props.legendDivisions === 'number' &&
-      this.props.legendDivisions <= 20 &&
-      this.props.legendDivisions >= colorArrayLength
-        ? this.props.legendDivisions
-        : 7;
-
-    // eslint-disable-next-line no-unused-expressions
-    this.props.legendDivisions &&
-      console.log(
-        'colors of gradecount',
-        gradeCount,
-        this.props.legendDivisions,
-      );
-
-    const fullRange =
-      this.props.divisions && this.props.divisions.length > 0
-        ? this.props.divisions
-        : [];
     const fullData =
       this.props.choroplethData != null &&
       this.props.choroplethData.length > 0
         ? this.props.choroplethData
         : defaultData;
     // console.log(fullData, "fulldata")
-
-    // eslint-disable-next-line no-unused-expressions
-    this.props.choroplethData &&
-      console.log(
-        'colors of choroplethData',
-        this.props.choroplethData,
-        fullData,
-      );
 
     if (
       this.props.choroplethData != null &&
@@ -850,7 +812,6 @@ class Choropleth extends Component {
   plotVectorTile = () => {
     const { map } = this.props;
     const that = this;
-    // console.log(this.state.finalStyle, "this finalstyle")
     let hoveredStateId = null;
     map.on('load', function() {
       // Add Mapillary sequence layer.
@@ -1262,16 +1223,6 @@ class Choropleth extends Component {
   };
 
   render() {
-    const { mapViewBy } = this.props;
-    const {
-      choroplethLegend,
-      legendColors,
-      minValue,
-      maxValue,
-      key,
-      playClick,
-      circleMarkerRadius,
-    } = this.state;
     return (
       <>
         <div className="map-legend newmap-legend">

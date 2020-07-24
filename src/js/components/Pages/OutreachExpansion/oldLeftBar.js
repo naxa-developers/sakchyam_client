@@ -26,17 +26,17 @@ class LeftSideBar extends Component {
         investmentFocusSelection,
         projectSelection,
         handleProjectSelectionCheckbox,
-        G2PTypes,
+        projectStatus,
+        handleProjectStatus,
         partnerSelection,
         handlePartnerSelectionCheckbox,
-        serviceType,
+        partnerType,
         handlePartnerType,
         applyBtnClick,
         handlePartnerParentCheckbox,
         handleProjectParentCheckbox,
         handleInvestmentParentCheckbox,
         resetFilters,
-        demonstrationType,
       },
     } = this;
     const {
@@ -53,24 +53,12 @@ class LeftSideBar extends Component {
               type="button"
               className="common-button is-bg partnership-button"
             >
-              outreach expansion
+              sakchyam partnerships
             </button>
-            <div className="search-bar mb-10">
-              <div className="search-wrap">
-                <span className="search-icon">
-                  <i className="material-icons">search</i>
-                </span>
-                <input
-                  type="search"
-                  className="form-control"
-                  placeholder="search"
-                />
-              </div>
-            </div>
           </div>
-          <div className="aside-body outreach-body">
+          <div className="aside-body apply-body">
             <div className="sidebar-widget partner-institue">
-              <h6 className="title">Expansion Driven by </h6>
+              <h6 className="title">Investment Focus</h6>
               <div className="widget-body">
                 <div className="checklist-group">
                   <div className="checklist-header">
@@ -114,11 +102,148 @@ class LeftSideBar extends Component {
                 </div>
               </div>
             </div>
-            <div
-              className="sidebar-widget partner-institue"
-              style={{ marginTop: '2vh' }}
-            >
-              <h6 className="title">Type of FI </h6>
+            <div className="sidebar-widget">
+              <h6 className="title">project status</h6>
+              <div className="widget-body">
+                <div className="widget-tag partner-tag">
+                  <a
+                    className={
+                      projectStatus.includes('Completed')
+                        ? 'active'
+                        : ''
+                    }
+                    role="tab"
+                    tabIndex="-1"
+                    onClick={() => {
+                      handleProjectStatus('Completed');
+                    }}
+                    onKeyUp={() => {
+                      handleProjectStatus('Completed');
+                    }}
+                  >
+                    <span>completed</span>
+                  </a>
+                  <a
+                    className={
+                      projectStatus.includes('Ongoing')
+                        ? 'active'
+                        : ''
+                    }
+                    role="tab"
+                    tabIndex="-1"
+                    onClick={() => {
+                      handleProjectStatus('Ongoing');
+                    }}
+                    onKeyUp={() => {
+                      handleProjectStatus('Ongoing');
+                    }}
+                  >
+                    <span>ongoing</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="sidebar-widget partner-institue">
+              <h6 className="title">Projects</h6>
+              <div className="widget-body">
+                <div className="checklist-group">
+                  <div className="checklist-header">
+                    <div className="custom-checkbox">
+                      <input
+                        id="Initiative7"
+                        type="checkbox"
+                        name="Initiative7"
+                        onChange={handleProjectParentCheckbox}
+                      />
+                      <label htmlFor="Initiative7">All</label>
+                    </div>
+                  </div>
+                  <ul className="checkbox-list">
+                    {/* <GroupCheckedbox
+                      checkboxes={projectLists}
+                      onCheckboxGroupChange={
+                        this.handleCheckboxgroupChange
+                      }
+                    /> */}
+                    {projectLists &&
+                      projectLists.map(project => {
+                        return (
+                          <CheckBox
+                            id={project.id}
+                            className="project_checkbox"
+                            key={project.id}
+                            label={project.name}
+                            name={project.id}
+                            changeHandler={
+                              handleProjectSelectionCheckbox
+                            }
+                            checked={projectSelection.includes(
+                              project.id,
+                            )}
+                          />
+                        );
+                      })}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="sidebar-widget">
+              <h6 className="title">Partner Type</h6>
+              <div className="widget-body">
+                <div className="widget-tag partner-tag">
+                  <a
+                    data-label="Microfinance Institutions/Cooperatives"
+                    className={
+                      partnerType.includes(
+                        'Microfinance Institutions/Cooperatives',
+                      )
+                        ? 'active'
+                        : ''
+                    }
+                    role="tab"
+                    tabIndex="-1"
+                    onClick={() => {
+                      handlePartnerType(
+                        'Microfinance Institutions/Cooperatives',
+                      );
+                    }}
+                    onKeyUp={() => {
+                      handlePartnerType(
+                        'Microfinance Institutions/Cooperatives',
+                      );
+                    }}
+                  >
+                    <span>Microfinance</span>
+                  </a>
+                  <a
+                    data-label="Commercial Bank and Other Partners"
+                    className={
+                      partnerType.includes(
+                        'Commercial Bank and Other Partners',
+                      )
+                        ? 'active'
+                        : ''
+                    }
+                    role="tab"
+                    tabIndex="-1"
+                    onClick={() => {
+                      handlePartnerType(
+                        'Commercial Bank and Other Partners',
+                      );
+                    }}
+                    onKeyUp={() => {
+                      handlePartnerType(
+                        'Commercial Bank and Other Partners',
+                      );
+                    }}
+                  >
+                    <span>Commercial Bank</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="sidebar-widget partner-institue">
+              <h6 className="title">Partner Institution</h6>
               <div className="widget-body">
                 <div className="checklist-group">
                   <div className="checklist-header">
@@ -155,130 +280,6 @@ class LeftSideBar extends Component {
                 </div>
               </div>
             </div>
-
-            <div
-              className="sidebar-widget"
-              style={{ marginTop: '1vh' }}
-            >
-              <h6 className="title">POINT OF SERVICE</h6>
-              <div className="widget-body">
-                <div className="widget-tag partner-tag">
-                  <a
-                    data-label="Microfinance Institutions/Cooperatives"
-                    className={
-                      serviceType.includes('Branch') ? 'active' : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType('Branch', 1);
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType('Branch', 1);
-                    }}
-                  >
-                    <span>Branch</span>
-                  </a>
-                  <a
-                    data-label="Commercial Bank and Other Partners"
-                    className={
-                      serviceType.includes('BLB') ? 'active' : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType('BLB', 1);
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType('BLB', 1);
-                    }}
-                  >
-                    <span>BLB</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="sidebar-widget">
-              <h6 className="title">G2P PAYMENT</h6>
-              <div className="widget-body">
-                <div className="widget-tag partner-tag">
-                  <a
-                    data-label="Microfinance Institutions/Cooperatives"
-                    className={
-                      G2PTypes.includes('Yes') ? 'active' : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType('Yes', 2);
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType('Yes', 2);
-                    }}
-                  >
-                    <span>Yes</span>
-                  </a>
-                  <a
-                    data-label="Commercial Bank and Other Partners"
-                    className={
-                      G2PTypes.includes('No') ? 'active' : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType('No', 2);
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType('No', 2);
-                    }}
-                  >
-                    <span>No</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="sidebar-widget">
-              <h6 className="title">DEMONSTRATION EFFECT</h6>
-              <div className="widget-body">
-                <div className="widget-tag partner-tag">
-                  <a
-                    className={
-                      demonstrationType.includes('Yes')
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType('Yes', 3);
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType('Yes', 3);
-                    }}
-                  >
-                    <span>Yes</span>
-                  </a>
-                  <a
-                    className={
-                      demonstrationType.includes('No') ? 'active' : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType('No', 3);
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType('No', 3);
-                    }}
-                  >
-                    <span>No</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
             <div className="apply-buttons buttons end">
               <button
                 type="button"
