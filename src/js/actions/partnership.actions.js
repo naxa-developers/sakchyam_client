@@ -1811,6 +1811,7 @@ export const filterDistrictListFromProvince = provinceId => dispatch => {
     const formdata = new FormData();
     if (provinceId.length > 0) {
       provinceId.map(data => {
+        console.log(data, 'data');
         if (data.value !== 'all') {
           return formdata.append('id', `${data.value}`);
         }
