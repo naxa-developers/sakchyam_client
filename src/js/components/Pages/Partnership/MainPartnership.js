@@ -325,7 +325,7 @@ class MainPartnership extends Component {
               });
               // console.log(filtered, 'test filtered');
             });
-            // console.log(filteredList, 'dist2 ');
+            console.log(filteredList, 'dist2 ');
             map.setFilter('vector-tile-fill', [
               'in',
               ['get', 'code'],
@@ -482,7 +482,7 @@ class MainPartnership extends Component {
   handleStateLevel = clickedValue => {
     const { map } = this.state;
     const {
-      partnershipReducer: { allMunicipalityList },
+      partnershipReducer: { allMunicipalityList, allDistrictList },
     } = this.props;
     // console.log(e.target.value, 'target value');
     const {
@@ -595,16 +595,40 @@ class MainPartnership extends Component {
           const extendedValue = extendBounds(combinedBbox);
           // console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
-          const query = selectedProvince
-            .map(data => {
-              return `province_id_id=${data.code}`;
-            })
-            .join('&');
-          const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          this.setState({
-            vectorTileUrl: municipalityFilterUrl,
-            //
+          const filteredList = [];
+          selectedProvince.forEach(province => {
+            // console.log(province, 'prv1');
+            // eslint-disable-next-line array-callback-return
+            allMunicipalityList.forEach(district => {
+              // console.log(district, 'district');
+              if (province.code === district.province_code) {
+                // console.log(district, 'true');
+                filteredList.push(district);
+              }
+            });
+            // console.log(filtered, 'test filtered');
           });
+          // console.log(filteredList, 'dist2 ');
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          // const query = selectedProvince
+          //   .map(data => {
+          //     return `province_id_id=${data.code}`;
+          //   })
+          //   .join('&');
+          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
+          // this.setState({
+          //   vectorTileUrl: municipalityFilterUrl,
+          //   //
+          // });
         }
       } else if (clickedValue === 'district') {
         // if (selectedMunicipality.length > 0) {
@@ -670,17 +694,26 @@ class MainPartnership extends Component {
           const extendedValue = extendBounds(combinedBbox);
           // console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
-          const query = selectedProvince
-            .map(data => {
-              return `province_id_id=${data.code}`;
-            })
-            .join('&');
+          const filteredList = [];
+          selectedProvince.forEach(province => {
+            // console.log(province, 'prv1');
+            // eslint-disable-next-line array-callback-return
+            allDistrictList.forEach(district => {
+              // console.log(district, 'district');
+              if (province.code === district.province_code) {
+                // console.log(district, 'true');
+                filteredList.push(district);
+              }
+            });
+            // console.log(filtered, 'test filtered');
+          });
+          console.log(filteredList, 'dist2 ');
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
             [
               'literal',
-              selectedProvince.map(fed => {
+              filteredList.map(fed => {
                 return fed.code.toString();
               }),
             ],
