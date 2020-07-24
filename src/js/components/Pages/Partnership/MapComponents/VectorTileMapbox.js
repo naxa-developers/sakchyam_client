@@ -1107,11 +1107,14 @@ class Choropleth extends Component {
             );
           },
         );
-        popup.setLngLat(e.lngLat).setHTML(
-          `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
+        popup
+          .setLngLat(e.lngLat)
+          .setHTML(
+            `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
               <div class="map-popup-view">
                   <div class="map-popup-view-header">
                       <h5>${e.features[0].properties.name}</h5>
+                      <h5>Code:${e.features[0].properties.code}</h5>
                       <div class="icons">
                       <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
                       </div>
@@ -1120,8 +1123,8 @@ class Choropleth extends Component {
                   </div>
                       </div>
                   </div>`,
-        );
-        // .addTo(map);
+          )
+          .addTo(map);
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
