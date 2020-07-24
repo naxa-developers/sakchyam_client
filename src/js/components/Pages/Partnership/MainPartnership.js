@@ -195,7 +195,14 @@ class MainPartnership extends Component {
       partnerType,
       selectedProvince,
       selectedDistrict,
+      map,
+      activeView,
     } = this.state;
+
+    const {
+      partnershipReducer: { allDistrictList, allMunicipalityList },
+    } = this.props;
+
     if (
       prevState.investmentFocusSelection !== investmentFocusSelection
     ) {
@@ -241,6 +248,104 @@ class MainPartnership extends Component {
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
       this.props.filterMunListFromDistrict(selectedDistrict);
+    }
+    if (prevState.mapViewBy !== mapViewBy) {
+      const filteredList = [];
+      console.log(filteredList, 'beforefilter');
+      if (activeView === 'map') {
+        if (mapViewBy === 'district') {
+          if (selectedProvince && selectedProvince.length > 0) {
+            // console.log(selectedProvince);
+            // let filtered = null;
+            // const intersection = allDistrictList.filter(element =>
+            //   selectedProvince.includes(element.province_id),
+            // );
+            // eslint-disable-next-line array-callback-return
+            selectedProvince.map(province => {
+              console.log(province, 'prv1');
+              // eslint-disable-next-line array-callback-return
+              allDistrictList.map(district => {
+                console.log(district, 'district');
+                if (province.code === district.province_code) {
+                  console.log(district, 'true');
+                  filteredList.push(district);
+                }
+              });
+              // console.log(filtered, 'test filtered');
+            });
+            console.log(filteredList, 'dist2 ');
+            map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                filteredList.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
+            // console.log(intersection, 'filteredDistrictList');
+          }
+        } else if (mapViewBy === 'municipality') {
+          if (selectedProvince && selectedProvince.length > 0) {
+            // eslint-disable-next-line array-callback-return
+            selectedProvince.map(province => {
+              console.log(province, 'prv1');
+              // eslint-disable-next-line array-callback-return
+              allMunicipalityList.map(district => {
+                console.log(district, 'dist');
+                if (province.code === district.province_code) {
+                  console.log(district, 'true');
+                  filteredList.push(district);
+                }
+              });
+            });
+            console.log(filteredList, 'test filtered');
+            // console.log(filteredList, 'dist2 ');
+            map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                filteredList.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
+          }
+          if (selectedDistrict && selectedDistrict.length > 0) {
+            // console.log(selectedProvince);
+            // let filtered = null;
+            // const intersection = allDistrictList.filter(element =>
+            //   selectedProvince.includes(element.province_id),
+            // );
+            // eslint-disable-next-line array-callback-return
+            selectedDistrict.map(province => {
+              console.log(province, 'prv1');
+              // eslint-disable-next-line array-callback-return
+              allMunicipalityList.map(district => {
+                console.log(district, 'dist');
+                if (province.id === district.province_code) {
+                  filteredList.push(district);
+                }
+              });
+            });
+            console.log(filteredList, 'test filtered');
+            // console.log(filteredList, 'dist2 ');
+            map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                filteredList.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
+            // console.log(intersection, 'filteredDistrictList');
+          }
+        }
+      }
     }
   }
 
@@ -311,6 +416,7 @@ class MainPartnership extends Component {
   };
 
   setMapViewBy = selectedMapView => {
+    // console.log('setMapView By Function');
     const { viewDataBy } = this.state;
     this.setState({
       mapViewBy: selectedMapView,
@@ -338,6 +444,9 @@ class MainPartnership extends Component {
 
   handleStateLevel = clickedValue => {
     const { map } = this.state;
+    const {
+      partnershipReducer: { allMunicipalityList },
+    } = this.props;
     // console.log(e.target.value, 'target value');
     const {
       dataTypeLevel,
@@ -411,16 +520,29 @@ class MainPartnership extends Component {
           const extendedValue = extendBounds(combinedBbox);
           // console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
-          const query = selectedDistrict
-            .map(data => {
-              return `district_code=${data.code}`;
-            })
-            .join('&');
-          const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          this.setState({
-            vectorTileUrl: municipalityFilterUrl,
-            //
+          // const query = selectedDistrict
+          //   .map(data => {
+          //     return `code=${data.code}`;
+          //   })
+          //   .join('&');
+          const filteredMunFromDist = [];
+          selectedDistrict.forEach(dist => {
+            allMunicipalityList.forEach(mun => {
+              if (dist.code === mun.district_code) {
+                filteredMunFromDist.push(mun);
+              }
+            });
           });
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              selectedDistrict.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
         } else if (selectedProvince && selectedProvince.length > 0) {
           const combinedBbox = [];
           // console.log(selectedProvince, 'selectedProvine');
@@ -538,7 +660,7 @@ class MainPartnership extends Component {
           // console.log(selectedProvince, 'selectedProvine');
           const getBboxValue = getCenterBboxProvince(
             selectedProvince.map(data => {
-              return data.id;
+              return data.code;
             }),
           );
           getBboxValue.map(data => {
@@ -579,32 +701,32 @@ class MainPartnership extends Component {
       // alert('atleast on state is number');
     } else if (clickedValue === 'province') {
       // alert('province ');
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
-        //
-        //
-      });
-      this.props.filterAutomationDataForVectorTiles(clickedValue);
+      // this.setState({
+      //   vectorTileUrl:
+      //     'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
+      //   //
+      //   //
+      // });
+      // this.props.filterAutomationDataForVectorTiles(clickedValue);
     } else if (clickedValue === 'district') {
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
-        // vectorGridKey: '1',
-        //
-        // color: '#FF0000',
-      });
-      this.props.filterAutomationDataForVectorTiles(clickedValue);
+      // this.setState({
+      //   vectorTileUrl:
+      //     'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
+      //   // vectorGridKey: '1',
+      //   //
+      //   // color: '#FF0000',
+      // });
+      // this.props.filterAutomationDataForVectorTiles(clickedValue);
     } else if (clickedValue === 'municipality') {
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
-        // 'https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Municipality@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
-        // vectorGridKey: '2',
-        //
-        //
-      });
-      this.props.filterAutomationDataForVectorTiles(clickedValue);
+      // this.setState({
+      //   vectorTileUrl:
+      //     'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
+      //   // 'https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Municipality@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
+      //   // vectorGridKey: '2',
+      //   //
+      //   //
+      // });
+      // this.props.filterAutomationDataForVectorTiles(clickedValue);
     }
     // this.setState({
     //   selectedProvince: [],
@@ -619,110 +741,110 @@ class MainPartnership extends Component {
     // this.setState({ dataTypeLevel: clickedValue });
   };
 
-  handleProvinceClick = code => {
-    // console.log(id, 'asasa');
-    const {
-      vectorGridInputUrl,
-      mapViewBy,
-      activeClickPartners,
-      selectedMunicipality,
-      selectedDistrict,
-      selectedProvince,
-    } = this.state;
+  // handleProvinceClick = code => {
+  //   // console.log(id, 'asasa');
+  //   const {
+  //     vectorGridInputUrl,
+  //     mapViewBy,
+  //     activeClickPartners,
+  //     selectedMunicipality,
+  //     selectedDistrict,
+  //     selectedProvince,
+  //   } = this.state;
 
-    if (mapViewBy === 'municipality') {
-      if (selectedMunicipality && selectedMunicipality.length > 0) {
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      } else if (selectedDistrict && selectedDistrict.length > 0) {
-        const query = selectedDistrict
-          .map(data => {
-            return `district_code=${data}`;
-          })
-          .join('&');
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      } else if (selectedProvince && selectedProvince.length > 0) {
-        const query = selectedProvince
-          .map(data => {
-            return `province_id_id=${data}`;
-          })
-          .join('&');
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      } else {
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      }
-    } else if (mapViewBy === 'district') {
-      // if (selectedMunicipality.length > 0) {
-      //   const query = selectedMunicipality
-      //     .map(data => {
-      //       return `code=${data}`;
-      //     })
-      //     .join('&');
-      //   const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-      //   this.setState({
-      //     vectorTileUrl: municipalityFilterUrl,
-      //
-      //   });
-      // } else
-      if (selectedDistrict && selectedDistrict.length > 0) {
-        const query = selectedDistrict
-          .map(data => {
-            return `code=${data}`;
-          })
-          .join('&');
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      } else if (selectedProvince && selectedProvince.length > 0) {
-        const query = selectedProvince
-          .map(data => {
-            return `province_id_id=${data}`;
-          })
-          .join('&');
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      } else {
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      }
-    } else if (mapViewBy === 'province') {
-      if (selectedProvince && selectedProvince.length > 0) {
-        const query = selectedProvince
-          .map(data => {
-            return `code=${data}`;
-          })
-          .join('&');
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      } else {
-        const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&code=${code}`;
-        this.setState({
-          vectorTileUrl: municipalityFilterUrl,
-        });
-      }
-    }
-    // console.log(
-    //   `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
-    // );
-  };
+  //   if (mapViewBy === 'municipality') {
+  //     if (selectedMunicipality && selectedMunicipality.length > 0) {
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     } else if (selectedDistrict && selectedDistrict.length > 0) {
+  //       const query = selectedDistrict
+  //         .map(data => {
+  //           return `district_code=${data}`;
+  //         })
+  //         .join('&');
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     } else if (selectedProvince && selectedProvince.length > 0) {
+  //       const query = selectedProvince
+  //         .map(data => {
+  //           return `province_id_id=${data}`;
+  //         })
+  //         .join('&');
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     } else {
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     }
+  //   } else if (mapViewBy === 'district') {
+  //     // if (selectedMunicipality.length > 0) {
+  //     //   const query = selectedMunicipality
+  //     //     .map(data => {
+  //     //       return `code=${data}`;
+  //     //     })
+  //     //     .join('&');
+  //     //   const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
+  //     //   this.setState({
+  //     //     vectorTileUrl: municipalityFilterUrl,
+  //     //
+  //     //   });
+  //     // } else
+  //     if (selectedDistrict && selectedDistrict.length > 0) {
+  //       const query = selectedDistrict
+  //         .map(data => {
+  //           return `code=${data}`;
+  //         })
+  //         .join('&');
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     } else if (selectedProvince && selectedProvince.length > 0) {
+  //       const query = selectedProvince
+  //         .map(data => {
+  //           return `province_id_id=${data}`;
+  //         })
+  //         .join('&');
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     } else {
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     }
+  //   } else if (mapViewBy === 'province') {
+  //     if (selectedProvince && selectedProvince.length > 0) {
+  //       const query = selectedProvince
+  //         .map(data => {
+  //           return `code=${data}`;
+  //         })
+  //         .join('&');
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     } else {
+  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&code=${code}`;
+  //       this.setState({
+  //         vectorTileUrl: municipalityFilterUrl,
+  //       });
+  //     }
+  //   }
+  //   // console.log(
+  //   //   `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
+  //   // );
+  // };
 
   handleShowBarOf = value => {
     this.setState({ showBarof: value });
