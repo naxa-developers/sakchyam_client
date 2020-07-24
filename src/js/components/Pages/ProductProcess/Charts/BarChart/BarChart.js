@@ -28,7 +28,9 @@ class BarChart extends Component {
       plotOptions: {
         bar: {
           // horizontal: false,
-          columnWidth: '60%',
+          columnWidth: '40%',
+          startingShape: 'flat',
+          endingShape: 'rounded',
         },
       },
       legend: {
