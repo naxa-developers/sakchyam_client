@@ -24,6 +24,7 @@ class PlotVector extends Component {
       grade: [],
       legendColors: [],
       finalStyle: null,
+      // hoveredMunicipalityId: '',
     };
   }
 
@@ -181,34 +182,34 @@ class PlotVector extends Component {
         that.props.setMapViewBy('district');
       });
 
-      const popup = new mapboxgl.Popup();
-      map.on('mousemove', 'circles1', function(e) {
-        popup
-          .setLngLat(e.lngLat)
-          .setHTML(
-            `<div class="leaflet-popup-content" style="width: 100px;">
-                <div class="map-popup-view">
-                    <div class="map-popup-view-header">
-                        <h5>${e.features[0].properties.name}</h5>
-                        <div class="icons">
-                        <i class="material-icons">tablet_mac</i><b>${
-                          e.features[0].properties[
-                            that.props.mapViewDataBy
-                          ]
-                        }</b>
-                        </div>
-                    </div>
-                    <div class="map-view-footer">
-                    </div>
-                        </div>
-                    </div>`,
-          )
-          .addTo(map);
-      });
+      // const popup = new mapboxgl.Popup();
+      // map.on('mousemove', 'circles1', function(e) {
+      //   popup
+      //     .setLngLat(e.lngLat)
+      //     .setHTML(
+      //       `<div class="leaflet-popup-content" style="width: 100px;">
+      //           <div class="map-popup-view">
+      //               <div class="map-popup-view-header">
+      //                   <h5>${e.features[0].properties.name}</h5>
+      //                   <div class="icons">
+      //                   <i class="material-icons">tablet_mac</i><b>${
+      //                     e.features[0].properties[
+      //                       that.props.mapViewDataBy
+      //                     ]
+      //                   }</b>
+      //                   </div>
+      //               </div>
+      //               <div class="map-view-footer">
+      //               </div>
+      //                   </div>
+      //               </div>`,
+      //     )
+      //     .addTo(map);
+      // });
 
-      map.on('mouseleave', 'vector-tile-fill', function() {
-        popup.remove();
-      });
+      // map.on('mouseleave', 'vector-tile-fill', function() {
+      //   popup.remove();
+      // });
 
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
@@ -223,6 +224,8 @@ class PlotVector extends Component {
             );
           }
           hoveredStateId = e.features[0].id;
+          console.log('hoveredStateId', hoveredStateId);
+          that.props.setHoveredMunicipalityId(e.features[0].id);
           map.setFeatureState(
             {
               source: 'municipality',
@@ -246,6 +249,7 @@ class PlotVector extends Component {
           );
         }
         hoveredStateId = null;
+        that.props.setHoveredMunicipalityId(0);
       });
     });
   };

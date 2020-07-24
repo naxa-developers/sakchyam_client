@@ -31,7 +31,7 @@ import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
 const chartTitles = {
   bubbleTitle: 'Product/Process Innovations',
   radarTitle: 'Number of products in Innovation Area by Partner Type',
-  barTitle: 'Number of products by Market Failure',
+  barTitle: 'Number of products by Innovation Area',
   heatmapTitle:
     'Number of products by Market Failure and Innovation Area',
 };
@@ -514,18 +514,25 @@ class ProductProcess extends React.Component {
       partnerTypeSelection,
       // partnerNameSelection,
       productNameSelection,
+      partnerNameSelection,
     );
     this.props.filterRadarChartData(
       innovationAreaSelection,
       partnerTypeSelection,
+      productNameSelection,
+      productCategorySelection,
     );
     this.props.filterBarChartData(
-      marketFailureSelection,
+      // marketFailureSelection,
+      innovationAreaSelection,
       productNameSelection,
+      productCategorySelection,
     );
     this.props.filterHeatmapChartData(
       innovationAreaSelection,
       marketFailureSelection,
+      productNameSelection,
+      productCategorySelection,
     );
     this.props.filterOverviewDataPP(
       innovationAreaSelection,

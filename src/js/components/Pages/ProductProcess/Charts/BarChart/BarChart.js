@@ -70,9 +70,19 @@ class BarChart extends Component {
           // show: !this.props.activeModal ? true : false,
           show: true,
         },
+        labels: {
+          formatter(value) {
+            return value;
+          },
+        },
       },
       grid: {
         show: false,
+      },
+      tooltip: {
+        marker: {
+          show: false,
+        },
       },
       // tooltip: {
       //   fixed: {

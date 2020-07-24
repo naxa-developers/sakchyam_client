@@ -20,6 +20,7 @@ class MapboxPartnership extends Component {
       filteredBySocialSecurity: '',
       filteredByPopulation: '',
       filteredByHDI: '',
+      hoveredMunicipalityId: 0,
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -99,6 +100,10 @@ class MapboxPartnership extends Component {
     }
   }
 
+  setHoveredMunicipalityId = id => {
+    this.setState({ hoveredMunicipalityId: id });
+  };
+
   render() {
     const {
       filteredMapData,
@@ -106,6 +111,7 @@ class MapboxPartnership extends Component {
       filteredByHDI,
       filteredByPopulation,
       filteredBySocialSecurity,
+      hoveredMunicipalityId,
     } = this.state;
     const {
       mapViewBy,
@@ -158,7 +164,25 @@ class MapboxPartnership extends Component {
                 choroplethData={choroplethData}
                 color="#eb5149"
                 localOutreachSelected={localOutreachSelected}
+                setHoveredMunicipalityId={
+                  this.setHoveredMunicipalityId
+                }
               />
+
+              {hoveredMunicipalityId !== 0 && (
+                <div
+                  style={{
+                    backgroundColor: 'green',
+                    width: '20vw',
+                    position: 'absolute',
+                    zIndex: '100',
+                    top: '20vh',
+                  }}
+                >
+                  Need a Pop up here
+                </div>
+              )}
+
               {/* <VectorTileMapbox
                 handleFederalClickOnMap={
                   this.props.handleFederalClickOnMap
