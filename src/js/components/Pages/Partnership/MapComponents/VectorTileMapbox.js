@@ -479,6 +479,8 @@ class Choropleth extends Component {
     SVG.selectAll('mylabels')
       .data(datas)
       .enter()
+      // .append('h5')
+      // .text('Investment Focus Quantify By Partner/Benef/Budget')
       .append('text')
       .attr('x', 10 + size * 1.2)
       .attr('y', function(d, i) {
@@ -1050,6 +1052,11 @@ class Choropleth extends Component {
           that.props.handleProvinceClick(
             parseInt(e.features[0].properties.code, 10),
           );
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            ['literal', [e.features[0].properties.code.toString()]],
+          ]);
           // that.props.handleFederalClickOnMap(
           //   'district',
           //   e.features[0].properties.code,
@@ -1061,9 +1068,14 @@ class Choropleth extends Component {
           );
           // console.log(getBbox.bbox, 'bbox');
           map.fitBounds(getBbox.bbox);
-          that.props.handleProvinceClick(
-            e.features[0].properties.code,
-          );
+          // that.props.handleProvinceClick(
+          //   e.features[0].properties.code,
+          // );
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            ['literal', [e.features[0].properties.code.toString()]],
+          ]);
 
           // that.props.handleFederalClickOnMap(
           //   'municipality',
@@ -1075,9 +1087,14 @@ class Choropleth extends Component {
             parseInt(e.features[0].properties.code, 10),
           );
           map.fitBounds(getBbox.bbox);
-          that.props.handleProvinceClick(
-            e.features[0].properties.code,
-          );
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            ['literal', [e.features[0].properties.code.toString()]],
+          ]);
+          // that.props.handleProvinceClick(
+          //   e.features[0].properties.code,
+          // );
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
