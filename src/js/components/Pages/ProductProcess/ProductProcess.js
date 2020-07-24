@@ -13,11 +13,7 @@ import {
   getProductProcessList,
   filterProductNameList,
   filterPartnerNameList,
-  filterBubbleChartData,
-  filterRadarChartData,
-  filterBarChartData,
-  filterHeatmapChartData,
-  filterOverviewDataPP,
+  filterAllChartPP,
   resetAllChartPP,
 } from '../../../actions/productProcess.actions';
 import BubbleChart from './Charts/BubbleChart/BubbleChart';
@@ -508,39 +504,7 @@ class ProductProcess extends React.Component {
       productCategorySelection,
     } = this.state;
 
-    this.props.filterBubbleChartData(
-      innovationAreaSelection,
-      productCategorySelection,
-      productNameSelection,
-      partnerTypeSelection,
-      partnerNameSelection,
-      marketFailureSelection,
-    );
-    this.props.filterRadarChartData(
-      innovationAreaSelection,
-      productCategorySelection,
-      productNameSelection,
-      partnerTypeSelection,
-      partnerNameSelection,
-      marketFailureSelection,
-    );
-    this.props.filterBarChartData(
-      innovationAreaSelection,
-      productCategorySelection,
-      productNameSelection,
-      partnerTypeSelection,
-      partnerNameSelection,
-      marketFailureSelection,
-    );
-    this.props.filterHeatmapChartData(
-      innovationAreaSelection,
-      productCategorySelection,
-      productNameSelection,
-      partnerTypeSelection,
-      partnerNameSelection,
-      marketFailureSelection,
-    );
-    this.props.filterOverviewDataPP(
+    this.props.filterAllChartPP(
       innovationAreaSelection,
       productCategorySelection,
       productNameSelection,
@@ -926,10 +890,6 @@ export default connect(mapStateToProps, {
   getProductProcessList,
   filterProductNameList,
   filterPartnerNameList,
-  filterBubbleChartData,
-  filterRadarChartData,
-  filterBarChartData,
-  filterHeatmapChartData,
-  filterOverviewDataPP,
+  filterAllChartPP,
   resetAllChartPP,
 })(ProductProcess);
