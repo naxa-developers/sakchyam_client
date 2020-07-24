@@ -68,84 +68,103 @@ export const filterPartnerNameList = partnerType => dispatch => {
 export const filterBubbleChartData = (
   innovationArea,
   productCategory,
-  partnerType,
   productName,
+  partnerType,
   partnerName,
+  marketFailure,
 ) => dispatch => {
   return dispatch({
     type: FILTER_BUBBLE_CHART_DATA,
     payload: {
       innovationArea,
       productCategory,
-      partnerType,
       productName,
+      partnerType,
       partnerName,
+      marketFailure,
     },
   });
 };
 
 export const filterRadarChartData = (
   innovationArea,
-  partnerType,
-  productName,
   productCategory,
+  productName,
+  partnerType,
+  partnerName,
+  marketFailure,
 ) => dispatch => {
   return dispatch({
     type: FILTER_RADAR_CHART_DATA,
     payload: {
       innovationArea,
-      partnerType,
-      productName,
       productCategory,
+      productName,
+      partnerType,
+      partnerName,
+      marketFailure,
     },
   });
 };
 
 export const filterBarChartData = (
-  // marketFailure,
   innovationArea,
-  productName,
   productCategory,
+  productName,
+  partnerType,
+  partnerName,
+  marketFailure,
 ) => dispatch => {
   return dispatch({
     type: FILTER_BAR_CHART_DATA,
-    payload: { innovationArea, productName, productCategory },
+    payload: {
+      innovationArea,
+      productCategory,
+      productName,
+      partnerType,
+      partnerName,
+      marketFailure,
+    },
   });
 };
 
 export const filterHeatmapChartData = (
   innovationArea,
-  marketFailure,
-  productName,
   productCategory,
+  productName,
+  partnerType,
+  partnerName,
+  marketFailure,
 ) => dispatch => {
   return dispatch({
     type: FILTER_HEATMAP_CHART_DATA,
     payload: {
       innovationArea,
-      marketFailure,
-      productName,
       productCategory,
+      productName,
+      partnerType,
+      partnerName,
+      marketFailure,
     },
   });
 };
 
 export const filterOverviewDataPP = (
   innovationArea,
-  partnerName,
-  productName,
   productCategory,
+  productName,
   partnerType,
+  partnerName,
   marketFailure,
 ) => dispatch => {
   return dispatch({
     type: FILTER_OVERVIEW_DATA_PP,
     payload: {
       innovationArea,
-      partnerName,
-      productName,
       productCategory,
+      productName,
       partnerType,
+      partnerName,
       marketFailure,
     },
   });
