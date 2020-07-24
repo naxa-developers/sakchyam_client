@@ -65,9 +65,9 @@ class MainPartnership extends Component {
       partnerSelection: [],
       projectStatus: [],
       partnerType: [],
-      selectedProvince: null,
-      selectedDistrict: null,
-      selectedMunicipality: null,
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
       isAllPartnerSelected: false,
       isAllProjectSelected: false,
       isAllInvestmentFocusSelected: false,
@@ -197,6 +197,7 @@ class MainPartnership extends Component {
       selectedDistrict,
       map,
       activeView,
+      selectedMunicipality,
     } = this.state;
 
     const {
@@ -253,27 +254,78 @@ class MainPartnership extends Component {
       const filteredList = [];
       console.log(filteredList, 'beforefilter');
       if (activeView === 'map') {
-        if (mapViewBy === 'district') {
+        if (mapViewBy === 'province') {
           if (selectedProvince && selectedProvince.length > 0) {
-            // console.log(selectedProvince);
-            // let filtered = null;
-            // const intersection = allDistrictList.filter(element =>
-            //   selectedProvince.includes(element.province_id),
-            // );
+            // eslint-disable-next-line array-callback-return
+            // selectedDistrict.map(selectedDist => {
+            //   // console.log(province, 'prv1');
+            //   // eslint-disable-next-line array-callback-return
+            //   // allDistrictList.map(district => {
+            //   //   // console.log(district, 'district');
+            //   //   if (selectedDist.code === district.province_code) {
+            //   //     // console.log(district, 'true');
+            //   filteredList.push(selectedDist);
+            //   //   }
+            //   // });
+            //   // console.log(filtered, 'test filtered');
+            // });
+            // console.log(filteredList, 'dist2 ');
+            map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                selectedProvince.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
+          }
+        }
+        if (mapViewBy === 'district') {
+          if (selectedDistrict && selectedDistrict.length > 0) {
+            // eslint-disable-next-line array-callback-return
+            // selectedDistrict.map(selectedDist => {
+            //   // console.log(province, 'prv1');
+            //   // eslint-disable-next-line array-callback-return
+            //   // allDistrictList.map(district => {
+            //   //   // console.log(district, 'district');
+            //   //   if (selectedDist.code === district.province_code) {
+            //   //     // console.log(district, 'true');
+            //   filteredList.push(selectedDist);
+            //   //   }
+            //   // });
+            //   // console.log(filtered, 'test filtered');
+            // });
+            // console.log(filteredList, 'dist2 ');
+            map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                selectedDistrict.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
+          } else if (
+            selectedProvince &&
+            selectedProvince.length > 0
+          ) {
             // eslint-disable-next-line array-callback-return
             selectedProvince.map(province => {
-              console.log(province, 'prv1');
+              // console.log(province, 'prv1');
               // eslint-disable-next-line array-callback-return
               allDistrictList.map(district => {
-                console.log(district, 'district');
+                // console.log(district, 'district');
                 if (province.code === district.province_code) {
-                  console.log(district, 'true');
+                  // console.log(district, 'true');
                   filteredList.push(district);
                 }
               });
               // console.log(filtered, 'test filtered');
             });
-            console.log(filteredList, 'dist2 ');
+            // console.log(filteredList, 'dist2 ');
             map.setFilter('vector-tile-fill', [
               'in',
               ['get', 'code'],
@@ -290,17 +342,17 @@ class MainPartnership extends Component {
           if (selectedProvince && selectedProvince.length > 0) {
             // eslint-disable-next-line array-callback-return
             selectedProvince.map(province => {
-              console.log(province, 'prv1');
+              // console.log(province, 'prv1');
               // eslint-disable-next-line array-callback-return
               allMunicipalityList.map(district => {
-                console.log(district, 'dist');
+                // console.log(district, 'dist');
                 if (province.code === district.province_code) {
-                  console.log(district, 'true');
+                  // console.log(district, 'true');
                   filteredList.push(district);
                 }
               });
             });
-            console.log(filteredList, 'test filtered');
+            // console.log(filteredList, 'test filtered');
             // console.log(filteredList, 'dist2 ');
             map.setFilter('vector-tile-fill', [
               'in',
@@ -321,16 +373,16 @@ class MainPartnership extends Component {
             // );
             // eslint-disable-next-line array-callback-return
             selectedDistrict.map(province => {
-              console.log(province, 'prv1');
+              // console.log(province, 'prv1');
               // eslint-disable-next-line array-callback-return
               allMunicipalityList.map(district => {
-                console.log(district, 'dist');
-                if (province.id === district.province_code) {
+                // console.log(district, 'dist');
+                if (province.code === district.district_code) {
                   filteredList.push(district);
                 }
               });
             });
-            console.log(filteredList, 'test filtered');
+            // console.log(filteredList, 'test filtered');
             // console.log(filteredList, 'dist2 ');
             map.setFilter('vector-tile-fill', [
               'in',
@@ -421,25 +473,10 @@ class MainPartnership extends Component {
     this.setState({
       mapViewBy: selectedMapView,
     });
-    if (selectedMapView === 'province') {
-      this.props.getFilteredMapData('province');
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
-      });
-    } else if (selectedMapView === 'district') {
-      this.props.getFilteredMapData('district');
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
-      });
-    } else if (selectedMapView === 'municipality') {
-      this.props.getFilteredMapData('municipality');
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
-      });
-    }
+    this.props.getFilteredMapData(selectedMapView);
+    this.setState({
+      vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
+    });
   };
 
   handleStateLevel = clickedValue => {
@@ -538,7 +575,7 @@ class MainPartnership extends Component {
             ['get', 'code'],
             [
               'literal',
-              selectedDistrict.map(fed => {
+              filteredMunFromDist.map(fed => {
                 return fed.code.toString();
               }),
             ],
@@ -1167,6 +1204,7 @@ class MainPartnership extends Component {
       selectedProvince,
       mapViewBy,
       activeView,
+      map,
     } = this.state;
     if (activeView === 'visualization') {
       this.props.filterFinancialDataWithAllFiltersAndFederal(
@@ -1196,6 +1234,29 @@ class MainPartnership extends Component {
     } else {
       // this.props.filterMapDataWithFederal();
       this.handleStateLevel(mapViewBy);
+      if (
+        selectedProvince.length === 0 &&
+        selectedDistrict.length === 0 &&
+        selectedMunicipality.length === 0
+      ) {
+        this.state.map.setFilter('vector-tile-fill', null);
+        const combinedBbox = [];
+        const getBboxValue = getCenterBboxProvince([
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ]);
+        getBboxValue.map(data => {
+          combinedBbox.push(data.bbox);
+          return true;
+        });
+        const extendedValue = extendBounds(combinedBbox);
+        map.fitBounds(extendedValue);
+      }
     }
   };
 
@@ -1237,7 +1298,7 @@ class MainPartnership extends Component {
         return true;
       });
       const extendedValue = extendBounds(combinedBbox);
-      this.state.map.fitBounds(extendedValue);
+      map.fitBounds(extendedValue);
       map.setFilter('vector-tile-fill', null);
     }
   };
