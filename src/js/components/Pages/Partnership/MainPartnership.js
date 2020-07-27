@@ -392,7 +392,7 @@ class MainPartnership extends Component {
             selectedProvince &&
             selectedProvince.length > 0
           ) {
-            alert('province Selection on district');
+            // alert('province Selection on district');
             // eslint-disable-next-line array-callback-return
             selectedProvince.map(province => {
               // console.log(province, 'prv1');
