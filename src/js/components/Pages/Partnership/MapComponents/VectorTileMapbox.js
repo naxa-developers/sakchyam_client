@@ -401,6 +401,7 @@ class Choropleth extends Component {
       //
       singleData = {
         point_count: 0,
+        federal_name: data.properties.name,
       };
       if (data.properties.pie) {
         data.properties.pie.forEach(piedata => {
@@ -1456,7 +1457,11 @@ class Choropleth extends Component {
     if (prevProps.circleMarkerData !== circleMarkerData) {
       //
       removeMarker();
-      if (this.props.pieSquareLegend.current.childNodes.length <= 0) {
+      if (
+        this.props.pieSquareLegend &&
+        this.props.pieSquareLegend.current &&
+        this.props.pieSquareLegend.current.childNodes.length <= 0
+      ) {
         this.createPieLegend();
       }
       const viewBy =
