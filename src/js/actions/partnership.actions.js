@@ -1748,7 +1748,6 @@ export const getMapDataByProvince = selectedView => dispatch => {
   try {
     axiosInstance
       .get(
-        // `/api/v1/partnership/map-data/?province_id=0&pie="investment,total_beneficiary,allocated_budget"`,
         `/api/v1/partnership/map-data/?province_id=0&pie=${selected}`,
       )
       .then(function(result) {
