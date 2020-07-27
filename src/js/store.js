@@ -9,7 +9,7 @@ import rootReducer from './reducers/index.reducer';
 const initialState = {};
 const isDev = process.env.PLATFORM === 'local';
 
-const isDevMiddleware = [thunk, logger];
+const isDevMiddleware = [thunk];
 const isProdMiddleware = [thunk];
 
 const store = isDev
