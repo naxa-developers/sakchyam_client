@@ -7,6 +7,7 @@ const categoryOption = [
   'Population of local unit',
   'Yearly government funding',
   'Social security receipeints',
+  'HDI of District',
 ];
 
 export default function MapFilter(props) {

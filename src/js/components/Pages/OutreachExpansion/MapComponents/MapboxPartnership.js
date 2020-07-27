@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import VectorTileMapbox from './VectorTileMapbox';
+// import VectorTileMapbox from './VectorTileMapbox';
 import PlotVector from './PlotVector';
 import {
   getMapDataByProvince,
@@ -21,6 +22,8 @@ class MapboxPartnership extends Component {
       filteredByPopulation: '',
       filteredByHDI: '',
       hoveredMunicipalityId: 0,
+      secondaryData: '',
+      selectedMuni: '',
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -40,6 +43,14 @@ class MapboxPartnership extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { outreachReducer } = this.props;
+
+    if (prevProps.outreachReducer !== outreachReducer) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        secondaryData: outreachReducer.secondarData.data,
+      });
+    }
+
     if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
       if (this.props.mapViewDataBy !== 'investment_focus') {
         this.props.filterMapDataOfCircleMarkerWithViewDataBy(
@@ -61,33 +72,33 @@ class MapboxPartnership extends Component {
     if (prevProps.outreachReducer !== outreachReducer) {
       const filteredByYearlyFund = outreachReducer.secondarData.data.map(
         muni => ({
-          id: muni.id,
-          code: muni.municipality_id,
+          id: muni.municipality_code,
+          code: muni.municipality_code,
           count: muni.yearly_fund,
         }),
       );
 
       const filteredBySocialSecurity = outreachReducer.secondarData.data.map(
         muni => ({
-          id: muni.id,
-          code: muni.municipality_id,
+          id: muni.municipality_code,
+          code: muni.municipality_code,
           count: muni.social_security_recipients,
         }),
       );
 
       const filteredByPopulation = outreachReducer.secondarData.data.map(
         muni => ({
-          id: muni.id,
-          code: muni.municipality_id,
+          id: muni.municipality_code,
+          code: muni.municipality_code,
           count: muni.population,
         }),
       );
 
       const filteredByHDI = outreachReducer.secondarData.data.map(
         muni => ({
-          id: muni.id,
-          code: muni.municipality_id,
-          count: muni.hdi,
+          id: muni.municipality_code,
+          code: muni.municipality_code,
+          count: muni.hdi * 100,
         }),
       );
       // eslint-disable-next-line react/no-did-update-set-state
@@ -101,7 +112,21 @@ class MapboxPartnership extends Component {
   }
 
   setHoveredMunicipalityId = id => {
-    this.setState({ hoveredMunicipalityId: id });
+    const { secondaryData } = this.state;
+    let tempId = 0;
+
+    // eslint-disable-next-line array-callback-return
+    secondaryData.map(data => {
+      // eslint-disable-next-line radix
+      if (parseInt(data.municipality_code) === parseInt(id)) {
+        console.log('condition met');
+        this.setState({ selectedMuni: data });
+        tempId = id;
+      } else {
+        this.setState({ selectedMuni: '' });
+      }
+    });
+    this.setState({ hoveredMunicipalityId: tempId });
   };
 
   render() {
@@ -112,6 +137,7 @@ class MapboxPartnership extends Component {
       filteredByPopulation,
       filteredBySocialSecurity,
       hoveredMunicipalityId,
+      selectedMuni,
     } = this.state;
     const {
       mapViewBy,
@@ -147,6 +173,9 @@ class MapboxPartnership extends Component {
       default:
         choroplethData = filteredMapData;
     }
+
+    // eslint-disable-next-line no-unused-expressions
+    selectedMuni && console.log('selectedMuni present', selectedMuni);
 
     return (
       <>

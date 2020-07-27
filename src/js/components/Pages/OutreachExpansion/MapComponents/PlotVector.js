@@ -170,17 +170,17 @@ class PlotVector extends Component {
         },
       });
 
-      map.on('click', 'vector-tile-fill', function(e) {
-        const getBbox = getCenterBboxProvince(
-          e.features[0].properties.code,
-        );
-        map.fitBounds(getBbox.bbox);
-        that.props.handleFederalClickOnMap(
-          'district',
-          e.features[0].properties.code,
-        );
-        that.props.setMapViewBy('district');
-      });
+      // map.on('click', 'vector-tile-fill', function(e) {
+      //   const getBbox = getCenterBboxProvince(
+      //     e.features[0].properties.code,
+      //   );
+      //   map.fitBounds(getBbox.bbox);
+      //   that.props.handleFederalClickOnMap(
+      //     'district',
+      //     e.features[0].properties.code,
+      //   );
+      //   that.props.setMapViewBy('district');
+      // });
 
       // const popup = new mapboxgl.Popup();
       // map.on('mousemove', 'circles1', function(e) {
@@ -224,7 +224,6 @@ class PlotVector extends Component {
             );
           }
           hoveredStateId = e.features[0].id;
-          console.log('hoveredStateId', hoveredStateId);
           that.props.setHoveredMunicipalityId(e.features[0].id);
           map.setFeatureState(
             {
@@ -318,7 +317,9 @@ class PlotVector extends Component {
                               : -12,
                         }}
                       >
-                        {grade1}
+                        {localOutreachSelected === 'HDI of District'
+                          ? grade1 / 100
+                          : grade1}
                       </span>
                     </li>
                   );
