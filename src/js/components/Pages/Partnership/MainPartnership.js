@@ -1033,110 +1033,17 @@ class MainPartnership extends Component {
     // this.setState({ dataTypeLevel: clickedValue });
   };
 
-  // handleProvinceClick = code => {
-  //   // console.log(id, 'asasa');
-  //   const {
-  //     vectorGridInputUrl,
-  //     mapViewBy,
-  //     activeClickPartners,
-  //     selectedMunicipality,
-  //     selectedDistrict,
-  //     selectedProvince,
-  //   } = this.state;
-
-  //   if (mapViewBy === 'municipality') {
-  //     if (selectedMunicipality && selectedMunicipality.length > 0) {
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     } else if (selectedDistrict && selectedDistrict.length > 0) {
-  //       const query = selectedDistrict
-  //         .map(data => {
-  //           return `district_code=${data}`;
-  //         })
-  //         .join('&');
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     } else if (selectedProvince && selectedProvince.length > 0) {
-  //       const query = selectedProvince
-  //         .map(data => {
-  //           return `province_id_id=${data}`;
-  //         })
-  //         .join('&');
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     } else {
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     }
-  //   } else if (mapViewBy === 'district') {
-  //     // if (selectedMunicipality.length > 0) {
-  //     //   const query = selectedMunicipality
-  //     //     .map(data => {
-  //     //       return `code=${data}`;
-  //     //     })
-  //     //     .join('&');
-  //     //   const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-  //     //   this.setState({
-  //     //     vectorTileUrl: municipalityFilterUrl,
-  //     //
-  //     //   });
-  //     // } else
-  //     if (selectedDistrict && selectedDistrict.length > 0) {
-  //       const query = selectedDistrict
-  //         .map(data => {
-  //           return `code=${data}`;
-  //         })
-  //         .join('&');
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     } else if (selectedProvince && selectedProvince.length > 0) {
-  //       const query = selectedProvince
-  //         .map(data => {
-  //           return `province_id_id=${data}`;
-  //         })
-  //         .join('&');
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     } else {
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     }
-  //   } else if (mapViewBy === 'province') {
-  //     if (selectedProvince && selectedProvince.length > 0) {
-  //       const query = selectedProvince
-  //         .map(data => {
-  //           return `code=${data}`;
-  //         })
-  //         .join('&');
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     } else {
-  //       const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&code=${code}`;
-  //       this.setState({
-  //         vectorTileUrl: municipalityFilterUrl,
-  //       });
-  //     }
-  //   }
-  //   // console.log(
-  //   //   `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&province_id=${code}`,
-  //   // );
-  // };
+  handleProvinceClick = (code, name) => {
+    // console.log(id, 'asasa');
+    const { mapViewBy } = this.state;
+    if (mapViewBy === 'municipality') {
+      document.querySelector(`.municipality .check_${code}`).click();
+    } else if (mapViewBy === 'district') {
+      document.querySelector(`.district .check_${code}`).click();
+    } else if (mapViewBy === 'province') {
+      document.querySelector(`.province .check_${code}`).click();
+    }
+  };
 
   handleShowBarOf = value => {
     this.setState({ showBarof: value });
@@ -1754,7 +1661,7 @@ class MainPartnership extends Component {
                     </div>
                     <div className="filter-row">
                       <div className="filter-list">
-                        <div className="form-group">
+                        <div className="form-group province">
                           <Select
                             withCheckbox
                             name="Select Province"
@@ -1771,7 +1678,7 @@ class MainPartnership extends Component {
                         </div>
                         {mapViewBy === 'municipality' ||
                         mapViewBy === 'district' ? (
-                          <div className="form-group">
+                          <div className="form-group district">
                             <Select
                               withCheckbox
                               name="Select District"
@@ -1788,7 +1695,7 @@ class MainPartnership extends Component {
                           </div>
                         ) : null}
                         {mapViewBy === 'municipality' && (
-                          <div className="form-group">
+                          <div className="form-group municipality">
                             <Select
                               withCheckbox
                               name="Select Municipality"
