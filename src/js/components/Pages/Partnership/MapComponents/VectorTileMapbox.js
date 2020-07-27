@@ -557,21 +557,33 @@ class Choropleth extends Component {
     ];
     // select the svg area
     const SVG = d3.select(that.props.pieSquareLegend.current);
-
+    // const firstLegend = d3.select(SVG);
+    // const legendCon = d3.select(firstLegend.node().parentNode);
+    // const legendY = parseInt(
+    //   firstLegend.select('text').attr('y'),
+    //   10,
+    // );
+    SVG.append('text')
+      .text('Investment Focus Quantify')
+      .attr('x', 65)
+      .attr('y', 20)
+      .style('font-size', '15px');
+    // By Partner/Benef/Budget
+    // translate(109px, -19px)
     // create a list of keys
-    const keys = [
-      'Mister A',
-      'Brigitte',
-      'Eleonore',
-      'Another friend',
-      'Batman',
-    ];
+    // const keys = [
+    //   'Mister A',
+    //   'Brigitte',
+    //   'Eleonore',
+    //   'Another friend',
+    //   'Batman',
+    // ];
 
     // Usually you have a color scale in your chart already
-    const color = d3
-      .scaleOrdinal()
-      .domain(datas)
-      .range(d3.schemeSet1);
+    // const color = d3
+    //   .scaleOrdinal()
+    //   .domain(datas)
+    //   .range(d3.schemeSet1);
 
     // Add one dot in the legend for each name.
     const size = 20;
@@ -585,6 +597,7 @@ class Choropleth extends Component {
       }) // 100 is where the first dot appears. 25 is the distance between dots
       .attr('width', size)
       .attr('height', size)
+      .style('transform', `translate(0px, ${size + 5}px)`)
       .style('fill', function(d) {
         return colorScale(d.type);
       });
@@ -600,6 +613,7 @@ class Choropleth extends Component {
       .attr('y', function(d, i) {
         return 10 + i * (size + 5) + size / 2;
       }) // 100 is where the first dot appears. 25 is the distance between dots
+      .style('transform', `translate(0px, ${size + 5}px)`)
       .style('fill', function(d) {
         return '#000';
         // return color(d.type);
