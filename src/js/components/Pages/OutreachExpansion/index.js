@@ -852,6 +852,11 @@ class MainPartnership extends Component {
       allMunicipalityList,
     } = this.props.commonReducer;
 
+    const temp = provinceLists();
+
+    console.log('province list======>', allProvinceList);
+    console.log('new pro list======>', temp);
+
     return (
       <>
         <Headers />
@@ -925,9 +930,7 @@ class MainPartnership extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
-                            options={
-                              allProvinceList && allProvinceList
-                            }
+                            options={temp && temp}
                             onChange={selectedOptions => {
                               this.setState({
                                 selectedProvince: selectedOptions,
