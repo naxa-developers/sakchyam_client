@@ -49,6 +49,11 @@ class MapboxPartnership extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const {
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
+    } = this.props;
     // if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
     // }
     // if (prevProps.mapViewBy !== this.props.mapViewBy) {
@@ -64,6 +69,7 @@ class MapboxPartnership extends Component {
       this.props.filterMapDataOfCircleMarkerWithViewDataBy(
         view,
         this.props.mapViewBy,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
       );
       // }
     }
@@ -77,6 +83,7 @@ class MapboxPartnership extends Component {
       this.props.filterMapDataOfCircleMarkerWithViewDataBy(
         view,
         this.props.mapViewBy,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
       );
     }
     // if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {

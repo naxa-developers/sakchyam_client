@@ -2037,25 +2037,59 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
 export const filterMapDataOfCircleMarkerWithViewDataBy = (
   selectedViewDataBy,
   selectedFederalType,
+  selectedFederalList,
 ) => dispatch => {
   // console.log(selectedFederalTypes, 'selectedFederalTypes');
   // console.log(selectedDataView, 'selectedDataView');
   // console.log(selectedPartnerId, 'selectedPartnerId');
   // console.log(selectedProjectId, 'selectedProjectId');
   console.log(selectedViewDataBy, 'selectedStatus');
-  // const selectedView= selecte
-  const federalParam =
-    selectedFederalType === 'province'
+  console.log(selectedFederalList, 'selectedFederalList');
+  const federalFilter =
+    selectedFederalList &&
+    selectedFederalList.selectedMunicipality &&
+    selectedFederalList.selectedMunicipality.length > 0
+      ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
+          mun => {
+            return mun.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedDistrict &&
+        selectedFederalList.selectedDistrict.length > 0
+      ? `district_id=${selectedFederalList.selectedDistrict.map(
+          dist => {
+            return dist.code;
+          },
+        )}`
+      : selectedFederalList &&
+        selectedFederalList.selectedProvince &&
+        selectedFederalList.selectedProvince.length > 0
+      ? `province_id=${selectedFederalList.selectedProvince.map(
+          prov => {
+            return prov.code;
+          },
+        )}`
+      : selectedFederalType === 'province'
       ? 'province_id=0'
       : selectedFederalType === 'district'
       ? 'district_id=0'
       : selectedFederalType === 'municipality'
       ? 'municipality_id=0'
       : 'province_id=0';
+  // const selectedView= selecte
+  // const federalParam =
+  //   selectedFederalType === 'province'
+  //     ? 'province_id=1'
+  //     : selectedFederalType === 'district'
+  //     ? 'district_id=0'
+  //     : selectedFederalType === 'municipality'
+  //     ? 'municipality_id=0'
+  //     : 'province_id=0';
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/map-data/?${federalParam}&pie=${selectedViewDataBy}`,
+        `/api/v1/partnership/map-data/?${federalFilter}&pie=${selectedViewDataBy}`,
       )
       .then(function(result) {
         console.log(result.data, 'filteredData');

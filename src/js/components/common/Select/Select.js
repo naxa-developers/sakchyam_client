@@ -274,14 +274,15 @@ class Select extends PureComponent {
           {/* <div className="vr-checkbox" style={{ width: '100%' }}> */}
           {withCheckbox && (
             <input
-              id={opt.label}
+              id={opt.label.replace(' ', '_')}
+              className={`check_${opt.code}`}
               type="checkbox"
               value={opt.value}
               checked={opt.checked ? opt.checked : false}
               onChange={e => checkboxHandler(e, opt)}
             />
           )}
-          <label htmlFor={opt.label}>
+          <label htmlFor={opt.label.replace(' ', '_')}>
             <i className="icon-ok-2" />
             {opt.label}
           </label>
