@@ -1249,6 +1249,7 @@ class Choropleth extends Component {
                   <div class="map-popup-view-header">
                       <h5>${e.features[0].properties.name}</h5>
                       <h5>Code:${e.features[0].properties.code}</h5>
+                      <h5>ID:${e.features[0].properties.id}</h5>
                       <div class="icons">
                       <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
                       </div>
