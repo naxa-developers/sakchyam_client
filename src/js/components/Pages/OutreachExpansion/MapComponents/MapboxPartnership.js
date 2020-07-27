@@ -170,18 +170,76 @@ class MapboxPartnership extends Component {
               />
 
               {hoveredMunicipalityId !== 0 && (
-                <div
-                  style={{
-                    backgroundColor: 'green',
-                    width: '20vw',
-                    position: 'absolute',
-                    zIndex: '100',
-                    top: '20vh',
-                  }}
-                >
-                  Need a Pop up here
+                <div className="map-popup">
+                <div className="map-popup-container">
+
+                  <div className="map-popup-body">
+                    <div className="map-popup-header">
+                      <h3>Pancheswor Rural Municipality</h3>
+                      <h5>Baitadi</h5>
+                    </div>
+                    <span className="close-icon">
+                      <i className="material-icons">close</i>
+                    </span>
+                    <div className="map-popup-content">
+                      <ul className="map-popup-list">
+                        <li>
+                          <p>Head-Quarter of the Local Unit</p>
+                          <b>Aam Chaura</b>
+                        </li>
+                        <li>
+                          <p>HDI of District</p>
+                          <b>0.416</b>
+                        </li>
+                        <li>
+                          <p>Population in Local Unit</p>
+                          <b>18,766</b>
+                        </li>
+                        <li>
+                          <p>Yearly Central Government Funding</p>
+                          <b>Rs. 237,703,000</b>
+                        </li>
+                        <li>
+                          <p>Social Security Payment Recipients</p>
+                          <b>3,001</b>
+                        </li>
+                        <li>
+                          <p>Yearly Social Security Payments</p>
+                          <b>Rs. 40,622,000</b>
+                        </li>
+                        <li>
+                          <p>Road distance from nearest commercial bank before establishment of branch</p>
+                          <b>21</b>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="map-popup-footer">
+                    <h5>Available Means of Communication</h5>
+                    <ul className="communication">
+                      <li>
+                        <i className="material-icons check">check_circle</i>
+                        <span>Landline</span>
+                      </li>
+                      <li>
+                        <i className="material-icons cancel">cancel</i>
+                        <span>Mobile internet</span>
+                      </li>
+                      <li>
+                        <i className="material-icons check">check_circle</i>
+                        <span>mobile</span>
+                      </li>
+                      <li>
+                        <i className="material-icons cancel">cancel</i>
+                        <span>other internet</span>
+                      </li>
+                    </ul>
+                    </div>
+                  </div>
+                  
                 </div>
+              </div>
               )}
+              
 
               {/* <VectorTileMapbox
                 handleFederalClickOnMap={
