@@ -869,8 +869,13 @@ class Choropleth extends Component {
         <b>4</b></div> */
         // <div className="icon-list">
         //             </div>
-        tooltip.style('display', 'none');
-        tooltip.style('opacity', 0);
+        // document
+        //   .querySelectorAll('.pie-mapbox-popup')
+        //   .forEach(function(el) {
+        //     // eslint-disable-next-line no-param-reassign
+        //     el.style.display = 'none';
+        //     // a.remove();
+        //   });
 
         let partnerList = null;
         partnerList =
@@ -1503,10 +1508,10 @@ class Choropleth extends Component {
       };
       waiting();
     });
-    map.on('idle', () => {
-      console.log(map.isSourceLoaded('municipality'), 'idle');
-      // map.getCanvas().toDataURL()
-    });
+    // map.on('idle', () => {
+    //   console.log(map.isSourceLoaded('municipality'), 'idle');
+    //   // map.getCanvas().toDataURL()
+    // });
 
     // map.on('load', 'vector-tile-fill', function(e) {
     //   console.log(e, 'e');
