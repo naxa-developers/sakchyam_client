@@ -18,6 +18,7 @@ import { getCenterBboxMunicipality } from '../common/MunicipalityFunction';
 
 import MarkerPieChart from '../Charts/MarkerPieChart/MarkerPieChart';
 import { extendBounds } from '../../Automation/MapRelatedComponents/extendBbox';
+import Loading from '../../../common/Loading';
 
 global.markerList = [];
 function removeMarker() {
@@ -207,6 +208,7 @@ class Choropleth extends Component {
       key: 1,
       playClick: false,
       circleMarkerRadius: null,
+      loading: false,
     };
   }
 
@@ -408,6 +410,10 @@ class Choropleth extends Component {
           //
           singleData[`${piedata.investment_primary}`] =
             piedata[`${viewBy}`];
+          if (piedata.partner_list) {
+            singleData[`${piedata.investment_primary}_partnerList`] =
+              piedata.partner_list;
+          }
           singleData.point_count += piedata[`${viewBy}`];
         });
       }
@@ -851,7 +857,7 @@ class Choropleth extends Component {
       .append('path')
       .attr('d', arc)
       .attr('fill', d => colorScale(d.data.type))
-      .on('mouseover', function(d, i) {
+      .on('click', function(d, i) {
         // console.log(props, 'props');
         // if (document.querySelector('.federal-popup')) {
         //   document.querySelector('.federal-popup').style.display =
@@ -863,10 +869,14 @@ class Choropleth extends Component {
         <b>4</b></div> */
         // <div className="icon-list">
         //             </div>
+        tooltip.style('display', 'none');
+        tooltip.style('opacity', 0);
+
         let partnerList = null;
         partnerList =
           props[`${d.data.type}_partnerList`] &&
           props[`${d.data.type}_partnerList`]
+            // ${partner}
             .map(partner => {
               return `<li>
                 <div className="organization-icon">
@@ -875,8 +885,22 @@ class Choropleth extends Component {
                 <div className="organization-content">
                   <div className="org-header">
                     <h5>
-                      ${partner}
                     </h5>
+                    <ul>
+                      <label>Main Title
+                      <li>Sub Title</li>
+                      <li>Sub Title</li>
+                    </ul>
+                    <ul>
+                      <label>Main Title
+                      <li>Sub Title</li>
+                      <li>Sub Title</li>
+                    </ul>
+                    <ul>
+                      <label>Main Title
+                      <li>Sub Title</li>
+                      <li>Sub Title</li>
+                    </ul>
                   </div>
                 </div>
               </li>`;
@@ -927,8 +951,8 @@ class Choropleth extends Component {
           .style('left', `${d3.event.offsetX + 20}px`);
       })
       .on('mouseout', function(d, i) {
-        tooltip.style('display', 'none');
-        tooltip.style('opacity', 0);
+        // tooltip.style('display', 'none');
+        // tooltip.style('opacity', 0);
 
         d3.select(this)
           .transition()
@@ -977,6 +1001,7 @@ class Choropleth extends Component {
     const that = this;
     //
     let hoveredStateId = null;
+
     map.on('load', function() {
       const combinedBbox = [];
       // console.log(selectedProvince, 'selectedProvine');
@@ -1039,6 +1064,7 @@ class Choropleth extends Component {
         },
       });
       global.mapGlobal = map;
+
       // filters for classifying earthquakes into five categories based on magnitude
 
       //
@@ -1162,6 +1188,7 @@ class Choropleth extends Component {
         //   countyLegendEl.style.display = 'none';
         // }
       });
+
       map.on('click', 'vector-tile-fill', function(e) {
         console.log(e, 'e Vector');
         //
@@ -1182,6 +1209,11 @@ class Choropleth extends Component {
             parseInt(e.features[0].properties.code, 10),
           );
           map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            ['literal', [e.features[0].properties.code.toString()]],
+          ]);
+          map.setFilter('vector-tile-outline', [
             'in',
             ['get', 'code'],
             ['literal', [e.features[0].properties.code.toString()]],
@@ -1208,6 +1240,11 @@ class Choropleth extends Component {
             ['get', 'code'],
             ['literal', [e.features[0].properties.code.toString()]],
           ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            ['literal', [e.features[0].properties.code.toString()]],
+          ]);
 
           // that.props.handleFederalClickOnMap(
           //   'municipality',
@@ -1227,6 +1264,11 @@ class Choropleth extends Component {
             ['get', 'code'],
             ['literal', [e.features[0].properties.code.toString()]],
           ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            ['literal', [e.features[0].properties.code.toString()]],
+          ]);
           // that.props.handleProvinceClick(
           //   e.features[0].properties.code,
           // );
@@ -1242,10 +1284,8 @@ class Choropleth extends Component {
             );
           },
         );
-        popup
-          .setLngLat(e.lngLat)
-          .setHTML(
-            `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
+        popup.setLngLat(e.lngLat).setHTML(
+          `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
               <div class="map-popup-view">
                   <div class="map-popup-view-header">
                       <h5>${e.features[0].properties.name}</h5>
@@ -1259,8 +1299,8 @@ class Choropleth extends Component {
                   </div>
                       </div>
                   </div>`,
-          )
-          .addTo(map);
+        );
+        // .addTo(map);
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
@@ -1438,6 +1478,52 @@ class Choropleth extends Component {
       // });
       // }
     });
+    // map.on('sourcedataloading', function(e) {
+    //   that.setState({ loading: !map.isSourceLoaded('municipality') });
+
+    //   // console.log(e, 'SOURCE DATA LOADING ');
+    // });
+    // map.on('sourcedata', function(e) {
+    //   // const that = this;
+    //   // console.log(e, 'SOURCE DATA');
+    //   // console.log('tile', map.isSourceLoaded('municipality'));
+    //   that.setState({ loading: !map.isSourceLoaded('municipality') });
+    // });
+    map.on('style.load', () => {
+      const waiting = () => {
+        if (!map.isStyleLoaded()) {
+          setTimeout(waiting, 200);
+          console.log('if');
+        } else {
+          this.setState(prevState => ({
+            loading: !prevState.loading,
+          }));
+          console.log('loadMyLayer');
+        }
+      };
+      waiting();
+    });
+    map.on('idle', () => {
+      console.log(map.isSourceLoaded('municipality'), 'idle');
+      // map.getCanvas().toDataURL()
+    });
+
+    // map.on('load', 'vector-tile-fill', function(e) {
+    //   console.log(e, 'e');
+    //   alert('test');
+    //   // if (e.sourceId === 'municipality') {
+    //   //   if (e.isSourceLoaded) {
+    //   //     // alert('test');
+    //   //     // Do something when the source has finished loading
+    //   //   }
+    //   // }
+    // });
+    // map.on('data', function(e) {
+    //   console.log(e, 'e');
+    //   if (e.isSourceLoaded) {
+    //     // Do something when the source has finished loading
+    //   }
+    // });
   };
 
   componentDidMount() {
@@ -1455,6 +1541,11 @@ class Choropleth extends Component {
     } = this.props;
 
     if (prevProps.circleMarkerData !== circleMarkerData) {
+      // eslint-disable-next-line no-shadow
+      // eslint-disable-next-line react/no-did-update-set-state
+      // this.setState(prevStates => ({
+      //   loading: !prevStates.loading,
+      // }));
       //
       removeMarker();
       if (
@@ -1908,9 +1999,11 @@ class Choropleth extends Component {
       key,
       playClick,
       circleMarkerRadius,
+      loading,
     } = this.state;
     return (
       <>
+        <Loading loaderState={!loading} />
         <div className="map-legend newmap-legend">
           <div className="color-list">
             <h6>Number of Projects</h6>

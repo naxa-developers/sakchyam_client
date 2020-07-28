@@ -330,6 +330,16 @@ class MainPartnership extends Component {
                 }),
               ],
             ]);
+            map.setFilter('vector-tile-outline', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                selectedProvince.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
             let view = 'investment';
             if (mapViewDataBy === 'allocated_beneficiary') {
               view = 'total_beneficiary';
@@ -364,6 +374,16 @@ class MainPartnership extends Component {
             // });
             // console.log(filteredList, 'dist2 ');
             map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                selectedDistrict.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
+            map.setFilter('vector-tile-outline', [
               'in',
               ['get', 'code'],
               [
@@ -417,6 +437,16 @@ class MainPartnership extends Component {
                 }),
               ],
             ]);
+            map.setFilter('vector-tile-outline', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                filteredList.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
             let view = 'investment';
             if (mapViewDataBy === 'allocated_beneficiary') {
               view = 'total_beneficiary';
@@ -451,6 +481,16 @@ class MainPartnership extends Component {
             // console.log(filteredList, 'test filtered');
             // console.log(filteredList, 'dist2 ');
             map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                filteredList.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
+            map.setFilter('vector-tile-outline', [
               'in',
               ['get', 'code'],
               [
@@ -496,6 +536,16 @@ class MainPartnership extends Component {
             // console.log(filteredList, 'test filtered');
             // console.log(filteredList, 'dist2 ');
             map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                filteredList.map(fed => {
+                  return fed.code.toString();
+                }),
+              ],
+            ]);
+            map.setFilter('vector-tile-outline', [
               'in',
               ['get', 'code'],
               [
@@ -668,6 +718,16 @@ class MainPartnership extends Component {
               }),
             ],
           ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              selectedMunicipality.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
           let view = 'investment';
           if (mapViewDataBy === 'allocated_beneficiary') {
             view = 'total_beneficiary';
@@ -727,6 +787,16 @@ class MainPartnership extends Component {
               }),
             ],
           ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredMunFromDist.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
           let view = 'investment';
           if (mapViewDataBy === 'allocated_beneficiary') {
             view = 'total_beneficiary';
@@ -772,6 +842,16 @@ class MainPartnership extends Component {
           });
           // console.log(filteredList, 'dist2 ');
           map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          map.setFilter('vector-tile-outline', [
             'in',
             ['get', 'code'],
             [
@@ -851,6 +931,16 @@ class MainPartnership extends Component {
               }),
             ],
           ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              selectedDistrict.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
           let view = 'investment';
           if (mapViewDataBy === 'allocated_beneficiary') {
             view = 'total_beneficiary';
@@ -910,6 +1000,16 @@ class MainPartnership extends Component {
               }),
             ],
           ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
           let view = 'investment';
           if (mapViewDataBy === 'allocated_beneficiary') {
             view = 'total_beneficiary';
@@ -959,6 +1059,16 @@ class MainPartnership extends Component {
             })
             .join('&');
           map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              selectedProvince.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          map.setFilter('vector-tile-outline', [
             'in',
             ['get', 'code'],
             [
@@ -1418,6 +1528,7 @@ class MainPartnership extends Component {
           },
         );
         this.state.map.setFilter('vector-tile-fill', null);
+        this.state.map.setFilter('vector-tile-outline', null);
         const combinedBbox = [];
         const getBboxValue = getCenterBboxProvince([
           1,
@@ -1498,6 +1609,7 @@ class MainPartnership extends Component {
       const extendedValue = extendBounds(combinedBbox);
       map.fitBounds(extendedValue);
       map.setFilter('vector-tile-fill', null);
+      map.setFilter('vector-tile-outline', null);
     }
   };
 
