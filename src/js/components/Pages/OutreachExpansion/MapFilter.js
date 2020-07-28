@@ -4,10 +4,21 @@ import 'react-dropdown/style.css';
 import FilterBadge from './common/FilterBadge';
 
 const categoryOption = [
-  'Population of local unit',
-  'Yearly government funding',
-  'Social security receipeints',
+  'Population in the Local Unit',
+  'Yearly Central Government Funding',
+  'Social Security Payment Recipients',
   'HDI of District',
+  'Yearly Social Security Payments',
+  'Nearest Police Presence(Distance)',
+  'Road distance from nearest Commercial Bank Branch (in KM)',
+  'Nearest Road Access(Distance)',
+  // 'Nearest Road Access(TypeOfRoad)',
+  'Available Means of Communication(Landline)',
+  'Available Means of Communication(Mobile)',
+  'Available Means of Communication(Internet)',
+  'Available Means of Communication(OtherInternet)',
+  'Availability of Electricity(MainGrid)',
+  'Availability of Electricity(Micro-Hydro)',
 ];
 
 export default function MapFilter(props) {
@@ -23,7 +34,7 @@ export default function MapFilter(props) {
   const [selectedOption, setOption] = useState('');
 
   const handelViewDataBy = e => {
-    console.log('data retrieved', e);
+    // console.log('data retrieved', e);
     setOption(e.value);
     setOutreachByLU(e.value);
   };

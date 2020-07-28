@@ -91,9 +91,15 @@ class PlotVector extends Component {
         ? [0, 2, 4, 6, 8, 10, 12]
         : calculateRange(min, max, (max - min) / (gradeCount - 1));
 
+    if (this.props.YesNo) {
+      range = [0, 1];
+    }
+
     this.setState({
       grade: fullRange.length > 0 ? fullRange : range,
     });
+
+    // console.log('grage value', range);
 
     setTimeout(() => {
       this.ChangeLegendColors();
@@ -108,7 +114,12 @@ class PlotVector extends Component {
         ? choroplethColor
         : '#ff0000';
     const data = this.state.grade;
-    const choroplethColors = choroplethColorArray(data.length, color);
+
+    let choroplethColors = choroplethColorArray(data.length, color);
+
+    if (this.props.YesNo) {
+      choroplethColors = ['rgb(235, 81, 73)', 'rgb(0,128,0)'];
+    }
     this.setState({ legendColors: choroplethColors });
   }
 
@@ -119,8 +130,6 @@ class PlotVector extends Component {
       expression.push(value.id.toString(), color);
     });
     expression.push('rgba(0,0,0,0)');
-    // console.log('expression fill style', expression);
-
     this.setState({ finalStyle: expression });
   }
 
@@ -256,13 +265,24 @@ class PlotVector extends Component {
   getLegendColor(value) {
     const { legendColors, grade } = this.state;
     let color = 'rgba(255,255,255,0)';
-    // eslint-disable-next-line array-callback-return
-    grade.map((gradeitem, j) => {
-      if (value > gradeitem) {
-        color = legendColors[j];
+
+    if (this.props.YesNo) {
+      if (value > 0) {
+        return 'rgb(0,128,0)';
       }
-    });
-    return color;
+      return 'rgb(235, 81, 73)';
+      // eslint-disable-next-line no-else-return
+    } else {
+      // eslint-disable-next-line array-callback-return
+      grade.map((gradeitem, j) => {
+        if (value > gradeitem) {
+          color = legendColors[j];
+        }
+      });
+      return color;
+    }
+
+    // eslint-disable-next-line array-callback-return
   }
 
   getShortNumbers = (n, d) => {
@@ -277,7 +297,7 @@ class PlotVector extends Component {
 
   render() {
     const stateGrade = this.state.grade;
-    const { localOutreachSelected } = this.props;
+    const { localOutreachSelected, YesNo } = this.props;
     const legendTitle = localOutreachSelected
       ? localOutreachSelected
       : 'Number of Projects';
@@ -288,6 +308,7 @@ class PlotVector extends Component {
             <h6>{legendTitle}</h6>
             <ul id="state-legend" className="color-legend">
               {stateGrade &&
+                !YesNo &&
                 stateGrade.map((grade, i) => {
                   let hideLastdiv = false;
                   hideLastdiv =
@@ -325,6 +346,29 @@ class PlotVector extends Component {
                   );
                 })}
             </ul>
+
+            {YesNo && (
+              <ul id="state-legend" className="color-legend">
+                <li>
+                  <div
+                    style={{
+                      backgroundColor: 'rgb(0,128,0)',
+                    }}
+                    className="color color1"
+                  />
+                  <span>Yes</span>
+                </li>
+                <li>
+                  <div
+                    style={{
+                      backgroundColor: 'rgb(235, 81, 73)',
+                    }}
+                    className="color color1"
+                  />
+                  <span>No</span>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </>
