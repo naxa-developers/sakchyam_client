@@ -1,0 +1,151 @@
+
+.map-popup{
+    position: absolute;
+    left:15px;
+    z-index: 1000;
+    top:100px;
+    display: block;
+    .map-popup-container{
+        @include display-flex(flex);
+        @include flex-direction-row(row);
+        @include justify-content-around;
+    }
+    .map-popup-body{
+        max-width: 340px;
+        width: 100%;
+        min-width: 340px;
+        max-height: calc(100vh - 32px);
+        @include radius(5px);
+        box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+        @include display-flex(flex);
+        @include flex-direction-column(column);
+        flex-grow: 0;
+        flex-shrink: 0;
+        background-color: $white-color;
+        position: relative;
+        @include transition(all .9s ease-in-out);
+        @media #{$breakpoint-md-desktop}{
+            max-width: 320px;
+            min-width: 320px;
+        }
+       
+        @media #{$breakpoint-sm}{
+            max-width: 300px;
+            min-width: 300px;
+        }
+      
+        span{
+            &.close-icon{
+                position: absolute;
+                right:5px;
+                top:10px;
+                z-index: 2;
+                @include radius(100%);
+                cursor: pointer;
+                @include transition(all .5s ease-in-out);
+                &:hover{
+                    color:$red-color;
+                    border-color:$red-color;
+                }
+            }
+        }
+        .map-popup-header{
+            padding: 0 1.7rem 10px 10px;
+            
+            border-bottom: 1px solid $border-color;
+            h3{
+                font-size: 1.3rem;
+                text-transform: capitalize;
+                font-family: $body-fonts;
+            }
+            h5{
+                color:$color-blue;
+                font-size: 1.2rem;
+                font-family: $avenir-heavy;
+                text-transform: uppercase;
+            }
+            &.no-flex{
+                display: initial;
+            }
+        }
+        .map-popup-content{
+            -webkit-box-flex: 1;
+            flex-grow: 1;
+            margin: 0;
+            padding: 1rem;
+            overflow-y:auto;
+            -webkit-overflow-scrolling:touch;
+            -ms-overflow-style:-ms-autohiding-scrollbar;
+        
+    
+            &::-webkit-scrollbar {
+                width: 4px;
+                background: $border-color;
+                @include radius(4px);
+            }
+    
+            &::-webkit-scrollbar-track {
+                background-color:$border-color;
+                @include radius(4px);
+            }
+    
+            &::-webkit-scrollbar-thumb {
+                @include radius(4px);
+                background: $bg-dark;
+            }
+            .map-popup-list{
+                li{
+                    p{
+                        color:$primary-light;
+                        font-size:.875rem;
+                    }
+                    b{
+                        font-size: .9125rem;
+                        font-family: $avenir-heavy;
+                    }
+                    &:not(:last-child){
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+            
+        }
+        .map-popup-footer{
+            position: relative;
+            flex-shrink: 0;
+            min-height: 52px;
+            margin: 0;
+            padding:0 1rem 1rem 1rem;
+            // border-top: 1px solid $border-color;
+            h5{
+                color:$color-blue;
+                font-size: 1rem;
+                font-family: $avenir-heavy;
+                text-transform: uppercase;
+            }
+            .communication{
+                @include display-flex(flex);
+                @include flex-wrap(wrap);
+                li{
+                    @include display-flex(flex);
+                    @include justify-content-start;
+                    @include align-items-center;
+                    @include flex(0 0 50%);
+                    margin-top:10px;
+                    span{
+                        text-transform: capitalize;
+                    }
+                    i{
+                        margin-right: 10px;
+                        &.cancel{
+                            color:$red-hover;
+                        }
+                        &.check{
+                            color:#4CE2A7;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

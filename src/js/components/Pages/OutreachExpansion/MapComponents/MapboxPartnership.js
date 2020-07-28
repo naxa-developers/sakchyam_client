@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -11,6 +12,7 @@ import {
   getPartnershipAllData,
   getFilteredMapData,
 } from '../../../../actions/partnership.actions';
+import MunicipalityPopUp from './MunicipalityPopUp';
 
 class MapboxPartnership extends Component {
   constructor(props) {
@@ -24,6 +26,12 @@ class MapboxPartnership extends Component {
       hoveredMunicipalityId: 0,
       secondaryData: '',
       selectedMuni: '',
+      filteredBySSPayments: '',
+      filteredByPPDistance: '',
+      filteredByCCDistance: '',
+      filteredByNRADistance: '',
+      filteredByLandline: '',
+      YesNo: false,
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -42,7 +50,7 @@ class MapboxPartnership extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { outreachReducer } = this.props;
+    const { outreachReducer, localOutreachSelected } = this.props;
 
     if (prevProps.outreachReducer !== outreachReducer) {
       // eslint-disable-next-line react/no-did-update-set-state
@@ -69,45 +77,161 @@ class MapboxPartnership extends Component {
       });
     }
 
-    if (prevProps.outreachReducer !== outreachReducer) {
-      const filteredByYearlyFund = outreachReducer.secondarData.data.map(
-        muni => ({
-          id: muni.municipality_code,
-          code: muni.municipality_code,
-          count: muni.yearly_fund,
-        }),
-      );
+    if (prevProps.localOutreachSelected !== localOutreachSelected) {
+      let choroplethData;
+      let YesNo = false;
+      const { data } = outreachReducer.secondarData;
+      let temp;
 
-      const filteredBySocialSecurity = outreachReducer.secondarData.data.map(
-        muni => ({
-          id: muni.municipality_code,
-          code: muni.municipality_code,
-          count: muni.social_security_recipients,
-        }),
-      );
+      // eslint-disable-next-line default-case
+      switch (localOutreachSelected) {
+        case 'Yearly Central Government Funding':
+          // eslint-disable-next-line no-case-declarations
+          const filteredByYearlyFund = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.yearly_fund,
+          }));
+          choroplethData = filteredByYearlyFund;
+          break;
+        case 'Population in the Local Unit':
+          const filteredByPopulation = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.population,
+          }));
+          choroplethData = filteredByPopulation;
+          break;
+        case 'HDI of District':
+          const filteredByHDI = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.hdi * 100,
+          }));
+          choroplethData = filteredByHDI;
+          break;
+        case 'Social Security Payment Recipients':
+          const filteredBySocialSecurity = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.social_security_recipients,
+          }));
+          choroplethData = filteredBySocialSecurity;
+          break;
+        case 'Yearly Social Security Payments':
+          const filteredBySSPayments = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.yearly_social_security_payment,
+          }));
+          choroplethData = filteredBySSPayments;
+          break;
+        case 'Nearest Police Presence(Distance)':
+          temp = data.filter(d => d.nearest_police_distance !== -1);
 
-      const filteredByPopulation = outreachReducer.secondarData.data.map(
-        muni => ({
-          id: muni.municipality_code,
-          code: muni.municipality_code,
-          count: muni.population,
-        }),
-      );
+          const filteredByPPDistance = temp.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.nearest_police_distance,
+          }));
+          choroplethData = filteredByPPDistance;
+          break;
 
-      const filteredByHDI = outreachReducer.secondarData.data.map(
-        muni => ({
-          id: muni.municipality_code,
-          code: muni.municipality_code,
-          count: muni.hdi * 100,
-        }),
-      );
+        case 'Road distance from nearest Commercial Bank Branch (in KM)':
+          temp = data.filter(d => d.nearest_branch_distance !== -1);
+          const filteredByCCDistance = temp.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.nearest_branch_distance,
+          }));
+          choroplethData = filteredByCCDistance;
+          break;
+
+        case 'Nearest Road Access(Distance)':
+          temp = data.filter(d => d.nearest_road_distance !== -1);
+          const filteredByNRADistance = temp.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.nearest_road_distance,
+          }));
+          choroplethData = filteredByNRADistance;
+          break;
+
+        case 'Nearest Road Access(TypeOfRoad)':
+          temp = data.map(d => ({ type: d.nearest_road_type }));
+          console.log('temp value', temp);
+          // temp = data.filter(d => d.nearest_road_distance !== -1);
+          // const filteredByNRADistance = temp.map(muni => ({
+          //   id: muni.municipality_code,
+          //   code: muni.municipality_code,
+          //   count: muni.nearest_road_distance,
+          // }));
+          // choroplethData = filteredByNRADistance;
+          break;
+
+        case 'Available Means of Communication(Landline)':
+          const filteredByLandline = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.communication_landline === 'Yes' ? 1 : 0,
+          }));
+          choroplethData = filteredByLandline;
+          YesNo = true;
+          break;
+        case 'Available Means of Communication(Mobile)':
+          const filteredByMobile = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.communication_mobile === 'Yes' ? 1 : 0,
+          }));
+          choroplethData = filteredByMobile;
+          YesNo = true;
+          break;
+        case 'Available Means of Communication(Internet)':
+          const filteredByInternet = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count: muni.communication_internet === 'Yes' ? 1 : 0,
+          }));
+          choroplethData = filteredByInternet;
+          YesNo = true;
+          break;
+        case 'Available Means of Communication(OtherInternet)':
+          const filteredByOther = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count:
+              muni.communication_internet_other === 'Yes' ? 1 : 0,
+          }));
+          choroplethData = filteredByOther;
+          YesNo = true;
+          break;
+        case 'Availability of Electricity(MainGrid)':
+          const filteredByMainGrid = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count:
+              muni.available_electricity_maingrid === 'Yes' ? 1 : 0,
+          }));
+          choroplethData = filteredByMainGrid;
+          YesNo = true;
+          break;
+        case 'Availability of Electricity(Micro-Hydro)':
+          const filteredByMicro = data.map(muni => ({
+            id: muni.municipality_code,
+            code: muni.municipality_code,
+            count:
+              muni.available_electricity_micro_hydro === 'Yes'
+                ? 1
+                : 0,
+          }));
+          choroplethData = filteredByMicro;
+          YesNo = true;
+          break;
+      }
+
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        filteredByYearlyFund,
-        filteredBySocialSecurity,
-        filteredByPopulation,
-        filteredByHDI,
-      });
+      this.setState({ YesNo, filteredMapData: choroplethData });
     }
   }
 
@@ -122,8 +246,6 @@ class MapboxPartnership extends Component {
         console.log('condition met');
         this.setState({ selectedMuni: data });
         tempId = id;
-      } else {
-        this.setState({ selectedMuni: '' });
       }
     });
     this.setState({ hoveredMunicipalityId: tempId });
@@ -132,12 +254,9 @@ class MapboxPartnership extends Component {
   render() {
     const {
       filteredMapData,
-      filteredByYearlyFund,
-      filteredByHDI,
-      filteredByPopulation,
-      filteredBySocialSecurity,
       hoveredMunicipalityId,
       selectedMuni,
+      YesNo,
     } = this.state;
     const {
       mapViewBy,
@@ -148,35 +267,7 @@ class MapboxPartnership extends Component {
       localOutreachSelected,
     } = this.props;
 
-    // const inputDivisions =
-    //   mapViewBy === 'province'
-    //     ? [0, 10, 20, 30, 40, 50, 60, 70]
-    //     : [0, 2, 4, 6, 8, 10, 12, 14, 20];
-
-    // const { mapDataForCircleMarker } = this.props.partnershipReducer;
-
-    let choroplethData = filteredMapData;
-
-    switch (localOutreachSelected) {
-      case 'Yearly government funding':
-        choroplethData = filteredByYearlyFund;
-        break;
-      case 'Population of local unit':
-        choroplethData = filteredByPopulation;
-        break;
-      case 'HDI of District':
-        choroplethData = filteredByHDI;
-        break;
-      case 'Social security receipeints':
-        choroplethData = filteredBySocialSecurity;
-        break;
-      default:
-        choroplethData = filteredMapData;
-    }
-
-    // eslint-disable-next-line no-unused-expressions
-    selectedMuni && console.log('selectedMuni present', selectedMuni);
-
+    const choroplethData = filteredMapData;
     return (
       <>
         <div id="key" ref={this.keyRef} />
@@ -196,20 +287,11 @@ class MapboxPartnership extends Component {
                 setHoveredMunicipalityId={
                   this.setHoveredMunicipalityId
                 }
+                YesNo={YesNo}
               />
 
               {hoveredMunicipalityId !== 0 && (
-                <div
-                  style={{
-                    backgroundColor: 'green',
-                    width: '20vw',
-                    position: 'absolute',
-                    zIndex: '100',
-                    top: '20vh',
-                  }}
-                >
-                  Need a Pop up here
-                </div>
+                <MunicipalityPopUp selectedMuni={selectedMuni} />
               )}
 
               {/* <VectorTileMapbox

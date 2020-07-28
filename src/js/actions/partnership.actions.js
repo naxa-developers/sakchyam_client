@@ -1806,7 +1806,7 @@ export const getMapDataByMunicipality = selectedView => dispatch => {
 };
 export const filterDistrictListFromProvince = provinceId => dispatch => {
   try {
-    // console.log(provinceId, 'provinceId');
+    console.log(provinceId, 'provinceId');
     const formdata = new FormData();
     if (provinceId.length > 0) {
       provinceId.map(data => {
@@ -1834,6 +1834,7 @@ export const filterDistrictListFromProvince = provinceId => dispatch => {
     console.error(err);
   }
 };
+
 export const filterMunListFromDistrict = districtId => dispatch => {
   try {
     // console.log(districtId, 'districtId');
@@ -2092,7 +2093,6 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
         `/api/v1/partnership/map-data/?${federalFilter}&pie=${selectedViewDataBy}`,
       )
       .then(function(result) {
-        console.log(result.data, 'filteredData');
         return dispatch({
           type: FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
           payload: result.data,

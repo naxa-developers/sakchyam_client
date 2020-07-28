@@ -1,7 +1,7 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import OutreachTab from './common/OutreachTab';
-import { getOverviewData } from '../../../actions/partnership.actions';
 
 const outreachTabTitle = [
   'Investment Focus',
@@ -25,11 +25,44 @@ function numberWithCommas(x) {
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      totalPopulation: '',
+      totalFunding: '',
+      totalReceipients: '',
+      totalPayments: '',
+    };
   }
 
-  componentDidMount() {
-    // this.props.getOverviewData();
+  componentDidUpdate(prevProps, prevState) {
+    const { outreachReducer } = this.props;
+    if (prevProps.outreachReducer !== outreachReducer) {
+      const totalPopulation = outreachReducer.secondarData.data.reduce(
+        (total, i) => total + i.population,
+        0,
+      );
+
+      const totalFunding = outreachReducer.secondarData.data.reduce(
+        (total, i) => total + i.yearly_fund,
+        0,
+      );
+
+      const totalReceipients = outreachReducer.secondarData.data.reduce(
+        (total, i) => total + i.social_security_recipients,
+        0,
+      );
+
+      const totalPayments = outreachReducer.secondarData.data.reduce(
+        (total, i) => total + i.yearly_social_security_payment,
+        0,
+      );
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        totalPopulation,
+        totalFunding,
+        totalReceipients,
+        totalPayments,
+      });
+    }
   }
 
   render() {
@@ -42,9 +75,13 @@ class RightSideBar extends Component {
         mapViewDataBy,
       },
     } = this;
+
     const {
-      partnershipReducer: { overviewData },
-    } = this.props;
+      totalPopulation,
+      totalFunding,
+      totalReceipients,
+      totalPayments,
+    } = this.state;
     return (
       <aside
         className="sidebar right-sidebar literacy-right-sidebar"
@@ -130,53 +167,24 @@ class RightSideBar extends Component {
                 <div className="widget-body">
                   <ul className="widget-list">
                     <OutreachTab
-                      title="Investment Focus"
-                      number={overviewData.investment_focus}
-                      iconTitle="payments"
-                    />
-                    <OutreachTab
-                      title="Projects Implemented"
-                      number={overviewData.project}
-                      iconTitle="assignment"
-                    />
-                    <OutreachTab
-                      title="Total Beneficiaries Reached"
-                      number={numberWithCommas(
-                        parseInt(overviewData.beneficiary, 10),
-                      )}
+                      title="Population in the Local Unit"
+                      number={totalPopulation}
                       iconTitle="people"
                     />
                     <OutreachTab
-                      title="Sakchyam Investment(GBP)"
-                      number={numberWithCommas(
-                        Math.round(overviewData.total_budget),
-                      )}
+                      title="Yearly Central Government Funding"
+                      number={totalFunding}
                       iconTitle="monetization_on"
                     />
                     <OutreachTab
-                      title="New Physical Branches Established"
-                      number={overviewData.branch}
-                      iconTitle="store"
+                      title="Social Security Payment Recipients"
+                      number={totalReceipients}
+                      iconTitle="people"
                     />
                     <OutreachTab
-                      title="New BLBs Established"
-                      number={overviewData.blb}
-                      iconTitle="account_balance"
-                    />
-                    {/* <OutreachTab
-                      title="Extension Counter"
-                      number={112}
-                      iconTitle="local_convenience_store"
-                    /> */}
-                    <OutreachTab
-                      title="Number of Tablet Banking Points"
-                      number={overviewData.tablet}
-                      iconTitle="tablet_mac"
-                    />
-                    <OutreachTab
-                      title="Innovative Products Introduced"
-                      number={overviewData.other_products}
-                      iconTitle="local_offer"
+                      title="Yearly Social Security Payments"
+                      number={totalPayments.toFixed(2)}
+                      iconTitle="monetization_on"
                     />
                   </ul>
                 </div>
@@ -278,9 +286,7 @@ class RightSideBar extends Component {
   }
 }
 
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ outreachReducer }) => ({
+  outreachReducer,
 });
-export default connect(mapStateToProps, { getOverviewData })(
-  RightSideBar,
-);
+export default connect(mapStateToProps)(RightSideBar);
