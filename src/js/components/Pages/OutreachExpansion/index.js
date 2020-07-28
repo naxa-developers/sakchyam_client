@@ -21,9 +21,6 @@ import {
   filterPartnerListByPartnerType,
   filterFinancialDataWithAllFilters,
   getDistrictDataFromProvince,
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
   filterRadialData,
   getBarDataByBenefBudget,
   getBarDataByInvestmentFocus,
@@ -45,6 +42,11 @@ import {
   filterLeverageData,
   filterBarDataByInvestment,
 } from '../../../actions/partnership.actions';
+import {
+  getProvinceData,
+  getDistrictData,
+  getMunicipalityData,
+} from '../../../actions/common.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
 import { getCenterBboxProvince } from './common/ProvinceFunction';
@@ -53,6 +55,7 @@ import { getCenterBboxMunicipality } from './common/MunicipalityFunction';
 import { extendBounds } from '../Automation/MapRelatedComponents/extendBbox';
 import MapFilter from './MapFilter';
 import { fetchOutreachSecondaryData } from '../../../actions/outreach.actions';
+import { provinceLists, districtLists } from '../../common/adminList';
 
 class MainPartnership extends Component {
   constructor() {
@@ -77,7 +80,7 @@ class MainPartnership extends Component {
       showBarofInvestmentBudgetBenef: 'investmentFocus',
       // UI Section
       activeFilter: false,
-      activeOverview: false,
+      activeOverview: true,
       viewDataBy: 'allocated_beneficiary',
       mapViewDataBy: 'general_outreach',
       activeView: 'map',
@@ -96,10 +99,10 @@ class MainPartnership extends Component {
     // this.props.getPartnersList();
     // this.props.getProjectListData();
     // this.props.getPartnershipInvestmentFocus();
-    this.props.getProvinceData();
     // this.props.getBarDataByBenefBudget(viewDataBy);
     // this.props.getBarDataByInvestmentFocus(viewDataBy);
     // this.props.getSankeyChartData();
+    this.props.getProvinceData();
     this.props.getDistrictData();
     this.props.getMunicipalityData();
     const filterBar = document.getElementsByClassName(
@@ -844,14 +847,10 @@ class MainPartnership extends Component {
       // props: {},
     } = this;
     const {
-      isDataFetched,
       allProvinceList,
       allDistrictList,
       allMunicipalityList,
-    } = this.props.partnershipReducer;
-    const sankeyChartwidth =
-      document.getElementById('sankeyChart') &&
-      document.getElementById('sankeyChart').offsetWidth;
+    } = this.props.commonReducer;
 
     return (
       <>
@@ -892,11 +891,11 @@ class MainPartnership extends Component {
           />
           <main className="main">
             <div className="main-card literacy-main-card">
-              <Loading
+              {/* <Loading
                 loaderState={!isDataFetched}
                 top="50%"
                 left="46%"
-              />
+              /> */}
               <div
                 className={`partnership-filter ${
                   activeView === 'map' ? 'is-position' : ''
@@ -1069,8 +1068,8 @@ class MainPartnership extends Component {
     );
   }
 }
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ commonReducer }) => ({
+  commonReducer,
 });
 export default connect(mapStateToProps, {
   getPartnershipInvestmentFocus,

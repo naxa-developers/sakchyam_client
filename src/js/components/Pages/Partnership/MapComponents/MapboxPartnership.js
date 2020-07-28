@@ -49,6 +49,11 @@ class MapboxPartnership extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const {
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
+    } = this.props;
     // if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
     // }
     // if (prevProps.mapViewBy !== this.props.mapViewBy) {
@@ -64,6 +69,7 @@ class MapboxPartnership extends Component {
       this.props.filterMapDataOfCircleMarkerWithViewDataBy(
         view,
         this.props.mapViewBy,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
       );
       // }
     }
@@ -77,6 +83,7 @@ class MapboxPartnership extends Component {
       this.props.filterMapDataOfCircleMarkerWithViewDataBy(
         view,
         this.props.mapViewBy,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
       );
     }
     // if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
@@ -141,22 +148,24 @@ class MapboxPartnership extends Component {
                 // height: '40px',
                 // }}
               /> */}
-              <div className="legend-wrapper">
-                <div
-                  // id="markercircleLegend"
-                  className="markercircleLegend"
-                  ref={this.circleLegendRef}
-                />
-                <div id="markerPieLegend">
-                  <svg
-                    // id="pieSquareLegend"
-                    className="pieSquareLegend"
-                    ref={this.pieSquareLegend}
-                    // height="300"
-                    // width="450"
+              {mapViewDataBy && (
+                <div className="legend-wrapper">
+                  <div
+                    // id="markercircleLegend"
+                    className="markercircleLegend"
+                    ref={this.circleLegendRef}
                   />
+                  <div id="markerPieLegend">
+                    <svg
+                      // id="pieSquareLegend"
+                      className="pieSquareLegend"
+                      ref={this.pieSquareLegend}
+                      // height="300"
+                      // width="450"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
               {/* <MarkerCluster
               filteredByPartner={filteredByPartner}
               handleActiveClickPartners={handleActiveClickPartners}
