@@ -883,32 +883,24 @@ class Choropleth extends Component {
           props[`${d.data.type}_partnerList`]
             // ${partner}
             .map(partner => {
-              return `<li>
-                <div className="organization-icon">
-                  <span />
-                </div>
-                <div className="organization-content">
-                  <div className="org-header">
-                    <h5>
-                    </h5>
+              return `
+                
+                <div class="acc-list active">
+                  <div class="acc-header">
+                    <h5>mailtitle</h5>
+                  </div>
+                  <div class="acc-body">
                     <ul>
-                      <label>Main Title
-                      <li>Sub Title</li>
-                      <li>Sub Title</li>
-                    </ul>
-                    <ul>
-                      <label>Main Title
-                      <li>Sub Title</li>
-                      <li>Sub Title</li>
-                    </ul>
-                    <ul>
-                      <label>Main Title
-                      <li>Sub Title</li>
-                      <li>Sub Title</li>
+                    <li>
+                      <a href="">Automation of MFIS</a>
+                    </li>
+                    <li>
+                      <a href="">Automation of MFIS</a>
+                    </li>
                     </ul>
                   </div>
                 </div>
-              </li>`;
+              `;
             })
             .join('');
         tooltip.select('.popup-div').html(
@@ -923,9 +915,10 @@ class Choropleth extends Component {
                   </div>
                   <h6>${props.federal_name}</h6>
               </div>
-                <ul>
+              <div class="acc is-after is-border">
                   ${partnerList !== undefined ? partnerList : ''}
-                </ul>
+                  </div>
+                
               <div class="map-view-footer">
               </div>
             </div>
