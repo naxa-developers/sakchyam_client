@@ -328,6 +328,8 @@ class StackedBarWithProvince extends Component {
             if (clicked !== undefined) {
               const {
                 partnerSelection,
+                investmentFocusSelection,
+                partnerTypeSelection,
                 projectSelection,
                 projectStatus,
                 showBarof,
@@ -347,11 +349,12 @@ class StackedBarWithProvince extends Component {
                     );
                   },
                 );
-                // console.log(filteredProvinceId, 'filteredProvinceId');
+                console.log(filteredProvinceId, 'filteredProvinceId');
                 const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
                   data => {
                     return (
-                      data.province_id === filteredProvinceId[0].id
+                      data.province_code ===
+                      filteredProvinceId[0].code
                     );
                   },
                 );
@@ -360,11 +363,14 @@ class StackedBarWithProvince extends Component {
                   return data.n_code;
                 });
                 that.props.handleShowBarOf('Districts');
+                console.log(districtIdList, 'distrList');
                 // console.log(districtIdList, 'districtIdList');
                 that.props.filterFinancialDataOfDistrictFromProvince(
                   that.props.viewDataBy,
                   districtIdList,
+                  investmentFocusSelection,
                   partnerSelection,
+                  partnerTypeSelection,
                   projectSelection,
                   projectStatus,
                 );
@@ -380,7 +386,8 @@ class StackedBarWithProvince extends Component {
                 const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
                   data => {
                     return (
-                      data.district_id === filteredDistrictId[0].id
+                      data.district_code ===
+                      filteredDistrictId[0].code
                     );
                   },
                 );
@@ -395,7 +402,9 @@ class StackedBarWithProvince extends Component {
                 that.props.filterFinancialDataOfMunicipalityFromDistrict(
                   that.props.viewDataBy,
                   districtIdList,
+                  investmentFocusSelection,
                   partnerSelection,
+                  partnerTypeSelection,
                   projectSelection,
                   projectStatus,
                 );
@@ -619,7 +628,7 @@ class StackedBarWithProvince extends Component {
           options={options}
           series={series}
           type="bar"
-          height={activeModal ? 600 : 350}
+          height={activeModal ? 550 : 350}
           // width={activeModal === true ? 1600 : '100%'}
         />
       </div>

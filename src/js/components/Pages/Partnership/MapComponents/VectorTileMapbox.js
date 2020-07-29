@@ -36,6 +36,10 @@ function removeMarker() {
     // console.log(global.markerList, 'globalMarkerlist VectorTile');
   }
 }
+function stopProp(e) {
+  console.log(e, 'test Props');
+  e.stopPropagation();
+}
 const popup = new mapboxgl.Popup();
 
 // var colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c'];
@@ -358,6 +362,7 @@ class Choropleth extends Component {
 
     // console.log(r, 'r');
     let singleData = {};
+    let partnerList = [];
     let singleData2nd = {};
     const total = [];
     const total2nd = [];
@@ -401,6 +406,7 @@ class Choropleth extends Component {
     const max = Math.max.apply(null, totalSumList);
     FinalGeojson.features.forEach(data => {
       //
+      partnerList = [];
       singleData = {
         point_count: 0,
         federal_name: data.properties.name,
@@ -413,6 +419,11 @@ class Choropleth extends Component {
           if (piedata.partner_list) {
             singleData[`${piedata.investment_primary}_partnerList`] =
               piedata.partner_list;
+
+            partnerList.push({
+              partnerName: piedata.investment_primary,
+              partnerlist: piedata.partner_list,
+            });
           }
           singleData.point_count += piedata[`${viewBy}`];
         });
@@ -431,6 +442,9 @@ class Choropleth extends Component {
         singleData,
         total2nd,
         radiusRange,
+        partnerList,
+        this.props.mapViewDataBy,
+        data.total_sum,
       );
       const marker = new mapboxgl.Marker({ element: testEl })
         .setLngLat(data.geometry.coordinates)
@@ -722,7 +736,15 @@ class Choropleth extends Component {
   //     .attr('alignment-baseline', 'middle');
   // };
 
-  createDonutChart = (props, totals, radiusValue) => {
+  createDonutChart = (
+    props,
+    totals,
+    radiusValue,
+    partners,
+    mapViewDataBy,
+    totalSum,
+  ) => {
+    console.log(props, 'props');
     const div = document.createElement('div');
 
     const allCount = [];
@@ -828,6 +850,13 @@ class Choropleth extends Component {
       .style('opacity', 0);
 
     tooltip.append('div').attr('class', 'popup-div');
+    const tooltip2nd = d3
+      .select(div)
+      .append('div')
+      .attr('class', 'pie-mapbox-popup')
+      .style('opacity', 0);
+
+    tooltip2nd.append('div').attr('class', 'popup-div');
 
     // tooltip
     //   .select('.popup-div')
@@ -858,6 +887,18 @@ class Choropleth extends Component {
       .attr('d', arc)
       .attr('fill', d => colorScale(d.data.type))
       .on('click', function(d, i) {
+        d3.event.stopPropagation();
+        // d.stopPropagation();
+        document
+          .querySelectorAll('.pie-mapbox-popup')
+          .forEach(function(el) {
+            // eslint-disable-next-line no-param-reassign
+            el.style.display = 'none';
+            // a.remove();
+          });
+        console.log(d, 'pieClick');
+        // const that = this;
+
         // console.log(props, 'props');
         // if (document.querySelector('.federal-popup')) {
         //   document.querySelector('.federal-popup').style.display =
@@ -876,47 +917,59 @@ class Choropleth extends Component {
         //     el.style.display = 'none';
         //     // a.remove();
         //   });
+        console.log(partners, 'partners');
+        let partnerContent = null;
+        // partnerList =
+        // eslint-disable-next-line no-restricted-syntax
+        partnerContent = partners
+          .map((partnerData, index) => {
+            console.log(partnerData, 'partnerData');
+            const partnerList = partnerData.partnerlist
+              .map(singlepartner => {
+                return `
+                <li>
+                  <a>${singlepartner}</a>
+                </li>
+                `;
+              })
+              .join('');
+            return `
+          <div class="acc-list ${
+            index === 0 ? 'active' : ''
+          }" onclick="this.classList.toggle('active');">
+            <div class="acc-header">
+              <h5>${partnerData.partnerName}</h5>
+            </div>
+            <div class="acc-body">
+              <ul>
+              ${partnerList}
+              </ul>
+            </div>
+          </div>
+        `;
+          })
+          .join('');
 
-        let partnerList = null;
-        partnerList =
-          props[`${d.data.type}_partnerList`] &&
-          props[`${d.data.type}_partnerList`]
-            // ${partner}
-            .map(partner => {
-              return `
-                
-                <div class="acc-list active">
-                  <div class="acc-header">
-                    <h5>mailtitle</h5>
-                  </div>
-                  <div class="acc-body">
-                    <ul>
-                    <li>
-                      <a href="">Automation of MFIS</a>
-                    </li>
-                    <li>
-                      <a href="">Automation of MFIS</a>
-                    </li>
-                    </ul>
-                  </div>
-                </div>
-              `;
-            })
-            .join('');
+        // <h6>${props.federal_name}</h6>
         tooltip.select('.popup-div').html(
           `<div class="leaflet-popup-content" style="width: 100px;">
-            <div class="map-popup-view">
+            <div class="map-popup-view" style="height: 380px;overflow-y: scroll;">
               <div class="map-popup-view-header">
-                  <h5>${d.data.type}</h5>
+                  <h5>${props.federal_name}</h5>
                   <div class="icons">
-                    <i class="material-icons">tablet_mac</i><b>${
-                      d.data.count
-                    }</b>
+                    <i class="material-icons">${
+                      mapViewDataBy === 'allocated_beneficiary'
+                        ? 'people'
+                        : mapViewDataBy === 'allocated_budget'
+                        ? 'monetization_on'
+                        : 'payments'
+                    }</i><b>${totalSum}</b>
                   </div>
-                  <h6>${props.federal_name}</h6>
               </div>
               <div class="acc is-after is-border">
-                  ${partnerList !== undefined ? partnerList : ''}
+                  ${
+                    partnerContent !== undefined ? partnerContent : ''
+                  }
                   </div>
                 
               <div class="map-view-footer">
@@ -924,6 +977,30 @@ class Choropleth extends Component {
             </div>
           </div>` /* eslint-disable-line */
         );
+
+        // const t = document.querySelector('.acc-header');
+        // t.addEventListener('click', function(e) {
+        //   // console.log('test');
+        //   e.stopPropagation();
+        //   alert('function');
+        // });
+        const mapPopup = document.querySelector('.map-popup-view');
+        mapPopup.addEventListener('click', function(e) {
+          // console.log('test');
+          e.stopPropagation();
+          // alert('function');
+        });
+        // const accList = document.querySelector('.acc-list');
+        // accList.addEventListener('click', function(e) {
+        //   console.log(e, 'test');
+        //   // if (e.target.classList.includes('active')) {
+        //   this.classList.remove('active');
+        //   // } else {
+        //   // e.target.classList.add('active');
+        //   // }
+        //   // e.stopPropagation();
+        //   // alert('function');
+        // });
         // .style('color', 'black');
         // .style('background-color', 'white');
         // tooltip.select('.count').html('Test');
@@ -931,6 +1008,12 @@ class Choropleth extends Component {
 
         tooltip.style('display', 'block');
         tooltip.style('opacity', 2);
+      })
+      .on('mouseover', function(d, i) {
+        const that = this;
+        console.log(this.props, 'props');
+        console.log(that.props, 'props2nd');
+        console.log(d, 'd');
         d3.select(this)
           .transition()
           .duration('50')
@@ -942,15 +1025,38 @@ class Choropleth extends Component {
               .innerRadius(radius - thickness)
               .outerRadius(radius * 1.04),
           );
+        tooltip2nd.style('display', 'block');
+        tooltip2nd.style('opacity', 1);
+        tooltip2nd.select('.popup-div').html(
+          `<div class="leaflet-popup-content" style="width: 100px;">
+            <div class="map-popup-view">
+              <div class="map-popup-view-header">
+                  <h5>${d.data.type}</h5>
+                  <div class="icons">
+                    <i class="material-icons">${
+                      mapViewDataBy === 'allocated_beneficiary'
+                        ? 'people'
+                        : mapViewDataBy === 'allocated_budget'
+                        ? 'monetization_on'
+                        : 'payments'
+                    }</i><b>${d.data.count}</b>
+                  </div>
+              </div>
+            </div>
+          </div>` /* eslint-disable-line */
+        );
       })
       .on('mousemove', function(d, i) {
+        tooltip2nd
+          .style('top', `${d3.event.offsetY + 20}px`)
+          .style('left', `${d3.event.offsetX + 20}px`);
         tooltip
           .style('top', `${d3.event.offsetY + 20}px`)
           .style('left', `${d3.event.offsetX + 20}px`);
       })
       .on('mouseout', function(d, i) {
-        // tooltip.style('display', 'none');
-        // tooltip.style('opacity', 0);
+        tooltip2nd.style('display', 'none');
+        tooltip2nd.style('opacity', 0);
 
         d3.select(this)
           .transition()
@@ -991,6 +1097,7 @@ class Choropleth extends Component {
     //   document.getElementById('key').innerHTML = '';
     //   document.getElementById('key').append(infoEl);
     // });
+
     return div;
   };
 
@@ -1164,6 +1271,16 @@ class Choropleth extends Component {
       //   return bounds.extend(coord);
       //   }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
       // map.fitBounds()
+      map.on('click', function() {
+        // alert('clicked Map');
+        document
+          .querySelectorAll('.pie-mapbox-popup')
+          .forEach(function(el) {
+            // eslint-disable-next-line no-param-reassign
+            el.style.display = 'none';
+            // a.remove();
+          });
+      });
       map.on('zoom', function() {
         // const that = this;
         // upto 6 province view after 6 and upto 9  district and after 9 municipality
@@ -1187,9 +1304,28 @@ class Choropleth extends Component {
         // }
       });
 
+      // map.on('click', function(e) {
+      //   const features = map.queryRenderedFeatures(e.point, {
+      //     layers: ['vector-tile-fill', 'vector-tile-outline'],
+      //   });
+      //   if (features.length === 0) {
+      //     document
+      //       .querySelectorAll('.pie-mapbox-popup')
+      //       .forEach(function(el) {
+      //         // eslint-disable-next-line no-param-reassign
+      //         el.style.display = 'none';
+      //         // a.remove();
+      //       });
+      //     // alert('onClick of query');
+      //     // do something
+      //   }
+      // });
       map.on('click', 'vector-tile-fill', function(e) {
-        console.log(e, 'e Vector');
+        e.preventDefault();
+        // e.stopPropagation();
+
         //
+        console.log(e, 'e Vector Tile Click');
         //
         // console.log(
         //   getCenterBboxProvince(e.features[0].properties.code),
@@ -1272,34 +1408,34 @@ class Choropleth extends Component {
           // );
         }
       });
-      map.on('mousemove', 'vector-tile-fill', function(e) {
-        console.log(e.features[0]);
-        const filteredCodeData = that.props.choroplethData.filter(
-          data => {
-            return (
-              parseInt(data.code, 10) ===
-              parseInt(e.features[0].properties.code, 10)
-            );
-          },
-        );
-        popup.setLngLat(e.lngLat).setHTML(
-          `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
-              <div class="map-popup-view">
-                  <div class="map-popup-view-header">
-                      <h5>${e.features[0].properties.name}</h5>
-                      <h5>Code:${e.features[0].properties.code}</h5>
-                      <h5>ID:${e.features[0].properties.id}</h5>
-                      <div class="icons">
-                      <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
-                      </div>
-                  </div>
-                  <div class="map-view-footer">
-                  </div>
-                      </div>
-                  </div>`,
-        );
-        // .addTo(map);
-      });
+      // map.on('mousemove', 'vector-tile-fill', function(e) {
+      //   // console.log(e.features[0]);
+      //   const filteredCodeData = that.props.choroplethData.filter(
+      //     data => {
+      //       return (
+      //         parseInt(data.code, 10) ===
+      //         parseInt(e.features[0].properties.code, 10)
+      //       );
+      //     },
+      //   );
+      //   popup.setLngLat(e.lngLat).setHTML(
+      //     `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
+      //         <div class="map-popup-view">
+      //             <div class="map-popup-view-header">
+      //                 <h5>${e.features[0].properties.name}</h5>
+      //                 <h5>Code:${e.features[0].properties.code}</h5>
+      //                 <h5>ID:${e.features[0].properties.id}</h5>
+      //                 <div class="icons">
+      //                 <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
+      //                 </div>
+      //             </div>
+      //             <div class="map-view-footer">
+      //             </div>
+      //                 </div>
+      //             </div>`,
+      //   );
+      //   // .addTo(map);
+      // });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
           if (hoveredStateId) {

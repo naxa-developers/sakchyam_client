@@ -157,6 +157,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
       {
         status: '',
         partner_id: [0],
+        partner_type: [],
         project_id: [0],
         province_id: [0],
         district_id: [],
@@ -172,6 +173,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
       {
         status: '',
         partner_id: [0],
+        partner_type: [],
         project_id: [0],
         province_id: [0],
         district_id: [],
@@ -187,6 +189,7 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
       {
         status: '',
         partner_id: [0],
+        partner_type: [],
         project_id: [0],
         province_id: [0],
         district_id: [],
@@ -259,6 +262,7 @@ export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
       {
         status: '',
         partner_id: [0],
+        partner_type: [],
         project_id: [0],
         province_id: [],
         district_id: [],
@@ -307,6 +311,7 @@ export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
       {
         status: '',
         partner_id: [0],
+        partner_type: [],
         project_id: [0],
         province_id: [],
         district_id: [],
@@ -550,13 +555,13 @@ export const filterRadialData = (
   // console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
   // console.log(selectedProjectId, 'selectedProjectId');
   // console.log(selectedPartnerType, 'selectedPartnerType');
-  console.log(viewDataBy, 'viewDataBy');
-  console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
-  console.log(selectedProjectId, 'selectedProjectId');
-  console.log(selectedPartnerType, 'selectedPartnerType');
-  console.log(selectedPartnerId, 'selectedPartnerId');
-  console.log(selectedFederalList, 'selectedFederalList');
-  console.log(selectedProjectStatus, 'selectedFederalList');
+  // console.log(viewDataBy, 'viewDataBy');
+  // console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
+  // console.log(selectedProjectId, 'selectedProjectId');
+  // console.log(selectedPartnerType, 'selectedPartnerType');
+  // console.log(selectedPartnerId, 'selectedPartnerId');
+  // console.log(selectedFederalList, 'selectedFederalList');
+  // console.log(selectedProjectStatus, 'selectedFederalList');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
       ? `investment_filter=${selectedInvestmentFocus}`
@@ -645,6 +650,8 @@ export const filterRadialData = (
 export const filterFinancialDataOfDistrictFromProvince = (
   selectedDataView,
   provinceIndex,
+  investmentFocusSelection,
+  selectedPartnerType,
   selectedPartnerId,
   selectedProjectId,
   selectedStatus,
@@ -653,12 +660,24 @@ export const filterFinancialDataOfDistrictFromProvince = (
   // console.log(provinceIndex);
   const data = selectedDataView;
   let partnerId = [];
+  let investmentSelection = [];
+  let partnerType = [];
   let projectId = [];
   let statusSelected = '';
+  if (investmentFocusSelection.length === 0) {
+    investmentSelection = [];
+  } else {
+    investmentSelection = investmentFocusSelection;
+  }
   if (selectedPartnerId.length === 0) {
     partnerId = [0];
   } else {
     partnerId = selectedPartnerId;
+  }
+  if (selectedPartnerType.length === 0) {
+    partnerType = [];
+  } else {
+    partnerType = selectedPartnerType;
   }
   if (selectedProjectId.length === 0) {
     projectId = [0];
@@ -680,13 +699,14 @@ export const filterFinancialDataOfDistrictFromProvince = (
       {
         status: !statusSelected ? '' : statusSelected,
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [],
         district_id: provinceIndex,
         view: 'total_beneficiary',
         municipality_id: [],
         investment: [],
-        investment_filter: [],
+        investment_filter: investmentSelection,
         investment_project: [],
       },
     );
@@ -695,13 +715,14 @@ export const filterFinancialDataOfDistrictFromProvince = (
       {
         status: !statusSelected ? '' : statusSelected,
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [],
         district_id: provinceIndex,
         view: 'female_beneficiary',
         municipality_id: [],
         investment: [],
-        investment_filter: [],
+        investment_filter: investmentSelection,
         investment_project: [],
       },
     );
@@ -710,13 +731,14 @@ export const filterFinancialDataOfDistrictFromProvince = (
       {
         status: !statusSelected ? '' : statusSelected,
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [],
         district_id: provinceIndex,
         view: 'allocated_budget',
         municipality_id: [],
         investment: [],
-        investment_filter: [],
+        investment_filter: investmentSelection,
         investment_project: [],
       },
     );
@@ -752,6 +774,7 @@ export const filterFinancialDataOfDistrictFromProvince = (
 export const filterFinancialDataOfMunicipalityFromDistrict = (
   selectedDataView,
   districtIndex,
+  selectedPartnerType,
   selectedPartnerId,
   selectedProjectId,
   selectedStatus,
@@ -760,12 +783,18 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
   // console.log(provinceIndex);
   const data = selectedDataView;
   let partnerId = [];
+  let partnerType = [];
   let projectId = [];
   let statusSelected = '';
   if (selectedPartnerId.length === 0) {
     partnerId = [0];
   } else {
     partnerId = selectedPartnerId;
+  }
+  if (selectedPartnerType.length === 0) {
+    partnerType = [];
+  } else {
+    partnerType = selectedPartnerType;
   }
   if (selectedProjectId.length === 0) {
     projectId = [0];
@@ -787,6 +816,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
       {
         status: !statusSelected ? '' : statusSelected,
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [],
         district_id: [],
@@ -803,6 +833,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         status: !statusSelected ? '' : statusSelected,
         partner_id: partnerId,
         project_id: projectId,
+        partner_type: partnerType,
         province_id: [],
         district_id: [],
         view: 'female_beneficiary',
@@ -817,6 +848,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
       {
         status: !statusSelected ? '' : statusSelected,
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [],
         district_id: [],
@@ -966,6 +998,7 @@ export const filterFinancialDataWithAllFilters = (
   selectedFederalTypes,
   investmentFocusSelection,
   selectedDataView,
+  selectedPartnerType,
   selectedPartnerId,
   selectedProjectId,
   selectedStatus,
@@ -974,9 +1007,10 @@ export const filterFinancialDataWithAllFilters = (
   // console.log(selectedDataView, 'selectedDataView');
   // console.log(selectedPartnerId, 'selectedPartnerId');
   // console.log(selectedProjectId, 'selectedProjectId');
-  console.log(selectedStatus, 'selectedStatus');
+  // console.log(selectedPartnerType, 'selectedPartner');
   // debugger;
   let partnerId = [];
+  let partnerType = [];
   let projectId = [];
   let selectedInvestment = [];
   let statusSelected = '';
@@ -985,6 +1019,11 @@ export const filterFinancialDataWithAllFilters = (
     partnerId = [0];
   } else {
     partnerId = selectedPartnerId;
+  }
+  if (selectedPartnerType.length === 0) {
+    partnerType = [];
+  } else {
+    partnerType = selectedPartnerType;
   }
   if (selectedProjectId.length === 0) {
     projectId = [0];
@@ -1012,6 +1051,7 @@ export const filterFinancialDataWithAllFilters = (
         status: !statusSelected ? '' : statusSelected,
         view: 'total_beneficiary',
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [0],
         district_id: [],
@@ -1027,6 +1067,7 @@ export const filterFinancialDataWithAllFilters = (
         status: !statusSelected ? '' : statusSelected,
         view: 'female_beneficiary',
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [0],
         district_id: [],
@@ -1042,6 +1083,7 @@ export const filterFinancialDataWithAllFilters = (
         status: !statusSelected ? '' : statusSelected,
         view: 'allocated_budget',
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [0],
         district_id: [],
@@ -1105,6 +1147,7 @@ export const filterFinancialDataWithAllFilters = (
 export const filterBarDataByInvestment = (
   selectedFederalTypes,
   selectedDataView,
+  selectedPartnerType,
   selectedPartnerId,
   selectedProjectId,
   selectedStatus,
@@ -1117,6 +1160,7 @@ export const filterBarDataByInvestment = (
   console.log(selectedStatus, 'selectedStatus');
   // debugger;
   let partnerId = [];
+  let partnerType = [];
   let projectId = [];
   let investmentFocus = [];
   let statusSelected = '';
@@ -1125,6 +1169,11 @@ export const filterBarDataByInvestment = (
     partnerId = [0];
   } else {
     partnerId = selectedPartnerId;
+  }
+  if (selectedPartnerType.length === 0) {
+    partnerType = [];
+  } else {
+    partnerType = selectedPartnerType;
   }
   if (selectedProjectId.length === 0) {
     projectId = [0];
@@ -1162,6 +1211,7 @@ export const filterBarDataByInvestment = (
         status: !statusSelected ? '' : statusSelected,
         view: 'total_beneficiary',
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [],
         district_id: [],
@@ -1177,6 +1227,7 @@ export const filterBarDataByInvestment = (
         status: !statusSelected ? '' : statusSelected,
         view: 'allocated_budget',
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: [],
         district_id: [],
@@ -1867,6 +1918,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   selectedFederalTypes,
   investmentFocusSelection,
   selectedDataView,
+  selectedPartnerType,
   selectedPartnerId,
   selectedProjectId,
   selectedStatus,
@@ -1876,6 +1928,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   const district = [];
   const province = [];
   let partnerId = [];
+  let partnerType = [];
   let projectId = [];
   let selectedInvestment = [];
   let statusSelected = '';
@@ -1884,6 +1937,11 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
     partnerId = [0];
   } else {
     partnerId = selectedPartnerId;
+  }
+  if (selectedPartnerType.length === 0) {
+    partnerType = [];
+  } else {
+    partnerType = selectedPartnerType;
   }
   if (selectedProjectId.length === 0) {
     projectId = [0];
@@ -1944,6 +2002,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         status: !statusSelected ? '' : statusSelected,
         view: 'total_beneficiary',
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: province,
         district_id: district,
@@ -1959,6 +2018,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         status: !statusSelected ? '' : statusSelected,
         view: 'female_beneficiary',
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: province,
         district_id: district,
@@ -1974,6 +2034,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         status: !statusSelected ? '' : statusSelected,
         view: 'allocated_budget',
         partner_id: partnerId,
+        partner_type: partnerType,
         project_id: projectId,
         province_id: province,
         district_id: district,
@@ -2257,6 +2318,7 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
       {
         status: '',
         partner_id: [0],
+        partner_type: [],
         project_id: [0],
         province_id: [],
         district_id: [],
@@ -2295,6 +2357,7 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
       {
         status: '',
         partner_id: [0],
+        partner_type: [],
         project_id: [0],
         province_id: [],
         district_id: [],
