@@ -6,8 +6,10 @@ export const provinceLists = () => {
     id: p.FIRST_PROV,
     name: p.prov_name,
     code: p.FIRST_PROV,
+    label: p.prov_name,
+    value: p.FIRST_PROV,
   }));
-  console.log('sacascasc', tempList);
+  tempList.unshift({ label: 'All Province', value: 'all' });
   return tempList;
 };
 

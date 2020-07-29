@@ -94,7 +94,7 @@ class MainPartnership extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('userToken');
-    // console.log('uset token', token);
+    console.log('uset token', token);
     // const { viewDataBy } = this.state;
     // this.props.getPartnersList();
     // this.props.getProjectListData();
@@ -201,12 +201,9 @@ class MainPartnership extends Component {
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v10',
-      center: [87.5, 27.25],
-      zoom: 6.5,
+      center: [84.5, 28.5],
+      zoom: 6,
     });
-
-    // map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
     this.setState({ map });
   };
 
@@ -852,6 +849,9 @@ class MainPartnership extends Component {
       allMunicipalityList,
     } = this.props.commonReducer;
 
+    const temp = provinceLists();
+
+    console.log('province lists', temp, allProvinceList);
     return (
       <>
         <Headers />
@@ -918,6 +918,7 @@ class MainPartnership extends Component {
                     <ListByView
                       mapViewBy={mapViewBy}
                       setMapViewBy={this.setMapViewBy}
+                      mapViewDataBy={mapViewDataBy}
                     />
                     <div className="filter-row">
                       <div className="filter-list">
