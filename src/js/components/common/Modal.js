@@ -126,13 +126,13 @@ const Modal = props => {
               //   tabIndex="-1"
               // >
               <button
-                id="chart-reset"
+                // id="chart-reset"
                 type="button"
                 onClick={() => {
                   resetFilters();
                   // resetFunction();
                 }}
-                className="is-border common-button"
+                className="is-border common-button chart-reset "
               >
                 Reset
               </button>
@@ -160,14 +160,14 @@ const Modal = props => {
               //   tabIndex="-1"
               // >
               <button
-                id="chart-reset"
+                // id="chart-reset"
                 type="button"
                 onClick={() => {
                   resetFilters();
                   handleShowBarOf('Provinces');
                   // resetFunction();
                 }}
-                className="is-border common-button"
+                className="is-border common-button chart-reset"
               >
                 Reset
               </button>
@@ -195,7 +195,7 @@ const Modal = props => {
               tabIndex="-1"
             >
               <button
-                id="chart-reset"
+                // id="chart-reset "
                 type="button"
                 onClick={() => {
                   // resetFunction();

@@ -1408,6 +1408,11 @@ class MainPartnership extends Component {
       selectedProvince,
     } = this.state;
     if (activeView === 'visualization') {
+      this.handleShowBarOf('Provinces');
+      this.handleShowBarOfInvestmentBudgetBenefBar('investmentFocus');
+      // document.querySelectorAll('.chart-reset').forEach(el => {
+      //   el.click();
+      // });
       this.props.filterOverviewData(
         investmentFocusSelection,
         projectSelection,
@@ -1418,6 +1423,7 @@ class MainPartnership extends Component {
         'province',
         investmentFocusSelection,
         viewDataBy,
+        partnerType,
         partnerSelection,
         projectSelection,
         projectStatus,
@@ -1425,6 +1431,7 @@ class MainPartnership extends Component {
       this.props.filterBarDataByInvestment(
         'province',
         viewDataBy,
+        partnerType,
         partnerSelection,
         projectSelection,
         projectStatus,
@@ -1483,6 +1490,7 @@ class MainPartnership extends Component {
         { selectedMunicipality, selectedDistrict, selectedProvince },
         investmentFocusSelection,
         viewDataBy,
+        partnerType,
         partnerSelection,
         projectSelection,
         projectStatus,
@@ -2011,6 +2019,7 @@ class MainPartnership extends Component {
                   activeView={activeView}
                   investmentFocusSelection={investmentFocusSelection}
                   partnerSelection={partnerSelection}
+                  partnerTypeSelection={partnerType}
                   projectSelection={projectSelection}
                   projectStatus={projectStatus}
                   showBarof={showBarof}

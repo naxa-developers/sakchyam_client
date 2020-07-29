@@ -90,42 +90,42 @@ const CardTab = ({
             {cardChartId === 'groupedChart' ? (
               showBarof !== 'Provinces' && (
                 <button
-                  id="chart-reset"
+                  // id="chart-reset"
                   type="button"
                   onClick={() => {
                     handleShowBarOf('Provinces');
                     resetFunction();
                   }}
-                  className="is-border common-button"
+                  className="is-border common-button chart-reset"
                 >
                   Reset
                 </button>
               )
             ) : cardChartId === 'sunburst' ? (
               <button
-                id="chart-reset"
+                // id="chart-reset"
                 type="button"
                 onClick={() => {
                   resetFunction();
                 }}
-                className="is-border common-button"
+                className="is-border common-button chart-reset"
               >
                 Reset
               </button>
             ) : cardChartId === 'leverageChart' ? (
               <button
-                id="chart-reset"
+                // id="chart-reset"
                 type="button"
                 onClick={() => {
                   resetFunction();
                 }}
-                className="is-border common-button"
+                className="is-border common-button chart-reset"
               >
                 Reset
               </button>
             ) : cardChartId === 'stackedWithInvestment' ? (
               <button
-                id="chart-reset"
+                // id="chart-reset"
                 type="button"
                 onClick={() => {
                   resetFunction();

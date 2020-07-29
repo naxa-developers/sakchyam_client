@@ -94,9 +94,9 @@ class MiddleChartSection extends Component {
     // console.log(e.data.name);
   };
 
-  sunburstColorFn = () => {
-    alert('test');
-  };
+  // sunburstColorFn = () => {
+  //   alert('test');
+  // };
 
   getModalContent = contentType => {
     const { activeModal } = this.state;
@@ -106,7 +106,9 @@ class MiddleChartSection extends Component {
         activeOverview,
         sankeyChartwidth,
         viewDataBy,
+        investmentFocusSelection,
         partnerSelection,
+        partnerTypeSelection,
         projectSelection,
         projectStatus,
         showBarof,
@@ -146,7 +148,9 @@ class MiddleChartSection extends Component {
             <StackedBarWithProvince
               viewDataBy={viewDataBy}
               activeModal={activeModal}
+              investmentFocusSelection={investmentFocusSelection}
               partnerSelection={partnerSelection}
+              partnerTypeSelection={partnerTypeSelection}
               projectSelection={projectSelection}
               projectStatus={projectStatus}
               showBarof={showBarof}
@@ -163,7 +167,9 @@ class MiddleChartSection extends Component {
             <StackedBarWithInvestment
               viewDataBy={viewDataBy}
               activeModal={activeModal}
+              investmentFocusSelection={investmentFocusSelection}
               partnerSelection={partnerSelection}
+              partnerTypeSelection={partnerTypeSelection}
               projectSelection={projectSelection}
               projectStatus={projectStatus}
               showBarof={showBarof}
@@ -186,7 +192,9 @@ class MiddleChartSection extends Component {
             <LeverageStackedBar
               viewDataBy={viewDataBy}
               activeModal={activeModal}
+              investmentFocusSelection={investmentFocusSelection}
               partnerSelection={partnerSelection}
+              partnerTypeSelection={partnerTypeSelection}
               projectSelection={projectSelection}
               projectStatus={projectStatus}
               showBarof={showBarof}
@@ -222,7 +230,9 @@ class MiddleChartSection extends Component {
         activeOverview,
         sankeyChartwidth,
         viewDataBy,
+        investmentFocusSelection,
         partnerSelection,
+        partnerTypeSelection,
         projectSelection,
         projectStatus,
         showBarof,
@@ -267,7 +277,7 @@ class MiddleChartSection extends Component {
           <div className="row">
             <CardTab
               resetFunction={() => {
-                this.props.resetLeftSideBarSelection();
+                // this.props.resetLeftSideBarSelection();
                 this.props.resetRadialData();
               }}
               cardTitle="Sakchyam Investment Focus"
@@ -315,7 +325,11 @@ class MiddleChartSection extends Component {
                   <StackedBarWithProvince
                     viewDataBy={viewDataBy}
                     activeModal={activeModal}
+                    investmentFocusSelection={
+                      investmentFocusSelection
+                    }
                     partnerSelection={partnerSelection}
+                    partnerTypeSelection={partnerTypeSelection}
                     projectSelection={projectSelection}
                     projectStatus={projectStatus}
                     showBarof={showBarof}
@@ -332,7 +346,10 @@ class MiddleChartSection extends Component {
                     'investmentFocus',
                   );
                 }}
-                handleShowBarOf={handleShowBarOf}
+                showBarof={showBarofInvestmentBudgetBenef}
+                handleShowBarOf={
+                  handleShowBarOfInvestmentBudgetBenefBar
+                }
                 cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
                 cardClass="col-xl-6"
                 cardChartId="stackedWithInvestment"
@@ -345,7 +362,11 @@ class MiddleChartSection extends Component {
                     <StackedBarWithInvestment
                       viewDataBy={viewDataBy}
                       activeModal={activeModal}
+                      investmentFocusSelection={
+                        investmentFocusSelection
+                      }
                       partnerSelection={partnerSelection}
+                      partnerTypeSelection={partnerTypeSelection}
                       projectSelection={projectSelection}
                       projectStatus={projectStatus}
                       showBarof={showBarof}
@@ -376,7 +397,11 @@ class MiddleChartSection extends Component {
                     <LeverageStackedBar
                       viewDataBy={viewDataBy}
                       activeModal={activeModal}
+                      investmentFocusSelection={
+                        investmentFocusSelection
+                      }
                       partnerSelection={partnerSelection}
+                      partnerTypeSelection={partnerTypeSelection}
                       projectSelection={projectSelection}
                       projectStatus={projectStatus}
                       showBarof={showBarof}
@@ -427,6 +452,7 @@ class MiddleChartSection extends Component {
                 return (
                   <SankeyChart
                     cardWidth={sankeyChartwidth}
+                    activeModal={activeModal}
                     activeOverview={activeOverview}
                   />
                 );

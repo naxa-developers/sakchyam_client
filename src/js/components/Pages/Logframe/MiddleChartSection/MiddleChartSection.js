@@ -614,7 +614,7 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries('Planned');
+      this.chartRef.chart.showSeries('Target');
     } else {
       // setTimeout(() => {
       //   document
@@ -630,7 +630,7 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries('Planned');
+      this.chartRef.chart.hideSeries('Target');
     }
     if (this.props.activeBar2) {
       // setTimeout(() => {
@@ -640,7 +640,7 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries('Achieved ');
+      this.chartRef.chart.showSeries('Achievement ');
     } else {
       // setTimeout(() => {
       //   document
@@ -649,7 +649,7 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.add('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries('Achieved ');
+      this.chartRef.chart.hideSeries('Achievement ');
     }
     if (this.props.activeLine1) {
       // setTimeout(() => {
@@ -659,7 +659,7 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries('Planned ');
+      this.chartRef.chart.showSeries('Target ');
     } else {
       // setTimeout(() => {
       //   document
@@ -668,7 +668,7 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.add('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries('Planned ');
+      this.chartRef.chart.hideSeries('Target ');
     }
     if (this.props.activeLine2) {
       // setTimeout(() => {
@@ -678,7 +678,7 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries('Achieved');
+      this.chartRef.chart.showSeries('Achievement');
     } else {
       // setTimeout(() => {
       //   document
@@ -687,7 +687,7 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.add('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries('Achieved');
+      this.chartRef.chart.hideSeries('Achievement');
     }
   };
 
@@ -1446,7 +1446,7 @@ class MiddleChartSection extends Component {
               onKeyDown={this.props.handleLegend1Click}
               onClick={this.props.handleLegend1Click}
             >
-              Planned
+              Target
             </span>
             <span
               className={`span-label ${
@@ -1457,7 +1457,7 @@ class MiddleChartSection extends Component {
               onKeyDown={this.props.handleLegend2Click}
               onClick={this.props.handleLegend2Click}
             >
-              Achieved
+              Achievement
             </span>
           </div>
           <div className="info-slider">

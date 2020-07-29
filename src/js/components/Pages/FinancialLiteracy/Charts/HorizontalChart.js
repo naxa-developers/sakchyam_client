@@ -699,7 +699,7 @@ class HorizontalChart extends Component {
                 id="chart-reset"
                 type="button"
                 onClick={this.handleBarChartBackBtn}
-                className="is-border common-button"
+                className="is-border common-button chart-reset"
               >
                 Reset
               </button>
