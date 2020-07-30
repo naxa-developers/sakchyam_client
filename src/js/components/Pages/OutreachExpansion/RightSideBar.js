@@ -1,7 +1,9 @@
+/* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import OutreachTab from './common/OutreachTab';
+import { removeDuplicates } from '../../common/removeDuplicates';
 
 const outreachTabTitle = [
   'Investment Focus',
@@ -30,37 +32,73 @@ class RightSideBar extends Component {
       totalFunding: '',
       totalReceipients: '',
       totalPayments: '',
+      totalBranch: '',
+      totalBLB: '',
+      totalPartners: '',
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { outreachReducer } = this.props;
+    const { outreachReducer, primaryData } = this.props;
     if (prevProps.outreachReducer !== outreachReducer) {
-      const totalPopulation = outreachReducer.secondarData.data.reduce(
-        (total, i) => total + i.population,
-        0,
-      );
+      const conditionCheck =
+        outreachReducer &&
+        outreachReducer.secondarData &&
+        outreachReducer.secondarData.data;
+      const totalPopulation =
+        conditionCheck &&
+        outreachReducer.secondarData.data.reduce(
+          (total, i) => total + i.population,
+          0,
+        );
 
-      const totalFunding = outreachReducer.secondarData.data.reduce(
-        (total, i) => total + i.yearly_fund,
-        0,
-      );
+      const totalFunding =
+        conditionCheck &&
+        outreachReducer.secondarData.data.reduce(
+          (total, i) => total + i.yearly_fund,
+          0,
+        );
 
-      const totalReceipients = outreachReducer.secondarData.data.reduce(
-        (total, i) => total + i.social_security_recipients,
-        0,
-      );
+      const totalReceipients =
+        conditionCheck &&
+        outreachReducer.secondarData.data.reduce(
+          (total, i) => total + i.social_security_recipients,
+          0,
+        );
 
-      const totalPayments = outreachReducer.secondarData.data.reduce(
-        (total, i) => total + i.yearly_social_security_payment,
-        0,
-      );
+      const totalPayments =
+        conditionCheck &&
+        outreachReducer.secondarData.data.reduce(
+          (total, i) => total + i.yearly_social_security_payment,
+          0,
+        );
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         totalPopulation,
         totalFunding,
         totalReceipients,
         totalPayments,
+      });
+    }
+
+    if (prevProps.primaryData !== primaryData) {
+      let totalBranch = 0;
+      let totalBLB = 0;
+      primaryData.forEach(element => {
+        if (element.point_service === 'Branch') {
+          totalBranch += 1;
+        }
+        if (element.point_service === 'BLB') {
+          totalBLB += 1;
+        }
+      });
+
+      const uniquePartners = removeDuplicates(primaryData, 'partner');
+
+      this.setState({
+        totalBranch,
+        totalBLB,
+        totalPartners: uniquePartners.length,
       });
     }
   }
@@ -81,6 +119,9 @@ class RightSideBar extends Component {
       totalFunding,
       totalReceipients,
       totalPayments,
+      totalBranch,
+      totalBLB,
+      totalPartners,
     } = this.state;
     return (
       <aside
@@ -109,9 +150,6 @@ class RightSideBar extends Component {
                 onClick={() => {
                   setActiveView('visualization');
                 }}
-                // onKeyDown={() => {
-                //   setActiveView('visualization');
-                // }}
                 role="tab"
                 tabIndex="0"
               >
@@ -127,7 +165,7 @@ class RightSideBar extends Component {
                     <li>
                       <div className="widget-content">
                         <h6>Branches</h6>
-                        <span>2</span>
+                        <span>{totalBranch}</span>
                       </div>
                       <div className="widget-icon">
                         <span>
@@ -137,8 +175,8 @@ class RightSideBar extends Component {
                     </li>
                     <li>
                       <div className="widget-content">
-                        <h6>BlB</h6>
-                        <span>54</span>
+                        <h6>BLB</h6>
+                        <span>{totalBLB}</span>
                       </div>
                       <div className="widget-icon">
                         <span>
@@ -149,7 +187,7 @@ class RightSideBar extends Component {
                     <li>
                       <div className="widget-content">
                         <h6>Partner Institutions</h6>
-                        <span>112</span>
+                        <span>{totalPartners}</span>
                       </div>
                       <div className="widget-icon">
                         <span>

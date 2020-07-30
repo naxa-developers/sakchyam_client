@@ -45,7 +45,7 @@ class PlotVector extends Component {
           'fill-color',
           this.state.finalStyle,
         );
-      }, 2000);
+      }, 500);
     }
 
     if (prevProps.vectorTileUrl !== vectorTileUrl) {
@@ -220,6 +220,11 @@ class PlotVector extends Component {
       //   popup.remove();
       // });
 
+      console.log(
+        'that .props.mapViewDataBy',
+        that.props.mapViewDataBy,
+      );
+
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
           if (hoveredStateId) {
@@ -297,10 +302,17 @@ class PlotVector extends Component {
 
   render() {
     const stateGrade = this.state.grade;
-    const { localOutreachSelected, YesNo } = this.props;
-    const legendTitle = localOutreachSelected
-      ? localOutreachSelected
-      : 'Number of Projects';
+    const {
+      localOutreachSelected,
+      YesNo,
+      mapViewDataBy,
+    } = this.props;
+    const condition =
+      mapViewDataBy === 'general_outreach' ? false : true;
+    const legendTitle =
+      localOutreachSelected && condition
+        ? localOutreachSelected
+        : 'Counts';
     return (
       <>
         <div className="map-legend newmap-legend">
