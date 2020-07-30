@@ -4,6 +4,7 @@ const initialState = {
   allProvinceList: [],
   allDistrictList: [],
   allMunicipalityList: [],
+  isDataFetched: true,
 };
 
 const getProvinceData = (state, action) => {
@@ -125,7 +126,10 @@ export default function(state = initialState, action) {
       return getDistrictData(state, action);
     case actions.GET_ALLMUNICIPALITYNAME_DATA:
       return getMunicipalityData(state, action);
-
+    case actions.FILTER_DISTRICTLIST_FROM_PROVINCE:
+      return filterDistrictFromProvince(state, action);
+    case actions.FILTER_MUNLIST_FROM_DISTRICT:
+      return filterMunListFromDistrict(state, action);
     default:
       return state;
   }

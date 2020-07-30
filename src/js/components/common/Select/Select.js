@@ -330,26 +330,7 @@ class Select extends PureComponent {
       closeListHandler,
     } = this;
     return (
-      // <div
-      //   className={`custom-select ${showList ? 'show-dropdown' : ''}`}
-      //   onBlur={closeListHandler}
-      //   tabIndex="1"
-      //   style={{ outline: 'none' }}
-      // >
-      <div
-        className="select-dropdown"
-        // id="filter_dropdown_province"
-        // tooltip={
-        //   selectedProvinceName.length === 0
-        //     ? ''
-        //     : `${
-        //         selectedProvinceName.length === allProvinceName.length
-        //           ? 'All'
-        //           : selectedProvinceName
-        //       }`
-        // }
-        // flow="up"
-      >
+      <div className="select-dropdown">
         <span
           className={`span-label ${showList ? 'span-active' : ''} `}
           onClick={toggleListHandler}
@@ -368,18 +349,6 @@ class Select extends PureComponent {
           {this.renderList(this.state.filteredOptions)}
         </ul>
       </div>
-      //   <span
-      //     className="selected-item"
-      //     onClick={toggleListHandler}
-      //     style={style}
-      //   >
-      //     {!searchText && selectTitle}
-      //   </span>
-      //   {showList && withSearchBar && this.renderSearchBar()}
-      //   <ul className="select-dropdown  left-dropdown">
-      //     {this.renderList(this.state.filteredOptions)}
-      //   </ul>
-      // </div>
     );
   }
 }

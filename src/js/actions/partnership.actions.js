@@ -550,13 +550,13 @@ export const filterRadialData = (
   // console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
   // console.log(selectedProjectId, 'selectedProjectId');
   // console.log(selectedPartnerType, 'selectedPartnerType');
-  console.log(viewDataBy, 'viewDataBy');
-  console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
-  console.log(selectedProjectId, 'selectedProjectId');
-  console.log(selectedPartnerType, 'selectedPartnerType');
-  console.log(selectedPartnerId, 'selectedPartnerId');
-  console.log(selectedFederalList, 'selectedFederalList');
-  console.log(selectedProjectStatus, 'selectedFederalList');
+  // console.log(viewDataBy, 'viewDataBy');
+  // console.log(selectedInvestmentFocus, 'selectedInvestmentFocus');
+  // console.log(selectedProjectId, 'selectedProjectId');
+  // console.log(selectedPartnerType, 'selectedPartnerType');
+  // console.log(selectedPartnerId, 'selectedPartnerId');
+  // console.log(selectedFederalList, 'selectedFederalList');
+  // console.log(selectedProjectStatus, 'selectedFederalList');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
       ? `investment_filter=${selectedInvestmentFocus}`
