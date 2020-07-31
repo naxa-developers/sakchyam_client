@@ -277,7 +277,7 @@
 }
 .legend-wrapper{
         position: absolute;
-        bottom: 100px;
+        bottom: 77px;
         left: 0;
         
         // .markercircleLegend,.pieSquareLegend{
@@ -289,13 +289,13 @@
                 max-width: 322px;
                 width: 322px;
                 // display: flex;
-                height: 232px;
-                max-height: 208px;
+                height: 262px;
+                max-height: 262px;
                 // width:100%;
                 // height: initial;
                 display: flex;
                 flex-wrap: wrap;
-                background-color: rgba($white-color,.5);
+                background-color: rgba($white-color,1);
                 @include radius(5px);
                 
                 svg{

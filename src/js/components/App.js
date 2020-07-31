@@ -16,6 +16,7 @@ import MainAutomation from './Pages/Automation/MainAutomation';
 import FinancialLiteracy from './Pages/FinancialLiteracy/FinancialLiteracy';
 import MainPartnership from './Pages/Partnership/MainPartnership';
 import ProductProcess from './Pages/ProductProcess/ProductProcess';
+import OutreachComponent from './Pages/OutreachExpansion';
 
 class App extends Component {
   constructor(props) {
@@ -48,6 +49,10 @@ class App extends Component {
           <PrivateRoute
             path="/productprocess"
             component={ProductProcess}
+          />
+          <PrivateRoute
+            path="/outreachexpansion"
+            component={OutreachComponent}
           />
           <Route path="/login" component={Login} />
           <Route path="/" component={Landing} />

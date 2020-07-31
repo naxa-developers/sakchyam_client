@@ -51,7 +51,7 @@ class Landing extends Component {
     const permissionData = localStorage.getItem('userPermission');
     permissionObject = JSON.parse(permissionData);
     this.setState({ permissions: permissionObject });
-    // console.log(permissionObject,'permission');
+    console.log(permissionObject, '======permission');
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);
@@ -61,38 +61,7 @@ class Landing extends Component {
     window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
-  updateWindowDimensions = () => {
-    // var $header = $('.main-header');
-    // var $footer = $('.main-footer');
-    // var $content = $('.main');
-    // var $banner=$(window).height() - $header.height();
-    // var height = $(window).height() - $header.height() + $footer.height();
-    // const $header = document.getElementsByClassName('main-header')[0];
-    // const $footer = document.getElementsByClassName('main-footer')[0];
-    // const $content = document.getElementsByClassName('main')[0];
-    // const $banner = window.innerHeight - $header.offsetHeight;
-    // const height = window.innerHeight - $header.offsetHeight;
-    // // const height = window.innerHeight - $header.offsetHeight + $footer.offsetHeight;
-    // console.log($banner,'banner height')
-    // console.log(height,' height')
-    // $content.style.minHeight= height
-    // console.log(window.innerHeight,'window height')
-    // console.log($header.offsetHeight,'header height')
-    // console.log(screen.height, 'screen');
-    // console.log(window.innerHeight, 'windowheight');
-    // if (window.innerHeight === screen.height) {
-    //   const loginWrapper = document.getElementsByClassName(
-    //     'banner',
-    //   )[0];
-    //   // loginWrapper.style.height = `${screen.height}px`;
-    //   loginWrapper.style.height = `${window.innerHeight}px`;
-    // } else {
-    //   const loginWrapper = document.getElementsByClassName(
-    //     'banner',
-    //   )[0];
-    //   loginWrapper.style.height = `${screen.height}px`;
-    // }
-  };
+  updateWindowDimensions = () => {};
 
   render() {
     const { permissions } = this.state;
@@ -247,8 +216,8 @@ class Landing extends Component {
                       'Automation Benefits',
                     ]}
                     permissions={permissions}
-                    cardUrl="/financial"
-                    cardPermission=""
+                    cardUrl="/outreachexpansion"
+                    cardPermission="view_logentry"
                     cardImage={GridImg}
                   />
                 </div>

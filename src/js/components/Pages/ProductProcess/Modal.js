@@ -64,7 +64,7 @@ const Modal = props => {
                   resetFilters();
                   // resetFunction();
                 }}
-                className="is-border common-button"
+                className="is-border common-button chart-reset"
               >
                 Reset
               </button>
@@ -77,7 +77,7 @@ const Modal = props => {
                   handleShowBarOf('Provinces');
                   // resetFunction();
                 }}
-                className="is-border common-button"
+                className="is-border common-button chart-reset"
               >
                 Reset
               </button>

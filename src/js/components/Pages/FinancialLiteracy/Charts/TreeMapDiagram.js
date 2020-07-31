@@ -328,7 +328,7 @@ class TreeMapDiagram extends Component {
                 type="button"
                 id="chart-reset"
                 onClick={this.handleTreeMapBackBtn}
-                className="is-border common-button"
+                className="is-border common-button chart-reset"
                 style={
                   activeModal && {
                     position: 'absolute',

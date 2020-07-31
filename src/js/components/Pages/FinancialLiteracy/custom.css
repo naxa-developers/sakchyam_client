@@ -27,6 +27,6 @@
   visibility: visible;
 }
 
-#chart-reset {
-  padding: 2px;
+.chart-reset {
+  padding: 2px !important ;
 }

@@ -101,23 +101,23 @@ const initialState = {
   logDataGraph: [],
   series: [
     {
-      name: 'Achieved',
+      name: 'Achievement',
       type: 'column',
       data: [],
     },
     {
-      name: 'Planned',
+      name: 'Target',
       type: 'column',
       data: [],
     },
     {
-      name: 'Achieved',
+      name: 'Achievement',
       type: 'line',
       data: [],
     },
     {
       // name: 'Planned',
-      name: 'Planned',
+      name: 'Target',
       type: 'line',
       data: [],
     },
@@ -314,22 +314,22 @@ const filterIndicatorGraphData = (state, action) => {
   // console.log(achieved, 'achieved');
   const series = [
     {
-      name: 'Planned',
+      name: 'Target',
       type: 'column',
       data: planned,
     },
     {
-      name: 'Achieved ',
+      name: 'Achievement ',
       type: 'column',
       data: achieved,
     },
     {
-      name: 'Planned ',
+      name: 'Target ',
       type: 'area',
       data: planned,
     },
     {
-      name: 'Achieved',
+      name: 'Achievement',
       type: 'area',
       data: achieved,
     },
@@ -477,7 +477,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     //   }
     // });
     activeDates = activeDateClone.filter(
-      date => date === '2020' || date === '2019',
+      date => date === '2020' || date === '2019' || date === '2018',
     );
     console.log(activeDates, 'activeDateClone');
   } else {
@@ -535,22 +535,22 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   // console.log(achieved, 'achieved');
   const series = [
     {
-      name: 'Planned',
+      name: 'Target',
       type: 'column',
       data: planned,
     },
     {
-      name: 'Achieved ',
+      name: 'Achievement ',
       type: 'column',
       data: achieved,
     },
     {
-      name: 'Planned ',
+      name: 'Target ',
       type: 'area',
       data: planned,
     },
     {
-      name: 'Achieved',
+      name: 'Achievement',
       type: 'area',
       data: achieved,
     },

@@ -102,7 +102,7 @@ class LeftSideBar extends Component {
                 </div>
               </div>
             </div>
-            <div className="sidebar-widget">
+            {/* <div className="sidebar-widget">
               <h6 className="title">project status</h6>
               <div className="widget-body">
                 <div className="widget-tag partner-tag">
@@ -142,7 +142,7 @@ class LeftSideBar extends Component {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Projects</h6>
               <div className="widget-body">

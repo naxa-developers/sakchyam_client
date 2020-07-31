@@ -49,14 +49,19 @@ class SankeyChart extends Component {
   render() {
     const {
       state: { overView, randomKey },
-      props: { activeOverview, cardWidth },
+      props: { activeOverview, cardWidth, activeModal },
     } = this;
     const {
       partnershipReducer: { sankeyChartData },
     } = this.props;
 
     return (
-      <div id="sankey_chart" style={{ height: '800px' }}>
+      <div
+        id="sankey_chart"
+        style={
+          activeModal ? { height: '580px' } : { height: '680px' }
+        }
+      >
         {sankeyChartData.nodes && (
           <ResponsiveSankey
             key={Math.random()}
@@ -121,7 +126,7 @@ class SankeyChart extends Component {
                     // margin: '0px 15px',
                   }}
                 >
-                  {node.id}
+                  {node.name}
                   <br />
                   {numberWithCommas(node.value)}
                 </strong>
