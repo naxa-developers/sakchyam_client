@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Select from '../../../common/Select/Select';
+import {
+  provinceLists,
+  districtLists,
+  municipalityLists,
+  districtListByProvince,
+  muniByDistrict,
+} from '../../../common/adminList';
 
 class FilterTab extends Component {
   constructor(props) {
@@ -9,6 +16,9 @@ class FilterTab extends Component {
       activeView: 'visualization',
       activeFilter: false,
       mapViewBy: 'province',
+      provinceList: provinceLists(),
+      districtList: districtLists(),
+      municipalityList: municipalityLists(),
       selectedProvince: [],
       selectedDistrict: [],
       selectedMunicipality: [],
@@ -25,6 +35,60 @@ class FilterTab extends Component {
     this.setState({ mapViewBy: clicked });
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
+      districtList,
+      municipalityList,
+    } = this.state;
+    if (prevState.selectedProvince !== selectedProvince) {
+      // this.props.filterDistrictListFromProvince(selectedProvince);
+      let districts;
+      if (
+        (selectedProvince[0] &&
+          selectedProvince[0].value === 'all') ||
+        selectedProvince.length === 0
+      ) {
+        districts = districtLists();
+      } else {
+        // console.log('else condition', selectedProvince);
+        districts = districtListByProvince(
+          selectedProvince,
+          districtList,
+        );
+      }
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        selectedDistrict: '',
+        selectedMunicipality: '',
+        districtList: districts,
+      });
+    }
+    if (prevState.selectedDistrict !== selectedDistrict) {
+      // this.props.filterMunListFromDistrict(selectedDistrict);
+      let municipality;
+      if (
+        (selectedDistrict[0] &&
+          selectedDistrict[0].value === 'all') ||
+        selectedDistrict.length === 0
+      ) {
+        municipality = municipalityLists();
+      } else {
+        municipality = muniByDistrict(
+          selectedDistrict,
+          municipalityList,
+        );
+      }
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        selectedMunicipality: '',
+        municipalityList: municipality,
+      });
+    }
+  }
+
   render() {
     const {
       state: {
@@ -34,6 +98,9 @@ class FilterTab extends Component {
         selectedProvince,
         selectedDistrict,
         selectedMunicipality,
+        provinceList,
+        districtList,
+        municipalityList,
       },
       props: {
         partnershipReducer: {
@@ -120,7 +187,7 @@ class FilterTab extends Component {
                   <Select
                     withCheckbox
                     name="Select Province"
-                    options={allProvinceList && allProvinceList}
+                    options={provinceList && provinceList}
                     onChange={selectedOptions => {
                       this.setState({
                         selectedProvince: selectedOptions,
@@ -135,7 +202,7 @@ class FilterTab extends Component {
                     <Select
                       withCheckbox
                       name="Select District"
-                      options={allDistrictList && allDistrictList}
+                      options={districtList && districtList}
                       onChange={selectedOptions => {
                         this.setState({
                           selectedDistrict: selectedOptions,
@@ -150,9 +217,7 @@ class FilterTab extends Component {
                     <Select
                       withCheckbox
                       name="Select Municipality"
-                      options={
-                        allMunicipalityList && allMunicipalityList
-                      }
+                      options={municipalityList && municipalityList}
                       onChange={selectedOptions => {
                         this.setState({
                           selectedMunicipality: selectedOptions,

@@ -151,7 +151,6 @@ class MainPartnership extends Component {
       const isClickInside = filterBar.contains(event.target);
 
       if (!isClickInside) {
-        console.log('clickoutside');
         this.setState({
           activeFilter: false,
           // searchDropdown: false,
