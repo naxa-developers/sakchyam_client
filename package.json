@@ -96,6 +96,7 @@
     "html2canvas": "^1.0.0-rc.5",
     "leaflet": "^1.6.0",
     "leaflet.featuregroup.subgroup": "^1.0.2",
+    "lodash": "^4.17.19",
     "mapbox-gl": "^1.10.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",

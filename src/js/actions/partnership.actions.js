@@ -43,6 +43,7 @@ import {
   FILTER_BARDATA_BY_INVESTMENTFOCUS,
   RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
   FILTER_MAPDATA_CHOROPLETH,
+  FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -2053,15 +2054,27 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
           const responseOne = responses[0];
           const responseTwo = responses[1];
           const responseThree = responses[2];
-          return dispatch({
-            type: FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
-            payload: {
-              selectedDataView,
-              totalBeneficiary: responseOne.data,
-              femaleBeneficiary: responseTwo.data,
-              allocatedBudget: responseThree.data,
-            },
-          });
+          console.log('test');
+          return (
+            dispatch({
+              type: FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
+              payload: {
+                selectedDataView,
+                totalBeneficiary: responseOne.data,
+                femaleBeneficiary: responseTwo.data,
+                allocatedBudget: responseThree.data,
+              },
+            }),
+            dispatch({
+              type: FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
+              payload: {
+                selectedDataView,
+                totalBeneficiary: responseOne.data,
+                femaleBeneficiary: responseTwo.data,
+                allocatedBudget: responseThree.data,
+              },
+            })
+          );
         }),
       )
       .catch(errors => {
