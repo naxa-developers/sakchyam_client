@@ -653,6 +653,13 @@
   }
 }
 
+
+#sankey_chart {
+  span{
+    white-space: pre-line;
+    flex-wrap: wrap;
+  }
+}
 .marker-outreach-branch {
   background-image: url('../img/Group5085.svg');
   background-size: cover;

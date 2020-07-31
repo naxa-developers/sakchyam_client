@@ -8,7 +8,7 @@ import {
 } from '../../../../../actions/partnership.actions';
 import convert from '../../../../utils/convertNumbers';
 
-class StackedBarWithProvince extends Component {
+class StackedBarWithAllFederal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,7 @@ class StackedBarWithProvince extends Component {
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     const that = this;
     const {
-      partnershipReducer: { barDatasOfProvinceOnly },
+      partnershipReducer: { barDatas },
     } = this.props;
     const series = [
       // {
@@ -273,12 +273,12 @@ class StackedBarWithProvince extends Component {
   updateBarChart = () => {
     const that = this;
     const {
-      partnershipReducer: { barDatasOfProvinceOnly },
+      partnershipReducer: { barDatas },
     } = this.props;
-    console.log(barDatasOfProvinceOnly, 'barDatas');
+    console.log(barDatas, 'barDatas');
     // alert('test');
-    const newArray = barDatasOfProvinceOnly.series[0].data.map(
-      (e, i) => e + barDatasOfProvinceOnly.series[1].data[i],
+    const newArray = barDatas.series[0].data.map(
+      (e, i) => e + barDatas.series[1].data[i],
     );
     // console.log(newArray, 'newArray');
     // console.log(Math.max(...newArray));
@@ -426,7 +426,7 @@ class StackedBarWithProvince extends Component {
       // },
       colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
-        categories: barDatasOfProvinceOnly.labels,
+        categories: barDatas.labels,
         // title: {
         //   text: 'Provinces',
         // },
@@ -605,17 +605,14 @@ class StackedBarWithProvince extends Component {
       },
     };
     // console.log(barDatas.series, 'bardataxx');
-    this.setState({ options, series: barDatasOfProvinceOnly.series });
+    this.setState({ options, series: barDatas.series });
   };
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      partnershipReducer: { barDatasOfProvinceOnly },
+      partnershipReducer: { barDatas },
     } = this.props;
-    if (
-      prevProps.partnershipReducer.barDatasOfProvinceOnly !==
-      barDatasOfProvinceOnly
-    ) {
+    if (prevProps.partnershipReducer.barDatas !== barDatas) {
       // alert('test');
       this.updateBarChart();
     }
@@ -644,4 +641,4 @@ const mapStateToProps = ({ partnershipReducer }) => ({
 export default connect(mapStateToProps, {
   filterFinancialDataOfDistrictFromProvince,
   filterFinancialDataOfMunicipalityFromDistrict,
-})(StackedBarWithProvince);
+})(StackedBarWithAllFederal);
