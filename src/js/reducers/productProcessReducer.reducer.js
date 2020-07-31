@@ -369,8 +369,22 @@ const generateBubbleChartData = data => {
 //   };
 // };
 
-const generateHeatMapData = data => {
+const generateHeatMapData = dataa => {
   const series = [];
+
+  const data = [];
+
+  dataa.forEach(item => {
+    const word = item.market_failure
+      .split(' ')
+      .splice(2)
+      .join(' ');
+    const pascal = word.charAt(0).toUpperCase() + word.slice(1);
+    data.push({
+      ...item,
+      market_failure: pascal,
+    });
+  });
 
   const innovationArea = [
     ...new Set(data.map(item => item.innovation_area)),
@@ -378,6 +392,15 @@ const generateHeatMapData = data => {
   const marketFailure = [
     ...new Set(data.map(item => item.market_failure)),
   ];
+
+  // marketFailure.forEach(item => {
+  //   const word = item
+  //     .split(' ')
+  //     .splice(2)
+  //     .join(' ');
+  //   const pascal = word.charAt(0).toUpperCase() + word.slice(1);
+  //   marketFailure.push(pascal);
+  // });
 
   function getCount(innovation_area, market_failure) {
     const arr = data
