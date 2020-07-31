@@ -94,6 +94,9 @@ class BubbleChart extends React.Component {
       } else if (window.innerWidth < 1600) {
         height = 550;
         width = 1000;
+      } else if (window.innerWidth < 1400) {
+        height = 500;
+        width = 900;
       }
     } else {
       height = 400;

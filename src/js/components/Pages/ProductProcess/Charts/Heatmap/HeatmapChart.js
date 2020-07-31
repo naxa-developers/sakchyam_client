@@ -2,10 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import {
-  getProductProcessList,
-  filterHeatmapChartData,
-} from '../../../../../actions/productProcess.actions';
+import { getProductProcessList } from '../../../../../actions/productProcess.actions';
 
 class HeatmapChart extends React.Component {
   constructor(props) {
@@ -465,5 +462,4 @@ const mapStateToProps = ({ productProcessReducer }) => ({
 
 export default connect(mapStateToProps, {
   getProductProcessList,
-  filterHeatmapChartData,
 })(HeatmapChart);
