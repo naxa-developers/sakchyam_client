@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -9,44 +11,7 @@ import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
 import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
 import ListByView from './ViewByList';
-import {
-  getPartnershipInvestmentFocus,
-  getProjectListData,
-  // getMapDataByProvince,
-  getMapDataByDistrict,
-  getMapDataByMunicipality,
-  getFilteredMapData,
-  getRadialData,
-  getPartnersList,
-  filterPartnerListByPartnerType,
-  filterFinancialDataWithAllFilters,
-  getDistrictDataFromProvince,
-  filterRadialData,
-  getBarDataByBenefBudget,
-  getBarDataByInvestmentFocus,
-  // getSpiderChartData,
-  getSankeyChartData,
-  filterSankeyChartData,
-  getOverviewData,
-  filterOverviewData,
-  filterDistrictListFromProvince,
-  filterMunListFromDistrict,
-  filterFinancialDataWithAllFiltersAndFederal,
-  getPartnershipAllData,
-  resetBarDatas,
-  resetRadialData,
-  resetSankeyChartData,
-  resetOverviewData,
-  resetLeverageData,
-  resetBarDataByInvestmentFocus,
-  filterLeverageData,
-  filterBarDataByInvestment,
-} from '../../../actions/partnership.actions';
-import {
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
-} from '../../../actions/common.actions';
+import { getFilteredMapData } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
 import { getCenterBboxProvince } from './common/ProvinceFunction';
@@ -54,38 +19,47 @@ import { getCenterBboxDistrict } from './common/DistrictFunction';
 import { getCenterBboxMunicipality } from './common/MunicipalityFunction';
 import { extendBounds } from '../Automation/MapRelatedComponents/extendBbox';
 import MapFilter from './MapFilter';
-import { fetchOutreachSecondaryData } from '../../../actions/outreach.actions';
-import { provinceLists, districtLists } from '../../common/adminList';
+import {
+  fetchOutreachSecondaryData,
+  fetchOutreachChoropleth,
+  fetchOutreachPrimaryData,
+} from '../../../actions/outreach.actions';
+import {
+  provinceLists,
+  districtLists,
+  municipalityLists,
+  districtListByProvince,
+  muniByDistrict,
+} from '../../common/adminList';
 
 class MainPartnership extends Component {
   constructor() {
     super();
     this.state = {
-      // Event Handle Section
-      investmentFocusSelection: [],
-      projectSelection: [],
+      provinceList: provinceLists(),
+      districtList: districtLists(),
+      municipalityList: municipalityLists(),
+      primaryData: '',
+      expsnsionSelection: [],
       partnerSelection: [],
       projectStatus: [],
       partnerType: [],
       serviceType: [],
       G2PTypes: [],
       demonstrationType: [],
-      selectedProvince: null,
+      selectedProvince: '',
       selectedDistrict: null,
       selectedMunicipality: null,
       isAllPartnerSelected: false,
       isAllProjectSelected: false,
       isAllInvestmentFocusSelected: false,
-      showBarof: 'Provinces',
-      showBarofInvestmentBudgetBenef: 'investmentFocus',
-      // UI Section
       activeFilter: false,
       activeOverview: true,
       viewDataBy: 'allocated_beneficiary',
+      mapViewBy: 'province',
       mapViewDataBy: 'general_outreach',
       activeView: 'map',
       map: null,
-      mapViewBy: 'province',
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       localOutreachSelected: '',
@@ -94,27 +68,9 @@ class MainPartnership extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('userToken');
-    console.log('uset token', token);
-    // const { viewDataBy } = this.state;
-    // this.props.getPartnersList();
-    // this.props.getProjectListData();
-    // this.props.getPartnershipInvestmentFocus();
-    // this.props.getBarDataByBenefBudget(viewDataBy);
-    // this.props.getBarDataByInvestmentFocus(viewDataBy);
-    // this.props.getSankeyChartData();
-    this.props.getProvinceData();
-    this.props.getDistrictData();
-    this.props.getMunicipalityData();
     const filterBar = document.getElementsByClassName(
       'filter-bar',
     )[0];
-    const provinceList = document.getElementsByClassName(
-      'filter-bar',
-    )[0];
-    const districtList = document.getElementsByClassName(
-      'filter-bar',
-    )[0];
-    const munList = document.getElementsByClassName('filter-bar')[0];
     document.addEventListener('click', async event => {
       const isClickInside = filterBar.contains(event.target);
 
@@ -125,50 +81,65 @@ class MainPartnership extends Component {
         });
       }
     });
+    this.props.fetchOutreachPrimaryData();
     this.props.fetchOutreachSecondaryData();
+    this.props.fetchOutreachChoropleth();
   }
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      investmentFocusSelection,
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-      partnerType,
       selectedProvince,
       selectedDistrict,
+      districtList,
+      municipalityList,
     } = this.state;
-    // if (
-    //   prevState.investmentFocusSelection !== investmentFocusSelection
-    // ) {
-    //   this.props.getProjectListData(investmentFocusSelection);
-    //   this.props.filterPartnerListByPartnerType(partnerType);
-    //   // eslint-disable-next-line react/no-did-update-set-state
-    //   this.setState({ isAllProjectSelected: false });
-    // }
-    // if (prevState.viewDataBy !== viewDataBy) {
-    //   if (viewDataBy !== 'Leverage') {
-    //     this.props.getSankeyChartData(viewDataBy);
-    //     this.props.filterRadialData(
-    //       // 'province',
-    //       viewDataBy,
-    //       investmentFocusSelection,
-    //       projectSelection,
-    //       partnerType,
-    //       partnerSelection,
-    //       projectStatus,
-    //     );
-    //   }
-    // }
-    // if (prevState.partnerType !== partnerType) {
-    //   this.props.filterPartnerListByPartnerType(partnerType);
-    // }
+    const { outreachReducer } = this.props;
+    const { primaryData } = outreachReducer;
     if (prevState.selectedProvince !== selectedProvince) {
-      this.props.filterDistrictListFromProvince(selectedProvince);
+      // this.props.filterDistrictListFromProvince(selectedProvince);
+      let districts;
+      if (
+        (selectedProvince[0] &&
+          selectedProvince[0].value === 'all') ||
+        selectedProvince.length === 0
+      ) {
+        districts = districtLists();
+      } else {
+        // console.log('else condition', selectedProvince);
+        districts = districtListByProvince(
+          selectedProvince,
+          districtList,
+        );
+      }
+      this.setState({
+        selectedDistrict: '',
+        selectedMunicipality: '',
+        districtList: districts,
+      });
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
-      this.props.filterMunListFromDistrict(selectedDistrict);
+      // this.props.filterMunListFromDistrict(selectedDistrict);
+      let municipality;
+      if (
+        (selectedDistrict[0] &&
+          selectedDistrict[0].value === 'all') ||
+        selectedDistrict.length === 0
+      ) {
+        municipality = municipalityLists();
+      } else {
+        municipality = muniByDistrict(
+          selectedDistrict,
+          municipalityList,
+        );
+      }
+      this.setState({
+        selectedMunicipality: '',
+        municipalityList: municipality,
+      });
+    }
+
+    if (prevProps.outreachReducer.primaryData !== primaryData) {
+      this.setState({ primaryData });
     }
   }
 
@@ -242,234 +213,20 @@ class MainPartnership extends Component {
     this.setState({
       mapViewDataBy: selectedView,
     });
-  };
 
-  handleStateLevel = clickedValue => {
-    const { map } = this.state;
-    const {
-      dataTypeLevel,
-      activeClickPartners,
-      selectedProvince,
-      selectedDistrict,
-      selectedMunicipality,
-    } = this.state;
-    if (
-      selectedProvince.length > 0 ||
-      selectedDistrict.length > 0 ||
-      selectedMunicipality.length > 0
-    ) {
-      if (clickedValue === 'municipality') {
-        if (selectedMunicipality.length > 0) {
-          const combinedBbox = [];
-          // console.log(selectedMunicipality, 'selectedMunicipality');
-          const getBboxValue = getCenterBboxMunicipality(
-            selectedMunicipality.map(data => {
-              return data.code;
-            }),
-          );
-          // console.log(getBboxValue, 'bboxValue');
-          getBboxValue.map(data => {
-            combinedBbox.push(data.bbox);
-            return true;
-          });
-          const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
-          map.fitBounds(extendedValue);
-          const query = selectedMunicipality
-            .map(data => {
-              return `code=${data.code}`;
-            })
-            .join('&');
-          const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          this.setState({
-            vectorTileUrl: municipalityFilterUrl,
-            // vectorGridKey: Math.random(),
-          });
-        } else if (selectedDistrict.length > 0) {
-          const combinedBbox = [];
-          // console.log(selectedDistrict, 'selectedDistrict');
-          const getBboxValue = getCenterBboxDistrict(
-            selectedDistrict.map(data => {
-              return data.code;
-            }),
-          );
-          // console.log(getBboxValue, 'bboxValue');
-          getBboxValue.map(data => {
-            combinedBbox.push(data.bbox);
-            return true;
-          });
-          const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
-          map.fitBounds(extendedValue);
-          const query = selectedDistrict
-            .map(data => {
-              return `district_code=${data.code}`;
-            })
-            .join('&');
-          const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          this.setState({
-            vectorTileUrl: municipalityFilterUrl,
-            // vectorGridKey: Math.random(),
-          });
-        } else if (selectedProvince.length > 0) {
-          const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
-          const getBboxValue = getCenterBboxProvince(
-            selectedProvince.map(data => {
-              return data.code;
-            }),
-          );
-          getBboxValue.map(data => {
-            combinedBbox.push(data.bbox);
-            return true;
-          });
-          const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
-          map.fitBounds(extendedValue);
-          const query = selectedProvince
-            .map(data => {
-              return `province_id_id=${data.code}`;
-            })
-            .join('&');
-          const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          this.setState({
-            vectorTileUrl: municipalityFilterUrl,
-            // vectorGridKey: Math.random(),
-          });
-        }
-      } else if (clickedValue === 'district') {
-        if (selectedDistrict.length > 0) {
-          const combinedBbox = [];
-          // console.log(selectedDistrict, 'selectedDistrict');
-          const getBboxValue = getCenterBboxDistrict(
-            selectedDistrict.map(data => {
-              return data.code;
-            }),
-          );
-          // console.log(getBboxValue, 'bboxValue');
-          getBboxValue.map(data => {
-            combinedBbox.push(data.bbox);
-            return true;
-          });
-          const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
-          map.fitBounds(extendedValue);
-          const query = selectedDistrict
-            .map(data => {
-              return `code=${data.code}`;
-            })
-            .join('&');
-          const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-          this.setState({
-            vectorTileUrl: municipalityFilterUrl,
-            // vectorGridKey: Math.random(),
-          });
-        } else if (selectedProvince.length > 0) {
-          const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
-          const getBboxValue = getCenterBboxProvince(
-            selectedProvince.map(data => {
-              return data.code;
-            }),
-          );
-          getBboxValue.map(data => {
-            combinedBbox.push(data.bbox);
-            return true;
-          });
-          const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
-          map.fitBounds(extendedValue);
-          const query = selectedProvince
-            .map(data => {
-              return `province_id_id=${data.code}`;
-            })
-            .join('&');
-          const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-          this.setState({
-            vectorTileUrl: municipalityFilterUrl,
-            // vectorGridKey: Math.random(),
-          });
-        }
-      } else if (clickedValue === 'province') {
-        if (selectedProvince.length > 0) {
-          const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
-          const getBboxValue = getCenterBboxProvince(
-            selectedProvince.map(data => {
-              return data.id;
-            }),
-          );
-          getBboxValue.map(data => {
-            combinedBbox.push(data.bbox);
-            return true;
-          });
-          // console.log(combinedBbox, 'combineBbox');
-          const extendedValue = extendBounds(combinedBbox);
-          // const { map } = this.state;
-          // console.log(extendedValue, 'bbox');
-          map.fitBounds(extendedValue);
-          // map.flyToBounds(extendedValue, {
-          //   animate: true,
-          //   duration: 2,
-          // });
-          const query = selectedProvince
-            .map(data => {
-              return `code=${data.code}`;
-            })
-            .join('&');
-          const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&${query}`;
-          this.setState({
-            vectorTileUrl: municipalityFilterUrl,
-            // vectorGridKey: Math.random(),
-          });
-        }
-      }
-      // alert('atleast on state is number');
-    } else if (clickedValue === 'province') {
-      // alert('province ');
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
-        // vectorGridKey: Math.random(),
-        // color: '#55b110',
-      });
-      this.props.filterAutomationDataForVectorTiles(clickedValue);
-    } else if (clickedValue === 'district') {
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
-        // vectorGridKey: '1',
-        // vectorGridKey: Math.random(),
-        // color: '#FF0000',
-      });
-      this.props.filterAutomationDataForVectorTiles(clickedValue);
-    } else if (clickedValue === 'municipality') {
-      this.setState({
-        vectorTileUrl:
-          'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
-        // 'https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Municipality@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
-        // vectorGridKey: '2',
-        // vectorGridKey: Math.random(),
-        // color: '#FF000',
-      });
-      this.props.filterAutomationDataForVectorTiles(clickedValue);
+    if (selectedView === 'general_outreach') {
+      console.log("'general_outreach' condition");
+      this.setMapViewBy('province');
     }
   };
 
-  handleShowBarOf = value => {
-    this.setState({ showBarof: value });
-  };
-
-  handleShowBarOfInvestmentBudgetBenefBar = value => {
-    this.setState({ showBarofInvestmentBudgetBenef: value });
-  };
-
-  handleInvestmentParentCheckbox = e => {
+  handelExpansionParentCheckbox = e => {
     // e.stopPropagation();
     const {
-      investmentFocusSelection,
+      expsnsionSelection,
       isAllInvestmentFocusSelected,
     } = this.state;
+
     if (isAllInvestmentFocusSelected) {
       const allInvestmentElement = document.getElementsByClassName(
         'investment_checkbox',
@@ -479,7 +236,7 @@ class MainPartnership extends Component {
         allInvestmentElement[i].checked = false;
       }
       this.setState({
-        investmentFocusSelection: [],
+        expsnsionSelection: [],
         isAllInvestmentFocusSelected: false,
       });
     } else {
@@ -490,107 +247,65 @@ class MainPartnership extends Component {
         const allInvestmentElement = document.getElementsByClassName(
           'investment_checkbox',
         );
-        const selectedInvestment = investmentFocusSelection;
+        const selectedInvestment = expsnsionSelection;
         for (let i = 0; i < allInvestmentElement.length; i += 1) {
           allInvestmentElement[i].checked = true;
           selectedInvestment.push(allInvestmentElement[i].name);
         }
         this.setState({
-          investmentFocusSelection: selectedInvestment,
+          expsnsionSelection: selectedInvestment,
         });
       }
     }
   };
 
-  handleInvestmentFocusCheckbox = e => {
+  handelExpansionCheckbox = e => {
     const {
-      state: { investmentFocusSelection },
+      state: { expsnsionSelection },
     } = this;
     const {
-      target: { name, checked, value },
+      target: { name, checked },
     } = e;
-    // console.log(value);
     this.setState(preState => {
       if (checked) {
         return {
-          investmentFocusSelection: [
-            ...preState.investmentFocusSelection,
-            name,
-          ],
-          projectSelection: [],
+          expsnsionSelection: [...preState.expsnsionSelection, name],
         };
       }
       if (!checked) {
-        const newArr = investmentFocusSelection.filter(
+        const newArr = expsnsionSelection.filter(
           daily => daily !== name,
         );
         return {
-          investmentFocusSelection: newArr,
-          projectSelection: [],
+          expsnsionSelection: newArr,
+          isAllInvestmentFocusSelected: false,
         };
       }
       return null;
     });
   };
 
-  handleProjectParentCheckbox = e => {
-    const { projectSelection, isAllProjectSelected } = this.state;
-    if (isAllProjectSelected) {
-      const allProjectElement = document.getElementsByClassName(
-        'project_checkbox',
-      );
-
-      for (let i = 0; i < allProjectElement.length; i += 1) {
-        allProjectElement[i].checked = false;
-      }
-      this.setState({
-        projectSelection: [],
-        isAllProjectSelected: false,
-      });
-    } else {
-      this.setState({
-        isAllProjectSelected: true,
-      });
-      if (e.target.checked === true) {
-        const allProjectElement = document.getElementsByClassName(
-          'project_checkbox',
-        );
-        const selectedProject = projectSelection;
-        for (let i = 0; i < allProjectElement.length; i += 1) {
-          allProjectElement[i].checked = true;
-          selectedProject.push(
-            parseInt(allProjectElement[i].name, 10),
-          );
-        }
-        this.setState({
-          projectSelection: selectedProject,
-        });
-      }
-    }
-  };
-
-  handleProjectSelectionCheckbox = e => {
+  handlePartnerSelectionCheckbox = e => {
     const {
-      state: { projectSelection, isAllPartnerSelected },
+      state: { partnerSelection },
     } = this;
     const {
       target: { name, checked },
     } = e;
-
     this.setState(preState => {
       if (checked) {
         return {
-          projectSelection: [
-            ...preState.projectSelection,
-            parseInt(name, 10),
-          ],
+          partnerSelection: [...preState.partnerSelection, name],
         };
       }
       if (!checked) {
-        const newArr = projectSelection.filter(
-          projectselected => projectselected !== parseInt(name, 10),
+        const newArr = partnerSelection.filter(
+          partnerSelected => partnerSelected !== name,
         );
-        return { projectSelection: newArr };
+        return {
+          partnerSelection: newArr,
+          isAllPartnerSelected: false,
+        };
       }
       return null;
     });
@@ -622,9 +337,7 @@ class MainPartnership extends Component {
         const selectedPartner = partnerSelection;
         for (let i = 0; i < allPartnerElement.length; i += 1) {
           allPartnerElement[i].checked = true;
-          selectedPartner.push(
-            parseInt(allPartnerElement[i].name, 10),
-          );
+          selectedPartner.push(allPartnerElement[i].name);
         }
         this.setState({
           partnerSelection: selectedPartner,
@@ -633,33 +346,7 @@ class MainPartnership extends Component {
     }
   };
 
-  handlePartnerSelectionCheckbox = e => {
-    const {
-      state: { partnerSelection, isAllPartnerSelected },
-    } = this;
-    const {
-      target: { name, checked },
-    } = e;
-    this.setState(preState => {
-      if (checked) {
-        return {
-          partnerSelection: [
-            ...preState.partnerSelection,
-            parseInt(name, 10),
-          ],
-        };
-      }
-      if (!checked) {
-        const newArr = partnerSelection.filter(
-          partnerSelected => partnerSelected !== parseInt(name, 10),
-        );
-        return { partnerSelection: newArr };
-      }
-      return null;
-    });
-  };
-
-  handlePartnerType = (clickedValue, type) => {
+  handelMultiChoice = (clickedValue, type) => {
     const { serviceType, G2PTypes, demonstrationType } = this.state;
     let tempCollection;
     let filteredData = [];
@@ -709,110 +396,262 @@ class MainPartnership extends Component {
       partnerSelection,
       projectSelection,
       projectStatus,
-      investmentFocusSelection,
+      expsnsionSelection,
       partnerType,
     } = this.state;
-    this.props.filterOverviewData(
-      investmentFocusSelection,
-      projectSelection,
-      partnerType,
+  };
+
+  leftApplyHandler = () => {
+    const {
+      G2PTypes,
+      demonstrationType,
+      serviceType,
+      expsnsionSelection,
+      partnerSelection,
+    } = this.state;
+    console.log(
+      'values onsole',
+      G2PTypes,
+      demonstrationType,
+      serviceType,
+      expsnsionSelection,
       partnerSelection,
     );
-    this.props.filterFinancialDataWithAllFilters(
-      'province',
-      investmentFocusSelection,
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-    );
-    this.props.filterBarDataByInvestment(
-      'province',
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-      investmentFocusSelection,
-    );
-    this.props.filterSankeyChartData(
-      viewDataBy,
-      investmentFocusSelection,
-      projectSelection,
-      partnerType,
-      partnerSelection,
-      projectStatus,
-    );
-    this.props.filterLeverageData(investmentFocusSelection);
+    let filteredData = [];
+    const { primaryData } = this.props.outreachReducer;
+
+    if (
+      G2PTypes.length === 0 &&
+      demonstrationType.length === 0 &&
+      serviceType.length === 0 &&
+      expsnsionSelection.length === 0 &&
+      expsnsionSelection.length === 0
+    ) {
+      filteredData = primaryData;
+    }
+
+    if (G2PTypes.length > 0) {
+      G2PTypes.map(type => {
+        primaryData.map(data => {
+          if (type === data.g2p_payment) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (demonstrationType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      demonstrationType.map(type => {
+        value.map(data => {
+          if (type === data.demonstration_effect) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+    if (serviceType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      serviceType.map(type => {
+        value.map(data => {
+          if (type === data.point_service) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+    if (expsnsionSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      expsnsionSelection.map(type => {
+        value.map(data => {
+          console.log(
+            'type === data.partner_type',
+            expsnsionSelection,
+            value,
+          );
+          if (type === data.expansion_driven_by) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+    if (partnerSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      partnerSelection.map(type => {
+        value.map(data => {
+          console.log(
+            'type === data.partner_type',
+            partnerSelection,
+            value,
+          );
+          if (type === data.partner_type) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    this.setState({ primaryData: filteredData });
   };
 
   // eslint-disable-next-line consistent-return
   handleApplyFederalFilter = () => {
     const {
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-      investmentFocusSelection,
-      partnerType,
       selectedMunicipality,
       selectedDistrict,
       selectedProvince,
-      mapViewBy,
-      activeView,
+      mapViewDataBy,
+      map,
     } = this.state;
-    if (activeView === 'visualization') {
-      this.props.filterFinancialDataWithAllFiltersAndFederal(
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-        viewDataBy,
-        partnerSelection,
-        projectSelection,
-        projectStatus,
-      );
-      this.props.filterOverviewData(
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-      );
-      this.props.filterRadialData(
-        viewDataBy,
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        projectStatus,
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-      );
-    } else {
-      // this.props.filterMapDataWithFederal();
-      this.handleStateLevel(mapViewBy);
+
+    const provinceCheck =
+      selectedProvince && selectedProvince.length > 0;
+    const districtCheck =
+      selectedDistrict && selectedDistrict.length > 0;
+    const muniCheck =
+      selectedMunicipality && selectedMunicipality.length > 0;
+
+    const { allMunicipalityList } = this.props.commonReducer;
+
+    if (mapViewDataBy === 'outreach_local_units') {
+      const filteredList = [];
+      if (muniCheck) {
+        console.log('muni condition', selectedMunicipality);
+        const combinedBbox = [];
+        const getBboxValue = getCenterBboxMunicipality(
+          selectedMunicipality.map(data => {
+            return data.code;
+          }),
+        );
+        getBboxValue.map(data => {
+          combinedBbox.push(data.bbox);
+          return true;
+        });
+        const extendedValue = extendBounds(combinedBbox);
+        map.fitBounds(extendedValue);
+
+        const filteredMuni = selectedMunicipality.filter(
+          muni => muni.value !== 'all',
+        );
+        filteredMuni.map(muni => filteredList.push(muni));
+      } else if (districtCheck) {
+        console.log('dsistrivsad condition', selectedDistrict);
+        const combinedBbox = [];
+        const getBboxValue = getCenterBboxDistrict(
+          selectedDistrict.map(data => {
+            return data.code;
+          }),
+        );
+        getBboxValue.map(data => {
+          combinedBbox.push(data.bbox);
+          return true;
+        });
+        const extendedValue = extendBounds(combinedBbox);
+        map.fitBounds(extendedValue);
+
+        const filteredDist = selectedDistrict.filter(
+          muni => muni.value !== 'all',
+        );
+
+        filteredDist.forEach(dist => {
+          allMunicipalityList.forEach(mun => {
+            if (dist.code === mun.district_code) {
+              filteredList.push(mun);
+            }
+          });
+        });
+
+        // console.log('filtered list', filteredList);
+      } else if (provinceCheck) {
+        console.log('province condition', selectedProvince);
+        const combinedBbox = [];
+        const getBboxValue = getCenterBboxProvince(
+          selectedProvince.map(data => {
+            return data.code;
+          }),
+        );
+
+        getBboxValue.map(data => {
+          combinedBbox.push(data.bbox);
+          return true;
+        });
+        const extendedValue = extendBounds(combinedBbox);
+        map.fitBounds(extendedValue);
+
+        const filteredPro = selectedProvince.filter(
+          muni => muni.value !== 'all',
+        );
+
+        filteredPro.forEach(province => {
+          allMunicipalityList.forEach(district => {
+            if (province.code === district.province_code) {
+              filteredList.push(district);
+            }
+          });
+        });
+      }
+
+      if (provinceCheck || districtCheck || muniCheck) {
+        console.log(
+          'one met condition',
+          provinceCheck,
+          districtCheck,
+          muniCheck,
+        );
+        map.setFilter('vector-tile-fill', [
+          'in',
+          ['get', 'code'],
+          [
+            'literal',
+            filteredList.map(fed => {
+              return fed.code.toString();
+            }),
+          ],
+        ]);
+        map.setFilter('vector-tile-outline', [
+          'in',
+          ['get', 'code'],
+          [
+            'literal',
+            filteredList.map(fed => {
+              return fed.code.toString();
+            }),
+          ],
+        ]);
+      }
+      this.setState({ activeFilter: false });
     }
   };
 
   resetLeftSideBarSelection = () => {
     this.setState({
-      investmentFocusSelection: [],
+      expsnsionSelection: [],
       partnerSelection: [],
-      projectSelection: [],
+      demonstrationType: [],
+      serviceType: [],
+      G2PTypes: [],
+      isAllPartnerSelected: false,
+      isAllInvestmentFocusSelected: false,
+      primaryData: this.props.outreachReducer.primaryData,
     });
   };
 
   resetFilters = () => {
-    // console.log('resertfiles');
     const { mapViewBy, activeView } = this.state;
-    const that = this;
-    this.resetLeftSideBarSelection();
-    if (activeView === 'visualization') {
-      this.props.resetRadialData();
-      this.props.resetSankeyChartData();
-      this.props.resetOverviewData();
-      this.props.resetLeverageData();
-      this.props.resetBarDatas();
-      this.props.resetBarDataByInvestmentFocus();
-    } else {
-      this.setMapViewBy(mapViewBy);
-    }
+    this.setState({
+      selectedProvince: '',
+      selectedDistrict: null,
+      selectedMunicipality: null,
+    });
+    this.setMapViewBy('municipality');
   };
 
   render() {
@@ -826,20 +665,18 @@ class MainPartnership extends Component {
         mapViewDataBy,
         activeView,
         vectorTileUrl,
-        investmentFocusSelection,
-        projectSelection,
-        projectStatus,
+        expsnsionSelection,
         partnerSelection,
-        partnerType,
-        showBarof,
-        showBarofInvestmentBudgetBenef,
-        selectedProvince,
-        selectedDistrict,
-        selectedMunicipality,
         demonstrationType,
         serviceType,
         G2PTypes,
         localOutreachSelected,
+        primaryData,
+        provinceList,
+        districtList,
+        municipalityList,
+        isAllPartnerSelected,
+        isAllInvestmentFocusSelected,
       },
       // props: {},
     } = this;
@@ -849,9 +686,9 @@ class MainPartnership extends Component {
       allMunicipalityList,
     } = this.props.commonReducer;
 
-    const temp = provinceLists();
+    // console.log('allDistrictList', allDistrictList);
+    // console.log('districtList', districtList);
 
-    console.log('province lists', temp, allProvinceList);
     return (
       <>
         <Headers />
@@ -861,33 +698,28 @@ class MainPartnership extends Component {
           }`}
         >
           <LeftSideBar
-            resetFilters={this.resetFilters}
-            applyBtnClick={this.applyBtnClick}
-            investmentFocusSelection={investmentFocusSelection}
-            handleInvestmentFocusCheckbox={
-              this.handleInvestmentFocusCheckbox
-            }
-            projectSelection={projectSelection}
-            handleProjectSelectionCheckbox={
-              this.handleProjectSelectionCheckbox
-            }
+            expsnsionSelection={expsnsionSelection}
+            partnerSelection={partnerSelection}
             G2PTypes={G2PTypes}
             serviceType={serviceType}
             demonstrationType={demonstrationType}
-            handlePartnerType={this.handlePartnerType}
-            partnerSelection={partnerSelection}
+            isAllPartnerSelected={isAllPartnerSelected}
+            isAllInvestmentFocusSelected={
+              isAllInvestmentFocusSelected
+            }
+            handelExpansionCheckbox={this.handelExpansionCheckbox}
             handlePartnerSelectionCheckbox={
               this.handlePartnerSelectionCheckbox
             }
             handlePartnerParentCheckbox={
               this.handlePartnerParentCheckbox
             }
-            handleProjectParentCheckbox={
-              this.handleProjectParentCheckbox
+            handelExpansionParentCheckbox={
+              this.handelExpansionParentCheckbox
             }
-            handleInvestmentParentCheckbox={
-              this.handleInvestmentParentCheckbox
-            }
+            handelMultiChoice={this.handelMultiChoice}
+            resetFilters={this.resetLeftSideBarSelection}
+            applyBtnClick={this.leftApplyHandler}
           />
           <main className="main">
             <div className="main-card literacy-main-card">
@@ -926,9 +758,7 @@ class MainPartnership extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
-                            options={
-                              allProvinceList && allProvinceList
-                            }
+                            options={provinceList && provinceList}
                             onChange={selectedOptions => {
                               this.setState({
                                 selectedProvince: selectedOptions,
@@ -943,9 +773,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select District"
-                              options={
-                                allDistrictList && allDistrictList
-                              }
+                              options={districtList && districtList}
                               onChange={selectedOptions => {
                                 this.setState({
                                   selectedDistrict: selectedOptions,
@@ -961,8 +789,7 @@ class MainPartnership extends Component {
                               withCheckbox
                               name="Select Municipality"
                               options={
-                                allMunicipalityList &&
-                                allMunicipalityList
+                                municipalityList && municipalityList
                               }
                               onChange={selectedOptions => {
                                 this.setState({
@@ -977,7 +804,7 @@ class MainPartnership extends Component {
                       <div className="buttons is-end">
                         <button
                           type="button"
-                          // onClick={this.resetFilters}
+                          onClick={this.resetFilters}
                           className="common-button is-clear"
                         >
                           <i className="material-icons">refresh</i>
@@ -1014,7 +841,7 @@ class MainPartnership extends Component {
                   sankeyChartwidth={sankeyChartwidth}
                   activeOverview={activeOverview}
                   activeView={activeView}
-                  investmentFocusSelection={investmentFocusSelection}
+                  expsnsionSelection={expsnsionSelection}
                   partnerSelection={partnerSelection}
                   projectSelection={projectSelection}
                   projectStatus={projectStatus}
@@ -1038,16 +865,17 @@ class MainPartnership extends Component {
                 >
                   {activeView === 'map' && (
                     <MapboxPartnership
-                      addMap={this.addMap}
-                      handleFederalClickOnMap={
-                        this.handleFederalClickOnMap
-                      }
                       map={map}
                       vectorTileUrl={vectorTileUrl}
                       mapViewBy={mapViewBy}
                       mapViewDataBy={mapViewDataBy}
-                      setMapViewBy={this.setMapViewBy}
                       localOutreachSelected={localOutreachSelected}
+                      primaryData={primaryData}
+                      addMap={this.addMap}
+                      setMapViewBy={this.setMapViewBy}
+                      handleFederalClickOnMap={
+                        this.handleFederalClickOnMap
+                      }
                     />
                   )}
                 </div>
@@ -1061,6 +889,7 @@ class MainPartnership extends Component {
             setActiveOverview={this.setActiveOverview}
             setActiveView={this.setActiveView}
             mapViewDataBy={mapViewDataBy}
+            primaryData={primaryData}
           />
         </div>
         {/* <MapboxPartnership /> */}
@@ -1068,43 +897,13 @@ class MainPartnership extends Component {
     );
   }
 }
-const mapStateToProps = ({ commonReducer }) => ({
+const mapStateToProps = ({ commonReducer, outreachReducer }) => ({
   commonReducer,
+  outreachReducer,
 });
 export default connect(mapStateToProps, {
-  getPartnershipInvestmentFocus,
-  getProjectListData,
-  // getMapDataByProvince,
-  getMapDataByDistrict,
-  getMapDataByMunicipality,
+  fetchOutreachChoropleth,
+  fetchOutreachPrimaryData,
   getFilteredMapData,
-  getRadialData,
-  getPartnersList,
-  filterPartnerListByPartnerType,
-  filterFinancialDataWithAllFilters,
-  getDistrictDataFromProvince,
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
-  filterRadialData,
-  getBarDataByBenefBudget,
-  // getSpiderChartData,
-  getSankeyChartData,
-  filterSankeyChartData,
-  getOverviewData,
-  filterOverviewData,
-  filterDistrictListFromProvince,
-  filterMunListFromDistrict,
-  filterFinancialDataWithAllFiltersAndFederal,
-  getPartnershipAllData,
-  resetBarDatas,
-  resetRadialData,
-  resetSankeyChartData,
-  resetOverviewData,
-  resetLeverageData,
-  filterLeverageData,
-  getBarDataByInvestmentFocus,
-  filterBarDataByInvestment,
-  resetBarDataByInvestmentFocus,
   fetchOutreachSecondaryData,
 })(MainPartnership);

@@ -1,3 +1,7 @@
+/* eslint-disable prefer-template */
+/* eslint-disable array-callback-return */
+/* eslint-disable radix */
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { connect } from 'react-redux';
@@ -24,7 +28,8 @@ class PlotVector extends Component {
       grade: [],
       legendColors: [],
       finalStyle: null,
-      // hoveredMunicipalityId: '',
+      stateMarker: '',
+      vectorTileInitialized: false,
     };
   }
 
@@ -34,18 +39,40 @@ class PlotVector extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { map, vectorTileUrl, choroplethData } = this.props;
+    const {
+      map,
+      vectorTileUrl,
+      choroplethData,
+      primaryData,
+      mapViewDataBy,
+    } = this.props;
+    const that = this;
+    const { stateMarker, vectorTileInitialized } = this.state;
+
+    if (prevProps.mapViewDataBy !== mapViewDataBy) {
+      console.log('mapViewDataBy', mapViewDataBy);
+      if (mapViewDataBy === 'outreach_local_units') {
+        if (stateMarker.length > 0) {
+          stateMarker.map(marker => {
+            marker.remove();
+          });
+        }
+      } else {
+        this.setMarkers();
+      }
+    }
 
     if (prevProps.choroplethData !== choroplethData) {
-      //   console.log('choroplethData', choroplethData);
       this.changeGrades();
-      setTimeout(() => {
-        map.setPaintProperty(
-          'vector-tile-fill',
-          'fill-color',
-          this.state.finalStyle,
-        );
-      }, 2000);
+      if (vectorTileInitialized) {
+        setTimeout(() => {
+          map.setPaintProperty(
+            'vector-tile-fill',
+            'fill-color',
+            this.state.finalStyle,
+          );
+        }, 100);
+      }
     }
 
     if (prevProps.vectorTileUrl !== vectorTileUrl) {
@@ -56,7 +83,88 @@ class PlotVector extends Component {
       map.setStyle(newStyle);
       this.plotVectorTile();
     }
+
+    if (mapViewDataBy === 'general_outreach') {
+      if (prevProps.primaryData !== primaryData) {
+        this.setMarkers();
+      }
+    }
   }
+
+  setMarkers = () => {
+    const { stateMarker } = this.state;
+    const { map, primaryData } = this.props;
+    if (stateMarker.length > 0) {
+      stateMarker.map(marker => {
+        marker.remove();
+      });
+    }
+
+    const featuresArray = primaryData.map(data => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [
+          parseFloat(
+            data.gps_point.substring(
+              data.gps_point.indexOf(',') + 1,
+              data.gps_point.length,
+            ),
+          ),
+          parseFloat(
+            data.gps_point.substring(0, data.gps_point.indexOf(',')),
+          ),
+        ],
+      },
+      properties: {
+        title: 'Mapbox',
+        description: 'Washington, D.C.',
+        partner_type: data.partner_type,
+        point_service: data.point_service,
+      },
+    }));
+
+    const temp = {
+      type: 'FeatureCollection',
+      features: featuresArray,
+    };
+
+    const markerCollection = [];
+    temp.features.forEach(function(marker) {
+      const el = document.createElement('div');
+      let Marker1;
+      if (marker.properties.partner_type === 'Commercial Bank') {
+        if (marker.properties.point_service === 'Branch') {
+          el.className = 'marker-outreach-branch';
+          Marker1 = new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(
+              new mapboxgl.Popup({ offset: 25 }).setHTML(
+                '<h3>' +
+                  marker.properties.title +
+                  '</h3><p>' +
+                  marker.properties.description +
+                  '</p>',
+              ),
+            )
+            .addTo(map);
+        } else if (marker.properties.point_service === 'BLB') {
+          el.className = 'marker-outreach-blb';
+          Marker1 = new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+        }
+      } else {
+        el.className = 'marker-outreach-others';
+        Marker1 = new mapboxgl.Marker(el)
+          .setLngLat(marker.geometry.coordinates)
+          .addTo(map);
+      }
+
+      markerCollection.push(Marker1);
+    });
+    this.setState({ stateMarker: markerCollection });
+  };
 
   changeGrades() {
     let range = [];
@@ -104,7 +212,7 @@ class PlotVector extends Component {
     setTimeout(() => {
       this.ChangeLegendColors();
       this.setChoroplethStyle(fullData);
-    }, 200);
+    }, 10);
   }
 
   ChangeLegendColors() {
@@ -162,6 +270,7 @@ class PlotVector extends Component {
           'fill-opacity': 0.6,
         },
       });
+      that.setState({ vectorTileInitialized: true });
 
       map.addLayer({
         id: 'vector-tile-outline',
@@ -297,14 +406,26 @@ class PlotVector extends Component {
 
   render() {
     const stateGrade = this.state.grade;
-    const { localOutreachSelected, YesNo } = this.props;
-    const legendTitle = localOutreachSelected
-      ? localOutreachSelected
-      : 'Number of Projects';
+    const {
+      localOutreachSelected,
+      YesNo,
+      mapViewDataBy,
+    } = this.props;
+    const condition =
+      mapViewDataBy === 'general_outreach' ? false : true;
+    const legendTitle =
+      localOutreachSelected && condition
+        ? localOutreachSelected
+        : 'Counts';
+
+    // console.log('markerCollection', this.state.stateMarker);
     return (
       <>
         <div className="map-legend newmap-legend">
-          <div className="color-list">
+          <div
+            className="color-list"
+            style={{ flex: '30% important' }}
+          >
             <h6>{legendTitle}</h6>
             <ul id="state-legend" className="color-legend">
               {stateGrade &&

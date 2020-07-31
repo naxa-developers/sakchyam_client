@@ -294,6 +294,7 @@ class MainPartnership extends Component {
       this.props.filterPartnerListByPartnerType(partnerType);
     }
     if (prevState.selectedProvince !== selectedProvince) {
+      console.log('selected provicne changed', selectedProvince);
       this.props.filterDistrictListFromProvince(selectedProvince);
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
@@ -1515,45 +1516,45 @@ class MainPartnership extends Component {
       // this.props.filterMapDataWithFederal();
       this.handleStateLevel(mapViewBy);
 
-      if (
-        selectedProvince.length === 0 &&
-        selectedDistrict.length === 0 &&
-        selectedMunicipality.length === 0
-      ) {
-        let view = 'investment';
-        if (this.state.mapViewDataBy === 'allocated_beneficiary') {
-          view = 'total_beneficiary';
-        } else if (this.state.mapViewDataBy === 'allocated_budget') {
-          view = 'total_beneficiary';
-        }
-        this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-          view,
-          mapViewBy,
-          {
-            selectedMunicipality: [],
-            selectedDistrict: [],
-            selectedProvince: [],
-          },
-        );
-        this.state.map.setFilter('vector-tile-fill', null);
-        this.state.map.setFilter('vector-tile-outline', null);
-        const combinedBbox = [];
-        const getBboxValue = getCenterBboxProvince([
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-        ]);
-        getBboxValue.map(data => {
-          combinedBbox.push(data.bbox);
-          return true;
-        });
-        const extendedValue = extendBounds(combinedBbox);
-        map.fitBounds(extendedValue);
-      }
+      // if (
+      //   selectedProvince.length === 0 &&
+      //   selectedDistrict.length === 0 &&
+      //   selectedMunicipality.length === 0
+      // ) {
+      //   let view = 'investment';
+      //   if (this.state.mapViewDataBy === 'allocated_beneficiary') {
+      //     view = 'total_beneficiary';
+      //   } else if (this.state.mapViewDataBy === 'allocated_budget') {
+      //     view = 'total_beneficiary';
+      //   }
+      //   this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+      //     view,
+      //     mapViewBy,
+      //     {
+      //       selectedMunicipality: [],
+      //       selectedDistrict: [],
+      //       selectedProvince: [],
+      //     },
+      //   );
+      //   this.state.map.setFilter('vector-tile-fill', null);
+      //   this.state.map.setFilter('vector-tile-outline', null);
+      //   const combinedBbox = [];
+      //   const getBboxValue = getCenterBboxProvince([
+      //     1,
+      //     2,
+      //     3,
+      //     4,
+      //     5,
+      //     6,
+      //     7,
+      //   ]);
+      //   getBboxValue.map(data => {
+      //     combinedBbox.push(data.bbox);
+      //     return true;
+      //   });
+      //   const extendedValue = extendBounds(combinedBbox);
+      //   map.fitBounds(extendedValue);
+      // }
     }
   };
 

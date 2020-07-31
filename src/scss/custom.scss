@@ -263,26 +263,24 @@
   .apexcharts-svg .apexcharts-yaxis {
     // transform: translate(40px, 8px);
     transform: translate(50px, 8px);
-    
-    
   }
 }
 #modal-content {
-  #logframe-chart{
+  #logframe-chart {
     .apexcharts-inner {
       transform: translate(90px, 36px);
     }
     .apexcharts-svg .apexcharts-yaxis {
       // transform: translate(40px, 8px);
-      // transform: translate(74px, 8px); 
-      transform: translate(95px, 8px); 
+      // transform: translate(74px, 8px);
+      transform: translate(95px, 8px);
     }
-    .apexcharts-yaxis-title{
+    .apexcharts-yaxis-title {
       transform: translate(20px, -6px);
       // transform: translate(40px, 10px);
     }
     .apexcharts-yaxis-label {
-      transform: translate(-22px, 8px)
+      transform: translate(-22px, 8px);
     }
   }
 }
@@ -524,29 +522,28 @@
   background: rgba(40, 112, 120, 0.48);
 }
 
-  .mapboxgl-popup{
-    max-width: 300px!important;
-  }
-.automation-wrapper{
-  .chart-timeline{
+.mapboxgl-popup {
+  max-width: 300px !important;
+}
+.automation-wrapper {
+  .chart-timeline {
     max-width: 582px;
     width: 582px;
-      max-height: 300px;
-      height: 101px;
+    max-height: 300px;
+    height: 101px;
   }
 }
-  .literacy-tab-item{
-    #map{
-        .apexcharts-inner {
-          transform: translate(10px, 10px);
-        }
+.literacy-tab-item {
+  #map {
+    .apexcharts-inner {
+      transform: translate(10px, 10px);
     }
-    .chart-timeline {
-      
-      max-width: 546px;
-      // max-height: 300px;
-      height: 80px;
-      width: 557px;
+  }
+  .chart-timeline {
+    max-width: 546px;
+    // max-height: 300px;
+    height: 80px;
+    width: 557px;
   }
 }
 .mapboxgl-popup {
@@ -557,7 +554,12 @@
   width: 100%;
   height: 100%;
 }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
 
 //  .mapboxgl-canvas{
 //   position: relative;
@@ -608,44 +610,43 @@
 .mapboxgl-ctrl-top-right {
   top: 40px;
 }
-.pie-mapbox-popup{  
-    width: 275px;
-    // max-width: 234px;
+.pie-mapbox-popup {
+  width: 275px;
+  // max-width: 234px;
 }
-#heatmap-chart{
-  .apexcharts-xaxistooltip-text{
+#heatmap-chart {
+  .apexcharts-xaxistooltip-text {
     min-width: 0 !important;
   }
-  .apexcharts-xaxistooltip{
+  .apexcharts-xaxistooltip {
     width: 218px;
     height: 100px;
   }
 }
-#modal-content{
-  #heatmap-chart{
-    .apexcharts-xaxistooltip-text{
+#modal-content {
+  #heatmap-chart {
+    .apexcharts-xaxistooltip-text {
       min-width: 0 !important;
     }
-    .apexcharts-xaxistooltip{
+    .apexcharts-xaxistooltip {
       width: 218px;
       height: 100px;
     }
   }
 }
 
-.product-process-custom{
-  .literacy-tab-content .graph-view{
-    max-height: calc(100vh - 103px)
+.product-process-custom {
+  .literacy-tab-content .graph-view {
+    max-height: calc(100vh - 103px);
   }
 }
-.mapboxgl-map{
-  .automation-wrapper{
+.mapboxgl-map {
+  .automation-wrapper {
     .leaflet-popup-content {
       ul {
-        li{ 
-          padding:0;
-          padding-top:0;
-
+        li {
+          padding: 0;
+          padding-top: 0;
         }
       }
     }
@@ -658,4 +659,42 @@
     white-space: pre-line;
     flex-wrap: wrap;
   }
+}
+.marker-outreach-branch {
+  background-image: url('../img/Group5085.svg');
+  background-size: cover;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #007078;
+}
+
+.marker-outreach-blb {
+  background-image: url('../img/Group5084.svg');
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #007078;
+}
+
+.marker-outreach-others {
+  background-image: url('../img/Group5086.svg');
+  background-size: cover;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #007078;
+}
+
+.mapboxgl-popup-outreach {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content-outreach {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
 }

@@ -1,50 +1,64 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
-import FinancialLeftCard from '../../common/FinancialLeftCard';
-import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
+import { removeDuplicates } from '../../common/removeDuplicates';
 
 class LeftSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkboxes: [],
+      // checkboxes: [],
+      expansionList: '',
+      fiList: '',
     };
   }
 
-  handleCheckboxgroupChange = updatedUsecaseCBState => {
-    this.setState({
-      checkboxes: updatedUsecaseCBState,
-    });
-  };
+  componentDidUpdate(prevProps, prevState) {
+    const { primaryData } = this.props.outreachReducer;
+
+    if (prevProps.outreachReducer.primaryData !== primaryData) {
+      console.log(
+        'primary data in component did update',
+        primaryData,
+      );
+      const expList = primaryData.map(item => ({
+        id: item.id,
+        expansion_driven_by: item.expansion_driven_by,
+      }));
+      const expansionList = removeDuplicates(
+        expList,
+        'expansion_driven_by',
+      );
+      const finanList = primaryData.map(item => ({
+        id: item.id,
+        partner_type: item.partner_type,
+      }));
+      const fiList = removeDuplicates(finanList, 'partner_type');
+      this.setState({ expansionList, fiList });
+    }
+  }
 
   render() {
     const {
-      state: { checkboxes },
+      state: { expansionList, fiList },
       props: {
-        handleInvestmentFocusCheckbox,
-        investmentFocusSelection,
-        projectSelection,
-        handleProjectSelectionCheckbox,
-        G2PTypes,
         partnerSelection,
+        expsnsionSelection,
+        handelExpansionCheckbox,
         handlePartnerSelectionCheckbox,
-        serviceType,
-        handlePartnerType,
-        applyBtnClick,
         handlePartnerParentCheckbox,
-        handleProjectParentCheckbox,
-        handleInvestmentParentCheckbox,
-        resetFilters,
+        handelExpansionParentCheckbox,
+        G2PTypes,
+        serviceType,
+        handelMultiChoice,
         demonstrationType,
+        applyBtnClick,
+        resetFilters,
+        isAllPartnerSelected,
+        isAllInvestmentFocusSelected,
       },
     } = this;
-    const {
-      partnershipInvestmentFocus,
-      projectLists,
-      partnersList,
-      filteredPartnerList,
-    } = this.props.partnershipReducer;
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -55,7 +69,7 @@ class LeftSideBar extends Component {
             >
               outreach expansion
             </button>
-            <div className="search-bar mb-10">
+            {/* <div className="search-bar mb-10">
               <div className="search-wrap">
                 <span className="search-icon">
                   <i className="material-icons">search</i>
@@ -66,7 +80,7 @@ class LeftSideBar extends Component {
                   placeholder="search"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="aside-body outreach-body">
             <div className="sidebar-widget partner-institue">
@@ -80,36 +94,33 @@ class LeftSideBar extends Component {
                         type="checkbox"
                         name="Initiative1"
                         value="all"
-                        onChange={handleInvestmentParentCheckbox}
+                        onChange={handelExpansionParentCheckbox}
+                        checked={isAllInvestmentFocusSelected}
                       />
                       <label htmlFor="Initiative1">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {partnershipInvestmentFocus &&
-                      partnershipInvestmentFocus.map(
-                        partnershipFocus => {
-                          return (
-                            <CheckBox
-                              id={partnershipFocus.id}
-                              className="investment_checkbox"
-                              key={partnershipFocus.id}
-                              label={
-                                partnershipFocus.investment_primary
-                              }
-                              name={
-                                partnershipFocus.investment_primary
-                              }
-                              changeHandler={
-                                handleInvestmentFocusCheckbox
-                              }
-                              checked={investmentFocusSelection.includes(
-                                partnershipFocus.investment_primary,
-                              )}
-                            />
-                          );
-                        },
-                      )}
+                    {expansionList &&
+                      expansionList.map(partnershipFocus => {
+                        return (
+                          <CheckBox
+                            id={partnershipFocus.id}
+                            className="investment_checkbox"
+                            key={partnershipFocus.id}
+                            label={
+                              partnershipFocus.expansion_driven_by
+                            }
+                            name={
+                              partnershipFocus.expansion_driven_by
+                            }
+                            changeHandler={handelExpansionCheckbox}
+                            checked={expsnsionSelection.includes(
+                              partnershipFocus.expansion_driven_by,
+                            )}
+                          />
+                        );
+                      })}
                   </ul>
                 </div>
               </div>
@@ -128,25 +139,26 @@ class LeftSideBar extends Component {
                         type="checkbox"
                         name="Initiative14"
                         onChange={handlePartnerParentCheckbox}
+                        checked={isAllPartnerSelected}
                       />
                       <label htmlFor="Initiative14">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {filteredPartnerList &&
-                      filteredPartnerList.map(partner => {
+                    {fiList &&
+                      fiList.map(partner => {
                         return (
                           <CheckBox
                             id={partner.id}
                             className="partner_checkbox"
                             key={partner.id}
-                            label={partner.name}
-                            name={partner.code}
+                            label={partner.partner_type}
+                            name={partner.partner_type}
                             changeHandler={
                               handlePartnerSelectionCheckbox
                             }
                             checked={partnerSelection.includes(
-                              partner.code,
+                              partner.partner_type,
                             )}
                           />
                         );
@@ -171,10 +183,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('Branch', 1);
+                      handelMultiChoice('Branch', 1);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('Branch', 1);
+                      handelMultiChoice('Branch', 1);
                     }}
                   >
                     <span>Branch</span>
@@ -187,10 +199,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('BLB', 1);
+                      handelMultiChoice('BLB', 1);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('BLB', 1);
+                      handelMultiChoice('BLB', 1);
                     }}
                   >
                     <span>BLB</span>
@@ -211,10 +223,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('Yes', 2);
+                      handelMultiChoice('Yes', 2);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('Yes', 2);
+                      handelMultiChoice('Yes', 2);
                     }}
                   >
                     <span>Yes</span>
@@ -227,10 +239,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('No', 2);
+                      handelMultiChoice('No', 2);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('No', 2);
+                      handelMultiChoice('No', 2);
                     }}
                   >
                     <span>No</span>
@@ -252,10 +264,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('Yes', 3);
+                      handelMultiChoice('Yes', 3);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('Yes', 3);
+                      handelMultiChoice('Yes', 3);
                     }}
                   >
                     <span>Yes</span>
@@ -267,10 +279,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('No', 3);
+                      handelMultiChoice('No', 3);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('No', 3);
+                      handelMultiChoice('No', 3);
                     }}
                   >
                     <span>No</span>
@@ -302,7 +314,7 @@ class LeftSideBar extends Component {
   }
 }
 
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ outreachReducer }) => ({
+  outreachReducer,
 });
 export default connect(mapStateToProps, {})(LeftSideBar);
