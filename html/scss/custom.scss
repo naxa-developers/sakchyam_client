@@ -604,3 +604,50 @@
 //   width: 250px;
 //   height: 250px;
 // }
+
+.mapboxgl-ctrl-top-right {
+  top: 40px;
+}
+.pie-mapbox-popup{  
+    width: 275px;
+    // max-width: 234px;
+}
+#heatmap-chart{
+  .apexcharts-xaxistooltip-text{
+    min-width: 0 !important;
+  }
+  .apexcharts-xaxistooltip{
+    width: 218px;
+    height: 100px;
+  }
+}
+#modal-content{
+  #heatmap-chart{
+    .apexcharts-xaxistooltip-text{
+      min-width: 0 !important;
+    }
+    .apexcharts-xaxistooltip{
+      width: 218px;
+      height: 100px;
+    }
+  }
+}
+
+.product-process-custom{
+  .literacy-tab-content .graph-view{
+    max-height: calc(100vh - 103px)
+  }
+}
+.mapboxgl-map{
+  .automation-wrapper{
+    .leaflet-popup-content {
+      ul {
+        li{ 
+          padding:0;
+          padding-top:0;
+
+        }
+      }
+    }
+  }
+}
