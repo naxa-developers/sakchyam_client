@@ -8,6 +8,10 @@ import {
   districtListByProvince,
   muniByDistrict,
 } from '../../../common/adminList';
+import {
+  filterFinancialDataWithAllFiltersAndFederal,
+  resetBarDatas,
+} from '../../../../actions/partnership.actions';
 
 class FilterTab extends Component {
   constructor(props) {
@@ -33,6 +37,15 @@ class FilterTab extends Component {
 
   setMapViewBy = clicked => {
     this.setState({ mapViewBy: clicked });
+  };
+
+  resetFilters = () => {
+    this.setState({
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
+    });
+    this.props.resetBarDatas();
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -61,8 +74,8 @@ class FilterTab extends Component {
       }
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        selectedDistrict: '',
-        selectedMunicipality: '',
+        selectedDistrict: [],
+        selectedMunicipality: [],
         districtList: districts,
       });
     }
@@ -88,6 +101,32 @@ class FilterTab extends Component {
       });
     }
   }
+
+  handleApplyFederalFilter = () => {
+    const {
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
+    } = this.state;
+    const {
+      investmentFocusSelection,
+      viewDataBy,
+      partnerType,
+      partnerSelection,
+      projectSelection,
+      projectStatus,
+    } = this.props.groupedStackData[0];
+
+    this.props.filterFinancialDataWithAllFiltersAndFederal(
+      { selectedMunicipality, selectedDistrict, selectedProvince },
+      investmentFocusSelection,
+      viewDataBy,
+      partnerType,
+      partnerSelection,
+      projectSelection,
+      projectStatus,
+    );
+  };
 
   render() {
     const {
@@ -255,4 +294,7 @@ const mapStateToProps = ({ partnershipReducer }) => ({
   partnershipReducer,
 });
 
-export default connect(mapStateToProps, {})(FilterTab);
+export default connect(mapStateToProps, {
+  filterFinancialDataWithAllFiltersAndFederal,
+  resetBarDatas,
+})(FilterTab);

@@ -241,6 +241,7 @@ class MiddleChartSection extends Component {
         handleShowBarOf,
         showBarofInvestmentBudgetBenef,
         handleShowBarOfInvestmentBudgetBenefBar,
+        groupedStackData,
       },
     } = this;
     const {
@@ -267,6 +268,7 @@ class MiddleChartSection extends Component {
           <Modal
             // visible={selectedModal === 'bar' ? true : false}
             // modalHeader="Sakchyam Investment Focus"
+            groupedStackData={groupedStackData}
             handleShowBarOf={handleShowBarOf}
             resetFilters={resetFilters}
             selectedModal={selectedModal}

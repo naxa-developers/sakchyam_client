@@ -1419,8 +1419,8 @@ class MainPartnership extends Component {
         partnerType,
         partnerSelection,
       );
-      this.props.filterFinancialDataWithAllFilters(
-        'province',
+      this.props.filterFinancialDataWithAllFiltersAndFederal(
+        { selectedMunicipality, selectedDistrict, selectedProvince },
         investmentFocusSelection,
         viewDataBy,
         partnerType,
@@ -1428,6 +1428,15 @@ class MainPartnership extends Component {
         projectSelection,
         projectStatus,
       );
+      // this.props.filterFinancialDataWithAllFilters(
+      //   'province',
+      //   investmentFocusSelection,
+      //   viewDataBy,
+      //   partnerType,
+      //   partnerSelection,
+      //   projectSelection,
+      //   projectStatus,
+      // );
       this.props.filterBarDataByInvestment(
         'province',
         viewDataBy,
@@ -1437,14 +1446,14 @@ class MainPartnership extends Component {
         projectStatus,
         investmentFocusSelection,
       );
-      // this.props.filterRadialData(
-      //   viewDataBy,
-      //   investmentFocusSelection,
-      //   projectSelection,
-      //   partnerType,
-      //   partnerSelection,
-      //   projectStatus,
-      // );
+      this.props.filterRadialData(
+        viewDataBy,
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+        projectStatus,
+      );
       // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
       //   return data.
       // })
@@ -1456,7 +1465,10 @@ class MainPartnership extends Component {
         partnerSelection,
         projectStatus,
       );
-      this.props.filterLeverageData(investmentFocusSelection);
+      this.props.filterLeverageData(
+        investmentFocusSelection,
+        projectSelection,
+      );
     } else {
       this.props.filterMapChoropleth(
         investmentFocusSelection,
@@ -1512,6 +1524,13 @@ class MainPartnership extends Component {
         { selectedMunicipality, selectedDistrict, selectedProvince },
       );
     } else {
+      this.props.filterOverviewData(
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
+      );
       // this.props.filterMapDataWithFederal();
       this.handleStateLevel(mapViewBy);
 
@@ -1568,8 +1587,12 @@ class MainPartnership extends Component {
   resetFilters = () => {
     console.log('resertfiles');
     const { mapViewBy, activeView, map } = this.state;
-    const that = this;
     this.resetLeftSideBarSelection();
+    this.setState({
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
+    });
     if (activeView === 'visualization') {
       // this.props.resetRadialData();
       this.props.resetSankeyChartData();
@@ -1578,6 +1601,7 @@ class MainPartnership extends Component {
       this.props.resetBarDatas();
       this.props.resetBarDataByInvestmentFocus();
     } else {
+      this.props.resetOverviewData();
       this.setMapViewBy(mapViewBy);
       this.setState({
         selectedProvince: [],
@@ -2011,6 +2035,16 @@ class MainPartnership extends Component {
                   resetLeftSideBarSelection={
                     this.resetLeftSideBarSelection
                   }
+                  groupedStackData={[
+                    {
+                      investmentFocusSelection,
+                      viewDataBy,
+                      partnerType,
+                      partnerSelection,
+                      projectSelection,
+                      projectStatus,
+                    },
+                  ]}
                   resetFilters={this.resetFilters}
                   viewDataBy={viewDataBy}
                   mapViewDataBy={mapViewDataBy}
