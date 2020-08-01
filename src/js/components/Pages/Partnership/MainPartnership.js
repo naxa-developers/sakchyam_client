@@ -664,8 +664,8 @@ class MainPartnership extends Component {
     const {
       partnershipReducer: { allMunicipalityList, allDistrictList },
     } = this.props;
-    console.log(clickedValue, 'clickedValue');
-    // console.log(e.target.value, 'target value');
+
+    console.log('clicked value', clickedValue);
     const {
       dataTypeLevel,
       activeClickPartners,
@@ -682,27 +682,18 @@ class MainPartnership extends Component {
       (selectedMunicipality && selectedMunicipality.length > 0)
     ) {
       if (clickedValue === 'municipality') {
-        // if (selectedMunicipality.length > 0) {
-        // } else if (selectedDistrict.length > 0) {
-        // } else {
-
-        // }
-
         if (selectedMunicipality && selectedMunicipality.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedMunicipality, 'selectedMunicipality');
           const getBboxValue = getCenterBboxMunicipality(
             selectedMunicipality.map(data => {
               return data.code;
             }),
           );
-          // console.log(getBboxValue, 'bboxValue');
           getBboxValue.map(data => {
             combinedBbox.push(data.bbox);
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
           const query = selectedMunicipality
             .map(data => {
@@ -744,32 +735,19 @@ class MainPartnership extends Component {
               selectedProvince: [],
             },
           );
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         } else if (selectedDistrict && selectedDistrict.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedDistrict, 'selectedDistrict');
           const getBboxValue = getCenterBboxDistrict(
             selectedDistrict.map(data => {
               return data.code;
             }),
           );
-          // console.log(getBboxValue, 'bboxValue');
           getBboxValue.map(data => {
             combinedBbox.push(data.bbox);
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
-          // const query = selectedDistrict
-          //   .map(data => {
-          //     return `code=${data.code}`;
-          //   })
-          //   .join('&');
           const filteredMunFromDist = [];
           selectedDistrict.forEach(dist => {
             allMunicipalityList.forEach(mun => {
@@ -815,7 +793,6 @@ class MainPartnership extends Component {
           );
         } else if (selectedProvince && selectedProvince.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
           const getBboxValue = getCenterBboxProvince(
             selectedProvince.map(data => {
               return data.code;
@@ -826,12 +803,9 @@ class MainPartnership extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
           const filteredList = [];
           selectedProvince.forEach(province => {
-            // console.log(province, 'prv1');
-            // eslint-disable-next-line array-callback-return
             allMunicipalityList.forEach(district => {
               // console.log(district, 'district');
               if (province.code === district.province_code) {
@@ -839,9 +813,7 @@ class MainPartnership extends Component {
                 filteredList.push(district);
               }
             });
-            // console.log(filtered, 'test filtered');
           });
-          // console.log(filteredList, 'dist2 ');
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
@@ -877,45 +849,20 @@ class MainPartnership extends Component {
               selectedProvince: [],
             },
           );
-          // const query = selectedProvince
-          //   .map(data => {
-          //     return `province_id_id=${data.code}`;
-          //   })
-          //   .join('&');
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         }
       } else if (clickedValue === 'district') {
-        // if (selectedMunicipality.length > 0) {
-        //   const query = selectedMunicipality
-        //     .map(data => {
-        //       return `code=${data}`;
-        //     })
-        //     .join('&');
-        //   const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-        //   this.setState({
-        //     vectorTileUrl: municipalityFilterUrl,
-        //
-        //   });
-        // } else
         if (selectedDistrict && selectedDistrict.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedDistrict, 'selectedDistrict');
           const getBboxValue = getCenterBboxDistrict(
             selectedDistrict.map(data => {
               return data.code;
             }),
           );
-          // console.log(getBboxValue, 'bboxValue');
           getBboxValue.map(data => {
             combinedBbox.push(data.bbox);
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
           const query = selectedDistrict
             .map(data => {
@@ -957,14 +904,9 @@ class MainPartnership extends Component {
               selectedProvince: [],
             },
           );
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         } else if (selectedProvince && selectedProvince.length > 0) {
+          console.log('allDistrictList hai guys', allDistrictList);
           const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
           const getBboxValue = getCenterBboxProvince(
             selectedProvince.map(data => {
               return data.code;
@@ -975,20 +917,14 @@ class MainPartnership extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
           const filteredList = [];
           selectedProvince.forEach(province => {
-            // console.log(province, 'prv1');
-            // eslint-disable-next-line array-callback-return
             allDistrictList.forEach(district => {
-              // console.log(district, 'district');
               if (province.code === district.province_code) {
-                // console.log(district, 'true');
                 filteredList.push(district);
               }
             });
-            // console.log(filtered, 'test filtered');
           });
           console.log(filteredList, 'dist2 ');
           map.setFilter('vector-tile-fill', [
@@ -1026,16 +962,10 @@ class MainPartnership extends Component {
               selectedProvince: [],
             },
           );
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         }
       } else if (clickedValue === 'province') {
         if (selectedProvince && selectedProvince.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
           const getBboxValue = getCenterBboxProvince(
             selectedProvince.map(data => {
               return data.code;
@@ -1047,13 +977,8 @@ class MainPartnership extends Component {
           });
           console.log(combinedBbox, 'combineBbox');
           const extendedValue = extendBounds(combinedBbox);
-          // const { map } = this.state;
           console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
-          // map.flyToBounds(extendedValue, {
-          //   animate: true,
-          //   duration: 2,
-          // });
           const query = selectedProvince
             .map(data => {
               return `code=${data.code}`;
@@ -1094,54 +1019,9 @@ class MainPartnership extends Component {
               selectedProvince,
             },
           );
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         }
       }
-      // alert('atleast on state is number');
-    } else if (clickedValue === 'province') {
-      // alert('province ');
-      // this.setState({
-      //   vectorTileUrl:
-      //     'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
-      //   //
-      //   //
-      // });
-      // this.props.filterAutomationDataForVectorTiles(clickedValue);
-    } else if (clickedValue === 'district') {
-      // this.setState({
-      //   vectorTileUrl:
-      //     'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
-      //   // vectorGridKey: '1',
-      //   //
-      //   // color: '#FF0000',
-      // });
-      // this.props.filterAutomationDataForVectorTiles(clickedValue);
-    } else if (clickedValue === 'municipality') {
-      // this.setState({
-      //   vectorTileUrl:
-      //     'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
-      //   // 'https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Municipality@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
-      //   // vectorGridKey: '2',
-      //   //
-      //   //
-      // });
-      // this.props.filterAutomationDataForVectorTiles(clickedValue);
     }
-    // this.setState({
-    //   selectedProvince: [],
-    //   selectedProvinceName: [],
-    //   selectedProvinceDropdown: [],
-    //   selectedDistrict: [],
-    //   selectedDistrictName: [],
-    //   selectedDistrictDropdown: [],
-    //   selectedMunicipality: [],
-    //   selectedMunicipalityName: [],
-    // });
-    // this.setState({ dataTypeLevel: clickedValue });
   };
 
   handleProvinceClick = (code, name) => {
@@ -1515,46 +1395,6 @@ class MainPartnership extends Component {
     } else {
       // this.props.filterMapDataWithFederal();
       this.handleStateLevel(mapViewBy);
-
-      // if (
-      //   selectedProvince.length === 0 &&
-      //   selectedDistrict.length === 0 &&
-      //   selectedMunicipality.length === 0
-      // ) {
-      //   let view = 'investment';
-      //   if (this.state.mapViewDataBy === 'allocated_beneficiary') {
-      //     view = 'total_beneficiary';
-      //   } else if (this.state.mapViewDataBy === 'allocated_budget') {
-      //     view = 'total_beneficiary';
-      //   }
-      //   this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-      //     view,
-      //     mapViewBy,
-      //     {
-      //       selectedMunicipality: [],
-      //       selectedDistrict: [],
-      //       selectedProvince: [],
-      //     },
-      //   );
-      //   this.state.map.setFilter('vector-tile-fill', null);
-      //   this.state.map.setFilter('vector-tile-outline', null);
-      //   const combinedBbox = [];
-      //   const getBboxValue = getCenterBboxProvince([
-      //     1,
-      //     2,
-      //     3,
-      //     4,
-      //     5,
-      //     6,
-      //     7,
-      //   ]);
-      //   getBboxValue.map(data => {
-      //     combinedBbox.push(data.bbox);
-      //     return true;
-      //   });
-      //   const extendedValue = extendBounds(combinedBbox);
-      //   map.fitBounds(extendedValue);
-      // }
     }
   };
 

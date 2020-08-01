@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PlotVector from './PlotVector';
 import MunicipalityPopUp from './MunicipalityPopUp';
+import MarkerPopup from './MarkerPopUp';
 
 class MapboxPartnership extends Component {
   constructor(props) {
@@ -15,6 +16,8 @@ class MapboxPartnership extends Component {
       secondaryData: '',
       selectedMuni: '',
       YesNo: false,
+      markerData: '',
+      markerOpen: false,
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -260,12 +263,22 @@ class MapboxPartnership extends Component {
     }
   };
 
+  markerEventHandler = e => {
+    this.setState({ markerOpen: true, markerData: e });
+  };
+
+  closeMarker = () => {
+    this.setState({ markerOpen: false });
+  };
+
   render() {
     const {
       filteredMapData,
       hoveredMunicipalityId,
       selectedMuni,
       YesNo,
+      markerOpen,
+      markerData,
     } = this.state;
     const { map } = this.props;
 
@@ -284,10 +297,17 @@ class MapboxPartnership extends Component {
                 setHoveredMunicipalityId={
                   this.setHoveredMunicipalityId
                 }
+                markerEventHandler={this.markerEventHandler}
               />
 
               {hoveredMunicipalityId !== 0 && (
                 <MunicipalityPopUp selectedMuni={selectedMuni} />
+              )}
+              {markerOpen && (
+                <MarkerPopup
+                  markerData={markerData}
+                  closeMarker={this.closeMarker}
+                />
               )}
               <div ref={this.markerRef} />
             </div>
