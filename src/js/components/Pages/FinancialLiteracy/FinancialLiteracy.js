@@ -73,6 +73,7 @@ class FinancialLiteracy extends Component {
       activeModal: false,
       modalHeader: '',
       isBarChartToggled: false,
+      isDownloading: false,
     };
     this.sankeyRef = React.createRef();
   }
@@ -214,26 +215,11 @@ class FinancialLiteracy extends Component {
   };
 
   downloadPng = (chartid, filename) => {
+    this.setState({ isDownloading: true });
     const name = filename ? filename : 'chart';
-    // document.querySelector('.info-header-bottom').style.display =
-    //   'none';
-    // document
-    //   .querySelector('.download-dropdown')
-    //   .classList.remove('active');
     setTimeout(() => {
       html2canvas(document.querySelector(`#${chartid}`), {
-        // logging: true,
-        // letterRendering: 1,
         allowTaint: true,
-        // scale: window.devicePixelRatio,
-        // windowWidth: window.innerWidth,
-        // windowHeight: window.innerHeight + 120,
-        // x: 20,
-        // y: 70,
-        // width: window.innerWidth + 40,
-        // height: window.innerHeight + 40,
-        // foreignObjectRendering: true,
-        // useCORS: true,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${name}.png`);
@@ -241,7 +227,9 @@ class FinancialLiteracy extends Component {
       });
     }, 500);
 
-    // this.setState({ downloadActive: false });
+    setTimeout(() => {
+      this.setState({ isDownloading: false });
+    }, 600);
   };
 
   handleUnCheck = () => {
@@ -366,6 +354,7 @@ class FinancialLiteracy extends Component {
         activeModal,
         selectedModal,
         modalHeader,
+        isDownloading,
       },
     } = this;
     return (
@@ -473,69 +462,9 @@ class FinancialLiteracy extends Component {
                     </button> */}
                     <div className="row">
                       <div className="col-xl-12">
-                        <div className="card">
-                          {/* <div className="card-header">
-                            <h5>
-                              Beneficiary Reached Per Program by
-                              Partners
-                            </h5>
-                            <div className="header-icons">
-                              <div className="card-switcher">
-                                <small>OFF</small>
-                                <label className="switch">
-                                  <input type="checkbox" />
-                                  <span className="slider">
-                                  </span>
-                                </label>
-                                <small>ON</small>
-                              </div>
-                              <span
-                                onClick={() => {
-                                  this.downloadPng(
-                                    'horizontal-chart',
-                                  );
-                                }}
-                                onKeyDown={() => {
-                                  this.downloadPng(
-                                    'horizontal-chart',
-                                  );
-                                }}
-                                className=""
-                                role="tab"
-                                tabIndex="0"
-                              >
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span
-                                role="tab"
-                                tabIndex="0"
-                                onClick={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal('bar');
-                                }}
-                                onKeyDown={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal('bar');
-                                }}
-                              >
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <div
-                              className="horizontal-chart"
-                              style={{
-                                height: '400px',
-                              }}
-                            >
-                              <HorizontalChart
-                                showRightSidebar={showRightSidebar}
-                              />
-                            </div>
-                          </div>
-                        </div> */}
+                        <div className="card" id="chart-horizontal">
                           <HorizontalChart
+                            isDownloading={isDownloading}
                             isToggled={this.state.isBarChartToggled}
                             DownloadIcon={DownloadIcon}
                             ExpandIcon={ExpandIcon}
@@ -562,48 +491,53 @@ class FinancialLiteracy extends Component {
                               Financial Literacy Beneficiaries Mix by
                               Partner Type
                             </h5>
-                            <div className="header-icons">
-                              <span
-                                className=""
-                                onClick={() => {
-                                  this.downloadPng(
-                                    'donut-chart',
-                                    'Financial Literacy Beneficiaries Mix by Partner Type',
-                                  );
-                                }}
-                                onKeyDown={() => {
-                                  this.downloadPng(
-                                    'donut-chart',
-                                    'Financial Literacy Beneficiaries Mix by Partner Type',
-                                  );
-                                }}
-                                role="tab"
-                                tabIndex="0"
-                              >
-                                <img src={DownloadIcon} alt="open" />
-                              </span>
-                              <span
-                                className=""
-                                role="tab"
-                                tabIndex="0"
-                                onClick={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal(
-                                    'donut',
-                                    'Financial Literacy Beneficiaries Mix by Partner Type',
-                                  );
-                                }}
-                                onKeyDown={() => {
-                                  this.handleModal();
-                                  this.handleSelectedModal(
-                                    'donut',
-                                    'Financial Literacy Beneficiaries Mix by Partner Type',
-                                  );
-                                }}
-                              >
-                                <img src={ExpandIcon} alt="open" />
-                              </span>
-                            </div>
+                            {!isDownloading && (
+                              <div className="header-icons">
+                                <span
+                                  className=""
+                                  onClick={() => {
+                                    this.downloadPng(
+                                      'chart-donut',
+                                      'Financial Literacy Beneficiaries Mix by Partner Type',
+                                    );
+                                  }}
+                                  onKeyDown={() => {
+                                    this.downloadPng(
+                                      'chart-donut',
+                                      'Financial Literacy Beneficiaries Mix by Partner Type',
+                                    );
+                                  }}
+                                  role="tab"
+                                  tabIndex="0"
+                                >
+                                  <img
+                                    src={DownloadIcon}
+                                    alt="open"
+                                  />
+                                </span>
+                                <span
+                                  className=""
+                                  role="tab"
+                                  tabIndex="0"
+                                  onClick={() => {
+                                    this.handleModal();
+                                    this.handleSelectedModal(
+                                      'donut',
+                                      'Financial Literacy Beneficiaries Mix by Partner Type',
+                                    );
+                                  }}
+                                  onKeyDown={() => {
+                                    this.handleModal();
+                                    this.handleSelectedModal(
+                                      'donut',
+                                      'Financial Literacy Beneficiaries Mix by Partner Type',
+                                    );
+                                  }}
+                                >
+                                  <img src={ExpandIcon} alt="open" />
+                                </span>
+                              </div>
+                            )}
                           </div>
                           <div className="card-body">
                             <DonutChart
@@ -615,7 +549,7 @@ class FinancialLiteracy extends Component {
                       </div>
 
                       <div className="col-xl-6">
-                        <div className="card" id="">
+                        <div className="card" id="chart-treemap">
                           <TreeMapDiagram
                             // isTreeMapClicked={
                             //   this.state.isTreeMapClicked
@@ -629,6 +563,7 @@ class FinancialLiteracy extends Component {
                             // generateTreeMapData={
                             //   this.generateTreeMapData
                             // }
+                            isDownloading={isDownloading}
                             DownloadIcon={DownloadIcon}
                             ExpandIcon={ExpandIcon}
                             downloadPng={this.downloadPng}
@@ -644,51 +579,57 @@ class FinancialLiteracy extends Component {
                       </div>
                     </div>
 
-                    <div className="card" ref={this.sankeyRef}>
+                    <div
+                      className="card"
+                      ref={this.sankeyRef}
+                      id="chart-sankey"
+                    >
                       <div className="card-header">
                         <h5>Beneficiaries Reached By Partners</h5>
-                        <div className="header-icons">
-                          <span
-                            className
-                            onClick={() => {
-                              this.downloadPng(
-                                'sankey-chart',
-                                'Beneficiaries Reached By Partners',
-                              );
-                            }}
-                            onKeyDown={() => {
-                              this.downloadPng(
-                                'sankey-chart',
-                                'Beneficiaries Reached By Partners',
-                              );
-                            }}
-                            role="tab"
-                            tabIndex="0"
-                          >
-                            <img src={DownloadIcon} alt="open" />
-                          </span>
-                          <span
-                            className=""
-                            role="tab"
-                            tabIndex="0"
-                            onClick={() => {
-                              this.handleModal();
-                              this.handleSelectedModal(
-                                'sankey',
-                                'Beneficiaries Reached By Partners',
-                              );
-                            }}
-                            onKeyDown={() => {
-                              this.handleModal();
-                              this.handleSelectedModal(
-                                'sankey',
-                                'Beneficiaries Reached By Partners',
-                              );
-                            }}
-                          >
-                            <img src={ExpandIcon} alt="open" />
-                          </span>
-                        </div>
+                        {!isDownloading && (
+                          <div className="header-icons">
+                            <span
+                              className
+                              onClick={() => {
+                                this.downloadPng(
+                                  'chart-sankey',
+                                  'Beneficiaries Reached By Partners',
+                                );
+                              }}
+                              onKeyDown={() => {
+                                this.downloadPng(
+                                  'chart-sankey',
+                                  'Beneficiaries Reached By Partners',
+                                );
+                              }}
+                              role="tab"
+                              tabIndex="0"
+                            >
+                              <img src={DownloadIcon} alt="open" />
+                            </span>
+                            <span
+                              className=""
+                              role="tab"
+                              tabIndex="0"
+                              onClick={() => {
+                                this.handleModal();
+                                this.handleSelectedModal(
+                                  'sankey',
+                                  'Beneficiaries Reached By Partners',
+                                );
+                              }}
+                              onKeyDown={() => {
+                                this.handleModal();
+                                this.handleSelectedModal(
+                                  'sankey',
+                                  'Beneficiaries Reached By Partners',
+                                );
+                              }}
+                            >
+                              <img src={ExpandIcon} alt="open" />
+                            </span>
+                          </div>
+                        )}
                       </div>
                       <div className="card-body">
                         <SankeyDiagram

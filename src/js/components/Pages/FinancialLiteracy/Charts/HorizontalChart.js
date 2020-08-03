@@ -755,6 +755,7 @@ class HorizontalChart extends Component {
       handleSelectedModal,
       activeModal,
       isToggled,
+      isDownloading,
     } = this.props;
     const {
       financialReducer: { filteredByProgram },
@@ -774,22 +775,23 @@ class HorizontalChart extends Component {
           style={activeModal && { backgroundColor: '#fff' }}
         >
           {!activeModal && <h5>{title}</h5>}
-          <div className="header-icons">
-            {!isBarChartClicked && (
-              <div className="card-switcher">
-                <small>Single Count</small>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={isToggled}
-                    onChange={this.props.handleBarChartToggle}
-                  />
-                  <span className="slider" />
-                </label>
-                <small>Initiative Wise</small>
-              </div>
-            )}
-            {/* {!isBarChartClicked && (
+          {!isDownloading && (
+            <div className="header-icons">
+              {!isBarChartClicked && (
+                <div className="card-switcher">
+                  <small>Single Count</small>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      checked={isToggled}
+                      onChange={this.props.handleBarChartToggle}
+                    />
+                    <span className="slider" />
+                  </label>
+                  <small>Initiative Wise</small>
+                </div>
+              )}
+              {/* {!isBarChartClicked && (
               <button
                 type="button"
                 onClick={this.handleBarChartToggle}
@@ -797,48 +799,49 @@ class HorizontalChart extends Component {
                 Toggle
               </button>
             )} */}
-            {isBarChartClicked && (
-              <button
-                id="chart-reset"
-                type="button"
-                onClick={this.handleBarChartBackBtn}
-                className="is-border common-button chart-reset"
-              >
-                Reset
-              </button>
-            )}
-            {!activeModal && (
-              <>
-                <span
-                  onClick={() => {
-                    downloadPng('horizontal-chart', `${title}`);
-                  }}
-                  onKeyDown={() => {
-                    downloadPng('horizontal-chart', `${title}`);
-                  }}
-                  className=""
-                  role="tab"
-                  tabIndex="0"
+              {isBarChartClicked && (
+                <button
+                  id="chart-reset"
+                  type="button"
+                  onClick={this.handleBarChartBackBtn}
+                  className="is-border common-button chart-reset"
                 >
-                  <img src={DownloadIcon} alt="open" />
-                </span>
-                <span
-                  role="tab"
-                  tabIndex="0"
-                  onClick={() => {
-                    handleModal();
-                    handleSelectedModal('bar', `${title}`);
-                  }}
-                  onKeyDown={() => {
-                    handleModal();
-                    handleSelectedModal('bar', `${title}`);
-                  }}
-                >
-                  <img src={ExpandIcon} alt="open" />
-                </span>
-              </>
-            )}
-          </div>
+                  Reset
+                </button>
+              )}
+              {!activeModal && (
+                <>
+                  <span
+                    onClick={() => {
+                      downloadPng('chart-horizontal', `${title}`);
+                    }}
+                    onKeyDown={() => {
+                      downloadPng('chart-horizontal', `${title}`);
+                    }}
+                    className=""
+                    role="tab"
+                    tabIndex="0"
+                  >
+                    <img src={DownloadIcon} alt="open" />
+                  </span>
+                  <span
+                    role="tab"
+                    tabIndex="0"
+                    onClick={() => {
+                      handleModal();
+                      handleSelectedModal('bar', `${title}`);
+                    }}
+                    onKeyDown={() => {
+                      handleModal();
+                      handleSelectedModal('bar', `${title}`);
+                    }}
+                  >
+                    <img src={ExpandIcon} alt="open" />
+                  </span>
+                </>
+              )}
+            </div>
+          )}
         </div>
         <div className="card-body">
           <div

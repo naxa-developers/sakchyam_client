@@ -289,6 +289,7 @@ class TreeMapDiagram extends Component {
       handleModal,
       handleSelectedModal,
       activeModal,
+      isDownloading,
       // isTreeMapClicked,
     } = this.props;
 
@@ -322,69 +323,71 @@ class TreeMapDiagram extends Component {
           {!activeModal && (
             <h5>Contribution of Financial Literacy Initiatives</h5>
           )}
-          <div className="header-icons">
-            {isTreeMapClicked && (
-              <button
-                type="button"
-                id="chart-reset"
-                onClick={this.handleTreeMapBackBtn}
-                className="is-border common-button chart-reset"
-                style={
-                  activeModal && {
-                    position: 'absolute',
-                    top: '36px',
-                    // right: '62px',
-                    right: '150px',
+          {!isDownloading && (
+            <div className="header-icons">
+              {isTreeMapClicked && (
+                <button
+                  type="button"
+                  id="chart-reset"
+                  onClick={this.handleTreeMapBackBtn}
+                  className="is-border common-button chart-reset"
+                  style={
+                    activeModal && {
+                      position: 'absolute',
+                      top: '36px',
+                      // right: '62px',
+                      right: '150px',
+                    }
                   }
-                }
-              >
-                Reset
-              </button>
-            )}
-            {!activeModal && (
-              <>
-                <span
-                  className=""
-                  onClick={() => {
-                    downloadPng(
-                      'treemap-chart',
-                      'Contribution of Financial Literacy Initiatives',
-                    );
-                  }}
-                  onKeyDown={() => {
-                    downloadPng(
-                      'treemap-chart',
-                      'Contribution of Financial Literacy Initiatives',
-                    );
-                  }}
-                  role="tab"
-                  tabIndex="0"
                 >
-                  <img src={DownloadIcon} alt="open" />
-                </span>
-                <span
-                  className=""
-                  role="tab"
-                  tabIndex="0"
-                  onClick={() => {
-                    // eslint-disable-next-line no-unused-expressions
-                    !isTreeMapClicked && handleModal();
-                    !isTreeMapClicked &&
-                      handleSelectedModal(
-                        'tree',
+                  Reset
+                </button>
+              )}
+              {!activeModal && (
+                <>
+                  <span
+                    className=""
+                    onClick={() => {
+                      downloadPng(
+                        'chart-treemap',
                         'Contribution of Financial Literacy Initiatives',
                       );
-                  }}
-                  onKeyDown={() => {
-                    handleModal();
-                    handleSelectedModal('tree');
-                  }}
-                >
-                  <img src={ExpandIcon} alt="open" />
-                </span>
-              </>
-            )}
-          </div>
+                    }}
+                    onKeyDown={() => {
+                      downloadPng(
+                        'chart-treemap',
+                        'Contribution of Financial Literacy Initiatives',
+                      );
+                    }}
+                    role="tab"
+                    tabIndex="0"
+                  >
+                    <img src={DownloadIcon} alt="open" />
+                  </span>
+                  <span
+                    className=""
+                    role="tab"
+                    tabIndex="0"
+                    onClick={() => {
+                      // eslint-disable-next-line no-unused-expressions
+                      !isTreeMapClicked && handleModal();
+                      !isTreeMapClicked &&
+                        handleSelectedModal(
+                          'tree',
+                          'Contribution of Financial Literacy Initiatives',
+                        );
+                    }}
+                    onKeyDown={() => {
+                      handleModal();
+                      handleSelectedModal('tree');
+                    }}
+                  >
+                    <img src={ExpandIcon} alt="open" />
+                  </span>
+                </>
+              )}
+            </div>
+          )}
         </div>
         <div className="card-body">
           <div
