@@ -76,7 +76,6 @@ class MainPartnership extends Component {
       const isClickInside = filterBar.contains(event.target);
 
       if (!isClickInside) {
-        // console.log('clickoutside');
         this.setState({
           activeFilter: false,
         });
@@ -221,7 +220,7 @@ class MainPartnership extends Component {
     const { map } = this.state;
     this.setState({
       mapViewDataBy: selectedView,
-      selectedProvince: '',
+      selectedProvince: provinceLists(),
       selectedDistrict: '',
       selectedMunicipality: '',
     });
@@ -232,6 +231,19 @@ class MainPartnership extends Component {
       map.setCenter([84.5, 28.5]);
       map.setZoom(6);
     } else {
+      this.setState({ localOutreachSelected: '' });
+      setTimeout(() => {
+        this.setMapViewBy('municipality');
+      }, 100);
+
+      const proList = provinceLists();
+      const munList = municipalityLists();
+      const filteredList = this.provinceListByMunnicipalityTiles(
+        proList,
+        munList,
+      );
+      this.changeMapTiles(filteredList);
+
       map.setCenter([82.5, 29]);
       map.setZoom(6.5);
     }
@@ -426,14 +438,6 @@ class MainPartnership extends Component {
       expsnsionSelection,
       partnerSelection,
     } = this.state;
-    console.log(
-      'values onsole',
-      G2PTypes,
-      demonstrationType,
-      serviceType,
-      expsnsionSelection,
-      partnerSelection,
-    );
     let filteredData = [];
     const { primaryData } = this.props.outreachReducer;
 
@@ -487,11 +491,6 @@ class MainPartnership extends Component {
       filteredData = [];
       expsnsionSelection.map(type => {
         value.map(data => {
-          console.log(
-            'type === data.partner_type',
-            expsnsionSelection,
-            value,
-          );
           if (type === data.expansion_driven_by) {
             filteredData.push(data);
           }
@@ -504,11 +503,6 @@ class MainPartnership extends Component {
       filteredData = [];
       partnerSelection.map(type => {
         value.map(data => {
-          console.log(
-            'type === data.partner_type',
-            partnerSelection,
-            value,
-          );
           if (type === data.partner_type) {
             filteredData.push(data);
           }
@@ -560,7 +554,6 @@ class MainPartnership extends Component {
         );
         filteredMuni.map(muni => filteredList.push(muni));
       } else if (districtCheck) {
-        console.log('dsistrivsad condition', selectedDistrict);
         const combinedBbox = [];
         const getBboxValue = getCenterBboxDistrict(
           selectedDistrict.map(data => {
@@ -608,7 +601,6 @@ class MainPartnership extends Component {
       selectedMunicipality,
       selectedDistrict,
       selectedProvince,
-      mapViewDataBy,
       map,
       municipalityList,
       mapViewBy,
@@ -636,7 +628,7 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-
+          this.filterMarkers('municipality', selectedMunicipality);
           this.changeMapTiles(selectedMunicipality);
         } else if (districtCheck) {
           const combinedBbox = [];
@@ -659,14 +651,14 @@ class MainPartnership extends Component {
               }
             });
           });
-
+          this.filterMarkers('district', selectedDistrict);
           this.changeMapTiles(filteredMunFromDist);
         } else if (provinceCheck) {
           const filteredList = this.provinceListByMunnicipalityTiles(
             selectedProvince,
             municipalityList,
           );
-
+          this.filterMarkers('province', selectedProvince);
           this.changeMapTiles(filteredList);
         }
       } else if (mapViewBy === 'district') {
@@ -683,14 +675,14 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-
+          this.filterMarkers(mapViewBy, selectedDistrict);
           this.changeMapTiles(selectedDistrict);
         } else if (provinceCheck) {
           const filteredList = this.provinceListByMunnicipalityTiles(
             selectedProvince,
             districtList,
           );
-
+          this.filterMarkers('province', selectedProvince);
           this.changeMapTiles(filteredList);
         }
       } else if (mapViewBy === 'province') {
@@ -707,18 +699,89 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-
+          this.filterMarkers(mapViewBy, selectedProvince);
           this.changeMapTiles(selectedProvince);
         }
       }
+    } else {
+      this.setState({
+        primaryData: this.props.outreachReducer.primaryData,
+      });
+      map.setZoom(6);
+      map.setCenter([84.5, 28.5]);
+      if (mapViewBy === 'municipality') {
+        this.changeMapTiles(municipalityLists());
+      } else if (mapViewBy === 'district') {
+        this.changeMapTiles(districtLists());
+      } else if (mapViewBy === 'province') {
+        this.changeMapTiles(provinceLists());
+      }
     }
+  };
+
+  filterMarkers = (type, array) => {
+    const { primaryData } = this.props.outreachReducer;
+    const filteredArray = array.filter(data => data.value !== 'all');
+    const filteredPrimaryData = [];
+
+    switch (type) {
+      case 'province':
+        filteredArray.map(selectedData => {
+          primaryData.map(pdata => {
+            if (pdata.province_code === selectedData.code) {
+              filteredPrimaryData.push(pdata);
+            }
+          });
+        });
+        console.log(
+          ' province type,array',
+          type,
+          filteredArray,
+          filteredPrimaryData,
+        );
+
+        break;
+      case 'district':
+        filteredArray.map(selectedData => {
+          primaryData.map(pdata => {
+            if (pdata.district_code === selectedData.code) {
+              filteredPrimaryData.push(pdata);
+            }
+          });
+        });
+        console.log(
+          ' dsirict type,array',
+          type,
+          filteredArray,
+          filteredPrimaryData,
+        );
+        break;
+      case 'municipality':
+        filteredArray.map(selectedData => {
+          primaryData.map(pdata => {
+            if (pdata.municipality_code === selectedData.code) {
+              filteredPrimaryData.push(pdata);
+            }
+          });
+        });
+        console.log(
+          ' muni type,array',
+          type,
+          filteredArray,
+          filteredPrimaryData,
+        );
+        break;
+      default:
+        console.log(' default type,array', type, array);
+    }
+
+    this.setState({ primaryData: filteredPrimaryData });
   };
 
   changeMapTiles = array => {
     const { map } = this.state;
 
     const filteredArray = array.filter(data => data.value !== 'all');
-    console.log('array', array, filteredArray);
     map.setFilter('vector-tile-fill', [
       'in',
       ['get', 'code'],
@@ -795,10 +858,13 @@ class MainPartnership extends Component {
     this.setState({
       selectedDistrict: '',
       selectedMunicipality: 'null',
-      selectedProvince: '',
+      selectedProvince: provinceLists(),
     });
 
     if (mapViewDataBy === 'outreach_local_units') {
+      this.setState({
+        activeFilter: false,
+      });
       const proList = provinceLists();
       const munList = municipalityLists();
       const filteredList = this.provinceListByMunnicipalityTiles(
@@ -806,10 +872,12 @@ class MainPartnership extends Component {
         munList,
       );
       this.changeMapTiles(filteredList);
+
       map.setZoom(6);
       map.setCenter([84.5, 28.5]);
-      this.setState({ activeFilter: false });
     } else if (mapViewDataBy === 'general_outreach') {
+      map.setZoom(6);
+      map.setCenter([84.5, 28.5]);
       this.setMapViewBy('province');
     }
   };
@@ -841,7 +909,6 @@ class MainPartnership extends Component {
       },
     } = this;
 
-    console.log('selected province', this.state);
     return (
       <>
         <Headers />

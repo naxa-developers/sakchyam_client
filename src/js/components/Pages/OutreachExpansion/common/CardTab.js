@@ -55,7 +55,7 @@ const CardTab = ({
       : cardChartId === 'groupedChart'
       ? 'Province Wise Programme Results'
       : cardChartId === 'leverageChart'
-      ? 'S-CF Fund & Leverage By Investment Focus'
+      ? 'S-CF Funds & Leverage By Investment Focus'
       : cardChartId === 'radar'
       ? 'Key Services Introduced'
       : cardChartId === 'sankeyChart'

@@ -2,6 +2,7 @@ import React from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import DownloadIcon from '../../../img/get_app.png';
+import FilterTab from '../Pages/Partnership/common/FilterTab';
 
 const downloadPng = (chartid, imageTitle) => {
   // document.querySelector('.info-header-bottom').style.display =
@@ -129,7 +130,7 @@ const Modal = props => {
                 // id="chart-reset"
                 type="button"
                 onClick={() => {
-                  resetFilters();
+                  props.resetRadialData();
                   // resetFunction();
                 }}
                 className="is-border common-button chart-reset "
@@ -231,6 +232,7 @@ const Modal = props => {
           </div>
           <div className="popup-content" id="modal-content">
             {/* <label>Test</label> */}
+            {selectedModal === 'groupedChart' && <FilterTab />}
             {component()}
           </div>
           <div className="popup-footer buttons is-end">

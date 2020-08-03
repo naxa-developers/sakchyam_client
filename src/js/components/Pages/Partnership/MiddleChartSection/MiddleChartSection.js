@@ -20,6 +20,8 @@ import {
   resetBarDataByInvestmentFocus,
 } from '../../../../actions/partnership.actions';
 import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
+import SunburstContainer from '../Charts/SunBurst';
+import StackedBarWithAllFederal from '../Charts/StackedBarWithAllFederal/StackedBarWithAllFederal';
 
 function formatData(fulldata) {
   fulldata.forEach(datum => {
@@ -123,7 +125,7 @@ class MiddleChartSection extends Component {
     switch (contentType) {
       case 'sunburst':
         return (
-          <Sunburst
+          <SunburstContainer
             data={radialData}
             height={700}
             width={900}
@@ -145,7 +147,7 @@ class MiddleChartSection extends Component {
             id="barContainer"
             style={{ width: '1900px', overflowX: 'scroll' }}
           >
-            <StackedBarWithProvince
+            <StackedBarWithAllFederal
               viewDataBy={viewDataBy}
               activeModal={activeModal}
               investmentFocusSelection={investmentFocusSelection}
@@ -289,20 +291,17 @@ class MiddleChartSection extends Component {
               }}
               renderChartComponent={() => {
                 return (
-                  radialData &&
-                  radialData && (
-                    <Sunburst
-                      data={radialData}
-                      height={400}
-                      width={690}
-                      count_member="size"
-                      onClick={this.handleSunburstClick}
-                      // labelFunc={node => node.data.name}
-                      // colorFunc={node => 'red'}
+                  <SunburstContainer
+                    data={radialData}
+                    height={400}
+                    width={690}
+                    count_member="size"
+                    onClick={this.handleSunburstClick}
+                    // labelFunc={node => node.data.name}
+                    // colorFunc={node => 'red'}
 
-                      // reset={this.props.resetSunburst}
-                    />
-                  )
+                    // reset={this.props.resetSunburst}
+                  />
                 );
               }}
             />
@@ -385,7 +384,7 @@ class MiddleChartSection extends Component {
             {viewDataBy === 'Leverage' && (
               <CardTab
                 resetFunction={this.props.resetLeverageData}
-                cardTitle="S-CF Fund & Leverage By Investment Focus"
+                cardTitle="S-CF Funds & Leverage By Investment Focus"
                 cardClass="col-xl-6"
                 cardChartId="leverageChart"
                 handleModal={this.handleModal}
@@ -435,7 +434,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'
@@ -457,7 +456,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"
