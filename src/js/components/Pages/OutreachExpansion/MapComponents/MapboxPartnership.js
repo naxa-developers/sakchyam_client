@@ -3,7 +3,6 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import VectorTileMapbox from './VectorTileMapbox';
 import PlotVector from './PlotVector';
 import MunicipalityPopUp from './MunicipalityPopUp';
 
@@ -37,7 +36,7 @@ class MapboxPartnership extends Component {
     const { provinceData } = outreachReducer;
 
     if (prevProps.primaryData !== primaryData) {
-      console.log('primaryData primaryData', primaryData);
+      // console.log('primaryData primaryData', primaryData);
     }
 
     if (prevProps.outreachReducer.provinceData !== provinceData) {
@@ -268,13 +267,7 @@ class MapboxPartnership extends Component {
       selectedMuni,
       YesNo,
     } = this.state;
-    const {
-      setMapViewBy,
-      vectorTileUrl,
-      map,
-      localOutreachSelected,
-      mapViewDataBy,
-    } = this.props;
+    const { map } = this.props;
 
     const choroplethData = filteredMapData;
     return (
@@ -284,41 +277,18 @@ class MapboxPartnership extends Component {
           {map && (
             <div>
               <PlotVector
-                handleFederalClickOnMap={
-                  this.props.handleFederalClickOnMap
-                }
-                setMapViewBy={setMapViewBy}
-                vectorTileUrl={vectorTileUrl}
-                map={map}
                 choroplethData={choroplethData}
                 color="#eb5149"
-                localOutreachSelected={localOutreachSelected}
+                YesNo={YesNo}
+                {...this.props}
                 setHoveredMunicipalityId={
                   this.setHoveredMunicipalityId
                 }
-                YesNo={YesNo}
-                mapViewDataBy={mapViewDataBy}
               />
 
               {hoveredMunicipalityId !== 0 && (
                 <MunicipalityPopUp selectedMuni={selectedMuni} />
               )}
-
-              {/* <VectorTileMapbox
-                handleFederalClickOnMap={
-                  this.props.handleFederalClickOnMap
-                }
-                setMapViewBy={setMapViewBy}
-                mapViewBy={mapViewBy}
-                mapViewDataBy={mapViewDataBy}
-                vectorTileUrl={vectorTileUrl}
-                map={map}
-                choroplethData={filteredMapData}
-                circleMarkerData={mapDataForCircleMarker}
-                // divisions={inputDivisions}
-                label
-                color="#eb5149"
-              /> */}
               <div ref={this.markerRef} />
             </div>
           )}

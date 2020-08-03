@@ -1,9 +1,9 @@
 // /* eslint-disable */
 import React, { Component } from 'react';
+import * as loadash from 'lodash';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import * as d3 from 'd3';
-import powerplants from '../../../../../data/testcircledata.json';
 import province from '../../../../../data/province.json';
 import district from '../../../../../data/district.json';
 import municipality from '../../../../../data/municipality.json';
@@ -16,7 +16,6 @@ import { getCenterBboxProvince } from '../common/ProvinceFunction';
 import { getCenterBboxDistrict } from '../common/DistrictFunction';
 import { getCenterBboxMunicipality } from '../common/MunicipalityFunction';
 
-import MarkerPieChart from '../Charts/MarkerPieChart/MarkerPieChart';
 import { extendBounds } from '../../Automation/MapRelatedComponents/extendBbox';
 import Loading from '../../../common/Loading';
 
@@ -35,10 +34,6 @@ function removeMarker() {
     global.markerList = [];
     // console.log(global.markerList, 'globalMarkerlist VectorTile');
   }
-}
-function stopProp(e) {
-  console.log(e, 'test Props');
-  e.stopPropagation();
 }
 const popup = new mapboxgl.Popup();
 
@@ -92,37 +87,7 @@ const colorScale = d3
     'SME Financing',
   ])
   .range(colors);
-function CaculateCount(date, finalData, api) {
-  const startDate = date[0];
-  const endDate = date[1];
-  //
-  //
-  //
-  finalData.map((prov, i) => {
-    //
-    api.map(data => {
-      if (prov.id === data.municipality_id) {
-        //
-        //
-        //
-        //
-        //
-        //
-        if (
-          data.start_date >= startDate &&
-          data.start_date <= endDate
-        ) {
-          //
-          //
-          // eslint-disable-next-line no-param-reassign
-          finalData[i].count += 1;
-        }
-      }
-      return true;
-    });
-    return true;
-  });
-}
+
 const defaultData = [
   { id: '1', count: 0 },
   { id: '2', count: 0 },
@@ -132,13 +97,6 @@ const defaultData = [
   { id: '6', count: 0 },
   { id: '7', count: 0 },
 ];
-// gid": 77,
-//     "districtid": 52,
-//     "provinceid": 5,
-//     "name": "RUKUM_E",
-//     "centroid_x": 82.81076586,
-//     "centroid_y": 28.67396361,
-//     "bbox": "82.48569639000004,28.475450787000057,83.15244268300006,28.86920142400004"
 const fullGeojsonProvince = {
   type: 'FeatureCollection',
   features: [],
@@ -196,9 +154,6 @@ municipality.map(data => {
   });
 });
 let timelineKey = 1;
-//
-//
-//
 
 class Choropleth extends Component {
   constructor(props) {
@@ -227,6 +182,7 @@ class Choropleth extends Component {
     //
     // eslint-disable-next-line array-callback-return
     grade.map((gradeitem, j) => {
+      // console.log(gradeitem, 'gradeitem');
       if (value > gradeitem) {
         color = legendColor[j];
       }
@@ -237,32 +193,32 @@ class Choropleth extends Component {
   changeGrades() {
     let range = [];
     const data = [];
-    //
-    const colorArrayLength =
-      this.props.colorArray && this.props.colorArray.length;
+    const {
+      props: {
+        colorArray,
+        legendDivisions,
+        divisions,
+        choroplethData,
+      },
+    } = this;
+    const colorArrayLength = colorArray && colorArray.length;
     const gradeCount =
-      this.props.legendDivisions != null &&
-      typeof this.props.legendDivisions === 'number' &&
-      this.props.legendDivisions <= 20 &&
-      this.props.legendDivisions >= colorArrayLength
-        ? this.props.legendDivisions
+      legendDivisions != null &&
+      typeof legendDivisions === 'number' &&
+      legendDivisions <= 20 &&
+      legendDivisions >= colorArrayLength
+        ? legendDivisions
         : 5; // set default gradecount
 
     const fullRange =
-      this.props.divisions && this.props.divisions.length > 0
-        ? this.props.divisions
-        : [];
+      divisions && divisions.length > 0 ? divisions : [];
     const fullData =
-      this.props.choroplethData != null &&
-      this.props.choroplethData.length > 0
-        ? this.props.choroplethData
+      choroplethData != null && choroplethData.length > 0
+        ? choroplethData
         : defaultData;
     //
-    if (
-      this.props.choroplethData != null &&
-      this.props.choroplethData.length > 0
-    ) {
-      this.props.choroplethData.forEach(data1 => {
+    if (choroplethData != null && choroplethData.length > 0) {
+      choroplethData.forEach(data1 => {
         data.push(data1.count);
       });
     } else {
@@ -273,7 +229,7 @@ class Choropleth extends Component {
 
     //
     const max = Math.max.apply(null, Object.values(data));
-    const min = 0; // Math.min(...data);
+    const min = 1; // Math.min(...data);
     //
     //
     range =
@@ -304,11 +260,12 @@ class Choropleth extends Component {
   }
 
   setChoroplethStyle(values) {
+    console.log('values', values);
     //
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
       const color = this.getLegendColor(value.count);
-      expression.push(value.id.toString(), color);
+      expression.push(value.code.toString(), color);
     });
 
     // const data = this.props.choroplethData;
@@ -333,7 +290,12 @@ class Choropleth extends Component {
 
   filterPieCharts(viewBy) {
     const that = this;
-    const { mapViewBy, circleMarkerData, map } = that.props;
+    const {
+      mapViewBy,
+      circleMarkerData,
+      map,
+      mapViewDataBy,
+    } = that.props;
     const FederalData =
       mapViewBy === 'municipality'
         ? fullGeojsonMunicipality
@@ -443,7 +405,7 @@ class Choropleth extends Component {
         total2nd,
         radiusRange,
         partnerList,
-        this.props.mapViewDataBy,
+        mapViewDataBy,
         data.total_sum,
       );
       const marker = new mapboxgl.Marker({ element: testEl })
@@ -586,9 +548,9 @@ class Choropleth extends Component {
     // );
     SVG.append('text')
       .text('Investment Focus Quantify')
-      .attr('x', 65)
+      .attr('x', 10)
       .attr('y', 20)
-      .style('font-size', '15px');
+      .style('font-size', '13px');
     // By Partner/Benef/Budget
     // translate(109px, -19px)
     // create a list of keys
@@ -616,8 +578,8 @@ class Choropleth extends Component {
       .attr('y', function(d, i) {
         return 10 + i * (size + 5);
       }) // 100 is where the first dot appears. 25 is the distance between dots
-      .attr('width', size)
-      .attr('height', size)
+      .attr('width', '13px')
+      .attr('height', '12px')
       .style('transform', `translate(0px, ${size + 5}px)`)
       .style('fill', function(d) {
         return colorScale(d.type);
@@ -635,12 +597,16 @@ class Choropleth extends Component {
         return 10 + i * (size + 5) + size / 2;
       }) // 100 is where the first dot appears. 25 is the distance between dots
       .style('transform', `translate(0px, ${size + 5}px)`)
-      .style('fill', function(d) {
+      .style('fill', function() {
         return '#000';
         // return color(d.type);
       })
       .text(function(d) {
-        return d.type;
+        function truncate(str, n) {
+          return str.length > n ? `${str.substr(0, n - 1)}...` : str;
+        }
+
+        return truncate(d.type, 22);
       })
       .attr('text-anchor', 'left')
       .style('alignment-baseline', 'middle');
@@ -744,7 +710,6 @@ class Choropleth extends Component {
     mapViewDataBy,
     totalSum,
   ) => {
-    console.log(props, 'props');
     const div = document.createElement('div');
 
     const allCount = [];
@@ -795,17 +760,17 @@ class Choropleth extends Component {
     ];
 
     const thickness = 10;
-    const scale = d3
-      .scaleLinear()
-      .domain([d3.min(totals), d3.max(totals)])
-      .range([d3.min(totals), d3.max(totals)]);
+    // const scale = d3
+    //   .scaleLinear()
+    //   .domain([d3.min(totals), d3.max(totals)])
+    //   .range([d3.min(totals), d3.max(totals)]);
 
     // const radius = scale(props.point_count);
     const radius = radiusValue ? radiusValue : 30;
 
     // const radius = scale(props.point_count - 10);
     // const circleRadius = radius - thickness;
-    const circleRadius = radiusValue;
+    // const circleRadius = radiusValue;
     const svg = d3
       .select(div)
       .append('svg')
@@ -886,7 +851,7 @@ class Choropleth extends Component {
       .append('path')
       .attr('d', arc)
       .attr('fill', d => colorScale(d.data.type))
-      .on('click', function(d, i) {
+      .on('click', function() {
         d3.event.stopPropagation();
         // d.stopPropagation();
         document
@@ -896,7 +861,6 @@ class Choropleth extends Component {
             el.style.display = 'none';
             // a.remove();
           });
-        console.log(d, 'pieClick');
         // const that = this;
 
         // console.log(props, 'props');
@@ -917,13 +881,11 @@ class Choropleth extends Component {
         //     el.style.display = 'none';
         //     // a.remove();
         //   });
-        console.log(partners, 'partners');
         let partnerContent = null;
         // partnerList =
         // eslint-disable-next-line no-restricted-syntax
         partnerContent = partners
           .map((partnerData, index) => {
-            console.log(partnerData, 'partnerData');
             const partnerList = partnerData.partnerlist
               .map(singlepartner => {
                 return `
@@ -953,7 +915,11 @@ class Choropleth extends Component {
         // <h6>${props.federal_name}</h6>
         tooltip.select('.popup-div').html(
           `<div class="leaflet-popup-content" style="width: 100px;">
-            <div class="map-popup-view" style="height: 380px;overflow-y: scroll;">
+            <div class="map-popup-view" style="${
+              mapViewDataBy === 'investment_focus'
+                ? 'height: 302px;'
+                : 'height: 10px'
+            }overflow-y: scroll;">
               <div class="map-popup-view-header">
                   <h5>${props.federal_name}</h5>
                   <div class="icons">
@@ -968,7 +934,10 @@ class Choropleth extends Component {
               </div>
               <div class="acc is-after is-border">
                   ${
-                    partnerContent !== undefined ? partnerContent : ''
+                    partnerContent !== undefined &&
+                    mapViewDataBy === 'investment_focus'
+                      ? partnerContent
+                      : ''
                   }
                   </div>
                 
@@ -990,6 +959,10 @@ class Choropleth extends Component {
           e.stopPropagation();
           // alert('function');
         });
+        const Popupscroll = document.querySelector('.map-popup-view');
+        Popupscroll.addEventListener('wheel', function(e) {
+          e.stopPropagation();
+        });
         // const accList = document.querySelector('.acc-list');
         // accList.addEventListener('click', function(e) {
         //   console.log(e, 'test');
@@ -1009,11 +982,7 @@ class Choropleth extends Component {
         tooltip.style('display', 'block');
         tooltip.style('opacity', 2);
       })
-      .on('mouseover', function(d, i) {
-        const that = this;
-        console.log(this.props, 'props');
-        console.log(that.props, 'props2nd');
-        console.log(d, 'd');
+      .on('mouseover', function(d) {
         d3.select(this)
           .transition()
           .duration('50')
@@ -1046,7 +1015,7 @@ class Choropleth extends Component {
           </div>` /* eslint-disable-line */
         );
       })
-      .on('mousemove', function(d, i) {
+      .on('mousemove', function() {
         tooltip2nd
           .style('top', `${d3.event.offsetY + 20}px`)
           .style('left', `${d3.event.offsetX + 20}px`);
@@ -1054,7 +1023,7 @@ class Choropleth extends Component {
           .style('top', `${d3.event.offsetY + 20}px`)
           .style('left', `${d3.event.offsetX + 20}px`);
       })
-      .on('mouseout', function(d, i) {
+      .on('mouseout', function() {
         tooltip2nd.style('display', 'none');
         tooltip2nd.style('opacity', 0);
 
@@ -1267,10 +1236,6 @@ class Choropleth extends Component {
         //   });
         // }
       }
-      // var bounds = coordinates.reduce(function(bounds, coord) {
-      //   return bounds.extend(coord);
-      //   }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
-      // map.fitBounds()
       map.on('click', function() {
         // alert('clicked Map');
         document
@@ -1280,28 +1245,6 @@ class Choropleth extends Component {
             el.style.display = 'none';
             // a.remove();
           });
-      });
-      map.on('zoom', function() {
-        // const that = this;
-        // upto 6 province view after 6 and upto 9  district and after 9 municipality
-        //
-        // if (map.getZoom() <= 6) {
-        //
-        //   that.props.setMapViewBy('province');
-        // } else if (map.getZoom() <= 9) {
-        //
-        //   that.props.setMapViewBy('district');
-        // } else if (map.getZoom() > 9) {
-        //
-        //   that.props.setMapViewBy('municipality');
-        // }
-        // if (map.getZoom() >= 4) {
-        //   stateLegendEl.style.display = 'none';
-        //   countyLegendEl.style.display = 'block';
-        // } else if (map.getZoom() >= 8) {
-        //   stateLegendEl.style.display = 'block';
-        //   countyLegendEl.style.display = 'none';
-        // }
       });
 
       // map.on('click', function(e) {
@@ -1321,121 +1264,72 @@ class Choropleth extends Component {
       //   }
       // });
       map.on('click', 'vector-tile-fill', function(e) {
-        e.preventDefault();
-        // e.stopPropagation();
-
-        //
-        console.log(e, 'e Vector Tile Click');
-        //
-        // console.log(
-        //   getCenterBboxProvince(e.features[0].properties.code),
-        // );
-        // console.log(that.props);
-        // console.log(e.features[0]);
-        if (that.props.mapViewBy === 'province') {
-          console.log(e.features[0]);
-          const getBbox = getCenterBboxProvince(
-            e.features[0].properties.code,
-          );
+        const filterMapChoroplethPie = (getBbox, federalCode) => {
           map.fitBounds(getBbox.bbox);
-          console.log(map.getZoom(), 'zoom');
-          that.props.handleProvinceClick(
-            parseInt(e.features[0].properties.code, 10),
-          );
+          that.props.handleProvinceClick(parseInt(federalCode, 10));
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
-            ['literal', [e.features[0].properties.code.toString()]],
+            ['literal', [federalCode]],
           ]);
           map.setFilter('vector-tile-outline', [
             'in',
             ['get', 'code'],
-            ['literal', [e.features[0].properties.code.toString()]],
+            ['literal', [federalCode.toString()]],
           ]);
-          // that.props.handleFederalClickOnMap(
-          //   'district',
-          //   e.features[0].properties.code,
-          // );
-          // that.props.setMapViewBy('district');
+        };
+
+        e.preventDefault();
+        const federalCode = e.features[0].properties.code;
+
+        if (that.props.mapViewBy === 'province') {
+          // console.log(e.features[0]);
+          const getBbox = getCenterBboxProvince(federalCode);
+          filterMapChoroplethPie(getBbox, federalCode);
         } else if (that.props.mapViewBy === 'district') {
           const getBbox = getCenterBboxDistrict(
-            parseInt(e.features[0].properties.code, 10),
+            parseInt(federalCode, 10),
           );
-          that.props.handleProvinceClick(
-            parseInt(e.features[0].properties.code, 10),
-          );
-          // console.log(getBbox.bbox, 'bbox');
-          map.fitBounds(getBbox.bbox);
-          // that.props.handleProvinceClick(
-          //   e.features[0].properties.code,
-          // );
-          map.setFilter('vector-tile-fill', [
-            'in',
-            ['get', 'code'],
-            ['literal', [e.features[0].properties.code.toString()]],
-          ]);
-          map.setFilter('vector-tile-outline', [
-            'in',
-            ['get', 'code'],
-            ['literal', [e.features[0].properties.code.toString()]],
-          ]);
-
-          // that.props.handleFederalClickOnMap(
-          //   'municipality',
-          //   e.features[0].properties.code,
-          // );
-          // that.props.setMapViewBy('municipality');
+          that.props.handleProvinceClick(parseInt(federalCode, 10));
+          filterMapChoroplethPie(getBbox, federalCode);
         } else if (that.props.mapViewBy === 'municipality') {
           const getBbox = getCenterBboxMunicipality(
-            parseInt(e.features[0].properties.code, 10),
+            parseInt(federalCode, 10),
           );
-          that.props.handleProvinceClick(
-            parseInt(e.features[0].properties.code, 10),
-          );
-          map.fitBounds(getBbox.bbox);
-          map.setFilter('vector-tile-fill', [
-            'in',
-            ['get', 'code'],
-            ['literal', [e.features[0].properties.code.toString()]],
-          ]);
-          map.setFilter('vector-tile-outline', [
-            'in',
-            ['get', 'code'],
-            ['literal', [e.features[0].properties.code.toString()]],
-          ]);
-          // that.props.handleProvinceClick(
-          //   e.features[0].properties.code,
-          // );
+          that.props.handleProvinceClick(parseInt(federalCode, 10));
+          filterMapChoroplethPie(getBbox, federalCode);
         }
       });
-      // map.on('mousemove', 'vector-tile-fill', function(e) {
-      //   // console.log(e.features[0]);
-      //   const filteredCodeData = that.props.choroplethData.filter(
-      //     data => {
-      //       return (
-      //         parseInt(data.code, 10) ===
-      //         parseInt(e.features[0].properties.code, 10)
-      //       );
-      //     },
-      //   );
-      //   popup.setLngLat(e.lngLat).setHTML(
-      //     `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
-      //         <div class="map-popup-view">
-      //             <div class="map-popup-view-header">
-      //                 <h5>${e.features[0].properties.name}</h5>
-      //                 <h5>Code:${e.features[0].properties.code}</h5>
-      //                 <h5>ID:${e.features[0].properties.id}</h5>
-      //                 <div class="icons">
-      //                 <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
-      //                 </div>
-      //             </div>
-      //             <div class="map-view-footer">
-      //             </div>
-      //                 </div>
-      //             </div>`,
-      //   );
-      //   // .addTo(map);
-      // });
+      map.on('mousemove', 'vector-tile-fill', function(e) {
+        // console.log(e.features[0]);
+        const filteredCodeData = that.props.choroplethData.filter(
+          data => {
+            return (
+              parseInt(data.code, 10) ===
+              parseInt(e.features[0].properties.code, 10)
+            );
+          },
+        );
+        popup
+          .setLngLat(e.lngLat)
+          .setHTML(
+            `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
+              <div class="map-popup-view">
+                  <div class="map-popup-view-header">
+                      <h5>${e.features[0].properties.name}</h5>
+                      <h5>Code:${e.features[0].properties.code}</h5>
+                      <h5>ID:${e.features[0].properties.id}</h5>
+                      <div class="icons">
+                      <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
+                      </div>
+                  </div>
+                  <div class="map-view-footer">
+                  </div>
+                      </div>
+                  </div>`,
+          )
+          .addTo(map);
+      });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
           if (hoveredStateId) {
@@ -1675,13 +1569,7 @@ class Choropleth extends Component {
     } = this.props;
 
     if (prevProps.circleMarkerData !== circleMarkerData) {
-      // eslint-disable-next-line no-shadow
-      // eslint-disable-next-line react/no-did-update-set-state
-      // this.setState(prevStates => ({
-      //   loading: !prevStates.loading,
-      // }));
-      //
-      removeMarker();
+      // removeMarker();
       if (
         this.props.pieSquareLegend &&
         this.props.pieSquareLegend.current &&
@@ -1695,299 +1583,17 @@ class Choropleth extends Component {
           : mapViewDataBy === 'allocated_budget'
           ? 'allocated_budget'
           : 'partner_count';
+
       if (mapViewBy === 'municipality') {
         if (mapViewDataBy !== '') {
           this.filterPieCharts(viewBy);
-          // removeMarker();
-          // alert('province Circlemarker');
-          // fullGeojsonMunicipality.features.forEach((item, index) => {
-          //   circleMarkerData.forEach(p => {
-          //     if (p.code === item.properties.code) {
-          //       fullGeojsonMunicipality.features[index].properties = {
-          //         ...item.properties,
-          //         ...p,
-          //       };
-          //     }
-          //   });
-          // });
-
-          // let singleData = {};
-          // let singleData2nd = {};
-          // const total = [];
-          // const total2nd = [];
-
-          // fullGeojsonMunicipality.features.forEach(data => {
-          //   //
-          //   singleData2nd = {
-          //     point_count: 0,
-          //   };
-          //   if (data.properties.pie) {
-          //     data.properties.pie.forEach(piedata => {
-          //       //
-          //       singleData2nd[`${piedata.investment_primary}`] =
-          //         piedata[`${viewBy}`];
-          //       singleData2nd.point_count += piedata[`${viewBy}`];
-          //     });
-          //   }
-          //   total2nd.push(singleData2nd.point_count);
-          //   const allCount = [];
-          //   Object.values(singleData2nd).forEach(singledata => {
-          //     //
-          //     allCount.push(singledata);
-          //   });
-          //   const sum = allCount.reduce(
-          //     (partialSum, a) => partialSum + a,
-          //     0,
-          //   );
-          //   // const min = Math.min.apply(null, allCount);
-          //   // const max = Math.max.apply(null, allCount);
-          //   // eslint-disable-next-line no-param-reassign
-          //   // data.min = min;
-          //   // eslint-disable-next-line no-param-reassign
-          //   // data.max = max;
-          //   // eslint-disable-next-line no-param-reassign
-          //   data.total_sum = sum;
-          // });
-
-          // const totalSumList = [];
-          // fullGeojsonMunicipality.features.forEach(fed => {
-          //   totalSumList.push(fed.total_sum);
-          // });
-          // const min = Math.min.apply(null, totalSumList);
-          // const max = Math.max.apply(null, totalSumList);
-
-          // fullGeojsonMunicipality.features.forEach(data => {
-          //   //
-          //   singleData = {
-          //     point_count: 0,
-          //   };
-          //   if (data.properties.pie) {
-          //     data.properties.pie.forEach(piedata => {
-          //       //
-          //       singleData[`${piedata.investment_primary}`] =
-          //         piedata[`${viewBy}`];
-          //       singleData.point_count += piedata[`${viewBy}`];
-          //     });
-          //   }
-          //   total.push(singleData.point_count);
-
-          //   const radiusRange =
-          //     // eslint-disable-next-line prettier/prettier
-          //   (data.total_sum - min) / (max - min) *(30 - 10) + 10;
-          //   const testElMain = document.createElement('div');
-          //   testElMain.className = 'marker';
-          //   // const props = data.properties;
-          //   // eslint-disable-next-line no-use-before-define
-          //   const testEl = this.createDonutChart(
-          //     singleData,
-          //     total2nd,
-          //     radiusRange,
-          //   );
-
-          //   const marker = new mapboxgl.Marker({ element: testEl })
-          //     .setLngLat(data.geometry.coordinates)
-          //     .addTo(map);
-          //   global.markerList.push(marker);
-          // });
         }
       } else if (mapViewBy === 'district') {
         if (mapViewDataBy !== '') {
           this.filterPieCharts(viewBy);
-          // removeMarker();
-          // // alert('province Circlemarker');
-          // fullGeojsonDistrict.features.forEach((item, index) => {
-          //   circleMarkerData.forEach(p => {
-          //     if (p.code === item.properties.code) {
-          //       fullGeojsonDistrict.features[index].properties = {
-          //         ...item.properties,
-          //         ...p,
-          //       };
-          //     }
-          //   });
-          // });
-
-          // let singleData = {};
-          // let singleData2nd = {};
-          // const total = [];
-          // const total2nd = [];
-
-          // fullGeojsonDistrict.features.forEach(data => {
-          //   //
-          //   singleData2nd = {
-          //     point_count: 0,
-          //   };
-          //   if (data.properties.pie) {
-          //     data.properties.pie.forEach(piedata => {
-          //       //
-          //       singleData2nd[`${piedata.investment_primary}`] =
-          //         piedata[`${viewBy}`];
-          //       singleData2nd.point_count += piedata[`${viewBy}`];
-          //     });
-          //   }
-          //   total2nd.push(singleData2nd.point_count);
-          //   const allCount = [];
-          //   Object.values(singleData2nd).forEach(singledata => {
-          //     //
-          //     allCount.push(singledata);
-          //   });
-          //   const sum = allCount.reduce(
-          //     (partialSum, a) => partialSum + a,
-          //     0,
-          //   );
-          //   // const min = Math.min.apply(null, allCount);
-          //   // const max = Math.max.apply(null, allCount);
-          //   // eslint-disable-next-line no-param-reassign
-          //   // data.min = min;
-          //   // eslint-disable-next-line no-param-reassign
-          //   // data.max = max;
-          //   // eslint-disable-next-line no-param-reassign
-          //   data.total_sum = sum;
-          // });
-
-          // const totalSumList = [];
-          // fullGeojsonDistrict.features.forEach(fed => {
-          //   totalSumList.push(fed.total_sum);
-          // });
-          // const min = Math.min.apply(null, totalSumList);
-          // const max = Math.max.apply(null, totalSumList);
-
-          // fullGeojsonDistrict.features.forEach(data => {
-          //   //
-          //   singleData = {
-          //     point_count: 0,
-          //   };
-          //   if (data.properties.pie) {
-          //     data.properties.pie.forEach(piedata => {
-          //       //
-          //       singleData[`${piedata.investment_primary}`] =
-          //         piedata[`${viewBy}`];
-          //       singleData.point_count += piedata[`${viewBy}`];
-          //     });
-          //   }
-          //   total.push(singleData.point_count);
-
-          //   const radiusRange =
-          //     // eslint-disable-next-line prettier/prettier
-          //   (data.total_sum - min) / (max - min) *(30 - 10) + 10;
-          //   const testElMain = document.createElement('div');
-          //   testElMain.className = 'marker';
-          //   // const props = data.properties;
-          //   // eslint-disable-next-line no-use-before-define
-          //   const testEl = this.createDonutChart(
-          //     singleData,
-          //     total2nd,
-          //     radiusRange,
-          //   );
-
-          //   const marker = new mapboxgl.Marker({ element: testEl })
-          //     .setLngLat(data.geometry.coordinates)
-          //     .addTo(map);
-          //   global.markerList.push(marker);
-          // });
         }
       } else if (mapViewBy === 'province') {
-        // eslint-disable-next-line no-inner-declarations
         this.filterPieCharts(viewBy);
-
-        // removeMarker();
-        // const FinalGeojson = { ...fullGeojsonProvince };
-        // // console.log(circleMarkerData, 'circleMarkerData Province');
-        // // alert('province Circlemarker');
-        // // console.log(fullGeojsonProvince, 'fullGeojsonProv');
-        // // console.log(circleMarkerData, 'circleMarkerData');
-        // FinalGeojson.features.forEach((item, index) => {
-        //   circleMarkerData.forEach(p => {
-        //     if (p.code === item.properties.code) {
-        //       FinalGeojson.features[index].properties = {
-        //         ...item.properties,
-        //         ...p,
-        //       };
-        //     }
-        //   });
-        // });
-        // const myArrayFiltered = FinalGeojson.features.filter(el => {
-        //   return circleMarkerData.some(f => {
-        //     return f.code === el.properties.code;
-        //   });
-        // });
-        // FinalGeojson.features = myArrayFiltered;
-
-        // // console.log(r, 'r');
-        // let singleData = {};
-        // let singleData2nd = {};
-        // const total = [];
-        // const total2nd = [];
-        // FinalGeojson.features.forEach(data => {
-        //   //
-        //   singleData2nd = {
-        //     point_count: 0,
-        //   };
-        //   if (data.properties.pie) {
-        //     data.properties.pie.forEach(piedata => {
-        //       //
-        //       singleData2nd[`${piedata.investment_primary}`] =
-        //         piedata[`${viewBy}`];
-        //       singleData2nd.point_count += piedata[`${viewBy}`];
-        //     });
-        //   }
-        //   total2nd.push(singleData2nd.point_count);
-        //   const allCount = [];
-        //   Object.values(singleData2nd).forEach(singledata => {
-        //     //
-        //     allCount.push(singledata);
-        //   });
-        //   const sum = allCount.reduce(
-        //     (partialSum, a) => partialSum + a,
-        //     0,
-        //   );
-        //   // const min = Math.min.apply(null, allCount);
-        //   // const max = Math.max.apply(null, allCount);
-        //   // eslint-disable-next-line no-param-reassign
-        //   // data.min = min;
-        //   // eslint-disable-next-line no-param-reassign
-        //   // data.max = max;
-        //   // eslint-disable-next-line no-param-reassign
-        //   data.total_sum = sum;
-        // });
-        // const totalSumList = [];
-        // FinalGeojson.features.forEach(fed => {
-        //   totalSumList.push(fed.total_sum);
-        // });
-        // const min = Math.min.apply(null, totalSumList);
-        // const max = Math.max.apply(null, totalSumList);
-        // FinalGeojson.features.forEach(data => {
-        //   //
-        //   singleData = {
-        //     point_count: 0,
-        //   };
-        //   if (data.properties.pie) {
-        //     data.properties.pie.forEach(piedata => {
-        //       //
-        //       singleData[`${piedata.investment_primary}`] =
-        //         piedata[`${viewBy}`];
-        //       singleData.point_count += piedata[`${viewBy}`];
-        //     });
-        //   }
-        //   total.push(singleData.point_count);
-        //   const radiusRange =
-        //     // eslint-disable-next-line prettier/prettier
-        //     (data.total_sum - min) / (max - min) *(30 - 10) + 10;
-        //   const testElMain = document.createElement('div');
-        //   testElMain.className = 'marker';
-
-        //   console.log(singleData, 'singleDataProv');
-        //   // const props = data.properties;
-        //   // eslint-disable-next-line no-use-before-define
-        //   const testEl = this.createDonutChart(
-        //     singleData,
-        //     total2nd,
-        //     radiusRange,
-        //   );
-        //   const marker = new mapboxgl.Marker({ element: testEl })
-        //     .setLngLat(data.geometry.coordinates)
-        //     .addTo(map);
-        //   global.markerList.push(marker);
-        // });
       }
 
       const FederalData =
@@ -2049,34 +1655,6 @@ class Choropleth extends Component {
         this.props.vectorTileUrl,
       ];
       map.setStyle(newStyle);
-      // district.forEach(function(marker) {
-      //   // create a DOM element for the marker
-      //   const el = document.createElement('div');
-      //   el.className = 'marker circle';
-      //   // el.style.backgroundImage = `url(https://placekitten.com/g/${marker.districtid})`;
-      //   el.style.width = `24px`;
-      //   el.style.height = `24px`;
-      //   // el.innerHTML = '23';
-      //   el.addEventListener('click', function() {
-      //     window.alert(marker.districtid);
-      //   });
-
-      //   // add marker to map
-      //   new mapboxgl.Marker(el)
-      //     .setLngLat([marker.centroid_x, marker.centroid_y])
-      //     .addTo(map);
-      // });
-      // map.removeSource('municipality');
-
-      // setTimeout(() => {
-      //   map.addSource('municipality', {'type': 'vector',
-      // // 'interactive':true,
-      // 'tiles': [this.props.vectorTileUrl?this.props.vectorTileUrl:"https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}"],//"https://apps.naxa.com.np/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=Naxa:educationpoint&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"],
-      // 'minzoom': 0,
-      // 'maxzoom': 20,
-      // "promoteId": {"default": "code"}});
-      // }, 200);
-      // this.plotVectorTile();
     }
     if (prevProps.vectorTileUrl !== vectorTileUrl) {
       // this.changeGrades();
@@ -2181,69 +1759,8 @@ class Choropleth extends Component {
                     </li>
                   );
                 })}
-              {/* <li>
-                <div style={{ 'background-color': '#723122' }} className="color" />
-                <span>25,000,000</span>
-              </li>
-              <li>
-                <div style={{ 'background-color': '#8B4225' }} className="color" />
-                <span>10,000,000</span>
-              </li>
-              <li>
-                <div style={{ 'background-color': '#A25626' }} className="color" />
-                <span>7,300,000</span>
-              </li>
-              <li>
-                <div style={{ 'background-color': '#B86B25' }} className="color" />
-                <span>5,000,000</span>
-              </li>
-              <li>
-                <div style={{ 'background-color': '#CA8323' }} className="color" />
-                <span>2,500,000</span>
-              </li>
-              <li>
-                <div className="color" style={{ 'background-color': '#DA9C20' }} />
-                <span>1,000,000</span>
-              </li>
-              <li>
-                <div style={{ 'background-color': '#E6B71E' }} className="color" />
-                <span>750,000</span>
-              </li>
-              <li>
-                <div style={{ 'background-color': '#EED322' }} className="color" />
-                <span>500,000</span>
-              </li>
-              <li>
-                <div style={{ 'background-color': '#F2F12D' }} className="color" />
-                <span> 0</span>
-              </li> */}
             </ul>
           </div>
-          {/* <div className="overlay-data">
-            <h6>overlay data</h6>
-            <div className="widget-tag">
-              <a href="#">
-                <i className="material-icons">store</i>
-                <span>Branch</span>
-              </a>
-              <a href="#">
-                <i className="material-icons">store</i>
-                <span>BLB</span>
-              </a>
-              <a href="#">
-                <i className="material-icons">store</i>
-                <span>Extention Counter</span>
-              </a>
-              <a href="#">
-                <i className="material-icons">tablet</i>
-                <span>Tablet</span>
-              </a>
-              <a href="#">
-                <i className="material-icons">store</i>
-                <span>Other major product</span>
-              </a>
-            </div>
-          </div> */}
         </div>
         <TimelineChart
           minValue={minValue}

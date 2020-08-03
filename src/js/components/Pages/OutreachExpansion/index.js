@@ -11,25 +11,7 @@ import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
 import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
 import ListByView from './ViewByList';
-import {
-  getPartnershipInvestmentFocus,
-  getProjectListData,
-  getMapDataByDistrict,
-  getMapDataByMunicipality,
-  getFilteredMapData,
-  getRadialData,
-  getPartnersList,
-  filterPartnerListByPartnerType,
-  filterFinancialDataWithAllFilters,
-  getDistrictDataFromProvince,
-} from '../../../actions/partnership.actions';
-import {
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
-  filterDistrictListFromProvince,
-  filterMunListFromDistrict,
-} from '../../../actions/common.actions';
+import { getFilteredMapData } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
 import { getCenterBboxProvince } from './common/ProvinceFunction';
@@ -42,15 +24,23 @@ import {
   fetchOutreachChoropleth,
   fetchOutreachPrimaryData,
 } from '../../../actions/outreach.actions';
-import { provinceLists, districtLists } from '../../common/adminList';
+import {
+  provinceLists,
+  districtLists,
+  municipalityLists,
+  districtListByProvince,
+  muniByDistrict,
+} from '../../common/adminList';
 
 class MainPartnership extends Component {
   constructor() {
     super();
     this.state = {
+      provinceList: provinceLists(),
+      districtList: districtLists(),
+      municipalityList: municipalityLists(),
       primaryData: '',
       expsnsionSelection: [],
-      projectSelection: [],
       partnerSelection: [],
       projectStatus: [],
       partnerType: [],
@@ -63,8 +53,6 @@ class MainPartnership extends Component {
       isAllPartnerSelected: false,
       isAllProjectSelected: false,
       isAllInvestmentFocusSelected: false,
-      showBarof: 'Provinces',
-      showBarofInvestmentBudgetBenef: 'investmentFocus',
       activeFilter: false,
       activeOverview: true,
       viewDataBy: 'allocated_beneficiary',
@@ -80,11 +68,6 @@ class MainPartnership extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('userToken');
-    // console.log('uset token', token);
-    this.props.getProvinceData();
-    this.props.getDistrictData();
-    this.props.getMunicipalityData();
-
     const filterBar = document.getElementsByClassName(
       'filter-bar',
     )[0];
@@ -98,27 +81,60 @@ class MainPartnership extends Component {
         });
       }
     });
-    this.props.getPartnershipInvestmentFocus();
+    this.props.fetchOutreachPrimaryData();
     this.props.fetchOutreachSecondaryData();
     this.props.fetchOutreachChoropleth();
-    this.props.fetchOutreachPrimaryData();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { selectedProvince, selectedDistrict } = this.state;
+    const {
+      selectedProvince,
+      selectedDistrict,
+      districtList,
+      municipalityList,
+    } = this.state;
     const { outreachReducer } = this.props;
     const { primaryData } = outreachReducer;
     if (prevState.selectedProvince !== selectedProvince) {
-      this.props.filterDistrictListFromProvince(selectedProvince);
+      // this.props.filterDistrictListFromProvince(selectedProvince);
+      let districts;
+      if (
+        (selectedProvince[0] &&
+          selectedProvince[0].value === 'all') ||
+        selectedProvince.length === 0
+      ) {
+        districts = districtLists();
+      } else {
+        // console.log('else condition', selectedProvince);
+        districts = districtListByProvince(
+          selectedProvince,
+          districtList,
+        );
+      }
       this.setState({
         selectedDistrict: '',
         selectedMunicipality: '',
+        districtList: districts,
       });
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
-      this.props.filterMunListFromDistrict(selectedDistrict);
+      // this.props.filterMunListFromDistrict(selectedDistrict);
+      let municipality;
+      if (
+        (selectedDistrict[0] &&
+          selectedDistrict[0].value === 'all') ||
+        selectedDistrict.length === 0
+      ) {
+        municipality = municipalityLists();
+      } else {
+        municipality = muniByDistrict(
+          selectedDistrict,
+          municipalityList,
+        );
+      }
       this.setState({
         selectedMunicipality: '',
+        municipalityList: municipality,
       });
     }
 
@@ -204,14 +220,6 @@ class MainPartnership extends Component {
     }
   };
 
-  handleShowBarOf = value => {
-    this.setState({ showBarof: value });
-  };
-
-  handleShowBarOfInvestmentBudgetBenefBar = value => {
-    this.setState({ showBarofInvestmentBudgetBenef: value });
-  };
-
   handelExpansionParentCheckbox = e => {
     // e.stopPropagation();
     const {
@@ -256,13 +264,12 @@ class MainPartnership extends Component {
       state: { expsnsionSelection },
     } = this;
     const {
-      target: { name, checked, value },
+      target: { name, checked },
     } = e;
     this.setState(preState => {
       if (checked) {
         return {
           expsnsionSelection: [...preState.expsnsionSelection, name],
-          projectSelection: [],
         };
       }
       if (!checked) {
@@ -271,7 +278,33 @@ class MainPartnership extends Component {
         );
         return {
           expsnsionSelection: newArr,
-          projectSelection: [],
+          isAllInvestmentFocusSelected: false,
+        };
+      }
+      return null;
+    });
+  };
+
+  handlePartnerSelectionCheckbox = e => {
+    const {
+      state: { partnerSelection },
+    } = this;
+    const {
+      target: { name, checked },
+    } = e;
+    this.setState(preState => {
+      if (checked) {
+        return {
+          partnerSelection: [...preState.partnerSelection, name],
+        };
+      }
+      if (!checked) {
+        const newArr = partnerSelection.filter(
+          partnerSelected => partnerSelected !== name,
+        );
+        return {
+          partnerSelection: newArr,
+          isAllPartnerSelected: false,
         };
       }
       return null;
@@ -304,9 +337,7 @@ class MainPartnership extends Component {
         const selectedPartner = partnerSelection;
         for (let i = 0; i < allPartnerElement.length; i += 1) {
           allPartnerElement[i].checked = true;
-          selectedPartner.push(
-            parseInt(allPartnerElement[i].name, 10),
-          );
+          selectedPartner.push(allPartnerElement[i].name);
         }
         this.setState({
           partnerSelection: selectedPartner,
@@ -315,33 +346,7 @@ class MainPartnership extends Component {
     }
   };
 
-  handlePartnerSelectionCheckbox = e => {
-    const {
-      state: { partnerSelection, isAllPartnerSelected },
-    } = this;
-    const {
-      target: { name, checked },
-    } = e;
-    this.setState(preState => {
-      if (checked) {
-        return {
-          partnerSelection: [
-            ...preState.partnerSelection,
-            parseInt(name, 10),
-          ],
-        };
-      }
-      if (!checked) {
-        const newArr = partnerSelection.filter(
-          partnerSelected => partnerSelected !== parseInt(name, 10),
-        );
-        return { partnerSelection: newArr };
-      }
-      return null;
-    });
-  };
-
-  handlePartnerType = (clickedValue, type) => {
+  handelMultiChoice = (clickedValue, type) => {
     const { serviceType, G2PTypes, demonstrationType } = this.state;
     let tempCollection;
     let filteredData = [];
@@ -394,54 +399,38 @@ class MainPartnership extends Component {
       expsnsionSelection,
       partnerType,
     } = this.state;
-    this.props.filterOverviewData(
-      expsnsionSelection,
-      projectSelection,
-      partnerType,
-      partnerSelection,
-    );
-    this.props.filterFinancialDataWithAllFilters(
-      'province',
-      expsnsionSelection,
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-    );
-    this.props.filterBarDataByInvestment(
-      'province',
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-      expsnsionSelection,
-    );
-    this.props.filterSankeyChartData(
-      viewDataBy,
-      expsnsionSelection,
-      projectSelection,
-      partnerType,
-      partnerSelection,
-      projectStatus,
-    );
-    this.props.filterLeverageData(expsnsionSelection);
   };
 
-  applyHandler = () => {
+  leftApplyHandler = () => {
     const {
       G2PTypes,
       demonstrationType,
       serviceType,
       expsnsionSelection,
       partnerSelection,
-      primaryData,
     } = this.state;
-    console.log('values onsole', primaryData);
+    console.log(
+      'values onsole',
+      G2PTypes,
+      demonstrationType,
+      serviceType,
+      expsnsionSelection,
+      partnerSelection,
+    );
     let filteredData = [];
+    const { primaryData } = this.props.outreachReducer;
+
+    if (
+      G2PTypes.length === 0 &&
+      demonstrationType.length === 0 &&
+      serviceType.length === 0 &&
+      expsnsionSelection.length === 0 &&
+      expsnsionSelection.length === 0
+    ) {
+      filteredData = primaryData;
+    }
 
     if (G2PTypes.length > 0) {
-      // g2p_payment
-
       G2PTypes.map(type => {
         primaryData.map(data => {
           if (type === data.g2p_payment) {
@@ -481,6 +470,11 @@ class MainPartnership extends Component {
       filteredData = [];
       expsnsionSelection.map(type => {
         value.map(data => {
+          console.log(
+            'type === data.partner_type',
+            expsnsionSelection,
+            value,
+          );
           if (type === data.expansion_driven_by) {
             filteredData.push(data);
           }
@@ -493,6 +487,11 @@ class MainPartnership extends Component {
       filteredData = [];
       partnerSelection.map(type => {
         value.map(data => {
+          console.log(
+            'type === data.partner_type',
+            partnerSelection,
+            value,
+          );
           if (type === data.partner_type) {
             filteredData.push(data);
           }
@@ -636,28 +635,23 @@ class MainPartnership extends Component {
     this.setState({
       expsnsionSelection: [],
       partnerSelection: [],
-      partnerType: [],
+      demonstrationType: [],
       serviceType: [],
       G2PTypes: [],
+      isAllPartnerSelected: false,
+      isAllInvestmentFocusSelected: false,
       primaryData: this.props.outreachReducer.primaryData,
     });
   };
 
   resetFilters = () => {
-    // console.log('resertfiles');
     const { mapViewBy, activeView } = this.state;
-    const that = this;
-    this.resetLeftSideBarSelection();
-    if (activeView === 'visualization') {
-      this.props.resetRadialData();
-      this.props.resetSankeyChartData();
-      this.props.resetOverviewData();
-      this.props.resetLeverageData();
-      this.props.resetBarDatas();
-      this.props.resetBarDataByInvestmentFocus();
-    } else {
-      this.setMapViewBy(mapViewBy);
-    }
+    this.setState({
+      selectedProvince: '',
+      selectedDistrict: null,
+      selectedMunicipality: null,
+    });
+    this.setMapViewBy('municipality');
   };
 
   render() {
@@ -678,6 +672,11 @@ class MainPartnership extends Component {
         G2PTypes,
         localOutreachSelected,
         primaryData,
+        provinceList,
+        districtList,
+        municipalityList,
+        isAllPartnerSelected,
+        isAllInvestmentFocusSelected,
       },
       // props: {},
     } = this;
@@ -687,7 +686,8 @@ class MainPartnership extends Component {
       allMunicipalityList,
     } = this.props.commonReducer;
 
-    const temp = provinceLists();
+    // console.log('allDistrictList', allDistrictList);
+    // console.log('districtList', districtList);
 
     return (
       <>
@@ -698,12 +698,15 @@ class MainPartnership extends Component {
           }`}
         >
           <LeftSideBar
-            primaryData={primaryData}
             expsnsionSelection={expsnsionSelection}
             partnerSelection={partnerSelection}
             G2PTypes={G2PTypes}
             serviceType={serviceType}
             demonstrationType={demonstrationType}
+            isAllPartnerSelected={isAllPartnerSelected}
+            isAllInvestmentFocusSelected={
+              isAllInvestmentFocusSelected
+            }
             handelExpansionCheckbox={this.handelExpansionCheckbox}
             handlePartnerSelectionCheckbox={
               this.handlePartnerSelectionCheckbox
@@ -714,9 +717,9 @@ class MainPartnership extends Component {
             handelExpansionParentCheckbox={
               this.handelExpansionParentCheckbox
             }
-            handlePartnerType={this.handlePartnerType}
+            handelMultiChoice={this.handelMultiChoice}
             resetFilters={this.resetLeftSideBarSelection}
-            applyBtnClick={this.applyHandler}
+            applyBtnClick={this.leftApplyHandler}
           />
           <main className="main">
             <div className="main-card literacy-main-card">
@@ -755,9 +758,7 @@ class MainPartnership extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
-                            options={
-                              allProvinceList && allProvinceList
-                            }
+                            options={provinceList && provinceList}
                             onChange={selectedOptions => {
                               this.setState({
                                 selectedProvince: selectedOptions,
@@ -772,9 +773,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select District"
-                              options={
-                                allDistrictList && allDistrictList
-                              }
+                              options={districtList && districtList}
                               onChange={selectedOptions => {
                                 this.setState({
                                   selectedDistrict: selectedOptions,
@@ -790,8 +789,7 @@ class MainPartnership extends Component {
                               withCheckbox
                               name="Select Municipality"
                               options={
-                                allMunicipalityList &&
-                                allMunicipalityList
+                                municipalityList && municipalityList
                               }
                               onChange={selectedOptions => {
                                 this.setState({
@@ -806,7 +804,7 @@ class MainPartnership extends Component {
                       <div className="buttons is-end">
                         <button
                           type="button"
-                          // onClick={this.resetFilters}
+                          onClick={this.resetFilters}
                           className="common-button is-clear"
                         >
                           <i className="material-icons">refresh</i>
@@ -867,17 +865,17 @@ class MainPartnership extends Component {
                 >
                   {activeView === 'map' && (
                     <MapboxPartnership
-                      addMap={this.addMap}
-                      handleFederalClickOnMap={
-                        this.handleFederalClickOnMap
-                      }
                       map={map}
                       vectorTileUrl={vectorTileUrl}
                       mapViewBy={mapViewBy}
                       mapViewDataBy={mapViewDataBy}
-                      setMapViewBy={this.setMapViewBy}
                       localOutreachSelected={localOutreachSelected}
                       primaryData={primaryData}
+                      addMap={this.addMap}
+                      setMapViewBy={this.setMapViewBy}
+                      handleFederalClickOnMap={
+                        this.handleFederalClickOnMap
+                      }
                     />
                   )}
                 </div>
@@ -906,20 +904,6 @@ const mapStateToProps = ({ commonReducer, outreachReducer }) => ({
 export default connect(mapStateToProps, {
   fetchOutreachChoropleth,
   fetchOutreachPrimaryData,
-  getPartnershipInvestmentFocus,
-  getProjectListData,
-  getMapDataByDistrict,
-  getMapDataByMunicipality,
   getFilteredMapData,
-  getRadialData,
-  getPartnersList,
-  filterPartnerListByPartnerType,
-  filterFinancialDataWithAllFilters,
-  getDistrictDataFromProvince,
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
-  filterDistrictListFromProvince,
-  filterMunListFromDistrict,
   fetchOutreachSecondaryData,
 })(MainPartnership);

@@ -151,7 +151,6 @@ class MainPartnership extends Component {
       const isClickInside = filterBar.contains(event.target);
 
       if (!isClickInside) {
-        console.log('clickoutside');
         this.setState({
           activeFilter: false,
           // searchDropdown: false,
@@ -1572,7 +1571,7 @@ class MainPartnership extends Component {
     const that = this;
     this.resetLeftSideBarSelection();
     if (activeView === 'visualization') {
-      this.props.resetRadialData();
+      // this.props.resetRadialData();
       this.props.resetSankeyChartData();
       this.props.resetOverviewData();
       this.props.resetLeverageData();

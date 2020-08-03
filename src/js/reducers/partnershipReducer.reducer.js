@@ -39,6 +39,7 @@ import {
   RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
   FILTER_BENEFBUDGET_DATA_FOR_BARCLICK,
   FILTER_MAPDATA_CHOROPLETH,
+  FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -47,6 +48,16 @@ import municipality from '../../data/municipality.json';
 import WebWorker from '../WebWorker/webWorker';
 import workerfile from '../WebWorker/worker';
 
+function provinceCodeToName(code) {
+  if (code === 1) return 'Province 1';
+  if (code === 2) return 'Province 2';
+  if (code === 3) return 'Bagmati Province';
+  if (code === 4) return 'Gandaki Province';
+  if (code === 5) return 'Province 5';
+  if (code === 6) return 'Karnali Province';
+  if (code === 7) return 'Sudurpaschim Province';
+  return '';
+}
 function colorPicker(i) {
   if (i % 25 === 0) return '#91664E';
   if (i % 25 === 1) return '#5D6D7E';
@@ -155,6 +166,7 @@ const initialState = {
   sankeyChartData: {},
   filteredPartnerList: [],
   barDatas: [],
+  barDatasOfProvinceOnly: [],
   barDatasByInvestment: [],
   defaultBarDatasByInvestment: [],
   allProvinceList: [],
@@ -250,6 +262,38 @@ const filterBeneficiaryBarChart = datas => {
     series: [finaleMaleBeneficiary, finaleFemaleBeneficiary],
   };
 };
+const filterBeneficiaryBarChartForProvinceOnly = datas => {
+  // const checkProvince = datas.some(i => i.name.includes('Province'));
+  // console.log(checkProvince, 'check');
+  // console.log(datas, 'datas');
+  const checkProvince = datas.some(i => i.province_code);
+  const barLabels = datas.map(label => {
+    return checkProvince
+      ? provinceCodeToName(label.province_code)
+      : provinceCodeToName(label.code);
+    // return label.code;
+  });
+  const maleBeneficiary = datas.map(data => {
+    return data.total_beneficiary - data.female_beneficiary;
+  });
+  const femaleBeneficiary = datas.map(data => {
+    return data.female_beneficiary;
+  });
+  const finaleMaleBeneficiary = {
+    name: 'Male Beneficiary',
+    type: 'column',
+    data: maleBeneficiary,
+  };
+  const finaleFemaleBeneficiary = {
+    name: 'Female Beneficiary',
+    type: 'column',
+    data: femaleBeneficiary,
+  };
+  return {
+    labels: barLabels,
+    series: [finaleMaleBeneficiary, finaleFemaleBeneficiary],
+  };
+};
 const filterBeneficiaryBarChartForInvestment = datas => {
   const checkProvince = datas.some(i =>
     i.name.includes('Provincesss'),
@@ -290,6 +334,27 @@ const filterBudgetBarChart = datas => {
   const barLabels = datas.map(label => {
     // return label.name.replace('Province', '');
     return label.code;
+  });
+  const totalBeneficiary = datas.map(data => {
+    return Math.round(data.allocated_budget);
+  });
+  const finaleTotalBudget = {
+    name: 'Budget Allocated',
+    type: 'line',
+    data: totalBeneficiary,
+  };
+  return {
+    labels: barLabels,
+    series: [finaleTotalBudget],
+  };
+};
+const filterBudgetBarChartProvinceOnly = datas => {
+  const checkProvince = datas.some(i => i.province_code);
+  const barLabels = datas.map(label => {
+    // return label.name.replace('Province', '');
+    return checkProvince
+      ? provinceCodeToName(label.province_code)
+      : provinceCodeToName(label.code);
   });
   const totalBeneficiary = datas.map(data => {
     return Math.round(data.allocated_budget);
@@ -347,7 +412,7 @@ const filterLeverageChart = datas => {
     return Math.round(data.leverage);
   });
   const finaleTotalScfFund = {
-    name: 'S-CF Fund',
+    name: 'S-CF Funds',
     type: 'column',
     data: totalScfFund,
   };
@@ -385,7 +450,7 @@ const filterLeverageDataForBarClick = datas => {
     return Math.round(data.leverage);
   });
   const finaleTotalScfFund = {
-    name: 'S-CF Fund',
+    name: 'S-CF Funds',
     type: 'column',
     data: totalScfFund,
   };
@@ -485,6 +550,7 @@ const getBarDataByBenefBudget = (state, action) => {
     // mapDataByProvince: finalBeneficiaryArray,
     barDatas: filteredBenefValues,
     defaultBarDatas: filteredBenefValues,
+    barDatasOfProvinceOnly: filteredBenefValues,
     mapDataForCircleMarker: circleMarkerData,
 
     // filteredMapData: choroplethFormat,
@@ -659,7 +725,7 @@ const getRadialData = (state, action) => {
   // console.log(action.payload);
   // eslint-disable-next-line array-callback-return
   action.payload.children.map((data, i) => {
-    console.log(data, 'datx');
+    // console.log(data, 'datx');
     // eslint-disable-next-line no-param-reassign
     data.color = colorPicker(i + 2);
   });
@@ -880,6 +946,110 @@ const filterFinancialDataWithAllFilters = (state, action) => {
     ...state,
     // mapDataByProvince: finalBeneficiaryArray,
     barDatas: filteredBenefValues,
+    // filteredMapData: choroplethFormat,
+  };
+  // }
+};
+const filterbarDataOfBenefBudgetWithProvinceOnly = (
+  state,
+  action,
+) => {
+  console.log(action, 'action');
+  const {
+    totalBeneficiary,
+    femaleBeneficiary,
+    allocatedBudget,
+  } = action.payload;
+  const totalbeneficiary = totalBeneficiary;
+  const femalebeneficiary = femaleBeneficiary;
+  const checkProvince = totalbeneficiary.some(i => i.province_code);
+  console.log(checkProvince, 'checkProvinceOrNot');
+  const totalBenefProvince = totalbeneficiary.reduce((a, c) => {
+    const filtered = a.filter(el =>
+      checkProvince
+        ? el.province_code === c.province_code
+        : el.code === c.code,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[
+        a.indexOf(filtered[0])
+      ].total_beneficiary += +c.total_beneficiary;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+  console.log(totalBenefProvince, 'totalbenefProvince');
+  const femaleBenefProvince = femalebeneficiary.reduce((a, c) => {
+    const filtered = a.filter(el =>
+      checkProvince
+        ? el.province_code === c.province_code
+        : el.code === c.code,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[
+        a.indexOf(filtered[0])
+      ].female_beneficiary += +c.female_beneficiary;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+  const allocatedBudgetProvince = allocatedBudget.reduce((a, c) => {
+    const filtered = a.filter(el =>
+      checkProvince
+        ? el.province_code === c.province_code
+        : el.code === c.code,
+    );
+    if (filtered.length > 0) {
+      // eslint-disable-next-line no-param-reassign
+      a[
+        a.indexOf(filtered[0])
+      ].allocated_budget += +c.allocated_budget;
+    } else {
+      a.push(c);
+    }
+    return a;
+  }, []);
+  // debugger;
+  const mergedBeneficiaryArray = totalBenefProvince.map(
+    (item, i) => ({
+      ...item,
+      ...femaleBenefProvince[i],
+    }),
+  );
+  console.log(mergedBeneficiaryArray, 'testField');
+  const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
+    el,
+  ) {
+    const o = { ...el };
+    o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
+    return o;
+  });
+  console.log(finalBeneficiaryArray, 'finalbenefArray');
+  sortArrayByKey(finalBeneficiaryArray, 'code');
+  const filteredBenefValues = filterBeneficiaryBarChartForProvinceOnly(
+    finalBeneficiaryArray,
+  );
+  // console.log(result, 'rest');
+
+  // }
+  sortArrayByKey(allocatedBudgetProvince, 'code');
+  const filteredBudgetValues = filterBudgetBarChartProvinceOnly(
+    allocatedBudgetProvince,
+  );
+  // console.log(filteredBenefValues, 'filteredBenefValues');
+  // console.log(
+  filteredBenefValues.series.push(filteredBudgetValues.series[0]);
+  console.log(filteredBenefValues, 'filteredBudgetValues');
+  // );
+  return {
+    ...state,
+    barDatasOfProvinceOnly: filteredBenefValues,
+    // mapDataByProvince: finalBeneficiaryArray,
+    // barDatas: filteredBenefValues,
     // filteredMapData: choroplethFormat,
   };
   // }
@@ -1389,6 +1559,11 @@ export default function(state = initialState, action) {
       );
     case FILTER_FINANCIALDATA_WITH_ALL_FILTERS:
       return filterFinancialDataWithAllFilters(state, action);
+    case FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY:
+      return filterbarDataOfBenefBudgetWithProvinceOnly(
+        state,
+        action,
+      );
     case FILTER_BARDATA_BY_INVESTMENTFOCUS:
       return filterBarDataByInvestmentFocus(state, action);
     case GET_RADIAL_DATA:

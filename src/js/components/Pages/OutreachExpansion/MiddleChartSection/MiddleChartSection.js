@@ -357,7 +357,7 @@ class MiddleChartSection extends Component {
             {viewDataBy === 'Leverage' && (
               <CardTab
                 resetFunction={this.props.resetLeverageData}
-                cardTitle="S-CF Fund & Leverage By Investment Focus"
+                cardTitle="S-CF Funds & Leverage By Investment Focus"
                 cardClass="col-xl-6"
                 cardChartId="leverageChart"
                 handleModal={this.handleModal}
