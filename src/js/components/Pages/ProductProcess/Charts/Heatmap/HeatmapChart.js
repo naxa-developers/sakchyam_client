@@ -132,7 +132,7 @@ class HeatmapChart extends React.Component {
           maxWidth: 300,
           style: {
             colors: [],
-            fontSize: '12px',
+            fontSize: '11px',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 400,
             cssClass: 'apexcharts-yaxis-label',
@@ -399,7 +399,7 @@ class HeatmapChart extends React.Component {
     const { options, series } = this.state;
     const { activeModal, showRightSidebar } = this.props;
 
-    let height = 425;
+    let height = 440;
     let width = 425;
 
     if (activeModal) {
