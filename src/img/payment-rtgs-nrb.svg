@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18.361" height="112.436" viewBox="0 0 18.361 112.436">
+  <g id="payment-rtgs-nrb" transform="translate(-130.5 -486)">
+    <line id="Line_177" data-name="Line 177" y2="103" transform="translate(131.5 490.5)" fill="none" stroke="#bdbdbd" stroke-width="2" stroke-dasharray="5"/>
+    <path id="Intersection_5" data-name="Intersection 5" d="M0,0,8.481,4.136,0,9.436Z" transform="translate(140.38 589)" fill="#bdbdbd"/>
+    <line id="Line_124" data-name="Line 124" x2="13.19" transform="translate(131.431 593.5)" fill="none" stroke="#bdbdbd" stroke-width="2" stroke-dasharray="5"/>
+    <line id="Line_124-2" data-name="Line 124" x2="13.19" transform="translate(131.431 490.5)" fill="none" stroke="#bdbdbd" stroke-width="2" stroke-dasharray="5"/>
+    <path id="Intersection_5-2" data-name="Intersection 5" d="M0,0,8.481,4.136,0,9.436Z" transform="translate(140.38 486)" fill="#bdbdbd"/>
+  </g>
+</svg>

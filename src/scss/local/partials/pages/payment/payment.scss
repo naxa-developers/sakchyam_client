@@ -1,0 +1,390 @@
+$payment-yellow:#FFF8E0;
+$payment-border:#E2E2E2;
+$payment-red-light:#FDEAEF;
+$payment-blue-light:#E2F9FE;
+$payment-green-light:#E1F3E6;
+$payment-green:#1ec853;
+.pl-0{
+    padding-left:0;
+}
+.page-wrap .payment-wrapper{
+    main{
+        height: initial;
+    }
+}
+.payment-body{
+    margin-top:96px;
+    padding:0 30px;
+    button{
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+        &.common-button{
+            background-color: $red-color;
+        border-radius: 0;
+        font-family: $avenir-heavy;
+        font-size: 1.2rem;
+        text-transform: capitalize;
+        }
+    }
+}
+.payment-wrapper{
+    @include display-flex(flex);
+    @include justify-content-start;
+    @include align-items-start;
+    max-width: 100%;
+    width:100%;
+    position: relative;
+    // @include flex-wrap(wrap);
+    @media screen and (max-width:1540px){
+        @include flex-wrap(wrap);
+    }
+    
+    .payment-system{
+        @include display-flex(flex);
+        @include justify-content-start;
+        @include align-items-center;
+        flex-grow: 1;
+        padding-right: 30px;
+    }
+    .payment-sidebar{
+        @include flex(0 0 320px);
+        max-width: 320px;
+        .payment-sidebar-cover{
+            background-color: $payment-yellow;
+            border:1px solid $payment-border;
+            @include radius(5px);
+            padding:15px 15px 15px 50px;
+        }
+        .top-payment{
+            position: relative;
+            li{
+                position: relative;
+                a{
+                    display: block;
+                    padding:15px;
+                    border:1px solid $payment-border;
+                    @include radius(5px);
+                    min-height: 90px;
+                    @include display-flex(flex);
+                    @include justify-content-center;
+                    @include align-items-start;
+                    @include flex-direction-column(column);
+                    font-size: 24px;
+                    color:$primary-color;
+                    @media screen and(max-width:1400px){
+                            font-size:18px;
+                    }
+                }
+                margin-top:1rem;
+                &.red-light{
+                    background-color: $payment-red-light;
+                    .rtgs-left-line{
+                        position: absolute;
+                        bottom:15%;
+                        right:-46px;
+                        fill:#e11d3f;
+                        stroke:#e11d3f;
+                        opacity: .4;
+                    }
+                    &.active{
+                        .rtgs-left-line{
+                            opacity: 1;
+                        }
+                        a{
+                            border-color:$red-color;
+                        }
+                    }
+                }
+                &.blue-light{
+                    background-color: $payment-blue-light;
+                    .nrb-left-line{
+                        position: absolute;
+                        top:50%;
+                        right:-88px;
+                        @include transform(translateY(-50%));
+                        fill:#13a8be;
+                        stroke:#13a8be;
+                        opacity: .4;
+                    }
+                    &.active{
+                        .nrb-left-line{
+                            opacity: 1;
+                        }
+                        a{
+                            border-color:$color-blue;
+                        }
+                    }
+                }
+                &.green-light{
+                    background-color: $payment-green-light;
+                    .cs-left-line{
+                        position: absolute;
+                        top:50%;
+                        right:-132px;
+                        @include transform(translateY(-50%));
+                        fill:#1ec853;
+                        stroke:#1ec853;
+                        opacity: .4;
+                    }
+                    &.active{
+                        .cs-left-line{
+                            opacity: 1;
+                        }
+                        a{
+                            border-color:$payment-green;
+                        }
+                    }
+                }
+            }
+            .rtgs-csd{
+                position: absolute;
+                top:50%;
+                left:-42px;
+                @include transform(translateY(-50%));
+                fill:#bdbdbd;
+                stroke:#bdbdbd;
+            }
+            .rtgs-nrb{
+                position: absolute;
+                top:35%;
+                left:-20px;
+                @include transform(translateY(-50%));
+                fill:#bdbdbd;
+                stroke:#bdbdbd;
+            }
+        }
+    }
+    .retail-payement{
+        flex-grow: 1;
+        padding:0 0 0 180px;
+        position: relative;
+        svg.horizontal-line{
+            
+            stroke:#13a8be;
+        }
+        &::before{
+            content:'';
+            position: absolute;
+            top:50%;
+            left:70px;
+            width:2px;
+            @include transform(translateY(-50%));
+            margin-top:20px;
+            background-image: linear-gradient(#13a8be 40%, rgba(255,255,255,0) 0%);
+            background-position: right;
+            background-size: 3px 10px;
+            background-repeat: repeat-y;
+            height: 73.5%;
+            opacity: .3;
+            display: block;
+        }
+        h3{
+            font-size: 1.2rem;
+            font-family: $avenir-heavy;
+            text-transform: capitalize;
+        }
+        .top-section-payment{
+            background-color: $payment-blue-light;
+            @include radius(5px);
+            border:1px solid $payment-border;
+            padding:15px 30px;
+            
+        }
+        .bottom-section-payment{
+            padding:15px 30px;
+            position: relative;
+            &::before{
+                content:'';
+                position: absolute;
+                top:25px;
+                left:-65px;
+                width:2px;
+                background-image: linear-gradient(#1ec853 40%, rgba(255,255,255,0) 0%);
+                background-position: right;
+                background-size: 3px 10px;
+                background-repeat: repeat-y;
+                height: 70%;
+                opacity: .3;
+                display: block;
+            };
+            &.active{
+                &::before{
+                    opacity: 1;
+                }
+            }
+        }
+        .switch-connect-system{
+            position: relative;
+            &::before{
+                content:'';
+                position: absolute;
+                margin-top:38px;
+                top:50%;
+                left:-182px;
+                width:2px;
+                @include transform(translateY(-50%));
+                background-image: linear-gradient(#e11d3f 40%, rgba(255,255,255,0) 0%);
+                background-position: right;
+                background-size: 3px 10px;
+                background-repeat: repeat-y;
+                height: 70%;
+                opacity: .3;
+                display: block;
+            };
+            &.active{
+                &::before{
+                    opacity: 1;
+                }
+            }
+        }
+        .payment-card{
+            border:1px solid $payment-border;
+            padding:15px 15px 5px 15px;
+            background-color: $white-color;
+            @include radius(5px);
+            @include display-flex(flex);
+            @include justify-content-start;
+            @include align-items-start;
+            margin-top:20px;
+            position: relative;
+            .nrb-medium-line{
+                position: absolute;
+                top:35%;
+                left:-142px;
+                @include transform(translateY(-50%));
+                fill:#13a8be;
+                stroke:#13a8be;
+                opacity: .4;
+                &.active{
+                    opacity: 1;
+               }
+            }
+            .cs-capital-line{
+                position: absolute;
+                bottom:25%;
+                left:-90px;
+                @include transform(translateY(-50%));
+                fill:#1ec853;
+                stroke:#1ec853;
+                max-width: 90px;
+                opacity: .4;
+                &.active{
+                     opacity: 1;
+                }
+            }
+            .rtgs-switch-line{
+                position: absolute;
+                top:50%;
+                left:-182px;
+                @include transform(translateY(-50%));
+                fill:#e11d3f;
+                stroke:#e11d3f;
+                opacity: .4;
+                &.active{
+                    opacity: 1;
+               }
+            }
+            &.switch-system,&.bfis{
+                margin-top:10px;
+            }
+            .payment-logos{
+                flex-grow: 1;
+                @include display-flex(flex);
+                @include justify-content-start;
+                @include align-items-center;
+                @include flex-wrap(wrap);
+                padding-left:2rem;
+                li{
+                    margin-right: 15px;
+                    margin-bottom: 5px;
+                    a{
+                        display: block;
+                        padding:10px;
+                        border:1px solid $payment-border;
+                        @include radius(5px);
+                        min-height: 50px;
+                        min-width: 120px;
+                        @include display-flex(flex);
+                        @include justify-content-center;
+                        @include align-items-center;
+                        @include flex-direction-column(column);
+                        span{
+                            font-size: .875rem;
+                            text-transform:capitalize;
+                            color:$primary-color;
+                            font-family: $avenir-heavy;
+                        }
+                    }
+                }
+                @media screen and(max-width:1400px){
+                    padding-left:1rem;
+                    li{
+                        margin-right: 10px;
+                        a{
+                            min-width: 90px;
+                        }
+                    }
+                }
+            }
+            &.connectips-system{
+                .payment-logos{
+                    padding:0;
+                }
+                .rtgs-switch-line{
+                    top:70%;
+                }
+            }
+            h5{
+                font-family: $body-fonts;
+                color:$red-color;
+                font-size: 1.5rem;
+                @include flex( 0 0 180px);
+                max-width: 180px;
+                @media screen and(max-width:1400px){
+                    font-size: 1.2rem;
+                    @include flex( 0 0 140px);
+                    max-width: 140px;
+                }
+            }
+            
+            
+        }
+        &.active{
+            &::before{
+                opacity: 1;
+            }
+        }
+    }
+    .payement-content{
+        @include flex(0 0 320px);
+        max-width: 320px;
+        background-color: $white-color;
+        border:1px solid $payment-border;
+        @include radius(5px);
+        @media screen and (max-width:1540px){
+            @include flex-wrap(wrap);
+            @include flex(0 0 100%);
+            max-width: 100%;
+            margin-top:50px;
+        }
+        
+        .payment-content-header{
+            padding-bottom: 10px;
+            border-bottom: 1px solid $payment-border;
+            padding:15px;
+            h5{
+                margin-bottom: 10px;
+                font-family: $body-fonts;
+            }
+            h6{
+                color:$color-blue;
+                text-transform: uppercase;
+                font-family: $avenir-heavy;
+                font-size: .775rem;
+            }
+        }
+        .payment-content-body{
+            padding:15px;
+        }
+    }
+}
