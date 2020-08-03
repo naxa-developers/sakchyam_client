@@ -46,10 +46,8 @@ const Modal = props => {
     activeModal,
     resetFilters,
     headerTitle,
+    groupedStackData,
   } = props;
-  // console.log(component, 'component');
-  console.log(headerTitle, 'headerTitle');
-  console.log(selectedModal, 'selectedModal');
   const selectedChartId =
     selectedModal === 'groupedChart'
       ? 'stacked_chart'
@@ -232,7 +230,9 @@ const Modal = props => {
           </div>
           <div className="popup-content" id="modal-content">
             {/* <label>Test</label> */}
-            {selectedModal === 'groupedChart' && <FilterTab />}
+            {selectedModal === 'groupedChart' && (
+              <FilterTab groupedStackData={groupedStackData} />
+            )}
             {component()}
           </div>
           <div className="popup-footer buttons is-end">

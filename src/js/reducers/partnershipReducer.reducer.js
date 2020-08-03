@@ -370,7 +370,17 @@ const filterBudgetBarChartProvinceOnly = datas => {
   };
 };
 const filterLeverageChart = datas => {
-  const summedScfFund = datas.projectList.reduce((a, c) => {
+  console.log(datas.projectList, 'projectList');
+  console.log(datas.projectSelection, 'projectSelection');
+  let filteredProjectList = datas.projectList;
+  if (datas.projectSelection && datas.projectSelection.length > 0) {
+    // eslint-disable-next-line array-callback-return
+    filteredProjectList = datas.projectList.filter(function(item) {
+      return datas.projectSelection.indexOf(item.id) !== -1;
+    });
+    console.log(filteredProjectList, 'filtered');
+  }
+  const summedScfFund = filteredProjectList.reduce((a, c) => {
     const filtered = a.filter(
       el => el.investment_primary === c.investment_primary,
     );
@@ -382,7 +392,7 @@ const filterLeverageChart = datas => {
     }
     return a;
   }, []);
-  const summedLeverage = datas.projectList.reduce((a, c) => {
+  const summedLeverage = filteredProjectList.reduce((a, c) => {
     const filtered = a.filter(
       el => el.investment_primary === c.investment_primary,
     );
@@ -1400,6 +1410,7 @@ const resetBarData = (state, action) => {
   return {
     ...state,
     barDatas: state.defaultBarDatas,
+    barDatasOfProvinceOnly: state.defaultBarDatas,
   };
 };
 const resetRadialData = (state, action) => {
