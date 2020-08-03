@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PlotVector from './PlotVector';
 import MunicipalityPopUp from './MunicipalityPopUp';
+import MarkerPopup from './MarkerPopUp';
 
 class MapboxPartnership extends Component {
   constructor(props) {
@@ -15,6 +16,8 @@ class MapboxPartnership extends Component {
       secondaryData: '',
       selectedMuni: '',
       YesNo: false,
+      markerData: '',
+      markerOpen: false,
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -33,15 +36,20 @@ class MapboxPartnership extends Component {
       primaryData,
     } = this.props;
 
-    const { provinceData } = outreachReducer;
-
-    if (prevProps.primaryData !== primaryData) {
-      // console.log('primaryData primaryData', primaryData);
-    }
+    const {
+      provinceData,
+      districtData,
+      municipalityData,
+    } = outreachReducer;
 
     if (prevProps.outreachReducer.provinceData !== provinceData) {
+      const outreachProvince = provinceData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
       this.setState({
-        filteredMapData: provinceData,
+        filteredMapData: outreachProvince,
       });
     }
 
@@ -66,13 +74,28 @@ class MapboxPartnership extends Component {
         let choroplethData;
         switch (mapViewBy) {
           case 'province':
-            choroplethData = outreachReducer.provinceData;
+            const outreachProvince = provinceData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachProvince;
             break;
           case 'district':
-            choroplethData = outreachReducer.districtData;
+            const outreachDistrict = districtData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachDistrict;
             break;
           case 'municipality':
-            choroplethData = outreachReducer.municipalityData;
+            const outreachMunicipality = municipalityData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachMunicipality;
             break;
           default:
             choroplethData = outreachReducer.provinceDsta;
@@ -260,12 +283,22 @@ class MapboxPartnership extends Component {
     }
   };
 
+  markerEventHandler = e => {
+    this.setState({ markerOpen: true, markerData: e });
+  };
+
+  closeMarker = () => {
+    this.setState({ markerOpen: false });
+  };
+
   render() {
     const {
       filteredMapData,
       hoveredMunicipalityId,
       selectedMuni,
       YesNo,
+      markerOpen,
+      markerData,
     } = this.state;
     const { map } = this.props;
 
@@ -284,10 +317,17 @@ class MapboxPartnership extends Component {
                 setHoveredMunicipalityId={
                   this.setHoveredMunicipalityId
                 }
+                markerEventHandler={this.markerEventHandler}
               />
 
               {hoveredMunicipalityId !== 0 && (
                 <MunicipalityPopUp selectedMuni={selectedMuni} />
+              )}
+              {markerOpen && (
+                <MarkerPopup
+                  markerData={markerData}
+                  closeMarker={this.closeMarker}
+                />
               )}
               <div ref={this.markerRef} />
             </div>

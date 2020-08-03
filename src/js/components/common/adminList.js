@@ -1,7 +1,6 @@
 import province from '../../../data/province.json';
 import dsitrict from '../../../data/district.json';
 import municiplaity from '../../../data/municipality.json';
-import { removeDuplicates } from './removeDuplicates';
 
 export const provinceLists = () => {
   const tempList = province.map(p => ({
@@ -40,7 +39,14 @@ export const municipalityLists = () => {
     value: p.munid,
   }));
 
+  tempList5.sort(function(a, b) {
+    const textA = a.name.toUpperCase();
+    const textB = b.name.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  });
+
   tempList5.unshift({ label: 'All Municipality', value: 'all' });
+
   return tempList5;
 };
 

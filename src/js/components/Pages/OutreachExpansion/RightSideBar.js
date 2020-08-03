@@ -1,3 +1,6 @@
+/* eslint-disable no-var */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable radix */
 /* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
@@ -24,6 +27,29 @@ function numberWithCommas(x) {
   }
   return x;
 }
+
+const getFormattedDate = date => {
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  var month = date.substr(5, 2);
+  var day = date.substr(8, 2);
+
+  const filteredDate = `${monthNames[parseInt(month) - 1]} ${day}`;
+  return filteredDate;
+};
+
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -35,11 +61,14 @@ class RightSideBar extends Component {
       totalBranch: '',
       totalBLB: '',
       totalPartners: '',
+      yearArray: '',
+      filteredPrimaryData: '',
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { outreachReducer, primaryData } = this.props;
+
     if (prevProps.outreachReducer !== outreachReducer) {
       const conditionCheck =
         outreachReducer &&
@@ -95,10 +124,29 @@ class RightSideBar extends Component {
 
       const uniquePartners = removeDuplicates(primaryData, 'partner');
 
+      const dateSorted = primaryData.sort(function(a, b) {
+        return (
+          new Date(a.date_established) - new Date(b.date_established)
+        );
+      });
+
+      const withYearKey = dateSorted.map(data => ({
+        ...data,
+        year: parseInt(data.date_established.substring(0, 4)),
+      }));
+
+      const yearArray = withYearKey.map(data => ({
+        year: data.year,
+      }));
+
+      const uniqueYearArray = removeDuplicates(yearArray, 'year');
+
       this.setState({
         totalBranch,
         totalBLB,
         totalPartners: uniquePartners.length,
+        yearArray: uniqueYearArray,
+        filteredPrimaryData: withYearKey,
       });
     }
   }
@@ -122,6 +170,8 @@ class RightSideBar extends Component {
       totalBranch,
       totalBLB,
       totalPartners,
+      yearArray,
+      filteredPrimaryData,
     } = this.state;
     return (
       <aside
@@ -146,15 +196,16 @@ class RightSideBar extends Component {
               </a>
             ) : (
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-              <a
-                onClick={() => {
-                  setActiveView('visualization');
-                }}
-                role="tab"
-                tabIndex="0"
-              >
-                Back to Visualization
-              </a>
+              // <a
+              //   onClick={() => {
+              //     setActiveView('visualization');
+              //   }}
+              //   role="tab"
+              //   tabIndex="0"
+              // >
+              //   Back to Visualization
+              // </a>
+              <></>
             )}
           </div>
           <div className="aside-body">
@@ -233,74 +284,45 @@ class RightSideBar extends Component {
               <h5>Initiative Timeline</h5>
               <div className="widget-body">
                 <div className="timeline">
-                  <ul className="year">
-                    <div className="date-time">
-                      <time>2015</time>
-                    </div>
-                    <li className="active">
-                      <div className="timeline-content ">
-                        <div className="timeline-text">
-                          <span>1 june</span>
-                          <p>
-                            Year-round 12 module Financial Literacy
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="active">
-                      <div className="timeline-content ">
-                        <div className="timeline-text">
-                          <span>1 june</span>
-                          <p>
-                            Year-round 12 module Financial Literacy
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="">
-                      <div className="timeline-content ">
-                        <div className="timeline-text">
-                          <p>
-                            Year-round 12 module Financial Literacy
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                  <ul className="year">
-                    <div className="date-time">
-                      <time>2016</time>
-                    </div>
-                    <li className="">
-                      <div className="timeline-content ">
-                        <div className="timeline-text">
-                          <span>1 june</span>
-                          <p>
-                            Year-round 12 module Financial Literacy
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="active">
-                      <div className="timeline-content ">
-                        <div className="timeline-text">
-                          <span>1 june</span>
-                          <p>
-                            Year-round 12 module Financial Literacy
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="">
-                      <div className="timeline-content ">
-                        <div className="timeline-text">
-                          <p>
-                            Year-round 12 module Financial Literacy
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
+                  {yearArray &&
+                    yearArray.map(year => {
+                      return (
+                        <ul className="year">
+                          <div className="date-time">
+                            <time>{year.year}</time>
+                          </div>
+                          {filteredPrimaryData &&
+                            filteredPrimaryData.map(data => {
+                              if (data.year === year.year) {
+                                return (
+                                  <li
+                                    className={
+                                      data.point_service === 'Branch'
+                                        ? 'active'
+                                        : ''
+                                    }
+                                  >
+                                    <div className="timeline-content ">
+                                      <div className="timeline-text">
+                                        <span>
+                                          {getFormattedDate(
+                                            data.date_established,
+                                          )}
+                                        </span>
+                                        <p>
+                                          {data.partner} at{' '}
+                                          {data.market_name}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                );
+                              }
+                              return true;
+                            })}
+                        </ul>
+                      );
+                    })}
                 </div>
               </div>
             </div>
