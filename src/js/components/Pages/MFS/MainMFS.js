@@ -8,7 +8,6 @@ import MapboxPartnership from './MapComponents/MapboxPartnership';
 import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
-import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
 import {
   getPartnershipInvestmentFocus,
   getProjectListData,
@@ -54,6 +53,13 @@ import { getCenterBboxProvince } from './common/ProvinceFunction';
 import { getCenterBboxDistrict } from './common/DistrictFunction';
 import { getCenterBboxMunicipality } from './common/MunicipalityFunction';
 import { extendBounds } from '../Automation/MapRelatedComponents/extendBbox';
+import {
+  provinceLists,
+  districtLists,
+  municipalityLists,
+  districtListByProvince,
+  muniByDistrict,
+} from '../../common/adminList';
 
 global.markerList = [];
 function removeMarker() {
@@ -72,7 +78,7 @@ function removeMarker() {
   }
 }
 
-class MainPartnership extends Component {
+class MainMFS extends Component {
   constructor() {
     super();
     this.state = {
@@ -82,6 +88,9 @@ class MainPartnership extends Component {
       partnerSelection: [],
       projectStatus: [],
       partnerType: [],
+      provinceList: provinceLists(),
+      districtList: districtLists(),
+      municipalityList: municipalityLists(),
       selectedProvince: [],
       selectedDistrict: [],
       selectedMunicipality: [],
@@ -215,11 +224,10 @@ class MainPartnership extends Component {
       activeView,
       selectedMunicipality,
       mapViewDataBy,
+      provinceList,
+      districtList,
+      municipalityList,
     } = this.state;
-
-    const {
-      partnershipReducer: { allDistrictList, allMunicipalityList },
-    } = this.props;
 
     if (
       prevState.investmentFocusSelection !== investmentFocusSelection
@@ -303,276 +311,271 @@ class MainPartnership extends Component {
       const filteredList = [];
       removeMarker();
       // console.log(filteredList, 'beforefilter');
-      if (activeView === 'map') {
-        if (mapViewBy === 'province') {
-          if (selectedProvince && selectedProvince.length > 0) {
-            // eslint-disable-next-line array-callback-return
-            // selectedDistrict.map(selectedDist => {
-            //   // console.log(province, 'prv1');
-            //   // eslint-disable-next-line array-callback-return
-            //   // allDistrictList.map(district => {
-            //   //   // console.log(district, 'district');
-            //   //   if (selectedDist.code === district.province_code) {
-            //   //     // console.log(district, 'true');
-            //   filteredList.push(selectedDist);
-            //   //   }
-            //   // });
-            //   // console.log(filtered, 'test filtered');
-            // });
-            // console.log(filteredList, 'dist2 ');
-            map.setFilter('vector-tile-fill', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                selectedProvince.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            map.setFilter('vector-tile-outline', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                selectedProvince.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            let view = 'investment';
-            if (mapViewDataBy === 'allocated_beneficiary') {
-              view = 'total_beneficiary';
-            } else if (mapViewDataBy === 'allocated_budget') {
-              view = 'total_beneficiary';
-            }
-            this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-              view,
-              mapViewBy,
-              {
-                selectedMunicipality: [],
-                selectedDistrict: [],
-                selectedProvince,
-              },
-            );
+      if (mapViewBy === 'province') {
+        if (selectedProvince && selectedProvince.length > 0) {
+          // eslint-disable-next-line array-callback-return
+          // selectedDistrict.map(selectedDist => {
+          //   // console.log(province, 'prv1');
+          //   // eslint-disable-next-line array-callback-return
+          //   // districtList.map(district => {
+          //   //   // console.log(district, 'district');
+          //   //   if (selectedDist.code === district.province_code) {
+          //   //     // console.log(district, 'true');
+          //   filteredList.push(selectedDist);
+          //   //   }
+          //   // });
+          //   // console.log(filtered, 'test filtered');
+          // });
+          // console.log(filteredList, 'dist2 ');
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              selectedProvince.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              selectedProvince.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          let view = 'investment';
+          if (mapViewDataBy === 'allocated_beneficiary') {
+            view = 'total_beneficiary';
+          } else if (mapViewDataBy === 'allocated_budget') {
+            view = 'total_beneficiary';
           }
+          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+            view,
+            mapViewBy,
+            {
+              selectedMunicipality: [],
+              selectedDistrict: [],
+              selectedProvince,
+            },
+          );
         }
-        if (mapViewBy === 'district') {
-          if (selectedDistrict && selectedDistrict.length > 0) {
-            // eslint-disable-next-line array-callback-return
-            // selectedDistrict.map(selectedDist => {
-            //   // console.log(province, 'prv1');
-            //   // eslint-disable-next-line array-callback-return
-            //   // allDistrictList.map(district => {
-            //   //   // console.log(district, 'district');
-            //   //   if (selectedDist.code === district.province_code) {
-            //   //     // console.log(district, 'true');
-            //   filteredList.push(selectedDist);
-            //   //   }
-            //   // });
-            //   // console.log(filtered, 'test filtered');
-            // });
-            // console.log(filteredList, 'dist2 ');
-            map.setFilter('vector-tile-fill', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                selectedDistrict.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            map.setFilter('vector-tile-outline', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                selectedDistrict.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            let view = 'investment';
-            if (mapViewDataBy === 'allocated_beneficiary') {
-              view = 'total_beneficiary';
-            } else if (mapViewDataBy === 'allocated_budget') {
-              view = 'total_beneficiary';
-            }
-            this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-              view,
-              mapViewBy,
-              {
-                selectedMunicipality: [],
-                selectedDistrict: filteredList,
-                selectedProvince: [],
-              },
-            );
-          } else if (
-            selectedProvince &&
-            selectedProvince.length > 0
-          ) {
-            // alert('province Selection on district');
-            // eslint-disable-next-line array-callback-return
-            selectedProvince.map(province => {
-              // console.log(province, 'prv1');
-              // eslint-disable-next-line array-callback-return
-              allDistrictList.map(district => {
-                // console.log(district, 'district');
-                if (province.code === district.province_code) {
-                  // console.log(district, 'true');
-                  filteredList.push(district);
-                }
-              });
-              // console.log(filtered, 'test filtered');
-            });
-            console.log(filteredList, 'dist2 ');
-            map.setFilter('vector-tile-fill', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                filteredList.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            map.setFilter('vector-tile-outline', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                filteredList.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            let view = 'investment';
-            if (mapViewDataBy === 'allocated_beneficiary') {
-              view = 'total_beneficiary';
-            } else if (mapViewDataBy === 'allocated_budget') {
-              view = 'total_beneficiary';
-            }
-            this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-              view,
-              mapViewBy,
-              {
-                selectedMunicipality: [],
-                selectedDistrict: filteredList,
-                selectedProvince: [],
-              },
-            );
-            // console.log(intersection, 'filteredDistrictList');
+      }
+      if (mapViewBy === 'district') {
+        if (selectedDistrict && selectedDistrict.length > 0) {
+          // eslint-disable-next-line array-callback-return
+          // selectedDistrict.map(selectedDist => {
+          //   // console.log(province, 'prv1');
+          //   // eslint-disable-next-line array-callback-return
+          //   // districtList.map(district => {
+          //   //   // console.log(district, 'district');
+          //   //   if (selectedDist.code === district.province_code) {
+          //   //     // console.log(district, 'true');
+          //   filteredList.push(selectedDist);
+          //   //   }
+          //   // });
+          //   // console.log(filtered, 'test filtered');
+          // });
+          // console.log(filteredList, 'dist2 ');
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              selectedDistrict.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              selectedDistrict.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          let view = 'investment';
+          if (mapViewDataBy === 'allocated_beneficiary') {
+            view = 'total_beneficiary';
+          } else if (mapViewDataBy === 'allocated_budget') {
+            view = 'total_beneficiary';
           }
-        } else if (mapViewBy === 'municipality') {
-          if (selectedProvince && selectedProvince.length > 0) {
+          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+            view,
+            mapViewBy,
+            {
+              selectedMunicipality: [],
+              selectedDistrict: filteredList,
+              selectedProvince: [],
+            },
+          );
+        } else if (selectedProvince && selectedProvince.length > 0) {
+          // alert('province Selection on district');
+          // eslint-disable-next-line array-callback-return
+          selectedProvince.map(province => {
+            // console.log(province, 'prv1');
             // eslint-disable-next-line array-callback-return
-            selectedProvince.map(province => {
-              // console.log(province, 'prv1');
-              // eslint-disable-next-line array-callback-return
-              allMunicipalityList.map(district => {
-                // console.log(district, 'dist');
-                if (province.code === district.province_code) {
-                  // console.log(district, 'true');
-                  filteredList.push(district);
-                }
-              });
+            districtList.map(district => {
+              // console.log(district, 'district');
+              if (province.code === district.province_code) {
+                // console.log(district, 'true');
+                filteredList.push(district);
+              }
             });
-            // console.log(filteredList, 'test filtered');
-            // console.log(filteredList, 'dist2 ');
-            map.setFilter('vector-tile-fill', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                filteredList.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            map.setFilter('vector-tile-outline', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                filteredList.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            let view = 'investment';
-            if (mapViewDataBy === 'allocated_beneficiary') {
-              view = 'total_beneficiary';
-            } else if (mapViewDataBy === 'allocated_budget') {
-              view = 'total_beneficiary';
-            }
-            this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-              view,
-              mapViewBy,
-              {
-                selectedMunicipality: filteredList,
-                selectedDistrict: [],
-                selectedProvince: [],
-              },
-            );
+            // console.log(filtered, 'test filtered');
+          });
+          console.log(filteredList, 'dist2 ');
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          let view = 'investment';
+          if (mapViewDataBy === 'allocated_beneficiary') {
+            view = 'total_beneficiary';
+          } else if (mapViewDataBy === 'allocated_budget') {
+            view = 'total_beneficiary';
           }
-          if (selectedDistrict && selectedDistrict.length > 0) {
-            // console.log(selectedProvince);
-            // let filtered = null;
-            // const intersection = allDistrictList.filter(element =>
-            //   selectedProvince.includes(element.province_id),
-            // );
+          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+            view,
+            mapViewBy,
+            {
+              selectedMunicipality: [],
+              selectedDistrict: filteredList,
+              selectedProvince: [],
+            },
+          );
+          // console.log(intersection, 'filteredDistrictList');
+        }
+      } else if (mapViewBy === 'municipality') {
+        if (selectedProvince && selectedProvince.length > 0) {
+          // eslint-disable-next-line array-callback-return
+          selectedProvince.map(province => {
+            // console.log(province, 'prv1');
             // eslint-disable-next-line array-callback-return
-            selectedDistrict.map(province => {
-              // console.log(province, 'prv1');
-              // eslint-disable-next-line array-callback-return
-              allMunicipalityList.map(district => {
-                // console.log(district, 'dist');
-                if (province.code === district.district_code) {
-                  filteredList.push(district);
-                }
-              });
+            municipalityList.map(district => {
+              // console.log(district, 'dist');
+              if (province.code === district.province_code) {
+                // console.log(district, 'true');
+                filteredList.push(district);
+              }
             });
-            // console.log(filteredList, 'test filtered');
-            // console.log(filteredList, 'dist2 ');
-            map.setFilter('vector-tile-fill', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                filteredList.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            map.setFilter('vector-tile-outline', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                filteredList.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            let view = 'investment';
-            if (mapViewDataBy === 'allocated_beneficiary') {
-              view = 'total_beneficiary';
-            } else if (mapViewDataBy === 'allocated_budget') {
-              view = 'total_beneficiary';
-            }
-            this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-              view,
-              mapViewBy,
-              {
-                selectedMunicipality: filteredList,
-                selectedDistrict: [],
-                selectedProvince: [],
-              },
-            );
+          });
+          // console.log(filteredList, 'test filtered');
+          // console.log(filteredList, 'dist2 ');
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          let view = 'investment';
+          if (mapViewDataBy === 'allocated_beneficiary') {
+            view = 'total_beneficiary';
+          } else if (mapViewDataBy === 'allocated_budget') {
+            view = 'total_beneficiary';
+          }
+          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+            view,
+            mapViewBy,
+            {
+              selectedMunicipality: filteredList,
+              selectedDistrict: [],
+              selectedProvince: [],
+            },
+          );
+        }
+        if (selectedDistrict && selectedDistrict.length > 0) {
+          // console.log(selectedProvince);
+          // let filtered = null;
+          // const intersection = districtList.filter(element =>
+          //   selectedProvince.includes(element.province_id),
+          // );
+          // eslint-disable-next-line array-callback-return
+          selectedDistrict.map(province => {
+            // console.log(province, 'prv1');
+            // eslint-disable-next-line array-callback-return
+            municipalityList.map(district => {
+              // console.log(district, 'dist');
+              if (province.code === district.district_code) {
+                filteredList.push(district);
+              }
+            });
+          });
+          // console.log(filteredList, 'test filtered');
+          // console.log(filteredList, 'dist2 ');
+          map.setFilter('vector-tile-fill', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          map.setFilter('vector-tile-outline', [
+            'in',
+            ['get', 'code'],
+            [
+              'literal',
+              filteredList.map(fed => {
+                return fed.code.toString();
+              }),
+            ],
+          ]);
+          let view = 'investment';
+          if (mapViewDataBy === 'allocated_beneficiary') {
+            view = 'total_beneficiary';
+          } else if (mapViewDataBy === 'allocated_budget') {
+            view = 'total_beneficiary';
+          }
+          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+            view,
+            mapViewBy,
+            {
+              selectedMunicipality: filteredList,
+              selectedDistrict: [],
+              selectedProvince: [],
+            },
+          );
 
-            // console.log(intersection, 'filteredDistrictList');
-          }
+          // console.log(intersection, 'filteredDistrictList');
         }
       }
     }
@@ -659,10 +662,15 @@ class MainPartnership extends Component {
   // handleStateLevel = () => {};
 
   handleStateLevel = clickedValue => {
-    const { map } = this.state;
     const {
-      partnershipReducer: { allMunicipalityList, allDistrictList },
-    } = this.props;
+      map,
+      provinceList,
+      districtList,
+      municipalityList,
+    } = this.state;
+    // const {
+    //   partnershipReducer: { municipalityList, districtList },
+    // } = this.props;
     console.log(clickedValue, 'clickedValue');
     // console.log(e.target.value, 'target value');
     const {
@@ -771,7 +779,7 @@ class MainPartnership extends Component {
           //   .join('&');
           const filteredMunFromDist = [];
           selectedDistrict.forEach(dist => {
-            allMunicipalityList.forEach(mun => {
+            municipalityList.forEach(mun => {
               if (dist.code === mun.district_code) {
                 filteredMunFromDist.push(mun);
               }
@@ -831,7 +839,7 @@ class MainPartnership extends Component {
           selectedProvince.forEach(province => {
             // console.log(province, 'prv1');
             // eslint-disable-next-line array-callback-return
-            allMunicipalityList.forEach(district => {
+            municipalityList.forEach(district => {
               // console.log(district, 'district');
               if (province.code === district.province_code) {
                 // console.log(district, 'true');
@@ -980,7 +988,7 @@ class MainPartnership extends Component {
           selectedProvince.forEach(province => {
             // console.log(province, 'prv1');
             // eslint-disable-next-line array-callback-return
-            allDistrictList.forEach(district => {
+            districtList.forEach(district => {
               // console.log(district, 'district');
               if (province.code === district.province_code) {
                 // console.log(district, 'true');
@@ -1419,56 +1427,6 @@ class MainPartnership extends Component {
         partnerType,
         partnerSelection,
       );
-      this.props.filterFinancialDataWithAllFiltersAndFederal(
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-        investmentFocusSelection,
-        viewDataBy,
-        partnerType,
-        partnerSelection,
-        projectSelection,
-        projectStatus,
-      );
-      // this.props.filterFinancialDataWithAllFilters(
-      //   'province',
-      //   investmentFocusSelection,
-      //   viewDataBy,
-      //   partnerType,
-      //   partnerSelection,
-      //   projectSelection,
-      //   projectStatus,
-      // );
-      this.props.filterBarDataByInvestment(
-        'province',
-        viewDataBy,
-        partnerType,
-        partnerSelection,
-        projectSelection,
-        projectStatus,
-        investmentFocusSelection,
-      );
-      this.props.filterRadialData(
-        viewDataBy,
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        projectStatus,
-      );
-      // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
-      //   return data.
-      // })
-      this.props.filterSankeyChartData(
-        viewDataBy,
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        projectStatus,
-      );
-      this.props.filterLeverageData(
-        investmentFocusSelection,
-        projectSelection,
-      );
     } else {
       this.props.filterMapChoropleth(
         investmentFocusSelection,
@@ -1497,83 +1455,25 @@ class MainPartnership extends Component {
       activeView,
       map,
     } = this.state;
-    if (activeView === 'visualization') {
-      this.props.filterFinancialDataWithAllFiltersAndFederal(
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-        investmentFocusSelection,
-        viewDataBy,
-        partnerType,
-        partnerSelection,
-        projectSelection,
-        projectStatus,
-      );
-      this.props.filterOverviewData(
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-      );
-      this.props.filterRadialData(
-        viewDataBy,
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        projectStatus,
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-      );
-    } else {
-      this.props.filterOverviewData(
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-      );
-      // this.props.filterMapDataWithFederal();
-      this.handleStateLevel(mapViewBy);
-
-      // if (
-      //   selectedProvince.length === 0 &&
-      //   selectedDistrict.length === 0 &&
-      //   selectedMunicipality.length === 0
-      // ) {
-      //   let view = 'investment';
-      //   if (this.state.mapViewDataBy === 'allocated_beneficiary') {
-      //     view = 'total_beneficiary';
-      //   } else if (this.state.mapViewDataBy === 'allocated_budget') {
-      //     view = 'total_beneficiary';
-      //   }
-      //   this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-      //     view,
-      //     mapViewBy,
-      //     {
-      //       selectedMunicipality: [],
-      //       selectedDistrict: [],
-      //       selectedProvince: [],
-      //     },
-      //   );
-      //   this.state.map.setFilter('vector-tile-fill', null);
-      //   this.state.map.setFilter('vector-tile-outline', null);
-      //   const combinedBbox = [];
-      //   const getBboxValue = getCenterBboxProvince([
-      //     1,
-      //     2,
-      //     3,
-      //     4,
-      //     5,
-      //     6,
-      //     7,
-      //   ]);
-      //   getBboxValue.map(data => {
-      //     combinedBbox.push(data.bbox);
-      //     return true;
-      //   });
-      //   const extendedValue = extendBounds(combinedBbox);
-      //   map.fitBounds(extendedValue);
-      // }
-    }
+    // if (activeView === 'visualization') {
+    //   this.props.filterOverviewData(
+    //     investmentFocusSelection,
+    //     projectSelection,
+    //     partnerType,
+    //     partnerSelection,
+    //     { selectedMunicipality, selectedDistrict, selectedProvince },
+    //   );
+    // } else {
+    // this.props.filterOverviewData(
+    //   investmentFocusSelection,
+    //   projectSelection,
+    //   partnerType,
+    //   partnerSelection,
+    //   { selectedMunicipality, selectedDistrict, selectedProvince },
+    // );
+    // this.props.filterMapDataWithFederal();
+    this.handleStateLevel(mapViewBy);
+    // }
   };
 
   resetLeftSideBarSelection = () => {
@@ -1581,7 +1481,6 @@ class MainPartnership extends Component {
       investmentFocusSelection: [],
       partnerSelection: [],
       projectSelection: [],
-      partnerType: [],
     });
   };
 
@@ -1593,15 +1492,11 @@ class MainPartnership extends Component {
       selectedProvince: [],
       selectedDistrict: [],
       selectedMunicipality: [],
-      partnerType: [],
     });
     if (activeView === 'visualization') {
       // this.props.resetRadialData();
-      this.props.resetSankeyChartData();
+
       this.props.resetOverviewData();
-      this.props.resetLeverageData();
-      this.props.resetBarDatas();
-      this.props.resetBarDataByInvestmentFocus();
     } else {
       this.props.resetOverviewData();
       this.setMapViewBy(mapViewBy);
@@ -1610,21 +1505,7 @@ class MainPartnership extends Component {
         selectedDistrict: [],
         selectedMunicipality: [],
       });
-      let view = 'investment';
-      if (this.state.mapViewDataBy === 'allocated_beneficiary') {
-        view = 'total_beneficiary';
-      } else if (this.state.mapViewDataBy === 'allocated_budget') {
-        view = 'total_beneficiary';
-      }
-      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-        view,
-        mapViewBy,
-        {
-          selectedMunicipality: [],
-          selectedDistrict: [],
-          selectedProvince: [],
-        },
-      );
+
       const combinedBbox = [];
       // console.log(selectedProvince, 'selectedProvine');
       const getBboxValue = getCenterBboxProvince([
@@ -1668,15 +1549,13 @@ class MainPartnership extends Component {
         selectedProvince,
         selectedDistrict,
         selectedMunicipality,
+        provinceList,
+        districtList,
+        municipalityList,
       },
       // props: {},
     } = this;
-    const {
-      isDataFetched,
-      allProvinceList,
-      allDistrictList,
-      allMunicipalityList,
-    } = this.props.partnershipReducer;
+
     const sankeyChartwidth =
       document.getElementById('sankeyChart') &&
       document.getElementById('sankeyChart').offsetWidth;
@@ -1720,11 +1599,11 @@ class MainPartnership extends Component {
           />
           <main className="main">
             <div className="main-card literacy-main-card">
-              <Loading
+              {/* <Loading
                 loaderState={!isDataFetched}
                 top="50%"
                 left="46%"
-              />
+              /> */}
               <div
                 className={`partnership-filter ${
                   activeView === 'map' ? 'is-position' : ''
@@ -1811,9 +1690,7 @@ class MainPartnership extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
-                            options={
-                              allProvinceList && allProvinceList
-                            }
+                            options={provinceList}
                             onChange={selectedOptions => {
                               this.setState({
                                 selectedProvince: selectedOptions,
@@ -1828,9 +1705,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select District"
-                              options={
-                                allDistrictList && allDistrictList
-                              }
+                              options={districtList}
                               onChange={selectedOptions => {
                                 this.setState({
                                   selectedDistrict: selectedOptions,
@@ -1845,10 +1720,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select Municipality"
-                              options={
-                                allMunicipalityList &&
-                                allMunicipalityList
-                              }
+                              options={municipalityList}
                               onChange={selectedOptions => {
                                 this.setState({
                                   selectedMunicipality: selectedOptions,
@@ -2033,67 +1905,25 @@ class MainPartnership extends Component {
                 </div>
               </div>
               <div className="literacy-tab-content">
-                <MiddleChartSection
-                  resetLeftSideBarSelection={
-                    this.resetLeftSideBarSelection
-                  }
-                  groupedStackData={[
-                    {
-                      investmentFocusSelection,
-                      viewDataBy,
-                      partnerType,
-                      partnerSelection,
-                      projectSelection,
-                      projectStatus,
-                    },
-                  ]}
-                  resetFilters={this.resetFilters}
-                  viewDataBy={viewDataBy}
-                  mapViewDataBy={mapViewDataBy}
-                  sankeyChartwidth={sankeyChartwidth}
-                  activeOverview={activeOverview}
-                  activeView={activeView}
-                  investmentFocusSelection={investmentFocusSelection}
-                  partnerSelection={partnerSelection}
-                  partnerTypeSelection={partnerType}
-                  projectSelection={projectSelection}
-                  projectStatus={projectStatus}
-                  showBarof={showBarof}
-                  handleShowBarOf={this.handleShowBarOf}
-                  showBarofInvestmentBudgetBenef={
-                    showBarofInvestmentBudgetBenef
-                  }
-                  handleShowBarOfInvestmentBudgetBenefBar={
-                    this.handleShowBarOfInvestmentBudgetBenefBar
-                  }
-                  applyBtnClick={this.applyBtnClick}
-                />
-                <div
-                  className="literacy-tab-item"
-                  style={
-                    activeView === 'map'
-                      ? { display: 'block' }
-                      : { display: 'none' }
-                  }
-                >
+                <div className="literacy-tab-item">
                   {/* <div id="map" className="map"> */}
-                  {activeView === 'map' && (
-                    <MapboxPartnership
-                      selectedProvince={selectedProvince}
-                      selectedDistrict={selectedDistrict}
-                      selectedMunicipality={selectedMunicipality}
-                      handleProvinceClick={this.handleProvinceClick}
-                      addMap={this.addMap}
-                      handleFederalClickOnMap={
-                        this.handleFederalClickOnMap
-                      }
-                      map={map}
-                      vectorTileUrl={vectorTileUrl}
-                      mapViewBy={mapViewBy}
-                      mapViewDataBy={mapViewDataBy}
-                      setMapViewBy={this.setMapViewBy}
-                    />
-                  )}
+                  {/* {activeView === 'map' && ( */}
+                  <MapboxPartnership
+                    selectedProvince={selectedProvince}
+                    selectedDistrict={selectedDistrict}
+                    selectedMunicipality={selectedMunicipality}
+                    handleProvinceClick={this.handleProvinceClick}
+                    addMap={this.addMap}
+                    handleFederalClickOnMap={
+                      this.handleFederalClickOnMap
+                    }
+                    map={map}
+                    vectorTileUrl={vectorTileUrl}
+                    mapViewBy={mapViewBy}
+                    mapViewDataBy={mapViewDataBy}
+                    setMapViewBy={this.setMapViewBy}
+                  />
+                  {/* )} */}
                   {/* </div> */}
                 </div>
               </div>
@@ -2138,8 +1968,8 @@ class MainPartnership extends Component {
     );
   }
 }
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ Mfsreducer }) => ({
+  Mfsreducer,
 });
 export default connect(mapStateToProps, {
   getPartnershipInvestmentFocus,
@@ -2178,4 +2008,4 @@ export default connect(mapStateToProps, {
   resetBarDataByInvestmentFocus,
   filterMapChoropleth,
   filterMapDataOfCircleMarkerWithViewDataBy,
-})(MainPartnership);
+})(MainMFS);
