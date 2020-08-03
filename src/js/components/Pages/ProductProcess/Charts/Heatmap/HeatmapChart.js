@@ -364,19 +364,10 @@ class HeatmapChart extends React.Component {
       },
     };
 
-    this.setState(preState => ({
+    this.setState({
       series: heatMapData,
       options,
-      // options: {
-      //   ...preState.options,
-      //   yaxis: {
-      //     ...preState.options.yaxis,
-      //     labels: {
-      //       ...preState.options.yaxis.labels,
-      //     },
-      //   },
-      // },
-    }));
+    });
   };
 
   componentDidMount() {
@@ -406,12 +397,18 @@ class HeatmapChart extends React.Component {
       if (window.innerWidth > 1600) {
         height = 900;
         // width = 1500;
-      } else if (window.innerWidth < 1600) {
+      } else if (
+        window.innerWidth < 1600 &&
+        window.innerWidth > 1400
+      ) {
         height = 570;
         // width = 1000;
-        // } else if (window.innerWidth < 1600) {
-        //   height = 570;
-        //   width = 1000;
+        // } else if (window.innerWidth < 1400) {
+        //   height = 450;
+        //   // width = 1000;
+        // }
+      } else {
+        height = 200;
       }
     } else {
       // height = 425;
@@ -431,7 +428,7 @@ class HeatmapChart extends React.Component {
 
     return (
       <div
-        id="chart"
+        id="heatmap-chart"
         // style={{ paddingLeft: '30px' }}
         // style={{ width: 'auto' }}
       >
