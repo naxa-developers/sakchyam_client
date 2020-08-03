@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable radix */
 /* eslint-disable react/no-did-update-set-state */
@@ -26,6 +27,29 @@ function numberWithCommas(x) {
   }
   return x;
 }
+
+const getFormattedDate = date => {
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  var month = date.substr(5, 2);
+  var day = date.substr(8, 2);
+
+  const filteredDate = `${monthNames[parseInt(month) - 1]} ${day}`;
+  return filteredDate;
+};
+
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -281,7 +305,9 @@ class RightSideBar extends Component {
                                     <div className="timeline-content ">
                                       <div className="timeline-text">
                                         <span>
-                                          {data.date_established}
+                                          {getFormattedDate(
+                                            data.date_established,
+                                          )}
                                         </span>
                                         <p>
                                           {data.partner} at{' '}

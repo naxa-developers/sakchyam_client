@@ -188,7 +188,7 @@ class PlotVector extends Component {
     }
 
     const max = Math.max.apply(null, Object.values(data));
-    const min = 0;
+    const min = Math.min.apply(null, Object.values(data));
 
     range =
       (max - min) / (gradeCount - 1) < 1
@@ -203,7 +203,7 @@ class PlotVector extends Component {
       grade: fullRange.length > 0 ? fullRange : range,
     });
 
-    // console.log('grage value', range);
+    console.log('grage value', range);
 
     setTimeout(() => {
       this.ChangeLegendColors();
@@ -336,6 +336,17 @@ class PlotVector extends Component {
         that.props.setHoveredMunicipalityId(0);
       });
     });
+
+    map.on('style.load', () => {
+      const waiting = () => {
+        if (!map.isStyleLoaded()) {
+          setTimeout(waiting, 200);
+        } else {
+          that.props.loadingHandler();
+        }
+      };
+      waiting();
+    });
   };
 
   getLegendColor(value) {
@@ -385,7 +396,6 @@ class PlotVector extends Component {
         ? localOutreachSelected
         : 'Points of Service';
 
-    // console.log('markerCollection', this.state.stateMarker);
     return (
       <>
         <div className="map-legend newmap-legend">

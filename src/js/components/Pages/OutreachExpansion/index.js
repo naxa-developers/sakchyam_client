@@ -9,9 +9,7 @@ import MapboxPartnership from './MapComponents/MapboxPartnership';
 import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
-import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
 import ListByView from './ViewByList';
-import { getFilteredMapData } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
 import { getCenterBboxProvince } from './common/ProvinceFunction';
@@ -63,6 +61,7 @@ class MainPartnership extends Component {
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       localOutreachSelected: '',
+      loading: true,
     };
   }
 
@@ -81,7 +80,6 @@ class MainPartnership extends Component {
         });
       }
     });
-    // this.props.getMunicipalityData();
     this.props.fetchOutreachPrimaryData();
     this.props.fetchOutreachSecondaryData();
     this.props.fetchOutreachChoropleth();
@@ -196,7 +194,6 @@ class MainPartnership extends Component {
     this.setState({
       mapViewBy: selectedMapView,
     });
-    this.props.getFilteredMapData(selectedMapView);
     this.setState({
       vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
     });
@@ -882,6 +879,10 @@ class MainPartnership extends Component {
     }
   };
 
+  loadingHandler = () => {
+    this.setState({ loading: false });
+  };
+
   render() {
     const {
       state: {
@@ -906,8 +907,11 @@ class MainPartnership extends Component {
         isAllPartnerSelected,
         isAllInvestmentFocusSelected,
         selectedProvince,
+        loading,
       },
     } = this;
+
+    // console.log('loading', loading);
 
     return (
       <>
@@ -943,11 +947,7 @@ class MainPartnership extends Component {
           />
           <main className="main">
             <div className="main-card literacy-main-card">
-              {/* <Loading
-                loaderState={!isDataFetched}
-                top="50%"
-                left="46%"
-              /> */}
+              <Loading loaderState={loading} top="50%" left="46%" />
               <div
                 className={`partnership-filter ${
                   activeView === 'map' ? 'is-position' : ''
@@ -1051,30 +1051,6 @@ class MainPartnership extends Component {
                 />
               </div>
               <div className="literacy-tab-content">
-                {/* <MiddleChartSection
-                  resetLeftSideBarSelection={
-                    this.resetLeftSideBarSelection
-                  }
-                  resetFilters={this.resetFilters}
-                  viewDataBy={viewDataBy}
-                  mapViewDataBy={mapViewDataBy}
-                  sankeyChartwidth={sankeyChartwidth}
-                  activeOverview={activeOverview}
-                  activeView={activeView}
-                  expsnsionSelection={expsnsionSelection}
-                  partnerSelection={partnerSelection}
-                  projectSelection={projectSelection}
-                  projectStatus={projectStatus}
-                  showBarof={showBarof}
-                  handleShowBarOf={this.handleShowBarOf}
-                  showBarofInvestmentBudgetBenef={
-                    showBarofInvestmentBudgetBenef
-                  }
-                  handleShowBarOfInvestmentBudgetBenefBar={
-                    this.handleShowBarOfInvestmentBudgetBenefBar
-                  }
-                  applyBtnClick={this.applyBtnClick}
-                /> */}
                 <div
                   className="literacy-tab-item"
                   style={
@@ -1096,6 +1072,7 @@ class MainPartnership extends Component {
                       handleFederalClickOnMap={
                         this.handleFederalClickOnMap
                       }
+                      loadingHandler={this.loadingHandler}
                     />
                   )}
                 </div>
@@ -1123,6 +1100,5 @@ const mapStateToProps = ({ outreachReducer }) => ({
 export default connect(mapStateToProps, {
   fetchOutreachChoropleth,
   fetchOutreachPrimaryData,
-  getFilteredMapData,
   fetchOutreachSecondaryData,
 })(MainPartnership);

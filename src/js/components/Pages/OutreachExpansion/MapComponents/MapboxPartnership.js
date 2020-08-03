@@ -36,15 +36,20 @@ class MapboxPartnership extends Component {
       primaryData,
     } = this.props;
 
-    const { provinceData } = outreachReducer;
-
-    if (prevProps.primaryData !== primaryData) {
-      // console.log('primaryData primaryData', primaryData);
-    }
+    const {
+      provinceData,
+      districtData,
+      municipalityData,
+    } = outreachReducer;
 
     if (prevProps.outreachReducer.provinceData !== provinceData) {
+      const outreachProvince = provinceData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
       this.setState({
-        filteredMapData: provinceData,
+        filteredMapData: outreachProvince,
       });
     }
 
@@ -69,13 +74,28 @@ class MapboxPartnership extends Component {
         let choroplethData;
         switch (mapViewBy) {
           case 'province':
-            choroplethData = outreachReducer.provinceData;
+            const outreachProvince = provinceData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachProvince;
             break;
           case 'district':
-            choroplethData = outreachReducer.districtData;
+            const outreachDistrict = districtData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachDistrict;
             break;
           case 'municipality':
-            choroplethData = outreachReducer.municipalityData;
+            const outreachMunicipality = municipalityData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachMunicipality;
             break;
           default:
             choroplethData = outreachReducer.provinceDsta;
