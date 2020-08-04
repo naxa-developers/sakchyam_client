@@ -545,6 +545,7 @@ class Sunburst extends React.Component {
     const c = d.data.color
       ? d3Hsl(d.data.color)
       : d3Hsl(colorshift, thishsl.s, thishsl.l);
+      // return (this.props.colorFunc || this.props.colorFunc(d,c)) || c
     return c || this.props.colorFunc || this.props.colorFunc(d, c);
   }
 

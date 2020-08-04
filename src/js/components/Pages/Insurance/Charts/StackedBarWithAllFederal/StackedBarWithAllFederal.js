@@ -8,7 +8,7 @@ import {
 } from '../../../../../actions/partnership.actions';
 import convert from '../../../../utils/convertNumbers';
 
-class StackedBarWithProvince extends Component {
+class StackedBarWithAllFederal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -283,6 +283,7 @@ class StackedBarWithProvince extends Component {
     // console.log(newArray, 'newArray');
     // console.log(Math.max(...newArray));
     const maxValue = Math.max(...newArray);
+    console.log(maxValue, 'maxValue');
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     // const series = [
     //   {
@@ -327,6 +328,8 @@ class StackedBarWithProvince extends Component {
             if (clicked !== undefined) {
               const {
                 partnerSelection,
+                investmentFocusSelection,
+                partnerTypeSelection,
                 projectSelection,
                 projectStatus,
                 showBarof,
@@ -346,11 +349,12 @@ class StackedBarWithProvince extends Component {
                     );
                   },
                 );
-                // console.log(filteredProvinceId, 'filteredProvinceId');
+                console.log(filteredProvinceId, 'filteredProvinceId');
                 const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
                   data => {
                     return (
-                      data.province_id === filteredProvinceId[0].id
+                      data.province_code ===
+                      filteredProvinceId[0].code
                     );
                   },
                 );
@@ -359,11 +363,14 @@ class StackedBarWithProvince extends Component {
                   return data.n_code;
                 });
                 that.props.handleShowBarOf('Districts');
+                console.log(districtIdList, 'distrList');
                 // console.log(districtIdList, 'districtIdList');
                 that.props.filterFinancialDataOfDistrictFromProvince(
                   that.props.viewDataBy,
                   districtIdList,
+                  investmentFocusSelection,
                   partnerSelection,
+                  partnerTypeSelection,
                   projectSelection,
                   projectStatus,
                 );
@@ -379,7 +386,8 @@ class StackedBarWithProvince extends Component {
                 const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
                   data => {
                     return (
-                      data.district_id === filteredDistrictId[0].id
+                      data.district_code ===
+                      filteredDistrictId[0].code
                     );
                   },
                 );
@@ -394,7 +402,9 @@ class StackedBarWithProvince extends Component {
                 that.props.filterFinancialDataOfMunicipalityFromDistrict(
                   that.props.viewDataBy,
                   districtIdList,
+                  investmentFocusSelection,
                   partnerSelection,
+                  partnerTypeSelection,
                   projectSelection,
                   projectStatus,
                 );
@@ -447,6 +457,7 @@ class StackedBarWithProvince extends Component {
 
             // return 10000;
             // global.totalMaxValue = max / 120;
+            console.log(maxValue, 'yaxis Maxvalue');
             return maxValue;
           },
           axisTicks: {
@@ -500,6 +511,7 @@ class StackedBarWithProvince extends Component {
 
             // return 10000;
             // global.totaMaxValue = max / 35;
+
             return maxValue;
           },
           seriesName: 'Incomessss',
@@ -612,10 +624,11 @@ class StackedBarWithProvince extends Component {
     return (
       <div id="stacked_chart">
         <ReactApexChart
+          key={series}
           options={options}
           series={series}
           type="bar"
-          height={activeModal ? 600 : 350}
+          height={activeModal ? 550 : 350}
           // width={activeModal === true ? 1600 : '100%'}
         />
       </div>
@@ -628,4 +641,4 @@ const mapStateToProps = ({ partnershipReducer }) => ({
 export default connect(mapStateToProps, {
   filterFinancialDataOfDistrictFromProvince,
   filterFinancialDataOfMunicipalityFromDistrict,
-})(StackedBarWithProvince);
+})(StackedBarWithAllFederal);
