@@ -1,67 +1,51 @@
-/* eslint-disable react/no-unused-state */
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
 
-class DiagramSection extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isRedActive: false,
-      isBlueActive: false,
-      isGreenActive: false,
-    };
-  }
+const DiagramSection = () => {
+  const [isRedActive, setIsRedActive] = useState(false);
+  const [isBlueActive, setIsBlueActive] = useState(false);
+  const [isGreenActive, setIsGreenActive] = useState(false);
 
-  onRedClick = () => {
-    this.setState(prev => ({
-      isRedActive: !prev.isRedActive,
-      isBlueActive: false,
-      isGreenActive: false,
-    }));
+  const onRedClick = () => {
+    setIsRedActive(!isRedActive);
+    setIsBlueActive(false);
+    setIsGreenActive(false);
   };
 
-  onBlueClick = () => {
-    this.setState(prev => ({
-      isBlueActive: !prev.isBlueActive,
-      isRedActive: false,
-      isGreenActive: false,
-    }));
+  const onBlueClick = () => {
+    setIsBlueActive(!isBlueActive);
+    setIsRedActive(false);
+    setIsGreenActive(false);
   };
 
-  onGreenClick = () => {
-    this.setState(prev => ({
-      isGreenActive: !prev.isGreenActive,
-      isRedActive: false,
-      isBlueActive: false,
-    }));
+  const onGreenClick = () => {
+    setIsGreenActive(!isGreenActive);
+    setIsRedActive(false);
+    setIsBlueActive(false);
   };
 
-  render() {
-    const { isRedActive, isBlueActive, isGreenActive } = this.state;
+  return (
+    <main className="payment-system">
+      <LeftPortion
+        isRedActive={isRedActive}
+        isBlueActive={isBlueActive}
+        isGreenActive={isGreenActive}
+        onRedClick={onRedClick}
+        onBlueClick={onBlueClick}
+        onGreenClick={onGreenClick}
+      />
 
-    return (
-      <main className="payment-system">
-        <LeftPortion
-          isRedActive={isRedActive}
-          isBlueActive={isBlueActive}
-          isGreenActive={isGreenActive}
-          onRedClick={this.onRedClick}
-          onBlueClick={this.onBlueClick}
-          onGreenClick={this.onGreenClick}
-        />
-
-        <RightPortion
-          isRedActive={isRedActive}
-          isBlueActive={isBlueActive}
-          isGreenActive={isGreenActive}
-          onRedClick={this.onRedClick}
-          onBlueClick={this.onBlueClick}
-          onGreenClick={this.onGreenClick}
-        />
-      </main>
-    );
-  }
-}
+      <RightPortion
+        isRedActive={isRedActive}
+        isBlueActive={isBlueActive}
+        isGreenActive={isGreenActive}
+        onRedClick={onRedClick}
+        onBlueClick={onBlueClick}
+        onGreenClick={onGreenClick}
+      />
+    </main>
+  );
+};
 
 export default DiagramSection;
