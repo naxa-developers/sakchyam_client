@@ -413,6 +413,11 @@ class StackedBarWithAllFederal extends Component {
           },
         },
       },
+      plotOptions: {
+        bar: {
+          columnWidth: '20%',
+        },
+      },
       dataLabels: {
         enabled: false,
       },
@@ -628,7 +633,7 @@ class StackedBarWithAllFederal extends Component {
           options={options}
           series={series}
           type="bar"
-          height={activeModal ? 550 : 350}
+          height={activeModal && window.innerWidth < 1400 ? 490 : 600}
           // width={activeModal === true ? 1600 : '100%'}
         />
       </div>

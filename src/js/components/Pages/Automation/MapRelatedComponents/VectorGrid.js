@@ -73,7 +73,7 @@ class VectorGridComponent extends Component {
         var data = [];
         
         var colorArrayLength = this.props.colorArray && this.props.colorArray.length;
-        var gradeCount = this.props.legendDivisions!=null && typeof(this.props.legendDivisions) == "number" && this.props.legendDivisions <= 20 && this.props.legendDivisions >= colorArrayLength?this.props.legendDivisions:7; //set default gradecount
+        var gradeCount = this.props.legendDivisions!=null && typeof(this.props.legendDivisions) == "number" && this.props.legendDivisions <= 20 && this.props.legendDivisions >= colorArrayLength?this.props.legendDivisions:6; //set default gradecount
         
         var fullRange = this.props.divisions && this.props.divisions.length>0?this.props.divisions:[];
         // var fullData = this.props.choroplethData!=null && this.props.choroplethData.length>0?this.props.choroplethData:defaultData.choroplethData;

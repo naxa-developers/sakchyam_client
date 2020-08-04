@@ -59,7 +59,11 @@ class SankeyChart extends Component {
       <div
         id="sankey_chart"
         style={
-          activeModal ? { height: '580px' } : { height: '680px' }
+          activeModal && window.innerHeight < 1400
+            ? { height: '580px' }
+            : activeModal
+            ? { height: '680px' }
+            : { height: '580px' }
         }
       >
         {sankeyChartData.nodes && (
