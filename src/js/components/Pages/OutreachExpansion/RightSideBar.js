@@ -19,14 +19,6 @@ const outreachTabTitle = [
   'Number of Tablet Banking Points',
   'Innovative Products Introduced',
 ];
-function numberWithCommas(x) {
-  if (x !== null) {
-    const parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-  }
-  return x;
-}
 
 const getFormattedDate = date => {
   const monthNames = [
@@ -195,16 +187,6 @@ class RightSideBar extends Component {
                 View on map
               </a>
             ) : (
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-              // <a
-              //   onClick={() => {
-              //     setActiveView('visualization');
-              //   }}
-              //   role="tab"
-              //   tabIndex="0"
-              // >
-              //   Back to Visualization
-              // </a>
               <></>
             )}
           </div>
