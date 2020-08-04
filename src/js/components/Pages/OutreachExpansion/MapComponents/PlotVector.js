@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable prefer-template */
 /* eslint-disable array-callback-return */
 /* eslint-disable radix */
@@ -10,6 +11,10 @@ import {
   calculateRange,
   choroplethColorArray,
 } from '../../../common/Functions';
+
+import Branch from '../../../../../img/Group5084.svg';
+import BLB from '../../../../../img/Group5085.svg';
+import Others from '../../../../../img/Group5086.svg';
 
 const defaultData = [
   { id: '1', count: 0 },
@@ -58,7 +63,7 @@ class PlotVector extends Component {
           });
         }
       } else {
-        this.setMarkers();
+        this.setMarkers(that);
       }
     }
 
@@ -86,12 +91,12 @@ class PlotVector extends Component {
 
     if (mapViewDataBy === 'general_outreach') {
       if (prevProps.primaryData !== primaryData) {
-        this.setMarkers();
+        this.setMarkers(that);
       }
     }
   }
 
-  setMarkers = () => {
+  setMarkers = that => {
     const { stateMarker } = this.state;
     const { map, primaryData } = this.props;
     if (stateMarker.length > 0) {
@@ -117,10 +122,7 @@ class PlotVector extends Component {
         ],
       },
       properties: {
-        title: 'Mapbox',
-        description: 'Washington, D.C.',
-        partner_type: data.partner_type,
-        point_service: data.point_service,
+        ...data,
       },
     }));
 
@@ -132,21 +134,15 @@ class PlotVector extends Component {
     const markerCollection = [];
     temp.features.forEach(function(marker) {
       const el = document.createElement('div');
+      el.addEventListener('click', () => {
+        that.props.markerEventHandler(marker.properties);
+      });
       let Marker1;
       if (marker.properties.partner_type === 'Commercial Bank') {
         if (marker.properties.point_service === 'Branch') {
           el.className = 'marker-outreach-branch';
           Marker1 = new mapboxgl.Marker(el)
             .setLngLat(marker.geometry.coordinates)
-            .setPopup(
-              new mapboxgl.Popup({ offset: 25 }).setHTML(
-                '<h3>' +
-                  marker.properties.title +
-                  '</h3><p>' +
-                  marker.properties.description +
-                  '</p>',
-              ),
-            )
             .addTo(map);
         } else if (marker.properties.point_service === 'BLB') {
           el.className = 'marker-outreach-blb';
@@ -192,7 +188,7 @@ class PlotVector extends Component {
     }
 
     const max = Math.max.apply(null, Object.values(data));
-    const min = 0;
+    const min = Math.min.apply(null, Object.values(data));
 
     range =
       (max - min) / (gradeCount - 1) < 1
@@ -207,7 +203,7 @@ class PlotVector extends Component {
       grade: fullRange.length > 0 ? fullRange : range,
     });
 
-    // console.log('grage value', range);
+    console.log('grage value', range);
 
     setTimeout(() => {
       this.ChangeLegendColors();
@@ -300,35 +296,6 @@ class PlotVector extends Component {
       //   that.props.setMapViewBy('district');
       // });
 
-      // const popup = new mapboxgl.Popup();
-      // map.on('mousemove', 'circles1', function(e) {
-      //   popup
-      //     .setLngLat(e.lngLat)
-      //     .setHTML(
-      //       `<div class="leaflet-popup-content" style="width: 100px;">
-      //           <div class="map-popup-view">
-      //               <div class="map-popup-view-header">
-      //                   <h5>${e.features[0].properties.name}</h5>
-      //                   <div class="icons">
-      //                   <i class="material-icons">tablet_mac</i><b>${
-      //                     e.features[0].properties[
-      //                       that.props.mapViewDataBy
-      //                     ]
-      //                   }</b>
-      //                   </div>
-      //               </div>
-      //               <div class="map-view-footer">
-      //               </div>
-      //                   </div>
-      //               </div>`,
-      //     )
-      //     .addTo(map);
-      // });
-
-      // map.on('mouseleave', 'vector-tile-fill', function() {
-      //   popup.remove();
-      // });
-
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
           if (hoveredStateId) {
@@ -368,6 +335,18 @@ class PlotVector extends Component {
         hoveredStateId = null;
         that.props.setHoveredMunicipalityId(0);
       });
+    });
+
+    map.on('style.load', () => {
+      const waiting = () => {
+        if (!map.isStyleLoaded()) {
+          setTimeout(waiting, 200);
+          that.props.loadingHandler(1);
+        } else {
+          that.props.loadingHandler(2);
+        }
+      };
+      waiting();
     });
   };
 
@@ -416,16 +395,12 @@ class PlotVector extends Component {
     const legendTitle =
       localOutreachSelected && condition
         ? localOutreachSelected
-        : 'Counts';
+        : 'Points of Service';
 
-    // console.log('markerCollection', this.state.stateMarker);
     return (
       <>
         <div className="map-legend newmap-legend">
-          <div
-            className="color-list"
-            style={{ flex: '30% important' }}
-          >
+          <div className="color-list">
             <h6>{legendTitle}</h6>
             <ul id="state-legend" className="color-legend">
               {stateGrade &&
@@ -491,6 +466,31 @@ class PlotVector extends Component {
               </ul>
             )}
           </div>
+          {!condition && (
+            <div className="color-list">
+              <h6>Marker Legend</h6>
+              <ul id="state-legend" className="color-legend">
+                <li>
+                  <span>
+                    <img src={Branch} />
+                  </span>
+                  <p>BLB</p>
+                </li>
+                <li>
+                  <div>
+                    <img src={BLB} />
+                  </div>
+                  <p>Branch</p>
+                </li>
+                <li>
+                  <div>
+                    <img src={Others} />
+                  </div>
+                  <p>Non Commercial Banks</p>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </>
     );

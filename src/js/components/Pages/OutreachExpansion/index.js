@@ -9,9 +9,7 @@ import MapboxPartnership from './MapComponents/MapboxPartnership';
 import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
-import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
 import ListByView from './ViewByList';
-import { getFilteredMapData } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
 import { getCenterBboxProvince } from './common/ProvinceFunction';
@@ -63,19 +61,20 @@ class MainPartnership extends Component {
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       localOutreachSelected: '',
+      loading: false,
     };
   }
 
   componentDidMount() {
-    const token = localStorage.getItem('userToken');
+    // const token = localStorage.getItem('userToken');
     const filterBar = document.getElementsByClassName(
       'filter-bar',
     )[0];
+
     document.addEventListener('click', async event => {
       const isClickInside = filterBar.contains(event.target);
 
       if (!isClickInside) {
-        // console.log('clickoutside');
         this.setState({
           activeFilter: false,
         });
@@ -92,11 +91,12 @@ class MainPartnership extends Component {
       selectedDistrict,
       districtList,
       municipalityList,
+      mapViewBy,
+      mapViewDataBy,
     } = this.state;
     const { outreachReducer } = this.props;
     const { primaryData } = outreachReducer;
     if (prevState.selectedProvince !== selectedProvince) {
-      // this.props.filterDistrictListFromProvince(selectedProvince);
       let districts;
       if (
         (selectedProvince[0] &&
@@ -105,7 +105,6 @@ class MainPartnership extends Component {
       ) {
         districts = districtLists();
       } else {
-        // console.log('else condition', selectedProvince);
         districts = districtListByProvince(
           selectedProvince,
           districtList,
@@ -121,7 +120,8 @@ class MainPartnership extends Component {
       // this.props.filterMunListFromDistrict(selectedDistrict);
       let municipality;
       if (
-        (selectedDistrict[0] &&
+        (selectedDistrict &&
+          selectedDistrict[0] &&
           selectedDistrict[0].value === 'all') ||
         selectedDistrict.length === 0
       ) {
@@ -136,6 +136,12 @@ class MainPartnership extends Component {
         selectedMunicipality: '',
         municipalityList: municipality,
       });
+    }
+
+    if (prevState.mapViewBy !== mapViewBy) {
+      if (mapViewDataBy === 'general_outreach') {
+        this.handleStateLevel();
+      }
     }
 
     if (prevProps.outreachReducer.primaryData !== primaryData) {
@@ -185,11 +191,9 @@ class MainPartnership extends Component {
   };
 
   setMapViewBy = selectedMapView => {
-    console.log('setMapViewBy called');
     this.setState({
       mapViewBy: selectedMapView,
     });
-    this.props.getFilteredMapData(selectedMapView);
     this.setState({
       vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
     });
@@ -210,13 +214,35 @@ class MainPartnership extends Component {
   };
 
   setMapViewDataBy = selectedView => {
+    const { map } = this.state;
     this.setState({
       mapViewDataBy: selectedView,
+      selectedProvince: provinceLists(),
+      selectedDistrict: '',
+      selectedMunicipality: '',
     });
 
     if (selectedView === 'general_outreach') {
-      console.log("'general_outreach' condition");
       this.setMapViewBy('province');
+
+      map.setCenter([84.5, 28.5]);
+      map.setZoom(6);
+    } else {
+      this.setState({ localOutreachSelected: '' });
+      setTimeout(() => {
+        this.setMapViewBy('municipality');
+      }, 100);
+
+      const proList = provinceLists();
+      const munList = municipalityLists();
+      const filteredList = this.provinceListByMunnicipalityTiles(
+        proList,
+        munList,
+      );
+      this.changeMapTiles(filteredList);
+
+      map.setCenter([82.5, 29]);
+      map.setZoom(6.5);
     }
   };
 
@@ -408,17 +434,10 @@ class MainPartnership extends Component {
       serviceType,
       expsnsionSelection,
       partnerSelection,
+      primaryData,
     } = this.state;
-    console.log(
-      'values onsole',
-      G2PTypes,
-      demonstrationType,
-      serviceType,
-      expsnsionSelection,
-      partnerSelection,
-    );
     let filteredData = [];
-    const { primaryData } = this.props.outreachReducer;
+    // const { primaryData } = this.props.outreachReducer;
 
     if (
       G2PTypes.length === 0 &&
@@ -470,11 +489,6 @@ class MainPartnership extends Component {
       filteredData = [];
       expsnsionSelection.map(type => {
         value.map(data => {
-          console.log(
-            'type === data.partner_type',
-            expsnsionSelection,
-            value,
-          );
           if (type === data.expansion_driven_by) {
             filteredData.push(data);
           }
@@ -487,11 +501,6 @@ class MainPartnership extends Component {
       filteredData = [];
       partnerSelection.map(type => {
         value.map(data => {
-          console.log(
-            'type === data.partner_type',
-            partnerSelection,
-            value,
-          );
           if (type === data.partner_type) {
             filteredData.push(data);
           }
@@ -510,6 +519,9 @@ class MainPartnership extends Component {
       selectedProvince,
       mapViewDataBy,
       map,
+      municipalityList,
+      mapViewBy,
+      districtList,
     } = this.state;
 
     const provinceCheck =
@@ -519,12 +531,9 @@ class MainPartnership extends Component {
     const muniCheck =
       selectedMunicipality && selectedMunicipality.length > 0;
 
-    const { allMunicipalityList } = this.props.commonReducer;
-
     if (mapViewDataBy === 'outreach_local_units') {
-      const filteredList = [];
+      let filteredList = [];
       if (muniCheck) {
-        console.log('muni condition', selectedMunicipality);
         const combinedBbox = [];
         const getBboxValue = getCenterBboxMunicipality(
           selectedMunicipality.map(data => {
@@ -543,7 +552,6 @@ class MainPartnership extends Component {
         );
         filteredMuni.map(muni => filteredList.push(muni));
       } else if (districtCheck) {
-        console.log('dsistrivsad condition', selectedDistrict);
         const combinedBbox = [];
         const getBboxValue = getCenterBboxDistrict(
           selectedDistrict.map(data => {
@@ -562,7 +570,7 @@ class MainPartnership extends Component {
         );
 
         filteredDist.forEach(dist => {
-          allMunicipalityList.forEach(mun => {
+          municipalityList.forEach(mun => {
             if (dist.code === mun.district_code) {
               filteredList.push(mun);
             }
@@ -571,64 +579,264 @@ class MainPartnership extends Component {
 
         // console.log('filtered list', filteredList);
       } else if (provinceCheck) {
-        console.log('province condition', selectedProvince);
-        const combinedBbox = [];
-        const getBboxValue = getCenterBboxProvince(
-          selectedProvince.map(data => {
-            return data.code;
-          }),
+        filteredList = this.provinceListByMunnicipalityTiles(
+          selectedProvince,
+          municipalityList,
         );
-
-        getBboxValue.map(data => {
-          combinedBbox.push(data.bbox);
-          return true;
-        });
-        const extendedValue = extendBounds(combinedBbox);
-        map.fitBounds(extendedValue);
-
-        const filteredPro = selectedProvince.filter(
-          muni => muni.value !== 'all',
-        );
-
-        filteredPro.forEach(province => {
-          allMunicipalityList.forEach(district => {
-            if (province.code === district.province_code) {
-              filteredList.push(district);
-            }
-          });
-        });
       }
 
       if (provinceCheck || districtCheck || muniCheck) {
-        console.log(
-          'one met condition',
-          provinceCheck,
-          districtCheck,
-          muniCheck,
-        );
-        map.setFilter('vector-tile-fill', [
-          'in',
-          ['get', 'code'],
-          [
-            'literal',
-            filteredList.map(fed => {
-              return fed.code.toString();
-            }),
-          ],
-        ]);
-        map.setFilter('vector-tile-outline', [
-          'in',
-          ['get', 'code'],
-          [
-            'literal',
-            filteredList.map(fed => {
-              return fed.code.toString();
-            }),
-          ],
-        ]);
+        this.changeMapTiles(filteredList);
       }
       this.setState({ activeFilter: false });
+    } else if (mapViewDataBy === 'general_outreach') {
+      this.handleStateLevel();
     }
+  };
+
+  handleStateLevel = () => {
+    const {
+      selectedMunicipality,
+      selectedDistrict,
+      selectedProvince,
+      map,
+      municipalityList,
+      mapViewBy,
+      districtList,
+    } = this.state;
+
+    const provinceCheck =
+      selectedProvince && selectedProvince.length > 0;
+    const districtCheck =
+      selectedDistrict && selectedDistrict.length > 0;
+    const muniCheck =
+      selectedMunicipality && selectedMunicipality.length > 0;
+    if (provinceCheck || districtCheck || muniCheck) {
+      if (mapViewBy === 'municipality') {
+        if (muniCheck) {
+          const combinedBbox = [];
+          const getBboxValue = getCenterBboxMunicipality(
+            selectedMunicipality.map(data => {
+              return data.code;
+            }),
+          );
+          getBboxValue.map(data => {
+            combinedBbox.push(data.bbox);
+            return true;
+          });
+          const extendedValue = extendBounds(combinedBbox);
+          map.fitBounds(extendedValue);
+          this.filterMarkers('municipality', selectedMunicipality);
+          this.changeMapTiles(selectedMunicipality);
+        } else if (districtCheck) {
+          const combinedBbox = [];
+          const getBboxValue = getCenterBboxDistrict(
+            selectedDistrict.map(data => {
+              return data.code;
+            }),
+          );
+          getBboxValue.map(data => {
+            combinedBbox.push(data.bbox);
+            return true;
+          });
+          const extendedValue = extendBounds(combinedBbox);
+          map.fitBounds(extendedValue);
+          const filteredMunFromDist = [];
+          selectedDistrict.forEach(dist => {
+            municipalityList.forEach(mun => {
+              if (dist.code === mun.district_code) {
+                filteredMunFromDist.push(mun);
+              }
+            });
+          });
+          this.filterMarkers('district', selectedDistrict);
+          this.changeMapTiles(filteredMunFromDist);
+        } else if (provinceCheck) {
+          const filteredList = this.provinceListByMunnicipalityTiles(
+            selectedProvince,
+            municipalityList,
+          );
+          this.filterMarkers('province', selectedProvince);
+          this.changeMapTiles(filteredList);
+        }
+      } else if (mapViewBy === 'district') {
+        if (districtCheck) {
+          const combinedBbox = [];
+          const getBboxValue = getCenterBboxDistrict(
+            selectedDistrict.map(data => {
+              return data.code;
+            }),
+          );
+          getBboxValue.map(data => {
+            combinedBbox.push(data.bbox);
+            return true;
+          });
+          const extendedValue = extendBounds(combinedBbox);
+          map.fitBounds(extendedValue);
+          this.filterMarkers(mapViewBy, selectedDistrict);
+          this.changeMapTiles(selectedDistrict);
+        } else if (provinceCheck) {
+          const filteredList = this.provinceListByMunnicipalityTiles(
+            selectedProvince,
+            districtList,
+          );
+          this.filterMarkers('province', selectedProvince);
+          this.changeMapTiles(filteredList);
+        }
+      } else if (mapViewBy === 'province') {
+        if (provinceCheck) {
+          const combinedBbox = [];
+          const getBboxValue = getCenterBboxProvince(
+            selectedProvince.map(data => {
+              return data.code;
+            }),
+          );
+          getBboxValue.map(data => {
+            combinedBbox.push(data.bbox);
+            return true;
+          });
+          const extendedValue = extendBounds(combinedBbox);
+          map.fitBounds(extendedValue);
+          this.filterMarkers(mapViewBy, selectedProvince);
+          this.changeMapTiles(selectedProvince);
+        }
+      }
+    } else {
+      this.setState({
+        primaryData: this.props.outreachReducer.primaryData,
+      });
+      map.setZoom(6);
+      map.setCenter([84.5, 28.5]);
+      if (mapViewBy === 'municipality') {
+        this.changeMapTiles(municipalityLists());
+      } else if (mapViewBy === 'district') {
+        this.changeMapTiles(districtLists());
+      } else if (mapViewBy === 'province') {
+        this.changeMapTiles(provinceLists());
+      }
+    }
+  };
+
+  filterMarkers = (type, array) => {
+    // const { primaryData } = this.props.outreachReducer;
+    const { primaryData } = this.state;
+    const filteredArray = array.filter(data => data.value !== 'all');
+    const filteredPrimaryData = [];
+
+    switch (type) {
+      case 'province':
+        filteredArray.map(selectedData => {
+          primaryData.map(pdata => {
+            if (pdata.province_code === selectedData.code) {
+              filteredPrimaryData.push(pdata);
+            }
+          });
+        });
+        console.log(
+          ' province type,array',
+          type,
+          filteredArray,
+          filteredPrimaryData,
+        );
+
+        break;
+      case 'district':
+        filteredArray.map(selectedData => {
+          primaryData.map(pdata => {
+            if (pdata.district_code === selectedData.code) {
+              filteredPrimaryData.push(pdata);
+            }
+          });
+        });
+        console.log(
+          ' dsirict type,array',
+          type,
+          filteredArray,
+          filteredPrimaryData,
+        );
+        break;
+      case 'municipality':
+        filteredArray.map(selectedData => {
+          primaryData.map(pdata => {
+            if (pdata.municipality_code === selectedData.code) {
+              filteredPrimaryData.push(pdata);
+            }
+          });
+        });
+        console.log(
+          ' muni type,array',
+          type,
+          filteredArray,
+          filteredPrimaryData,
+        );
+        break;
+      default:
+        console.log(' default type,array', type, array);
+    }
+
+    this.setState({ primaryData: filteredPrimaryData });
+  };
+
+  changeMapTiles = array => {
+    const { map } = this.state;
+
+    const filteredArray = array.filter(data => data.value !== 'all');
+    map.setFilter('vector-tile-fill', [
+      'in',
+      ['get', 'code'],
+      [
+        'literal',
+        filteredArray.map(fed => {
+          return fed.code.toString();
+        }),
+      ],
+    ]);
+    map.setFilter('vector-tile-outline', [
+      'in',
+      ['get', 'code'],
+      [
+        'literal',
+        filteredArray.map(fed => {
+          return fed.code.toString();
+        }),
+      ],
+    ]);
+  };
+
+  provinceListByMunnicipalityTiles = (
+    selectedProvince,
+    municipalityList,
+  ) => {
+    const { map } = this.state;
+    const combinedBbox = [];
+    const getBboxValue = getCenterBboxProvince(
+      selectedProvince.map(data => {
+        return data.code;
+      }),
+    );
+
+    getBboxValue.map(data => {
+      combinedBbox.push(data.bbox);
+      return true;
+    });
+    const extendedValue = extendBounds(combinedBbox);
+    map.fitBounds(extendedValue);
+
+    const filteredPro = selectedProvince.filter(
+      muni => muni.value !== 'all',
+    );
+
+    const filteredList = [];
+
+    filteredPro.forEach(province => {
+      municipalityList.forEach(district => {
+        if (province.code === district.province_code) {
+          filteredList.push(district);
+        }
+      });
+    });
+
+    return filteredList;
   };
 
   resetLeftSideBarSelection = () => {
@@ -645,13 +853,46 @@ class MainPartnership extends Component {
   };
 
   resetFilters = () => {
-    const { mapViewBy, activeView } = this.state;
+    const { mapViewDataBy, map } = this.state;
     this.setState({
-      selectedProvince: '',
-      selectedDistrict: null,
-      selectedMunicipality: null,
+      selectedDistrict: '',
+      selectedMunicipality: 'null',
+      selectedProvince: provinceLists(),
     });
-    this.setMapViewBy('municipality');
+    const { primaryData } = this.props.outreachReducer;
+
+    if (mapViewDataBy === 'outreach_local_units') {
+      this.setState({
+        activeFilter: false,
+      });
+      const proList = provinceLists();
+      const munList = municipalityLists();
+      const filteredList = this.provinceListByMunnicipalityTiles(
+        proList,
+        munList,
+      );
+      this.changeMapTiles(filteredList);
+
+      map.setZoom(6);
+      map.setCenter([84.5, 28.5]);
+    } else if (mapViewDataBy === 'general_outreach') {
+      map.setZoom(6);
+      map.setCenter([84.5, 28.5]);
+      setTimeout(() => {
+        this.setMapViewBy('province');
+        this.changeMapTiles(this.state.selectedProvince);
+      }, 100);
+
+      this.setState({ primaryData });
+    }
+  };
+
+  loadingHandler = value => {
+    if (value === 1) {
+      this.setState({ loading: true });
+    } else {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
@@ -677,17 +918,12 @@ class MainPartnership extends Component {
         municipalityList,
         isAllPartnerSelected,
         isAllInvestmentFocusSelected,
+        selectedProvince,
+        loading,
       },
-      // props: {},
     } = this;
-    const {
-      allProvinceList,
-      allDistrictList,
-      allMunicipalityList,
-    } = this.props.commonReducer;
 
-    // console.log('allDistrictList', allDistrictList);
-    // console.log('districtList', districtList);
+    console.log('loading', loading);
 
     return (
       <>
@@ -723,11 +959,7 @@ class MainPartnership extends Component {
           />
           <main className="main">
             <div className="main-card literacy-main-card">
-              {/* <Loading
-                loaderState={!isDataFetched}
-                top="50%"
-                left="46%"
-              /> */}
+              {/* <Loading loaderState={loading} top="50%" left="46%" /> */}
               <div
                 className={`partnership-filter ${
                   activeView === 'map' ? 'is-position' : ''
@@ -831,30 +1063,6 @@ class MainPartnership extends Component {
                 />
               </div>
               <div className="literacy-tab-content">
-                {/* <MiddleChartSection
-                  resetLeftSideBarSelection={
-                    this.resetLeftSideBarSelection
-                  }
-                  resetFilters={this.resetFilters}
-                  viewDataBy={viewDataBy}
-                  mapViewDataBy={mapViewDataBy}
-                  sankeyChartwidth={sankeyChartwidth}
-                  activeOverview={activeOverview}
-                  activeView={activeView}
-                  expsnsionSelection={expsnsionSelection}
-                  partnerSelection={partnerSelection}
-                  projectSelection={projectSelection}
-                  projectStatus={projectStatus}
-                  showBarof={showBarof}
-                  handleShowBarOf={this.handleShowBarOf}
-                  showBarofInvestmentBudgetBenef={
-                    showBarofInvestmentBudgetBenef
-                  }
-                  handleShowBarOfInvestmentBudgetBenefBar={
-                    this.handleShowBarOfInvestmentBudgetBenefBar
-                  }
-                  applyBtnClick={this.applyBtnClick}
-                /> */}
                 <div
                   className="literacy-tab-item"
                   style={
@@ -866,6 +1074,7 @@ class MainPartnership extends Component {
                   {activeView === 'map' && (
                     <MapboxPartnership
                       map={map}
+                      loading={loading}
                       vectorTileUrl={vectorTileUrl}
                       mapViewBy={mapViewBy}
                       mapViewDataBy={mapViewDataBy}
@@ -876,6 +1085,7 @@ class MainPartnership extends Component {
                       handleFederalClickOnMap={
                         this.handleFederalClickOnMap
                       }
+                      loadingHandler={this.loadingHandler}
                     />
                   )}
                 </div>
@@ -897,13 +1107,11 @@ class MainPartnership extends Component {
     );
   }
 }
-const mapStateToProps = ({ commonReducer, outreachReducer }) => ({
-  commonReducer,
+const mapStateToProps = ({ outreachReducer }) => ({
   outreachReducer,
 });
 export default connect(mapStateToProps, {
   fetchOutreachChoropleth,
   fetchOutreachPrimaryData,
-  getFilteredMapData,
   fetchOutreachSecondaryData,
 })(MainPartnership);

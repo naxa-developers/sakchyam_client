@@ -20,6 +20,8 @@ import {
   resetBarDataByInvestmentFocus,
 } from '../../../../actions/partnership.actions';
 import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
+import SunburstContainer from '../Charts/SunBurst';
+import StackedBarWithAllFederal from '../Charts/StackedBarWithAllFederal/StackedBarWithAllFederal';
 
 function formatData(fulldata) {
   fulldata.forEach(datum => {
@@ -94,6 +96,10 @@ class MiddleChartSection extends Component {
     // console.log(e.data.name);
   };
 
+  // sunburstColorFn = () => {
+  //   alert('test');
+  // };
+
   getModalContent = contentType => {
     const { activeModal } = this.state;
     const {
@@ -102,7 +108,9 @@ class MiddleChartSection extends Component {
         activeOverview,
         sankeyChartwidth,
         viewDataBy,
+        investmentFocusSelection,
         partnerSelection,
+        partnerTypeSelection,
         projectSelection,
         projectStatus,
         showBarof,
@@ -117,7 +125,7 @@ class MiddleChartSection extends Component {
     switch (contentType) {
       case 'sunburst':
         return (
-          <Sunburst
+          <SunburstContainer
             data={radialData}
             height={700}
             width={900}
@@ -139,10 +147,12 @@ class MiddleChartSection extends Component {
             id="barContainer"
             style={{ width: '1900px', overflowX: 'scroll' }}
           >
-            <StackedBarWithProvince
+            <StackedBarWithAllFederal
               viewDataBy={viewDataBy}
               activeModal={activeModal}
+              investmentFocusSelection={investmentFocusSelection}
               partnerSelection={partnerSelection}
+              partnerTypeSelection={partnerTypeSelection}
               projectSelection={projectSelection}
               projectStatus={projectStatus}
               showBarof={showBarof}
@@ -159,7 +169,9 @@ class MiddleChartSection extends Component {
             <StackedBarWithInvestment
               viewDataBy={viewDataBy}
               activeModal={activeModal}
+              investmentFocusSelection={investmentFocusSelection}
               partnerSelection={partnerSelection}
+              partnerTypeSelection={partnerTypeSelection}
               projectSelection={projectSelection}
               projectStatus={projectStatus}
               showBarof={showBarof}
@@ -182,7 +194,9 @@ class MiddleChartSection extends Component {
             <LeverageStackedBar
               viewDataBy={viewDataBy}
               activeModal={activeModal}
+              investmentFocusSelection={investmentFocusSelection}
               partnerSelection={partnerSelection}
+              partnerTypeSelection={partnerTypeSelection}
               projectSelection={projectSelection}
               projectStatus={projectStatus}
               showBarof={showBarof}
@@ -218,13 +232,16 @@ class MiddleChartSection extends Component {
         activeOverview,
         sankeyChartwidth,
         viewDataBy,
+        investmentFocusSelection,
         partnerSelection,
+        partnerTypeSelection,
         projectSelection,
         projectStatus,
         showBarof,
         handleShowBarOf,
         showBarofInvestmentBudgetBenef,
         handleShowBarOfInvestmentBudgetBenefBar,
+        groupedStackData,
       },
     } = this;
     const {
@@ -251,6 +268,7 @@ class MiddleChartSection extends Component {
           <Modal
             // visible={selectedModal === 'bar' ? true : false}
             // modalHeader="Sakchyam Investment Focus"
+            groupedStackData={groupedStackData}
             handleShowBarOf={handleShowBarOf}
             resetFilters={resetFilters}
             selectedModal={selectedModal}
@@ -263,7 +281,7 @@ class MiddleChartSection extends Component {
           <div className="row">
             <CardTab
               resetFunction={() => {
-                this.props.resetLeftSideBarSelection();
+                // this.props.resetLeftSideBarSelection();
                 this.props.resetRadialData();
               }}
               cardTitle="Sakchyam Investment Focus"
@@ -275,17 +293,17 @@ class MiddleChartSection extends Component {
               }}
               renderChartComponent={() => {
                 return (
-                  radialData &&
-                  radialData && (
-                    <Sunburst
-                      data={radialData}
-                      height={400}
-                      width={690}
-                      count_member="size"
-                      onClick={this.handleSunburstClick}
-                      // reset={this.props.resetSunburst}
-                    />
-                  )
+                  <SunburstContainer
+                    data={radialData}
+                    height={400}
+                    width={690}
+                    count_member="size"
+                    onClick={this.handleSunburstClick}
+                    // labelFunc={node => node.data.name}
+                    // colorFunc={node => 'red'}
+
+                    // reset={this.props.resetSunburst}
+                  />
                 );
               }}
             />
@@ -308,7 +326,11 @@ class MiddleChartSection extends Component {
                   <StackedBarWithProvince
                     viewDataBy={viewDataBy}
                     activeModal={activeModal}
+                    investmentFocusSelection={
+                      investmentFocusSelection
+                    }
                     partnerSelection={partnerSelection}
+                    partnerTypeSelection={partnerTypeSelection}
                     projectSelection={projectSelection}
                     projectStatus={projectStatus}
                     showBarof={showBarof}
@@ -325,7 +347,10 @@ class MiddleChartSection extends Component {
                     'investmentFocus',
                   );
                 }}
-                handleShowBarOf={handleShowBarOf}
+                showBarof={showBarofInvestmentBudgetBenef}
+                handleShowBarOf={
+                  handleShowBarOfInvestmentBudgetBenefBar
+                }
                 cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
                 cardClass="col-xl-6"
                 cardChartId="stackedWithInvestment"
@@ -338,7 +363,11 @@ class MiddleChartSection extends Component {
                     <StackedBarWithInvestment
                       viewDataBy={viewDataBy}
                       activeModal={activeModal}
+                      investmentFocusSelection={
+                        investmentFocusSelection
+                      }
                       partnerSelection={partnerSelection}
+                      partnerTypeSelection={partnerTypeSelection}
                       projectSelection={projectSelection}
                       projectStatus={projectStatus}
                       showBarof={showBarof}
@@ -369,7 +398,11 @@ class MiddleChartSection extends Component {
                     <LeverageStackedBar
                       viewDataBy={viewDataBy}
                       activeModal={activeModal}
+                      investmentFocusSelection={
+                        investmentFocusSelection
+                      }
                       partnerSelection={partnerSelection}
+                      partnerTypeSelection={partnerTypeSelection}
                       projectSelection={projectSelection}
                       projectStatus={projectStatus}
                       showBarof={showBarof}
@@ -403,7 +436,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            {/* <CardTab
+            <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'
@@ -420,11 +453,12 @@ class MiddleChartSection extends Component {
                 return (
                   <SankeyChart
                     cardWidth={sankeyChartwidth}
+                    activeModal={activeModal}
                     activeOverview={activeOverview}
                   />
                 );
               }}
-            /> */}
+            />
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"
