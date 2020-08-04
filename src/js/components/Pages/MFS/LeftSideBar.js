@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
 import FinancialLeftCard from '../../common/FinancialLeftCard';
 import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
+import FilterChip from './common/FilterChip';
+import BadgeLoader from './SkeletonLoader/BadgeLoader';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -22,29 +24,24 @@ class LeftSideBar extends Component {
     const {
       state: { checkboxes },
       props: {
-        handleInvestmentFocusCheckbox,
-        investmentFocusSelection,
-        projectSelection,
-        handleProjectSelectionCheckbox,
-        projectStatus,
-        handleProjectStatus,
-        partnerSelection,
-        handlePartnerSelectionCheckbox,
+        selectedPartner,
+        handlePartnerSelection,
+        selectedInnovation,
+        handleInnovationSelection,
+        selectedAchievement,
+        handleAchievementSelection,
         partnerType,
         handlePartnerType,
         applyBtnClick,
-        handlePartnerParentCheckbox,
-        handleProjectParentCheckbox,
-        handleInvestmentParentCheckbox,
         resetFilters,
       },
     } = this;
     const {
-      partnershipInvestmentFocus,
-      projectLists,
-      partnersList,
-      filteredPartnerList,
-    } = this.props.partnershipReducer;
+      innovationList,
+      achievementList,
+      partnerList,
+      mfsListLoading,
+    } = this.props.mfsReducer;
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -61,7 +58,21 @@ class LeftSideBar extends Component {
               <h6 className="title">Partner Institutions</h6>
               <div className="widget-body">
                 <div className="widget-tag partner-tag">
-                  <a
+                  {mfsListLoading ? (
+                    <BadgeLoader />
+                  ) : (
+                    partnerList &&
+                    partnerList.map(partner => {
+                      return (
+                        <FilterChip
+                          name={partner.partner_name}
+                          handleClick={handlePartnerSelection}
+                          chipState={selectedPartner}
+                        />
+                      );
+                    })
+                  )}
+                  {/* <a
                     data-label="Microfinance Institutions/Cooperatives"
                     className={
                       partnerType.includes(
@@ -84,121 +95,100 @@ class LeftSideBar extends Component {
                     }}
                   >
                     <span>Microfinance</span>
-                  </a>
-                  <a
-                    data-label="Commercial Bank and Other Partners"
-                    className={
-                      partnerType.includes(
-                        'Commercial Bank and Other Partners',
-                      )
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType(
-                        'Commercial Bank and Other Partners',
-                      );
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType(
-                        'Commercial Bank and Other Partners',
-                      );
-                    }}
-                  >
-                    <span>Commercial Bank</span>
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Key Innovation</h6>
               <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="Initiative1"
-                        type="checkbox"
-                        name="Initiative1"
-                        value="all"
-                        onChange={handleInvestmentParentCheckbox}
-                      />
-                      <label htmlFor="Initiative1">All</label>
+                {mfsListLoading ? (
+                  <BadgeLoader />
+                ) : (
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="Initiative1"
+                          type="checkbox"
+                          name="Initiative1"
+                          value="all"
+                          // onChange={handleInvestmentParentCheckbox}
+                        />
+                        <label htmlFor="Initiative1">All</label>
+                      </div>
                     </div>
-                  </div>
-                  <ul className="checkbox-list">
-                    {partnershipInvestmentFocus &&
-                      partnershipInvestmentFocus.map(
-                        partnershipFocus => {
+                    <ul className="checkbox-list">
+                      {innovationList &&
+                        innovationList.map(innov => {
                           return (
+                            // <label>{innov}</label>
                             <CheckBox
-                              id={partnershipFocus.id}
+                              // id={partnershipFocus.id}
                               className="investment_checkbox"
-                              key={partnershipFocus.id}
-                              label={
-                                partnershipFocus.investment_primary
-                              }
-                              name={
-                                partnershipFocus.investment_primary
-                              }
+                              // key={partnershipFocus.id}
+                              label={innov}
+                              name={innov}
                               changeHandler={
-                                handleInvestmentFocusCheckbox
+                                handleInnovationSelection
                               }
-                              checked={investmentFocusSelection.includes(
-                                partnershipFocus.investment_primary,
-                              )}
+                              // checked={investmentFocusSelection.includes(
+                              //   innov,
+                              // )}
                             />
                           );
-                        },
-                      )}
-                  </ul>
-                </div>
+                        })}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Achievement Type</h6>
               <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="Initiative7"
-                        type="checkbox"
-                        name="Initiative7"
-                        onChange={handleProjectParentCheckbox}
-                      />
-                      <label htmlFor="Initiative7">All</label>
+                {mfsListLoading ? (
+                  <BadgeLoader />
+                ) : (
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="Initiative7"
+                          type="checkbox"
+                          name="Initiative7"
+                        />
+                        <label htmlFor="Initiative7">All</label>
+                      </div>
                     </div>
-                  </div>
-                  <ul className="checkbox-list">
-                    {/* <GroupCheckedbox
+                    <ul className="checkbox-list">
+                      {/* <GroupCheckedbox
                       checkboxes={projectLists}
                       onCheckboxGroupChange={
                         this.handleCheckboxgroupChange
                       }
                     /> */}
-                    {projectLists &&
-                      projectLists.map(project => {
-                        return (
-                          <CheckBox
-                            id={project.id}
-                            className="project_checkbox"
-                            key={project.id}
-                            label={project.name}
-                            name={project.id}
-                            changeHandler={
-                              handleProjectSelectionCheckbox
-                            }
-                            checked={projectSelection.includes(
-                              project.id,
-                            )}
-                          />
-                        );
-                      })}
-                  </ul>
-                </div>
+
+                      {achievementList &&
+                        achievementList.map(achievement => {
+                          return (
+                            <CheckBox
+                              // id={project.id}
+                              className="project_checkbox"
+                              // key={project.id}
+                              label={achievement}
+                              name={achievement}
+                              changeHandler={
+                                handleAchievementSelection
+                              }
+                              // checked={projectSelection.includes(
+                              //   achievement,
+                              // )}
+                            />
+                          );
+                        })}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -225,7 +215,7 @@ class LeftSideBar extends Component {
   }
 }
 
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ mfsReducer }) => ({
+  mfsReducer,
 });
 export default connect(mapStateToProps, {})(LeftSideBar);

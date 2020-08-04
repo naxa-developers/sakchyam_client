@@ -6,7 +6,7 @@ import React from "react";
 // import HospitalIcon from './Icons/HealthFacilityIcon';
 
 export const choroplethColorArray = (stops, color) =>{
-    console.log(color, "color func")
+    // console.log(color, "color func")
     var gradient = gradStop({
         stops: stops,
         inputFormat: 'hex',

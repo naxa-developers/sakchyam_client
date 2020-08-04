@@ -260,7 +260,7 @@ class Choropleth extends Component {
   }
 
   setChoroplethStyle(values) {
-    console.log('values', values);
+    // console.log('values', values);
     //
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
@@ -1521,12 +1521,12 @@ class Choropleth extends Component {
       const waiting = () => {
         if (!map.isStyleLoaded()) {
           setTimeout(waiting, 200);
-          console.log('if');
+          // console.log('if');
         } else {
           this.setState(prevState => ({
             loading: !prevState.loading,
           }));
-          console.log('loadMyLayer');
+          // console.log('loadMyLayer');
         }
       };
       waiting();

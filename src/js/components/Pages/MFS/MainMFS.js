@@ -4,48 +4,12 @@ import { select } from 'd3';
 
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/src/css/mapbox-gl.css';
+import { ToastContainer, toast } from 'react-toastify';
 import MapboxPartnership from './MapComponents/MapboxPartnership';
 import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
-import {
-  getPartnershipInvestmentFocus,
-  getProjectListData,
-  // getMapDataByProvince,
-  getMapDataByDistrict,
-  getMapDataByMunicipality,
-  getFilteredMapData,
-  getRadialData,
-  getPartnersList,
-  filterPartnerListByPartnerType,
-  filterFinancialDataWithAllFilters,
-  getDistrictDataFromProvince,
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
-  filterRadialData,
-  getBarDataByBenefBudget,
-  getBarDataByInvestmentFocus,
-  // getSpiderChartData,
-  getSankeyChartData,
-  filterSankeyChartData,
-  getOverviewData,
-  filterOverviewData,
-  filterDistrictListFromProvince,
-  filterMunListFromDistrict,
-  filterFinancialDataWithAllFiltersAndFederal,
-  getPartnershipAllData,
-  resetBarDatas,
-  resetRadialData,
-  resetSankeyChartData,
-  resetOverviewData,
-  resetLeverageData,
-  resetBarDataByInvestmentFocus,
-  filterLeverageData,
-  filterBarDataByInvestment,
-  filterMapChoropleth,
-  filterMapDataOfCircleMarkerWithViewDataBy,
-} from '../../../actions/partnership.actions';
+
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
 import FilterBadge from './common/FilterBadge';
@@ -60,6 +24,16 @@ import {
   districtListByProvince,
   muniByDistrict,
 } from '../../common/adminList';
+import {
+  getMfsAllData,
+  filterByPartnerInstitution,
+  filterMfsChoroplethData,
+} from '../../../actions/mfs.action';
+import {
+  filterDistrictListFromProvince,
+  filterMunListFromDistrict,
+} from '../../../actions/common.actions';
+import 'react-toastify/dist/ReactToastify.css';
 
 global.markerList = [];
 function removeMarker() {
@@ -83,28 +57,20 @@ class MainMFS extends Component {
     super();
     this.state = {
       // Event Handle Section
-      investmentFocusSelection: [],
-      projectSelection: [],
-      partnerSelection: [],
-      projectStatus: [],
-      partnerType: [],
+      selectedPartner: '',
+      selectedInnovation: '',
+      selectedAchievement: '',
       provinceList: provinceLists(),
       districtList: districtLists(),
       municipalityList: municipalityLists(),
       selectedProvince: [],
       selectedDistrict: [],
       selectedMunicipality: [],
-      isAllPartnerSelected: false,
-      isAllProjectSelected: false,
-      isAllInvestmentFocusSelected: false,
       showBarof: 'Provinces',
-      showBarofInvestmentBudgetBenef: 'investmentFocus',
       // UI Section
       activeFilter: false,
       activeOverview: false,
-      viewDataBy: 'allocated_beneficiary',
       mapViewDataBy: '',
-      activeView: 'visualization',
       // resetSunburst: false,
       // map Section
       map: null,
@@ -128,178 +94,20 @@ class MainMFS extends Component {
     //   scrollLink.removeClass('open');
     // }
 
-    const { viewDataBy } = this.state;
-    this.props.getPartnersList();
-    this.props.getProjectListData();
-    this.props.getPartnershipInvestmentFocus();
-    // this.props.getPartnershipAllData();
-    this.props.getProvinceData();
-    // this.props.getSpiderChartData();
-    // this.props.getOverviewData();
-    // this.props.getSankeyChartData();
-    this.props.getBarDataByBenefBudget(viewDataBy);
-    this.props.getBarDataByInvestmentFocus(viewDataBy);
-    this.props.getSankeyChartData();
-
-    // this.props.getMapDataByDistrict(viewDataBy);
-    // this.props.getMapDataByMunicipality(viewDataBy);
-    this.props.getDistrictData();
-    this.props.getMunicipalityData();
-    const filterBar = document.getElementsByClassName(
-      'filter-bar',
-    )[0];
-    const provinceList = document.getElementsByClassName(
-      'filter-bar',
-    )[0];
-    const districtList = document.getElementsByClassName(
-      'filter-bar',
-    )[0];
-    const munList = document.getElementsByClassName('filter-bar')[0];
-    // console.log(specifiedElement, 'ss');
-    document.addEventListener('click', async event => {
-      const isClickInside = filterBar.contains(event.target);
-
-      if (!isClickInside) {
-        this.setState({
-          activeFilter: false,
-          // searchDropdown: false,
-        });
-        // the click was outside the specifiedElement, do something
-      }
-    });
-    // const provinceEl = document.getElementById(
-    //   'filter_dropdown_province',
-    // );
-    // const districtEl = document.getElementById(
-    //   'filter_dropdown_district',
-    // );
-    // const municipalityEl = document.getElementById(
-    //   'filter_dropdown_municipality',
-    // );
-    // // console.log(specifiedElement, 'ss');
-    // document.addEventListener('click', async event => {
-    //   const isClickInside = provinceEl.contains(event.target);
-    //   if (!isClickInside) {
-    //     this.setState({
-    //       activeProvince: false,
-    //       // searchDropdown: false,
-    //     });
-    //     // the click was outside the specifiedElement, do something
-    //   }
-    // });
-    // document.addEventListener('click', async event => {
-    //   const isClickInside = districtEl.contains(event.target);
-    //   if (!isClickInside) {
-    //     this.setState({
-    //       activeDistrict: false,
-    //       // searchDropdown: false,
-    //     });
-    //     // the click was outside the specifiedElement, do something
-    //   }
-    // });
-    // document.addEventListener('click', async event => {
-    //   const isClickInside = municipalityEl.contains(event.target);
-    //   if (!isClickInside) {
-    //     this.setState({
-    //       activeMunicipality: false,
-    //       // searchDropdown: false,
-    //     });
-    //     // the click was outside the specifiedElement, do something
-    //   }
-    // });
+    this.props.getMfsAllData();
   }
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      investmentFocusSelection,
-      viewDataBy,
       mapViewBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-      partnerType,
       selectedProvince,
       selectedDistrict,
       map,
-      activeView,
-      selectedMunicipality,
-      mapViewDataBy,
-      provinceList,
+      selectedPartner,
       districtList,
       municipalityList,
     } = this.state;
 
-    if (
-      prevState.investmentFocusSelection !== investmentFocusSelection
-    ) {
-      this.props.getProjectListData(investmentFocusSelection);
-      this.props.filterPartnerListByPartnerType(partnerType);
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ isAllProjectSelected: false });
-    }
-    if (prevState.mapViewDataBy !== mapViewDataBy) {
-      let view = 'investment';
-      if (this.props.mapViewDataBy === 'allocated_beneficiary') {
-        view = 'total_beneficiary';
-      } else if (this.props.mapViewDataBy === 'allocated_budget') {
-        view = 'total_beneficiary';
-      }
-      this.handleStateLevel(mapViewBy);
-      // this.props.getMapDataByProvince(view);
-      // if (this.props.mapViewDataBy !== 'investment_focus') {
-      // this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-      //   view,
-      //   this.props.mapViewBy,
-      //   { selectedMunicipality, selectedDistrict, selectedProvince },
-      // );
-      // }
-    }
-    if (prevState.mapViewBy !== mapViewBy) {
-      let view = 'investment';
-      if (this.props.mapViewDataBy === 'allocated_beneficiary') {
-        view = 'total_beneficiary';
-      } else if (this.props.mapViewDataBy === 'allocated_budget') {
-        view = 'total_beneficiary';
-      }
-      this.handleStateLevel(mapViewBy);
-      // this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-      //   view,
-      //   this.props.mapViewBy,
-      //   { selectedMunicipality, selectedDistrict, selectedProvince },
-      // );
-    }
-    if (prevState.viewDataBy !== viewDataBy) {
-      // this.props.getMapDataByProvince(viewDataBy);
-      // this.props.filterFinancialDataWithAllFilters(
-      //   'province',
-      //   viewDataBy,
-      //   partnerSelection,
-      //   projectSelection,
-      //   projectStatus,
-      // );
-      if (viewDataBy !== 'Leverage') {
-        this.props.getSankeyChartData(viewDataBy);
-        // this.props.filterSankeyChartData(
-        //   investmentFocusSelection,
-        //   projectSelection,
-        //   partnerType,
-        //   partnerSelection,
-        //   projectStatus,
-        // );
-        this.props.filterRadialData(
-          // 'province',
-          viewDataBy,
-          investmentFocusSelection,
-          projectSelection,
-          partnerType,
-          partnerSelection,
-          projectStatus,
-        );
-      }
-    }
-    if (prevState.partnerType !== partnerType) {
-      this.props.filterPartnerListByPartnerType(partnerType);
-    }
     if (prevState.selectedProvince !== selectedProvince) {
       console.log('selected provicne changed', selectedProvince);
       this.props.filterDistrictListFromProvince(selectedProvince);
@@ -313,20 +121,6 @@ class MainMFS extends Component {
       // console.log(filteredList, 'beforefilter');
       if (mapViewBy === 'province') {
         if (selectedProvince && selectedProvince.length > 0) {
-          // eslint-disable-next-line array-callback-return
-          // selectedDistrict.map(selectedDist => {
-          //   // console.log(province, 'prv1');
-          //   // eslint-disable-next-line array-callback-return
-          //   // districtList.map(district => {
-          //   //   // console.log(district, 'district');
-          //   //   if (selectedDist.code === district.province_code) {
-          //   //     // console.log(district, 'true');
-          //   filteredList.push(selectedDist);
-          //   //   }
-          //   // });
-          //   // console.log(filtered, 'test filtered');
-          // });
-          // console.log(filteredList, 'dist2 ');
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
@@ -347,21 +141,6 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            mapViewBy,
-            {
-              selectedMunicipality: [],
-              selectedDistrict: [],
-              selectedProvince,
-            },
-          );
         }
       }
       if (mapViewBy === 'district') {
@@ -400,21 +179,6 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            mapViewBy,
-            {
-              selectedMunicipality: [],
-              selectedDistrict: filteredList,
-              selectedProvince: [],
-            },
-          );
         } else if (selectedProvince && selectedProvince.length > 0) {
           // alert('province Selection on district');
           // eslint-disable-next-line array-callback-return
@@ -430,7 +194,7 @@ class MainMFS extends Component {
             });
             // console.log(filtered, 'test filtered');
           });
-          console.log(filteredList, 'dist2 ');
+
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
@@ -451,21 +215,7 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            mapViewBy,
-            {
-              selectedMunicipality: [],
-              selectedDistrict: filteredList,
-              selectedProvince: [],
-            },
-          );
+
           // console.log(intersection, 'filteredDistrictList');
         }
       } else if (mapViewBy === 'municipality') {
@@ -504,21 +254,6 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            mapViewBy,
-            {
-              selectedMunicipality: filteredList,
-              selectedDistrict: [],
-              selectedProvince: [],
-            },
-          );
         }
         if (selectedDistrict && selectedDistrict.length > 0) {
           // console.log(selectedProvince);
@@ -559,30 +294,16 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            mapViewBy,
-            {
-              selectedMunicipality: filteredList,
-              selectedDistrict: [],
-              selectedProvince: [],
-            },
-          );
-
           // console.log(intersection, 'filteredDistrictList');
         }
       }
     }
+    if (prevState.selectedPartner !== selectedPartner) {
+      this.props.filterByPartnerInstitution(selectedPartner);
+    }
   }
 
   handleFederalClickOnMap = (statelevel, code) => {
-    console.log(statelevel, code);
     if (statelevel === 'municipality') {
       const query = `code=${code}`;
       this.setState({
@@ -627,12 +348,6 @@ class MainMFS extends Component {
     this.setState(prevState => ({
       activeOverview: !prevState.activeOverview,
     }));
-  };
-
-  setViewDataBy = selectedView => {
-    this.setState({
-      viewDataBy: selectedView,
-    });
   };
 
   setMapViewDataBy = selectedView => {
@@ -736,26 +451,6 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            clickedValue,
-            {
-              selectedMunicipality,
-              selectedDistrict: [],
-              selectedProvince: [],
-            },
-          );
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         } else if (selectedDistrict && selectedDistrict.length > 0) {
           const combinedBbox = [];
           // console.log(selectedDistrict, 'selectedDistrict');
@@ -805,21 +500,6 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            clickedValue,
-            {
-              selectedMunicipality: filteredMunFromDist,
-              selectedDistrict: [],
-              selectedProvince: [],
-            },
-          );
         } else if (selectedProvince && selectedProvince.length > 0) {
           const combinedBbox = [];
           // console.log(selectedProvince, 'selectedProvine');
@@ -869,31 +549,6 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            clickedValue,
-            {
-              selectedMunicipality: filteredList,
-              selectedDistrict: [],
-              selectedProvince: [],
-            },
-          );
-          // const query = selectedProvince
-          //   .map(data => {
-          //     return `province_id_id=${data.code}`;
-          //   })
-          //   .join('&');
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         }
       } else if (clickedValue === 'district') {
         // if (selectedMunicipality.length > 0) {
@@ -949,26 +604,6 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            clickedValue,
-            {
-              selectedMunicipality: [],
-              selectedDistrict,
-              selectedProvince: [],
-            },
-          );
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         } else if (selectedProvince && selectedProvince.length > 0) {
           const combinedBbox = [];
           // console.log(selectedProvince, 'selectedProvine');
@@ -997,7 +632,6 @@ class MainMFS extends Component {
             });
             // console.log(filtered, 'test filtered');
           });
-          console.log(filteredList, 'dist2 ');
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
@@ -1018,26 +652,6 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            clickedValue,
-            {
-              selectedMunicipality: [],
-              selectedDistrict: filteredList,
-              selectedProvince: [],
-            },
-          );
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         }
       } else if (clickedValue === 'province') {
         if (selectedProvince && selectedProvince.length > 0) {
@@ -1052,10 +666,8 @@ class MainMFS extends Component {
             combinedBbox.push(data.bbox);
             return true;
           });
-          console.log(combinedBbox, 'combineBbox');
           const extendedValue = extendBounds(combinedBbox);
           // const { map } = this.state;
-          console.log(extendedValue, 'bbox');
           map.fitBounds(extendedValue);
           // map.flyToBounds(extendedValue, {
           //   animate: true,
@@ -1086,69 +698,14 @@ class MainMFS extends Component {
               }),
             ],
           ]);
-          let view = 'investment';
-          if (mapViewDataBy === 'allocated_beneficiary') {
-            view = 'total_beneficiary';
-          } else if (mapViewDataBy === 'allocated_budget') {
-            view = 'total_beneficiary';
-          }
-          this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-            view,
-            clickedValue,
-            {
-              selectedMunicipality: [],
-              selectedDistrict: [],
-              selectedProvince,
-            },
-          );
-          // const municipalityFilterUrl = `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&${query}`;
-          // this.setState({
-          //   vectorTileUrl: municipalityFilterUrl,
-          //   //
-          // });
         }
       }
       // alert('atleast on state is number');
-    } else if (clickedValue === 'province') {
-      // alert('province ');
-      // this.setState({
-      //   vectorTileUrl:
-      //     'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
-      //   //
-      //   //
-      // });
-      // this.props.filterAutomationDataForVectorTiles(clickedValue);
-    } else if (clickedValue === 'district') {
-      // this.setState({
-      //   vectorTileUrl:
-      //     'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
-      //   // vectorGridKey: '1',
-      //   //
-      //   // color: '#FF0000',
-      // });
-      // this.props.filterAutomationDataForVectorTiles(clickedValue);
-    } else if (clickedValue === 'municipality') {
-      // this.setState({
-      //   vectorTileUrl:
-      //     'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
-      //   // 'https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Municipality@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
-      //   // vectorGridKey: '2',
-      //   //
-      //   //
-      // });
-      // this.props.filterAutomationDataForVectorTiles(clickedValue);
     }
-    // this.setState({
-    //   selectedProvince: [],
-    //   selectedProvinceName: [],
-    //   selectedProvinceDropdown: [],
-    //   selectedDistrict: [],
-    //   selectedDistrictName: [],
-    //   selectedDistrictDropdown: [],
-    //   selectedMunicipality: [],
-    //   selectedMunicipalityName: [],
-    // });
-    // this.setState({ dataTypeLevel: clickedValue });
+    //  else if (clickedValue === 'province') {
+    // } else if (clickedValue === 'district') {
+    // } else if (clickedValue === 'municipality') {
+    // }
   };
 
   handleProvinceClick = (code, name) => {
@@ -1167,225 +724,30 @@ class MainMFS extends Component {
     this.setState({ showBarof: value });
   };
 
-  handleShowBarOfInvestmentBudgetBenefBar = value => {
-    this.setState({ showBarofInvestmentBudgetBenef: value });
-  };
-
-  handleInvestmentParentCheckbox = e => {
-    // e.stopPropagation();
-    const {
-      investmentFocusSelection,
-      isAllInvestmentFocusSelected,
-    } = this.state;
-    if (isAllInvestmentFocusSelected) {
-      const allInvestmentElement = document.getElementsByClassName(
-        'investment_checkbox',
-      );
-
-      for (let i = 0; i < allInvestmentElement.length; i += 1) {
-        allInvestmentElement[i].checked = false;
-      }
-      this.setState({
-        investmentFocusSelection: [],
-        isAllInvestmentFocusSelected: false,
-      });
+  handlePartnerSelection = clickedValue => {
+    const { selectedPartner } = this.state;
+    if (selectedPartner === clickedValue) {
+      this.setState({ selectedPartner: '' });
     } else {
-      this.setState({
-        isAllInvestmentFocusSelected: true,
-      });
-      if (e.target.checked === true) {
-        const allInvestmentElement = document.getElementsByClassName(
-          'investment_checkbox',
-        );
-        const selectedInvestment = investmentFocusSelection;
-        for (let i = 0; i < allInvestmentElement.length; i += 1) {
-          allInvestmentElement[i].checked = true;
-          selectedInvestment.push(allInvestmentElement[i].name);
-        }
-        this.setState({
-          investmentFocusSelection: selectedInvestment,
-        });
-        // this.setState({
-        //   checkedProgressItems: joined,
-        // });
-      }
+      this.setState({ selectedPartner: clickedValue });
     }
   };
 
-  handleInvestmentFocusCheckbox = e => {
-    const {
-      state: { investmentFocusSelection },
-    } = this;
-    const {
-      target: { name, checked, value },
-    } = e;
-    console.log(value);
-    this.setState(preState => {
-      if (checked) {
-        return {
-          investmentFocusSelection: [
-            ...preState.investmentFocusSelection,
-            name,
-          ],
-          projectSelection: [],
-        };
-      }
-      if (!checked) {
-        const newArr = investmentFocusSelection.filter(
-          daily => daily !== name,
-        );
-        return {
-          investmentFocusSelection: newArr,
-          projectSelection: [],
-        };
-      }
-      return null;
-    });
-  };
-
-  handleProjectParentCheckbox = e => {
-    // e.stopPropagation();
-    const { projectSelection, isAllProjectSelected } = this.state;
-    if (isAllProjectSelected) {
-      const allProjectElement = document.getElementsByClassName(
-        'project_checkbox',
-      );
-
-      for (let i = 0; i < allProjectElement.length; i += 1) {
-        allProjectElement[i].checked = false;
-      }
-      this.setState({
-        projectSelection: [],
-        isAllProjectSelected: false,
-      });
+  handleInnovationSelection = clickedValue => {
+    const { selectedInnovation } = this.state;
+    if (selectedInnovation === clickedValue) {
+      this.setState({ selectedInnovation: '' });
     } else {
-      this.setState({
-        isAllProjectSelected: true,
-      });
-      if (e.target.checked === true) {
-        const allProjectElement = document.getElementsByClassName(
-          'project_checkbox',
-        );
-        const selectedProject = projectSelection;
-        for (let i = 0; i < allProjectElement.length; i += 1) {
-          allProjectElement[i].checked = true;
-          selectedProject.push(
-            parseInt(allProjectElement[i].name, 10),
-          );
-        }
-        this.setState({
-          projectSelection: selectedProject,
-        });
-        // this.setState({
-        //   checkedProgressItems: joined,
-        // });
-      }
+      this.setState({ selectedInnovation: clickedValue });
     }
   };
 
-  handleProjectSelectionCheckbox = e => {
-    const {
-      state: { projectSelection, isAllPartnerSelected },
-    } = this;
-    const {
-      target: { name, checked },
-    } = e;
-
-    this.setState(preState => {
-      if (checked) {
-        return {
-          projectSelection: [
-            ...preState.projectSelection,
-            parseInt(name, 10),
-          ],
-        };
-      }
-      if (!checked) {
-        const newArr = projectSelection.filter(
-          projectselected => projectselected !== parseInt(name, 10),
-        );
-        return { projectSelection: newArr };
-      }
-      return null;
-    });
-  };
-
-  handlePartnerParentCheckbox = e => {
-    // e.stopPropagation();
-    const { partnerSelection, isAllPartnerSelected } = this.state;
-    if (isAllPartnerSelected) {
-      const allPartnerElement = document.getElementsByClassName(
-        'partner_checkbox',
-      );
-
-      for (let i = 0; i < allPartnerElement.length; i += 1) {
-        allPartnerElement[i].checked = false;
-      }
-      this.setState({
-        partnerSelection: [],
-        isAllPartnerSelected: false,
-      });
+  handleAchievementSelection = clickedValue => {
+    const { selectedAchievement } = this.state;
+    if (selectedAchievement === clickedValue) {
+      this.setState({ selectedAchievement: '' });
     } else {
-      this.setState({
-        isAllPartnerSelected: true,
-      });
-      if (e.target.checked === true) {
-        const allPartnerElement = document.getElementsByClassName(
-          'partner_checkbox',
-        );
-        const selectedPartner = partnerSelection;
-        for (let i = 0; i < allPartnerElement.length; i += 1) {
-          allPartnerElement[i].checked = true;
-          selectedPartner.push(
-            parseInt(allPartnerElement[i].name, 10),
-          );
-        }
-        this.setState({
-          partnerSelection: selectedPartner,
-        });
-        // this.setState({
-        //   checkedProgressItems: joined,
-        // });
-      }
-    }
-  };
-
-  handlePartnerSelectionCheckbox = e => {
-    const {
-      state: { partnerSelection, isAllPartnerSelected },
-    } = this;
-    const {
-      target: { name, checked },
-    } = e;
-    this.setState(preState => {
-      if (checked) {
-        return {
-          partnerSelection: [
-            ...preState.partnerSelection,
-            parseInt(name, 10),
-          ],
-        };
-      }
-      if (!checked) {
-        const newArr = partnerSelection.filter(
-          partnerSelected => partnerSelected !== parseInt(name, 10),
-        );
-        return { partnerSelection: newArr };
-      }
-      return null;
-    });
-  };
-
-  handleProjectStatus = clickedValue => {
-    const { projectStatus } = this.state;
-    if (projectStatus.includes(clickedValue)) {
-      const filteredData = projectStatus.filter(
-        data => data !== clickedValue,
-      );
-      this.setState({ projectStatus: filteredData });
-    } else {
-      const addedPartnerType = projectStatus.concat(clickedValue);
-      this.setState({ projectStatus: addedPartnerType });
+      this.setState({ selectedAchievement: clickedValue });
     }
   };
 
@@ -1404,39 +766,32 @@ class MainMFS extends Component {
 
   applyBtnClick = () => {
     const {
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-      investmentFocusSelection,
-      partnerType,
-      activeView,
-      selectedMunicipality,
-      selectedDistrict,
-      selectedProvince,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
     } = this.state;
-    if (activeView === 'visualization') {
-      this.handleShowBarOf('Provinces');
-      this.handleShowBarOfInvestmentBudgetBenefBar('investmentFocus');
-      // document.querySelectorAll('.chart-reset').forEach(el => {
-      //   el.click();
-      // });
-      this.props.filterOverviewData(
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-      );
+
+    if (selectedPartner === '') {
+      toast.warning('⚠ Please Select Partner!');
+    } else if (selectedInnovation === '') {
+      toast.warning('⚠ Please Select Innovation Type!');
+    } else if (selectedAchievement === '') {
+      toast.warning('⚠ Please Select Achievement!');
     } else {
-      this.props.filterMapChoropleth(
-        investmentFocusSelection,
-        projectSelection,
-        projectStatus,
-        partnerType,
-        partnerSelection,
-        { selectedMunicipality, selectedDistrict, selectedProvince },
+      this.props.filterMfsChoroplethData(
+        selectedPartner,
+        selectedInnovation,
+        selectedAchievement,
       );
     }
+    // this.props.filterMapChoropleth(
+    //   investmentFocusSelection,
+    //   projectSelection,
+    //   projectStatus,
+    //   partnerType,
+    //   partnerSelection,
+    //   { selectedMunicipality, selectedDistrict, selectedProvince },
+    // );
   };
 
   // eslint-disable-next-line consistent-return
@@ -1549,6 +904,9 @@ class MainMFS extends Component {
         selectedProvince,
         selectedDistrict,
         selectedMunicipality,
+        selectedInnovation,
+        selectedPartner,
+        selectedAchievement,
         provinceList,
         districtList,
         municipalityList,
@@ -1564,37 +922,35 @@ class MainMFS extends Component {
       <>
         <Headers />
         <div
-          className={`automation-wrapper literacy-wrapper ${
+          className={`automation-wrapper literacy-wrapper mfs-wrapper ${
             activeOverview ? 'expand-right-sidebar' : ''
           }`}
         >
+          <ToastContainer
+            style={{
+              fontFamily: 'Avenir Heavy',
+              fontSize: '.9125rem',
+              color: 'black',
+            }}
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
           <LeftSideBar
             resetFilters={this.resetFilters}
             applyBtnClick={this.applyBtnClick}
-            investmentFocusSelection={investmentFocusSelection}
-            handleInvestmentFocusCheckbox={
-              this.handleInvestmentFocusCheckbox
-            }
-            projectSelection={projectSelection}
-            handleProjectSelectionCheckbox={
-              this.handleProjectSelectionCheckbox
-            }
-            projectStatus={projectStatus}
-            handleProjectStatus={this.handleProjectStatus}
-            partnerType={partnerType}
-            handlePartnerType={this.handlePartnerType}
-            partnerSelection={partnerSelection}
-            handlePartnerSelectionCheckbox={
-              this.handlePartnerSelectionCheckbox
-            }
-            handlePartnerParentCheckbox={
-              this.handlePartnerParentCheckbox
-            }
-            handleProjectParentCheckbox={
-              this.handleProjectParentCheckbox
-            }
-            handleInvestmentParentCheckbox={
-              this.handleInvestmentParentCheckbox
+            selectedPartner={selectedPartner}
+            handlePartnerSelection={this.handlePartnerSelection}
+            selectedInnovation={selectedInnovation}
+            handleInnovationSelection={this.handleInnovationSelection}
+            selectedAchievement={selectedAchievement}
+            handleAchievementSelection={
+              this.handleAchievementSelection
             }
           />
           <main className="main">
@@ -1968,44 +1324,14 @@ class MainMFS extends Component {
     );
   }
 }
-const mapStateToProps = ({ Mfsreducer }) => ({
-  Mfsreducer,
+const mapStateToProps = ({ mfsReducer, commonReducer }) => ({
+  mfsReducer,
+  commonReducer,
 });
 export default connect(mapStateToProps, {
-  getPartnershipInvestmentFocus,
-  getProjectListData,
-  // getMapDataByProvince,
-  getMapDataByDistrict,
-  getMapDataByMunicipality,
-  getFilteredMapData,
-  getRadialData,
-  getPartnersList,
-  filterPartnerListByPartnerType,
-  filterFinancialDataWithAllFilters,
-  getDistrictDataFromProvince,
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
-  filterRadialData,
-  getBarDataByBenefBudget,
-  // getSpiderChartData,
-  getSankeyChartData,
-  filterSankeyChartData,
-  getOverviewData,
-  filterOverviewData,
+  getMfsAllData,
+  filterMfsChoroplethData,
+  filterByPartnerInstitution,
   filterDistrictListFromProvince,
   filterMunListFromDistrict,
-  filterFinancialDataWithAllFiltersAndFederal,
-  getPartnershipAllData,
-  resetBarDatas,
-  resetRadialData,
-  resetSankeyChartData,
-  resetOverviewData,
-  resetLeverageData,
-  filterLeverageData,
-  getBarDataByInvestmentFocus,
-  filterBarDataByInvestment,
-  resetBarDataByInvestmentFocus,
-  filterMapChoropleth,
-  filterMapDataOfCircleMarkerWithViewDataBy,
 })(MainMFS);
