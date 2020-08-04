@@ -341,8 +341,9 @@ class PlotVector extends Component {
       const waiting = () => {
         if (!map.isStyleLoaded()) {
           setTimeout(waiting, 200);
+          that.props.loadingHandler(1);
         } else {
-          that.props.loadingHandler();
+          that.props.loadingHandler(2);
         }
       };
       waiting();

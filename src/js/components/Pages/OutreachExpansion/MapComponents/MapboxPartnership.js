@@ -2,10 +2,23 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
+import ContentLoader from 'react-content-loader';
 import { connect } from 'react-redux';
 import PlotVector from './PlotVector';
 import MunicipalityPopUp from './MunicipalityPopUp';
 import MarkerPopup from './MarkerPopUp';
+
+const MyLoader = () => (
+  <ContentLoader
+    height="90vh"
+    speed={1}
+    backgroundColor="#b3b3b3"
+    foregroundColor="#9a9a9a"
+    viewBox="0 0 380 70"
+  >
+    <rect x="0" y="0" width="100%" height="100%" />
+  </ContentLoader>
+);
 
 class MapboxPartnership extends Component {
   constructor(props) {
@@ -300,12 +313,13 @@ class MapboxPartnership extends Component {
       markerOpen,
       markerData,
     } = this.state;
-    const { map } = this.props;
+    const { map, loading } = this.props;
 
     const choroplethData = filteredMapData;
     return (
       <>
         <div id="key" ref={this.keyRef} />
+
         <div id="map">
           {map && (
             <div>
@@ -330,6 +344,17 @@ class MapboxPartnership extends Component {
                 />
               )}
               <div ref={this.markerRef} />
+            </div>
+          )}
+          {loading && (
+            <div
+              style={{
+                position: 'relative',
+                ZIndex: '10',
+              }}
+            >
+              {' '}
+              <MyLoader />
             </div>
           )}
         </div>

@@ -61,7 +61,7 @@ class MainPartnership extends Component {
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       localOutreachSelected: '',
-      loading: true,
+      loading: false,
     };
   }
 
@@ -434,9 +434,10 @@ class MainPartnership extends Component {
       serviceType,
       expsnsionSelection,
       partnerSelection,
+      primaryData,
     } = this.state;
     let filteredData = [];
-    const { primaryData } = this.props.outreachReducer;
+    // const { primaryData } = this.props.outreachReducer;
 
     if (
       G2PTypes.length === 0 &&
@@ -717,7 +718,8 @@ class MainPartnership extends Component {
   };
 
   filterMarkers = (type, array) => {
-    const { primaryData } = this.props.outreachReducer;
+    // const { primaryData } = this.props.outreachReducer;
+    const { primaryData } = this.state;
     const filteredArray = array.filter(data => data.value !== 'all');
     const filteredPrimaryData = [];
 
@@ -857,6 +859,7 @@ class MainPartnership extends Component {
       selectedMunicipality: 'null',
       selectedProvince: provinceLists(),
     });
+    const { primaryData } = this.props.outreachReducer;
 
     if (mapViewDataBy === 'outreach_local_units') {
       this.setState({
@@ -875,12 +878,21 @@ class MainPartnership extends Component {
     } else if (mapViewDataBy === 'general_outreach') {
       map.setZoom(6);
       map.setCenter([84.5, 28.5]);
-      this.setMapViewBy('province');
+      setTimeout(() => {
+        this.setMapViewBy('province');
+        this.changeMapTiles(this.state.selectedProvince);
+      }, 100);
+
+      this.setState({ primaryData });
     }
   };
 
-  loadingHandler = () => {
-    this.setState({ loading: false });
+  loadingHandler = value => {
+    if (value === 1) {
+      this.setState({ loading: true });
+    } else {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
@@ -911,7 +923,7 @@ class MainPartnership extends Component {
       },
     } = this;
 
-    // console.log('loading', loading);
+    console.log('loading', loading);
 
     return (
       <>
@@ -947,7 +959,7 @@ class MainPartnership extends Component {
           />
           <main className="main">
             <div className="main-card literacy-main-card">
-              <Loading loaderState={loading} top="50%" left="46%" />
+              {/* <Loading loaderState={loading} top="50%" left="46%" /> */}
               <div
                 className={`partnership-filter ${
                   activeView === 'map' ? 'is-position' : ''
@@ -1062,6 +1074,7 @@ class MainPartnership extends Component {
                   {activeView === 'map' && (
                     <MapboxPartnership
                       map={map}
+                      loading={loading}
                       vectorTileUrl={vectorTileUrl}
                       mapViewBy={mapViewBy}
                       mapViewDataBy={mapViewDataBy}
