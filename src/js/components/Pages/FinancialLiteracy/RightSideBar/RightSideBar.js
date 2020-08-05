@@ -5,6 +5,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CaretDown, CaretUp } from './Caret';
 import './custom.css';
+import {
+  WidgetCardLoader,
+  WidgetBodyLoader,
+} from '../Loader/RightSidebarLoaderFL';
 
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
@@ -51,6 +55,7 @@ class RightSideBar extends Component {
       filteredData: [],
       maxValue: 0,
       timelineData: [],
+      loading: true,
     };
   }
 
@@ -385,12 +390,11 @@ class RightSideBar extends Component {
     });
   };
 
-  // componentDidMount() {
-  //   setTimeout(() => {
-  //     const x = document.getElementById('2018');
-  //     x.style.display = 'block';
-  //   }, 300);
-  // }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 2700);
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -546,6 +550,7 @@ class RightSideBar extends Component {
       programCount,
       maxValue,
       timelineData,
+      loading,
     } = this.state;
 
     return (
@@ -560,205 +565,109 @@ class RightSideBar extends Component {
                 className="widget-body"
                 style={{ backgroundColor: '#f7f7f7' }}
               >
-                <ul className="widget-list">
-                  <li>
-                    <div className="widget-content">
-                      <h6>Total Beneficiaries</h6>
-                      <span>
-                        {numberWithCommas(totalBeneficiaries)}
-                      </span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">people</i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Partner Institutions</h6>
-                      <span>{partnerCount}</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">
-                          location_city
-                        </i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Financial Literacy Initiative</h6>
-                      <span>{programCount}</span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">business</i>
-                      </span>
-                    </div>
-                  </li>
-                </ul>
+                {loading ? (
+                  <WidgetCardLoader />
+                ) : (
+                  <ul className="widget-list">
+                    <li>
+                      <div className="widget-content">
+                        <h6>Total Beneficiaries</h6>
+                        <span>
+                          {numberWithCommas(totalBeneficiaries)}
+                        </span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">people</i>
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="widget-content">
+                        <h6>Partner Institutions</h6>
+                        <span>{partnerCount}</span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">
+                            location_city
+                          </i>
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="widget-content">
+                        <h6>Financial Literacy Initiative</h6>
+                        <span>{programCount}</span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">business</i>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                )}
               </div>
             </div>
             <div className="sidebar-widget program-widget">
-              <h5>Beneficiaries and Partner Count</h5>
-              <div className="widget-body">
-                {filteredData &&
-                  filteredData.map(item => {
-                    if (item.value !== 0) {
-                      const width = (item.value * 100) / maxValue;
+              {loading ? (
+                <WidgetBodyLoader />
+              ) : (
+                <>
+                  <h5>Beneficiaries and Partner Count</h5>
+                  <div className="widget-body">
+                    {filteredData &&
+                      filteredData.map(item => {
+                        if (item.value !== 0) {
+                          const width = (item.value * 100) / maxValue;
 
-                      return (
-                        <div
-                          className="program-list"
-                          key={item.program_id}
-                        >
-                          <div className="program-info">
-                            <div className="info-in">
-                              <h6 style={{ fontSize: '12px' }}>
-                                {item.program_name}
-                              </h6>
+                          return (
+                            <div
+                              className="program-list"
+                              key={item.program_id}
+                            >
+                              <div className="program-info">
+                                <div className="info-in">
+                                  <h6 style={{ fontSize: '12px' }}>
+                                    {item.program_name}
+                                  </h6>
 
-                              <div className="program-text">
-                                <i className="material-icons">
-                                  location_city
-                                </i>
+                                  <div className="program-text">
+                                    <i className="material-icons">
+                                      location_city
+                                    </i>
 
-                                <span>{item.count}</span>
-                                {/* <span>{item.code}</span> */}
+                                    <span>{item.count}</span>
+                                    {/* <span>{item.code}</span> */}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="program">
+                                <div
+                                  className="program-bar"
+                                  tooltip={`${
+                                    item.program_name
+                                  }: ${numberWithCommas(item.value)}`}
+                                  flow="down"
+                                  style={{
+                                    width: `${width}%`,
+                                    backgroundColor: colorPicker(
+                                      item.program_id,
+                                    ),
+                                  }}
+                                >
+                                  {/* {numberWithCommas(item.value)} */}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="program">
-                            <div
-                              className="program-bar"
-                              tooltip={`${
-                                item.program_name
-                              }: ${numberWithCommas(item.value)}`}
-                              flow="down"
-                              style={{
-                                width: `${width}%`,
-                                backgroundColor: colorPicker(
-                                  item.program_id,
-                                ),
-                              }}
-                            >
-                              {/* {numberWithCommas(item.value)} */}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return true;
-                  })}
-
-                {/* <div className="program-list">
-                  <div className="program-info">
-                    <div className="info-in">
-                      <h5>PGT</h5>
-                      <div className="program-text">
-                        <i className="material-icons">business</i>
-                        <span>14</span>
-                      </div>
-                    </div>
+                          );
+                        }
+                        return true;
+                      })}
                   </div>
-                  <div className="program">
-                    <div
-                      className="program-bar is-red"
-                      tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
-                      flow="up"
-                      style={{ width: '56%' }}
-                    >
-                      197298
-                    </div>
-                  </div>
-                </div>
-                <div className="program-list">
-                  <div className="program-info">
-                    <div className="info-in">
-                      <h5>Centre meeting</h5>
-                      <div className="program-text">
-                        <i className="material-icons">business</i>
-                        <span>14</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="program">
-                    <div
-                      className="program-bar is-orange"
-                      tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
-                      flow="up"
-                      style={{ width: '56%' }}
-                    >
-                      197298
-                    </div>
-                  </div>
-                </div>
-                <div className="program-list">
-                  <div className="program-info">
-                    <div className="info-in">
-                      <h5>IVR</h5>
-                      <div className="program-text">
-                        <i className="material-icons">business</i>
-                        <span>14</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="program">
-                    <div
-                      className="program-bar is-blue"
-                      tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
-                      flow="up"
-                      style={{ width: '56%' }}
-                    >
-                      197298
-                    </div>
-                  </div>
-                </div>
-                <div className="program-list">
-                  <div className="program-info">
-                    <div className="info-in">
-                      <h5>Tab</h5>
-                      <div className="program-text">
-                        <i className="material-icons">business</i>
-                        <span>14</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="program">
-                    <div
-                      className="program-bar is-pink"
-                      tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
-                      flow="up"
-                      style={{ width: '56%' }}
-                    >
-                      197298
-                    </div>
-                  </div>
-                </div>
-                <div className="program-list">
-                  <div className="program-info">
-                    <div className="info-in">
-                      <h5>Tab</h5>
-                      <div className="program-text">
-                        <i className="material-icons">business</i>
-                        <span>14</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="program">
-                    <div
-                      className="program-bar is-other"
-                      tooltip="Chhimek Laghubitta Bittiya Sanstha:162"
-                      flow="up"
-                      style={{ width: '56%' }}
-                    >
-                      197298
-                    </div>
-                  </div>
-                </div> */}
-              </div>
+                </>
+              )}
             </div>
             <div className="sidebar-widget timeline-widget">
               <h5 style={{ marginBottom: 0 }}>Initiative Timeline</h5>
