@@ -618,6 +618,12 @@ class MainPartnership extends Component {
     this.setState(prevState => ({
       activeFilter: !prevState.activeFilter,
     }));
+    // document.querySelectorAll('.select-dropdown span').forEach(el => {
+    //   el.classList.remove('span-active');
+    // });
+    // document.querySelectorAll('.select-dropdown ul').forEach(el => {
+    //   el.classList.remove('active');
+    // });
   };
 
   setActiveOverview = () => {
@@ -1419,9 +1425,16 @@ class MainPartnership extends Component {
   resetLeftSideBarSelection = () => {
     this.setState({
       investmentFocusSelection: [],
+      isAllInvestmentFocusSelected: false,
       partnerSelection: [],
+      isAllPartnerSelected: false,
       projectSelection: [],
+      isAllProjectSelected: false,
       partnerType: [],
+    });
+    document.querySelectorAll('.allCheckbox').forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.checked = false;
     });
   };
 
@@ -1435,6 +1448,7 @@ class MainPartnership extends Component {
       selectedMunicipality: [],
       partnerType: [],
     });
+
     if (activeView === 'visualization') {
       // this.props.resetRadialData();
       this.props.resetSankeyChartData();

@@ -165,7 +165,7 @@ class FilterTab extends Component {
             <span>Filters</span>
           </button>
           <div className="filter-content">
-            <div className="view-list">
+            {/* <div className="view-list">
               <span>view by</span>
               <ul className="tab-list">
                 <li
@@ -219,7 +219,7 @@ class FilterTab extends Component {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div className="filter-row">
               <div className="filter-list">
                 <div className="form-group province">
@@ -235,37 +235,33 @@ class FilterTab extends Component {
                     }}
                   />
                 </div>
-                {mapViewBy === 'municipality' ||
-                mapViewBy === 'district' ? (
-                  <div className="form-group district">
-                    <Select
-                      withCheckbox
-                      name="Select District"
-                      options={districtList && districtList}
-                      onChange={selectedOptions => {
-                        this.setState({
-                          selectedDistrict: selectedOptions,
-                        });
-                        // eslint-disable-next-line react/jsx-curly-newline
-                      }}
-                    />
-                  </div>
-                ) : null}
-                {mapViewBy === 'municipality' && (
-                  <div className="form-group municipality">
-                    <Select
-                      withCheckbox
-                      name="Select Municipality"
-                      options={municipalityList && municipalityList}
-                      onChange={selectedOptions => {
-                        this.setState({
-                          selectedMunicipality: selectedOptions,
-                        });
-                        // eslint-disable-next-line react/jsx-curly-newline
-                      }}
-                    />
-                  </div>
-                )}
+                <div className="form-group district">
+                  <Select
+                    withCheckbox
+                    name="Select District"
+                    options={districtList && districtList}
+                    onChange={selectedOptions => {
+                      this.setState({
+                        selectedDistrict: selectedOptions,
+                      });
+                      // eslint-disable-next-line react/jsx-curly-newline
+                    }}
+                  />
+                </div>
+
+                <div className="form-group municipality">
+                  <Select
+                    withCheckbox
+                    name="Select Municipality"
+                    options={municipalityList && municipalityList}
+                    onChange={selectedOptions => {
+                      this.setState({
+                        selectedMunicipality: selectedOptions,
+                      });
+                      // eslint-disable-next-line react/jsx-curly-newline
+                    }}
+                  />
+                </div>
               </div>
               <div className="buttons is-end">
                 <button

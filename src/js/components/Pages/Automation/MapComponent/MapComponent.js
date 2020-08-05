@@ -429,7 +429,7 @@ class MapComponent extends Component {
             //   '#BD0026',
             //   '#800026',
             // ]} // multi color custom gradient
-            divisions={inputDivisions}
+            // divisions={inputDivisions}
             // divisions={[0, 5, 10, 15, 20]}
             // choroplethTitle = {"New Choropleth"}
             vectorGridUrl={vectorGridInputUrl} // vectortile url setting

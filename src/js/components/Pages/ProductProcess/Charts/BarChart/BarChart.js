@@ -2,10 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import {
-  getProductProcessList,
-  filterBarChartData,
-} from '../../../../../actions/productProcess.actions';
+import { getProductProcessList } from '../../../../../actions/productProcess.actions';
 
 class BarChart extends Component {
   constructor(props) {
@@ -86,6 +83,7 @@ class BarChart extends Component {
           show: false,
         },
       },
+
       // tooltip: {
       //   fixed: {
       //     enabled: true,
@@ -199,5 +197,4 @@ const mapStateToProps = ({ productProcessReducer }) => ({
 
 export default connect(mapStateToProps, {
   getProductProcessList,
-  filterBarChartData,
 })(BarChart);

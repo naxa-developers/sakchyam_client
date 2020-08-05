@@ -127,12 +127,21 @@ class MiddleChartSection extends Component {
         return (
           <SunburstContainer
             data={radialData}
-            height={700}
+            height={window.innerWidth < 1400 ? 560 : 700}
             width={900}
             count_member="size"
             activeModal={activeModal}
+            onClick={this.handleSunburstClick}
             // reset={this.props.resetSunburst}
           />
+          // <Sunburst
+          //   data={radialData}
+          //   height={700}
+          //   width={900}
+          //   count_member="size"
+          //   onClick={this.handleSunburstClick}
+          //   // activeModal={props.activeModal}
+          // />
         );
 
       case 'sankey':

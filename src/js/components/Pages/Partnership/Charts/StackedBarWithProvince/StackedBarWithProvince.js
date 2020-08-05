@@ -587,6 +587,12 @@ class StackedBarWithProvince extends Component {
         //   offsetY: 30,
         //   offsetX: 60,
         // },
+        fixed: {
+          enabled: true,
+          position: 'topRight',
+          offsetX: 0,
+          offsetY: 0,
+        },
         x: {
           show: true,
           // format: 'dd MMM',

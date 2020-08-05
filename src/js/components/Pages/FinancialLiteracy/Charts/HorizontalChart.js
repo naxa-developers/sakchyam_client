@@ -8,6 +8,30 @@ import { connect } from 'react-redux';
 // color: #40a8be;
 // color: #de2693;
 
+function convertLabelName(name) {
+  const nameArr = name.split(' ');
+  let firstElement;
+  let rest;
+  if (nameArr.length < 3) {
+    // eslint-disable-next-line prefer-destructuring
+    firstElement = nameArr[0];
+    rest = name
+      .split(' ')
+      .slice(1)
+      .join(' ');
+  } else {
+    firstElement = `${nameArr[0]} ${nameArr[1]}`;
+    rest = name
+      .split(' ')
+      .slice(2)
+      .join(' ');
+  }
+
+  const newName = [firstElement, rest];
+
+  return newName;
+}
+
 function colorPicker(i) {
   if (i % 25 === 0) return '#91664E';
   if (i % 25 === 1) return '#13A8BE';
@@ -142,12 +166,25 @@ class HorizontalChart extends Component {
 
     filteredData.sort((a, b) => b.value - a.value);
 
+    if (clickedPartner === 'Chhimek') {
+      const arr1 = [];
+      filteredData.forEach(item => {
+        if (item.program_name === 'Other Initiatives')
+          arr1.push({
+            ...item,
+            program_name: 'Dedicated Financial Literacy Sessions',
+          });
+        else arr1.push(item);
+      });
+      filteredData = arr1;
+    }
+
     const arr = [];
     const categories = [];
     const allProgramColor = [];
     filteredData.map(item => {
       arr.push(item.value);
-      categories.push(item.program_name);
+      categories.push(convertLabelName(item.program_name));
       allProgramColor.push(colorPicker(item.program_id));
       return true;
     });
@@ -172,6 +209,24 @@ class HorizontalChart extends Component {
           xaxis: {
             ...prevState.options.xaxis,
             categories,
+            labels: {
+              ...prevState.options.xaxis.labels,
+              // formatter(value, timestamp, index) {
+              //   console.log(
+              //     timestamp.w &&
+              //       timestamp.w.config.xaxis.categories.includes(
+              //         'Other Initiatives',
+              //       ),
+              //     'timestamp',
+              //   );
+              //   // console.log(index, 'index');
+              //   return value === 'Other Initiatives' &&
+              //     timestamp.w &&
+              //     timestamp.w.config.xaxis.categories
+              //     ? 'hello'
+              //     : value;
+              // },
+            },
           },
           title: {
             text: prevState.clickedPartnerName,
@@ -276,6 +331,9 @@ class HorizontalChart extends Component {
           style: {
             fontSize: '10px',
           },
+          // formatter(value, timestamp, index) {
+          //   return value === 'Other Initiatives' ? 'hello' : value;
+          // },
         },
       },
       yaxis: {
@@ -320,7 +378,8 @@ class HorizontalChart extends Component {
         marker: {
           show: false,
         },
-        y: { formatter: val => numberWithCommas(val) },
+        // x: { formatter: val => numberWithCommas(`${val} hello`) },
+        y: { formatter: val => numberWithCommas(`${val}`) },
       },
     };
     this.setState({ options, series });
@@ -395,6 +454,15 @@ class HorizontalChart extends Component {
             xaxis: {
               ...preState.options.xaxis,
               categories: filteredByProgram.label,
+              // labels: {
+              //   ...preState.options.xaxis.labels,
+              //   formatter(value, timestamp, index) {
+              //     console.log(timestamp, 'timestamp');
+              //     return value === 'Other Initiatives'
+              //       ? 'hello'
+              //       : value;
+              //   },
+              // },
             },
           },
         }));
@@ -462,6 +530,15 @@ class HorizontalChart extends Component {
               xaxis: {
                 ...preState.options.xaxis,
                 categories: filteredByProgram.label,
+                // labels: {
+                //   ...preState.options.xaxis.labels,
+                //   formatter(value, timestamp, index) {
+                //     console.log(timestamp, 'timestamp');
+                //     return value === 'Other Initiatives'
+                //       ? 'hello'
+                //       : value;
+                //   },
+                // },
               },
             },
           },
@@ -479,35 +556,6 @@ class HorizontalChart extends Component {
       prevProps.financialReducer.filteredByProgram !==
       this.props.financialReducer.filteredByProgram
     ) {
-      // if (
-      //   filteredByProgram.series[0].data.length > 2
-      //   // filteredByProgram.series.length > 10
-      // ) {
-      //   this.setState(preState => ({
-      //     height: 400,
-      //     series: filteredByProgram.series,
-      //     options: {
-      //       ...preState.options,
-      //       plotOptions: {
-      //         ...preState.options.plotOptions,
-      //         bar: {
-      //           ...preState.options.plotOptions.bar,
-      //           barHeight: '80%',
-      //           columnWidth:
-      //             this.props.checkedPartnerItems &&
-      //             this.props.checkedPartnerItems.length < 2
-      //               ? '100%'
-      //               : '15%',
-      //         },
-      //       },
-      //       colors: filteredByProgram.color,
-      //       xaxis: {
-      //         ...preState.options.xaxis,
-      //         categories: filteredByProgram.label,
-      //       },
-      //     },
-      //   }));
-      // } else {
       this.setState(preState => ({
         // height: 400,
         series: filteredByProgram.series,
@@ -529,6 +577,15 @@ class HorizontalChart extends Component {
           xaxis: {
             ...preState.options.xaxis,
             categories: filteredByProgram.label,
+            //   labels: {
+            //     ...preState.options.xaxis.labels,
+            //     formatter(value, timestamp, index) {
+            //       console.log(timestamp, 'timestamp');
+            //       return value === 'Other Initiatives'
+            //         ? 'hello'
+            //         : value;
+            //     },
+            //   },
           },
         },
       }));
@@ -564,6 +621,40 @@ class HorizontalChart extends Component {
               },
             },
             legend: { show: true, fontSize: '10px' },
+            // xaxis: {
+            //   ...preState.options.xaxis,
+            //   labels: {
+            //     ...preState.options.xaxis.labels,
+            //     formatter(value, timestamp, index) {
+            //       console.log(value, 'timestamp');
+            //       return value === 'Chhimek' ? 'hello' : value;
+            //     },
+            //   },
+            // },
+            tooltip: {
+              // shared: true,
+              followCursor: true,
+              inverseOrder: true,
+              x: {
+                show: true,
+                format: 'dd MMM',
+                //   formatter(
+                //     value,
+                //     { series, seriesIndex, dataPointIndex, w },
+                //   ) {
+                //     return `${value} 1`;
+                //   },
+              },
+              y: {
+                // title: {
+                //   formatter: (seriesName, i, j) => {
+                //     console.log(seriesName, 'series');
+                //     console.log(i, 'i');
+                //     return `hello ${seriesName}`;
+                //   },
+                // },
+              },
+            },
           },
         },
       }));
@@ -598,6 +689,18 @@ class HorizontalChart extends Component {
               // ...preState.programChart.options.title,
               text: '',
             },
+            //   xaxis: {
+            //     ...preState.options.xaxis,
+            //     labels: {
+            //       ...preState.options.xaxis.labels,
+            //       formatter(value, timestamp, index) {
+            //         console.log(timestamp, 'timestamp');
+            //         return value === 'Other Initiatives'
+            //           ? 'hello'
+            //           : value;
+            //       },
+            //     },
+            //   },
           },
         },
       }));
@@ -652,6 +755,7 @@ class HorizontalChart extends Component {
       handleSelectedModal,
       activeModal,
       isToggled,
+      isDownloading,
     } = this.props;
     const {
       financialReducer: { filteredByProgram },
@@ -671,22 +775,23 @@ class HorizontalChart extends Component {
           style={activeModal && { backgroundColor: '#fff' }}
         >
           {!activeModal && <h5>{title}</h5>}
-          <div className="header-icons">
-            {!isBarChartClicked && (
-              <div className="card-switcher">
-                <small>Single Count</small>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={isToggled}
-                    onChange={this.props.handleBarChartToggle}
-                  />
-                  <span className="slider" />
-                </label>
-                <small>Initiative Wise</small>
-              </div>
-            )}
-            {/* {!isBarChartClicked && (
+          {!isDownloading && (
+            <div className="header-icons">
+              {!isBarChartClicked && (
+                <div className="card-switcher">
+                  <small>Single Count</small>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      checked={isToggled}
+                      onChange={this.props.handleBarChartToggle}
+                    />
+                    <span className="slider" />
+                  </label>
+                  <small>Initiative Wise</small>
+                </div>
+              )}
+              {/* {!isBarChartClicked && (
               <button
                 type="button"
                 onClick={this.handleBarChartToggle}
@@ -694,48 +799,49 @@ class HorizontalChart extends Component {
                 Toggle
               </button>
             )} */}
-            {isBarChartClicked && (
-              <button
-                id="chart-reset"
-                type="button"
-                onClick={this.handleBarChartBackBtn}
-                className="is-border common-button chart-reset"
-              >
-                Reset
-              </button>
-            )}
-            {!activeModal && (
-              <>
-                <span
-                  onClick={() => {
-                    downloadPng('horizontal-chart', `${title}`);
-                  }}
-                  onKeyDown={() => {
-                    downloadPng('horizontal-chart', `${title}`);
-                  }}
-                  className=""
-                  role="tab"
-                  tabIndex="0"
+              {isBarChartClicked && (
+                <button
+                  id="chart-reset"
+                  type="button"
+                  onClick={this.handleBarChartBackBtn}
+                  className="is-border common-button chart-reset"
                 >
-                  <img src={DownloadIcon} alt="open" />
-                </span>
-                <span
-                  role="tab"
-                  tabIndex="0"
-                  onClick={() => {
-                    handleModal();
-                    handleSelectedModal('bar', `${title}`);
-                  }}
-                  onKeyDown={() => {
-                    handleModal();
-                    handleSelectedModal('bar', `${title}`);
-                  }}
-                >
-                  <img src={ExpandIcon} alt="open" />
-                </span>
-              </>
-            )}
-          </div>
+                  Reset
+                </button>
+              )}
+              {!activeModal && (
+                <>
+                  <span
+                    onClick={() => {
+                      downloadPng('chart-horizontal', `${title}`);
+                    }}
+                    onKeyDown={() => {
+                      downloadPng('chart-horizontal', `${title}`);
+                    }}
+                    className=""
+                    role="tab"
+                    tabIndex="0"
+                  >
+                    <img src={DownloadIcon} alt="open" />
+                  </span>
+                  <span
+                    role="tab"
+                    tabIndex="0"
+                    onClick={() => {
+                      handleModal();
+                      handleSelectedModal('bar', `${title}`);
+                    }}
+                    onKeyDown={() => {
+                      handleModal();
+                      handleSelectedModal('bar', `${title}`);
+                    }}
+                  >
+                    <img src={ExpandIcon} alt="open" />
+                  </span>
+                </>
+              )}
+            </div>
+          )}
         </div>
         <div className="card-body">
           <div
