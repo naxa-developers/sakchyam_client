@@ -177,6 +177,12 @@
       }
     }
   }
+  @media screen and (max-width:1400px) {
+    padding-left: 1rem;
+    span{
+      margin-right: .6125rem;
+    }
+}
 }
 
 .literacy-tab-content {
