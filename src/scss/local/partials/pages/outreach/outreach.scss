@@ -51,7 +51,6 @@
         }
         .map-popup-header{
             padding: 0 1.7rem 10px 10px;
-            
             border-bottom: 1px solid $border-color;
             h3{
                 font-size: 1.3rem;
@@ -148,4 +147,83 @@
             }
         }
     }
+}
+
+@media screen and (max-width:1400px) {
+    .map-popup{
+        top:55px;
+        .map-popup-body{
+            .map-popup-header{
+                h3{
+                    font-size: 1rem;
+                }
+                h5{
+                    font-size: .75rem;
+                }
+            }
+            .map-popup-content{
+                padding-top:.6125rem;
+                padding-bottom: .6125rem;
+                .map-popup-list{
+                    li{
+                        p{
+                            color:$primary-light;
+                            font-size:.775rem;
+                        }
+                        b{
+                            font-size: .875rem;
+                            font-family: $avenir-heavy;
+                        }
+                        &:not(:last-child){
+                            margin-bottom: 5px;
+                        }
+                    }
+                }
+            }
+            .map-popup-footer{
+                position: relative;
+                flex-shrink: 0;
+                min-height: 52px;
+                margin: 0;
+                padding:0 1rem .6125rem 1rem;
+                // border-top: 1px solid $border-color;
+                h5{
+                    color:$color-blue;
+                    font-size: .75rem;
+                    font-family: $avenir-heavy;
+                    text-transform: uppercase;
+                }
+                .communication{
+                    @include display-flex(flex);
+                    @include flex-wrap(wrap);
+                    li{
+                        @include display-flex(flex);
+                        @include justify-content-start;
+                        @include align-items-center;
+                        @include flex(0 0 50%);
+                        margin-top:5px;
+                        span{
+                            text-transform: capitalize;
+                            font-size: .875rem;
+                        }
+                        i{
+                            margin-right: 10px;
+                            font-size: 1rem;
+                            &.cancel{
+                                color:$red-hover;
+                            }
+                            &.check{
+                                color:#4CE2A7;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.Dropdown-control {
+    border-radius: 2px;
+    padding: 5px 30px 5px 5px;
+    font-size: .875rem;
 }

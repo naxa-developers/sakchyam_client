@@ -1,3 +1,8 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable prefer-template */
+/* eslint-disable array-callback-return */
+/* eslint-disable radix */
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { connect } from 'react-redux';
@@ -6,6 +11,10 @@ import {
   calculateRange,
   choroplethColorArray,
 } from '../../../common/Functions';
+
+import Branch from '../../../../../img/Group5084.svg';
+import BLB from '../../../../../img/Group5085.svg';
+import Others from '../../../../../img/Group5086.svg';
 
 const defaultData = [
   { id: '1', count: 0 },
@@ -24,7 +33,8 @@ class PlotVector extends Component {
       grade: [],
       legendColors: [],
       finalStyle: null,
-      // hoveredMunicipalityId: '',
+      stateMarker: '',
+      vectorTileInitialized: false,
     };
   }
 
@@ -34,18 +44,40 @@ class PlotVector extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { map, vectorTileUrl, choroplethData } = this.props;
+    const {
+      map,
+      vectorTileUrl,
+      choroplethData,
+      primaryData,
+      mapViewDataBy,
+    } = this.props;
+    const that = this;
+    const { stateMarker, vectorTileInitialized } = this.state;
+
+    if (prevProps.mapViewDataBy !== mapViewDataBy) {
+      console.log('mapViewDataBy', mapViewDataBy);
+      if (mapViewDataBy === 'outreach_local_units') {
+        if (stateMarker.length > 0) {
+          stateMarker.map(marker => {
+            marker.remove();
+          });
+        }
+      } else {
+        this.setMarkers(that);
+      }
+    }
 
     if (prevProps.choroplethData !== choroplethData) {
-      //   console.log('choroplethData', choroplethData);
       this.changeGrades();
-      setTimeout(() => {
-        map.setPaintProperty(
-          'vector-tile-fill',
-          'fill-color',
-          this.state.finalStyle,
-        );
-      }, 500);
+      if (vectorTileInitialized) {
+        setTimeout(() => {
+          map.setPaintProperty(
+            'vector-tile-fill',
+            'fill-color',
+            this.state.finalStyle,
+          );
+        }, 100);
+      }
     }
 
     if (prevProps.vectorTileUrl !== vectorTileUrl) {
@@ -56,7 +88,79 @@ class PlotVector extends Component {
       map.setStyle(newStyle);
       this.plotVectorTile();
     }
+
+    if (mapViewDataBy === 'general_outreach') {
+      if (prevProps.primaryData !== primaryData) {
+        this.setMarkers(that);
+      }
+    }
   }
+
+  setMarkers = that => {
+    const { stateMarker } = this.state;
+    const { map, primaryData } = this.props;
+    if (stateMarker.length > 0) {
+      stateMarker.map(marker => {
+        marker.remove();
+      });
+    }
+
+    const featuresArray = primaryData.map(data => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [
+          parseFloat(
+            data.gps_point.substring(
+              data.gps_point.indexOf(',') + 1,
+              data.gps_point.length,
+            ),
+          ),
+          parseFloat(
+            data.gps_point.substring(0, data.gps_point.indexOf(',')),
+          ),
+        ],
+      },
+      properties: {
+        ...data,
+      },
+    }));
+
+    const temp = {
+      type: 'FeatureCollection',
+      features: featuresArray,
+    };
+
+    const markerCollection = [];
+    temp.features.forEach(function(marker) {
+      const el = document.createElement('div');
+      el.addEventListener('click', () => {
+        that.props.markerEventHandler(marker.properties);
+      });
+      let Marker1;
+      if (marker.properties.partner_type === 'Commercial Bank') {
+        if (marker.properties.point_service === 'Branch') {
+          el.className = 'marker-outreach-branch';
+          Marker1 = new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+        } else if (marker.properties.point_service === 'BLB') {
+          el.className = 'marker-outreach-blb';
+          Marker1 = new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+        }
+      } else {
+        el.className = 'marker-outreach-others';
+        Marker1 = new mapboxgl.Marker(el)
+          .setLngLat(marker.geometry.coordinates)
+          .addTo(map);
+      }
+
+      markerCollection.push(Marker1);
+    });
+    this.setState({ stateMarker: markerCollection });
+  };
 
   changeGrades() {
     let range = [];
@@ -84,7 +188,7 @@ class PlotVector extends Component {
     }
 
     const max = Math.max.apply(null, Object.values(data));
-    const min = 0;
+    const min = Math.min.apply(null, Object.values(data));
 
     range =
       (max - min) / (gradeCount - 1) < 1
@@ -99,12 +203,12 @@ class PlotVector extends Component {
       grade: fullRange.length > 0 ? fullRange : range,
     });
 
-    // console.log('grage value', range);
+    console.log('grage value', range);
 
     setTimeout(() => {
       this.ChangeLegendColors();
       this.setChoroplethStyle(fullData);
-    }, 200);
+    }, 10);
   }
 
   ChangeLegendColors() {
@@ -162,6 +266,7 @@ class PlotVector extends Component {
           'fill-opacity': 0.6,
         },
       });
+      that.setState({ vectorTileInitialized: true });
 
       map.addLayer({
         id: 'vector-tile-outline',
@@ -190,40 +295,6 @@ class PlotVector extends Component {
       //   );
       //   that.props.setMapViewBy('district');
       // });
-
-      // const popup = new mapboxgl.Popup();
-      // map.on('mousemove', 'circles1', function(e) {
-      //   popup
-      //     .setLngLat(e.lngLat)
-      //     .setHTML(
-      //       `<div class="leaflet-popup-content" style="width: 100px;">
-      //           <div class="map-popup-view">
-      //               <div class="map-popup-view-header">
-      //                   <h5>${e.features[0].properties.name}</h5>
-      //                   <div class="icons">
-      //                   <i class="material-icons">tablet_mac</i><b>${
-      //                     e.features[0].properties[
-      //                       that.props.mapViewDataBy
-      //                     ]
-      //                   }</b>
-      //                   </div>
-      //               </div>
-      //               <div class="map-view-footer">
-      //               </div>
-      //                   </div>
-      //               </div>`,
-      //     )
-      //     .addTo(map);
-      // });
-
-      // map.on('mouseleave', 'vector-tile-fill', function() {
-      //   popup.remove();
-      // });
-
-      console.log(
-        'that .props.mapViewDataBy',
-        that.props.mapViewDataBy,
-      );
 
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
@@ -264,6 +335,18 @@ class PlotVector extends Component {
         hoveredStateId = null;
         that.props.setHoveredMunicipalityId(0);
       });
+    });
+
+    map.on('style.load', () => {
+      const waiting = () => {
+        if (!map.isStyleLoaded()) {
+          setTimeout(waiting, 200);
+          that.props.loadingHandler(1);
+        } else {
+          that.props.loadingHandler(2);
+        }
+      };
+      waiting();
     });
   };
 
@@ -312,7 +395,8 @@ class PlotVector extends Component {
     const legendTitle =
       localOutreachSelected && condition
         ? localOutreachSelected
-        : 'Counts';
+        : 'Points of Service';
+
     return (
       <>
         <div className="map-legend newmap-legend">
@@ -382,6 +466,31 @@ class PlotVector extends Component {
               </ul>
             )}
           </div>
+          {!condition && (
+            <div className="color-list">
+              <h6>Marker Legend</h6>
+              <ul id="state-legend" className="color-legend">
+                <li>
+                  <span>
+                    <img src={Branch} />
+                  </span>
+                  <p>BLB</p>
+                </li>
+                <li>
+                  <div>
+                    <img src={BLB} />
+                  </div>
+                  <p>Branch</p>
+                </li>
+                <li>
+                  <div>
+                    <img src={Others} />
+                  </div>
+                  <p>Non Commercial Banks</p>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </>
     );

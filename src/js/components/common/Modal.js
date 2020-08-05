@@ -2,6 +2,7 @@ import React from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import DownloadIcon from '../../../img/get_app.png';
+import FilterTab from '../Pages/Partnership/common/FilterTab';
 
 const downloadPng = (chartid, imageTitle) => {
   // document.querySelector('.info-header-bottom').style.display =
@@ -45,10 +46,8 @@ const Modal = props => {
     activeModal,
     resetFilters,
     headerTitle,
+    groupedStackData,
   } = props;
-  // console.log(component, 'component');
-  console.log(headerTitle, 'headerTitle');
-  console.log(selectedModal, 'selectedModal');
   const selectedChartId =
     selectedModal === 'groupedChart'
       ? 'stacked_chart'
@@ -129,7 +128,7 @@ const Modal = props => {
                 // id="chart-reset"
                 type="button"
                 onClick={() => {
-                  resetFilters();
+                  props.resetRadialData();
                   // resetFunction();
                 }}
                 className="is-border common-button chart-reset "
@@ -231,6 +230,9 @@ const Modal = props => {
           </div>
           <div className="popup-content" id="modal-content">
             {/* <label>Test</label> */}
+            {selectedModal === 'groupedChart' && (
+              <FilterTab groupedStackData={groupedStackData} />
+            )}
             {component()}
           </div>
           <div className="popup-footer buttons is-end">

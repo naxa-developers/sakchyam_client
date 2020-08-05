@@ -2,10 +2,23 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
+import ContentLoader from 'react-content-loader';
 import { connect } from 'react-redux';
-// import VectorTileMapbox from './VectorTileMapbox';
 import PlotVector from './PlotVector';
 import MunicipalityPopUp from './MunicipalityPopUp';
+import MarkerPopup from './MarkerPopUp';
+
+const MyLoader = () => (
+  <ContentLoader
+    height="90vh"
+    speed={1}
+    backgroundColor="#b3b3b3"
+    foregroundColor="#9a9a9a"
+    viewBox="0 0 380 70"
+  >
+    <rect x="0" y="0" width="100%" height="100%" />
+  </ContentLoader>
+);
 
 class MapboxPartnership extends Component {
   constructor(props) {
@@ -16,6 +29,8 @@ class MapboxPartnership extends Component {
       secondaryData: '',
       selectedMuni: '',
       YesNo: false,
+      markerData: '',
+      markerOpen: false,
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -34,15 +49,20 @@ class MapboxPartnership extends Component {
       primaryData,
     } = this.props;
 
-    const { provinceData } = outreachReducer;
-
-    if (prevProps.primaryData !== primaryData) {
-      console.log('primaryData primaryData', primaryData);
-    }
+    const {
+      provinceData,
+      districtData,
+      municipalityData,
+    } = outreachReducer;
 
     if (prevProps.outreachReducer.provinceData !== provinceData) {
+      const outreachProvince = provinceData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
       this.setState({
-        filteredMapData: provinceData,
+        filteredMapData: outreachProvince,
       });
     }
 
@@ -67,13 +87,28 @@ class MapboxPartnership extends Component {
         let choroplethData;
         switch (mapViewBy) {
           case 'province':
-            choroplethData = outreachReducer.provinceData;
+            const outreachProvince = provinceData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachProvince;
             break;
           case 'district':
-            choroplethData = outreachReducer.districtData;
+            const outreachDistrict = districtData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachDistrict;
             break;
           case 'municipality':
-            choroplethData = outreachReducer.municipalityData;
+            const outreachMunicipality = municipalityData.map(p => ({
+              id: p.code,
+              code: p.code,
+              count: p.count,
+            }));
+            choroplethData = outreachMunicipality;
             break;
           default:
             choroplethData = outreachReducer.provinceDsta;
@@ -261,65 +296,65 @@ class MapboxPartnership extends Component {
     }
   };
 
+  markerEventHandler = e => {
+    this.setState({ markerOpen: true, markerData: e });
+  };
+
+  closeMarker = () => {
+    this.setState({ markerOpen: false });
+  };
+
   render() {
     const {
       filteredMapData,
       hoveredMunicipalityId,
       selectedMuni,
       YesNo,
+      markerOpen,
+      markerData,
     } = this.state;
-    const {
-      setMapViewBy,
-      vectorTileUrl,
-      map,
-      localOutreachSelected,
-      mapViewDataBy,
-    } = this.props;
+    const { map, loading } = this.props;
 
     const choroplethData = filteredMapData;
     return (
       <>
         <div id="key" ref={this.keyRef} />
+
         <div id="map">
           {map && (
             <div>
               <PlotVector
-                handleFederalClickOnMap={
-                  this.props.handleFederalClickOnMap
-                }
-                setMapViewBy={setMapViewBy}
-                vectorTileUrl={vectorTileUrl}
-                map={map}
                 choroplethData={choroplethData}
                 color="#eb5149"
-                localOutreachSelected={localOutreachSelected}
+                YesNo={YesNo}
+                {...this.props}
                 setHoveredMunicipalityId={
                   this.setHoveredMunicipalityId
                 }
-                YesNo={YesNo}
-                mapViewDataBy={mapViewDataBy}
+                markerEventHandler={this.markerEventHandler}
               />
 
               {hoveredMunicipalityId !== 0 && (
                 <MunicipalityPopUp selectedMuni={selectedMuni} />
               )}
-
-              {/* <VectorTileMapbox
-                handleFederalClickOnMap={
-                  this.props.handleFederalClickOnMap
-                }
-                setMapViewBy={setMapViewBy}
-                mapViewBy={mapViewBy}
-                mapViewDataBy={mapViewDataBy}
-                vectorTileUrl={vectorTileUrl}
-                map={map}
-                choroplethData={filteredMapData}
-                circleMarkerData={mapDataForCircleMarker}
-                // divisions={inputDivisions}
-                label
-                color="#eb5149"
-              /> */}
+              {markerOpen && (
+                <MarkerPopup
+                  markerData={markerData}
+                  closeMarker={this.closeMarker}
+                />
+              )}
               <div ref={this.markerRef} />
+            </div>
+          )}
+          {loading && (
+            <div
+              style={{
+                position: 'relative',
+                ZIndex: '10',
+              }}
+            >
+              {' '}
+              <MyLoader />
             </div>
           )}
         </div>

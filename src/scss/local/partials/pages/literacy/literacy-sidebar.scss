@@ -49,6 +49,11 @@
                             margin-bottom: 1rem;
                             color:$color-blue;
                             text-transform: uppercase;
+                            @media #{$breakpoint-md-desktop} {
+                                padding: 0;
+                                margin-top:.6125rem;
+                                font-size: .75rem;
+                            }
                         }
 
                         .widget-body {
@@ -152,6 +157,8 @@
                                 }
                                 @media #{$breakpoint-md-desktop} {
                                     padding: 0;
+                                    margin-top:.6125rem;
+                                    font-size: .75rem;
                                 }
                             }
 
@@ -242,6 +249,10 @@
                                 font-family: $body-fonts;
                                 font-size: .875rem;
                                 margin-bottom: 1rem;
+                                @media screen and (max-width:1366px) {
+                                    font-size: .75rem;
+                                    line-height: 1.5;
+                                }
                             }
 
                             .widget-body {
@@ -417,25 +428,26 @@
                         padding:.6125rem;
                               
                         }
+                        
                     }
                 }
             }
 
             .apply-buttons {
-                padding: .6125rem 1.2rem;
+                padding: .6125rem 1rem;
                 background-color: $white-color;
                 position: fixed;
                 bottom:10px;
-                left:10px;
+                left:0;
                 right:auto;
                 z-index: 1;
-                min-width:300px;
+                min-width:319px;
                 @media #{$breakpoint-xxl} {
-                    padding: 1rem;
-                    min-width: 250px;
+                    padding:.6125rem 1rem;
+                    min-width: 280px;
                 }
                 @media screen and (max-width:1366px) {
-                    min-width: 200px;
+                    min-width: 229px;
                 }
                 @media #{$breakpoint-ls} {
                     position: initial;

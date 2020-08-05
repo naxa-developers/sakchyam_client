@@ -42,8 +42,8 @@ export default function MunicipalityPopUp(props) {
                 <b>Rs. {data.yearly_fund}</b>
               </li>
               <li>
-                <p>{data.social_security_recipients}</p>
-                <b>3,001</b>
+                <p>Social Security Recipients</p>
+                <b>{data.social_security_recipients}</b>
               </li>
               <li>
                 <p>Yearly Social Security Payments</p>

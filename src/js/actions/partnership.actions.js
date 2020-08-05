@@ -43,6 +43,7 @@ import {
   FILTER_BARDATA_BY_INVESTMENTFOCUS,
   RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
   FILTER_MAPDATA_CHOROPLETH,
+  FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -1927,7 +1928,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   // debugger;
   const municipality = [];
   const district = [];
-  const province = [];
+  let province = [];
   let partnerId = [];
   let partnerType = [];
   let projectId = [];
@@ -1991,10 +1992,11 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
       }
     });
   } else {
-    return province.push(0);
+    province = [0];
   }
   // if (data === 'allocated_beneficiary') {
   // data = ['total_beneficiary', 'female_beneficiary'];
+  console.log('applu');
 
   try {
     const requestOne = axiosInstance.post(
@@ -2053,15 +2055,27 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
           const responseOne = responses[0];
           const responseTwo = responses[1];
           const responseThree = responses[2];
-          return dispatch({
-            type: FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
-            payload: {
-              selectedDataView,
-              totalBeneficiary: responseOne.data,
-              femaleBeneficiary: responseTwo.data,
-              allocatedBudget: responseThree.data,
-            },
-          });
+          console.log('test');
+          return (
+            dispatch({
+              type: FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
+              payload: {
+                selectedDataView,
+                totalBeneficiary: responseOne.data,
+                femaleBeneficiary: responseTwo.data,
+                allocatedBudget: responseThree.data,
+              },
+            }),
+            dispatch({
+              type: FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
+              payload: {
+                selectedDataView,
+                totalBeneficiary: responseOne.data,
+                femaleBeneficiary: responseTwo.data,
+                allocatedBudget: responseThree.data,
+              },
+            })
+          );
         }),
       )
       .catch(errors => {
@@ -2233,7 +2247,10 @@ export const getLeverageData = () => dispatch => {
     console.error(err);
   }
 };
-export const filterLeverageData = selectedInvestment => dispatch => {
+export const filterLeverageData = (
+  selectedInvestment,
+  projectSelection,
+) => dispatch => {
   try {
     // const requestOne = axiosInstance.get(
     //   '/api/v1/partnership/partnership-investment/',
@@ -2254,6 +2271,7 @@ export const filterLeverageData = selectedInvestment => dispatch => {
             payload: {
               // investmentFocusList: responseOne.data,
               projectList: responseTwo.data,
+              projectSelection,
             },
           });
         }),

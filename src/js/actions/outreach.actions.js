@@ -15,7 +15,7 @@ function getSecondaryData(token) {
 }
 const setSecondaryData = data => {
   return {
-    type: actions.GET_OUTREACH_SECONDARY_DATA,
+    type: 'GET_OUTREACH_SECONDARY_DATA',
     payload: { data },
   };
 };
@@ -35,7 +35,7 @@ export const fetchOutreachChoropleth = () => {
     getOutreachChoropleth('province', 0)
       .then(res => {
         dispatch({
-          type: actions.GET_OUTREACH_BY_PROVINCE,
+          type: 'GET_OUTREACH_BY_PROVINCE',
           payload: res.data,
         });
       })
@@ -45,7 +45,7 @@ export const fetchOutreachChoropleth = () => {
     getOutreachChoropleth('district', 0)
       .then(res => {
         dispatch({
-          type: actions.GET_OUTREACH_BY_DISTRICT,
+          type: 'GET_OUTREACH_BY_DISTRICT',
           payload: res.data,
         });
       })
@@ -55,7 +55,7 @@ export const fetchOutreachChoropleth = () => {
     getOutreachChoropleth('municipality', 0)
       .then(res => {
         dispatch({
-          type: actions.GET_OUTREACH_BY_MUNICIPALITY,
+          type: 'GET_OUTREACH_BY_MUNICIPALITY',
           payload: res.data,
         });
       })
@@ -70,7 +70,7 @@ export const fetchOutreachPrimaryData = () => {
     getOutreachData()
       .then(res => {
         dispatch({
-          type: actions.GET_OUTREACH_BY_PRIMARY_DATA,
+          type: 'GET_OUTREACH_BY_PRIMARY_DATA',
           payload: res.data,
         });
       })

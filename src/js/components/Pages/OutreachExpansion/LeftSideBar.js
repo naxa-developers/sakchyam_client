@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
-import FinancialLeftCard from '../../common/FinancialLeftCard';
-import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
 import { removeDuplicates } from '../../common/removeDuplicates';
 
 class LeftSideBar extends Component {
@@ -17,18 +15,13 @@ class LeftSideBar extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { partnershipReducer, primaryData } = this.props;
-    const { partnershipInvestmentFocus } = partnershipReducer;
-    // if (
-    //   prevProps.partnershipReducer.partnershipInvestmentFocus !==
-    //   partnershipInvestmentFocus
-    // ) {
-    //   console.log(
-    //     'partnershipReducer',
-    //     partnershipReducer.partnershipInvestmentFocus,
-    //   );
-    // }
-    if (prevProps.primaryData !== primaryData) {
+    const { primaryData } = this.props.outreachReducer;
+
+    if (prevProps.outreachReducer.primaryData !== primaryData) {
+      console.log(
+        'primary data in component did update',
+        primaryData,
+      );
       const expList = primaryData.map(item => ({
         id: item.id,
         expansion_driven_by: item.expansion_driven_by,
@@ -46,12 +39,6 @@ class LeftSideBar extends Component {
     }
   }
 
-  // handleCheckboxgroupChange = updatedUsecaseCBState => {
-  //   this.setState({
-  //     checkboxes: updatedUsecaseCBState,
-  //   });
-  // };
-
   render() {
     const {
       state: { expansionList, fiList },
@@ -64,10 +51,12 @@ class LeftSideBar extends Component {
         handelExpansionParentCheckbox,
         G2PTypes,
         serviceType,
-        handlePartnerType,
+        handelMultiChoice,
         demonstrationType,
         applyBtnClick,
         resetFilters,
+        isAllPartnerSelected,
+        isAllInvestmentFocusSelected,
       },
     } = this;
     return (
@@ -106,6 +95,7 @@ class LeftSideBar extends Component {
                         name="Initiative1"
                         value="all"
                         onChange={handelExpansionParentCheckbox}
+                        checked={isAllInvestmentFocusSelected}
                       />
                       <label htmlFor="Initiative1">All</label>
                     </div>
@@ -149,6 +139,7 @@ class LeftSideBar extends Component {
                         type="checkbox"
                         name="Initiative14"
                         onChange={handlePartnerParentCheckbox}
+                        checked={isAllPartnerSelected}
                       />
                       <label htmlFor="Initiative14">All</label>
                     </div>
@@ -162,12 +153,12 @@ class LeftSideBar extends Component {
                             className="partner_checkbox"
                             key={partner.id}
                             label={partner.partner_type}
-                            name={partner.id}
+                            name={partner.partner_type}
                             changeHandler={
                               handlePartnerSelectionCheckbox
                             }
                             checked={partnerSelection.includes(
-                              partner.id,
+                              partner.partner_type,
                             )}
                           />
                         );
@@ -192,10 +183,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('Branch', 1);
+                      handelMultiChoice('Branch', 1);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('Branch', 1);
+                      handelMultiChoice('Branch', 1);
                     }}
                   >
                     <span>Branch</span>
@@ -208,10 +199,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('BLB', 1);
+                      handelMultiChoice('BLB', 1);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('BLB', 1);
+                      handelMultiChoice('BLB', 1);
                     }}
                   >
                     <span>BLB</span>
@@ -232,10 +223,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('Yes', 2);
+                      handelMultiChoice('Yes', 2);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('Yes', 2);
+                      handelMultiChoice('Yes', 2);
                     }}
                   >
                     <span>Yes</span>
@@ -248,10 +239,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('No', 2);
+                      handelMultiChoice('No', 2);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('No', 2);
+                      handelMultiChoice('No', 2);
                     }}
                   >
                     <span>No</span>
@@ -273,10 +264,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('Yes', 3);
+                      handelMultiChoice('Yes', 3);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('Yes', 3);
+                      handelMultiChoice('Yes', 3);
                     }}
                   >
                     <span>Yes</span>
@@ -288,10 +279,10 @@ class LeftSideBar extends Component {
                     role="tab"
                     tabIndex="-1"
                     onClick={() => {
-                      handlePartnerType('No', 3);
+                      handelMultiChoice('No', 3);
                     }}
                     onKeyUp={() => {
-                      handlePartnerType('No', 3);
+                      handelMultiChoice('No', 3);
                     }}
                   >
                     <span>No</span>
@@ -323,7 +314,7 @@ class LeftSideBar extends Component {
   }
 }
 
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ outreachReducer }) => ({
+  outreachReducer,
 });
 export default connect(mapStateToProps, {})(LeftSideBar);
