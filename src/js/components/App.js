@@ -18,7 +18,7 @@ import MainPartnership from './Pages/Partnership/MainPartnership';
 import ProductProcess from './Pages/ProductProcess/ProductProcess';
 import OutreachComponent from './Pages/OutreachExpansion';
 import MainMFS from './Pages/MFS/MainMFS';
-import InsuranceModule from './Pages/Insurance/MainPartnership';
+import InsuranceModule from './Pages/Insurance';
 
 class App extends Component {
   constructor(props) {

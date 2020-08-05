@@ -7,6 +7,7 @@ import partnershipReducer from './partnershipReducer.reducer';
 import productProcessReducer from './productProcessReducer.reducer';
 import outreachReducer from './outreach.reducer';
 import commonReducer from './commom.reducer';
+import insuranceReducer from './insurance.reducer';
 
 export default combineReducers({
   authenticationReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   productProcessReducer,
   outreachReducer,
   commonReducer,
+  insuranceReducer,
 });

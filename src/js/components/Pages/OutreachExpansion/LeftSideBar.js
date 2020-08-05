@@ -2,13 +2,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
-import { removeDuplicates } from '../../common/removeDuplicates';
+import { removeDuplicates } from '../../common/utilFunctions';
 
 class LeftSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // checkboxes: [],
       expansionList: '',
       fiList: '',
     };
