@@ -7,6 +7,7 @@ import {
   GET_MFS_LIST_REQUEST,
   FILTER_MFS_LIST_BY_PARTNERINSTITUTION,
   FILTER_MFS_CHOROPLETH_DATA,
+  GET_MFS_OVERVIEW_DATA,
 } from '../actions/index.actions';
 
 const getUniqueValuesFromArray = (array, key) => {
@@ -50,6 +51,7 @@ const initialState = {
   mfsListAllData: [],
   mfsListLoading: false,
   achievementList: [],
+  mfsOverviewData: {},
   partnerList: [],
   mfsChoroplethData: [],
 };
@@ -87,6 +89,21 @@ const getMfsInnovationList = (state, action) => {
   return {
     ...state,
     innovationList,
+  };
+};
+const getMfsOverviewData = (state, action) => {
+  const mfsData = [...action.payload];
+  const mfsOverviewData = getUniqueValuesFromArray(
+    mfsData,
+    'achieved_number',
+  );
+  const totalAchievedNumber = mfsOverviewData.reduce((a, b) => {
+    return a + b;
+  });
+  console.log(totalAchievedNumber, 'total');
+  return {
+    ...state,
+    // innovationList,
   };
 };
 const getMfsPartnerList = (state, action) => {
@@ -169,7 +186,7 @@ const filterMfsChoroplethData = (state, action) => {
   const choroplethFormat = [];
   federalFilterofChoropleth.forEach(data => {
     choroplethFormat.push({
-      id: data[federalKey],
+      code: data[federalKey],
       count: data.achieved_number,
     });
   });
@@ -189,6 +206,8 @@ export default function(state = initialState, action) {
       return getMfsInnovationList(state, action);
     case GET_MFS_ACHIEVEMENTLIST:
       return getMfsAchievementList(state, action);
+    case GET_MFS_OVERVIEW_DATA:
+      return getMfsOverviewData(state, action);
     case GET_MFS_PARTNERLIST:
       return getMfsPartnerList(state, action);
     case FILTER_MFS_LIST_BY_PARTNERINSTITUTION:

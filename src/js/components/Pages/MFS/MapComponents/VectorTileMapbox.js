@@ -1,6 +1,5 @@
 // /* eslint-disable */
 import React, { Component } from 'react';
-import * as loadash from 'lodash';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import * as d3 from 'd3';
@@ -89,13 +88,13 @@ const colorScale = d3
   .range(colors);
 
 const defaultData = [
-  { id: '1', count: 0 },
-  { id: '2', count: 0 },
-  { id: '3', count: 0 },
-  { id: '4', count: 0 },
-  { id: '5', count: 0 },
-  { id: '6', count: 0 },
-  { id: '7', count: 0 },
+  { code: '1', count: 0 },
+  { code: '2', count: 0 },
+  { code: '3', count: 0 },
+  { code: '4', count: 0 },
+  { code: '5', count: 0 },
+  { code: '6', count: 0 },
+  { code: '7', count: 0 },
 ];
 const fullGeojsonProvince = {
   type: 'FeatureCollection',
@@ -505,33 +504,33 @@ class Choropleth extends Component {
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         // console.log(e.features[0]);
-        const filteredCodeData = that.props.choroplethData.filter(
-          data => {
-            return (
-              parseInt(data.code, 10) ===
-              parseInt(e.features[0].properties.code, 10)
-            );
-          },
-        );
-        popup
-          .setLngLat(e.lngLat)
-          .setHTML(
-            `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
-              <div class="map-popup-view">
-                  <div class="map-popup-view-header">
-                      <h5>${e.features[0].properties.name}</h5>
-                      <h5>Code:${e.features[0].properties.code}</h5>
-                      <h5>ID:${e.features[0].properties.id}</h5>
-                      <div class="icons">
-                      <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
-                      </div>
-                  </div>
-                  <div class="map-view-footer">
-                  </div>
-                      </div>
-                  </div>`,
-          )
-          .addTo(map);
+        // const filteredCodeData = that.props.choroplethData.filter(
+        //   data => {
+        //     return (
+        //       parseInt(data.code, 10) ===
+        //       parseInt(e.features[0].properties.code, 10)
+        //     );
+        //   },
+        // );
+        // popup
+        //   .setLngLat(e.lngLat)
+        //   .setHTML(
+        //     `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
+        //       <div class="map-popup-view">
+        //           <div class="map-popup-view-header">
+        //               <h5>${e.features[0].properties.name}</h5>
+        //               <h5>Code:${e.features[0].properties.code}</h5>
+        //               <h5>ID:${e.features[0].properties.id}</h5>
+        //               <div class="icons">
+        //               <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
+        //               </div>
+        //           </div>
+        //           <div class="map-view-footer">
+        //           </div>
+        //               </div>
+        //           </div>`,
+        //   )
+        //   .addTo(map);
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
