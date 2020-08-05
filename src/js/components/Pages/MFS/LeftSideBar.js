@@ -122,20 +122,32 @@ class LeftSideBar extends Component {
                       {innovationList &&
                         innovationList.map(innov => {
                           return (
-                            // <label>{innov}</label>
-                            <CheckBox
-                              // id={partnershipFocus.id}
-                              className="investment_checkbox"
-                              // key={partnershipFocus.id}
-                              label={innov}
-                              name={innov}
-                              changeHandler={
-                                handleInnovationSelection
-                              }
-                              // checked={investmentFocusSelection.includes(
-                              //   innov,
-                              // )}
-                            />
+                            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+                            <div
+                              role="button"
+                              tabIndex="0"
+                              onClick={() => {
+                                handleInnovationSelection(innov);
+                              }}
+                              onKeyDown={() => {
+                                handleInnovationSelection(innov);
+                              }}
+                            >
+                              <label>{innov}</label>
+                            </div>
+                            // <CheckBox
+                            //   // id={partnershipFocus.id}
+                            //   className="investment_checkbox"
+                            //   // key={partnershipFocus.id}
+                            //   label={innov}
+                            //   name={innov}
+                            //   changeHandler={
+                            //     handleInnovationSelection
+                            //   }
+                            //   // checked={investmentFocusSelection.includes(
+                            //   //   innov,
+                            //   // )}
+                            // />
                           );
                         })}
                     </ul>
@@ -171,19 +183,35 @@ class LeftSideBar extends Component {
                       {achievementList &&
                         achievementList.map(achievement => {
                           return (
-                            <CheckBox
-                              // id={project.id}
-                              className="project_checkbox"
-                              // key={project.id}
-                              label={achievement}
-                              name={achievement}
-                              changeHandler={
-                                handleAchievementSelection
-                              }
-                              // checked={projectSelection.includes(
-                              //   achievement,
-                              // )}
-                            />
+                            <div
+                              role="button"
+                              tabIndex="0"
+                              onClick={() => {
+                                handleAchievementSelection(
+                                  achievement,
+                                );
+                              }}
+                              onKeyDown={() => {
+                                handleAchievementSelection(
+                                  achievement,
+                                );
+                              }}
+                            >
+                              <label>{achievement}</label>
+                            </div>
+                            // <CheckBox
+                            //   // id={project.id}
+                            //   className="project_checkbox"
+                            //   // key={project.id}
+                            //   label={achievement}
+                            //   name={achievement}
+                            //   changeHandler={
+                            //     handleAchievementSelection
+                            //   }
+                            //   // checked={projectSelection.includes(
+                            //   //   achievement,
+                            //   // )}
+                            // />
                           );
                         })}
                     </ul>

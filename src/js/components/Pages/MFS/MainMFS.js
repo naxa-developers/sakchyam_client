@@ -368,7 +368,7 @@ class MainMFS extends Component {
     this.setState({
       mapViewBy: selectedMapView,
     });
-    this.props.getFilteredMapData(selectedMapView);
+    // this.props.getFilteredMapData(selectedMapView);
     this.setState({
       vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
     });
@@ -769,16 +769,18 @@ class MainMFS extends Component {
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      mapViewBy,
     } = this.state;
 
-    if (selectedPartner === '') {
-      toast.warning('⚠ Please Select Partner!');
-    } else if (selectedInnovation === '') {
-      toast.warning('⚠ Please Select Innovation Type!');
-    } else if (selectedAchievement === '') {
+    // if (selectedPartner === '') {
+    //   toast.warning('⚠ Please Select Partner!');
+    // } else if (selectedInnovation === '') {
+    //   toast.warning('⚠ Please Select Innovation Type!');
+    if (selectedAchievement === '') {
       toast.warning('⚠ Please Select Achievement!');
     } else {
       this.props.filterMfsChoroplethData(
+        mapViewBy,
         selectedPartner,
         selectedInnovation,
         selectedAchievement,

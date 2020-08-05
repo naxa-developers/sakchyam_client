@@ -52,6 +52,7 @@ export const filterByPartnerInstitution = selectedPartnerInst => dispatch => {
   });
 };
 export const filterMfsChoroplethData = (
+  mapViewBy,
   selectedPartner,
   selectedInnovation,
   selectedAchievement,
@@ -59,6 +60,7 @@ export const filterMfsChoroplethData = (
   dispatch({
     type: FILTER_MFS_CHOROPLETH_DATA,
     payload: {
+      mapViewBy,
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
