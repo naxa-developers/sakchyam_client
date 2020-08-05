@@ -17,6 +17,7 @@ import FinancialLiteracy from './Pages/FinancialLiteracy/FinancialLiteracy';
 import MainPartnership from './Pages/Partnership/MainPartnership';
 import ProductProcess from './Pages/ProductProcess/ProductProcess';
 import OutreachComponent from './Pages/OutreachExpansion';
+import PaymentSystems from './Pages/PaymentSystems/PaymentSystems';
 import MainMFS from './Pages/MFS/MainMFS';
 import InsuranceModule from './Pages/Insurance/MainPartnership';
 
@@ -55,6 +56,10 @@ class App extends Component {
           <PrivateRoute
             path="/outreachexpansion"
             component={OutreachComponent}
+          />
+          <PrivateRoute
+            path="/paymentsystems"
+            component={PaymentSystems}
           />
           <PrivateRoute path="/mfs" component={MainMFS} />
           <PrivateRoute
