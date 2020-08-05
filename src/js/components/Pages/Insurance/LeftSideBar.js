@@ -1,50 +1,68 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
-import FinancialLeftCard from '../../common/FinancialLeftCard';
-import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
+import { removeDuplicates } from '../../common/utilFunctions';
 
 class LeftSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkboxes: [],
+      partnerList: '',
+      innovationList: '',
+      productList: '',
     };
   }
 
-  handleCheckboxgroupChange = updatedUsecaseCBState => {
-    this.setState({
-      checkboxes: updatedUsecaseCBState,
-    });
-  };
+  componentDidUpdate(prevProps, prevState) {
+    const { insuranceData } = this.props.insuranceReducer;
+
+    if (prevProps.insuranceReducer.insuranceData !== insuranceData) {
+      console.log(
+        'primary data in component did update',
+        insuranceData.data,
+      );
+      const parList = insuranceData.data.map(item => ({
+        id: item.id,
+        partner_name: item.partner_name,
+      }));
+      const partnerList = removeDuplicates(parList, 'partner_name');
+
+      const innList = insuranceData.data.map(item => ({
+        id: item.id,
+        innovation: item.innovation,
+      }));
+      const innovationList = removeDuplicates(innList, 'innovation');
+
+      const proList = insuranceData.data.map(item => ({
+        id: item.id,
+        product: item.product,
+      }));
+      const productList = removeDuplicates(proList, 'product');
+      this.setState({ partnerList, innovationList, productList });
+    }
+  }
 
   render() {
     const {
-      state: { checkboxes },
       props: {
-        handleInvestmentFocusCheckbox,
-        investmentFocusSelection,
-        projectSelection,
-        handleProjectSelectionCheckbox,
-        projectStatus,
-        handleProjectStatus,
-        partnerSelection,
-        handlePartnerSelectionCheckbox,
-        partnerType,
-        handlePartnerType,
+        institutionSelection,
+        innovationSelection,
+        productSelection,
+        isAllInnovationSelected,
+        isAllProductSelected,
+        isAllInstitutionSelected,
+        handleInstitutionCheckbox,
+        handelInnovationCheckbox,
+        handelProductCheckbox,
+        handelProductParentCheckbox,
+        handleInstitutionParentCheckbox,
+        handelInnovationParentCheckbox,
         applyBtnClick,
-        handlePartnerParentCheckbox,
-        handleProjectParentCheckbox,
-        handleInvestmentParentCheckbox,
         resetFilters,
       },
+      state: { partnerList, innovationList, productList },
     } = this;
-    const {
-      partnershipInvestmentFocus,
-      projectLists,
-      partnersList,
-      filteredPartnerList,
-    } = this.props.partnershipReducer;
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -53,12 +71,12 @@ class LeftSideBar extends Component {
               type="button"
               className="common-button is-bg partnership-button"
             >
-              sakchyam partnerships
+              Insurance
             </button>
           </div>
           <div className="aside-body apply-body">
             <div className="sidebar-widget partner-institue">
-              <h6 className="title">Investment Focus</h6>
+              <h6 className="title">Partner Institutions</h6>
               <div className="widget-body">
                 <div className="checklist-group">
                   <div className="checklist-header">
@@ -68,117 +86,25 @@ class LeftSideBar extends Component {
                         type="checkbox"
                         name="Initiative1"
                         value="all"
-                        onChange={handleInvestmentParentCheckbox}
+                        checked={isAllInstitutionSelected}
+                        onChange={handleInstitutionParentCheckbox}
                       />
                       <label htmlFor="Initiative1">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {partnershipInvestmentFocus &&
-                      partnershipInvestmentFocus.map(
-                        partnershipFocus => {
-                          return (
-                            <CheckBox
-                              id={partnershipFocus.id}
-                              className="investment_checkbox"
-                              key={partnershipFocus.id}
-                              label={
-                                partnershipFocus.investment_primary
-                              }
-                              name={
-                                partnershipFocus.investment_primary
-                              }
-                              changeHandler={
-                                handleInvestmentFocusCheckbox
-                              }
-                              checked={investmentFocusSelection.includes(
-                                partnershipFocus.investment_primary,
-                              )}
-                            />
-                          );
-                        },
-                      )}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            {/* <div className="sidebar-widget">
-              <h6 className="title">project status</h6>
-              <div className="widget-body">
-                <div className="widget-tag partner-tag">
-                  <a
-                    className={
-                      projectStatus.includes('Completed')
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handleProjectStatus('Completed');
-                    }}
-                    onKeyUp={() => {
-                      handleProjectStatus('Completed');
-                    }}
-                  >
-                    <span>completed</span>
-                  </a>
-                  <a
-                    className={
-                      projectStatus.includes('Ongoing')
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handleProjectStatus('Ongoing');
-                    }}
-                    onKeyUp={() => {
-                      handleProjectStatus('Ongoing');
-                    }}
-                  >
-                    <span>ongoing</span>
-                  </a>
-                </div>
-              </div>
-            </div> */}
-            <div className="sidebar-widget partner-institue">
-              <h6 className="title">Projects</h6>
-              <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="Initiative7"
-                        type="checkbox"
-                        name="Initiative7"
-                        onChange={handleProjectParentCheckbox}
-                      />
-                      <label htmlFor="Initiative7">All</label>
-                    </div>
-                  </div>
-                  <ul className="checkbox-list">
-                    {/* <GroupCheckedbox
-                      checkboxes={projectLists}
-                      onCheckboxGroupChange={
-                        this.handleCheckboxgroupChange
-                      }
-                    /> */}
-                    {projectLists &&
-                      projectLists.map(project => {
+                    {partnerList &&
+                      partnerList.map(partner => {
                         return (
                           <CheckBox
-                            id={project.id}
-                            className="project_checkbox"
-                            key={project.id}
-                            label={project.name}
-                            name={project.id}
-                            changeHandler={
-                              handleProjectSelectionCheckbox
-                            }
-                            checked={projectSelection.includes(
-                              project.id,
+                            id={partner.id}
+                            className="investment_checkbox"
+                            key={partner.id}
+                            label={partner.partner_name}
+                            name={partner.partner_name}
+                            changeHandler={handleInstitutionCheckbox}
+                            checked={institutionSelection.includes(
+                              partner.partner_name,
                             )}
                           />
                         );
@@ -187,63 +113,53 @@ class LeftSideBar extends Component {
                 </div>
               </div>
             </div>
-            <div className="sidebar-widget">
-              <h6 className="title">Partner Type</h6>
+
+            <div
+              className="sidebar-widget partner-institue"
+              style={{ paddingTop: '2vh' }}
+            >
+              <h6 className="title">Innovation</h6>
               <div className="widget-body">
-                <div className="widget-tag partner-tag">
-                  <a
-                    data-label="Microfinance Institutions/Cooperatives"
-                    className={
-                      partnerType.includes(
-                        'Microfinance Institutions/Cooperatives',
-                      )
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType(
-                        'Microfinance Institutions/Cooperatives',
-                      );
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType(
-                        'Microfinance Institutions/Cooperatives',
-                      );
-                    }}
-                  >
-                    <span>Microfinance</span>
-                  </a>
-                  <a
-                    data-label="Commercial Bank and Other Partners"
-                    className={
-                      partnerType.includes(
-                        'Commercial Bank and Other Partners',
-                      )
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType(
-                        'Commercial Bank and Other Partners',
-                      );
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType(
-                        'Commercial Bank and Other Partners',
-                      );
-                    }}
-                  >
-                    <span>Commercial Bank</span>
-                  </a>
+                <div className="checklist-group">
+                  <div className="checklist-header">
+                    <div className="custom-checkbox">
+                      <input
+                        id="Initiative7"
+                        type="checkbox"
+                        name="Initiative7"
+                        onChange={handelInnovationParentCheckbox}
+                        checked={isAllInnovationSelected}
+                      />
+                      <label htmlFor="Initiative7">All</label>
+                    </div>
+                  </div>
+                  <ul className="checkbox-list">
+                    {innovationList &&
+                      innovationList.map(inn => {
+                        return (
+                          <CheckBox
+                            id={inn.id}
+                            className="project_checkbox"
+                            key={inn.id}
+                            label={inn.innovation}
+                            name={inn.innovation}
+                            changeHandler={handelInnovationCheckbox}
+                            checked={innovationSelection.includes(
+                              inn.innovation,
+                            )}
+                          />
+                        );
+                      })}
+                  </ul>
                 </div>
               </div>
             </div>
-            <div className="sidebar-widget partner-institue">
-              <h6 className="title">Partner Institution</h6>
+
+            <div
+              className="sidebar-widget partner-institue"
+              style={{ paddingTop: '2vh' }}
+            >
+              <h6 className="title">Products</h6>
               <div className="widget-body">
                 <div className="checklist-group">
                   <div className="checklist-header">
@@ -252,26 +168,25 @@ class LeftSideBar extends Component {
                         id="Initiative14"
                         type="checkbox"
                         name="Initiative14"
-                        onChange={handlePartnerParentCheckbox}
+                        onChange={handelProductParentCheckbox}
+                        checked={isAllProductSelected}
                       />
                       <label htmlFor="Initiative14">All</label>
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {filteredPartnerList &&
-                      filteredPartnerList.map(partner => {
+                    {productList &&
+                      productList.map(pro => {
                         return (
                           <CheckBox
-                            id={partner.id}
-                            className="partner_checkbox"
-                            key={partner.id}
-                            label={partner.name}
-                            name={partner.code}
-                            changeHandler={
-                              handlePartnerSelectionCheckbox
-                            }
-                            checked={partnerSelection.includes(
-                              partner.code,
+                            id={pro.id}
+                            className="product_checkbox"
+                            key={pro.id}
+                            label={pro.product}
+                            name={pro.product}
+                            changeHandler={handelProductCheckbox}
+                            checked={productSelection.includes(
+                              pro.product,
                             )}
                           />
                         );
@@ -303,7 +218,11 @@ class LeftSideBar extends Component {
   }
 }
 
-const mapStateToProps = ({ partnershipReducer }) => ({
+const mapStateToProps = ({
   partnershipReducer,
+  insuranceReducer,
+}) => ({
+  partnershipReducer,
+  insuranceReducer,
 });
 export default connect(mapStateToProps, {})(LeftSideBar);

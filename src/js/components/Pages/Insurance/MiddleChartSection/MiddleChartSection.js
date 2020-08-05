@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import data from './timelineData';
-import links from './timelineLinks';
-import Sunburst from '../Charts/SunBurst/SunBurst';
-import GroupedBar from '../Charts/GroupedBar/GroupedBar';
 import RadarChart from '../Charts/RadarChart/RadarChart';
 import CirclePackChart from '../Charts/CirclePack/CirclePackChart';
 import SankeyChart from '../Charts/SankeyChart/SankeyChart';
@@ -43,9 +39,6 @@ class MiddleChartSection extends Component {
 
   componentDidMount() {
     this.props.getRadialData();
-    // setTimeout(() => {
-    //   this.props.getRadialData();
-    // }, 500);
   }
 
   handleModal = () => {
@@ -66,39 +59,17 @@ class MiddleChartSection extends Component {
       partnershipInvestmentFocus,
       projectLists,
     } = this.props.partnershipReducer;
-    // const that = this;
     const clickedName = e.data.name;
     this.props.resetLeftSideBarSelection();
-    // console.log(clickedName, 'clicked');
-    // console.log(
-    //   partnershipInvestmentFocus.filter(investment => {
-    //     return investment.investment_primary === clickedName;
-    //   }),
-    // );
-    // if (
-    //   partnershipInvestmentFocus.filter(investment => {
-    //     return investment.investment_primary === clickedName;
-    //   })
-    // ) {
-    // console.log('found if');
     if (clickedName === 'Partnership') {
-      // alert('partnership');
       this.props.resetRadialData();
       this.props.resetFilters();
     }
     document
       .querySelectorAll(`[data-label='${clickedName}']`)[0]
       .click();
-    // document.getElementsByName(clickedName)[0].click();
     this.props.applyBtnClick();
-    // }
-    // console.log(this.props, 'partnership');
-    // console.log(e.data.name);
   };
-
-  // sunburstColorFn = () => {
-  //   alert('test');
-  // };
 
   getModalContent = contentType => {
     const { activeModal } = this.state;
@@ -204,17 +175,6 @@ class MiddleChartSection extends Component {
             />
           </div>
         );
-      // case 'timeline':
-      //   return (
-      //     <div className="time-line-container">
-      //       <Timeline
-      //         nonEditableName
-      //         data={data}
-      //         links={links}
-      //         mode="year"
-      //       />
-      //     </div>
-      //   );
 
       default:
         break;
@@ -252,22 +212,10 @@ class MiddleChartSection extends Component {
     if (radialData && radialData.children) {
       formatData(radialData.children);
     }
-    //   'radialData',
-    // );
-    // console.log(radialData && radialData, 'radialData');
     return (
-      <div
-        className="literacy-tab-item"
-        style={
-          activeView === 'visualization'
-            ? { display: 'block' }
-            : { display: 'none' }
-        }
-      >
+      <div className="literacy-tab-item" style={{ display: 'block' }}>
         {activeModal && (
           <Modal
-            // visible={selectedModal === 'bar' ? true : false}
-            // modalHeader="Sakchyam Investment Focus"
             groupedStackData={groupedStackData}
             handleShowBarOf={handleShowBarOf}
             resetFilters={resetFilters}
@@ -279,9 +227,8 @@ class MiddleChartSection extends Component {
         )}
         <div className="graph-view">
           <div className="row">
-            <CardTab
+            {/* <CardTab
               resetFunction={() => {
-                // this.props.resetLeftSideBarSelection();
                 this.props.resetRadialData();
               }}
               cardTitle="Sakchyam Investment Focus"
@@ -295,18 +242,14 @@ class MiddleChartSection extends Component {
                 return (
                   <SunburstContainer
                     data={radialData}
-                    height={400}
-                    width={690}
+                    height={250}
+                    width={250}
                     count_member="size"
                     onClick={this.handleSunburstClick}
-                    // labelFunc={node => node.data.name}
-                    // colorFunc={node => 'red'}
-
-                    // reset={this.props.resetSunburst}
                   />
                 );
               }}
-            />
+            /> */}
             <CardTab
               resetFunction={() => {
                 this.props.resetBarDatas();
@@ -339,147 +282,82 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
-            {viewDataBy !== 'Leverage' && (
-              <CardTab
-                resetFunction={() => {
-                  this.props.resetBarDataByInvestmentFocus();
-                  this.props.handleShowBarOfInvestmentBudgetBenefBar(
-                    'investmentFocus',
-                  );
-                }}
-                showBarof={showBarofInvestmentBudgetBenef}
-                handleShowBarOf={
-                  handleShowBarOfInvestmentBudgetBenefBar
-                }
-                cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
-                cardClass="col-xl-6"
-                cardChartId="stackedWithInvestment"
-                handleModal={this.handleModal}
-                handleSelectedModal={() => {
-                  this.handleSelectedModal('stackedWithInvestment');
-                }}
-                renderChartComponent={() => {
-                  return (
-                    <StackedBarWithInvestment
-                      viewDataBy={viewDataBy}
-                      activeModal={activeModal}
-                      investmentFocusSelection={
-                        investmentFocusSelection
-                      }
-                      partnerSelection={partnerSelection}
-                      partnerTypeSelection={partnerTypeSelection}
-                      projectSelection={projectSelection}
-                      projectStatus={projectStatus}
-                      showBarof={showBarof}
-                      handleShowBarOf={handleShowBarOf}
-                      showBarofInvestmentBudgetBenef={
-                        showBarofInvestmentBudgetBenef
-                      }
-                      handleShowBarOfInvestmentBudgetBenefBar={
-                        handleShowBarOfInvestmentBudgetBenefBar
-                      }
-                    />
-                  );
-                }}
-              />
-            )}
-            {viewDataBy === 'Leverage' && (
-              <CardTab
-                resetFunction={this.props.resetLeverageData}
-                cardTitle="S-CF Funds & Leverage By Investment Focus"
-                cardClass="col-xl-6"
-                cardChartId="leverageChart"
-                handleModal={this.handleModal}
-                handleSelectedModal={() => {
-                  this.handleSelectedModal('leverageChart');
-                }}
-                renderChartComponent={() => {
-                  return (
-                    <LeverageStackedBar
-                      viewDataBy={viewDataBy}
-                      activeModal={activeModal}
-                      investmentFocusSelection={
-                        investmentFocusSelection
-                      }
-                      partnerSelection={partnerSelection}
-                      partnerTypeSelection={partnerTypeSelection}
-                      projectSelection={projectSelection}
-                      projectStatus={projectStatus}
-                      showBarof={showBarof}
-                      handleShowBarOf={handleShowBarOf}
-                    />
-                  );
-                }}
-              />
-            )}
-            {/* <CardTab
-              cardTitle="Key Services Introduced"
-              cardClass="col-xl-6"
-              cardChartId="radar"
-              handleModal={this.handleModal}
-              handleSelectedModal={() => {
-                this.handleSelectedModal('radar');
-              }}
-              renderChartComponent={() => {
-                return <RadarChart />;
-              }}
-            /> */}
-            {/* <CardTab
-              cardTitle="Zoomable Circle Packing"
-              cardClass="col-xl-6"
-              cardChartId="circle"
-              handleModal={this.handleModal}
-              handleSelectedModal={() => {
-                this.handleSelectedModal('circle');
-              }}
-              renderChartComponent={() => {
-                return <CirclePackChart />;
-              }}
-            /> */}
+
             <CardTab
-              resetFunction={this.props.resetSankeyChartData}
-              cardTitle={
-                viewDataBy === 'allocated_budget'
-                  ? 'Budget Reached'
-                  : 'Beneficiary Reached'
-              }
-              cardClass="col-xl-12"
-              cardChartId="sankeyChart"
+              resetFunction={() => {
+                this.props.resetBarDatas();
+                this.props.handleShowBarOf('Provinces');
+              }}
+              showBarof={showBarof}
+              handleShowBarOf={handleShowBarOf}
+              cardTitle="Province Wise Budget & Beneficiaries Count"
+              cardClass="col-xl-6"
+              cardChartId="groupedChart"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
-                this.handleSelectedModal('sankey');
+                this.handleSelectedModal('groupedChart');
               }}
               renderChartComponent={() => {
                 return (
-                  <SankeyChart
-                    cardWidth={sankeyChartwidth}
+                  <StackedBarWithProvince
+                    viewDataBy={viewDataBy}
                     activeModal={activeModal}
-                    activeOverview={activeOverview}
+                    investmentFocusSelection={
+                      investmentFocusSelection
+                    }
+                    partnerSelection={partnerSelection}
+                    partnerTypeSelection={partnerTypeSelection}
+                    projectSelection={projectSelection}
+                    projectStatus={projectStatus}
+                    showBarof={showBarof}
+                    handleShowBarOf={handleShowBarOf}
                   />
                 );
               }}
             />
-            {/* <CardTab
-              cardTitle="Projects Timeline"
-              cardClass="col-xl-12"
-              cardChartId="sankeyChart"
+
+            <CardTab
+              resetFunction={() => {
+                this.props.resetBarDataByInvestmentFocus();
+                this.props.handleShowBarOfInvestmentBudgetBenefBar(
+                  'investmentFocus',
+                );
+              }}
+              showBarof={showBarofInvestmentBudgetBenef}
+              handleShowBarOf={
+                handleShowBarOfInvestmentBudgetBenefBar
+              }
+              cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
+              cardClass="col-xl-6"
+              cardChartId="stackedWithInvestment"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
-                this.handleSelectedModal('timeline');
+                this.handleSelectedModal('stackedWithInvestment');
               }}
               renderChartComponent={() => {
                 return (
-                  <div className="time-line-container">
-                    <Timeline
-                      nonEditableName
-                      data={data}
-                      links={links}
-                      mode="year"
-                    />
-                  </div>
+                  <StackedBarWithInvestment
+                    viewDataBy={viewDataBy}
+                    activeModal={activeModal}
+                    investmentFocusSelection={
+                      investmentFocusSelection
+                    }
+                    partnerSelection={partnerSelection}
+                    partnerTypeSelection={partnerTypeSelection}
+                    projectSelection={projectSelection}
+                    projectStatus={projectStatus}
+                    showBarof={showBarof}
+                    handleShowBarOf={handleShowBarOf}
+                    showBarofInvestmentBudgetBenef={
+                      showBarofInvestmentBudgetBenef
+                    }
+                    handleShowBarOfInvestmentBudgetBenefBar={
+                      handleShowBarOfInvestmentBudgetBenefBar
+                    }
+                  />
                 );
               }}
-            /> */}
+            />
           </div>
         </div>
       </div>
