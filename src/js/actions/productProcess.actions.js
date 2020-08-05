@@ -4,11 +4,7 @@ import {
   GET_INITIAL_CHART_DATA,
   FILTER_PRODUCT_NAME_LIST,
   FILTER_PARTNER_NAME_LIST,
-  FILTER_BUBBLE_CHART_DATA,
-  FILTER_RADAR_CHART_DATA,
-  FILTER_BAR_CHART_DATA,
-  FILTER_HEATMAP_CHART_DATA,
-  FILTER_OVERVIEW_DATA_PP,
+  FILTER_ALL_CHART_PP,
   RESET_ALL_CHART_PP,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
@@ -65,7 +61,7 @@ export const filterPartnerNameList = partnerType => dispatch => {
   });
 };
 
-export const filterBubbleChartData = (
+export const filterAllChartPP = (
   innovationArea,
   productCategory,
   productName,
@@ -74,91 +70,7 @@ export const filterBubbleChartData = (
   marketFailure,
 ) => dispatch => {
   return dispatch({
-    type: FILTER_BUBBLE_CHART_DATA,
-    payload: {
-      innovationArea,
-      productCategory,
-      productName,
-      partnerType,
-      partnerName,
-      marketFailure,
-    },
-  });
-};
-
-export const filterRadarChartData = (
-  innovationArea,
-  productCategory,
-  productName,
-  partnerType,
-  partnerName,
-  marketFailure,
-) => dispatch => {
-  return dispatch({
-    type: FILTER_RADAR_CHART_DATA,
-    payload: {
-      innovationArea,
-      productCategory,
-      productName,
-      partnerType,
-      partnerName,
-      marketFailure,
-    },
-  });
-};
-
-export const filterBarChartData = (
-  innovationArea,
-  productCategory,
-  productName,
-  partnerType,
-  partnerName,
-  marketFailure,
-) => dispatch => {
-  return dispatch({
-    type: FILTER_BAR_CHART_DATA,
-    payload: {
-      innovationArea,
-      productCategory,
-      productName,
-      partnerType,
-      partnerName,
-      marketFailure,
-    },
-  });
-};
-
-export const filterHeatmapChartData = (
-  innovationArea,
-  productCategory,
-  productName,
-  partnerType,
-  partnerName,
-  marketFailure,
-) => dispatch => {
-  return dispatch({
-    type: FILTER_HEATMAP_CHART_DATA,
-    payload: {
-      innovationArea,
-      productCategory,
-      productName,
-      partnerType,
-      partnerName,
-      marketFailure,
-    },
-  });
-};
-
-export const filterOverviewDataPP = (
-  innovationArea,
-  productCategory,
-  productName,
-  partnerType,
-  partnerName,
-  marketFailure,
-) => dispatch => {
-  return dispatch({
-    type: FILTER_OVERVIEW_DATA_PP,
+    type: FILTER_ALL_CHART_PP,
     payload: {
       innovationArea,
       productCategory,

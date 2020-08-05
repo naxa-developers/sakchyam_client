@@ -295,6 +295,30 @@ class Select extends PureComponent {
     });
   };
 
+  componentDidMount() {
+    // const timeDropdownEl = document.getElementsByClassName(
+    //   'filter-list',
+    // )[0];
+    // // const dataDropdownEl = document.getElementById('data_id');
+    // // const downloadDropdown = document.getElementById(
+    // //   'downloadDropdown',
+    // // );
+    // // console.log(specifiedElement, 'ss');
+    // document.addEventListener('click', async event => {
+    //   const isClickInside = timeDropdownEl.contains(event.target);
+    //   if (!isClickInside) {
+    //     this.setState(prevState => {
+    //       return {
+    //         showList: false,
+    //         filteredOptions: prevState.masterOptions,
+    //         searchText: '',
+    //       };
+    //     });
+    //     // the click was outside the specifiedElement, do something
+    //   }
+    // });
+  }
+
   componentDidUpdate(prevProps) {
     if (this.searchEl) {
       this.searchEl.focus();

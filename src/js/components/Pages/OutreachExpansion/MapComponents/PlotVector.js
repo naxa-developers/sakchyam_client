@@ -400,7 +400,7 @@ class PlotVector extends Component {
     return (
       <>
         <div className="map-legend newmap-legend">
-          <div className="color-list">
+          <div className="color-list ">
             <h6>{legendTitle}</h6>
             <ul id="state-legend" className="color-legend">
               {stateGrade &&
@@ -466,16 +466,14 @@ class PlotVector extends Component {
               </ul>
             )}
           </div>
+
           {!condition && (
-            <div className="color-list">
+            <div className="color-list ">
               <h6>Marker Legend</h6>
-              <ul id="state-legend" className="color-legend">
-                <li>
-                  <span>
-                    <img src={Branch} />
-                  </span>
-                  <p>BLB</p>
-                </li>
+              <ul
+                id="state-legend"
+                className="color-legend outreach-legend"
+              >
                 <li>
                   <div>
                     <img src={BLB} />
@@ -486,7 +484,7 @@ class PlotVector extends Component {
                   <div>
                     <img src={Others} />
                   </div>
-                  <p>Non Commercial Banks</p>
+                  <p>BLB</p>
                 </li>
               </ul>
             </div>

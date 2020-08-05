@@ -2,10 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import {
-  getProductProcessList,
-  filterHeatmapChartData,
-} from '../../../../../actions/productProcess.actions';
+import { getProductProcessList } from '../../../../../actions/productProcess.actions';
 
 class HeatmapChart extends React.Component {
   constructor(props) {
@@ -135,7 +132,7 @@ class HeatmapChart extends React.Component {
           maxWidth: 300,
           style: {
             colors: [],
-            fontSize: '12px',
+            fontSize: '11px',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 400,
             cssClass: 'apexcharts-yaxis-label',
@@ -367,19 +364,10 @@ class HeatmapChart extends React.Component {
       },
     };
 
-    this.setState(preState => ({
+    this.setState({
       series: heatMapData,
       options,
-      // options: {
-      //   ...preState.options,
-      //   yaxis: {
-      //     ...preState.options.yaxis,
-      //     labels: {
-      //       ...preState.options.yaxis.labels,
-      //     },
-      //   },
-      // },
-    }));
+    });
   };
 
   componentDidMount() {
@@ -402,19 +390,25 @@ class HeatmapChart extends React.Component {
     const { options, series } = this.state;
     const { activeModal, showRightSidebar } = this.props;
 
-    let height = 425;
+    let height = 440;
     let width = 425;
 
     if (activeModal) {
       if (window.innerWidth > 1600) {
         height = 900;
         // width = 1500;
-      } else if (window.innerWidth < 1600) {
+      } else if (
+        window.innerWidth < 1600 &&
+        window.innerWidth > 1400
+      ) {
         height = 570;
         // width = 1000;
-        // } else if (window.innerWidth < 1600) {
-        //   height = 570;
-        //   width = 1000;
+        // } else if (window.innerWidth < 1400) {
+        //   height = 450;
+        //   // width = 1000;
+        // }
+      } else {
+        height = 200;
       }
     } else {
       // height = 425;
@@ -434,7 +428,7 @@ class HeatmapChart extends React.Component {
 
     return (
       <div
-        id="chart"
+        id="heatmap-chart"
         // style={{ paddingLeft: '30px' }}
         // style={{ width: 'auto' }}
       >
@@ -465,5 +459,4 @@ const mapStateToProps = ({ productProcessReducer }) => ({
 
 export default connect(mapStateToProps, {
   getProductProcessList,
-  filterHeatmapChartData,
 })(HeatmapChart);

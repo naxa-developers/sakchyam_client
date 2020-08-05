@@ -1,415 +1,326 @@
 .chart-timeline {
-        position: absolute;
-        right: 10px;
-        bottom: 0;
-        max-width: 500px;
-        max-height: 300px;
-        height: 125px;
-        width: 435px;
-        @include radius(5px);
-        z-index: 999;
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  max-width: 500px;
+  max-height: 300px;
+  height: 125px;
+  width: 435px;
+  @include radius(5px);
+  z-index: 999;
 }
 
 .github-style {
-        @include display-flex(flex);
-        @include justify-content-start;
-        @include align-items-center;
-        margin-bottom: .6125rem;
+  @include display-flex(flex);
+  @include justify-content-start;
+  @include align-items-center;
+  margin-bottom: 0.6125rem;
 
-        img {
-                max-width: 70px;
-                padding: 5px;
-                border: 1px solid $border-color;
-                @include radius(4px);
-        }
+  img {
+    max-width: 70px;
+    padding: 5px;
+    border: 1px solid $border-color;
+    @include radius(4px);
+  }
 
-        .userdetails {
-                padding-left: .6125rem;
+  .userdetails {
+    padding-left: 0.6125rem;
 
-                h5 {
-                        font-size: .875rem;
-                }
-        }
+    h5 {
+      font-size: 0.875rem;
+    }
+  }
 }
 
 .map-color-legend {
-        left: 60px !important;
+  left: 60px !important;
 
-        h6 {
-                text-transform: uppercase;
-                margin: .5rem 0;
-                font-size: .875rem;
-        }
+  h6 {
+    text-transform: uppercase;
+    margin: 0.5rem 0;
+    font-size: 0.875rem;
+  }
 }
 
 .map-view-footer {
-        padding: 1rem .6125rem;
-        background-color: $bg-color;
-
-        .map-view-progress {
-                @include display-flex(flex);
-                @include justify-content-between;
-                @include align-items-center;
-
-                .progress-item {
-                        height: 16px;
-
-                        &.is-red {
-                                background-color: $red-color;
-                        }
-
-                        &.is-green {
-                                background-color: $dark-green;
-                        }
-
-                        &.is-color1 {
-
-                                background-color: #e69109;
-
-                        }
-
-                        &.is-color2 {
-
-                                background-color: #63a4ff;
-
-                        }
-
-                        &.is-color3 {
-
-                                background-color: #8629ff;
-
-                        }
-
-                        &.is-color4 {
-
-                                background-color: #e553ed;
-
-                        }
-
-                        &.is-color5 {
-
-                                background-color: #f2575f;
-
-                        }
-
-                        &.is-color6 {
-
-                                background-color: #915e0d;
-
-                        }
-
-                        &.is-color7 {
-
-                                background-color: #a1970d;
-
-                        }
-
-                        &.is-color8 {
-
-                                background-color: #4f7d14;
-
-                        }
-
-                        &.is-color9 {
-
-                                background-color: #07aba1;
-
-                        }
-
-                        &.is-color10 {
-
-                                background-color: #1d4c8f;
-
-                        }
-
-                        &.is-color11 {
-
-                                background-color: #491991;
-
-                        }
-
-                        &.is-color12 {
-
-                                background-color: #610766;
-
-                        }
-
-                        &.is-color13 {
-
-                                background-color: #6e0208;
-
-                        }
-
-                        &.is-color14 {
-
-                                background-color: #f07818;
-
-                        }
-
-                        &.is-color15 {
-
-                                background-color: #7F95D1;
-
-                        }
-
-                        &.is-color16 {
-
-                                background-color: #FF82A9;
-
-                        }
-
-                        &.is-color17 {
-
-                                background-color: #FFC0BE;
-
-                        }
-
-                        &.is-color18 {
-
-                                background-color: #f0e111;
-
-                        }
-
-                        &.is-color19 {
-
-                                background-color: #9ff035;
-
-                        }
-
-                        &.is-color20 {
-
-                                background-color: #34ede1;
-
-                        }
-
-                        &:first-child {
-                                border-radius: 24px 0 0 24px;
-                        }
-
-                        &:last-child {
-                                border-radius: 0 24px 24px 0;
-                        }
-                }
-        }
-
-        .progress-value {
-                @include display-flex(flex);
-                @include justify-content-around;
-                @include align-items-center;
-
-                span {
-                        font-family: $avenir-heavy;
-
-                        &.red-value {
-                                color: $red-color;
-                        }
-
-                        &.green-value {
-                                color: $dark-green;
-                        }
-
-                        &.is-color1 {
-
-                                color: #e69109;
-
-                        }
-
-                        &.is-color2 {
-
-                                color: #63a4ff;
-
-                        }
-
-                        &.is-color3 {
-
-                                color: #8629ff;
-
-                        }
-
-                        &.is-color4 {
-
-                                color: #e553ed;
-
-                        }
-
-                        &.is-color5 {
-
-                                color: #f2575f;
-
-                        }
-
-                        &.is-color6 {
-
-                                color: #915e0d;
-
-                        }
-
-                        &.is-color7 {
-
-                                color: #a1970d;
-
-                        }
-
-                        &.is-color8 {
-
-                                color: #4f7d14;
-
-                        }
-
-                        &.is-color9 {
-
-                                color: #07aba1;
-
-                        }
-
-                        &.is-color10 {
-
-                                color: #1d4c8f;
-
-                        }
-
-                        &.is-color11 {
-
-                                color: #491991;
-
-                        }
-
-                        &.is-color12 {
-
-                                color: #610766;
-
-                        }
-
-                        &.is-color13 {
-
-                                color: #6e0208;
-
-                        }
-
-                        &.is-color14 {
-
-                                color: #f07818;
-
-                        }
-
-                        &.is-color15 {
-
-                                color: #7F95D1;
-
-                        }
-
-                        &.is-color16 {
-
-                                color: #FF82A9;
-
-                        }
-
-                        &.is-color17 {
-
-                                color: #FFC0BE;
-
-                        }
-
-                        &.is-color18 {
-
-                                color: #f0e111;
-
-                        }
-
-                        &.is-color19 {
-
-                                color: #9ff035;
-
-                        }
-
-                        &.is-color20 {
-
-                                color: #34ede1;
-
-                        }
-                }
-        }
+  padding: 1rem 0.6125rem;
+  background-color: $bg-color;
+
+  .map-view-progress {
+    @include display-flex(flex);
+    @include justify-content-between;
+    @include align-items-center;
+
+    .progress-item {
+      height: 16px;
+
+      &.is-red {
+        background-color: $red-color;
+      }
+
+      &.is-green {
+        background-color: $dark-green;
+      }
+
+      &.is-color1 {
+        background-color: #e69109;
+      }
+
+      &.is-color2 {
+        background-color: #63a4ff;
+      }
+
+      &.is-color3 {
+        background-color: #8629ff;
+      }
+
+      &.is-color4 {
+        background-color: #e553ed;
+      }
+
+      &.is-color5 {
+        background-color: #f2575f;
+      }
+
+      &.is-color6 {
+        background-color: #915e0d;
+      }
+
+      &.is-color7 {
+        background-color: #a1970d;
+      }
+
+      &.is-color8 {
+        background-color: #4f7d14;
+      }
+
+      &.is-color9 {
+        background-color: #07aba1;
+      }
+
+      &.is-color10 {
+        background-color: #1d4c8f;
+      }
+
+      &.is-color11 {
+        background-color: #491991;
+      }
+
+      &.is-color12 {
+        background-color: #610766;
+      }
+
+      &.is-color13 {
+        background-color: #6e0208;
+      }
+
+      &.is-color14 {
+        background-color: #f07818;
+      }
+
+      &.is-color15 {
+        background-color: #7f95d1;
+      }
+
+      &.is-color16 {
+        background-color: #ff82a9;
+      }
+
+      &.is-color17 {
+        background-color: #ffc0be;
+      }
+
+      &.is-color18 {
+        background-color: #f0e111;
+      }
+
+      &.is-color19 {
+        background-color: #9ff035;
+      }
+
+      &.is-color20 {
+        background-color: #34ede1;
+      }
+
+      &:first-child {
+        border-radius: 24px 0 0 24px;
+      }
+
+      &:last-child {
+        border-radius: 0 24px 24px 0;
+      }
+    }
+  }
+
+  .progress-value {
+    @include display-flex(flex);
+    @include justify-content-around;
+    @include align-items-center;
+
+    span {
+      font-family: $avenir-heavy;
+
+      &.red-value {
+        color: $red-color;
+      }
+
+      &.green-value {
+        color: $dark-green;
+      }
+
+      &.is-color1 {
+        color: #e69109;
+      }
+
+      &.is-color2 {
+        color: #63a4ff;
+      }
+
+      &.is-color3 {
+        color: #8629ff;
+      }
+
+      &.is-color4 {
+        color: #e553ed;
+      }
+
+      &.is-color5 {
+        color: #f2575f;
+      }
+
+      &.is-color6 {
+        color: #915e0d;
+      }
+
+      &.is-color7 {
+        color: #a1970d;
+      }
+
+      &.is-color8 {
+        color: #4f7d14;
+      }
+
+      &.is-color9 {
+        color: #07aba1;
+      }
+
+      &.is-color10 {
+        color: #1d4c8f;
+      }
+
+      &.is-color11 {
+        color: #491991;
+      }
+
+      &.is-color12 {
+        color: #610766;
+      }
+
+      &.is-color13 {
+        color: #6e0208;
+      }
+
+      &.is-color14 {
+        color: #f07818;
+      }
+
+      &.is-color15 {
+        color: #7f95d1;
+      }
+
+      &.is-color16 {
+        color: #ff82a9;
+      }
+
+      &.is-color17 {
+        color: #ffc0be;
+      }
+
+      &.is-color18 {
+        color: #f0e111;
+      }
+
+      &.is-color19 {
+        color: #9ff035;
+      }
+
+      &.is-color20 {
+        color: #34ede1;
+      }
+    }
+  }
 }
 
 .legend-wrapper {
-        position: absolute;
-        bottom: 77px;
-        left: 0;
+  position: absolute;
+  bottom: 77px;
+  left: 0;
 
-        // .markercircleLegend,.pieSquareLegend{
-        .pieSquareLegend {
-                position: initial;
-                display: initial;
-                top: unset;
-                // max-width: 200px;
-                max-width: 322px;
-                width: 188px;
-                // display: flex;
-                height: 228px;
-                max-height: 262px;
-                // width:100%;
-                // height: initial;
-                display: flex;
-                flex-wrap: wrap;
-                background-color: rgba($white-color, 1);
-                @include radius(5px);
+  // .markercircleLegend,.pieSquareLegend{
+  .pieSquareLegend {
+    position: initial;
+    display: initial;
+    top: unset;
+    // max-width: 200px;
+    max-width: 322px;
+    width: 188px;
+    // display: flex;
+    height: 228px;
+    max-height: 262px;
+    // width:100%;
+    // height: initial;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba($white-color, 1);
+    @include radius(5px);
 
-                svg {
-                        max-width: 200px;
-                        width: initial !important;
-                        height: auto !important;
-                        flex-wrap: wrap;
+    svg {
+      max-width: 200px;
+      width: initial !important;
+      height: auto !important;
+      flex-wrap: wrap;
+    }
+  }
 
-                }
-        }
+  svg {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    // max-height: 200px;
 
-        svg {
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                -ms-overflow-style: -ms-autohiding-scrollbar;
-                // max-height: 200px;
+    &::-webkit-scrollbar {
+      width: 6px;
+      background: $gray-light;
+      @include radius(4px);
+    }
 
-                &::-webkit-scrollbar {
-                        width: 6px;
-                        background: $gray-light;
-                        @include radius(4px);
-                }
+    &::-webkit-scrollbar-track {
+      background-color: $gray-light;
+      @include radius(4px);
+    }
 
-                &::-webkit-scrollbar-track {
-                        background-color: $gray-light;
-                        @include radius(4px);
-                }
-
-                &::-webkit-scrollbar-thumb {
-                        @include radius(4px);
-                        background: $text-color-hover;
-                }
-        }
+    &::-webkit-scrollbar-thumb {
+      @include radius(4px);
+      background: $text-color-hover;
+    }
+  }
 }
 
+.map-legend.newmap-legend .color-list {
+  ul.outreach-legend {
+    @include flex-wrap(wrap);
 
-        .map-legend.newmap-legend .color-list {
-                ul.outreach-legend {
-                        @include flex-wrap(wrap);
-                
-                        li {
-                                @include display-flex(flex);
-                                @include justify-content-start;
-                                @include align-items-center;
-                                @include flex(0 0 33.666667%);
-                                max-width: 33.666667%;
-                
-                                img {
-                                        margin-right: .6125rem;
-                                        margin-bottom: .6125rem;
-                                }
-                        }
-                }
-        }
-        .cl-md{
-                margin-bottom: 120px;
-                padding-bottom:0 !important;
-                &:last-child{
-                        margin-bottom: 0;;
-                }
-        }
+    li {
+      @include display-flex(flex);
+      @include justify-content-start;
+      @include align-items-center;
+      @include flex(0 0 33.666667%);
+      max-width: 33.666667%;
+
+      img {
+        margin-right: 0.6125rem;
+        margin-bottom: 0.6125rem;
+      }
+    }
+  }
+}

@@ -116,6 +116,7 @@ class Login extends Component {
     return (
       <div className="login-page">
         <Loading
+          left="65%"
           loaderState={loginLoading}
           text="Signing In...Please Wait"
         />

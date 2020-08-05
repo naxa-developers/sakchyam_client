@@ -5,8 +5,12 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import OutreachTab from './common/OutreachTab';
-import { removeDuplicates } from '../../common/removeDuplicates';
+import OutreachTab from '../../common/overviewTab';
+import {
+  removeDuplicates,
+  numberWithCommas,
+  getFormattedDate,
+} from '../../common/utilFunctions';
 
 const outreachTabTitle = [
   'Investment Focus',
@@ -19,28 +23,6 @@ const outreachTabTitle = [
   'Number of Tablet Banking Points',
   'Innovative Products Introduced',
 ];
-
-const getFormattedDate = date => {
-  const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  var month = date.substr(5, 2);
-  var day = date.substr(8, 2);
-
-  const filteredDate = `${monthNames[parseInt(month) - 1]} ${day}`;
-  return filteredDate;
-};
 
 class RightSideBar extends Component {
   constructor(props) {
@@ -239,22 +221,24 @@ class RightSideBar extends Component {
                   <ul className="widget-list">
                     <OutreachTab
                       title="Population in the Local Unit"
-                      number={totalPopulation}
+                      number={numberWithCommas(totalPopulation)}
                       iconTitle="people"
                     />
                     <OutreachTab
                       title="Yearly Central Government Funding"
-                      number={totalFunding}
+                      number={numberWithCommas(totalFunding)}
                       iconTitle="monetization_on"
                     />
                     <OutreachTab
                       title="Social Security Payment Recipients"
-                      number={totalReceipients}
+                      number={numberWithCommas(totalReceipients)}
                       iconTitle="people"
                     />
                     <OutreachTab
                       title="Yearly Social Security Payments"
-                      number={totalPayments.toFixed(2)}
+                      number={numberWithCommas(
+                        totalPayments.toFixed(2),
+                      )}
                       iconTitle="monetization_on"
                     />
                   </ul>

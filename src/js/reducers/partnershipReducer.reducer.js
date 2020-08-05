@@ -370,15 +370,15 @@ const filterBudgetBarChartProvinceOnly = datas => {
   };
 };
 const filterLeverageChart = datas => {
-  console.log(datas.projectList, 'projectList');
-  console.log(datas.projectSelection, 'projectSelection');
+  // console.log(datas.projectList, 'projectList');
+  // console.log(datas.projectSelection, 'projectSelection');
   let filteredProjectList = datas.projectList;
   if (datas.projectSelection && datas.projectSelection.length > 0) {
     // eslint-disable-next-line array-callback-return
     filteredProjectList = datas.projectList.filter(function(item) {
       return datas.projectSelection.indexOf(item.id) !== -1;
     });
-    console.log(filteredProjectList, 'filtered');
+    // console.log(filteredProjectList, 'filtered');
   }
   const summedScfFund = filteredProjectList.reduce((a, c) => {
     const filtered = a.filter(
@@ -964,7 +964,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
   state,
   action,
 ) => {
-  console.log(action, 'action');
+  // console.log(action, 'action');
   const {
     totalBeneficiary,
     femaleBeneficiary,
@@ -973,7 +973,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
   const totalbeneficiary = totalBeneficiary;
   const femalebeneficiary = femaleBeneficiary;
   const checkProvince = totalbeneficiary.some(i => i.province_code);
-  console.log(checkProvince, 'checkProvinceOrNot');
+  // console.log(checkProvince, 'checkProvinceOrNot');
   const totalBenefProvince = totalbeneficiary.reduce((a, c) => {
     const filtered = a.filter(el =>
       checkProvince
@@ -990,7 +990,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
     }
     return a;
   }, []);
-  console.log(totalBenefProvince, 'totalbenefProvince');
+  // console.log(totalBenefProvince, 'totalbenefProvince');
   const femaleBenefProvince = femalebeneficiary.reduce((a, c) => {
     const filtered = a.filter(el =>
       checkProvince
@@ -1030,7 +1030,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
       ...femaleBenefProvince[i],
     }),
   );
-  console.log(mergedBeneficiaryArray, 'testField');
+  // console.log(mergedBeneficiaryArray, 'testField');
   const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
     el,
   ) {
@@ -1038,7 +1038,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
     o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
     return o;
   });
-  console.log(finalBeneficiaryArray, 'finalbenefArray');
+  // console.log(finalBeneficiaryArray, 'finalbenefArray');
   sortArrayByKey(finalBeneficiaryArray, 'code');
   const filteredBenefValues = filterBeneficiaryBarChartForProvinceOnly(
     finalBeneficiaryArray,
@@ -1053,7 +1053,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
   // console.log(filteredBenefValues, 'filteredBenefValues');
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  console.log(filteredBenefValues, 'filteredBudgetValues');
+  // console.log(filteredBenefValues, 'filteredBudgetValues');
   // );
   return {
     ...state,
@@ -1370,7 +1370,7 @@ const filterMunListFromDistrict = (state, action) => {
 const getLeverageData = (state, action) => {
   // console.log(action.payload, 'action');
   const filteredLeverage = filterLeverageChart(action.payload);
-  console.log(filteredLeverage, 'bardatax');
+  // console.log(filteredLeverage, 'bardatax');
 
   return {
     ...state,
@@ -1397,7 +1397,7 @@ const filterLeverageDataOnClick = (state, action) => {
   };
 };
 const getPartnershipAllData = (state, action) => {
-  console.log(action.payload, 'action');
+  // console.log(action.payload, 'action');
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,

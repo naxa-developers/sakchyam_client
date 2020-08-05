@@ -65,6 +65,7 @@ class LeftSideBar extends Component {
                     <div className="custom-checkbox">
                       <input
                         id="Initiative1"
+                        className="allCheckbox"
                         type="checkbox"
                         name="Initiative1"
                         value="all"
@@ -151,6 +152,7 @@ class LeftSideBar extends Component {
                     <div className="custom-checkbox">
                       <input
                         id="Initiative7"
+                        className="allCheckbox"
                         type="checkbox"
                         name="Initiative7"
                         onChange={handleProjectParentCheckbox}
@@ -250,6 +252,7 @@ class LeftSideBar extends Component {
                     <div className="custom-checkbox">
                       <input
                         id="Initiative14"
+                        className="allCheckbox"
                         type="checkbox"
                         name="Initiative14"
                         onChange={handlePartnerParentCheckbox}

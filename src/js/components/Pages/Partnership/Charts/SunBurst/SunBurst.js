@@ -208,8 +208,8 @@ class Sunburst extends React.Component {
   }
 
   _onClick(node) {
-    this.props._debug && this.props._log("Sunburst: _onClick(node)");
-    this._last_click = node;
+    // this.props._debug && this.props._log("Sunburst: _onClick(node)");
+    // this._last_click = node;
   }
 
   /**
@@ -335,9 +335,9 @@ class Sunburst extends React.Component {
           function (node) {
             // console.log('onClick ')
             // console.log(node,'node');
-            this._onClick(node);
+            // this._onClick(node);
             this.props.onClick && this.props.onClick(node);
-            this._update(node);
+            // this._update(node);
           }.bind(this)
         );
 
