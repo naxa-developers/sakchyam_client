@@ -177,6 +177,17 @@
       }
     }
   }
+  @media screen and (max-width:1400px) {
+    padding-left: 1rem;
+    span{
+      margin-right: .6125rem;
+    }
+    ul{
+      li{
+        padding: 0 10px;
+      }
+    }
+}
 }
 
 .literacy-tab-content {
@@ -237,27 +248,27 @@
       width: 6px;
       background: $gray-light;
       @include radius(4px);
-  }
+    }
 
-  &::-webkit-scrollbar-track {
-      background-color:$gray-light;
+    &::-webkit-scrollbar-track {
+      background-color: $gray-light;
       @include radius(4px);
-  }
+    }
 
-  &::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
       @include radius(4px);
       background: $text-color-hover;
-  }
+    }
     .card {
       .card-body {
         padding: 0 0.6125rem 1rem 0.6125rem;
       }
     }
-    @media #{$breakpoint-ls}{
+    @media #{$breakpoint-ls} {
       height: auto;
       max-height: initial;
       overflow-y: initial;
-  }
+    }
   }
   .table-card {
     .table-card-body {
@@ -270,23 +281,23 @@
         width: 6px;
         background: $gray-light;
         @include radius(4px);
-    }
-  
-    &::-webkit-scrollbar-track {
-        background-color:$gray-light;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: $gray-light;
         @include radius(4px);
-    }
-  
-    &::-webkit-scrollbar-thumb {
+      }
+
+      &::-webkit-scrollbar-thumb {
         @include radius(4px);
         background: $text-color-hover;
+      }
     }
-    }
-    @media #{$breakpoint-ls}{
+    @media #{$breakpoint-ls} {
       height: auto;
       max-height: initial;
       overflow-y: initial;
-  }
+    }
   }
   .apexcharts-tooltip {
     max-width: 350px;
@@ -308,22 +319,22 @@
     width: 6px;
     background: $gray-light;
     @include radius(4px);
-}
+  }
 
-&::-webkit-scrollbar-track {
-    background-color:$gray-light;
+  &::-webkit-scrollbar-track {
+    background-color: $gray-light;
     @include radius(4px);
-}
+  }
 
-&::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     @include radius(4px);
     background: $text-color-hover;
-}
-@media #{$breakpoint-ls}{
-  height: auto;
-  max-height: initial;
-  overflow-y: initial;
-}
+  }
+  @media #{$breakpoint-ls} {
+    height: auto;
+    max-height: initial;
+    overflow-y: initial;
+  }
 }
 
 .pie-legend {
@@ -382,15 +393,15 @@
       margin-bottom: 0.6125rem;
     }
     .color-list {
-      @include flex(0 0 40%);
+      @include flex(0 0 30%);
       background-color: $white-color;
       padding: 0.6125rem;
       ul {
         border: none;
         padding: 0;
         li {
-          @include flex(0 0 11.1%);
-          max-width: 11.1%;
+          @include flex(0 0 15%);
+          max-width: 15%;
           width: 100%;
           span {
             font-size: 0.6125rem;

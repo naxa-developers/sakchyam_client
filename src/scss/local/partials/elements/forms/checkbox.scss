@@ -26,6 +26,9 @@
         font-weight: 500;
         font-size: .775rem;
         color:$primary-color;
+        @include display-flex(flex);
+        @include justify-content-start;
+        @include align-items-start;
     }
 
     input {
@@ -45,11 +48,13 @@
             margin-right: 10px;
             display: inline-block;
             vertical-align: text-top;
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             background: $white-color;
-            border: 1.5px solid $primary-light;
+            border: 1px solid $primary-light;
             @include radius(4px);
+            @include flex(0 0 16px);
+            max-width: 16px;
             @media #{$breakpoint-md-desktop} {
                 margin-right:5px;
                 
@@ -87,8 +92,8 @@
         &:checked+label:after {
             content: '';
             position: absolute;
-            left: 4px;
-            top: 12px;
+            left: 3px;
+            top: 7px;
             background: $white-color;
             width: 2px;
             height: 2px;

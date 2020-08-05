@@ -19,6 +19,7 @@ import ProductProcess from './Pages/ProductProcess/ProductProcess';
 import OutreachComponent from './Pages/OutreachExpansion';
 import PaymentSystems from './Pages/PaymentSystems/PaymentSystems';
 import MainMFS from './Pages/MFS/MainMFS';
+import InsuranceModule from './Pages/Insurance';
 
 class App extends Component {
   constructor(props) {
@@ -61,6 +62,10 @@ class App extends Component {
             component={PaymentSystems}
           />
           <PrivateRoute path="/mfs" component={MainMFS} />
+          <PrivateRoute
+            path="/insurance"
+            component={InsuranceModule}
+          />
           <Route path="/login" component={Login} />
           <Route path="/" component={Landing} />
           <Route component={Landing} />

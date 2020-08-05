@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
+import { active } from 'd3';
 import { filterBenefBudgetDataForBarClick } from '../../../../../actions/partnership.actions';
 import convert from '../../../../utils/convertNumbers';
 
@@ -623,7 +624,15 @@ class StackedBarWithInvestment extends Component {
           options={options}
           series={series}
           type="bar"
-          height={activeModal ? 600 : 350}
+          // height={activeModal ? 600 : 350}
+          height={
+            activeModal && window.innerWidth < 1400
+              ? 560
+              : activeModal
+              ? 650
+              : 350
+          }
+
           // width={activeModal === true ? 1600 : '100%'}
         />
       </div>

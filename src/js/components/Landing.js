@@ -220,6 +220,21 @@ class Landing extends Component {
                     cardPermission="view_logentry"
                     cardImage={GridImg}
                   />
+                  <LandingCard
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardTitle="Insurance"
+                    cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
+                    cardLists={[
+                      'Partner Organisation',
+                      'Automation Outreach',
+                      'Tablet Deployed',
+                      'Automation Benefits',
+                    ]}
+                    permissions={permissions}
+                    cardUrl="/insurance"
+                    cardPermission="view_logentry"
+                    cardImage={GridImg}
+                  />
                 </div>
               </div>
             </div>

@@ -5,13 +5,6 @@ import React, { Component } from 'react';
 // import 'mapbox-gl/src/css/svg/mapboxgl-ctrl-zoom-out.svg';
 import { connect } from 'react-redux';
 import VectorTileMapbox from './VectorTileMapbox';
-import {
-  getMapDataByProvince,
-  getMapDataByDistrict,
-  getMapDataByMunicipality,
-  filterMapDataOfCircleMarkerWithViewDataBy,
-  getPartnershipAllData,
-} from '../../../../actions/partnership.actions';
 
 class MapboxPartnership extends Component {
   constructor(props) {
@@ -21,8 +14,6 @@ class MapboxPartnership extends Component {
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
-    this.circleLegendRef = React.createRef();
-    this.pieSquareLegend = React.createRef();
   }
 
   // addMap = () => {
@@ -41,10 +32,6 @@ class MapboxPartnership extends Component {
   // };
 
   componentDidMount() {
-    this.props.getMapDataByProvince('investment');
-    this.props.getMapDataByDistrict('investment');
-    this.props.getPartnershipAllData();
-    this.props.getMapDataByMunicipality('investment');
     this.props.addMap();
   }
 
@@ -54,46 +41,6 @@ class MapboxPartnership extends Component {
       selectedDistrict,
       selectedMunicipality,
     } = this.props;
-    // if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
-    // }
-    // if (prevProps.mapViewBy !== this.props.mapViewBy) {
-    if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
-      let view = 'investment';
-      if (this.props.mapViewDataBy === 'allocated_beneficiary') {
-        view = 'total_beneficiary';
-      } else if (this.props.mapViewDataBy === 'allocated_budget') {
-        view = 'total_beneficiary';
-      }
-      // this.props.getMapDataByProvince(view);
-      // if (this.props.mapViewDataBy !== 'investment_focus') {
-      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-        view,
-        this.props.mapViewBy,
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-      );
-      // }
-    }
-    if (prevProps.mapViewBy !== this.props.mapViewBy) {
-      let view = 'investment';
-      if (this.props.mapViewDataBy === 'allocated_beneficiary') {
-        view = 'total_beneficiary';
-      } else if (this.props.mapViewDataBy === 'allocated_budget') {
-        view = 'total_beneficiary';
-      }
-      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-        view,
-        this.props.mapViewBy,
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-      );
-    }
-    // if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
-    //   // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
-    //   // this.changeGrades();
-    //   this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-    //     this.props.mapViewDataBy,
-    //     this.props.mapViewBy,
-    //   );
-    // }
   }
 
   render() {
@@ -106,10 +53,7 @@ class MapboxPartnership extends Component {
       // state: {  },
       props: { vectorTileUrl, mapViewDataBy, map },
     } = this;
-    const {
-      filteredMapData,
-      mapDataForCircleMarker,
-    } = this.props.partnershipReducer;
+    const { mfsChoroplethData } = this.props.mfsReducer;
     return (
       <>
         <div id="key" ref={this.keyRef} />
@@ -118,8 +62,6 @@ class MapboxPartnership extends Component {
             <div>
               <VectorTileMapbox
                 keyRef={this.keyRef}
-                circleLegendRef={this.circleLegendRef}
-                pieSquareLegend={this.pieSquareLegend}
                 handleProvinceClick={this.props.handleProvinceClick}
                 handleFederalClickOnMap={
                   this.props.handleFederalClickOnMap
@@ -128,8 +70,7 @@ class MapboxPartnership extends Component {
                 setMapViewBy={setMapViewBy}
                 mapViewBy={mapViewBy}
                 mapViewDataBy={mapViewDataBy}
-                choroplethData={filteredMapData}
-                circleMarkerData={mapDataForCircleMarker}
+                choroplethData={mfsChoroplethData}
                 vectorTileUrl={vectorTileUrl}
                 map={map}
                 // divisions={inputDivisions}
@@ -148,24 +89,7 @@ class MapboxPartnership extends Component {
                 // height: '40px',
                 // }}
               /> */}
-              {mapViewDataBy && (
-                <div className="legend-wrapper">
-                  <div
-                    // id="markercircleLegend"
-                    className="markercircleLegend"
-                    ref={this.circleLegendRef}
-                  />
-                  <div id="markerPieLegend">
-                    <svg
-                      // id="pieSquareLegend"
-                      className="pieSquareLegend"
-                      ref={this.pieSquareLegend}
-                      // height="300"
-                      // width="450"
-                    />
-                  </div>
-                </div>
-              )}
+
               {/* <MarkerCluster
               filteredByPartner={filteredByPartner}
               handleActiveClickPartners={handleActiveClickPartners}
@@ -184,13 +108,8 @@ class MapboxPartnership extends Component {
   }
 }
 
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ mfsReducer }) => ({
+  mfsReducer,
 });
-export default connect(mapStateToProps, {
-  getMapDataByProvince,
-  getMapDataByDistrict,
-  getMapDataByMunicipality,
-  filterMapDataOfCircleMarkerWithViewDataBy,
-  getPartnershipAllData,
-})(MapboxPartnership);
+
+export default connect(mapStateToProps, {})(MapboxPartnership);

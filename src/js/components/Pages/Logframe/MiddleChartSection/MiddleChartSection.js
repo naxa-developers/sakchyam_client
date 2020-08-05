@@ -1050,6 +1050,10 @@ class MiddleChartSection extends Component {
     } = this;
     document.querySelector('.info-header-bottom').style.display =
       'none';
+    document.querySelectorAll('.download-icon-image').forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.style.display = 'none';
+    });
     document
       .querySelector('.download-dropdown')
       .classList.remove('active');
@@ -1057,12 +1061,12 @@ class MiddleChartSection extends Component {
       html2canvas(document.querySelector('.info-content-wrap'), {
         // logging: true,
         // letterRendering: 1,
-        allowTaint: true,
+        // allowTaint: true,
         // scale: window.devicePixelRatio,
         // windowWidth: window.innerWidth,
         // windowHeight: window.innerHeight + 120,
-        // x: 20,
-        y: 70,
+        // x: 270,
+        // y: 70,
         // width: window.innerWidth + 40,
         // height: window.innerHeight + 40,
         // foreignObjectRendering: true,
@@ -1073,6 +1077,12 @@ class MiddleChartSection extends Component {
         });
         document.querySelector('.info-header-bottom').style.display =
           'block';
+        document
+          .querySelectorAll('.download-icon-image')
+          .forEach(el => {
+            // eslint-disable-next-line no-param-reassign
+            el.style.display = 'block';
+          });
       });
     }, 500);
 

@@ -149,10 +149,9 @@
                     .filter-list{
                         
                         @include display-flex(flex);
-                        @include justify-content-between;
+                        @include justify-content-start;
                         @include align-items-center;
                         width:100%;
-                        @include flex-wrap(wrap);
                         .select-dropdown{
                             .span-label{
                                 @include radius(20px);
