@@ -159,16 +159,24 @@ const filterMfsChoroplethData = (state, action) => {
   // );
   const testArray = [];
   const anotherArray = [...filteredChoroplethData];
-
+  const federalKey =
+    mapViewBy === 'province' ? 'province_code' : 'district_code';
   const federalFilterofChoropleth = filterDistinctJsonWithKey(
     anotherArray,
-    mapViewBy === 'province' ? 'province_code' : 'district_code',
+    federalKey,
     'achieved_number',
   );
+  const choroplethFormat = [];
+  federalFilterofChoropleth.forEach(data => {
+    choroplethFormat.push({
+      id: data[federalKey],
+      count: data.achieved_number,
+    });
+  });
   console.log(federalFilterofChoropleth, 'federalCOde');
   return {
     ...state,
-    mfsChoroplethData: federalFilterofChoropleth,
+    mfsChoroplethData: choroplethFormat,
   };
 };
 export default function(state = initialState, action) {
