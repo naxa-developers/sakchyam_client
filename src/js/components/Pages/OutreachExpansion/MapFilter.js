@@ -93,18 +93,18 @@ export default function MapFilter(props) {
         )}
       </ul>
       {mapViewDataBy === 'outreach_local_units' && (
-        <div
-          style={{
+        <div className="outreach-dropdown">
+          {/* style={{
             paddingLeft: '2vw',
             maxWidth: '100%',
             display: 'flex',
-          }}
-        >
-          <span
-            style={{
+          }} */}
+
+          <span>
+            {/* style={{
               paddingTop: '1vh',
             }}
-          >
+           */}
             view data by
           </span>
           <Dropdown
