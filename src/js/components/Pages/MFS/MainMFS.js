@@ -28,6 +28,8 @@ import {
   getMfsAllData,
   filterByPartnerInstitution,
   filterMfsChoroplethData,
+  filterByKeyInnovation,
+  filterOverViewData,
 } from '../../../actions/mfs.action';
 import {
   filterDistrictListFromProvince,
@@ -81,19 +83,6 @@ class MainMFS extends Component {
   }
 
   componentDidMount() {
-    // const windowPos = window.pageYOffset;
-    // const siteHeader = document.getElementsByClassName(
-    //   '.main-header',
-    // );
-    // const scrollLink = document.getElementsByClassName('.scroll-top');
-    // if (windowPos >= 110) {
-    //   siteHeader.addClass('fixed-header');
-    //   scrollLink.addClass('open');
-    // } else {
-    //   siteHeader.removeClass('fixed-header');
-    //   scrollLink.removeClass('open');
-    // }
-
     this.props.getMfsAllData();
   }
 
@@ -106,11 +95,11 @@ class MainMFS extends Component {
       selectedPartner,
       districtList,
       municipalityList,
+      selectedInnovation,
     } = this.state;
 
     if (prevState.selectedProvince !== selectedProvince) {
-      console.log('selected provicne changed', selectedProvince);
-      this.props.filterDistrictListFromProvince(selectedProvince);
+      districtListByProvince(selectedProvince);
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
       this.props.filterMunListFromDistrict(selectedDistrict);
@@ -301,6 +290,9 @@ class MainMFS extends Component {
     if (prevState.selectedPartner !== selectedPartner) {
       this.props.filterByPartnerInstitution(selectedPartner);
     }
+    if (prevState.selectedInnovation !== selectedInnovation) {
+      this.props.filterByKeyInnovation(selectedInnovation);
+    }
   }
 
   handleFederalClickOnMap = (statelevel, code) => {
@@ -364,10 +356,20 @@ class MainMFS extends Component {
 
   setMapViewBy = selectedMapView => {
     // console.log('setMapView By Function');
-    const { viewDataBy } = this.state;
+    const {
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    } = this.state;
     this.setState({
       mapViewBy: selectedMapView,
     });
+    this.props.filterMfsChoroplethData(
+      selectedMapView,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
     // this.props.getFilteredMapData(selectedMapView);
     this.setState({
       vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
@@ -410,48 +412,7 @@ class MainMFS extends Component {
 
         // }
 
-        if (selectedMunicipality && selectedMunicipality.length > 0) {
-          const combinedBbox = [];
-          // console.log(selectedMunicipality, 'selectedMunicipality');
-          const getBboxValue = getCenterBboxMunicipality(
-            selectedMunicipality.map(data => {
-              return data.code;
-            }),
-          );
-          // console.log(getBboxValue, 'bboxValue');
-          getBboxValue.map(data => {
-            combinedBbox.push(data.bbox);
-            return true;
-          });
-          const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
-          map.fitBounds(extendedValue);
-          const query = selectedMunicipality
-            .map(data => {
-              return `code=${data.code}`;
-            })
-            .join('&');
-          map.setFilter('vector-tile-fill', [
-            'in',
-            ['get', 'code'],
-            [
-              'literal',
-              selectedMunicipality.map(fed => {
-                return fed.code.toString();
-              }),
-            ],
-          ]);
-          map.setFilter('vector-tile-outline', [
-            'in',
-            ['get', 'code'],
-            [
-              'literal',
-              selectedMunicipality.map(fed => {
-                return fed.code.toString();
-              }),
-            ],
-          ]);
-        } else if (selectedDistrict && selectedDistrict.length > 0) {
+        if (selectedDistrict && selectedDistrict.length > 0) {
           const combinedBbox = [];
           // console.log(selectedDistrict, 'selectedDistrict');
           const getBboxValue = getCenterBboxDistrict(
@@ -785,6 +746,12 @@ class MainMFS extends Component {
         selectedInnovation,
         selectedAchievement,
       );
+      this.props.filterOverViewData(
+        mapViewBy,
+        selectedPartner,
+        selectedInnovation,
+        selectedAchievement,
+      );
     }
     // this.props.filterMapChoropleth(
     //   investmentFocusSelection,
@@ -1018,26 +985,6 @@ class MainMFS extends Component {
                             }}
                           >
                             District
-                          </a>
-                        </li>
-                        <li
-                          className={
-                            mapViewBy === 'municipality'
-                              ? 'active'
-                              : ''
-                          }
-                        >
-                          <a
-                            role="tab"
-                            tabIndex="-1"
-                            onClick={() => {
-                              this.setMapViewBy('municipality');
-                            }}
-                            onKeyUp={() => {
-                              this.setMapViewBy('municipality');
-                            }}
-                          >
-                            Municipality
                           </a>
                         </li>
                       </ul>
@@ -1317,6 +1264,7 @@ class MainMFS extends Component {
           <RightSideBar
             activeOverview={activeOverview}
             activeView={activeView}
+            selectedInnovation={selectedInnovation}
             setActiveOverview={this.setActiveOverview}
             setActiveView={this.setActiveView}
           />
@@ -1336,4 +1284,6 @@ export default connect(mapStateToProps, {
   filterByPartnerInstitution,
   filterDistrictListFromProvince,
   filterMunListFromDistrict,
+  filterByKeyInnovation,
+  filterOverViewData,
 })(MainMFS);

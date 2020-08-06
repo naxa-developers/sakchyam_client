@@ -37,12 +37,13 @@ class RightSideBar extends Component {
       props: {
         activeView,
         activeOverview,
+        selectedInnovation,
         setActiveView,
         setActiveOverview,
       },
     } = this;
     const {
-      partnershipReducer: { overviewData },
+      mfsReducer: { mfsOverviewData },
     } = this.props;
     return (
       <aside
@@ -51,7 +52,7 @@ class RightSideBar extends Component {
       >
         <div className="sidebar-in">
           <div className="right-sidebar-header">
-            <h5>Overview</h5>
+            <h5>Overviews</h5>
             {/* {activeView === 'visualization' ? (
               <a
                 onClick={() => {
@@ -87,18 +88,22 @@ class RightSideBar extends Component {
                 <ul className="widget-list">
                   <OutreachTab
                     title="Key Innovations"
-                    number={overviewData.investment_focus}
+                    number={mfsOverviewData.innovationNo}
                     iconTitle="flag"
                   />
                   <OutreachTab
                     title="Partner Institutions"
-                    number={overviewData.project}
+                    number={mfsOverviewData.partnerNo}
                     iconTitle="location_city"
                   />
                   <OutreachTab
-                    title="No. of Cashpoint Agents Deployed"
+                    title={
+                      mfsOverviewData.totalCashpoint
+                        ? 'Total Innovation Type'
+                        : selectedInnovation
+                    }
                     number={numberWithCommas(
-                      parseInt(overviewData.beneficiary, 10),
+                      parseInt(mfsOverviewData.totalCashpoint, 10),
                     )}
                     iconTitle="poll"
                   />
@@ -125,8 +130,8 @@ class RightSideBar extends Component {
   }
 }
 
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ mfsReducer }) => ({
+  mfsReducer,
 });
 export default connect(mapStateToProps, { getOverviewData })(
   RightSideBar,
