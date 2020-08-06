@@ -28,6 +28,8 @@ import {
   getMfsAllData,
   filterByPartnerInstitution,
   filterMfsChoroplethData,
+  filterByKeyInnovation,
+  filterOverViewData,
 } from '../../../actions/mfs.action';
 import {
   filterDistrictListFromProvince,
@@ -93,10 +95,10 @@ class MainMFS extends Component {
       selectedPartner,
       districtList,
       municipalityList,
+      selectedInnovation,
     } = this.state;
 
     if (prevState.selectedProvince !== selectedProvince) {
-      console.log('selected provicne changed', selectedProvince);
       districtListByProvince(selectedProvince);
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
@@ -287,6 +289,9 @@ class MainMFS extends Component {
     }
     if (prevState.selectedPartner !== selectedPartner) {
       this.props.filterByPartnerInstitution(selectedPartner);
+    }
+    if (prevState.selectedInnovation !== selectedInnovation) {
+      this.props.filterByKeyInnovation(selectedInnovation);
     }
   }
 
@@ -736,6 +741,12 @@ class MainMFS extends Component {
       toast.warning('⚠ Please Select Achievement!');
     } else {
       this.props.filterMfsChoroplethData(
+        mapViewBy,
+        selectedPartner,
+        selectedInnovation,
+        selectedAchievement,
+      );
+      this.props.filterOverViewData(
         mapViewBy,
         selectedPartner,
         selectedInnovation,
@@ -1253,6 +1264,7 @@ class MainMFS extends Component {
           <RightSideBar
             activeOverview={activeOverview}
             activeView={activeView}
+            selectedInnovation={selectedInnovation}
             setActiveOverview={this.setActiveOverview}
             setActiveView={this.setActiveView}
           />
@@ -1272,4 +1284,6 @@ export default connect(mapStateToProps, {
   filterByPartnerInstitution,
   filterDistrictListFromProvince,
   filterMunListFromDistrict,
+  filterByKeyInnovation,
+  filterOverViewData,
 })(MainMFS);

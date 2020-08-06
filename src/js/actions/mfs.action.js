@@ -9,6 +9,8 @@ import {
   FILTER_MFS_LIST_BY_PARTNERINSTITUTION,
   FILTER_MFS_CHOROPLETH_DATA,
   GET_MFS_OVERVIEW_DATA,
+  FILTER_MFS_OVERVIEW_DATA,
+  FILTER_MFS_LIST_BY_KEY_INNOVATION,
 } from './index.actions';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -56,6 +58,12 @@ export const filterByPartnerInstitution = selectedPartnerInst => dispatch => {
     payload: selectedPartnerInst,
   });
 };
+export const filterByKeyInnovation = selectedKeyInnovation => dispatch => {
+  dispatch({
+    type: FILTER_MFS_LIST_BY_KEY_INNOVATION,
+    payload: selectedKeyInnovation,
+  });
+};
 export const filterMfsChoroplethData = (
   mapViewBy,
   selectedPartner,
@@ -79,7 +87,7 @@ export const filterOverViewData = (
   selectedAchievement,
 ) => dispatch => {
   dispatch({
-    type: GET_MFS_OVERVIEW_DATA,
+    type: FILTER_MFS_OVERVIEW_DATA,
     payload: {
       mapViewBy,
       selectedPartner,

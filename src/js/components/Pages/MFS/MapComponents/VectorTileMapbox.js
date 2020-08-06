@@ -703,7 +703,7 @@ class Choropleth extends Component {
   };
 
   render() {
-    const { mapViewBy } = this.props;
+    const { mapViewBy, choroplethData } = this.props;
     const {
       choroplethLegend,
       legendColors,
@@ -718,50 +718,54 @@ class Choropleth extends Component {
       <>
         <Loading loaderState={!loading} />
         <div className="map-legend newmap-legend">
-          <div className="color-list">
-            <h6>Number of Projects</h6>
-            <ul id="state-legend" className="color-legend">
-              {this.state.grade &&
-                this.state.grade.map((grade, i) => {
-                  let hideLastdiv = false;
-                  hideLastdiv =
-                    i === this.state.grade.length - 1 ? true : false;
-                  const grade1 =
-                    grade < 1000
-                      ? grade.toString()
-                      : this.getShortNumbers(grade, 1);
-                  // uncomment this to add vertical legend
-                  // return <div><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block"}}></div> <span>{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
-                  // uncomment this to add horizontal legend
-                  // return <div style={{display:"inline-block"}}><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block", marginLeft:"5px"}}></div> <span >{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
-                  // uncomment this to add nice horizontal legend
-                  return (
-                    <li>
-                      <div
-                        style={{
-                          backgroundColor: hideLastdiv
-                            ? 'transparent'
-                            : this.getLegendColor(grade + 1),
-                        }}
-                        className="color color1"
-                      />
-                      <span
-                        style={{
-                          marginLeft:
-                            grade1.trim().length === 1
-                              ? -2
-                              : grade1.trim().length === 2
-                              ? -8
-                              : -12,
-                        }}
-                      >
-                        {grade1}
-                      </span>
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
+          {choroplethData.length > 0 ? (
+            <div className="color-list">
+              <h6>Number of Projects</h6>
+              <ul id="state-legend" className="color-legend">
+                {this.state.grade &&
+                  this.state.grade.map((grade, i) => {
+                    let hideLastdiv = false;
+                    hideLastdiv =
+                      i === this.state.grade.length - 1
+                        ? true
+                        : false;
+                    const grade1 =
+                      grade < 1000
+                        ? grade.toString()
+                        : this.getShortNumbers(grade, 1);
+                    // uncomment this to add vertical legend
+                    // return <div><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block"}}></div> <span>{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
+                    // uncomment this to add horizontal legend
+                    // return <div style={{display:"inline-block"}}><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block", marginLeft:"5px"}}></div> <span >{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
+                    // uncomment this to add nice horizontal legend
+                    return (
+                      <li>
+                        <div
+                          style={{
+                            backgroundColor: hideLastdiv
+                              ? 'transparent'
+                              : this.getLegendColor(grade + 1),
+                          }}
+                          className="color color1"
+                        />
+                        <span
+                          style={{
+                            marginLeft:
+                              grade1.trim().length === 1
+                                ? -2
+                                : grade1.trim().length === 2
+                                ? -8
+                                : -12,
+                          }}
+                        >
+                          {grade1}
+                        </span>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </div>
+          ) : null}
         </div>
         {/* <TimelineChart
           minValue={minValue}
