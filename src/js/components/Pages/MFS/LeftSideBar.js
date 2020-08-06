@@ -5,6 +5,7 @@ import FinancialLeftCard from '../../common/FinancialLeftCard';
 import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
 import FilterChip from './common/FilterChip';
 import BadgeLoader from './SkeletonLoader/BadgeLoader';
+import SelectList from '../../common/SelectList';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -101,40 +102,36 @@ class LeftSideBar extends Component {
             </div>
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Key Innovation</h6>
-              <div className="widget-body">
+              <div className="widget-body pd0">
                 {mfsListLoading ? (
                   <BadgeLoader />
                 ) : (
-                  <div className="checklist-group">
-                    <div className="checklist-header">
-                      <div className="custom-checkbox">
-                        <input
-                          id="Initiative1"
-                          type="checkbox"
-                          name="Initiative1"
-                          value="all"
-                          // onChange={handleInvestmentParentCheckbox}
-                        />
-                        <label htmlFor="Initiative1">All</label>
-                      </div>
-                    </div>
-                    <ul className="checkbox-list">
+                  
+                    <ul className="checkbox-list default-list">
                       {innovationList &&
                         innovationList.map(innov => {
                           return (
                             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-                            <div
-                              role="button"
-                              tabIndex="0"
-                              onClick={() => {
-                                handleInnovationSelection(innov);
-                              }}
-                              onKeyDown={() => {
-                                handleInnovationSelection(innov);
-                              }}
-                            >
-                              <label>{innov}</label>
-                            </div>
+                            // <div
+                            //   role="button"
+                            //   tabIndex="0"
+                            //   onClick={() => {
+                            //     handleInnovationSelection(innov);
+                            //   }}
+                            //   onKeyDown={() => {
+                            //     handleInnovationSelection(innov);
+                            //   }}
+                            // >
+                            //   <label>{innov}</label>
+                            // </div>
+                            <SelectList
+                              // id={project.id}
+                              className="project_checkbox"
+                              // key={project.id}
+                              label={innov}
+                              name={innov}
+                              clickHandler={handleInnovationSelection}
+                            />
                             // <CheckBox
                             //   // id={partnershipFocus.id}
                             //   className="investment_checkbox"
@@ -151,28 +148,18 @@ class LeftSideBar extends Component {
                           );
                         })}
                     </ul>
-                  </div>
+                 
                 )}
               </div>
             </div>
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Achievement Type</h6>
-              <div className="widget-body">
+              <div className="widget-body pd0">
                 {mfsListLoading ? (
                   <BadgeLoader />
                 ) : (
-                  <div className="checklist-group">
-                    <div className="checklist-header">
-                      <div className="custom-checkbox">
-                        <input
-                          id="Initiative7"
-                          type="checkbox"
-                          name="Initiative7"
-                        />
-                        <label htmlFor="Initiative7">All</label>
-                      </div>
-                    </div>
-                    <ul className="checkbox-list">
+                 
+                    <ul className="checkbox-list default-list">
                       {/* <GroupCheckedbox
                       checkboxes={projectLists}
                       onCheckboxGroupChange={
@@ -183,39 +170,39 @@ class LeftSideBar extends Component {
                       {achievementList &&
                         achievementList.map(achievement => {
                           return (
-                            <div
-                              role="button"
-                              tabIndex="0"
-                              onClick={() => {
-                                handleAchievementSelection(
-                                  achievement,
-                                );
-                              }}
-                              onKeyDown={() => {
-                                handleAchievementSelection(
-                                  achievement,
-                                );
-                              }}
-                            >
-                              <label>{achievement}</label>
-                            </div>
-                            // <CheckBox
-                            //   // id={project.id}
-                            //   className="project_checkbox"
-                            //   // key={project.id}
-                            //   label={achievement}
-                            //   name={achievement}
-                            //   changeHandler={
-                            //     handleAchievementSelection
-                            //   }
-                            //   // checked={projectSelection.includes(
-                            //   //   achievement,
-                            //   // )}
-                            // />
+                            // <div
+                            //   role="button"
+                            //   tabIndex="0"
+                            //   onClick={() => {
+                            //     handleAchievementSelection(
+                            //       achievement,
+                            //     );
+                            //   }}
+                            //   onKeyDown={() => {
+                            //     handleAchievementSelection(
+                            //       achievement,
+                            //     );
+                            //   }}
+                            // >
+                            //   <label>{achievement}</label>
+                            // </div>
+                            <SelectList
+                              // id={project.id}
+                              className="project_checkbox"
+                              // key={project.id}
+                              label={achievement}
+                              name={achievement}
+                              clickHandler={
+                                handleAchievementSelection
+                              }
+                              // checked={projectSelection.includes(
+                              //   achievement,
+                              // )}
+                            />
                           );
                         })}
                     </ul>
-                  </div>
+                
                 )}
               </div>
             </div>

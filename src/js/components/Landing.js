@@ -186,8 +186,8 @@ class Landing extends Component {
                       'Automation Benefits',
                     ]}
                     permissions={permissions}
-                    cardUrl="/automation"
-                    cardPermission=""
+                    cardUrl="/mfs"
+                    cardPermission="view_automation"
                     cardImage={GridImg}
                   />
                   <LandingCard

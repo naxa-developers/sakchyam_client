@@ -66,7 +66,6 @@ function colorPicker2(i) {
   // if (i === 27) return "#7F8C8D";
   // if (i === 28) return "#8E44AD";
   // if (i === 29) return "#AEB6BF";
-
   return '#FFD400';
 }
 
@@ -118,6 +117,7 @@ const initialState = {
   sankeyData: {},
   treeMapData: {},
   pieData: [],
+  loading: false,
 };
 
 // FUNCTION TO FILTER TREEMAP DATA

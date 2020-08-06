@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-// function colorPickerClass(i) {
-//   if (i % 12 === 0) return 'color1';
-//   if (i % 12 === 1) return 'color2';
-//   if (i % 12 === 2) return 'color3';
-//   if (i % 12 === 3) return 'color4';
-//   if (i % 12 === 4) return 'color5';
-//   if (i % 12 === 5) return 'color6';
-//   if (i % 12 === 6) return 'color7';
-//   if (i % 12 === 7) return 'color8';
-//   if (i % 12 === 8) return 'color9';
-//   return 'is-red';
-// }
+import LeftSidebarLoaderFL from '../Loader/LeftSidebarLoaderFL';
 
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
@@ -44,6 +32,12 @@ class LeftSideBar extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    // setTimeout(() => {
+    //   this.setState({ loading: false });
+    // }, 2700);
+  }
+
   render() {
     const {
       partnersList,
@@ -62,147 +56,161 @@ class LeftSideBar extends Component {
         isAllPartnerSelected,
         applyClick,
         resetClick,
+        loading,
         checkedPartnerItems,
       },
     } = this;
+
+    console.log(loading, 'loading');
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
-        <div className="sidebar-in">
-          <div className="aside-header">
-            <button type="button" className="common-button is-bg">
-              Financial Literacy
-            </button>
-          </div>
-          <div className="aside-body apply-body">
-            <div className="sidebar-widget">
-              <h6 className="title">Partner Type</h6>
-              <div className="widget-body">
-                <div className="widget-tag partner-tag">
-                  <a
-                    onClick={() => {
-                      handlePartnerType('Microfinance Institutions');
-                    }}
-                    onKeyDown={() => {
-                      handlePartnerType('Microfinance Institutions');
-                    }}
-                    className={
-                      partnerType.includes(
-                        'Microfinance Institutions',
-                      )
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="0"
-                  >
-                    <span>Microfinance</span>
-                  </a>
-                  <a
-                    onClick={() => {
-                      handlePartnerType(
-                        'Commercial Bank and Other Partners',
-                      );
-                    }}
-                    onKeyDown={() => {
-                      handlePartnerType(
-                        'Commercial Bank and Other Partners',
-                      );
-                    }}
-                    className={
-                      partnerType.includes(
-                        'Commercial Bank and Other Partners',
-                      )
-                        ? 'active'
-                        : ''
-                    }
-                    tabIndex="0"
-                    role="tab"
-                  >
-                    <span style={{ textTransform: 'none' }}>
-                      Commercial Banks and PSPs
-                    </span>
-                  </a>
-                </div>
-              </div>
+        {loading ? (
+          <LeftSidebarLoaderFL />
+        ) : (
+          <div className="sidebar-in">
+            <div className="aside-header">
+              <button type="button" className="common-button is-bg">
+                Financial Literacy
+              </button>
             </div>
-            <div className="sidebar-widget partner-institue">
-              <h6 className="title">Partner Institution</h6>
-              <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="all_partner"
-                        type="checkbox"
-                        name="Initiative"
-                        checked={isAllPartnerSelected}
-                        onClick={handlePartnerParentCheckbox}
-                      />
-                      <label htmlFor="all_partner">All</label>
-                    </div>
+            <div className="aside-body apply-body">
+              <div className="sidebar-widget">
+                <h6 className="title">Partner Type</h6>
+                <div className="widget-body">
+                  <div className="widget-tag partner-tag">
+                    <a
+                      onClick={() => {
+                        handlePartnerType(
+                          'Microfinance Institutions',
+                        );
+                      }}
+                      onKeyDown={() => {
+                        handlePartnerType(
+                          'Microfinance Institutions',
+                        );
+                      }}
+                      className={
+                        partnerType.includes(
+                          'Microfinance Institutions',
+                        )
+                          ? 'active'
+                          : ''
+                      }
+                      role="tab"
+                      tabIndex="0"
+                    >
+                      <span>Microfinance</span>
+                    </a>
+                    <a
+                      onClick={() => {
+                        handlePartnerType(
+                          'Commercial Bank and Other Partners',
+                        );
+                      }}
+                      onKeyDown={() => {
+                        handlePartnerType(
+                          'Commercial Bank and Other Partners',
+                        );
+                      }}
+                      className={
+                        partnerType.includes(
+                          'Commercial Bank and Other Partners',
+                        )
+                          ? 'active'
+                          : ''
+                      }
+                      tabIndex="0"
+                      role="tab"
+                    >
+                      <span style={{ textTransform: 'none' }}>
+                        Commercial Banks and PSPs
+                      </span>
+                    </a>
                   </div>
-                  <ul className="checkbox-list">
-                    {filteredPartnersList &&
-                      filteredPartnersList.map(data => {
-                        return (
-                          <li key={data.id}>
-                            <a>
-                              <div className="custom-checkbox">
-                                <input
-                                  id={data.partner_id}
-                                  className="partner_checkbox"
-                                  type="checkbox"
-                                  name={data.partner_name}
-                                  onClick={handlePartnerChange}
-                                />
-                                <label htmlFor={data.partner_id}>
-                                  <span>{data.partner_name}</span>
-                                </label>
-                              </div>
-                            </a>
-                          </li>
-                        );
-                      })}
-                  </ul>
                 </div>
               </div>
-            </div>
-            <div className="sidebar-widget">
-              <h6 className="title">Financial Literacy Initiative</h6>
-              <div className="widget-body">
-                <div className="widget-tag Program-tag">
-                  {financialProgram &&
-                    financialProgram.map(data => {
-                      if (data.total !== 0)
-                        return (
-                          <a
-                            onClick={() => {
-                              handleSelectedProgram(data.id);
-                            }}
-                            onKeyDown={() => {
-                              handleSelectedProgram(data.id);
-                            }}
-                            className={
-                              selectedProgram.includes(data.id)
-                                ? 'active'
-                                : ''
-                            }
-                            tabIndex="0"
-                            role="tab"
-                          >
-                            <small
-                              className="icon"
-                              style={{
-                                backgroundColor: colorPicker(data.id),
+              <div className="sidebar-widget partner-institue">
+                <h6 className="title">Partner Institution</h6>
+                <div className="widget-body">
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="all_partner"
+                          type="checkbox"
+                          name="Initiative"
+                          checked={isAllPartnerSelected}
+                          onClick={handlePartnerParentCheckbox}
+                        />
+                        <label htmlFor="all_partner">All</label>
+                      </div>
+                    </div>
+                    <ul className="checkbox-list">
+                      {filteredPartnersList &&
+                        filteredPartnersList.map(data => {
+                          return (
+                            <li key={data.id}>
+                              <a>
+                                <div className="custom-checkbox">
+                                  <input
+                                    id={data.partner_id}
+                                    className="partner_checkbox"
+                                    type="checkbox"
+                                    name={data.partner_name}
+                                    onClick={handlePartnerChange}
+                                  />
+                                  <label htmlFor={data.partner_id}>
+                                    <span>{data.partner_name}</span>
+                                  </label>
+                                </div>
+                              </a>
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="sidebar-widget">
+                <h6 className="title">
+                  Financial Literacy Initiative
+                </h6>
+                <div className="widget-body">
+                  <div className="widget-tag Program-tag">
+                    {financialProgram &&
+                      financialProgram.map(data => {
+                        if (data.total !== 0)
+                          return (
+                            <a
+                              onClick={() => {
+                                handleSelectedProgram(data.id);
                               }}
-                            />
-                            <span>{data.name}</span>
-                          </a>
-                        );
-                      return null;
-                    })}
+                              onKeyDown={() => {
+                                handleSelectedProgram(data.id);
+                              }}
+                              className={
+                                selectedProgram.includes(data.id)
+                                  ? 'active'
+                                  : ''
+                              }
+                              tabIndex="0"
+                              role="tab"
+                            >
+                              <small
+                                className="icon"
+                                style={{
+                                  backgroundColor: colorPicker(
+                                    data.id,
+                                  ),
+                                }}
+                              />
+                              <span>{data.name}</span>
+                            </a>
+                          );
+                        return null;
+                      })}
 
-                  {/* <a href="#" className="active">
+                    {/* <a href="#" className="active">
                     <small className="icon is-orange" />
                     <span>Centre meeting</span>
                   </a>
@@ -222,27 +230,28 @@ class LeftSideBar extends Component {
                     <small className="icon is-other" />
                     <span>others</span>
                   </a> */}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="apply-buttons buttons end">
-              <button
-                onClick={resetClick}
-                type="button"
-                className="common-button is-clear "
-              >
-                reset
-              </button>
-              <button
-                onClick={applyClick}
-                type="button"
-                className="common-button is-bg"
-              >
-                apply
-              </button>
+              <div className="apply-buttons buttons end">
+                <button
+                  onClick={resetClick}
+                  type="button"
+                  className="common-button is-clear "
+                >
+                  reset
+                </button>
+                <button
+                  onClick={applyClick}
+                  type="button"
+                  className="common-button is-bg"
+                >
+                  apply
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </aside>
     );
   }

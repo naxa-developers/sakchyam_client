@@ -1,6 +1,5 @@
 // /* eslint-disable */
 import React, { Component } from 'react';
-import * as loadash from 'lodash';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import * as d3 from 'd3';
@@ -89,13 +88,13 @@ const colorScale = d3
   .range(colors);
 
 const defaultData = [
-  { id: '1', count: 0 },
-  { id: '2', count: 0 },
-  { id: '3', count: 0 },
-  { id: '4', count: 0 },
-  { id: '5', count: 0 },
-  { id: '6', count: 0 },
-  { id: '7', count: 0 },
+  { code: '1', count: 0 },
+  { code: '2', count: 0 },
+  { code: '3', count: 0 },
+  { code: '4', count: 0 },
+  { code: '5', count: 0 },
+  { code: '6', count: 0 },
+  { code: '7', count: 0 },
 ];
 const fullGeojsonProvince = {
   type: 'FeatureCollection',
@@ -488,23 +487,23 @@ class Choropleth extends Component {
         if (that.props.mapViewBy === 'province') {
           // console.log(e.features[0]);
           const getBbox = getCenterBboxProvince(federalCode);
-          filterMapChoroplethPie(getBbox, federalCode);
+          // filterMapChoroplethPie(getBbox, federalCode);
         } else if (that.props.mapViewBy === 'district') {
           const getBbox = getCenterBboxDistrict(
             parseInt(federalCode, 10),
           );
           that.props.handleProvinceClick(parseInt(federalCode, 10));
-          filterMapChoroplethPie(getBbox, federalCode);
+          // filterMapChoroplethPie(getBbox, federalCode);
         } else if (that.props.mapViewBy === 'municipality') {
           const getBbox = getCenterBboxMunicipality(
             parseInt(federalCode, 10),
           );
           that.props.handleProvinceClick(parseInt(federalCode, 10));
-          filterMapChoroplethPie(getBbox, federalCode);
+          // filterMapChoroplethPie(getBbox, federalCode);
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
-        // console.log(e.features[0]);
+        console.log(e.features[0]);
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
             return (
@@ -520,8 +519,6 @@ class Choropleth extends Component {
               <div class="map-popup-view">
                   <div class="map-popup-view-header">
                       <h5>${e.features[0].properties.name}</h5>
-                      <h5>Code:${e.features[0].properties.code}</h5>
-                      <h5>ID:${e.features[0].properties.id}</h5>
                       <div class="icons">
                       <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
                       </div>
@@ -704,7 +701,7 @@ class Choropleth extends Component {
   };
 
   render() {
-    const { mapViewBy } = this.props;
+    const { mapViewBy, choroplethData } = this.props;
     const {
       choroplethLegend,
       legendColors,
@@ -719,50 +716,54 @@ class Choropleth extends Component {
       <>
         <Loading loaderState={!loading} />
         <div className="map-legend newmap-legend">
-          <div className="color-list">
-            <h6>Number of Projects</h6>
-            <ul id="state-legend" className="color-legend">
-              {this.state.grade &&
-                this.state.grade.map((grade, i) => {
-                  let hideLastdiv = false;
-                  hideLastdiv =
-                    i === this.state.grade.length - 1 ? true : false;
-                  const grade1 =
-                    grade < 1000
-                      ? grade.toString()
-                      : this.getShortNumbers(grade, 1);
-                  // uncomment this to add vertical legend
-                  // return <div><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block"}}></div> <span>{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
-                  // uncomment this to add horizontal legend
-                  // return <div style={{display:"inline-block"}}><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block", marginLeft:"5px"}}></div> <span >{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
-                  // uncomment this to add nice horizontal legend
-                  return (
-                    <li>
-                      <div
-                        style={{
-                          backgroundColor: hideLastdiv
-                            ? 'transparent'
-                            : this.getLegendColor(grade + 1),
-                        }}
-                        className="color color1"
-                      />
-                      <span
-                        style={{
-                          marginLeft:
-                            grade1.trim().length === 1
-                              ? -2
-                              : grade1.trim().length === 2
-                              ? -8
-                              : -12,
-                        }}
-                      >
-                        {grade1}
-                      </span>
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
+          {choroplethData.length > 0 ? (
+            <div className="color-list">
+              <h6>Number of Projects</h6>
+              <ul id="state-legend" className="color-legend">
+                {this.state.grade &&
+                  this.state.grade.map((grade, i) => {
+                    let hideLastdiv = false;
+                    hideLastdiv =
+                      i === this.state.grade.length - 1
+                        ? true
+                        : false;
+                    const grade1 =
+                      grade < 1000
+                        ? grade.toString()
+                        : this.getShortNumbers(grade, 1);
+                    // uncomment this to add vertical legend
+                    // return <div><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block"}}></div> <span>{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
+                    // uncomment this to add horizontal legend
+                    // return <div style={{display:"inline-block"}}><div style={{width:"12px", height:"12px", backgroundColor: this.getLegendColor(this.state.grade[i] + 1), border:"solid 1px #e2e2e2", display:"inline-block", marginLeft:"5px"}}></div> <span >{this.state.grade[i]} {this.state.grade[i + 1]?"-"+this.state.grade[i + 1]: "+"}</span></div>
+                    // uncomment this to add nice horizontal legend
+                    return (
+                      <li>
+                        <div
+                          style={{
+                            backgroundColor: hideLastdiv
+                              ? 'transparent'
+                              : this.getLegendColor(grade + 1),
+                          }}
+                          className="color color1"
+                        />
+                        <span
+                          style={{
+                            marginLeft:
+                              grade1.trim().length === 1
+                                ? -2
+                                : grade1.trim().length === 2
+                                ? -8
+                                : -12,
+                          }}
+                        >
+                          {grade1}
+                        </span>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </div>
+          ) : null}
         </div>
         {/* <TimelineChart
           minValue={minValue}
