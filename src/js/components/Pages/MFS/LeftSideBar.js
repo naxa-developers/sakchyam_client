@@ -102,11 +102,11 @@ class LeftSideBar extends Component {
             </div>
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Key Innovation</h6>
-              <div className="widget-body">
+              <div className="widget-body pd0">
                 {mfsListLoading ? (
                   <BadgeLoader />
                 ) : (
-                  <div className="checklist-group">
+                  
                     <ul className="checkbox-list default-list">
                       {innovationList &&
                         innovationList.map(innov => {
@@ -148,17 +148,17 @@ class LeftSideBar extends Component {
                           );
                         })}
                     </ul>
-                  </div>
+                 
                 )}
               </div>
             </div>
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Achievement Type</h6>
-              <div className="widget-body">
+              <div className="widget-body pd0">
                 {mfsListLoading ? (
                   <BadgeLoader />
                 ) : (
-                  <div className="checklist-group">
+                 
                     <ul className="checkbox-list default-list">
                       {/* <GroupCheckedbox
                       checkboxes={projectLists}
@@ -202,7 +202,7 @@ class LeftSideBar extends Component {
                           );
                         })}
                     </ul>
-                  </div>
+                
                 )}
               </div>
             </div>

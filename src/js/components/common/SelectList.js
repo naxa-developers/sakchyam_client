@@ -12,7 +12,7 @@ const SelectList = ({
 }) => (
   <li>
     <a>
-      <div
+      {/* <div
         role="button"
         tabIndex="-1"
         className="custom-checkbox"
@@ -23,7 +23,7 @@ const SelectList = ({
           clickHandler(name);
         }}
       >
-        {/* <input
+        <input
           className={className}
           id={`${className}_${id}`}
           type="checkbox"
@@ -32,11 +32,12 @@ const SelectList = ({
           name={name}
           checked={checked}
           onChange={changeHandler}
-        /> */}
+        />
         <label htmlFor={`${className}_${id}`}>
           <span>{label}</span>
         </label>
-      </div>
+      </div> */}
+      list
     </a>
   </li>
 );

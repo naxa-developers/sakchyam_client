@@ -244,3 +244,22 @@
     padding:5px 10px;
     @include radius(24px);
 }
+.checkbox-list{
+    &.default-list{
+        a{
+            display: block;
+            padding:0 10px;
+            @include transition(all .4s ease-in-out);
+            font-family: $body-fonts;
+            color:$primary-color;
+            font-size: 14px;
+            &:hover{
+                background-color: $yellow-light;
+                color:$orange-dark;
+            }
+        }
+    }
+}
+.widget-boyd.pd0{
+    padding:0;
+}
