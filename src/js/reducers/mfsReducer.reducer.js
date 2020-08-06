@@ -125,16 +125,16 @@ const getMfsOverviewData = (state, action) => {
 };
 const filterMfsOverviewData = (state, action) => {
   const mfsData = [...state.mfsListAllData];
-  const { selectedAchievement } = action.payload;
-  const filteredMfsData = mfsData.filter(data => {
-    return data.achievement_type === selectedAchievement;
-  });
-  console.log(filteredMfsData, 'overviewData');
-  const totalAchievedNumber = filteredMfsData.reduce(function(
+  const mfsAchievedData = getUniqueValuesFromArray(
+    mfsData,
+    'achieved_number',
+  );
+
+  const totalAchievedNumber = [...mfsAchievedData].reduce(function(
     prev,
     cur,
   ) {
-    return prev + cur.achieved_number;
+    return prev + cur;
   },
   0);
   return {
