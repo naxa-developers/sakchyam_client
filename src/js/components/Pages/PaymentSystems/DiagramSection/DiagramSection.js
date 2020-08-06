@@ -1,49 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
+import SVGLines from './SVGLines';
 
 const DiagramSection = () => {
-  const [isRedActive, setIsRedActive] = useState(false);
-  const [isBlueActive, setIsBlueActive] = useState(false);
-  const [isGreenActive, setIsGreenActive] = useState(false);
+  const [containerDimension, setContainerDimension] = useState({});
+  const containerRef = useRef();
+  const cardRefs = useRef({});
 
-  const onRedClick = () => {
-    setIsRedActive(!isRedActive);
-    setIsBlueActive(false);
-    setIsGreenActive(false);
-  };
+  useEffect(() => {
+    const mainRect = containerRef.current;
+    const mainBoundingRect = mainRect.getBoundingClientRect();
 
-  const onBlueClick = () => {
-    setIsBlueActive(!isBlueActive);
-    setIsRedActive(false);
-    setIsGreenActive(false);
-  };
+    const { height, width } = mainBoundingRect;
 
-  const onGreenClick = () => {
-    setIsGreenActive(!isGreenActive);
-    setIsRedActive(false);
-    setIsBlueActive(false);
-  };
+    setContainerDimension({ height, width });
+  }, []);
+
+  useEffect(() => {
+    console.log(cardRefs, 'refs');
+  }, []);
 
   return (
-    <main className="payment-system">
-      <LeftPortion
-        isRedActive={isRedActive}
-        isBlueActive={isBlueActive}
-        isGreenActive={isGreenActive}
-        onRedClick={onRedClick}
-        onBlueClick={onBlueClick}
-        onGreenClick={onGreenClick}
-      />
+    <main className="payment-system" ref={containerRef}>
+      <LeftPortion refs={cardRefs} />
 
-      <RightPortion
-        isRedActive={isRedActive}
-        isBlueActive={isBlueActive}
-        isGreenActive={isGreenActive}
-        onRedClick={onRedClick}
-        onBlueClick={onBlueClick}
-        onGreenClick={onGreenClick}
-      />
+      <SVGLines dimension={containerDimension} data={[]} />
+
+      <RightPortion />
     </main>
   );
 };
