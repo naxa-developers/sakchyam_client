@@ -79,6 +79,16 @@ class MapboxPartnership extends Component {
           filteredMapData: provinceData,
           YesNo: false,
         });
+      } else {
+        const { data } = outreachReducer.secondarData;
+        const filteredMapData = data.map(muni => ({
+          id: muni.municipality_code,
+          code: muni.municipality_code,
+          count: muni.population,
+        }));
+        setTimeout(() => {
+          this.setState({ filteredMapData });
+        }, 100);
       }
     }
 
@@ -200,7 +210,7 @@ class MapboxPartnership extends Component {
 
           case 'Nearest Road Access(TypeOfRoad)':
             temp = data.map(d => ({ type: d.nearest_road_type }));
-            console.log('temp value', temp);
+            // console.log('temp value', temp);
             // temp = data.filter(d => d.nearest_road_distance !== -1);
             // const filteredByNRADistance = temp.map(muni => ({
             //   id: muni.municipality_code,
@@ -363,11 +373,7 @@ class MapboxPartnership extends Component {
   }
 }
 
-const mapStateToProps = ({
-  partnershipReducer,
-  outreachReducer,
-}) => ({
-  partnershipReducer,
+const mapStateToProps = ({ outreachReducer }) => ({
   outreachReducer,
 });
 export default connect(mapStateToProps)(MapboxPartnership);

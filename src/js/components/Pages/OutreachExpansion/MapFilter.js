@@ -31,7 +31,9 @@ export default function MapFilter(props) {
     setOutreachByLU,
   } = props;
 
-  const [selectedOption, setOption] = useState('');
+  const [selectedOption, setOption] = useState(
+    'Population in the Local Unit',
+  );
 
   const handelViewDataBy = e => {
     // console.log('data retrieved', e);
