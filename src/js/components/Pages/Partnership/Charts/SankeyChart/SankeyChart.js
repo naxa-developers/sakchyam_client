@@ -68,7 +68,6 @@ class SankeyChart extends Component {
       >
         {sankeyChartData.nodes && (
           <ResponsiveSankey
-            key={Math.random()}
             data={sankeyChartData}
             margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
             // width={
