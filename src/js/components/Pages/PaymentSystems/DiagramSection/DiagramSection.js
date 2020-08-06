@@ -1,67 +1,35 @@
-/* eslint-disable react/no-unused-state */
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
+import SVGLines from './SVGLines';
 
-class DiagramSection extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isRedActive: false,
-      isBlueActive: false,
-      isGreenActive: false,
-    };
-  }
+const DiagramSection = () => {
+  const [containerDimension, setContainerDimension] = useState({});
+  const containerRef = useRef();
+  const cardRefs = useRef({});
 
-  onRedClick = () => {
-    this.setState(prev => ({
-      isRedActive: !prev.isRedActive,
-      isBlueActive: false,
-      isGreenActive: false,
-    }));
-  };
+  useEffect(() => {
+    const mainRect = containerRef.current;
+    const mainBoundingRect = mainRect.getBoundingClientRect();
 
-  onBlueClick = () => {
-    this.setState(prev => ({
-      isBlueActive: !prev.isBlueActive,
-      isRedActive: false,
-      isGreenActive: false,
-    }));
-  };
+    const { height, width } = mainBoundingRect;
 
-  onGreenClick = () => {
-    this.setState(prev => ({
-      isGreenActive: !prev.isGreenActive,
-      isRedActive: false,
-      isBlueActive: false,
-    }));
-  };
+    setContainerDimension({ height, width });
+  }, []);
 
-  render() {
-    const { isRedActive, isBlueActive, isGreenActive } = this.state;
+  useEffect(() => {
+    console.log(cardRefs, 'refs');
+  }, []);
 
-    return (
-      <main className="payment-system">
-        <LeftPortion
-          isRedActive={isRedActive}
-          isBlueActive={isBlueActive}
-          isGreenActive={isGreenActive}
-          onRedClick={this.onRedClick}
-          onBlueClick={this.onBlueClick}
-          onGreenClick={this.onGreenClick}
-        />
+  return (
+    <main className="payment-system" ref={containerRef}>
+      <LeftPortion refs={cardRefs} />
 
-        <RightPortion
-          isRedActive={isRedActive}
-          isBlueActive={isBlueActive}
-          isGreenActive={isGreenActive}
-          onRedClick={this.onRedClick}
-          onBlueClick={this.onBlueClick}
-          onGreenClick={this.onGreenClick}
-        />
-      </main>
-    );
-  }
-}
+      <SVGLines dimension={containerDimension} data={[]} />
+
+      <RightPortion />
+    </main>
+  );
+};
 
 export default DiagramSection;
