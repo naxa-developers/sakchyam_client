@@ -253,10 +253,11 @@
             font-family: $body-fonts;
             color:$primary-color;
             font-size: 14px;
-            &:hover{
+            &:hover,&.active{
                 background-color: $yellow-light;
                 color:$orange-dark;
             }
+            
         }
     }
 }
