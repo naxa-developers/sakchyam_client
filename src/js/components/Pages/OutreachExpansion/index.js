@@ -69,6 +69,7 @@ class MainPartnership extends Component {
       filteredByLeftData: false,
       filterDataByAdmin: false,
       dataByLeft: '',
+      dataByAdmin: '',
     };
   }
 
@@ -498,10 +499,20 @@ class MainPartnership extends Component {
       expsnsionSelection,
       partnerSelection,
       institutionSelection,
-      // primaryData,
+      dataByAdmin,
+      filterDataByAdmin,
     } = this.state;
     let filteredData = [];
-    const { primaryData } = this.props.outreachReducer;
+    let { primaryData } = this.props.outreachReducer;
+    if (filterDataByAdmin) {
+      primaryData = dataByAdmin;
+    }
+
+    // console.log(
+    //   'kun data filter garirako cha',
+    //   primaryData,
+    //   filterDataByAdmin,
+    // );
 
     if (
       G2PTypes.length === 0 &&
@@ -514,9 +525,25 @@ class MainPartnership extends Component {
       filteredData = primaryData;
     }
 
+    if (serviceType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      serviceType.map(type => {
+        value.map(data => {
+          if (type === data.point_service) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
     if (G2PTypes.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
       G2PTypes.map(type => {
-        primaryData.map(data => {
+        value.map(data => {
           if (type === data.g2p_payment) {
             filteredData.push(data);
           }
@@ -536,18 +563,9 @@ class MainPartnership extends Component {
         });
       });
     }
-    if (serviceType.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      serviceType.map(type => {
-        value.map(data => {
-          if (type === data.point_service) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
+
+    // console.log('filter after demonstrationType', filteredData);
+
     if (expsnsionSelection.length > 0) {
       const value =
         filteredData.length > 0 ? filteredData : primaryData;
@@ -873,7 +891,14 @@ class MainPartnership extends Component {
       default:
     }
 
-    this.setState({ primaryData: filteredPrimaryData });
+    console.log(
+      'filteredPrimaryData from admin',
+      filteredPrimaryData,
+    );
+    this.setState({
+      primaryData: filteredPrimaryData,
+      dataByAdmin: filteredPrimaryData,
+    });
   };
 
   changeMapTiles = array => {
@@ -952,6 +977,7 @@ class MainPartnership extends Component {
       isAllInstitutionSelected: false,
       primaryData: this.props.outreachReducer.primaryData,
       filteredByLeftData: false,
+      dataByLeft: this.props.outreachReducer.primaryData,
     });
   };
 
@@ -987,7 +1013,12 @@ class MainPartnership extends Component {
         this.changeMapTiles(this.state.selectedProvince);
       }, 100);
 
-      this.setState({ primaryData, filterDataByAdmin: false });
+      this.setState({
+        primaryData,
+        filterDataByAdmin: false,
+        dataByAdmin: primaryData,
+      });
+      this.resetLeftSideBarSelection();
     }
   };
 
@@ -1065,7 +1096,7 @@ class MainPartnership extends Component {
               this.handelExpansionParentCheckbox
             }
             handelMultiChoice={this.handelMultiChoice}
-            resetFilters={this.resetLeftSideBarSelection}
+            resetFilters={this.resetFilters}
             applyBtnClick={this.leftApplyHandler}
           />
           <main className="main">
