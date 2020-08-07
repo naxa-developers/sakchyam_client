@@ -66,6 +66,10 @@ class MainPartnership extends Component {
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       localOutreachSelected: 'Population in the Local Unit',
       loading: false,
+      filteredByLeftData: false,
+      filterDataByAdmin: false,
+      dataByLeft: '',
+      dataByAdmin: '',
     };
   }
 
@@ -495,10 +499,20 @@ class MainPartnership extends Component {
       expsnsionSelection,
       partnerSelection,
       institutionSelection,
-      // primaryData,
+      dataByAdmin,
+      filterDataByAdmin,
     } = this.state;
     let filteredData = [];
-    const { primaryData } = this.props.outreachReducer;
+    let { primaryData } = this.props.outreachReducer;
+    if (filterDataByAdmin) {
+      primaryData = dataByAdmin;
+    }
+
+    // console.log(
+    //   'kun data filter garirako cha',
+    //   primaryData,
+    //   filterDataByAdmin,
+    // );
 
     if (
       G2PTypes.length === 0 &&
@@ -511,9 +525,25 @@ class MainPartnership extends Component {
       filteredData = primaryData;
     }
 
+    if (serviceType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      serviceType.map(type => {
+        value.map(data => {
+          if (type === data.point_service) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
     if (G2PTypes.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
       G2PTypes.map(type => {
-        primaryData.map(data => {
+        value.map(data => {
           if (type === data.g2p_payment) {
             filteredData.push(data);
           }
@@ -533,18 +563,9 @@ class MainPartnership extends Component {
         });
       });
     }
-    if (serviceType.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      serviceType.map(type => {
-        value.map(data => {
-          if (type === data.point_service) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
+
+    // console.log('filter after demonstrationType', filteredData);
+
     if (expsnsionSelection.length > 0) {
       const value =
         filteredData.length > 0 ? filteredData : primaryData;
@@ -583,8 +604,15 @@ class MainPartnership extends Component {
       });
     }
 
+    const filteredByLeftData =
+      JSON.stringify(primaryData) === JSON.stringify(filteredData);
+
     this.setAdminChoropleth(filteredData);
-    this.setState({ primaryData: filteredData });
+    this.setState({
+      primaryData: filteredData,
+      filteredByLeftData: !filteredByLeftData,
+      dataByLeft: filteredData,
+    });
   };
 
   setAdminChoropleth = filteredData => {
@@ -699,6 +727,8 @@ class MainPartnership extends Component {
       municipalityList,
       mapViewBy,
       districtList,
+      primaryData,
+      filteredByLeftData,
     } = this.state;
 
     const provinceCheck =
@@ -707,8 +737,9 @@ class MainPartnership extends Component {
       selectedDistrict && selectedDistrict.length > 0;
     const muniCheck =
       selectedMunicipality && selectedMunicipality.length > 0;
-
+    console.log('filtered by left data', filteredByLeftData);
     if (provinceCheck || districtCheck || muniCheck) {
+      this.setState({ filterDataByAdmin: true });
       if (mapViewBy === 'municipality') {
         if (muniCheck) {
           const combinedBbox = [];
@@ -799,8 +830,12 @@ class MainPartnership extends Component {
         }
       }
     } else {
+      let markerData = this.props.outreachReducer.primaryData;
+      if (filteredByLeftData) {
+        markerData = primaryData;
+      }
       this.setState({
-        primaryData: this.props.outreachReducer.primaryData,
+        primaryData: markerData,
       });
       map.setZoom(6);
       map.setCenter([84.5, 28.5]);
@@ -815,11 +850,15 @@ class MainPartnership extends Component {
   };
 
   filterMarkers = (type, array) => {
-    // const { primaryData } = this.props.outreachReducer;
-    const { primaryData } = this.state;
+    const { dataByLeft, filteredByLeftData } = this.state;
+    let { primaryData } = this.props.outreachReducer;
+    if (filteredByLeftData) {
+      primaryData = dataByLeft;
+    }
     const filteredArray = array.filter(data => data.value !== 'all');
     const filteredPrimaryData = [];
 
+    console.log('values received', type, filteredArray);
     switch (type) {
       case 'province':
         filteredArray.map(selectedData => {
@@ -852,7 +891,14 @@ class MainPartnership extends Component {
       default:
     }
 
-    this.setState({ primaryData: filteredPrimaryData });
+    console.log(
+      'filteredPrimaryData from admin',
+      filteredPrimaryData,
+    );
+    this.setState({
+      primaryData: filteredPrimaryData,
+      dataByAdmin: filteredPrimaryData,
+    });
   };
 
   changeMapTiles = array => {
@@ -930,6 +976,8 @@ class MainPartnership extends Component {
       isAllInvestmentFocusSelected: false,
       isAllInstitutionSelected: false,
       primaryData: this.props.outreachReducer.primaryData,
+      filteredByLeftData: false,
+      dataByLeft: this.props.outreachReducer.primaryData,
     });
   };
 
@@ -965,7 +1013,12 @@ class MainPartnership extends Component {
         this.changeMapTiles(this.state.selectedProvince);
       }, 100);
 
-      this.setState({ primaryData });
+      this.setState({
+        primaryData,
+        filterDataByAdmin: false,
+        dataByAdmin: primaryData,
+      });
+      this.resetLeftSideBarSelection();
     }
   };
 
@@ -1015,6 +1068,7 @@ class MainPartnership extends Component {
           }`}
         >
           <LeftSideBar
+            mapViewDataBy={mapViewDataBy}
             expsnsionSelection={expsnsionSelection}
             partnerSelection={partnerSelection}
             G2PTypes={G2PTypes}
@@ -1043,7 +1097,7 @@ class MainPartnership extends Component {
               this.handelExpansionParentCheckbox
             }
             handelMultiChoice={this.handelMultiChoice}
-            resetFilters={this.resetLeftSideBarSelection}
+            resetFilters={this.resetFilters}
             applyBtnClick={this.leftApplyHandler}
           />
           <main className="main">
