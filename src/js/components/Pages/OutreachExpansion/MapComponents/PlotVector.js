@@ -145,13 +145,13 @@ class PlotVector extends Component {
             .setLngLat(marker.geometry.coordinates)
             .addTo(map);
         } else if (marker.properties.point_service === 'BLB') {
-          el.className = 'marker-outreach-blb';
+          el.className = 'marker-outreach-others ';
           Marker1 = new mapboxgl.Marker(el)
             .setLngLat(marker.geometry.coordinates)
             .addTo(map);
         }
       } else {
-        el.className = 'marker-outreach-others';
+        el.className = 'marker-outreach-blb';
         Marker1 = new mapboxgl.Marker(el)
           .setLngLat(marker.geometry.coordinates)
           .addTo(map);
@@ -203,8 +203,6 @@ class PlotVector extends Component {
       grade: fullRange.length > 0 ? fullRange : range,
     });
 
-    console.log('grage value', range);
-
     setTimeout(() => {
       this.ChangeLegendColors();
       this.setChoroplethStyle(fullData);
@@ -219,7 +217,13 @@ class PlotVector extends Component {
         : '#ff0000';
     const data = this.state.grade;
 
-    let choroplethColors = choroplethColorArray(data.length, color);
+    const firstColor = '#FFCCCB';
+
+    let choroplethColors = choroplethColorArray(
+      data.length,
+      color,
+      firstColor,
+    );
 
     if (this.props.YesNo) {
       choroplethColors = ['rgb(235, 81, 73)', 'rgb(0,128,0)'];
@@ -476,7 +480,7 @@ class PlotVector extends Component {
               >
                 <li>
                   <div>
-                    <img src={BLB} />
+                    <img src={Branch} />
                   </div>
                   <p>Branch</p>
                 </li>

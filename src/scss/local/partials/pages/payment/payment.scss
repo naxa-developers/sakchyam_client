@@ -4,6 +4,8 @@ $payment-red-light:#FDEAEF;
 $payment-blue-light:#E2F9FE;
 $payment-green-light:#E1F3E6;
 $payment-green:#1ec853;
+$payment-blue:#13a8be;
+$payment-orange:#FF6D00;
 .pl-0{
     padding-left:0;
 }
@@ -50,7 +52,7 @@ $payment-green:#1ec853;
         @include flex(0 0 320px);
         max-width: 320px;
         .payment-sidebar-cover{
-            background-color: $payment-yellow;
+            background-color: $payment-red-light;
             border:1px solid $payment-border;
             @include radius(5px);
             padding:15px 15px 15px 50px;
@@ -62,7 +64,7 @@ $payment-green:#1ec853;
                 a{
                     display: block;
                     padding:15px;
-                    border:1px solid $payment-border;
+                    border:2px solid $payment-border;
                     @include radius(5px);
                     min-height: 90px;
                     @include display-flex(flex);
@@ -71,13 +73,13 @@ $payment-green:#1ec853;
                     @include flex-direction-column(column);
                     font-size: 24px;
                     color:$primary-color;
+                    background-color: $white-color;
                     @media screen and(max-width:1400px){
                             font-size:18px;
                     }
                 }
                 margin-top:1rem;
                 &.red-light{
-                    background-color: $payment-red-light;
                     .rtgs-left-line{
                         position: absolute;
                         bottom:15%;
@@ -90,13 +92,9 @@ $payment-green:#1ec853;
                         .rtgs-left-line{
                             opacity: 1;
                         }
-                        a{
-                            border-color:$red-color;
-                        }
                     }
                 }
                 &.blue-light{
-                    background-color: $payment-blue-light;
                     .nrb-left-line{
                         position: absolute;
                         top:50%;
@@ -110,13 +108,9 @@ $payment-green:#1ec853;
                         .nrb-left-line{
                             opacity: 1;
                         }
-                        a{
-                            border-color:$color-blue;
-                        }
                     }
                 }
                 &.green-light{
-                    background-color: $payment-green-light;
                     .cs-left-line{
                         position: absolute;
                         top:50%;
@@ -130,9 +124,12 @@ $payment-green:#1ec853;
                         .cs-left-line{
                             opacity: 1;
                         }
-                        a{
-                            border-color:$payment-green;
-                        }
+                    }
+                }
+                &.active{
+                    a{
+                        border-color: $orange-color;
+                        background-color: $yellow-light;
                     }
                 }
             }
@@ -162,29 +159,30 @@ $payment-green:#1ec853;
             
             stroke:#13a8be;
         }
-        &::before{
-            content:'';
-            position: absolute;
-            top:50%;
-            left:70px;
-            width:2px;
-            @include transform(translateY(-50%));
-            margin-top:20px;
-            background-image: linear-gradient(#13a8be 40%, rgba(255,255,255,0) 0%);
-            background-position: right;
-            background-size: 3px 10px;
-            background-repeat: repeat-y;
-            height: 73.5%;
-            opacity: .3;
-            display: block;
-        }
+        // &::before{
+        //     content:'';
+        //     position: absolute;
+        //     top:50%;
+        //     left:70px;
+        //     width:2px;
+        //     @include transform(translateY(-50%));
+        //     margin-top:20px;
+        //     background-image: linear-gradient(#13a8be 40%, rgba(255,255,255,0) 0%);
+        //     background-position: right;
+        //     background-size: 3px 10px;
+        //     background-repeat: repeat-y;
+        //     height: 73.5%;
+        //     opacity: .3;
+        //     display: block;
+        // }
         h3{
             font-size: 1.2rem;
             font-family: $avenir-heavy;
             text-transform: capitalize;
+            text-align: center;
         }
         .top-section-payment{
-            background-color: $payment-blue-light;
+            background-color: $payment-red-light;
             @include radius(5px);
             border:1px solid $payment-border;
             padding:15px 30px;
@@ -193,20 +191,20 @@ $payment-green:#1ec853;
         .bottom-section-payment{
             padding:15px 30px;
             position: relative;
-            &::before{
-                content:'';
-                position: absolute;
-                top:25px;
-                left:-65px;
-                width:2px;
-                background-image: linear-gradient(#1ec853 40%, rgba(255,255,255,0) 0%);
-                background-position: right;
-                background-size: 3px 10px;
-                background-repeat: repeat-y;
-                height: 70%;
-                opacity: .3;
-                display: block;
-            };
+            // &::before{
+            //     content:'';
+            //     position: absolute;
+            //     top:25px;
+            //     left:-65px;
+            //     width:2px;
+            //     background-image: linear-gradient(#1ec853 40%, rgba(255,255,255,0) 0%);
+            //     background-position: right;
+            //     background-size: 3px 10px;
+            //     background-repeat: repeat-y;
+            //     height: 70%;
+            //     opacity: .3;
+            //     display: block;
+            // };
             &.active{
                 &::before{
                     opacity: 1;
@@ -215,22 +213,22 @@ $payment-green:#1ec853;
         }
         .switch-connect-system{
             position: relative;
-            &::before{
-                content:'';
-                position: absolute;
-                margin-top:38px;
-                top:50%;
-                left:-182px;
-                width:2px;
-                @include transform(translateY(-50%));
-                background-image: linear-gradient(#e11d3f 40%, rgba(255,255,255,0) 0%);
-                background-position: right;
-                background-size: 3px 10px;
-                background-repeat: repeat-y;
-                height: 70%;
-                opacity: .3;
-                display: block;
-            };
+            // &::before{
+            //     content:'';
+            //     position: absolute;
+            //     margin-top:38px;
+            //     top:50%;
+            //     left:-182px;
+            //     width:2px;
+            //     @include transform(translateY(-50%));
+            //     background-image: linear-gradient(#e11d3f 40%, rgba(255,255,255,0) 0%);
+            //     background-position: right;
+            //     background-size: 3px 10px;
+            //     background-repeat: repeat-y;
+            //     height: 70%;
+            //     opacity: .3;
+            //     display: block;
+            // };
             &.active{
                 &::before{
                     opacity: 1;
@@ -247,6 +245,9 @@ $payment-green:#1ec853;
             @include align-items-start;
             margin-top:20px;
             position: relative;
+            &.active{
+                border-color: $orange-color;
+            }
             .nrb-medium-line{
                 position: absolute;
                 top:35%;
@@ -336,7 +337,6 @@ $payment-green:#1ec853;
             }
             h5{
                 font-family: $body-fonts;
-                color:$red-color;
                 font-size: 1.5rem;
                 @include flex( 0 0 180px);
                 max-width: 180px;
@@ -344,6 +344,29 @@ $payment-green:#1ec853;
                     font-size: 1.2rem;
                     @include flex( 0 0 140px);
                     max-width: 140px;
+                }
+            }
+            &.bfis{
+                background-color: $payment-blue-light;
+                &.active{
+                    border-color: $payment-blue;
+                }
+            }
+            &.capital{
+                background-color: $payment-green-light;
+                &.active{
+                    border-color: $payment-green;
+                }
+            }
+            @media screen and (max-width:1200px){
+                @include flex-wrap(wrap);
+                .payment-logos{
+                    padding-left:0;
+                    margin-top:1rem;
+                }
+                h5{
+                    @include flex( 0 0 100%);
+                    max-width: 100%;
                 }
             }
             

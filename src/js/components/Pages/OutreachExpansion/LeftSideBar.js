@@ -10,6 +10,7 @@ class LeftSideBar extends Component {
     this.state = {
       expansionList: '',
       fiList: '',
+      partnerList: '',
     };
   }
 
@@ -17,10 +18,6 @@ class LeftSideBar extends Component {
     const { primaryData } = this.props.outreachReducer;
 
     if (prevProps.outreachReducer.primaryData !== primaryData) {
-      console.log(
-        'primary data in component did update',
-        primaryData,
-      );
       const expList = primaryData.map(item => ({
         id: item.id,
         expansion_driven_by: item.expansion_driven_by,
@@ -29,23 +26,33 @@ class LeftSideBar extends Component {
         expList,
         'expansion_driven_by',
       );
+
       const finanList = primaryData.map(item => ({
         id: item.id,
         partner_type: item.partner_type,
       }));
       const fiList = removeDuplicates(finanList, 'partner_type');
-      this.setState({ expansionList, fiList });
+
+      const partList = primaryData.map(item => ({
+        id: item.id,
+        partner: item.partner,
+      }));
+      const partnerList = removeDuplicates(partList, 'partner');
+
+      this.setState({ expansionList, fiList, partnerList });
     }
   }
 
   render() {
     const {
-      state: { expansionList, fiList },
+      state: { expansionList, fiList, partnerList },
       props: {
         partnerSelection,
         expsnsionSelection,
+
         handelExpansionCheckbox,
         handlePartnerSelectionCheckbox,
+
         handlePartnerParentCheckbox,
         handelExpansionParentCheckbox,
         G2PTypes,
@@ -56,6 +63,10 @@ class LeftSideBar extends Component {
         resetFilters,
         isAllPartnerSelected,
         isAllInvestmentFocusSelected,
+        institutionSelection,
+        isAllInstitutionSelected,
+        handleInstitutionParentCheckbox,
+        handleInstitutionSelectionCheckbox,
       },
     } = this;
     return (
@@ -158,6 +169,49 @@ class LeftSideBar extends Component {
                             }
                             checked={partnerSelection.includes(
                               partner.partner_type,
+                            )}
+                          />
+                        );
+                      })}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="sidebar-widget partner-institue"
+              style={{ marginTop: '2vh' }}
+            >
+              <h6 className="title">Partner Institution</h6>
+              <div className="widget-body">
+                <div className="checklist-group">
+                  <div className="checklist-header">
+                    <div className="custom-checkbox">
+                      <input
+                        id="Initiative14"
+                        type="checkbox"
+                        name="Initiative14"
+                        onChange={handleInstitutionParentCheckbox}
+                        checked={isAllInstitutionSelected}
+                      />
+                      <label htmlFor="Initiative14">All</label>
+                    </div>
+                  </div>
+                  <ul className="checkbox-list">
+                    {partnerList &&
+                      partnerList.map(partner => {
+                        return (
+                          <CheckBox
+                            id={partner.id}
+                            className="institution_checkbox"
+                            key={partner.id}
+                            label={partner.partner}
+                            name={partner.partner}
+                            changeHandler={
+                              handleInstitutionSelectionCheckbox
+                            }
+                            checked={institutionSelection.includes(
+                              partner.partner,
                             )}
                           />
                         );

@@ -487,50 +487,48 @@ class Choropleth extends Component {
         if (that.props.mapViewBy === 'province') {
           // console.log(e.features[0]);
           const getBbox = getCenterBboxProvince(federalCode);
-          filterMapChoroplethPie(getBbox, federalCode);
+          // filterMapChoroplethPie(getBbox, federalCode);
         } else if (that.props.mapViewBy === 'district') {
           const getBbox = getCenterBboxDistrict(
             parseInt(federalCode, 10),
           );
           that.props.handleProvinceClick(parseInt(federalCode, 10));
-          filterMapChoroplethPie(getBbox, federalCode);
+          // filterMapChoroplethPie(getBbox, federalCode);
         } else if (that.props.mapViewBy === 'municipality') {
           const getBbox = getCenterBboxMunicipality(
             parseInt(federalCode, 10),
           );
           that.props.handleProvinceClick(parseInt(federalCode, 10));
-          filterMapChoroplethPie(getBbox, federalCode);
+          // filterMapChoroplethPie(getBbox, federalCode);
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
-        // console.log(e.features[0]);
-        // const filteredCodeData = that.props.choroplethData.filter(
-        //   data => {
-        //     return (
-        //       parseInt(data.code, 10) ===
-        //       parseInt(e.features[0].properties.code, 10)
-        //     );
-        //   },
-        // );
-        // popup
-        //   .setLngLat(e.lngLat)
-        //   .setHTML(
-        //     `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
-        //       <div class="map-popup-view">
-        //           <div class="map-popup-view-header">
-        //               <h5>${e.features[0].properties.name}</h5>
-        //               <h5>Code:${e.features[0].properties.code}</h5>
-        //               <h5>ID:${e.features[0].properties.id}</h5>
-        //               <div class="icons">
-        //               <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
-        //               </div>
-        //           </div>
-        //           <div class="map-view-footer">
-        //           </div>
-        //               </div>
-        //           </div>`,
-        //   )
-        //   .addTo(map);
+        console.log(e.features[0]);
+        const filteredCodeData = that.props.choroplethData.filter(
+          data => {
+            return (
+              parseInt(data.code, 10) ===
+              parseInt(e.features[0].properties.code, 10)
+            );
+          },
+        );
+        popup
+          .setLngLat(e.lngLat)
+          .setHTML(
+            `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
+              <div class="map-popup-view">
+                  <div class="map-popup-view-header">
+                      <h5>${e.features[0].properties.name}</h5>
+                      <div class="icons">
+                      <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
+                      </div>
+                  </div>
+                  <div class="map-view-footer">
+                  </div>
+                      </div>
+                  </div>`,
+          )
+          .addTo(map);
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {

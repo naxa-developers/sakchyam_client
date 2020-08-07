@@ -40,7 +40,7 @@ class MainPartnership extends Component {
       primaryData: '',
       expsnsionSelection: [],
       partnerSelection: [],
-      projectStatus: [],
+      institutionSelection: [],
       partnerType: [],
       serviceType: [],
       G2PTypes: [],
@@ -49,10 +49,10 @@ class MainPartnership extends Component {
       selectedDistrict: null,
       selectedMunicipality: null,
       isAllPartnerSelected: false,
-      isAllProjectSelected: false,
       isAllInvestmentFocusSelected: false,
+      isAllInstitutionSelected: false,
       activeFilter: false,
-      activeOverview: true,
+      activeOverview: false,
       viewDataBy: 'allocated_beneficiary',
       mapViewBy: 'province',
       mapViewDataBy: 'general_outreach',
@@ -60,7 +60,7 @@ class MainPartnership extends Component {
       map: null,
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
-      localOutreachSelected: '',
+      localOutreachSelected: 'Population in the Local Unit',
       loading: false,
     };
   }
@@ -337,6 +337,35 @@ class MainPartnership extends Component {
     });
   };
 
+  handleInstitutionSelectionCheckbox = e => {
+    const {
+      state: { institutionSelection },
+    } = this;
+    const {
+      target: { name, checked },
+    } = e;
+    this.setState(preState => {
+      if (checked) {
+        return {
+          institutionSelection: [
+            ...preState.institutionSelection,
+            name,
+          ],
+        };
+      }
+      if (!checked) {
+        const newArr = institutionSelection.filter(
+          partnerSelected => partnerSelected !== name,
+        );
+        return {
+          institutionSelection: newArr,
+          isAllInstitutionSelected: false,
+        };
+      }
+      return null;
+    });
+  };
+
   handlePartnerParentCheckbox = e => {
     // e.stopPropagation();
     const { partnerSelection, isAllPartnerSelected } = this.state;
@@ -367,6 +396,44 @@ class MainPartnership extends Component {
         }
         this.setState({
           partnerSelection: selectedPartner,
+        });
+      }
+    }
+  };
+
+  handleInstitutionParentCheckbox = e => {
+    // e.stopPropagation();
+    const {
+      institutionSelection,
+      isAllInstitutionSelected,
+    } = this.state;
+    if (isAllInstitutionSelected) {
+      const allPartnerElement = document.getElementsByClassName(
+        'institution_checkbox',
+      );
+
+      for (let i = 0; i < allPartnerElement.length; i += 1) {
+        allPartnerElement[i].checked = false;
+      }
+      this.setState({
+        institutionSelection: [],
+        isAllInstitutionSelected: false,
+      });
+    } else {
+      this.setState({
+        isAllInstitutionSelected: true,
+      });
+      if (e.target.checked === true) {
+        const allPartnerElement = document.getElementsByClassName(
+          'institution_checkbox',
+        );
+        const selectedPartner = institutionSelection;
+        for (let i = 0; i < allPartnerElement.length; i += 1) {
+          allPartnerElement[i].checked = true;
+          selectedPartner.push(allPartnerElement[i].name);
+        }
+        this.setState({
+          institutionSelection: selectedPartner,
         });
       }
     }
@@ -416,17 +483,6 @@ class MainPartnership extends Component {
     }
   };
 
-  applyBtnClick = () => {
-    const {
-      viewDataBy,
-      partnerSelection,
-      projectSelection,
-      projectStatus,
-      expsnsionSelection,
-      partnerType,
-    } = this.state;
-  };
-
   leftApplyHandler = () => {
     const {
       G2PTypes,
@@ -434,17 +490,19 @@ class MainPartnership extends Component {
       serviceType,
       expsnsionSelection,
       partnerSelection,
-      primaryData,
+      institutionSelection,
+      // primaryData,
     } = this.state;
     let filteredData = [];
-    // const { primaryData } = this.props.outreachReducer;
+    const { primaryData } = this.props.outreachReducer;
 
     if (
       G2PTypes.length === 0 &&
       demonstrationType.length === 0 &&
       serviceType.length === 0 &&
       expsnsionSelection.length === 0 &&
-      expsnsionSelection.length === 0
+      expsnsionSelection.length === 0 &&
+      institutionSelection.length === 0
     ) {
       filteredData = primaryData;
     }
@@ -508,8 +566,44 @@ class MainPartnership extends Component {
       });
     }
 
+    if (institutionSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      institutionSelection.map(type => {
+        value.map(data => {
+          if (type === data.partner) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    // this.setAdminChoropleth(filteredData);
     this.setState({ primaryData: filteredData });
   };
+
+  // setAdminChoropleth = filteredData => {
+  //   console.log('filterered ata is', filteredData);
+  //   const provinceList = [];
+  //   const districtList = [];
+  //   const muniList = [];
+
+  //   filteredData.map(data => {
+  //     provinceList.push({
+  //       id: data.province_code,
+  //       code: data.province_code,
+  //     });
+  //     districtList.push({
+  //       id: data.district_code,
+  //       code: data.province_code,
+  //     });
+  //     muniList.push({
+  //       id: data.province_code,
+  //       code: data.province_code,
+  //     });
+  //   });
+  // };
 
   // eslint-disable-next-line consistent-return
   handleApplyFederalFilter = () => {
@@ -611,6 +705,7 @@ class MainPartnership extends Component {
       selectedDistrict && selectedDistrict.length > 0;
     const muniCheck =
       selectedMunicipality && selectedMunicipality.length > 0;
+
     if (provinceCheck || districtCheck || muniCheck) {
       if (mapViewBy === 'municipality') {
         if (muniCheck) {
@@ -732,12 +827,6 @@ class MainPartnership extends Component {
             }
           });
         });
-        console.log(
-          ' province type,array',
-          type,
-          filteredArray,
-          filteredPrimaryData,
-        );
 
         break;
       case 'district':
@@ -748,12 +837,6 @@ class MainPartnership extends Component {
             }
           });
         });
-        console.log(
-          ' dsirict type,array',
-          type,
-          filteredArray,
-          filteredPrimaryData,
-        );
         break;
       case 'municipality':
         filteredArray.map(selectedData => {
@@ -763,15 +846,8 @@ class MainPartnership extends Component {
             }
           });
         });
-        console.log(
-          ' muni type,array',
-          type,
-          filteredArray,
-          filteredPrimaryData,
-        );
         break;
       default:
-        console.log(' default type,array', type, array);
     }
 
     this.setState({ primaryData: filteredPrimaryData });
@@ -843,11 +919,13 @@ class MainPartnership extends Component {
     this.setState({
       expsnsionSelection: [],
       partnerSelection: [],
+      institutionSelection: [],
       demonstrationType: [],
       serviceType: [],
       G2PTypes: [],
       isAllPartnerSelected: false,
       isAllInvestmentFocusSelected: false,
+      isAllInstitutionSelected: false,
       primaryData: this.props.outreachReducer.primaryData,
     });
   };
@@ -918,12 +996,11 @@ class MainPartnership extends Component {
         municipalityList,
         isAllPartnerSelected,
         isAllInvestmentFocusSelected,
-        selectedProvince,
+        institutionSelection,
+        isAllInstitutionSelected,
         loading,
       },
     } = this;
-
-    console.log('loading', loading);
 
     return (
       <>
@@ -940,6 +1017,14 @@ class MainPartnership extends Component {
             serviceType={serviceType}
             demonstrationType={demonstrationType}
             isAllPartnerSelected={isAllPartnerSelected}
+            institutionSelection={institutionSelection}
+            isAllInstitutionSelected={isAllInstitutionSelected}
+            handleInstitutionParentCheckbox={
+              this.handleInstitutionParentCheckbox
+            }
+            handleInstitutionSelectionCheckbox={
+              this.handleInstitutionSelectionCheckbox
+            }
             isAllInvestmentFocusSelected={
               isAllInvestmentFocusSelected
             }

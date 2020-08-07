@@ -121,6 +121,8 @@ const getOverviewData = data => {
 
 const generateTimelineData = data => {
   // remove data with null date values
+
+  console.log('data for timeline', data);
   const filteredData = [];
   data.forEach(item => {
     if (item.date !== null)
@@ -296,78 +298,6 @@ const generateBubbleChartData = data => {
     children: groupingByInnovationArea,
   };
 };
-
-// const generateBubbleChartData = data => {
-//   function groupBy(array, key) {
-//     return array.reduce((r, a) => {
-//       r[a[key]] = [...(r[a[key]] || []), a];
-//       return r;
-//     }, {});
-//   }
-
-//   function getChildren(obj, type) {
-//     if (type === 'partner_name') {
-//       return Object.keys(obj).map(item => ({
-//         id: type,
-//         name: item,
-//         value: 1,
-//       }));
-//     } else {
-//       return Object.keys(obj).map(item => ({
-//         id: type,
-//         name: item,
-//         children: obj[item],
-//         // grouped_by: type,
-//         // value: item,
-//         // children: obj[item],
-//       }));
-//     }
-//   }
-
-//   function createHierarchy(data, keys) {
-//     let hierarchy = data.map(datum => ({ ...datum }));
-//     let counter = 0;
-//     function groupChildren(array, key) {
-//       counter++;
-//       array.forEach(item => {
-//         if (item.children) {
-//           if (keys[counter] === key) {
-//             item.children = groupChildren(item.children, key);
-//           } else {
-//             groupChildren(item.children, key);
-//           }
-//         }
-//       });
-//       counter--;
-//       const group = groupBy(array, key);
-//       return getChildren(group, key);
-//     }
-//     keys.forEach((key, i) => {
-//       if (i == 0) {
-//         const group = groupBy(data, key);
-//         hierarchy = getChildren(group, key);
-//       } else {
-//         groupChildren(hierarchy, key);
-//       }
-//     });
-//     return hierarchy;
-//   }
-
-//   const keys = [
-//     'innovation_area',
-//     'product_category',
-//     'partner_type',
-//     'partner_name',
-//   ];
-
-//   const group = createHierarchy(data, keys);
-
-//   return {
-//     name: 'Product/Process Innovations',
-//     id: 'bubble',
-//     children: group,
-//   };
-// };
 
 const generateHeatMapData = dataa => {
   const series = [];
