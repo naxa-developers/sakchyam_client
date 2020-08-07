@@ -1068,6 +1068,7 @@ class MainPartnership extends Component {
           }`}
         >
           <LeftSideBar
+            mapViewDataBy={mapViewDataBy}
             expsnsionSelection={expsnsionSelection}
             partnerSelection={partnerSelection}
             G2PTypes={G2PTypes}
