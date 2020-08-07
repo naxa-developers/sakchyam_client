@@ -20,6 +20,27 @@ const setSecondaryData = data => {
   };
 };
 
+export const setOutreachProvince = data => {
+  return {
+    type: 'GET_OUTREACH_BY_PROVINCE',
+    payload: data,
+  };
+};
+
+export const setOutreachDistrict = data => {
+  return {
+    type: 'GET_OUTREACH_BY_DISTRICT',
+    payload: data,
+  };
+};
+
+export const setOutreachMuniciplaity = data => {
+  return {
+    type: 'GET_OUTREACH_BY_MUNICIPALITY',
+    payload: data,
+  };
+};
+
 export const fetchOutreachSecondaryData = () => {
   return dispatch => {
     getSecondaryData()
@@ -34,30 +55,21 @@ export const fetchOutreachChoropleth = () => {
   return dispatch => {
     getOutreachChoropleth('province', 0)
       .then(res => {
-        dispatch({
-          type: 'GET_OUTREACH_BY_PROVINCE',
-          payload: res.data,
-        });
+        dispatch(setOutreachProvince(res.data));
       })
       .catch(err => {
         console.log('error occured');
       });
     getOutreachChoropleth('district', 0)
       .then(res => {
-        dispatch({
-          type: 'GET_OUTREACH_BY_DISTRICT',
-          payload: res.data,
-        });
+        dispatch(setOutreachDistrict(res.data));
       })
       .catch(err => {
         console.log('error occured');
       });
     getOutreachChoropleth('municipality', 0)
       .then(res => {
-        dispatch({
-          type: 'GET_OUTREACH_BY_MUNICIPALITY',
-          payload: res.data,
-        });
+        dispatch(setOutreachMuniciplaity(res.data));
       })
       .catch(err => {
         console.log('error occured');

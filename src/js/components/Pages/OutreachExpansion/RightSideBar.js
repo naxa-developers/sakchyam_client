@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-var */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable radix */
@@ -11,6 +13,8 @@ import {
   numberWithCommas,
   getFormattedDate,
 } from '../../common/utilFunctions';
+
+import { CaretUp, CaretDown } from '../../common/Caret';
 
 const outreachTabTitle = [
   'Investment Focus',
@@ -28,6 +32,8 @@ class RightSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isHovered: false,
+      hoverID: 0,
       totalPopulation: '',
       totalFunding: '',
       totalReceipients: '',
@@ -115,15 +121,55 @@ class RightSideBar extends Component {
 
       const uniqueYearArray = removeDuplicates(yearArray, 'year');
 
+      // eslint-disable-next-line no-use-before-define
+      const timelineData = generateTimelineData(primaryData);
+      // console.log('time data', timeliendata);
+
+      const years = [];
+      timelineData.forEach(item => years.push(item.year));
+
+      const maxYear = Math.max(...years);
+
+      setTimeout(() => {
+        const x = document.getElementById(maxYear);
+        x.style.display = 'block';
+        this.setState({ [maxYear]: true });
+      }, 200);
+
       this.setState({
         totalBranch,
         totalBLB,
         totalPartners: uniquePartners.length,
         yearArray: uniqueYearArray,
         filteredPrimaryData: withYearKey,
+        timelineData,
       });
     }
   }
+
+  handleHover = id => {
+    this.setState(prevState => ({
+      isHovered: !prevState.isHovered,
+      hoverID: id,
+    }));
+  };
+
+  handleUnhover = () => {
+    this.setState({ isHovered: false, hoverID: '' });
+  };
+
+  handleTimelineToggle = key => {
+    const x = document.getElementById(`${key}`);
+    const y = document.querySelectorAll('.timeline-display');
+
+    if (x.style.display !== 'none') {
+      x.style.display = 'none';
+      this.setState({ [key]: false });
+    } else {
+      x.style.display = 'block';
+      this.setState({ [key]: true });
+    }
+  };
 
   render() {
     const {
@@ -146,6 +192,8 @@ class RightSideBar extends Component {
       totalPartners,
       yearArray,
       filteredPrimaryData,
+      timelineData,
+      hoverID,
     } = this.state;
     return (
       <aside
@@ -246,52 +294,113 @@ class RightSideBar extends Component {
               </div>
             )}
 
-            <div className="sidebar-widget timeline-widget">
-              <h5>Initiative Timeline</h5>
-              <div className="widget-body">
-                <div className="timeline">
-                  {yearArray &&
-                    yearArray.map(year => {
-                      return (
-                        <ul className="year">
-                          <div className="date-time">
-                            <time>{year.year}</time>
-                          </div>
-                          {filteredPrimaryData &&
-                            filteredPrimaryData.map(data => {
-                              if (data.year === year.year) {
-                                return (
-                                  <li
-                                    className={
-                                      data.point_service === 'Branch'
-                                        ? 'active'
-                                        : ''
-                                    }
-                                  >
-                                    <div className="timeline-content ">
-                                      <div className="timeline-text">
-                                        <span>
-                                          {getFormattedDate(
-                                            data.date_established,
-                                          )}
-                                        </span>
-                                        <p>
-                                          {data.partner} at{' '}
-                                          {data.market_name}
-                                        </p>
+            {mapViewDataBy === 'general_outreach' && (
+              <div className="sidebar-widget timeline-widget">
+                <h5>Timeline of Establishment</h5>
+                <div
+                  className="widget-body"
+                  style={{ paddingTop: '0' }}
+                >
+                  <div className="timeline">
+                    {timelineData &&
+                      timelineData.map(item => {
+                        return (
+                          <ul className="year">
+                            <div
+                              className="date-time"
+                              id="timeline-id"
+                            >
+                              <div
+                                style={{
+                                  // display: 'inline-flex',
+                                  background: '#f7f7f7',
+                                  width: 'inherit',
+                                }}
+                              >
+                                <time
+                                  onClick={
+                                    () =>
+                                      this.handleTimelineToggle(
+                                        item.year,
+                                      )
+                                    // eslint-disable-next-line react/jsx-curly-newline
+                                  }
+                                  style={{
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                  }}
+                                >
+                                  {item.year}
+                                  <div style={{ height: 'auto' }}>
+                                    {this.state[item.year] ? (
+                                      <CaretUp />
+                                    ) : (
+                                      <CaretDown />
+                                    )}
+                                  </div>
+                                </time>
+                              </div>
+                            </div>
+                            <div
+                              id={item.year}
+                              className="timeline-display"
+                              style={{ display: 'none' }}
+                            >
+                              {item.program.map((list, index) => {
+                                const date = new Date(list.date);
+                                const dateNumber = date.getDate();
+                                const monthName = date
+                                  .toDateString()
+                                  .split(' ')[1];
+
+                                let temp = '';
+                                if (
+                                  Object.entries(list).length !== 0
+                                ) {
+                                  temp = (
+                                    <li
+                                      // key={item.id}
+                                      className={
+                                        hoverID === index
+                                          ? 'active'
+                                          : ''
+                                      }
+                                    >
+                                      <div className="timeline-content ">
+                                        <div
+                                          onMouseEnter={() => {
+                                            this.handleHover(index);
+                                          }}
+                                          onMouseLeave={() => {
+                                            this.handleUnhover(index);
+                                          }}
+                                          className="timeline-text"
+                                        >
+                                          <span>
+                                            {`${monthName}
+                                   ${item.year}`}
+                                          </span>
+                                          <p>
+                                            {list.partner} at{' '}
+                                            {list.market_name}
+                                          </p>
+                                        </div>
                                       </div>
-                                    </div>
-                                  </li>
-                                );
-                              }
-                              return true;
-                            })}
-                        </ul>
-                      );
-                    })}
+                                    </li>
+                                  );
+                                } else {
+                                  temp = <li className="blank" />;
+                                }
+                                return temp;
+                              })}
+                            </div>
+                          </ul>
+                        );
+                      })}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div
@@ -316,3 +425,64 @@ const mapStateToProps = ({ outreachReducer }) => ({
   outreachReducer,
 });
 export default connect(mapStateToProps)(RightSideBar);
+
+const generateTimelineData = data => {
+  // remove data with null date values
+
+  const filteredData = [];
+  data.forEach(item => {
+    if (item.date_established !== null)
+      filteredData.push({
+        date: item.date_established,
+        partner: item.partner,
+        market_name: item.market_name,
+      });
+  });
+
+  const allYears = [];
+  filteredData.filter(item => {
+    const year = item.date.substring(0, 4);
+    if (!allYears.includes(year)) allYears.push(year);
+    return true;
+  });
+
+  const a = Math.min(...allYears);
+  const b = Math.max(...allYears);
+  const years = [];
+
+  let initial = a;
+  for (let i = 0; i <= b - a; i += 1) {
+    years.push(initial);
+    initial += 1;
+  }
+
+  years.sort((c, d) => d - c);
+
+  const arr = [];
+
+  years.map((item, index) => {
+    arr.push({
+      id: index + 1,
+      year: item,
+      program: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+    });
+    return true;
+  });
+
+  filteredData.map(item => {
+    const date = new Date(item.date);
+    const year = item.date.substring(0, 4);
+    const month = date.getMonth();
+
+    arr.map(i => {
+      if (i.year.toString() === year) {
+        // eslint-disable-next-line no-param-reassign
+        i.program[month] = { ...item };
+      }
+      return true;
+    });
+    return true;
+  });
+
+  return arr;
+};

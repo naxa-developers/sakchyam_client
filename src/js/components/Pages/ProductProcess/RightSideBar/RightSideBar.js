@@ -62,6 +62,7 @@ class RightSideBar extends Component {
       this.setState({
         timelineData,
       });
+      console.log('timeline for outreach', timelineData);
 
       const years = [];
       timelineData.forEach(item => years.push(item.year));
@@ -194,12 +195,7 @@ class RightSideBar extends Component {
                 </ul>
               </div>
             </div>
-            {/* <div className="sidebar-widget program-widget">
-              <h5 style={{ textTransform: 'none' }}>
-                Beneficiaries and Partner Count
-              </h5>
-              <div className="widget-body"></div>
-            </div> */}
+
             <div className="sidebar-widget timeline-widget">
               <h5 style={{ textTransform: 'none', marginBottom: 0 }}>
                 PRODUCT TIMELINE
@@ -231,12 +227,6 @@ class RightSideBar extends Component {
                                   display: 'flex',
                                 }}
                               >
-                                {/* <button
-                                type="button"
-                                className="common-button is-bg"
-                              >
-                                {item.year}
-                              </button> */}
                                 {item.year}
                                 <div style={{ height: 'auto' }}>
                                   {this.state[item.year] ? (
@@ -299,38 +289,6 @@ class RightSideBar extends Component {
                         </ul>
                       );
                     })}
-
-                  {/* <ul className="year">
-                    <div className="date-time">
-                      <time>2015</time>
-                    </div>
-                    <li className="active">
-                      <div className="timeline-content ">
-                        <div className="timeline-text">
-                          <span>1 june</span>
-                          <p>
-                            Year-round 12 module Financial Literacy
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="blank" />
-                    <li className="blank" />
-                    <li className="blank" />
-                    <li className="blank" />
-                    <li className="blank" />
-                    <li className="blank" />
-                    <li className="blank" />
-                    <li className="">
-                      <div className="timeline-content ">
-                        <div className="timeline-text">
-                          <p>
-                            Year-round 12 module Financial Literacy
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  </ul> */}
                 </div>
               </div>
             </div>

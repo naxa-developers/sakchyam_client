@@ -61,9 +61,39 @@ class MapboxPartnership extends Component {
         code: p.code,
         count: p.count,
       }));
-      this.setState({
-        filteredMapData: outreachProvince,
-      });
+      if (mapViewBy === 'province') {
+        this.setState({
+          filteredMapData: outreachProvince,
+        });
+      }
+    }
+
+    if (prevProps.outreachReducer.districtData !== districtData) {
+      const outreachDist = districtData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
+      if (mapViewBy === 'district') {
+        this.setState({
+          filteredMapData: outreachDist,
+        });
+      }
+    }
+
+    if (
+      prevProps.outreachReducer.municipalityData !== municipalityData
+    ) {
+      const outreachMuni = municipalityData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
+      if (mapViewBy === 'municipality') {
+        this.setState({
+          filteredMapData: outreachMuni,
+        });
+      }
     }
 
     if (prevProps.outreachReducer !== outreachReducer) {
@@ -79,6 +109,16 @@ class MapboxPartnership extends Component {
           filteredMapData: provinceData,
           YesNo: false,
         });
+      } else {
+        const { data } = outreachReducer.secondarData;
+        const filteredMapData = data.map(muni => ({
+          id: muni.municipality_code,
+          code: muni.municipality_code,
+          count: muni.population,
+        }));
+        setTimeout(() => {
+          this.setState({ filteredMapData });
+        }, 100);
       }
     }
 
@@ -87,6 +127,10 @@ class MapboxPartnership extends Component {
         let choroplethData;
         switch (mapViewBy) {
           case 'province':
+            console.log(
+              'provinceData case provinceData',
+              provinceData,
+            );
             const outreachProvince = provinceData.map(p => ({
               id: p.code,
               code: p.code,
@@ -95,6 +139,7 @@ class MapboxPartnership extends Component {
             choroplethData = outreachProvince;
             break;
           case 'district':
+            console.log('district case entered', districtData);
             const outreachDistrict = districtData.map(p => ({
               id: p.code,
               code: p.code,
@@ -103,6 +148,10 @@ class MapboxPartnership extends Component {
             choroplethData = outreachDistrict;
             break;
           case 'municipality':
+            console.log(
+              'municipality case entered',
+              municipalityData,
+            );
             const outreachMunicipality = municipalityData.map(p => ({
               id: p.code,
               code: p.code,
@@ -200,7 +249,7 @@ class MapboxPartnership extends Component {
 
           case 'Nearest Road Access(TypeOfRoad)':
             temp = data.map(d => ({ type: d.nearest_road_type }));
-            console.log('temp value', temp);
+            // console.log('temp value', temp);
             // temp = data.filter(d => d.nearest_road_distance !== -1);
             // const filteredByNRADistance = temp.map(muni => ({
             //   id: muni.municipality_code,
@@ -363,11 +412,7 @@ class MapboxPartnership extends Component {
   }
 }
 
-const mapStateToProps = ({
-  partnershipReducer,
-  outreachReducer,
-}) => ({
-  partnershipReducer,
+const mapStateToProps = ({ outreachReducer }) => ({
   outreachReducer,
 });
 export default connect(mapStateToProps)(MapboxPartnership);
