@@ -602,12 +602,6 @@ class MainPartnership extends Component {
     const processedDistrict = getDuplicateObjectCount(districtList);
     const processedMuni = getDuplicateObjectCount(municipalityList);
 
-    // console.log(
-    //   'processedProvince',
-    //   processedProvince,
-    //   processedDistrict,
-    //   processedMuni,
-    // );
     this.props.setOutreachProvince(processedProvince);
     this.props.setOutreachDistrict(processedDistrict);
     this.props.setOutreachMuniciplaity(processedMuni);
@@ -963,6 +957,7 @@ class MainPartnership extends Component {
       map.setZoom(6);
       map.setCenter([84.5, 28.5]);
     } else if (mapViewDataBy === 'general_outreach') {
+      this.props.fetchOutreachChoropleth();
       map.setZoom(6);
       map.setCenter([84.5, 28.5]);
       setTimeout(() => {

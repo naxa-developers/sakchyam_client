@@ -403,7 +403,7 @@ class PlotVector extends Component {
 
     return (
       <>
-        <div className="map-legend newmap-legend">
+        <div className="map-legend newmap-legend ">
           <div className="color-list ">
             <h6>{legendTitle}</h6>
             <ul id="state-legend" className="color-legend">
@@ -472,7 +472,7 @@ class PlotVector extends Component {
           </div>
 
           {!condition && (
-            <div className="color-list ">
+            <div className="color-list marker-legend">
               <h6>Marker Legend</h6>
               <ul
                 id="state-legend"
