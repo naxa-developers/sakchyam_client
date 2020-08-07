@@ -1,10 +1,12 @@
 import React from 'react';
 
 const SVGLines = ({ data, dimension: { height, width } }) => {
-  console.log(data, 'data');
+  // console.log(data, 'data');
 
   return (
     <div style={{ position: 'absolute' }}>
+      {/* <div> */}
+      {/* <div> */}
       <svg height={height} width={width}>
         {data.map(item => (
           <line

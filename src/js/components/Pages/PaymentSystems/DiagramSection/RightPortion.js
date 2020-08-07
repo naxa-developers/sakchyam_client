@@ -1,12 +1,21 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-undef */
+/* eslint-disable no-return-assign */
 import React from 'react';
 
-const RightPortion = () => {
+const RightPortion = ({ rightCardRefs, BFISRef, CSPRef }) => {
   return (
-    <div className="retail-payement">
+    <div
+      className="retail-payement"
+      style={{ paddingLeft: '0px', alignSelf: 'flex-start' }}
+    >
       <div className="top-section-payment">
         <h3>Retail payment System</h3>
         <div className="switch-connect-system ">
-          <div className="payment-card switch-system">
+          <div
+            className="payment-card switch-system"
+            ref={el => (rightCardRefs.current[0] = el)}
+          >
             <h5>Card and Switch System</h5>
             <ul className="payment-logos">
               <li>
@@ -46,7 +55,10 @@ const RightPortion = () => {
               </li>
             </ul>
           </div>
-          <div className="payment-card connectips-system">
+          <div
+            className="payment-card connectips-system"
+            ref={el => (rightCardRefs.current[1] = el)}
+          >
             <ul className="payment-logos">
               <li>
                 <a href="#">
@@ -59,7 +71,10 @@ const RightPortion = () => {
             </ul>
           </div>
         </div>
-        <div className="payment-card psp-system">
+        <div
+          className="payment-card psp-system"
+          ref={el => (rightCardRefs.current[2] = el)}
+        >
           <h5>PSPs/PSOs</h5>
           <ul className="payment-logos">
             <li>
@@ -101,7 +116,10 @@ const RightPortion = () => {
         </div>
       </div>
       <div className="bottom-section-payment">
-        <div className="payment-card bfis">
+        <div
+          className="payment-card bfis"
+          ref={el => (rightCardRefs.current[3] = el)}
+        >
           <h5>BFIs</h5>
           <ul className="payment-logos">
             <li>
@@ -116,7 +134,10 @@ const RightPortion = () => {
             </li>
           </ul>
         </div>
-        <div className="payment-card bfis">
+        <div
+          className="payment-card bfis"
+          ref={el => (rightCardRefs.current[4] = el)}
+        >
           <h5>Capital Market Players</h5>
           <ul className="payment-logos">
             <li>
