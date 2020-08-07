@@ -66,6 +66,9 @@ class MainPartnership extends Component {
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       localOutreachSelected: 'Population in the Local Unit',
       loading: false,
+      filteredByLeftData: false,
+      filterDataByAdmin: false,
+      dataByLeft: '',
     };
   }
 
@@ -583,8 +586,15 @@ class MainPartnership extends Component {
       });
     }
 
+    const filteredByLeftData =
+      JSON.stringify(primaryData) === JSON.stringify(filteredData);
+
     this.setAdminChoropleth(filteredData);
-    this.setState({ primaryData: filteredData });
+    this.setState({
+      primaryData: filteredData,
+      filteredByLeftData: !filteredByLeftData,
+      dataByLeft: filteredData,
+    });
   };
 
   setAdminChoropleth = filteredData => {
@@ -699,6 +709,8 @@ class MainPartnership extends Component {
       municipalityList,
       mapViewBy,
       districtList,
+      primaryData,
+      filteredByLeftData,
     } = this.state;
 
     const provinceCheck =
@@ -707,8 +719,9 @@ class MainPartnership extends Component {
       selectedDistrict && selectedDistrict.length > 0;
     const muniCheck =
       selectedMunicipality && selectedMunicipality.length > 0;
-
+    console.log('filtered by left data', filteredByLeftData);
     if (provinceCheck || districtCheck || muniCheck) {
+      this.setState({ filterDataByAdmin: true });
       if (mapViewBy === 'municipality') {
         if (muniCheck) {
           const combinedBbox = [];
@@ -799,8 +812,12 @@ class MainPartnership extends Component {
         }
       }
     } else {
+      let markerData = this.props.outreachReducer.primaryData;
+      if (filteredByLeftData) {
+        markerData = primaryData;
+      }
       this.setState({
-        primaryData: this.props.outreachReducer.primaryData,
+        primaryData: markerData,
       });
       map.setZoom(6);
       map.setCenter([84.5, 28.5]);
@@ -815,11 +832,15 @@ class MainPartnership extends Component {
   };
 
   filterMarkers = (type, array) => {
-    // const { primaryData } = this.props.outreachReducer;
-    const { primaryData } = this.state;
+    const { dataByLeft, filteredByLeftData } = this.state;
+    let { primaryData } = this.props.outreachReducer;
+    if (filteredByLeftData) {
+      primaryData = dataByLeft;
+    }
     const filteredArray = array.filter(data => data.value !== 'all');
     const filteredPrimaryData = [];
 
+    console.log('values received', type, filteredArray);
     switch (type) {
       case 'province':
         filteredArray.map(selectedData => {
@@ -930,6 +951,7 @@ class MainPartnership extends Component {
       isAllInvestmentFocusSelected: false,
       isAllInstitutionSelected: false,
       primaryData: this.props.outreachReducer.primaryData,
+      filteredByLeftData: false,
     });
   };
 
@@ -965,7 +987,7 @@ class MainPartnership extends Component {
         this.changeMapTiles(this.state.selectedProvince);
       }, 100);
 
-      this.setState({ primaryData });
+      this.setState({ primaryData, filterDataByAdmin: false });
     }
   };
 

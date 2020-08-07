@@ -403,7 +403,7 @@ class PlotVector extends Component {
 
     return (
       <>
-        <div className="map-legend newmap-legend ">
+        <div className="map-legend newmap-legend is-start">
           <div className="color-list ">
             <h6>{legendTitle}</h6>
             <ul id="state-legend" className="color-legend">
