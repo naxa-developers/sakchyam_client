@@ -8,6 +8,7 @@ import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
 import PlotLines from './CreateLines/PlotLines';
 import generateMiddleLines from './CreateLines/generateMiddleLines';
+import { middleLineData } from './CreateLines/lines.data';
 
 const DiagramSection = () => {
   const [containerDimension, setContainerDimension] = useState({});
@@ -21,17 +22,7 @@ const DiagramSection = () => {
   const CSPRef = useRef(null);
   const BFISRef = useRef(null);
 
-  const [coordinates, setCoordinates] = useState({});
-
-  // container refs for svg height and width
-  useEffect(() => {
-    const mainRect = containerRef.current;
-    const mainBoundingRect = mainRect.getBoundingClientRect();
-
-    const { height, width } = mainBoundingRect;
-
-    // setContainerDimension({ height, width });
-  }, []);
+  const [coordinates, setCoordinates] = useState([]);
 
   // middle section lines
   // useLayoutEffect(() => {
@@ -75,19 +66,24 @@ const DiagramSection = () => {
 
   useLayoutEffect(() => {
     const svgRect = svgContainerRef.current.getBoundingClientRect();
-    const leftRect = leftCardRefs.current[0].getBoundingClientRect();
-    const rightRect = rightCardRefs.current[2].getBoundingClientRect();
+    const leftRects = [];
+    const rightRects = [];
 
-    const obj = {
-      svgRect,
-      leftRects: [leftRect],
-      rightRects: [rightRect],
-    };
+    middleLineData.forEach(item => {
+      leftRects.push(
+        leftCardRefs.current[item.leftIndex].getBoundingClientRect(),
+      );
+      rightRects.push(
+        rightCardRefs.current[
+          item.rightIndex
+        ].getBoundingClientRect(),
+      );
+    });
 
     const newCoordinates = generateMiddleLines(
       svgRect,
-      leftRect,
-      rightRect,
+      leftRects,
+      rightRects,
     );
 
     setContainerDimension({ width: 180, height: 100 });
@@ -125,7 +121,7 @@ const DiagramSection = () => {
       <PlotLines
         svgContainerRef={svgContainerRef}
         dimension={containerDimension}
-        data={coordinates}
+        coordinates={coordinates}
       />
 
       <RightPortion
