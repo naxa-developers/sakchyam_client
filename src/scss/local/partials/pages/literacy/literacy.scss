@@ -385,7 +385,7 @@
     max-width: 100%;
     @include display-flex(flex);
     @include justify-content-between;
-    @include align-items-center;
+    @include align-items-end;
     @include flex-wrap(wrap);
     h6 {
       font-size: 1rem;
@@ -410,6 +410,12 @@
             height: 10px;
           }
         }
+      }
+      &.marker-legend{
+        max-width: 220px;
+      }
+      &:not(:first-child){
+        margin-left:1rem;
       }
     }
     .overlay-data {
@@ -490,6 +496,12 @@
           font-size: 0.775rem;
         }
       }
+    }
+    &.is-start{
+      @include justify-content-start;
+    }
+    &.is-end{
+      @include justify-content-end;
     }
   }
 }
@@ -671,4 +683,7 @@
       visibility: visible;
     }
   }
+}
+.mt-120{
+  margin-top:120px;
 }
