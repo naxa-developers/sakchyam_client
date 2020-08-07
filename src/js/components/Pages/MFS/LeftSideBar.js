@@ -29,8 +29,10 @@ class LeftSideBar extends Component {
         handlePartnerSelection,
         selectedInnovation,
         handleInnovationSelection,
+        handleInnovationAllSelection,
         selectedAchievement,
         handleAchievementSelection,
+        handleAchievementAllSelection,
         partnerType,
         handlePartnerType,
         applyBtnClick,
@@ -103,106 +105,138 @@ class LeftSideBar extends Component {
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Key Innovation</h6>
               <div className="widget-body pd0">
+                <div className="checklist-header">
+                  <div className="custom-checkbox">
+                    <input
+                      id="innovationAll"
+                      className="allCheckbox"
+                      type="checkbox"
+                      name="innovationAll"
+                      value="all"
+                      onChange={handleInnovationAllSelection}
+                    />
+                    <label htmlFor="innovationAll">All</label>
+                  </div>
+                </div>
                 {mfsListLoading ? (
                   <BadgeLoader />
                 ) : (
-                  
-                    <ul className="checkbox-list default-list">
-                      {innovationList &&
-                        innovationList.map(innov => {
-                          return (
-                            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-                            // <div
-                            //   role="button"
-                            //   tabIndex="0"
-                            //   onClick={() => {
-                            //     handleInnovationSelection(innov);
-                            //   }}
-                            //   onKeyDown={() => {
-                            //     handleInnovationSelection(innov);
-                            //   }}
-                            // >
-                            //   <label>{innov}</label>
-                            // </div>
-                            <SelectList
-                              // id={project.id}
-                              className="project_checkbox"
-                              // key={project.id}
-                              label={innov}
-                              name={innov}
-                              clickHandler={handleInnovationSelection}
-                            />
-                            // <CheckBox
-                            //   // id={partnershipFocus.id}
-                            //   className="investment_checkbox"
-                            //   // key={partnershipFocus.id}
-                            //   label={innov}
-                            //   name={innov}
-                            //   changeHandler={
-                            //     handleInnovationSelection
-                            //   }
-                            //   // checked={investmentFocusSelection.includes(
-                            //   //   innov,
-                            //   // )}
-                            // />
-                          );
-                        })}
-                    </ul>
-                 
+                  <ul className="checkbox-list default-list">
+                    {innovationList &&
+                      innovationList.map(innov => {
+                        return (
+                          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+                          // <div
+                          //   role="button"
+                          //   tabIndex="0"
+                          //   onClick={() => {
+                          //     handleInnovationSelection(innov);
+                          //   }}
+                          //   onKeyDown={() => {
+                          //     handleInnovationSelection(innov);
+                          //   }}
+                          // >
+                          //   <label>{innov}</label>
+                          // </div>
+                          // <SelectList
+                          //   // id={project.id}
+                          //   className="project_checkbox"
+                          //   // key={project.id}
+                          //   label={innov}
+                          //   name={innov}
+                          //   clickHandler={handleInnovationSelection}
+                          //   checked={selectedInnovation.includes(
+                          //     innov,
+                          //   )}
+                          // />
+                          <CheckBox
+                            id={innov}
+                            className="innovation_checkbox"
+                            // key={partnershipFocus.id}
+                            label={innov}
+                            name={innov}
+                            changeHandler={handleInnovationSelection}
+                            // checked={investmentFocusSelection.includes(
+                            //   innov,
+                            // )}
+                          />
+                        );
+                      })}
+                  </ul>
                 )}
               </div>
             </div>
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Achievement Type</h6>
               <div className="widget-body pd0">
+                <div className="checklist-header">
+                  <div className="custom-checkbox">
+                    <input
+                      id="achievementAll"
+                      className="allCheckbox"
+                      type="checkbox"
+                      name="achievementAll"
+                      value="all"
+                      onChange={handleAchievementAllSelection}
+                    />
+                    <label htmlFor="achievementAll">All</label>
+                  </div>
+                </div>
                 {mfsListLoading ? (
                   <BadgeLoader />
                 ) : (
-                 
-                    <ul className="checkbox-list default-list">
-                      {/* <GroupCheckedbox
+                  <ul className="checkbox-list default-list">
+                    {/* <GroupCheckedbox
                       checkboxes={projectLists}
                       onCheckboxGroupChange={
                         this.handleCheckboxgroupChange
                       }
                     /> */}
 
-                      {achievementList &&
-                        achievementList.map(achievement => {
-                          return (
-                            // <div
-                            //   role="button"
-                            //   tabIndex="0"
-                            //   onClick={() => {
-                            //     handleAchievementSelection(
-                            //       achievement,
-                            //     );
-                            //   }}
-                            //   onKeyDown={() => {
-                            //     handleAchievementSelection(
-                            //       achievement,
-                            //     );
-                            //   }}
-                            // >
-                            //   <label>{achievement}</label>
-                            // </div>
-                            <SelectList
-                              // id={project.id}
-                              className="project_checkbox"
-                              // key={project.id}
-                              label={achievement}
-                              name={achievement}
-                              clickHandler={
-                                handleAchievementSelection
-                              }
-                              // checked={projectSelection.includes(
-                              //   achievement,
-                              // )}
-                            />
-                          );
-                        })}
-                    </ul>
-                
+                    {achievementList &&
+                      achievementList.map(achievement => {
+                        return (
+                          // <div
+                          //   role="button"
+                          //   tabIndex="0"
+                          //   onClick={() => {
+                          //     handleAchievementSelection(
+                          //       achievement,
+                          //     );
+                          //   }}
+                          //   onKeyDown={() => {
+                          //     handleAchievementSelection(
+                          //       achievement,
+                          //     );
+                          //   }}
+                          // >
+                          //   <label>{achievement}</label>
+                          // </div>
+                          // <SelectList
+                          //   // id={project.id}
+                          //   className="project_checkbox"
+                          //   // key={project.id}
+                          //   label={achievement}
+                          //   name={achievement}
+                          //   clickHandler={handleAchievementSelection}
+                          //   checked={selectedAchievement.includes(
+                          //     achievement,
+                          //   )}
+                          // />
+                          <CheckBox
+                            id={achievement}
+                            className="achievement_checkbox"
+                            // key={partnershipFocus.id}
+                            label={achievement}
+                            name={achievement}
+                            changeHandler={handleAchievementSelection}
+                            // checked={investmentFocusSelection.includes(
+                            //   innov,
+                            // )}
+                          />
+                        );
+                      })}
+                  </ul>
                 )}
               </div>
             </div>
