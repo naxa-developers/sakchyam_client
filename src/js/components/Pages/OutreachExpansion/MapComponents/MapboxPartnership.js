@@ -61,9 +61,39 @@ class MapboxPartnership extends Component {
         code: p.code,
         count: p.count,
       }));
-      this.setState({
-        filteredMapData: outreachProvince,
-      });
+      if (mapViewBy === 'province') {
+        this.setState({
+          filteredMapData: outreachProvince,
+        });
+      }
+    }
+
+    if (prevProps.outreachReducer.districtData !== districtData) {
+      const outreachDist = districtData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
+      if (mapViewBy === 'district') {
+        this.setState({
+          filteredMapData: outreachDist,
+        });
+      }
+    }
+
+    if (
+      prevProps.outreachReducer.municipalityData !== municipalityData
+    ) {
+      const outreachMuni = municipalityData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
+      if (mapViewBy === 'municipality') {
+        this.setState({
+          filteredMapData: outreachMuni,
+        });
+      }
     }
 
     if (prevProps.outreachReducer !== outreachReducer) {
@@ -97,6 +127,10 @@ class MapboxPartnership extends Component {
         let choroplethData;
         switch (mapViewBy) {
           case 'province':
+            console.log(
+              'provinceData case provinceData',
+              provinceData,
+            );
             const outreachProvince = provinceData.map(p => ({
               id: p.code,
               code: p.code,
@@ -105,6 +139,7 @@ class MapboxPartnership extends Component {
             choroplethData = outreachProvince;
             break;
           case 'district':
+            console.log('district case entered', districtData);
             const outreachDistrict = districtData.map(p => ({
               id: p.code,
               code: p.code,
@@ -113,6 +148,10 @@ class MapboxPartnership extends Component {
             choroplethData = outreachDistrict;
             break;
           case 'municipality':
+            console.log(
+              'municipality case entered',
+              municipalityData,
+            );
             const outreachMunicipality = municipalityData.map(p => ({
               id: p.code,
               code: p.code,

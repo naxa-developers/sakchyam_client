@@ -21,6 +21,9 @@ import {
   fetchOutreachSecondaryData,
   fetchOutreachChoropleth,
   fetchOutreachPrimaryData,
+  setOutreachMuniciplaity,
+  setOutreachDistrict,
+  setOutreachProvince,
 } from '../../../actions/outreach.actions';
 import {
   provinceLists,
@@ -29,6 +32,7 @@ import {
   districtListByProvince,
   muniByDistrict,
 } from '../../common/adminList';
+import { getDuplicateObjectCount } from '../../common/utilFunctions';
 
 class MainPartnership extends Component {
   constructor() {
@@ -579,31 +583,35 @@ class MainPartnership extends Component {
       });
     }
 
-    // this.setAdminChoropleth(filteredData);
+    this.setAdminChoropleth(filteredData);
     this.setState({ primaryData: filteredData });
   };
 
-  // setAdminChoropleth = filteredData => {
-  //   console.log('filterered ata is', filteredData);
-  //   const provinceList = [];
-  //   const districtList = [];
-  //   const muniList = [];
+  setAdminChoropleth = filteredData => {
+    const provinceList = [];
+    const districtList = [];
+    const municipalityList = [];
 
-  //   filteredData.map(data => {
-  //     provinceList.push({
-  //       id: data.province_code,
-  //       code: data.province_code,
-  //     });
-  //     districtList.push({
-  //       id: data.district_code,
-  //       code: data.province_code,
-  //     });
-  //     muniList.push({
-  //       id: data.province_code,
-  //       code: data.province_code,
-  //     });
-  //   });
-  // };
+    filteredData.map(data => {
+      provinceList.push(data.province_code);
+      districtList.push(data.district_code);
+      municipalityList.push(data.municipality_code);
+    });
+
+    const processedProvince = getDuplicateObjectCount(provinceList);
+    const processedDistrict = getDuplicateObjectCount(districtList);
+    const processedMuni = getDuplicateObjectCount(municipalityList);
+
+    // console.log(
+    //   'processedProvince',
+    //   processedProvince,
+    //   processedDistrict,
+    //   processedMuni,
+    // );
+    this.props.setOutreachProvince(processedProvince);
+    this.props.setOutreachDistrict(processedDistrict);
+    this.props.setOutreachMuniciplaity(processedMuni);
+  };
 
   // eslint-disable-next-line consistent-return
   handleApplyFederalFilter = () => {
@@ -916,6 +924,7 @@ class MainPartnership extends Component {
   };
 
   resetLeftSideBarSelection = () => {
+    this.props.fetchOutreachChoropleth();
     this.setState({
       expsnsionSelection: [],
       partnerSelection: [],
@@ -1195,8 +1204,20 @@ class MainPartnership extends Component {
 const mapStateToProps = ({ outreachReducer }) => ({
   outreachReducer,
 });
-export default connect(mapStateToProps, {
-  fetchOutreachChoropleth,
-  fetchOutreachPrimaryData,
-  fetchOutreachSecondaryData,
-})(MainPartnership);
+
+const mapDispatchToProps = dispatch => ({
+  setOutreachProvince: pro => dispatch(setOutreachProvince(pro)),
+  setOutreachDistrict: dis => dispatch(setOutreachDistrict(dis)),
+  setOutreachMuniciplaity: muni =>
+    dispatch(setOutreachMuniciplaity(muni)),
+  fetchOutreachChoropleth: () => dispatch(fetchOutreachChoropleth()),
+  fetchOutreachPrimaryData: () =>
+    dispatch(fetchOutreachPrimaryData()),
+  fetchOutreachSecondaryData: () =>
+    dispatch(fetchOutreachSecondaryData()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MainPartnership);
