@@ -6,6 +6,7 @@ import {
   GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
   FILTER_INDICATOR_GRAPH_DATA,
   FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
+  FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -148,5 +149,16 @@ export const filterIndicatorGraphDataWithDate = (
   dispatch({
     type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
     payload: { activeLayer, activeDate },
+  });
+};
+export const filterOuputIndicatorWithPercentOrNumber = (
+  activeLayer,
+  activeDate,
+  dataTypePayload,
+) => dispatch => {
+  console.log(dataTypePayload, 'Dataatatata');
+  dispatch({
+    type: FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
+    payload: { activeLayer, activeDate, dataTypePayload },
   });
 };
