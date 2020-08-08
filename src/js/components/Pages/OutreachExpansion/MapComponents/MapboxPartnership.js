@@ -61,9 +61,39 @@ class MapboxPartnership extends Component {
         code: p.code,
         count: p.count,
       }));
-      this.setState({
-        filteredMapData: outreachProvince,
-      });
+      if (mapViewBy === 'province') {
+        this.setState({
+          filteredMapData: outreachProvince,
+        });
+      }
+    }
+
+    if (prevProps.outreachReducer.districtData !== districtData) {
+      const outreachDist = districtData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
+      if (mapViewBy === 'district') {
+        this.setState({
+          filteredMapData: outreachDist,
+        });
+      }
+    }
+
+    if (
+      prevProps.outreachReducer.municipalityData !== municipalityData
+    ) {
+      const outreachMuni = municipalityData.map(p => ({
+        id: p.code,
+        code: p.code,
+        count: p.count,
+      }));
+      if (mapViewBy === 'municipality') {
+        this.setState({
+          filteredMapData: outreachMuni,
+        });
+      }
     }
 
     if (prevProps.outreachReducer !== outreachReducer) {

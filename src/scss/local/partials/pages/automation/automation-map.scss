@@ -309,17 +309,25 @@
 .map-legend.newmap-legend .color-list {
   ul.outreach-legend {
     @include flex-wrap(wrap);
-
+    min-width: initial;
+    @include align-items-center;
     li {
       @include display-flex(flex);
       @include justify-content-start;
       @include align-items-center;
-      @include flex(0 0 33.666667%);
-      max-width: 33.666667%;
+      @include flex(0 0 50%);
+      max-width: 50%;
+      
+      &:not(:last-child){
+        padding-right: 1rem;
+      }
 
       img {
         margin-right: 0.6125rem;
         margin-bottom: 0.6125rem;
+      }
+      p{
+        margin-left:10px;
       }
     }
   }

@@ -75,18 +75,6 @@ class RightSideBar extends Component {
         totalSum,
         claimed,
       });
-
-      console.log(
-        'partners',
-        partners,
-        products,
-        innovations,
-        channels,
-        policies,
-        premium,
-        totalSum,
-        claimed,
-      );
     }
   }
 

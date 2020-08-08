@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -69,12 +70,6 @@ class MainPartnership extends Component {
   componentDidMount() {
     const { viewDataBy } = this.state;
     this.props.fetchInsuranceData();
-    this.props.getPartnersList();
-    this.props.getProjectListData();
-    this.props.getPartnershipInvestmentFocus();
-    this.props.getBarDataByBenefBudget(viewDataBy);
-    this.props.getBarDataByInvestmentFocus(viewDataBy);
-    this.props.getSankeyChartData();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -196,7 +191,7 @@ class MainPartnership extends Component {
     } = this.state;
 
     if (isAllInstitutionSelected) {
-      console.log('if case should be false');
+      // console.log('if case should be false');
       const allInvestmentElement = document.getElementsByClassName(
         'investment_checkbox',
       );
@@ -209,7 +204,7 @@ class MainPartnership extends Component {
         isAllInstitutionSelected: false,
       });
     } else {
-      console.log('else case should be true');
+      // console.log('else case should be true');
       this.setState({
         isAllInstitutionSelected: true,
       });
@@ -236,7 +231,7 @@ class MainPartnership extends Component {
     } = this.state;
 
     if (isAllInnovationSelected) {
-      console.log('if case should be false');
+      // console.log('if case should be false');
       const allInvestmentElement = document.getElementsByClassName(
         'project_checkbox',
       );
@@ -249,7 +244,7 @@ class MainPartnership extends Component {
         isAllInnovationSelected: false,
       });
     } else {
-      console.log('else case should be true');
+      // console.log('else case should be true');
       this.setState({
         isAllInnovationSelected: true,
       });
@@ -273,7 +268,7 @@ class MainPartnership extends Component {
     const { productSelection, isAllProductSelected } = this.state;
 
     if (isAllProductSelected) {
-      console.log('if case should be false');
+      // console.log('if case should be false');
       const allInvestmentElement = document.getElementsByClassName(
         'product_checkbox',
       );
@@ -286,7 +281,7 @@ class MainPartnership extends Component {
         isAllProductSelected: false,
       });
     } else {
-      console.log('else case should be true');
+      // console.log('else case should be true');
       this.setState({
         isAllProductSelected: true,
       });
@@ -313,7 +308,7 @@ class MainPartnership extends Component {
     const {
       target: { name, checked, value },
     } = e;
-    console.log(value);
+    // console.log(value);
     this.setState(preState => {
       if (checked) {
         return {
@@ -644,6 +639,72 @@ class MainPartnership extends Component {
     }
   };
 
+  handelApplyFilters = () => {
+    const {
+      institutionSelection,
+      innovationSelection,
+      productSelection,
+    } = this.state;
+
+    let filteredData = [];
+    const insuranceData = this.props.insuranceReducer.insuranceData
+      .data;
+    console.log('this one called', insuranceData);
+
+    if (
+      institutionSelection.length === 0 &&
+      innovationSelection.length === 0 &&
+      productSelection.length === 0
+    ) {
+      filteredData = insuranceData;
+    }
+
+    if (institutionSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : insuranceData;
+      filteredData = [];
+      institutionSelection.map(type => {
+        value.map(data => {
+          if (type === data.partner_name) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (innovationSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : insuranceData;
+      filteredData = [];
+      innovationSelection.map(type => {
+        value.map(data => {
+          if (type === data.innovation) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (productSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : insuranceData;
+      filteredData = [];
+      productSelection.map(type => {
+        value.map(data => {
+          if (type === data.product) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    console.log('is all partner selected', filteredData);
+
+    this.setState({
+      insuranceData: filteredData,
+    });
+  };
+
   render() {
     const {
       state: {
@@ -671,8 +732,6 @@ class MainPartnership extends Component {
     const sankeyChartwidth =
       document.getElementById('sankeyChart') &&
       document.getElementById('sankeyChart').offsetWidth;
-
-    console.log('is all partner selecte', isAllInstitutionSelected);
 
     return (
       <>
@@ -704,7 +763,7 @@ class MainPartnership extends Component {
               this.handelInnovationParentCheckbox
             }
             resetFilters={this.resetFilters}
-            applyBtnClick={this.applyBtnClick}
+            applyBtnClick={this.handelApplyFilters}
           />
           <main className="main">
             <div className="main-card literacy-main-card">
