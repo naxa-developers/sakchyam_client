@@ -81,8 +81,11 @@ class MiddleChartSection extends Component {
   }
 
   plotChart = () => {
-    console.log('plotchart call');
+    // console.log('plotchart call');
     const currentComponent = this;
+    const that = this;
+    // console.log(that.state, 'state');
+    const { activeLayer } = currentComponent.props;
     const option = {
       options: {
         chart: {
@@ -305,6 +308,11 @@ class MiddleChartSection extends Component {
               // const roundNumber = Math.round(value);
               // console.log(convert(roundNumber));
               //   console.log(convert(roundNumber));
+              console.log(activeLayer, 'activeLayer');
+              if (activeLayer === 'Output Indicator 1.4') {
+                return value;
+              }
+
               return convert(value);
             },
           },

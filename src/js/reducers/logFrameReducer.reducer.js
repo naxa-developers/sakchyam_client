@@ -224,6 +224,7 @@ const initialState = {
           if (value <= 1) {
             return value.toFixed(1);
           }
+
           // console.log(value, 'v');
           // const roundNumber = Math.round(value);
           // console.log(convert(roundNumber));
@@ -523,11 +524,9 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     unit = '£';
   } else if (dataUnit === 'NPR') {
     unit = 'Rs';
-  } else if (
-    dataType !== undefined &&
-    dataType !== null &&
-    dataType.includes('Percent')
-  ) {
+  } else if (dataType !== undefined && dataType.includes('Percent')) {
+    type = '%';
+  } else if (dataType !== null && dataType.includes('Percent')) {
     type = '%';
   }
   const planned = filtered.map(el => {
@@ -597,6 +596,46 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
         ...state.options.yaxis,
         axisBorder: {
           show: true,
+        },
+        labels: {
+          show: true,
+          align: 'left',
+          minWidth: 0,
+          maxWidth: 160,
+          style: {
+            colors: [],
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 400,
+            cssClass: 'apexcharts-yaxis-label',
+          },
+          // offsetX: -50,
+          offsetY: -5,
+          rotate: 0,
+          formatter: value => {
+            console.log(value, 'value');
+            if (value === 0) {
+              return value;
+            }
+            if (value === 1) {
+              return value;
+            }
+            if (value <= 1) {
+              return value.toFixed(1);
+            }
+
+            // console.log(value, 'v');
+            // const roundNumber = Math.round(value);
+            // console.log(convert(roundNumber));
+            //   console.log(convert(roundNumber));
+            if (value % 1 !== 0) {
+              return convert(Math.round(value * 10) / 10);
+            }
+            if (activeLayer === 'Output Indicator 1.4') {
+              return value;
+            }
+            return convert(value);
+          },
         },
         title: {
           text: `${
@@ -763,6 +802,53 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
         axisBorder: {
           show: true,
         },
+        labels: {
+          show: true,
+          align: 'left',
+          minWidth: 0,
+          maxWidth: 160,
+          style: {
+            colors: [],
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 400,
+            cssClass: 'apexcharts-yaxis-label',
+          },
+          // offsetX: -50,
+          offsetY: -5,
+          rotate: 0,
+          formatter: value => {
+            console.log(value, 'value');
+            if (value === 0) {
+              return value;
+            }
+            if (value === 1) {
+              return value;
+            }
+            if (value <= 1) {
+              return value.toFixed(1);
+            }
+
+            // console.log(value, 'v');
+            // const roundNumber = Math.round(value);
+            // console.log(convert(roundNumber));
+            //   console.log(convert(roundNumber));
+            if (value % 1 !== 0) {
+              return convert(Math.round(value * 10) / 10);
+            }
+            if (
+              activeLayer === 'Output Indicator 1.4' &&
+              dataTypePayload === 'percent'
+            ) {
+              return value;
+            }
+            return convert(value);
+          },
+        },
+        min: 0,
+        forceNiceScale: true,
+
+        // max: 10,
         title: {
           text: `${
             dataType !== null && dataType !== undefined
