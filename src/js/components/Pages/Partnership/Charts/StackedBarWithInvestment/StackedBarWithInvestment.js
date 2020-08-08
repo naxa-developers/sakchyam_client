@@ -475,7 +475,7 @@ class StackedBarWithInvestment extends Component {
         {
           // min: 0,
           max(max) {
-            console.log(max, '2ndmax');
+            // console.log(max, '2ndmax');
             // console.log(that.props.showBarof, 'showBarof');
             // if (that.props.showBarof === 'Provinces') {
             //   return 600000;

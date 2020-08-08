@@ -18,10 +18,6 @@ class LeftSideBar extends Component {
     const { insuranceData } = this.props.insuranceReducer;
 
     if (prevProps.insuranceReducer.insuranceData !== insuranceData) {
-      console.log(
-        'primary data in component did update',
-        insuranceData.data,
-      );
       const parList = insuranceData.data.map(item => ({
         id: item.id,
         partner_name: item.partner_name,

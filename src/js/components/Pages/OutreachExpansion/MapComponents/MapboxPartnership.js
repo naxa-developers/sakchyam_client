@@ -127,10 +127,6 @@ class MapboxPartnership extends Component {
         let choroplethData;
         switch (mapViewBy) {
           case 'province':
-            console.log(
-              'provinceData case provinceData',
-              provinceData,
-            );
             const outreachProvince = provinceData.map(p => ({
               id: p.code,
               code: p.code,
@@ -139,7 +135,6 @@ class MapboxPartnership extends Component {
             choroplethData = outreachProvince;
             break;
           case 'district':
-            console.log('district case entered', districtData);
             const outreachDistrict = districtData.map(p => ({
               id: p.code,
               code: p.code,
@@ -148,10 +143,6 @@ class MapboxPartnership extends Component {
             choroplethData = outreachDistrict;
             break;
           case 'municipality':
-            console.log(
-              'municipality case entered',
-              municipalityData,
-            );
             const outreachMunicipality = municipalityData.map(p => ({
               id: p.code,
               code: p.code,

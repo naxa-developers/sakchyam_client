@@ -15,7 +15,6 @@ export const fetchInsuranceData = () => {
   return dispatch => {
     getInsuranceDAta()
       .then(res => {
-        console.log('fetchInsuranceData', res.data);
         dispatch(setInsuranceData(res.data));
       })
       .catch(err => {});

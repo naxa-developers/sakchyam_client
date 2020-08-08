@@ -412,7 +412,9 @@
         }
       }
       &.marker-legend{
-        max-width: 220px;
+        max-width: initial;
+        flex:initial;
+        padding:10px 15px;
       }
       &:not(:first-child){
         margin-left:1rem;
@@ -687,3 +689,4 @@
 .mt-120{
   margin-top:120px;
 }
+

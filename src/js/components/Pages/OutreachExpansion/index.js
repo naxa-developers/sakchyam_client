@@ -66,6 +66,10 @@ class MainPartnership extends Component {
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
       localOutreachSelected: 'Population in the Local Unit',
       loading: false,
+      filteredByLeftData: false,
+      filterDataByAdmin: false,
+      dataByLeft: '',
+      dataByAdmin: '',
     };
   }
 
@@ -282,8 +286,13 @@ class MainPartnership extends Component {
           allInvestmentElement[i].checked = true;
           selectedInvestment.push(allInvestmentElement[i].name);
         }
+
+        const unique = selectedInvestment.reduce(function(a, b) {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, []);
         this.setState({
-          expsnsionSelection: selectedInvestment,
+          expsnsionSelection: unique,
         });
       }
     }
@@ -398,8 +407,13 @@ class MainPartnership extends Component {
           allPartnerElement[i].checked = true;
           selectedPartner.push(allPartnerElement[i].name);
         }
+
+        const unique = selectedPartner.reduce(function(a, b) {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, []);
         this.setState({
-          partnerSelection: selectedPartner,
+          partnerSelection: unique,
         });
       }
     }
@@ -436,8 +450,13 @@ class MainPartnership extends Component {
           allPartnerElement[i].checked = true;
           selectedPartner.push(allPartnerElement[i].name);
         }
+
+        const unique = selectedPartner.reduce(function(a, b) {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, []);
         this.setState({
-          institutionSelection: selectedPartner,
+          institutionSelection: unique,
         });
       }
     }
@@ -495,10 +514,14 @@ class MainPartnership extends Component {
       expsnsionSelection,
       partnerSelection,
       institutionSelection,
-      // primaryData,
+      dataByAdmin,
+      filterDataByAdmin,
     } = this.state;
     let filteredData = [];
-    const { primaryData } = this.props.outreachReducer;
+    let { primaryData } = this.props.outreachReducer;
+    if (filterDataByAdmin) {
+      primaryData = dataByAdmin;
+    }
 
     if (
       G2PTypes.length === 0 &&
@@ -511,9 +534,25 @@ class MainPartnership extends Component {
       filteredData = primaryData;
     }
 
+    if (serviceType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      serviceType.map(type => {
+        value.map(data => {
+          if (type === data.point_service) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
     if (G2PTypes.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
       G2PTypes.map(type => {
-        primaryData.map(data => {
+        value.map(data => {
           if (type === data.g2p_payment) {
             filteredData.push(data);
           }
@@ -533,18 +572,9 @@ class MainPartnership extends Component {
         });
       });
     }
-    if (serviceType.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      serviceType.map(type => {
-        value.map(data => {
-          if (type === data.point_service) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
+
+    // console.log('filter after demonstrationType', filteredData);
+
     if (expsnsionSelection.length > 0) {
       const value =
         filteredData.length > 0 ? filteredData : primaryData;
@@ -583,8 +613,15 @@ class MainPartnership extends Component {
       });
     }
 
+    const filteredByLeftData =
+      JSON.stringify(primaryData) === JSON.stringify(filteredData);
+
     this.setAdminChoropleth(filteredData);
-    this.setState({ primaryData: filteredData });
+    this.setState({
+      primaryData: filteredData,
+      filteredByLeftData: !filteredByLeftData,
+      dataByLeft: filteredData,
+    });
   };
 
   setAdminChoropleth = filteredData => {
@@ -692,14 +729,118 @@ class MainPartnership extends Component {
 
   handleStateLevel = () => {
     const {
+      map,
+      mapViewBy,
       selectedMunicipality,
       selectedDistrict,
       selectedProvince,
-      map,
       municipalityList,
-      mapViewBy,
       districtList,
+      G2PTypes,
+      demonstrationType,
+      serviceType,
+      expsnsionSelection,
+      institutionSelection,
+      partnerSelection,
     } = this.state;
+
+    let filteredData = [];
+    const { primaryData } = this.props.outreachReducer;
+
+    console.log('expsnsionSelection', expsnsionSelection);
+
+    if (
+      G2PTypes.length === 0 &&
+      demonstrationType.length === 0 &&
+      serviceType.length === 0 &&
+      expsnsionSelection.length === 0 &&
+      expsnsionSelection.length === 0 &&
+      institutionSelection.length === 0
+    ) {
+      filteredData = primaryData;
+    }
+
+    if (expsnsionSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      expsnsionSelection.map(type => {
+        value.map(data => {
+          if (type === data.expansion_driven_by) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (institutionSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      institutionSelection.map(type => {
+        value.map(data => {
+          if (type === data.partner) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (partnerSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      partnerSelection.map(type => {
+        value.map(data => {
+          if (type === data.partner_type) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (serviceType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      serviceType.map(type => {
+        value.map(data => {
+          if (type === data.point_service) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (G2PTypes.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      G2PTypes.map(type => {
+        value.map(data => {
+          if (type === data.g2p_payment) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (demonstrationType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      demonstrationType.map(type => {
+        value.map(data => {
+          if (type === data.demonstration_effect) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    console.log('data after expsnsionSelection', filteredData);
+
+    this.setAdminChoropleth(filteredData);
 
     const provinceCheck =
       selectedProvince && selectedProvince.length > 0;
@@ -709,6 +850,7 @@ class MainPartnership extends Component {
       selectedMunicipality && selectedMunicipality.length > 0;
 
     if (provinceCheck || districtCheck || muniCheck) {
+      this.setState({ filterDataByAdmin: true });
       if (mapViewBy === 'municipality') {
         if (muniCheck) {
           const combinedBbox = [];
@@ -723,7 +865,11 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-          this.filterMarkers('municipality', selectedMunicipality);
+          this.filterMarkers(
+            'municipality',
+            selectedMunicipality,
+            filteredData,
+          );
           this.changeMapTiles(selectedMunicipality);
         } else if (districtCheck) {
           const combinedBbox = [];
@@ -746,14 +892,22 @@ class MainPartnership extends Component {
               }
             });
           });
-          this.filterMarkers('district', selectedDistrict);
+          this.filterMarkers(
+            'district',
+            selectedDistrict,
+            filteredData,
+          );
           this.changeMapTiles(filteredMunFromDist);
         } else if (provinceCheck) {
           const filteredList = this.provinceListByMunnicipalityTiles(
             selectedProvince,
             municipalityList,
           );
-          this.filterMarkers('province', selectedProvince);
+          this.filterMarkers(
+            'province',
+            selectedProvince,
+            filteredData,
+          );
           this.changeMapTiles(filteredList);
         }
       } else if (mapViewBy === 'district') {
@@ -770,14 +924,22 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-          this.filterMarkers(mapViewBy, selectedDistrict);
+          this.filterMarkers(
+            mapViewBy,
+            selectedDistrict,
+            filteredData,
+          );
           this.changeMapTiles(selectedDistrict);
         } else if (provinceCheck) {
           const filteredList = this.provinceListByMunnicipalityTiles(
             selectedProvince,
             districtList,
           );
-          this.filterMarkers('province', selectedProvince);
+          this.filterMarkers(
+            'province',
+            selectedProvince,
+            filteredData,
+          );
           this.changeMapTiles(filteredList);
         }
       } else if (mapViewBy === 'province') {
@@ -794,13 +956,18 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-          this.filterMarkers(mapViewBy, selectedProvince);
+
+          this.filterMarkers(
+            mapViewBy,
+            selectedProvince,
+            filteredData,
+          );
           this.changeMapTiles(selectedProvince);
         }
       }
     } else {
       this.setState({
-        primaryData: this.props.outreachReducer.primaryData,
+        primaryData: filteredData,
       });
       map.setZoom(6);
       map.setCenter([84.5, 28.5]);
@@ -814,12 +981,18 @@ class MainPartnership extends Component {
     }
   };
 
-  filterMarkers = (type, array) => {
-    // const { primaryData } = this.props.outreachReducer;
-    const { primaryData } = this.state;
+  filterMarkers = (type, array, pData) => {
+    // const { dataByLeft, filteredByLeftData } = this.state;
+    // let { primaryData } = this.props.outreachReducer;
+    // if (filteredByLeftData) {
+    //   primaryData = dataByLeft;
+    // }
+
+    const primaryData = pData;
     const filteredArray = array.filter(data => data.value !== 'all');
     const filteredPrimaryData = [];
 
+    console.log('values received', type, filteredArray);
     switch (type) {
       case 'province':
         filteredArray.map(selectedData => {
@@ -852,7 +1025,14 @@ class MainPartnership extends Component {
       default:
     }
 
-    this.setState({ primaryData: filteredPrimaryData });
+    console.log(
+      'filteredPrimaryData from admin',
+      filteredPrimaryData,
+    );
+    this.setState({
+      primaryData: filteredPrimaryData,
+      dataByAdmin: filteredPrimaryData,
+    });
   };
 
   changeMapTiles = array => {
@@ -930,6 +1110,8 @@ class MainPartnership extends Component {
       isAllInvestmentFocusSelected: false,
       isAllInstitutionSelected: false,
       primaryData: this.props.outreachReducer.primaryData,
+      filteredByLeftData: false,
+      dataByLeft: this.props.outreachReducer.primaryData,
     });
   };
 
@@ -965,7 +1147,12 @@ class MainPartnership extends Component {
         this.changeMapTiles(this.state.selectedProvince);
       }, 100);
 
-      this.setState({ primaryData });
+      this.setState({
+        primaryData,
+        filterDataByAdmin: false,
+        dataByAdmin: primaryData,
+      });
+      this.resetLeftSideBarSelection();
     }
   };
 
@@ -1015,6 +1202,7 @@ class MainPartnership extends Component {
           }`}
         >
           <LeftSideBar
+            mapViewDataBy={mapViewDataBy}
             expsnsionSelection={expsnsionSelection}
             partnerSelection={partnerSelection}
             G2PTypes={G2PTypes}
@@ -1043,8 +1231,8 @@ class MainPartnership extends Component {
               this.handelExpansionParentCheckbox
             }
             handelMultiChoice={this.handelMultiChoice}
-            resetFilters={this.resetLeftSideBarSelection}
-            applyBtnClick={this.leftApplyHandler}
+            resetFilters={this.resetFilters}
+            applyBtnClick={this.handleApplyFederalFilter}
           />
           <main className="main">
             <div className="main-card literacy-main-card">
