@@ -286,8 +286,13 @@ class MainPartnership extends Component {
           allInvestmentElement[i].checked = true;
           selectedInvestment.push(allInvestmentElement[i].name);
         }
+
+        const unique = selectedInvestment.reduce(function(a, b) {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, []);
         this.setState({
-          expsnsionSelection: selectedInvestment,
+          expsnsionSelection: unique,
         });
       }
     }
@@ -402,8 +407,13 @@ class MainPartnership extends Component {
           allPartnerElement[i].checked = true;
           selectedPartner.push(allPartnerElement[i].name);
         }
+
+        const unique = selectedPartner.reduce(function(a, b) {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, []);
         this.setState({
-          partnerSelection: selectedPartner,
+          partnerSelection: unique,
         });
       }
     }
@@ -440,8 +450,13 @@ class MainPartnership extends Component {
           allPartnerElement[i].checked = true;
           selectedPartner.push(allPartnerElement[i].name);
         }
+
+        const unique = selectedPartner.reduce(function(a, b) {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, []);
         this.setState({
-          institutionSelection: selectedPartner,
+          institutionSelection: unique,
         });
       }
     }
@@ -507,12 +522,6 @@ class MainPartnership extends Component {
     if (filterDataByAdmin) {
       primaryData = dataByAdmin;
     }
-
-    // console.log(
-    //   'kun data filter garirako cha',
-    //   primaryData,
-    //   filterDataByAdmin,
-    // );
 
     if (
       G2PTypes.length === 0 &&
@@ -720,16 +729,118 @@ class MainPartnership extends Component {
 
   handleStateLevel = () => {
     const {
+      map,
+      mapViewBy,
       selectedMunicipality,
       selectedDistrict,
       selectedProvince,
-      map,
       municipalityList,
-      mapViewBy,
       districtList,
-      primaryData,
-      filteredByLeftData,
+      G2PTypes,
+      demonstrationType,
+      serviceType,
+      expsnsionSelection,
+      institutionSelection,
+      partnerSelection,
     } = this.state;
+
+    let filteredData = [];
+    const { primaryData } = this.props.outreachReducer;
+
+    console.log('expsnsionSelection', expsnsionSelection);
+
+    if (
+      G2PTypes.length === 0 &&
+      demonstrationType.length === 0 &&
+      serviceType.length === 0 &&
+      expsnsionSelection.length === 0 &&
+      expsnsionSelection.length === 0 &&
+      institutionSelection.length === 0
+    ) {
+      filteredData = primaryData;
+    }
+
+    if (expsnsionSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      expsnsionSelection.map(type => {
+        value.map(data => {
+          if (type === data.expansion_driven_by) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (institutionSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      institutionSelection.map(type => {
+        value.map(data => {
+          if (type === data.partner) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (partnerSelection.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      partnerSelection.map(type => {
+        value.map(data => {
+          if (type === data.partner_type) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (serviceType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      serviceType.map(type => {
+        value.map(data => {
+          if (type === data.point_service) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (G2PTypes.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      G2PTypes.map(type => {
+        value.map(data => {
+          if (type === data.g2p_payment) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    if (demonstrationType.length > 0) {
+      const value =
+        filteredData.length > 0 ? filteredData : primaryData;
+      filteredData = [];
+      demonstrationType.map(type => {
+        value.map(data => {
+          if (type === data.demonstration_effect) {
+            filteredData.push(data);
+          }
+        });
+      });
+    }
+
+    console.log('data after expsnsionSelection', filteredData);
+
+    this.setAdminChoropleth(filteredData);
 
     const provinceCheck =
       selectedProvince && selectedProvince.length > 0;
@@ -737,7 +848,7 @@ class MainPartnership extends Component {
       selectedDistrict && selectedDistrict.length > 0;
     const muniCheck =
       selectedMunicipality && selectedMunicipality.length > 0;
-    console.log('filtered by left data', filteredByLeftData);
+
     if (provinceCheck || districtCheck || muniCheck) {
       this.setState({ filterDataByAdmin: true });
       if (mapViewBy === 'municipality') {
@@ -754,7 +865,11 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-          this.filterMarkers('municipality', selectedMunicipality);
+          this.filterMarkers(
+            'municipality',
+            selectedMunicipality,
+            filteredData,
+          );
           this.changeMapTiles(selectedMunicipality);
         } else if (districtCheck) {
           const combinedBbox = [];
@@ -777,14 +892,22 @@ class MainPartnership extends Component {
               }
             });
           });
-          this.filterMarkers('district', selectedDistrict);
+          this.filterMarkers(
+            'district',
+            selectedDistrict,
+            filteredData,
+          );
           this.changeMapTiles(filteredMunFromDist);
         } else if (provinceCheck) {
           const filteredList = this.provinceListByMunnicipalityTiles(
             selectedProvince,
             municipalityList,
           );
-          this.filterMarkers('province', selectedProvince);
+          this.filterMarkers(
+            'province',
+            selectedProvince,
+            filteredData,
+          );
           this.changeMapTiles(filteredList);
         }
       } else if (mapViewBy === 'district') {
@@ -801,14 +924,22 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-          this.filterMarkers(mapViewBy, selectedDistrict);
+          this.filterMarkers(
+            mapViewBy,
+            selectedDistrict,
+            filteredData,
+          );
           this.changeMapTiles(selectedDistrict);
         } else if (provinceCheck) {
           const filteredList = this.provinceListByMunnicipalityTiles(
             selectedProvince,
             districtList,
           );
-          this.filterMarkers('province', selectedProvince);
+          this.filterMarkers(
+            'province',
+            selectedProvince,
+            filteredData,
+          );
           this.changeMapTiles(filteredList);
         }
       } else if (mapViewBy === 'province') {
@@ -825,17 +956,18 @@ class MainPartnership extends Component {
           });
           const extendedValue = extendBounds(combinedBbox);
           map.fitBounds(extendedValue);
-          this.filterMarkers(mapViewBy, selectedProvince);
+
+          this.filterMarkers(
+            mapViewBy,
+            selectedProvince,
+            filteredData,
+          );
           this.changeMapTiles(selectedProvince);
         }
       }
     } else {
-      let markerData = this.props.outreachReducer.primaryData;
-      if (filteredByLeftData) {
-        markerData = primaryData;
-      }
       this.setState({
-        primaryData: markerData,
+        primaryData: filteredData,
       });
       map.setZoom(6);
       map.setCenter([84.5, 28.5]);
@@ -849,12 +981,14 @@ class MainPartnership extends Component {
     }
   };
 
-  filterMarkers = (type, array) => {
-    const { dataByLeft, filteredByLeftData } = this.state;
-    let { primaryData } = this.props.outreachReducer;
-    if (filteredByLeftData) {
-      primaryData = dataByLeft;
-    }
+  filterMarkers = (type, array, pData) => {
+    // const { dataByLeft, filteredByLeftData } = this.state;
+    // let { primaryData } = this.props.outreachReducer;
+    // if (filteredByLeftData) {
+    //   primaryData = dataByLeft;
+    // }
+
+    const primaryData = pData;
     const filteredArray = array.filter(data => data.value !== 'all');
     const filteredPrimaryData = [];
 
@@ -1098,7 +1232,7 @@ class MainPartnership extends Component {
             }
             handelMultiChoice={this.handelMultiChoice}
             resetFilters={this.resetFilters}
-            applyBtnClick={this.leftApplyHandler}
+            applyBtnClick={this.handleApplyFederalFilter}
           />
           <main className="main">
             <div className="main-card literacy-main-card">

@@ -188,13 +188,13 @@ class LeftSideBar extends Component {
                     <div className="checklist-header">
                       <div className="custom-checkbox">
                         <input
-                          id="Initiative14"
+                          id="Initiative15"
                           type="checkbox"
-                          name="Initiative14"
+                          name="Initiative15"
                           onChange={handleInstitutionParentCheckbox}
                           checked={isAllInstitutionSelected}
                         />
-                        <label htmlFor="Initiative14">All</label>
+                        <label htmlFor="Initiative15">All</label>
                       </div>
                     </div>
                     <ul className="checkbox-list">
