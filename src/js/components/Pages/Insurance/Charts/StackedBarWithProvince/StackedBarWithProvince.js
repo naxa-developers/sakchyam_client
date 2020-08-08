@@ -457,7 +457,7 @@ class StackedBarWithProvince extends Component {
 
             // return 10000;
             // global.totalMaxValue = max / 120;
-            console.log(maxValue, 'yaxis Maxvalue');
+            //  console.log(maxValue, 'yaxis Maxvalue');
             return maxValue;
           },
           axisTicks: {

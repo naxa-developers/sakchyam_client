@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 import RadarChart from '../Charts/RadarChart/RadarChart';
 import CirclePackChart from '../Charts/CirclePack/CirclePackChart';
 import SankeyChart from '../Charts/SankeyChart/SankeyChart';
@@ -18,6 +20,9 @@ import {
 import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
 import SunburstContainer from '../Charts/SunBurst';
 import StackedBarWithAllFederal from '../Charts/StackedBarWithAllFederal/StackedBarWithAllFederal';
+import DownloadIcon from '../../../../../img/get_app.png';
+import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
+import DonutChart from '../Charts/DonutChart';
 
 function formatData(fulldata) {
   fulldata.forEach(datum => {
@@ -34,6 +39,7 @@ class MiddleChartSection extends Component {
     this.state = {
       activeModal: false,
       selectedModal: '',
+      isDownloading: false,
     };
   }
 
@@ -182,9 +188,27 @@ class MiddleChartSection extends Component {
     return true;
   };
 
+  downloadPng = (chartid, filename) => {
+    this.setState({ isDownloading: true });
+    const name = filename ? filename : 'chart';
+    setTimeout(() => {
+      html2canvas(document.querySelector(`#${chartid}`), {
+        allowTaint: true,
+      }).then(canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, `${name}.png`);
+        });
+      });
+    }, 500);
+
+    setTimeout(() => {
+      this.setState({ isDownloading: false });
+    }, 600);
+  };
+
   render() {
     const {
-      state: { selectedModal, activeModal },
+      state: { selectedModal, activeModal, isDownloading },
       props: {
         resetFilters,
         resetLeftSideBarSelection,
@@ -207,58 +231,23 @@ class MiddleChartSection extends Component {
     const {
       partnershipReducer: { radialData },
     } = this.props;
-    // console.log(
 
     if (radialData && radialData.children) {
       formatData(radialData.children);
     }
     return (
       <div className="literacy-tab-item" style={{ display: 'block' }}>
-        {activeModal && (
-          <Modal
-            groupedStackData={groupedStackData}
-            handleShowBarOf={handleShowBarOf}
-            resetFilters={resetFilters}
-            selectedModal={selectedModal}
-            handleModal={this.handleModal}
-            activeModal={activeModal}
-            component={() => this.getModalContent(selectedModal)}
-          />
-        )}
         <div className="graph-view">
           <div className="row">
-            {/* <CardTab
+            <CardTab
               resetFunction={() => {
-                this.props.resetRadialData();
+                this.props.resetBarDatas();
+                this.props.handleShowBarOf('Provinces');
               }}
-              cardTitle="Sakchyam Investment Focus"
+              showBarof={showBarof}
+              handleShowBarOf={handleShowBarOf}
+              cardTitle="Province Wise Budget & Beneficiaries Count"
               cardClass="col-xl-12"
-              cardChartId="sunburst"
-              handleModal={this.handleModal}
-              handleSelectedModal={() => {
-                this.handleSelectedModal('sunburst');
-              }}
-              renderChartComponent={() => {
-                return (
-                  <SunburstContainer
-                    data={radialData}
-                    height={250}
-                    width={250}
-                    count_member="size"
-                    onClick={this.handleSunburstClick}
-                  />
-                );
-              }}
-            /> */}
-            <CardTab
-              resetFunction={() => {
-                this.props.resetBarDatas();
-                this.props.handleShowBarOf('Provinces');
-              }}
-              showBarof={showBarof}
-              handleShowBarOf={handleShowBarOf}
-              cardTitle="Province Wise Budget & Beneficiaries Count"
-              cardClass="col-xl-6"
               cardChartId="groupedChart"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
@@ -282,78 +271,85 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
-
-            <CardTab
-              resetFunction={() => {
-                this.props.resetBarDatas();
-                this.props.handleShowBarOf('Provinces');
-              }}
-              showBarof={showBarof}
-              handleShowBarOf={handleShowBarOf}
-              cardTitle="Province Wise Budget & Beneficiaries Count"
-              cardClass="col-xl-6"
-              cardChartId="groupedChart"
-              handleModal={this.handleModal}
-              handleSelectedModal={() => {
-                this.handleSelectedModal('groupedChart');
-              }}
-              renderChartComponent={() => {
-                return (
-                  <StackedBarWithProvince
-                    viewDataBy={viewDataBy}
-                    activeModal={activeModal}
-                    investmentFocusSelection={
-                      investmentFocusSelection
-                    }
-                    partnerSelection={partnerSelection}
-                    partnerTypeSelection={partnerTypeSelection}
-                    projectSelection={projectSelection}
-                    projectStatus={projectStatus}
-                    showBarof={showBarof}
-                    handleShowBarOf={handleShowBarOf}
+            {/* <div className="col-xl-12">
+              <div className="card" id="chart-donut">
+                <div className="card-header">
+                  <h5>
+                    Financial Literacy Beneficiaries Mix by Partner
+                    Type
+                  </h5>
+                  {!isDownloading && (
+                    <div className="header-icons">
+                      <span
+                        className=""
+                        onClick={() => {
+                          this.downloadPng(
+                            'chart-donut',
+                            'Financial Literacy Beneficiaries Mix by Partner Type',
+                          );
+                        }}
+                        onKeyDown={() => {
+                          this.downloadPng(
+                            'chart-donut',
+                            'Financial Literacy Beneficiaries Mix by Partner Type',
+                          );
+                        }}
+                        role="tab"
+                        tabIndex="0"
+                      >
+                        <img src={DownloadIcon} alt="open" />
+                      </span>
+                      <span
+                        className=""
+                        role="tab"
+                        tabIndex="0"
+                        onClick={() => {
+                          this.handleModal();
+                          this.handleSelectedModal(
+                            'donut',
+                            'Financial Literacy Beneficiaries Mix by Partner Type',
+                          );
+                        }}
+                        onKeyDown={() => {
+                          this.handleModal();
+                          this.handleSelectedModal(
+                            'donut',
+                            'Financial Literacy Beneficiaries Mix by Partner Type',
+                          );
+                        }}
+                      >
+                        <img src={ExpandIcon} alt="open" />
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="card-body">
+                  <DonutChart
+                    selectedProgram={selectedProgram1}
+                    selectedPartner={checkedPartnerItems1}
                   />
-                );
-              }}
-            />
-
+                </div>
+              </div>
+            </div> */}
             <CardTab
-              resetFunction={() => {
-                this.props.resetBarDataByInvestmentFocus();
-                this.props.handleShowBarOfInvestmentBudgetBenefBar(
-                  'investmentFocus',
-                );
-              }}
-              showBarof={showBarofInvestmentBudgetBenef}
-              handleShowBarOf={
-                handleShowBarOfInvestmentBudgetBenefBar
+              resetFunction={this.props.resetSankeyChartData}
+              cardTitle={
+                viewDataBy === 'allocated_budget'
+                  ? 'Budget Reached'
+                  : 'Beneficiary Reached'
               }
-              cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
-              cardClass="col-xl-6"
-              cardChartId="stackedWithInvestment"
+              cardClass="col-xl-12"
+              cardChartId="sankeyChart"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
-                this.handleSelectedModal('stackedWithInvestment');
+                this.handleSelectedModal('sankey');
               }}
               renderChartComponent={() => {
                 return (
-                  <StackedBarWithInvestment
-                    viewDataBy={viewDataBy}
+                  <SankeyChart
+                    cardWidth={sankeyChartwidth}
                     activeModal={activeModal}
-                    investmentFocusSelection={
-                      investmentFocusSelection
-                    }
-                    partnerSelection={partnerSelection}
-                    partnerTypeSelection={partnerTypeSelection}
-                    projectSelection={projectSelection}
-                    projectStatus={projectStatus}
-                    showBarof={showBarof}
-                    handleShowBarOf={handleShowBarOf}
-                    showBarofInvestmentBudgetBenef={
-                      showBarofInvestmentBudgetBenef
-                    }
-                    handleShowBarOfInvestmentBudgetBenefBar={
-                      handleShowBarOfInvestmentBudgetBenefBar
-                    }
+                    activeOverview={activeOverview}
                   />
                 );
               }}
