@@ -12,9 +12,11 @@ import {
   filterIndicatorGraphData,
   filterIndicatorGraphDataWithDate,
   loadingTrue,
+  filterOuputIndicatorWithPercentOrNumber,
 } from '../../../../actions/logFrame.actions';
 import Modal from '../../../common/Modal';
 import ModalChart from '../ModalChart';
+import DonutChart from '../../FinancialLiteracy/Charts/DonutChart';
 // function convert(x) {
 //   // eslint-disable-next-line no-restricted-globals
 //   if (isNaN(x)) return x;
@@ -798,8 +800,14 @@ class MiddleChartSection extends Component {
     // console.log(this.props.activeDate, 'new');
     const {
       state: { options },
-      props: { activeDate },
+      props: { activeDate, activeLayer },
     } = this;
+    // if (prevProps.activeLayer !== activeLayer) {
+    //   if (activeLayer === 'Output Indicator 1.4') {
+    //     document.getElementById('check_time4').checked = false;
+    //     document.getElementById('check_time5').checked = false;
+    //   }
+    // }
     if (prevProps.activeDate !== activeDate) {
       if (activeDate.length <= 3) {
         // eslint-disable-next-line react/no-did-update-set-state
@@ -1470,6 +1478,37 @@ class MiddleChartSection extends Component {
               Achievement
             </span>
           </div>
+          {activeLayer === 'Output Indicator 1.4' && (
+            <div
+              className="multiple-bar"
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <button
+                onClick={() => {
+                  this.props.filterOuputIndicatorWithPercentOrNumber(
+                    activeLayer,
+                    activeDate,
+                    'percent',
+                  );
+                }}
+                type="button"
+              >
+                Milestone Year 15-18 Percent
+              </button>
+              <button
+                onClick={() => {
+                  this.props.filterOuputIndicatorWithPercentOrNumber(
+                    activeLayer,
+                    activeDate,
+                    'number',
+                  );
+                }}
+                type="button"
+              >
+                Milestone Year 19-so on Number
+              </button>
+            </div>
+          )}
           <div className="info-slider">
             <a
               role="tab"
@@ -1565,6 +1604,9 @@ class MiddleChartSection extends Component {
                   this.chartRef = arg;
                 }}
               />
+              {activeLayer === 'Outcome Indicator 4' && (
+                <DonutChart />
+              )}
 
               <button
                 onClick={this.props.nextBtnClick}
@@ -1689,4 +1731,5 @@ export default connect(mapStateToProps, {
   filterIndicatorGraphData,
   filterIndicatorGraphDataWithDate,
   loadingTrue,
+  filterOuputIndicatorWithPercentOrNumber,
 })(MiddleChartSection);

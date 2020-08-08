@@ -6,6 +6,7 @@ import {
   FILTER_INDICATOR_GRAPH_DATA,
   FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
   LOADING_TRUE,
+  FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
 } from '../actions/index.actions';
 import DownloadIcon from '../../img/save_alt.svg';
 
@@ -345,6 +346,7 @@ const filterIndicatorGraphData = (state, action) => {
     series,
     filteredDynamicData: filtered,
     dateRange: totalDateList,
+    defaultdateRange: totalDateList,
     options: {
       ...state.options,
       grid: {
@@ -466,8 +468,8 @@ const filterIndicatorGraphData = (state, action) => {
 // };
 const filterIndicatorGraphDataWithDate = (state, action) => {
   const { activeLayer, activeDate } = action.payload;
-  console.log(`[${activeLayer}]`, 'activeLayer');
-  console.log(activeDate, 'activeYear');
+  // console.log(`[${activeLayer}]`, 'activeLayer');
+  // console.log(activeDate, 'activeYear');
   const activeDateClone = activeDate;
   let activeDates = [];
   if (activeLayer === 'Output Indicator 1.5') {
@@ -480,9 +482,18 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       date => date === '2020' || date === '2019' || date === '2018',
     );
     console.log(activeDates, 'activeDateClone');
+  } else if (activeLayer === 'Output Indicator 1.4') {
+    // activeDate = activeDate.map(data => {
+    //   if (data === '2020') {
+    //     return data;
+    //   }
+    // });
+    activeDates = activeDateClone.filter(date => date < '2019');
+    // console.log(activeDates, 'activeDateClone');
   } else {
     activeDates = activeDate;
   }
+
   const filtered = [];
   // eslint-disable-next-line array-callback-return
   activeDates.map(date => {
@@ -512,7 +523,11 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     unit = '£';
   } else if (dataUnit === 'NPR') {
     unit = 'Rs';
-  } else if (dataType !== undefined && dataType.includes('Percent')) {
+  } else if (
+    dataType !== undefined &&
+    dataType !== null &&
+    dataType.includes('Percent')
+  ) {
     type = '%';
   }
   const planned = filtered.map(el => {
@@ -555,6 +570,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       data: achieved,
     },
   ];
+
   // console.log(series, 'se');
   // const { getDateRange } = this.props;
   // getDateRange(totalDateList);
@@ -616,7 +632,171 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     },
   };
 };
+const filterOutputIndicatorForPercentOrNumber = (state, action) => {
+  // const dataTypePayload = action.payload;
+  const { activeLayer, activeDate, dataTypePayload } = action.payload;
+  console.log(`[${activeLayer}]`, 'activeLayer');
+  console.log(activeDate, 'activeYear');
+  const activeDateClone = activeDate;
+  let activeDates = [];
+  if (dataTypePayload === 'percent') {
+    // activeDate = activeDate.map(data => {
+    //   if (data === '2020') {
+    //     return data;
+    //   }
+    // });
+    activeDates = activeDateClone.filter(date => date < '2019');
+    console.log(activeDates, 'activeDateClone');
+  } else if (dataTypePayload === 'number') {
+    activeDates = activeDateClone.filter(date => date >= '2019');
+  } else {
+    activeDates = activeDate;
+  }
+  const filtered = [];
+  // eslint-disable-next-line array-callback-return
+  activeDates.map(date => {
+    // eslint-disable-next-line array-callback-return
+    state.logDataGraph.map(data => {
+      if (
+        data.year.range === date &&
+        data.sub_category.name === activeLayer
+      ) {
+        filtered.push(data);
+      }
+    });
+  });
 
+  // const { dataType } = filtered[0];
+  const dataType = filtered && filtered[0] && filtered[0].data_type;
+  const dataUnit = filtered && filtered[0] && filtered[0].unit;
+
+  let unit = '';
+  let type = '';
+  console.log(dataUnit, 'dataUnit');
+  console.log(dataType, 'dataType');
+  // console.log(dataUnit, 'dataUnit');
+  if (dataType === 'Percent') {
+    type = '%';
+  } else if (dataUnit === 'GBP') {
+    unit = '£';
+  } else if (dataUnit === 'NPR') {
+    unit = 'Rs';
+  } else if (
+    dataType !== undefined ||
+    (dataType !== null && dataType.includes('Percent'))
+  ) {
+    type = '%';
+  }
+  const planned = filtered.map(el => {
+    return `${el.planned_afp}`;
+  });
+  // console.log(planned, 'comma planned');
+  const achieved = filtered.map(el => {
+    return `${el.achieved}`;
+  });
+  const label = filtered.map(el => {
+    //   console.log(el, 'elLabel');
+    return el.year.name;
+  });
+  const category = filtered.map(el => {
+    //   console.log(el, 'elLabel');
+    return [el.year.range];
+  });
+  // console.log(category, 'cat');
+  // console.log(label, 'label');
+  // console.log(achieved, 'achieved');
+  const series = [
+    {
+      name: 'Target',
+      type: 'column',
+      data: planned,
+    },
+    {
+      name: 'Achievement ',
+      type: 'column',
+      data: achieved,
+    },
+    {
+      name: 'Target ',
+      type: 'area',
+      data: planned,
+    },
+    {
+      name: 'Achievement',
+      type: 'area',
+      data: achieved,
+    },
+  ];
+  // console.log(series, 'se');
+  // const { getDateRange } = this.props;
+  // getDateRange(totalDateList);
+  const { defaultdateRange } = state;
+  const filterRange = defaultdateRange.filter(date => {
+    if (dataTypePayload === 'percent') {
+      return date.range < '2019';
+    }
+    if (dataTypePayload === 'number') {
+      return date.range >= '2019';
+    }
+    return date;
+  });
+  return {
+    ...state,
+    filteredDynamicData: filtered,
+    series,
+    dateRange: filterRange,
+    options: {
+      ...state.options,
+      grid: {
+        show: false,
+      },
+      labels: label,
+      xaxis: {
+        ...state.options.xaxis,
+        categories: category,
+        axisBorder: {
+          show: true,
+        },
+      },
+      yaxis: {
+        ...state.options.yaxis,
+        axisBorder: {
+          show: true,
+        },
+        title: {
+          text: `${
+            dataType !== null && dataType !== undefined
+              ? dataType
+              : ``
+          }  ${
+            dataUnit !== null && dataUnit !== undefined
+              ? `(${dataUnit})`
+              : ''
+          }`,
+          style: {
+            color: '#f37b2e',
+            fontFamily: 'Avenir Heavy',
+            fontSize: '15px',
+          },
+        },
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter(y) {
+            // console.log(y.toLocaleString(), 'y');
+            if (typeof y !== 'undefined') {
+              // return `${unit} ${y.toFixed(0)}${type}`;
+              return `${unit} ${y.toLocaleString()}${type}`;
+            }
+            return y;
+          },
+        },
+      },
+    },
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOADING_TRUE:
@@ -651,6 +831,8 @@ export default function(state = initialState, action) {
         ...state,
         indicatorCategory: action.payload,
       };
+    case FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER:
+      return filterOutputIndicatorForPercentOrNumber(state, action);
 
     // case TOGGLE_NULL_SUBMISSIONS_ANSWER:
     //   return toggleNullSubmission(state);
