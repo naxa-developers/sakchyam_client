@@ -1,6 +1,7 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import DonutChart from './DonutChart';
 // import 'apexcharts';
 
 // require 'apexcharts';
@@ -61,14 +62,7 @@ export default class CustomChart extends Component {
     } = this.props;
     // const { series, options } = this.state;
     return (
-      <div id="logframe-chart">
-        {/* {activeDateValues.length === 0 ? (
-          <label>
-            {activeDateValues.length === 0
-              ? 'No Data Selected'
-              : `${activeDateValues}`}
-          </label>
-        ) : ( */}
+      <>
         <ReactApexChart
           // modal={modal}
           key={series}
@@ -78,10 +72,9 @@ export default class CustomChart extends Component {
           series={series}
           type="line"
           height={500}
-          // width={1300}
+          // width={700}
         />
-        {/* )} */}
-      </div>
+      </>
     );
   }
 }

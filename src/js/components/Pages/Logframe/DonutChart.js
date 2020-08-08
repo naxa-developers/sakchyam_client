@@ -184,22 +184,22 @@ class DonutChart extends Component {
     this.plotChart();
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { label } = this.props.financialReducer.pieData;
-  //   if (
-  //     prevProps.financialReducer.pieData !==
-  //     this.props.financialReducer.pieData
-  //   ) {
-  //     // this.getDonutChartData();
-  //     // console.log(label, 'label');
-  //     this.setState(preState => ({
-  //       options: {
-  //         ...preState.options,
-  //         labels: label,
-  //       },
-  //     }));
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    const { label } = this.props.financialReducer.pieData;
+    if (
+      prevProps.financialReducer.pieData !==
+      this.props.financialReducer.pieData
+    ) {
+      // this.getDonutChartData();
+      // console.log(label, 'label');
+      this.setState(preState => ({
+        options: {
+          ...preState.options,
+          labels: label,
+        },
+      }));
+    }
+  }
 
   render() {
     const { series, label } = this.props.financialReducer.pieData;

@@ -11,33 +11,18 @@ const SelectList = ({
   ...rest
 }) => (
   <li>
-    <a>
-      {/* <div
-        role="button"
-        tabIndex="-1"
-        className="custom-checkbox"
-        onClick={() => {
-          clickHandler(name);
-        }}
-        onKeyDown={() => {
-          clickHandler(name);
-        }}
-      >
-        <input
-          className={className}
-          id={`${className}_${id}`}
-          type="checkbox"
-          data-label={label}
-          {...rest}
-          name={name}
-          checked={checked}
-          onChange={changeHandler}
-        />
-        <label htmlFor={`${className}_${id}`}>
-          <span>{label}</span>
-        </label>
-      </div> */}
-      list
+    <a
+      className={checked ? 'active' : ''}
+      onClick={() => {
+        clickHandler(name);
+      }}
+      onKeyDown={() => {
+        clickHandler(name);
+      }}
+      tabIndex="-1"
+      role="button"
+    >
+      {name}
     </a>
   </li>
 );

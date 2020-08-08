@@ -624,6 +624,7 @@ class StackedBarWithAllFederal extends Component {
   }
 
   render() {
+    console.log(window.innerWidth);
     const { options, series } = this.state;
     const { activeModal } = this.props;
     return (
@@ -633,7 +634,7 @@ class StackedBarWithAllFederal extends Component {
           options={options}
           series={series}
           type="bar"
-          height={activeModal && window.innerWidth < 1400 ? 490 : 600}
+          height={activeModal && window.innerWidth < 1400 ? 450 : 500}
           // width={activeModal === true ? 1600 : '100%'}
         />
       </div>

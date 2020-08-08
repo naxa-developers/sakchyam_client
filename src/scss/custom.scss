@@ -697,3 +697,15 @@
   text-align: center;
   font-family: 'Open Sans', sans-serif;
 }
+
+#stacked_chart{
+  .apexcharts-legend{
+    text-align: center;
+    right: 0;
+    position: sticky;
+    left: 0;
+    top: auto;
+    margin: 0 auto;
+    justify-content: center;
+  }
+}

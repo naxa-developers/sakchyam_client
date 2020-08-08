@@ -57,7 +57,15 @@ class MapboxPartnership extends Component {
     return (
       <>
         <div id="key" ref={this.keyRef} />
-        <div id="map">
+        <div
+          id="map"
+          style={{
+            position: 'unset',
+            top: 'unset',
+            bottom: 'unset',
+            width: '100%',
+          }}
+        >
           {map && (
             <div>
               <VectorTileMapbox

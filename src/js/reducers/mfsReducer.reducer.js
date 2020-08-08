@@ -35,7 +35,8 @@ const filterDistinctJsonWithKey = (
   distinctKeySum,
 ) => {
   const testArray = [];
-  const finalArray = mainArray.reduce((a, c) => {
+  let finalArray = [];
+  finalArray = [...mainArray].reduce((a, c) => {
     const filtered = a.filter(
       el => testArray && el[distinctKey] === c[distinctKey],
     );
@@ -160,13 +161,18 @@ const filterMfsListByPartner = (state, action) => {
   const mfsData = [...state.mfsListAllData];
   const selectedPartner = action.payload;
 
+  // const filteredMfsData = mfsData.filter(data => {
+  //   if (selectedPartner !== '') {
+  //     return data.partner_name === selectedPartner;
+  //   }
+  //   return data;
+  // });
   const filteredMfsData = mfsData.filter(data => {
-    if (selectedPartner !== '') {
-      return data.partner_name === selectedPartner;
+    if (selectedPartner.length !== 0) {
+      return selectedPartner.includes(data.partner_name);
     }
     return data;
   });
-
   const innovationList = getUniqueValuesFromArray(
     filteredMfsData,
     'key_innovation',
@@ -186,12 +192,11 @@ const filterMfsListByInnovation = (state, action) => {
   const selectedInnovation = action.payload;
 
   const filteredMfsData = mfsData.filter(data => {
-    if (selectedInnovation !== '') {
-      return data.key_innovation === selectedInnovation;
+    if (selectedInnovation.length !== 0) {
+      return selectedInnovation.includes(data.key_innovation);
     }
     return data;
   });
-
   const achievementList = getUniqueValuesFromArray(
     filteredMfsData,
     'achievement_type',
@@ -208,33 +213,14 @@ const filterMfsChoroplethData = (state, action) => {
     selectedInnovation,
     selectedAchievement,
   } = action.payload;
+  console.log(action, 'action');
   const mfsData = [...state.mfsListAllData];
   const filteredChoroplethData = mfsData.filter(data => {
-    return data.achievement_type === selectedAchievement;
+    return selectedAchievement.includes(data.achievement_type);
   });
 
-  // const filteredMfsData = mfsData.filter(data => {
-  //   if (selectedPartner !== '') {
-  //     return data.partner_name === selectedPartner;
-  //   }
-  //   return data;
-  // });
-
-  // const innovationList = getUniqueValuesFromArray(
-  //   filteredMfsData,
-  //   'key_innovation',
-  // );
-  // const achievementList = getUniqueValuesFromArray(
-  //   filteredMfsData,
-  //   'achievement_type',
-  // );
   console.log(filteredChoroplethData);
 
-  // if(mapViewBy ){}
-  // const federalFilterofChoropleth = getDistinctJson(
-  //   filteredChoroplethData,
-  //   mapViewBy === 'province' ? 'province_code' : 'district_code',
-  // );
   const testArray = [];
   const anotherArray = [...filteredChoroplethData];
   const federalKey =
@@ -243,6 +229,12 @@ const filterMfsChoroplethData = (state, action) => {
     anotherArray,
     federalKey,
     'achieved_number',
+  );
+  console.log(anotherArray, 'anotherArray1');
+  console.log(federalKey, 'federalKey2');
+  console.log(
+    federalFilterofChoropleth,
+    'federalFilterOfChoropleth3',
   );
   const choroplethFormat = [];
   federalFilterofChoropleth.forEach(data => {

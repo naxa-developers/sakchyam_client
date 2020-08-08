@@ -29,8 +29,10 @@ class LeftSideBar extends Component {
         handlePartnerSelection,
         selectedInnovation,
         handleInnovationSelection,
+        handleInnovationAllSelection,
         selectedAchievement,
         handleAchievementSelection,
+        handleAchievementAllSelection,
         partnerType,
         handlePartnerType,
         applyBtnClick,
@@ -103,6 +105,19 @@ class LeftSideBar extends Component {
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Key Innovation</h6>
               <div className="widget-body pd0">
+                <div className="checklist-header">
+                  <div className="custom-checkbox">
+                    <input
+                      id="innovationAll"
+                      className="allCheckbox"
+                      type="checkbox"
+                      name="innovationAll"
+                      value="all"
+                      onChange={handleInnovationAllSelection}
+                    />
+                    <label htmlFor="innovationAll">All</label>
+                  </div>
+                </div>
                 {mfsListLoading ? (
                   <BadgeLoader />
                 ) : (
@@ -123,27 +138,28 @@ class LeftSideBar extends Component {
                           // >
                           //   <label>{innov}</label>
                           // </div>
-                          <SelectList
-                            // id={project.id}
-                            className="project_checkbox"
-                            // key={project.id}
-                            label={innov}
-                            name={innov}
-                            clickHandler={handleInnovationSelection}
-                          />
-                          // <CheckBox
-                          //   // id={partnershipFocus.id}
-                          //   className="investment_checkbox"
-                          //   // key={partnershipFocus.id}
+                          // <SelectList
+                          //   // id={project.id}
+                          //   className="project_checkbox"
+                          //   // key={project.id}
                           //   label={innov}
                           //   name={innov}
-                          //   changeHandler={
-                          //     handleInnovationSelection
-                          //   }
-                          //   // checked={investmentFocusSelection.includes(
-                          //   //   innov,
-                          //   // )}
+                          //   clickHandler={handleInnovationSelection}
+                          //   checked={selectedInnovation.includes(
+                          //     innov,
+                          //   )}
                           // />
+                          <CheckBox
+                            id={innov}
+                            className="innovation_checkbox"
+                            // key={partnershipFocus.id}
+                            label={innov}
+                            name={innov}
+                            changeHandler={handleInnovationSelection}
+                            // checked={investmentFocusSelection.includes(
+                            //   innov,
+                            // )}
+                          />
                         );
                       })}
                   </ul>
@@ -153,6 +169,19 @@ class LeftSideBar extends Component {
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Achievement Type</h6>
               <div className="widget-body pd0">
+                <div className="checklist-header">
+                  <div className="custom-checkbox">
+                    <input
+                      id="achievementAll"
+                      className="allCheckbox"
+                      type="checkbox"
+                      name="achievementAll"
+                      value="all"
+                      onChange={handleAchievementAllSelection}
+                    />
+                    <label htmlFor="achievementAll">All</label>
+                  </div>
+                </div>
                 {mfsListLoading ? (
                   <BadgeLoader />
                 ) : (
@@ -183,15 +212,26 @@ class LeftSideBar extends Component {
                           // >
                           //   <label>{achievement}</label>
                           // </div>
-                          <SelectList
-                            // id={project.id}
-                            className="project_checkbox"
-                            // key={project.id}
+                          // <SelectList
+                          //   // id={project.id}
+                          //   className="project_checkbox"
+                          //   // key={project.id}
+                          //   label={achievement}
+                          //   name={achievement}
+                          //   clickHandler={handleAchievementSelection}
+                          //   checked={selectedAchievement.includes(
+                          //     achievement,
+                          //   )}
+                          // />
+                          <CheckBox
+                            id={achievement}
+                            className="achievement_checkbox"
+                            // key={partnershipFocus.id}
                             label={achievement}
                             name={achievement}
-                            clickHandler={handleAchievementSelection}
-                            // checked={projectSelection.includes(
-                            //   achievement,
+                            changeHandler={handleAchievementSelection}
+                            // checked={investmentFocusSelection.includes(
+                            //   innov,
                             // )}
                           />
                         );
