@@ -8,7 +8,8 @@ const PlotLines = ({
   return (
     <div
       style={{
-        width: `${width}px`,
+        // width: `${width}px`,
+        width: '235px',
         height: '675px',
         alignSelf: 'flex-start',
       }}

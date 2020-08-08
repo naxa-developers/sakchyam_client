@@ -5,11 +5,11 @@
 // ];
 
 export const middleLineData = [
-  { leftIndex: 1, rightIndex: 4 },
+  { leftIndex: 0, rightIndex: 4 },
+  { leftIndex: 0, rightIndex: 0 },
   { leftIndex: 0, rightIndex: 2 },
   { leftIndex: 0, rightIndex: 1 },
   { leftIndex: 0, rightIndex: 3 },
-  { leftIndex: 0, rightIndex: 0 },
 ];
 
 export const leftLineData = [];

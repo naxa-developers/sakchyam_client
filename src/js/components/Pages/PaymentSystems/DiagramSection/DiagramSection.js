@@ -1,27 +1,21 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-} from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
+import * as d3 from 'd3';
 import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
 import PlotLines from './CreateLines/PlotLines';
 import generateMiddleLines from './CreateLines/generateMiddleLines';
 import { middleLineData } from './CreateLines/lines.data';
+import PlotLeftLines from './CreateLines/PlotLeftLines';
+import generateLeftLines from './CreateLines/generateLeftLines';
 
 const DiagramSection = () => {
   const [containerDimension, setContainerDimension] = useState({});
   const containerRef = useRef();
   const leftCardRefs = useRef({});
   const rightCardRefs = useRef({});
-  const svgContainerRef = useRef(null);
-
+  const middleSVGContainerRef = useRef(null);
+  const leftSVGContainerRef = useRef(null);
   const leftSideContainerRef = useRef(null);
-  const rtgsRef = useRef(null);
-  const CSPRef = useRef(null);
-  const BFISRef = useRef(null);
-
   const [coordinates, setCoordinates] = useState([]);
 
   // middle section lines
@@ -38,10 +32,10 @@ const DiagramSection = () => {
   //   // const rightSideDifference =
   //   //   leftSideContainerRect.top - svgRect.top;
 
-  //   const scale = d3
-  //     .scaleLinear()
-  //     .domain([svgRect.top, svgRect.top + svgRect.height])
-  //     .range([0, svgRect.height]);
+  // const scale = d3
+  //   .scaleLinear()
+  //   .domain([svgRect.top, svgRect.top + svgRect.height])
+  //   .range([0, svgRect.height]);
 
   //   const newCoordinates = {};
   //   // newCoordinates.rtgsX = rtgsRect.right + 15;
@@ -64,8 +58,23 @@ const DiagramSection = () => {
   //   // setCoordinates(newCoordinates);
   // }, []);
 
+  // left portion svg lines
   useLayoutEffect(() => {
-    const svgRect = svgContainerRef.current.getBoundingClientRect();
+    const leftSVGRect = leftSVGContainerRef.current.getBoundingClientRect();
+    const rect1 = leftCardRefs.current[2].getBoundingClientRect();
+    const rect2 = leftCardRefs.current[0].getBoundingClientRect();
+
+    const newCoordinates = generateLeftLines(
+      leftSVGRect,
+      rect1,
+      rect2,
+    );
+
+    setCoordinates(newCoordinates);
+  }, []);
+
+  useLayoutEffect(() => {
+    const svgRect = middleSVGContainerRef.current.getBoundingClientRect();
     const leftRects = [];
     const rightRects = [];
 
@@ -87,48 +96,25 @@ const DiagramSection = () => {
     );
 
     setContainerDimension({ width: 180, height: 100 });
-
-    setCoordinates(newCoordinates);
+    // setCoordinates(newCoordinates);
   }, []);
-
-  // useEffect(() => {
-  // const rect1 = leftCardRefs.current[0];
-  // const rect2 = rightCardRefs.current[0];
-  // const rect3 = rightCardRefs.current[1];
-  // const rect3 = divRef3.current;
-  // const boundingRect1 = rect1.getBoundingClientRect();
-  // const boundingRect2 = rect2.getBoundingClientRect();
-  // const boundingRect3 = rect3.getBoundingClientRect();
-
-  // const data1 = generateLines([
-  //   { boundingRect1, boundingRect2 },
-  //   // { boundingRect1, boundingRect2: boundingRect3 },
-  // ]);
-
-  // setData(data1);
-  // }, []);
 
   return (
     <main className="payment-system" ref={containerRef}>
       <LeftPortion
         leftCardRefs={leftCardRefs}
         leftSideContainerRef={leftSideContainerRef}
-        rtgsRef={rtgsRef}
+        leftSVGContainerRef={leftSVGContainerRef}
+        coordinates={coordinates}
       />
 
-      {/* <SVGLines dimension={containerDimension} data={data} /> */}
-
       <PlotLines
-        svgContainerRef={svgContainerRef}
+        svgContainerRef={middleSVGContainerRef}
         dimension={containerDimension}
         coordinates={coordinates}
       />
 
-      <RightPortion
-        rightCardRefs={rightCardRefs}
-        CSPRef={CSPRef}
-        BFISRef={BFISRef}
-      />
+      <RightPortion rightCardRefs={rightCardRefs} />
     </main>
   );
 };
