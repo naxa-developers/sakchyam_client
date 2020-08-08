@@ -114,7 +114,7 @@ class MiddleChartSection extends Component {
         );
 
       case 'sankey':
-        return <SankeyChart activeModal />;
+        return <SankeyChartInsurance activeModal />;
       case 'radar':
         return <RadarChart activeModal />;
       case 'circle':

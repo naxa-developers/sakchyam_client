@@ -12,6 +12,10 @@ export const middleLineData = [
   { leftIndex: 0, rightIndex: 3 },
 ];
 
+export const lineData = [
+  { leftRef: 0, leftRefLinks: [0], rightRefLinks: [2, 3] },
+];
+
 export const leftLineData = [];
 
 const apiData = {
