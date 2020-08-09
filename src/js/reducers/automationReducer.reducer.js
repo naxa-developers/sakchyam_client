@@ -171,8 +171,6 @@ const partnerByDistrictForChoropleth = (state, action) => {
   };
 };
 const partnerByMunicipalityForChoropleth = (state, action) => {
-  // console.log(action.payload, 'payload');
-  // console.log('GET Municipalit');
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({
@@ -182,11 +180,9 @@ const partnerByMunicipalityForChoropleth = (state, action) => {
     });
     return true;
   });
-  // console.log(fullData, 'without Sort');
   fullData.sort(function(a, b) {
     return a.id - b.id;
   });
-  // console.log(fullData, 'sortedFull');
   return {
     ...state,
     automationDataByMunicipality: fullData,
@@ -502,14 +498,6 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
   action,
 ) => {
   const { selectedFed } = action.payload;
-  // const a = action.payload.result.map(data => {
-  //   return {
-  //     id: data.code,
-  //     count: data.tablets_deployed,
-  //   };
-  // });
-  // console.log(municipality, 'before');
-  // const newMunData = municipality;
   let newMainData = null;
   if (selectedFed === 'municipality') {
     newMainData = [...municipality]; // you get a clone of data
@@ -566,31 +554,9 @@ const partnerSelectWithOutreachGetPartnerChoropleth = (
       item.count = 0;
     });
   }
-  // municipality.sort(function(x, y) {
-  //   return x.id - y.id;
-  // });
-  // console.log(municipality, 'after');
-  // console.log(newMainData, 'after newMUn');
-  // const allData = [];
-  // eslint-disable-next-line array-callback-return
-  // const c = action.payload.selectedPartner.map(partner => {
-  //   state.automationLeftSidePartnerData.filter(data => {
-  //     console.log(data.partner_id, 'id');
-  //     console.log(partner, 'partner');
-  //     return data.id === partner ? allData.push(data) : null;
-  //   });
-  // });
-  // const c = state.automationLeftSidePartnerData.filter(
-  //   // eslint-disable-next-line camelcase
-  //   ({ partner_id }) =>
-  //     action.payload.selectedPartner.includes(partner_id),
-  // );
   return {
     ...state,
     automationChoroplethData: newMainData,
-    // automationLeftSidePartnerData: c,
-    // automationTableData: action.payload,
-    // tableDataLoading: false,
   };
 };
 const selectProvinceForChoropleth = (state, action) => {

@@ -12,6 +12,7 @@ import MainComponent from './Pages/Logframe/MainComponent';
 import ForgotPassword from './ForgotPassword';
 import Landing from './Landing';
 import MainAutomation from './Pages/Automation/MainAutomation';
+import NewAutomation from './Pages/AutomationAgain/MainAutomation';
 // import MainAutomation from './Pages/Automation/MainAutomationMapbox';
 import FinancialLiteracy from './Pages/FinancialLiteracy/FinancialLiteracy';
 import MainPartnership from './Pages/Partnership/MainPartnership';
@@ -40,6 +41,10 @@ class App extends Component {
           <PrivateRoute
             path="/automation"
             component={MainAutomation}
+          />
+          <PrivateRoute
+            path="/nautomation"
+            component={NewAutomation}
           />
           <PrivateRoute
             path="/financial"

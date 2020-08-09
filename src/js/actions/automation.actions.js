@@ -642,12 +642,9 @@ export const partnerSelectWithOutreach = (
   selectedState,
 ) => dispatch => {
   let query = 'partner=0';
+  console.log('seleced Partner in parent Select', selectedPartner);
   if (selectedPartner.length > 0) {
     query = `partner=${selectedPartner}`;
-    // .map(data => {
-    //   return `partner=${data}`;
-    // })
-    // .join('&');
   } else {
     query = 'partner=0';
   }

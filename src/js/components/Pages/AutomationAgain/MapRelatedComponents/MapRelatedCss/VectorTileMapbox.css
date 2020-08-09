@@ -1,0 +1,30 @@
+#mapBoxMap {
+    width:500px;
+    height:500px;
+}
+
+.marker {
+    /* background-image: url('../../../../../../img/fullactive.png'); */
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+/* .inactive_marker {
+    background-image: url('../../../../../../img/inactive.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+  } */
+
+  .mapboxgl-popup {
+    /* max-width: 200px; */
+  }
+  
+  .mapboxgl-popup-content {
+    /* text-align: center; */
+    /* font-family: 'Open Sans', sans-serif; */
+  }

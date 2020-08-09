@@ -689,6 +689,16 @@
   background-color: #007078;
 }
 
+.marker-outreach-inactive {
+  background-image: url('../img/inactive.png');
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #007078;
+}
+
 .mapboxgl-popup-outreach {
   max-width: 200px;
 }

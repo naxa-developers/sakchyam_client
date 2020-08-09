@@ -89,7 +89,31 @@ class MapComponent extends Component {
     }, 500);
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    // const map = this.props.mapRef.current.leafletElement;
+    // this.props.getAllAutomationDataByPartner();
+    // immediately select a few origin points for Bezier path display,
+    // instead of waiting for the first user click event to fire
+    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+    //   's_city_id',
+    //   562,
+    //   true,
+    //   'SELECTION_NEW',
+    // );
+    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+    //   's_city_id',
+    //   657,
+    //   true,
+    //   'SELECTION_ADD',
+    // );
+    // oneToManyFlowmapLayer.selectFeaturesForPathDisplayById(
+    //   's_city_id',
+    //   516,
+    //   true,
+    //   'SELECTION_ADD',
+    // );
+    // this.props.filterAutomationDataForVectorTiles();
+  }
 
   componentDidUpdate(prevProps, prevState) {}
 
@@ -126,7 +150,22 @@ class MapComponent extends Component {
     this.setState(prevState => ({
       activeMapControl: !prevState.activeMapControl,
     }));
+    // console.log(
+    //   this.props.automationReducer.automationAllDataByPartner[0]
+    //     .partner_data,
+    // );
+    // const a = this.props.automationReducer.automationAllDataByPartner[0].partner_data.map(
+    //   partner => {
+
+    // migrationLayer.pause();
+    // setTimeout(() => {
+    //   migrationLayer.hide();
+    // }, 5000);
   };
+
+  // onMapMoveEnd = e => {
+  //   console.log('new bounds ', e.target.getBounds());
+  // };
 
   render() {
     const {
