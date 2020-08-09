@@ -3,18 +3,6 @@ import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import { func } from 'prop-types';
 
-function convert(num) {
-  if (num > 999 && num < 1000000) {
-    return `${num / 1000000}M`; // convert to K for number from > 1000 < 1 million
-  }
-  if (num > 1000000) {
-    return `${num / 1000000}M`; // convert to M for number from > 1 million
-  }
-  if (num < 900) {
-    return num; // if value < 1000, nothing to do
-  }
-  return num;
-}
 class StackedBarWithProvince extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +40,7 @@ class StackedBarWithProvince extends Component {
       chart: {
         height: 350,
         type: 'line',
-        // stacked: true,
+        stacked: true,
       },
       plotOptions: {
         bar: {
@@ -63,7 +51,7 @@ class StackedBarWithProvince extends Component {
         enabled: false,
       },
       stroke: {
-        width: [1, 1, 0.4, 0.4],
+        width: [1, 1, 1],
       },
       // title: {
       //   text: 'XYZ - Stock Analysis (2009 - 2016)',
@@ -86,12 +74,12 @@ class StackedBarWithProvince extends Component {
         strokeWidth: 3,
       },
       tooltip: {
-        // fixed: {
-        //   enabled: true,
-        //   position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
-        //   // offsetY: 30,
-        //   // offsetX: 60,
-        // },
+        fixed: {
+          enabled: true,
+          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+          // offsetY: 30,
+          // offsetX: 60,
+        },
       },
       legend: {
         horizontalAlign: 'left',
@@ -155,90 +143,11 @@ class StackedBarWithProvince extends Component {
           // download: false,
         },
       },
-      yaxis: {
-        // floating: true
-        // decimalsInFloat: 2,
-        // tickPlacement: 'between',
-        // y: 8200,
-        // y: 1000,
-        // crosshairs: {
-        //   show: true,
-        //   position: 'back',
-        //   stroke: {
-        //     color: '#b6b6b6',
-        //     width: 1,
-        //     dashArray: 0,
-        //   },
-        // },
-        crosshairs: {
-          show: true,
-          position: 'back',
-          stroke: {
-            color: '#b6b6b6',
-            width: 1,
-            dashArray: 0,
-          },
-        },
-        title: {
-          text: 'Points',
-
-          style: {
-            color: undefined,
-            fontSize: '12px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            fontWeight: 600,
-            cssClass: 'apexcharts-yaxis-title',
-          },
-        },
-        // floating: true,
-        // align: 'center',
-        // minWidth: '200',
-        // maxWidth: '200',
-        labels: {
-          show: true,
-          align: 'left',
-          minWidth: 0,
-          maxWidth: 160,
-          style: {
-            colors: [],
-            fontSize: '12px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            fontWeight: 400,
-            cssClass: 'apexcharts-yaxis-label',
-          },
-          // offsetX: -50,
-          offsetY: -5,
-          rotate: 0,
-          formatter: value => {
-            console.log(value, 'value');
-            if (value === 0) {
-              return value;
-            }
-            if (value === 1) {
-              return value;
-            }
-            if (value <= 1) {
-              return value.toFixed(1);
-            }
-
-            // console.log(value, 'v');
-            // const roundNumber = Math.round(value);
-            // console.log(convert(roundNumber));
-            //   console.log(convert(roundNumber));
-            if (value % 1 !== 0) {
-              return convert(Math.round(value * 10) / 10);
-            }
-            return convert(value);
-          },
-        },
-
-        // max: 10,
-      },
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        width: [0.4, 0.4, 0.4, 0.4],
+        width: [1, 1, 4],
       },
       // title: {
       //   text: 'XYZ - Stock Analysis (2009 - 2016)',
@@ -269,12 +178,12 @@ class StackedBarWithProvince extends Component {
         //   offsetY: 30,
         //   offsetX: 60,
         // },
-        // fixed: {
-        //   enabled: true,
-        //   position: 'topRight',
-        //   offsetX: 0,
-        //   offsetY: 0,
-        // },
+        fixed: {
+          enabled: true,
+          position: 'topRight',
+          offsetX: 0,
+          offsetY: 0,
+        },
         x: {
           show: true,
           // format: 'dd MMM',
@@ -310,7 +219,10 @@ class StackedBarWithProvince extends Component {
     const { options, series } = this.state;
     const { activeModal } = this.props;
     return (
-      <div id="stacked_chart">
+      <div
+        id="stacked_chart"
+        style={{ width: '1500px', height: '350px', left: '119px' }}
+      >
         <ReactApexChart
           key={series}
           options={options}

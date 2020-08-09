@@ -218,23 +218,23 @@ const initialState = {
         rotate: 0,
         formatter: value => {
           console.log(value, 'value');
-          if (value === 0) {
-            return value;
-          }
-          if (value === 1) {
-            return value;
-          }
-          if (value <= 1) {
-            return value.toFixed(1);
-          }
+          // if (value === 0) {
+          //   return value;
+          // }
+          // if (value === 1) {
+          //   return value;
+          // }
+          // if (value <= 1) {
+          //   return value.toFixed(1);
+          // }
 
-          // console.log(value, 'v');
-          // const roundNumber = Math.round(value);
-          // console.log(convert(roundNumber));
-          //   console.log(convert(roundNumber));
-          if (value % 1 !== 0) {
-            return convert(Math.round(value * 10) / 10);
-          }
+          // // console.log(value, 'v');
+          // // const roundNumber = Math.round(value);
+          // // console.log(convert(roundNumber));
+          // //   console.log(convert(roundNumber));
+          // if (value % 1 !== 0) {
+          //   return convert(Math.round(value * 10) / 10);
+          // }
           return convert(value);
         },
       },
@@ -680,7 +680,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
               return value;
             }
             if (value <= 1) {
-              return value.toFixed(1);
+              return value.toFixed(2);
             }
 
             // console.log(value, 'v');
@@ -688,7 +688,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
             // console.log(convert(roundNumber));
             //   console.log(convert(roundNumber));
             if (value % 1 !== 0) {
-              return convert(Math.round(value * 10) / 10);
+              return convert(value.toFixed(2));
             }
             if (activeLayer === 'Output Indicator 1.4') {
               return value;

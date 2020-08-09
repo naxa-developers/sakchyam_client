@@ -4,7 +4,7 @@ import saveAs from 'file-saver';
 import DownloadIcon from '../../../img/get_app.png';
 import FilterTab from '../Pages/Partnership/common/FilterTab';
 
-const downloadPng = (chartid, imageTitle) => {
+const downloadPng = (chartid, imageTitle, selectedModal) => {
   // document.querySelector('.info-header-bottom').style.display =
   //   'none';
   // document
@@ -14,20 +14,27 @@ const downloadPng = (chartid, imageTitle) => {
     // document
     //   .querySelector(`.${chartid}`)
     //   .append(<label>Varun</label>);
-    html2canvas(document.querySelector(`#${chartid}`), {
-      // logging: true,
-      // letterRendering: 1,
-      allowTaint: true,
-      // scale: window.devicePixelRatio,
-      // windowWidth: window.innerWidth,
-      // windowHeight: window.innerHeight + 120,
-      // x: 20,
-      // y: 70,
-      // width: window.innerWidth + 40,
-      // height: window.innerHeight + 40,
-      // foreignObjectRendering: true,
-      // useCORS: true,
-    }).then(canvas => {
+    html2canvas(
+      document.querySelector(
+        selectedModal === 'logframe'
+          ? `.info-content-wrap`
+          : `#${chartid}`,
+      ),
+      {
+        // logging: true,
+        // letterRendering: 1,
+        allowTaint: true,
+        // scale: window.devicePixelRatio,
+        // windowWidth: window.innerWidth,
+        // windowHeight: window.innerHeight + 120,
+        // x: 20,
+        // y: 70,
+        // width: window.innerWidth + 40,
+        // height: window.innerHeight + 40,
+        // foreignObjectRendering: true,
+        // useCORS: true,
+      },
+    ).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
       });
@@ -215,11 +222,23 @@ const Modal = props => {
                 cursor: 'pointer',
               }}
               onClick={
-                () => downloadPng(selectedChartId, modalHeader)
+                () => {
+                  downloadPng(
+                    selectedChartId,
+                    modalHeader,
+                    selectedModal,
+                  );
+                }
+
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               onKeyDown={
-                () => downloadPng(selectedChartId, modalHeader)
+                () =>
+                  downloadPng(
+                    selectedChartId,
+                    modalHeader,
+                    selectedModal,
+                  )
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               role="button"
