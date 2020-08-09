@@ -200,7 +200,8 @@
   color: #000 !important;
   background-color: #ccc !important;
 }
-.content-mod {
+.content-mod  {
+  #logframe-chart{
   .apexcharts-legend-series:nth-child(0) {
     display: none !important;
   }
@@ -264,6 +265,7 @@
     // transform: translate(40px, 8px);
     transform: translate(50px, 8px);
   }
+}
 }
 #modal-content {
   #logframe-chart {
@@ -708,4 +710,12 @@
     margin: 0 auto;
     justify-content: center;
   }
+}
+#pie-firstContainer{
+  display: flex;
+  flex-wrap: nowrap;
+}
+#pie-secondContainer{
+  display: flex;
+  flex-wrap: nowrap;
 }
