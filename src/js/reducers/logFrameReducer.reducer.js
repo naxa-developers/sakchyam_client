@@ -957,13 +957,23 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
   };
 };
 const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
-  const totalData = action.payload;
-  const filteredData = totalData.filter(data => {
+  const { activeYear } = action.payload;
+  const totalData = state.logDataGraph;
+  const filteredDataByCategory = totalData.filter(data => {
     return data.sub_category.name === 'Outcome Indicator 4';
+  });
+  console.log(activeYear, 'activeYear');
+  const filteredData = filteredDataByCategory.filter(data => {
+    console.log(data, 'data');
+    if (activeYear.length > 0) {
+      return activeYear.includes(data.year.range);
+    }
+    return data;
   });
   const labelForPiechart = filteredData.map(filtered => {
     return filtered.year.name;
   });
+  console.log(filteredData, 'filteredData');
   const plannedData = filteredData.map(filtered => {
     console.log(filtered.planned_afp, 'afp');
     const splitted = filtered.planned_afp.toString().includes(',')
