@@ -523,18 +523,20 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   console.log(dataUnit, 'dataUnit');
   console.log(dataType, 'dataType');
   // console.log(dataUnit, 'dataUnit');
-  if (dataType === 'Percent') {
-    type = '%';
-  } else if (dataUnit === 'GBP') {
-    unit = '£';
-  } else if (dataUnit === 'NPR') {
-    unit = 'Rs';
-  } else if (dataType !== undefined && dataType.includes('Percent')) {
-    type = '%';
-    // } else if (dataType !== null && dataType.includes('Percent')) {
-    //   type = '%';
-  } else {
-    type = '';
+  if (dataType !== undefined && dataType !== null) {
+    if (dataType === 'Percent') {
+      type = '%';
+    } else if (dataUnit === 'GBP') {
+      unit = '£';
+    } else if (dataUnit === 'NPR') {
+      unit = 'Rs';
+    } else if (dataType.includes('Percent')) {
+      type = '%';
+      // } else if (dataType !== null && dataType.includes('Percent')) {
+      //   type = '%';
+    } else {
+      type = '';
+    }
   }
 
   function getPercentageChange(
@@ -1052,11 +1054,11 @@ const getPlannedAchievedDataFor2ndPieCharts = (state, action) => {
     ...state,
     planned2ndPieData: {
       series: plannedData,
-      label: ['Male %', 'Female %'],
+      label: ['Female %', 'Male %'],
     },
     achieved2ndPieData: {
       series: achievedData,
-      label: ['Male %', 'Female %'],
+      label: ['Female %', 'Male %'],
     },
   };
 };

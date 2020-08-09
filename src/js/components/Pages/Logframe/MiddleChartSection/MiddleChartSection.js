@@ -18,6 +18,7 @@ import {
 import Modal from '../../../common/Modal';
 import ModalChart from '../ModalChart';
 import DonutChart from '../DonutChart';
+import StackedBarWithProvince from '../TestChart';
 // function convert(x) {
 //   // eslint-disable-next-line no-restricted-globals
 //   if (isNaN(x)) return x;
@@ -1183,6 +1184,7 @@ class MiddleChartSection extends Component {
           dateRange,
           filteredDynamicData,
           isDataFetched,
+          totalRangeDateName,
           indicatorCategory,
         },
       },
@@ -1211,7 +1213,8 @@ class MiddleChartSection extends Component {
               // eslint-disable-next-line no-unused-expressions
               return (
                 <>
-                  <CustomChart
+                  <StackedBarWithProvince />
+                  {/* <CustomChart
                     activeBar1={activeBar1}
                     activeLine1={activeLine1}
                     activeModal
@@ -1224,7 +1227,7 @@ class MiddleChartSection extends Component {
                     // chartRef={arg => {
                     //   this.chartRef = arg;
                     // }}
-                  />
+                  /> */}
                 </>
               );
             }
@@ -1643,10 +1646,11 @@ class MiddleChartSection extends Component {
                       onChange={this.handle2ndPieFilter}
                       value={secondPieChartFilter}
                     >
-                      <option value="Milestone Year 1">
-                        Milestone Year 1
-                      </option>
-                      <option value="Milestone Year 2">
+                      {totalRangeDateName.map(data => {
+                        return <option value={data}>{data}</option>;
+                      })}
+
+                      {/* <option value="Milestone Year 2">
                         Milestone Year 2
                       </option>
                       <option value="Milestone Year 3">
@@ -1660,7 +1664,7 @@ class MiddleChartSection extends Component {
                       </option>
                       <option value="Milestone Year 6">
                         Milestone Year 6
-                      </option>
+                      </option> */}
                     </select>
                     <div style={{ width: '600px' }}>
                       <DonutChart reducerDataProps="planned2ndPieData" />
