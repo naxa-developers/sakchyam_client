@@ -13,10 +13,11 @@ import {
   filterIndicatorGraphDataWithDate,
   loadingTrue,
   filterOuputIndicatorWithPercentOrNumber,
+  filterPlanned2ndPieChart,
 } from '../../../../actions/logFrame.actions';
 import Modal from '../../../common/Modal';
 import ModalChart from '../ModalChart';
-import DonutChart from '../../FinancialLiteracy/Charts/DonutChart';
+import DonutChart from '../DonutChart';
 // function convert(x) {
 //   // eslint-disable-next-line no-restricted-globals
 //   if (isNaN(x)) return x;
@@ -69,6 +70,7 @@ class MiddleChartSection extends Component {
       downloadActive: false,
       options: null,
       activeModal: false,
+      secondPieChartFilter: 'Milestone Year 1',
     };
   }
 
@@ -807,16 +809,19 @@ class MiddleChartSection extends Component {
     // console.log(prevProps.activeDate, 'prev');
     // console.log(this.props.activeDate, 'new');
     const {
-      state: { options },
+      state: { options, secondPieChartFilter },
       props: { activeDate, activeLayer },
     } = this;
-    // if (prevProps.activeLayer !== activeLayer) {
-    //   if (activeLayer === 'Output Indicator 1.4') {
-    //     document.getElementById('check_time4').checked = false;
-    //     document.getElementById('check_time5').checked = false;
-    //   }
-    // }
+    if (prevState.secondPieChartFilter !== secondPieChartFilter) {
+      this.props.filterPlanned2ndPieChart(secondPieChartFilter);
+    }
     if (prevProps.activeDate !== activeDate) {
+      // if (prevProps.activeLayer !== activeLayer) {
+      //   if (activeLayer === 'Output Indicator 1.4') {
+      //     document.getElementById('check_time4').checked = false;
+      //     document.getElementById('check_time5').checked = false;
+      //   }
+      // }
       if (activeDate.length <= 3) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
@@ -1105,6 +1110,11 @@ class MiddleChartSection extends Component {
     this.setState({ downloadActive: false });
   };
 
+  handle2ndPieFilter = e => {
+    // console.log(e.target, 'e');
+    this.setState({ secondPieChartFilter: e.target.value });
+  };
+
   render() {
     const optionsd = [
       { label: 'Thing 1', value: 1 },
@@ -1128,6 +1138,7 @@ class MiddleChartSection extends Component {
       // activeLine2,
       downloadActive,
       activeModal,
+      secondPieChartFilter,
       // dateRange,
     } = this.state;
     // const settings = {
@@ -1613,7 +1624,52 @@ class MiddleChartSection extends Component {
                 }}
               />
               {activeLayer === 'Outcome Indicator 4' && (
-                <DonutChart />
+                <>
+                  <div id="pie-firstContainer">
+                    <label>Filter</label>
+                    <div style={{ width: '600px' }}>
+                      <DonutChart reducerDataProps="planned1stPieData" />
+                    </div>
+                    <div style={{ width: '600px' }}>
+                      <DonutChart reducerDataProps="achieved1stPieData" />
+                    </div>
+                  </div>
+                  <div id="pie-secondContainer">
+                    <select
+                      style={{
+                        height: '32px',
+                        width: '140px',
+                      }}
+                      onChange={this.handle2ndPieFilter}
+                      value={secondPieChartFilter}
+                    >
+                      <option value="Milestone Year 1">
+                        Milestone Year 1
+                      </option>
+                      <option value="Milestone Year 2">
+                        Milestone Year 2
+                      </option>
+                      <option value="Milestone Year 3">
+                        Milestone Year 3
+                      </option>
+                      <option value="Milestone Year 4">
+                        Milestone Year 4
+                      </option>
+                      <option value="Milestone Year 5">
+                        Milestone Year 5
+                      </option>
+                      <option value="Milestone Year 6">
+                        Milestone Year 6
+                      </option>
+                    </select>
+                    <div style={{ width: '600px' }}>
+                      <DonutChart reducerDataProps="planned2ndPieData" />
+                    </div>
+                    <div style={{ width: '600px' }}>
+                      <DonutChart reducerDataProps="achieved2ndPieData" />
+                    </div>
+                  </div>
+                </>
               )}
 
               <button
@@ -1740,4 +1796,5 @@ export default connect(mapStateToProps, {
   filterIndicatorGraphDataWithDate,
   loadingTrue,
   filterOuputIndicatorWithPercentOrNumber,
+  filterPlanned2ndPieChart,
 })(MiddleChartSection);

@@ -7,6 +7,8 @@ import {
   FILTER_INDICATOR_GRAPH_DATA,
   FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
   FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
+  GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+  GET_PLANNED_ACHIEVED_DATA_FOR_2NDPIECHARTS,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -65,6 +67,17 @@ export const getIndicatorsGraphData = (
             dispatch({
               type: FILTER_INDICATOR_GRAPH_DATA,
               payload: activeLayer,
+            }),
+            dispatch({
+              type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+              payload: { activeYear: [] },
+            }),
+            dispatch({
+              type: GET_PLANNED_ACHIEVED_DATA_FOR_2NDPIECHARTS,
+              payload: {
+                totalData: result.data,
+                selectedMilestone: 'Milestone Year 1',
+              },
             })
           );
         }
@@ -72,6 +85,14 @@ export const getIndicatorsGraphData = (
           dispatch({
             type: GET_INDICATORS_GRAPHDATA,
             payload: result.data,
+          }),
+          dispatch({
+            type: GET_PLANNED_ACHIEVED_DATA_FOR_2NDPIECHARTS,
+            payload: result.data,
+          }),
+          dispatch({
+            type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+            payload: { activeYear: [] },
           }),
           dispatch({
             type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
@@ -103,6 +124,10 @@ export const getIndicatorsGraphDataIndividual = (
             dispatch({
               type: FILTER_INDICATOR_GRAPH_DATA,
               payload: activeLayer,
+            }),
+            dispatch({
+              type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+              payload: { activeYear: [] },
             })
           );
         }
@@ -114,6 +139,10 @@ export const getIndicatorsGraphDataIndividual = (
           dispatch({
             type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
             payload: { activeLayer, activeDate },
+          }),
+          dispatch({
+            type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+            payload: { activeYear: [] },
           })
         );
       });
@@ -142,14 +171,29 @@ export const filterIndicatorGraphData = activeLayer => dispatch => {
     payload: activeLayer,
   });
 };
+export const filterPlanned2ndPieChart = selectedMilestone => dispatch => {
+  dispatch({
+    type: GET_PLANNED_ACHIEVED_DATA_FOR_2NDPIECHARTS,
+    payload: {
+      selectedMilestone,
+    },
+  });
+};
 export const filterIndicatorGraphDataWithDate = (
   activeLayer,
   activeDate,
+  activeDataType,
 ) => dispatch => {
-  dispatch({
-    type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
-    payload: { activeLayer, activeDate },
-  });
+  return (
+    dispatch({
+      type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
+      payload: { activeLayer, activeDate, activeDataType },
+    }),
+    dispatch({
+      type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+      payload: { activeYear: activeDate },
+    })
+  );
 };
 export const filterOuputIndicatorWithPercentOrNumber = (
   activeLayer,

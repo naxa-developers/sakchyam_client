@@ -63,17 +63,19 @@ export default class CustomChart extends Component {
     // const { series, options } = this.state;
     return (
       <>
-        <ReactApexChart
-          // modal={modal}
-          key={series}
-          // key={keyRandom}
-          ref={chartRef}
-          options={options}
-          series={series}
-          type="line"
-          height={500}
-          // width={700}
-        />
+        <div id="logframe-chart">
+          <ReactApexChart
+            // modal={modal}
+            key={series}
+            // key={keyRandom}
+            ref={chartRef}
+            options={options}
+            series={series}
+            type="line"
+            height={500}
+            // width={700}
+          />
+        </div>
       </>
     );
   }
