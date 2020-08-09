@@ -962,9 +962,9 @@ const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
   const filteredDataByCategory = totalData.filter(data => {
     return data.sub_category.name === 'Outcome Indicator 4';
   });
-  console.log(activeYear, 'activeYear');
+  // console.log(activeYear, 'activeYear');
   const filteredData = filteredDataByCategory.filter(data => {
-    console.log(data, 'data');
+    // console.log(data, 'data');
     if (activeYear.length > 0) {
       return activeYear.includes(data.year.range);
     }
@@ -973,9 +973,9 @@ const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
   const labelForPiechart = filteredData.map(filtered => {
     return filtered.year.name;
   });
-  console.log(filteredData, 'filteredData');
+  // console.log(filteredData, 'filteredData');
   const plannedData = filteredData.map(filtered => {
-    console.log(filtered.planned_afp, 'afp');
+    // console.log(filtered.planned_afp, 'afp');
     const splitted = filtered.planned_afp.toString().includes(',')
       ? filtered.planned_afp.split(',')
       : filtered.planned_afp;
