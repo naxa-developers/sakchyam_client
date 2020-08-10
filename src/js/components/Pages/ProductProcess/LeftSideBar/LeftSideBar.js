@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../../common/Checkbox';
+import LeftSidebarLoaderPP from '../Loader/LeftSidebarLoaderPP';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -41,6 +42,8 @@ class LeftSideBar extends Component {
       applyClick,
     } = this.props;
 
+    const { loading } = this.props.productProcessReducer;
+
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -52,120 +55,139 @@ class LeftSideBar extends Component {
           <div className="aside-body apply-body">
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Innovation Area</h6>
-              <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="innovation_area"
-                        type="checkbox"
-                        name="InnovationArea"
-                        value="all"
-                        onChange={handleInnovationAreaParentCheckbox}
-                      />
-                      <label htmlFor="innovation_area">All</label>
+              {loading ? (
+                <LeftSidebarLoaderPP />
+              ) : (
+                <div className="widget-body">
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="innovation_area"
+                          type="checkbox"
+                          name="InnovationArea"
+                          value="all"
+                          onChange={
+                            handleInnovationAreaParentCheckbox
+                          }
+                        />
+                        <label htmlFor="innovation_area">All</label>
+                      </div>
                     </div>
+                    <ul className="checkbox-list">
+                      {innovationArea &&
+                        innovationArea.map(item => {
+                          return (
+                            <CheckBox
+                              id={`${item.id}innovation`}
+                              className="innovationarea_checkbox"
+                              key={item.id}
+                              label={item.name}
+                              name={item.name}
+                              changeHandler={
+                                handleInnovationAreaCheckbox
+                              }
+                              checked={innovationAreaSelection.includes(
+                                item.name,
+                              )}
+                            />
+                          );
+                        })}
+                    </ul>
                   </div>
-                  <ul className="checkbox-list">
-                    {innovationArea &&
-                      innovationArea.map(item => {
-                        return (
-                          <CheckBox
-                            id={`${item.id}innovation`}
-                            className="innovationarea_checkbox"
-                            key={item.id}
-                            label={item.name}
-                            name={item.name}
-                            changeHandler={
-                              handleInnovationAreaCheckbox
-                            }
-                            checked={innovationAreaSelection.includes(
-                              item.name,
-                            )}
-                          />
-                        );
-                      })}
-                  </ul>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Product Category</h6>
-              <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="product_category"
-                        type="checkbox"
-                        name="product_category"
-                        value="all"
-                        onChange={handleProductCategoryParentCheckbox}
-                      />
-                      <label htmlFor="product_category">All</label>
+              {loading ? (
+                <LeftSidebarLoaderPP />
+              ) : (
+                <div className="widget-body">
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="product_category"
+                          type="checkbox"
+                          name="product_category"
+                          value="all"
+                          onChange={
+                            handleProductCategoryParentCheckbox
+                          }
+                        />
+                        <label htmlFor="product_category">All</label>
+                      </div>
                     </div>
+                    <ul className="checkbox-list">
+                      {productCategory &&
+                        productCategory.map(item => {
+                          return (
+                            <CheckBox
+                              id={`${item.id}productCat`}
+                              className="productcategory_checkbox"
+                              key={item.id}
+                              label={item.name}
+                              name={item.name}
+                              changeHandler={
+                                handleProductCategoryCheckbox
+                              }
+                              checked={productCategorySelection.includes(
+                                item.name,
+                              )}
+                            />
+                          );
+                        })}
+                    </ul>
                   </div>
-                  <ul className="checkbox-list">
-                    {productCategory &&
-                      productCategory.map(item => {
-                        return (
-                          <CheckBox
-                            id={`${item.id}productCat`}
-                            className="productcategory_checkbox"
-                            key={item.id}
-                            label={item.name}
-                            name={item.name}
-                            changeHandler={
-                              handleProductCategoryCheckbox
-                            }
-                            checked={productCategorySelection.includes(
-                              item.name,
-                            )}
-                          />
-                        );
-                      })}
-                  </ul>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Product Name</h6>
-              <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="product_name"
-                        type="checkbox"
-                        name="ProductName"
-                        value="all"
-                        onChange={handleProductNameParentCheckbox}
-                      />
-                      <label htmlFor="product_name">All</label>
+
+              {loading ? (
+                <LeftSidebarLoaderPP />
+              ) : (
+                <div className="widget-body">
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="product_name"
+                          type="checkbox"
+                          name="ProductName"
+                          value="all"
+                          onChange={handleProductNameParentCheckbox}
+                        />
+                        <label htmlFor="product_name">All</label>
+                      </div>
                     </div>
+                    <ul className="checkbox-list">
+                      {productName &&
+                        productName.map(item => {
+                          return (
+                            <CheckBox
+                              id={`${item.id}productNam`}
+                              className="productname_checkbox"
+                              key={item.id}
+                              label={item.name}
+                              name={item.name}
+                              changeHandler={
+                                handleProductNameCheckbox
+                              }
+                              checked={productNameSelection.includes(
+                                item.name,
+                              )}
+                            />
+                          );
+                        })}
+                    </ul>
                   </div>
-                  <ul className="checkbox-list">
-                    {productName &&
-                      productName.map(item => {
-                        return (
-                          <CheckBox
-                            id={`${item.id}productNam`}
-                            className="productname_checkbox"
-                            key={item.id}
-                            label={item.name}
-                            name={item.name}
-                            changeHandler={handleProductNameCheckbox}
-                            checked={productNameSelection.includes(
-                              item.name,
-                            )}
-                          />
-                        );
-                      })}
-                  </ul>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="sidebar-widget">
@@ -302,6 +324,8 @@ class LeftSideBar extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = ({ productProcessReducer }) => ({
+  productProcessReducer,
+});
 
 export default connect(mapStateToProps)(LeftSideBar);
