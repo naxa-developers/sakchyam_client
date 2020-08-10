@@ -1,12 +1,30 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
-import * as d3 from 'd3';
 import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
 import PlotLines from './CreateLines/PlotLines';
 import generateMiddleLines from './CreateLines/generateMiddleLines';
-import { middleLineData, lineData } from './CreateLines/lines.data';
-import PlotLeftLines from './CreateLines/PlotLeftLines';
+import { lineData } from './CreateLines/lines.data';
 import generateLeftLines from './CreateLines/generateLeftLines';
+import generateRightLines from './CreateLines/generateRightLines';
+import { isArrayEmpty } from '../utils/utilities';
+import generateIndirectLines from './CreateLines/generateIndirectLines';
+
+const width = 235;
+
+const color = {
+  leftRefs: [
+    { ref: 0, color: '#FF6D00' },
+    { ref: 1, color: '#FF6D00' },
+    { ref: 2, color: '#FF6D00' },
+  ],
+  rightRefs: [
+    { ref: 0, color: '#E11D3F' },
+    { ref: 1, color: '#E11D3F' },
+    { ref: 2, color: '#FF6D00' },
+    { ref: 3, color: '#13A8BE' },
+    { ref: 4, color: '#1EC853' },
+  ],
+};
 
 const DiagramSection = () => {
   const [containerDimension, setContainerDimension] = useState({});
@@ -17,74 +35,186 @@ const DiagramSection = () => {
   const leftSVGContainerRef = useRef(null);
   const leftSideContainerRef = useRef(null);
   const [leftCoordinates, setLeftCoordinates] = useState([]);
+  const [
+    leftToRightCoordinates,
+    setLeftToRightCoordinates,
+  ] = useState([]);
   const [rightCoordinates, setRightCoordinates] = useState([]);
+  const [indirectCoordinates, setIndirectCoordinates] = useState([]);
 
-  const selectedCardRef = useState(0);
+  const [isLeftCardSelected, setIsLeftCardSelected] = useState(true);
+  const [selectedCardRef, setSelectedCardRef] = useState(0);
+  const [lineColor, setLineColor] = useState('red');
 
-  // left portion svg lines
-  useLayoutEffect(() => {
-    const leftSVGRect = leftSVGContainerRef.current.getBoundingClientRect();
-    const rect1 = leftCardRefs.current[2].getBoundingClientRect();
-    const rect2 = leftCardRefs.current[0].getBoundingClientRect();
-
-    const newCoordinates = generateLeftLines(
-      leftSVGRect,
-      rect1,
-      rect2,
-    );
-
-    setLeftCoordinates(newCoordinates);
-  }, []);
-
-  useLayoutEffect(() => {
-    const svgRect = middleSVGContainerRef.current.getBoundingClientRect();
+  const getMiddleLines = ({ leftRefLinks, rightRefLinks }) => {
+    const middleSVGRect = middleSVGContainerRef.current.getBoundingClientRect();
     const leftRects = [];
     const rightRects = [];
 
-    middleLineData.forEach(item => {
+    leftRefLinks.forEach(item => {
       leftRects.push(
-        leftCardRefs.current[item.leftIndex].getBoundingClientRect(),
+        leftCardRefs.current[item].getBoundingClientRect(),
       );
+    });
+
+    rightRefLinks.forEach(item => {
       rightRects.push(
-        rightCardRefs.current[
-          item.rightIndex
-        ].getBoundingClientRect(),
+        rightCardRefs.current[item].getBoundingClientRect(),
       );
     });
 
     const newCoordinates = generateMiddleLines(
-      svgRect,
+      middleSVGRect,
       leftRects,
       rightRects,
     );
+    setLeftToRightCoordinates(newCoordinates);
+  };
 
-    setContainerDimension({ width: 180, height: 100 });
-    setRightCoordinates(newCoordinates);
-  }, []);
+  const getLeftLines = ({ leftToLeftLink }) => {
+    if (!isArrayEmpty(leftToLeftLink)) {
+      const leftSVGRect = leftSVGContainerRef.current.getBoundingClientRect();
+      const rects = [];
+      leftToLeftLink.forEach(item => {
+        const rect1 = leftCardRefs.current[
+          item[0]
+        ].getBoundingClientRect();
+        const rect2 = leftCardRefs.current[
+          item[1]
+        ].getBoundingClientRect();
+        rects.push({ rect1, rect2 });
+      });
+
+      const newCoordinates = generateLeftLines(leftSVGRect, rects);
+      setLeftCoordinates(newCoordinates);
+    } else {
+      setLeftCoordinates([]);
+    }
+  };
+
+  const getRightLines = ({ rightToRightLink }) => {
+    if (!isArrayEmpty(rightToRightLink)) {
+      const middleSVGRect = middleSVGContainerRef.current.getBoundingClientRect();
+      const rects = [];
+      rightToRightLink.forEach(item => {
+        const rect1 = rightCardRefs.current[
+          item[0]
+        ].getBoundingClientRect();
+        const rect2 = rightCardRefs.current[
+          item[1]
+        ].getBoundingClientRect();
+        rects.push({ rect1, rect2 });
+      });
+      const containerWidth = width;
+      const newCoordinates = generateRightLines(
+        middleSVGRect,
+        rects,
+        containerWidth,
+      );
+
+      setRightCoordinates(newCoordinates);
+    } else {
+      setRightCoordinates([]);
+    }
+  };
+  const getIndirectLines = ({ indirectLink }) => {
+    if (!isArrayEmpty(indirectLink)) {
+      const middleSVGRect = middleSVGContainerRef.current.getBoundingClientRect();
+      const rects = [];
+      // indirectLink.forEach(item => {
+      const rect1 = rightCardRefs.current[
+        indirectLink[0]
+      ].getBoundingClientRect();
+      const rect2 = rightCardRefs.current[
+        indirectLink[1]
+      ].getBoundingClientRect();
+      rects.push({ rect1, rect2 });
+      // });
+      const containerWidth = width;
+      const newCoordinates = generateIndirectLines(
+        middleSVGRect,
+        rects,
+        containerWidth,
+      );
+
+      setIndirectCoordinates(newCoordinates);
+    } else {
+      setIndirectCoordinates([]);
+    }
+  };
 
   useLayoutEffect(() => {
-    const data = lineData.filter(
-      item => item.leftRef === selectedCardRef,
+    const data = lineData.filter(item =>
+      isLeftCardSelected
+        ? item.leftRef === selectedCardRef
+        : item.rightRef === selectedCardRef,
     );
-    console.log(data, 'datax');
-  }, []);
+
+    getMiddleLines(data[0]);
+    getLeftLines(data[0]);
+    getRightLines(data[0]);
+    getIndirectLines(data[0]);
+  }, [selectedCardRef, isLeftCardSelected]);
+
+  const onLeftCardClick = ref => {
+    const newColor = color.leftRefs
+      .filter(item => item.ref === ref)
+      .map(item => item.color)[0];
+
+    setLineColor(newColor);
+    setIsLeftCardSelected(true);
+    setSelectedCardRef(ref);
+  };
+
+  const onRightCardClick = ref => {
+    const newColor = color.rightRefs
+      .filter(item => item.ref === ref)
+      .map(item => item.color)[0];
+
+    setLineColor(newColor);
+    setIsLeftCardSelected(false);
+    setSelectedCardRef(ref);
+  };
 
   return (
-    <main className="payment-system" ref={containerRef}>
+    <main
+      className="payment-system"
+      ref={containerRef}
+      style={{ zIndex: 0 }}
+    >
       <LeftPortion
         leftCardRefs={leftCardRefs}
         leftSideContainerRef={leftSideContainerRef}
         leftSVGContainerRef={leftSVGContainerRef}
         coordinates={leftCoordinates}
+        onLeftCardClick={onLeftCardClick}
+        lineColor={lineColor}
+        selectedCardRef={selectedCardRef}
+        isLeftCardSelected={isLeftCardSelected}
       />
-
-      <PlotLines
-        svgContainerRef={middleSVGContainerRef}
-        dimension={containerDimension}
-        coordinates={rightCoordinates}
+      <div
+        style={{
+          // width: `${width}px`,
+          width: '235px',
+          height: '675px',
+          alignSelf: 'flex-start',
+        }}
+        ref={middleSVGContainerRef}
+      >
+        <PlotLines
+          lineColor={lineColor}
+          coordinates={leftToRightCoordinates}
+          rightCoordinates={rightCoordinates}
+          indirectCoordinates={indirectCoordinates}
+          width={width}
+        />
+      </div>
+      <RightPortion
+        rightCardRefs={rightCardRefs}
+        onRightCardClick={onRightCardClick}
+        selectedCardRef={selectedCardRef}
+        isLeftCardSelected={isLeftCardSelected}
       />
-
-      <RightPortion rightCardRefs={rightCardRefs} />
     </main>
   );
 };

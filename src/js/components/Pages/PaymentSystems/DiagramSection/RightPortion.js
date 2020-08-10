@@ -1,3 +1,7 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 /* eslint-disable no-return-assign */
@@ -17,7 +21,12 @@ import NepalTelecom from '../../../../../img/nepal-telecom.png';
 import Ncell from '../../../../../img/ncell.png';
 import Nepse from '../../../../../img/nepse.png';
 
-const RightPortion = ({ rightCardRefs, BFISRef, CSPRef }) => {
+const RightPortion = ({
+  rightCardRefs,
+  onRightCardClick,
+  selectedCardRef,
+  isLeftCardSelected,
+}) => {
   return (
     <div
       className="retail-payement"
@@ -33,13 +42,20 @@ const RightPortion = ({ rightCardRefs, BFISRef, CSPRef }) => {
         <h3>Retail payment System</h3>
         <div className="switch-connect-system ">
           <div
-            className="payment-card switch-system"
+            className={
+              !isLeftCardSelected && selectedCardRef === 0
+                ? 'payment-card switch-system active'
+                : 'payment-card switch-system'
+            }
             ref={el => (rightCardRefs.current[0] = el)}
+            onClick={() => {
+              onRightCardClick(0);
+            }}
           >
             <h5>Card and Switch System</h5>
             <ul className="payment-logos">
               <li>
-                <a href="#">
+                <a href={() => {}}>
                   <img src={Visa} alt="visa" />
                 </a>
               </li>
@@ -77,8 +93,13 @@ const RightPortion = ({ rightCardRefs, BFISRef, CSPRef }) => {
           </div>
         </div>
         <div
-          className="payment-card psp-system"
+          className={
+            !isLeftCardSelected && selectedCardRef === 1
+              ? 'payment-card psp-system active'
+              : 'payment-card psp-system'
+          }
           ref={el => (rightCardRefs.current[1] = el)}
+          onClick={() => onRightCardClick(1)}
         >
           <h5>PSPs/PSOs</h5>
           <ul className="payment-logos">
@@ -122,20 +143,43 @@ const RightPortion = ({ rightCardRefs, BFISRef, CSPRef }) => {
       </div>
       <div className="bottom-section-payment">
         <div
-          className="payment-card connectips-system"
+          className={
+            !isLeftCardSelected && selectedCardRef === 2
+              ? 'payment-card connectips-system active'
+              : 'payment-card connectips-system'
+          }
           ref={el => (rightCardRefs.current[2] = el)}
+          onClick={() => onRightCardClick(2)}
         >
           <ul className="payment-logos">
+            <a href="#">
+              <img src={NepalClearingHouse} alt="connect ips" />
+            </a>
             <li>
-              <a href="#">
-                <img src={NepalClearingHouse} alt="connect ips" />
+              <a>
+                <span>NPI</span>
+              </a>
+            </li>
+            <li>
+              <a>
+                <span>IPS</span>
+              </a>
+            </li>
+            <li>
+              <a>
+                <span>Connect IPS</span>
               </a>
             </li>
           </ul>
         </div>
         <div
-          className="payment-card bfis"
+          className={
+            !isLeftCardSelected && selectedCardRef === 3
+              ? 'payment-card bfis active'
+              : 'payment-card bfis'
+          }
           ref={el => (rightCardRefs.current[3] = el)}
+          onClick={() => onRightCardClick(3)}
         >
           <h5>BFIs</h5>
           <ul className="payment-logos">
@@ -152,8 +196,13 @@ const RightPortion = ({ rightCardRefs, BFISRef, CSPRef }) => {
           </ul>
         </div>
         <div
-          className="payment-card capital"
+          className={
+            !isLeftCardSelected && selectedCardRef === 4
+              ? 'payment-card capital active'
+              : 'payment-card capital'
+          }
           ref={el => (rightCardRefs.current[4] = el)}
+          onClick={() => onRightCardClick(4)}
         >
           <h5>Capital Market Players</h5>
           <ul className="payment-logos">

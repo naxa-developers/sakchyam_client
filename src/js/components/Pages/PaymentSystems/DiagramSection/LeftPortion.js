@@ -1,17 +1,19 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
-import React, { useLayoutEffect } from 'react';
+import React from 'react';
 import NepalBankLogo from '../../../../../img/nepal-bank.png';
 import PlotLeftLines from './CreateLines/PlotLeftLines';
-import { middleLineData } from './CreateLines/lines.data';
 
 const LeftPortion = ({
   leftSVGContainerRef,
   leftCardRefs,
   leftSideContainerRef,
-  rtgsRef,
   coordinates,
+  onLeftCardClick,
+  lineColor,
+  selectedCardRef,
+  isLeftCardSelected,
 }) => {
   return (
     <aside className="payment-sidebar">
@@ -23,6 +25,9 @@ const LeftPortion = ({
           display: 'flex',
           alignItems: 'flex-end',
           height: '440px',
+          position: 'relative',
+          left: '15px',
+          zIndex: '0',
         }}
       >
         <div
@@ -33,7 +38,10 @@ const LeftPortion = ({
           }}
           ref={leftSVGContainerRef}
         >
-          <PlotLeftLines coordinates={coordinates} />
+          <PlotLeftLines
+            lineColor={lineColor}
+            coordinates={coordinates}
+          />
         </div>
         <div>
           <a href="#" className="nepalbank-logo">
@@ -48,22 +56,40 @@ const LeftPortion = ({
               }}
             />
             <li
-              className="red-light"
+              className={
+                isLeftCardSelected && selectedCardRef === 0
+                  ? 'red-light active'
+                  : 'red-light'
+              }
               ref={el => (leftCardRefs.current[0] = el)}
             >
-              <a href={() => {}}>RTGS</a>
+              <a href={() => {}} onClick={() => onLeftCardClick(0)}>
+                RTGS
+              </a>
             </li>
             <li
-              className="blue-light"
+              className={
+                isLeftCardSelected && selectedCardRef === 1
+                  ? 'blue-light active'
+                  : 'blue-light'
+              }
               ref={el => (leftCardRefs.current[1] = el)}
             >
-              <a href={() => {}}>NRB Interoperable Switch</a>
+              <a href={() => {}} onClick={() => onLeftCardClick(1)}>
+                National Switch
+              </a>
             </li>
             <li
-              className="green-light"
+              className={
+                isLeftCardSelected && selectedCardRef === 2
+                  ? 'green-light active'
+                  : 'green-light'
+              }
               ref={el => (leftCardRefs.current[2] = el)}
             >
-              <a href={() => {}}>CSD</a>
+              <a href={() => {}} onClick={() => onLeftCardClick(2)}>
+                CSD
+              </a>
             </li>
           </ul>
         </div>
