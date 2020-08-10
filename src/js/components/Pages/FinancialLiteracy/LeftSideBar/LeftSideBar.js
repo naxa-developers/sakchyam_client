@@ -32,17 +32,12 @@ class LeftSideBar extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    // setTimeout(() => {
-    //   this.setState({ loading: false });
-    // }, 2700);
-  }
-
   render() {
     const {
       partnersList,
       financialProgram,
       filteredPartnersList,
+      loading,
     } = this.props.financialReducer;
     const {
       // state: {},
@@ -56,12 +51,10 @@ class LeftSideBar extends Component {
         isAllPartnerSelected,
         applyClick,
         resetClick,
-        loading,
         checkedPartnerItems,
       },
     } = this;
 
-    console.log(loading, 'loading');
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         {loading ? (

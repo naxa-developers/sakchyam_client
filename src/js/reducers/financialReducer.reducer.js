@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import {
-  GET_FINANCIAL_DATA,
+  GET_FINANCIAL_DATA_SUCCESS,
+  GET_FINANCIAL_DATA_REQUEST,
   GET_FINANCIAL_PROGRAM,
   GET_PARTNERS_LIST,
   FILTER_FINANCIAL_DATA_FOR_GRAPH,
@@ -647,6 +648,7 @@ const getFinancialData = (state, action) => {
 
   return {
     ...state,
+    loading: false,
     sankeyData,
     treeMapData,
     financialData: allData,
@@ -1338,7 +1340,9 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERS_LIST:
       return getPartnersList(state, action);
-    case GET_FINANCIAL_DATA:
+    case GET_FINANCIAL_DATA_REQUEST:
+      return { ...state, loading: true };
+    case GET_FINANCIAL_DATA_SUCCESS:
       return getFinancialData(state, action);
     case GET_FINANCIAL_PROGRAM:
       return getFinancialProgram(state, action);
