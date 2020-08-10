@@ -1,42 +1,71 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-undef */
+/* eslint-disable no-return-assign */
 import React from 'react';
+import Visa from '../../../../../img/visa.png';
+import Master from '../../../../../img/master.png';
+import Switches from '../../../../../img/switches.png';
+import NePS from '../../../../../img/NePS.png';
+import SCT from '../../../../../img/SCT.png';
+import NPN from '../../../../../img/npn.png';
+import NepalClearingHouse from '../../../../../img/nepal-clearing-house.png';
+import IMEPay from '../../../../../img/imepay.png';
+import eSEWA from '../../../../../img/eSewa-Servie.png';
+import Khalti from '../../../../../img/khalti.png';
+import CellPay from '../../../../../img/CellPay-logo.png';
+import NepalTelecom from '../../../../../img/nepal-telecom.png';
+import Ncell from '../../../../../img/ncell.png';
+import Nepse from '../../../../../img/nepse.png';
 
-const RightPortion = () => {
+const RightPortion = ({ rightCardRefs, BFISRef, CSPRef }) => {
   return (
-    <div className="retail-payement">
+    <div
+      className="retail-payement"
+      style={{
+        paddingLeft: '0px',
+        alignSelf: 'flex-start',
+        position: 'relative',
+        zIndex: '-1',
+        left: '-30px',
+      }}
+    >
       <div className="top-section-payment">
         <h3>Retail payment System</h3>
         <div className="switch-connect-system ">
-          <div className="payment-card switch-system">
+          <div
+            className="payment-card switch-system"
+            ref={el => (rightCardRefs.current[0] = el)}
+          >
             <h5>Card and Switch System</h5>
             <ul className="payment-logos">
               <li>
                 <a href="#">
-                  <img src="img/visa.png" alt="visa" />
+                  <img src={Visa} alt="visa" />
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <img src="img/master.png" alt="master" />
+                  <img src={Master} alt="master" />
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <img src="img/switches.png" alt="switches" />
+                  <img src={Switches} alt="switches" />
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <img src="img/NePS.png" alt="nepse" />
+                  <img src={NePS} alt="nepse" />
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <img src="img/SCT.png" alt="sct" />
+                  <img src={SCT} alt="sct" />
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <img src="img/npn.png" alt="npn" />
+                  <img src={NPN} alt="npn" />
                 </a>
               </li>
               <li>
@@ -46,50 +75,41 @@ const RightPortion = () => {
               </li>
             </ul>
           </div>
-          <div className="payment-card connectips-system">
-            <ul className="payment-logos">
-              <li>
-                <a href="#">
-                  <img
-                    src="img/nepal-clearing-house.png"
-                    alt="connect ips"
-                  />
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
-        <div className="payment-card psp-system">
+        <div
+          className="payment-card psp-system"
+          ref={el => (rightCardRefs.current[1] = el)}
+        >
           <h5>PSPs/PSOs</h5>
           <ul className="payment-logos">
             <li>
               <a href="#">
-                <img src="img/imepay.png" alt="ime pay" />
+                <img src={IMEPay} alt="ime pay" />
               </a>
             </li>
             <li>
               <a href="#">
-                <img src="img/eSewa-Servie.png" alt="esewa" />
+                <img src={eSEWA} alt="esewa" />
               </a>
             </li>
             <li>
               <a href="#">
-                <img src="img/khalti.png" alt="khalti" />
+                <img src={Khalti} alt="khalti" />
               </a>
             </li>
             <li>
               <a href="#">
-                <img src="img/CellPay-logo.png" alt="cellpay" />
+                <img src={CellPay} alt="cellpay" />
               </a>
             </li>
             <li>
               <a href="#">
-                <img src="img/nepal-telecom.png" alt="telecom" />
+                <img src={NepalTelecom} alt="telecom" />
               </a>
             </li>
             <li>
               <a href="#">
-                <img src="img/ncell.png" alt="ncell" />
+                <img src={Ncell} alt="ncell" />
               </a>
             </li>
             <li>
@@ -101,7 +121,22 @@ const RightPortion = () => {
         </div>
       </div>
       <div className="bottom-section-payment">
-        <div className="payment-card bfis">
+        <div
+          className="payment-card connectips-system"
+          ref={el => (rightCardRefs.current[2] = el)}
+        >
+          <ul className="payment-logos">
+            <li>
+              <a href="#">
+                <img src={NepalClearingHouse} alt="connect ips" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+          className="payment-card bfis"
+          ref={el => (rightCardRefs.current[3] = el)}
+        >
           <h5>BFIs</h5>
           <ul className="payment-logos">
             <li>
@@ -116,12 +151,15 @@ const RightPortion = () => {
             </li>
           </ul>
         </div>
-        <div className="payment-card bfis">
+        <div
+          className="payment-card capital"
+          ref={el => (rightCardRefs.current[4] = el)}
+        >
           <h5>Capital Market Players</h5>
           <ul className="payment-logos">
             <li>
               <a href="#">
-                <img src="img/nepse.png" alt="nepse" />
+                <img src={Nepse} alt="nepse" />
               </a>
             </li>
           </ul>
