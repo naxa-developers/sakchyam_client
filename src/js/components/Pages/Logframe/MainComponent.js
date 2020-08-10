@@ -547,7 +547,7 @@ class MainComponent extends Component {
         'apexcharts-menu-icon',
       )[0].title = 'Export';
     }
-    const { activeLayer, activeDate } = this.state;
+    const { activeLayer, activeDate, activeDataType } = this.state;
     if (prevState.activeLayer !== activeLayer) {
       // eslint-disable-next-line react/no-did-update-set-state
       // this.setState({
@@ -568,6 +568,7 @@ class MainComponent extends Component {
         this.props.filterIndicatorGraphDataWithDate(
           activeLayer,
           activeDate,
+          activeDataType,
         );
       }
 
@@ -577,7 +578,7 @@ class MainComponent extends Component {
       //   console.log('setTimeout');
       // }, 3000);
     }
-    const { activeDataType } = this.state;
+    // const { activeDataType } = this.state;
     if (prevState.activeDate !== activeDate) {
       // eslint-disable-next-line react/no-did-update-set-state
       // this.setState({
@@ -598,6 +599,7 @@ class MainComponent extends Component {
       this.props.filterIndicatorGraphDataWithDate(
         activeLayer,
         activeDate,
+        activeDataType,
       );
     }
     if (prevState.activeDataType !== activeDataType) {

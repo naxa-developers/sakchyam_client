@@ -23,16 +23,21 @@ class DonutChart extends Component {
   }
 
   plotChart = () => {
+    const that = this;
+    const { reducerDataProps } = that.props;
+    const { label } = that.props.logFrameReducer[reducerDataProps];
+    console.log(that.props.logFrameReducer);
     const series = [50, 120];
     const options = {
       chart: {
         width: 150,
         type: 'donut',
       },
-      //   labels: ['a', 'b'],
+      labels: label,
       plotOptions: {
         pie: {
           customScale: 0.8,
+          // labels,
           donut: {
             // customScale: 0.8,
             // size: 200,
@@ -110,7 +115,7 @@ class DonutChart extends Component {
           backgroundColor: '#fff',
         },
         y: {
-          formatter: val => numberWithCommas(val),
+          formatter: val => `${val.toFixed(2)}%`,
         },
         // followCursor: false,
         // fixed: {
@@ -140,42 +145,42 @@ class DonutChart extends Component {
       //   },
       // ],
       legend: {
-        show: false,
+        show: true,
         position: 'bottom',
         offsetY: 0,
         // height: 230,
       },
-      fill: {
-        opacity: 1,
-        colors: [
-          '#13A8BE',
-          '#E11D3F',
-          // '#e69109',
-          // '#63a4ff',
-          // '#8629ff',
-          // '#e553ed',
-          // '#f2575f',
-          // '#915e0d',
-          // '#a1970d',
-          // '#4f7d14',
-          // '#07aba1',
-          // '#1d4c8f',
-          // '#491991',
-          // '#610766',
-          // '#6e0208',
-          // '#f07818',
-          // '#7F95D1',
-          // '#FF82A9',
-          // '#FFC0BE',
-          // '#f0e111',
-          // '#9ff035',
-          // '#34ede1',
-          // '#D13F31',
-          // '#DEDBA7',
-          // '#72B095',
-          // '#a1bd93',
-        ],
-      },
+      // fill: {
+      //   opacity: 1,
+      //   colors: [
+      //     // '#13A8BE',
+      //     // '#E11D3F',
+      //     // '#e69109',
+      //     // '#63a4ff',
+      //     // '#8629ff',
+      //     // '#e553ed',
+      //     // '#f2575f',
+      //     // '#915e0d',
+      //     // '#a1970d',
+      //     // '#4f7d14',
+      //     // '#07aba1',
+      //     // '#1d4c8f',
+      //     // '#491991',
+      //     // '#610766',
+      //     // '#6e0208',
+      //     // '#f07818',
+      //     // '#7F95D1',
+      //     // '#FF82A9',
+      //     // '#FFC0BE',
+      //     // '#f0e111',
+      //     // '#9ff035',
+      //     // '#34ede1',
+      //     // '#D13F31',
+      //     // '#DEDBA7',
+      //     // '#72B095',
+      //     // '#a1bd93',
+      //   ],
+      // },
     };
     this.setState({ options });
   };
@@ -184,25 +189,28 @@ class DonutChart extends Component {
     this.plotChart();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { label } = this.props.financialReducer.pieData;
-    if (
-      prevProps.financialReducer.pieData !==
-      this.props.financialReducer.pieData
-    ) {
-      // this.getDonutChartData();
-      // console.log(label, 'label');
-      this.setState(preState => ({
-        options: {
-          ...preState.options,
-          labels: label,
-        },
-      }));
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { label } = this.props.financialReducer.pieData;
+  //   if (
+  //     prevProps.financialReducer.pieData !==
+  //     this.props.financialReducer.pieData
+  //   ) {
+  //     // this.getDonutChartData();
+  //     // console.log(label, 'label');
+  //     this.setState(preState => ({
+  //       options: {
+  //         ...preState.options,
+  //         labels: label,
+  //       },
+  //     }));
+  //   }
+  // }
 
   render() {
-    const { series, label } = this.props.financialReducer.pieData;
+    const { reducerDataProps } = this.props;
+    const { series, label } = this.props.logFrameReducer[
+      reducerDataProps
+    ];
     // console.log(series, 'series');
     const { options, height } = this.state;
     const Total = series && series[1] + series[0];
@@ -226,7 +234,7 @@ class DonutChart extends Component {
               type="donut"
               height={this.props.activeModal ? '400' : '250'}
             />
-            <div
+            {/* <div
               className="pie-legend"
               style={{ padding: '20px 12px' }}
             >
@@ -272,7 +280,7 @@ class DonutChart extends Component {
                   </b>
                 </div>
               </div>
-            </div>
+            </div> */}
           </>
         )}
       </div>
@@ -280,7 +288,7 @@ class DonutChart extends Component {
   }
 }
 
-const mapStateToProps = ({ financialReducer }) => ({
-  financialReducer,
+const mapStateToProps = ({ logFrameReducer }) => ({
+  logFrameReducer,
 });
 export default connect(mapStateToProps, {})(DonutChart);
