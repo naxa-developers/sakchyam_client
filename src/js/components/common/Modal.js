@@ -47,6 +47,7 @@ const Modal = props => {
   const {
     handleModal,
     handleShowBarOf,
+    showBarof,
     component,
     selectedModal,
     header,
@@ -73,7 +74,7 @@ const Modal = props => {
     selectedModal === 'sunburst'
       ? 'Sakchyam Investment Focus'
       : selectedModal === 'groupedChart'
-      ? 'Province Wise Budget & Beneficiaries Count'
+      ? `${showBarof} Wise Budget & Beneficiaries Count`
       : selectedModal === 'leverageChart'
       ? 'S-CF Fund & Leverage By Investment Focus'
       : selectedModal === 'radar'

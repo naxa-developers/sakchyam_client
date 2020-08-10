@@ -478,10 +478,18 @@
         svg.sunbrust-legend{
             position: absolute;
             top:50%;
-            transform: translate(1%,-46%);
+            // @media #{$breakpoint-md-desktop} {
+            // }
+            @media #{$breakpoint-xl} {
+                // margin-right:5px;
+                transform: translate(7%,-46%);
+                
+            }
+            transform: translate(3%,-46%);
             right: 0;
             font-size: 13px;
             height: 200px;
+            width: 340px;
         }
     }
 }

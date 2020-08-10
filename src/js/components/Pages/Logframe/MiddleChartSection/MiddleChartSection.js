@@ -1347,7 +1347,7 @@ class MiddleChartSection extends Component {
   };
 
   downloadPng = () => {
-    console.log('test');
+    // console.log('test');
     const {
       props: {
         logFrameReducer: { filteredDynamicData },
@@ -1379,11 +1379,19 @@ class MiddleChartSection extends Component {
       }).then(function(canvas) {
         console.log(canvas, 'canvas');
         // theCanvas = canvas;
-        document.body.appendChild(canvas);
+        // document.body.appendChild(canvas);
 
         // Convert and download as image
         Canvas2Image.saveAsPNG(canvas);
-        document.body.append(canvas);
+        document.querySelector('.info-header-bottom').style.display =
+          'block';
+        document
+          .querySelectorAll('.download-icon-image')
+          .forEach(el => {
+            // eslint-disable-next-line no-param-reassign
+            el.style.display = 'block';
+          });
+        // document.body.append(canvas);
       });
 
       // Clean up
