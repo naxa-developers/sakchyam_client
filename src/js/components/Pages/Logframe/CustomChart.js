@@ -27,6 +27,11 @@ export default class CustomChart extends Component {
         this.setState({ keyRandom: Math.random() });
       }
     }
+    // if (prevProps.activeModal !== this.props.activeModal) {
+    //   if (this.props.activeModal) {
+    //     this.setState({ keyRandom: Math.random() });
+    //   }
+    // }
   }
   // componentDidMount() {
   //   const firstLegend = document.getElementsByClassName(

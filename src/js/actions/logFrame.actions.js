@@ -88,7 +88,10 @@ export const getIndicatorsGraphData = (
           }),
           dispatch({
             type: GET_PLANNED_ACHIEVED_DATA_FOR_2NDPIECHARTS,
-            payload: result.data,
+            payload: {
+              totalData: result.data,
+              selectedMilestone: 'Milestone Year 1',
+            },
           }),
           dispatch({
             type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
