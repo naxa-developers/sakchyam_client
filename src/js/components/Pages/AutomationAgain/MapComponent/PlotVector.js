@@ -401,7 +401,7 @@ class PlotVector extends Component {
 
     // eslint-disable-next-line array-callback-return
     grade.map((gradeitem, j) => {
-      if (value >= gradeitem) {
+      if (value >= gradeitem && value > 0) {
         color = legendColors[j];
       }
     });
