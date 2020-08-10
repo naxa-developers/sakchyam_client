@@ -318,9 +318,9 @@ class MainAutomation extends Component {
     this.props.getTimelineData();
     this.props.filterAutomationByState();
 
-    setTimeout(() => {
-      this.props.partnerSelectWithOutreach([], 'municipality');
-    }, 2000);
+    // setTimeout(() => {
+    //   this.props.partnerSelectWithOutreach([], 'municipality');
+    // }, 2000);
 
     const provinceEl = document.getElementById(
       'filter_dropdown_province',
