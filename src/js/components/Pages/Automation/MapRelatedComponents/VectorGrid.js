@@ -87,7 +87,7 @@ class VectorGridComponent extends Component {
 
             // console.log(data, "data new")
             var max = Math.max.apply(null, data);
-            var min = 0;//Math.min(...data);
+            var min = 1;//Math.min(...data);
             // console.log(max, "max")
             // console.log(min, "min")
             range = (max-min)/(gradeCount-1)<1?[0,2,4,6,8,10,12]:calculateRange(min, max, (max-min)/(gradeCount-1));
@@ -309,6 +309,19 @@ class VectorGridComponent extends Component {
                     }
                 })
             })
+            console.log(b,'bbb')
+            var result = [];
+            b.reduce(function(res, value) {
+            if (!res[value.partner_id]) {
+                res[value.partner_id] = { partner_id:value.partner_id,partner_name: value.partner_name, tablets: 0 };
+                result.push(res[value.partner_id])
+            }
+            res[value.partner_id].tablets += value.tablets;
+            return res;
+            }, {});
+
+            console.log(result);
+            //   console.log(groupBy(b,'partner_id'),'groupBy');
             // var result = 
               
             //   console.log(b,'afterfiltersss ')
@@ -369,7 +382,7 @@ class VectorGridComponent extends Component {
         
             // console.log(automationAllDataByPartner,'data of Partners');
         let total_tablets= 0;
-        const popupHtml =b && b.map(data=>{
+        const popupHtml =result && result.map(data=>{
             total_tablets += data.tablets;
             return (
                 `<li>
