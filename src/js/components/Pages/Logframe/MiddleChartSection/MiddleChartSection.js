@@ -1910,6 +1910,7 @@ class MiddleChartSection extends Component {
                   );
                 }}
                 type="button"
+                className="common-button is-border"
               >
                 Milestone Year 15-18 Percent
               </button>
@@ -1922,6 +1923,7 @@ class MiddleChartSection extends Component {
                   );
                 }}
                 type="button"
+                className="common-button is-border"
               >
                 Milestone Year 19-so on Number
               </button>
@@ -2036,17 +2038,25 @@ class MiddleChartSection extends Component {
               /> */}
               {activeLayer === 'Outcome Indicator 4' && (
                 <>
-                  <div id="pie-firstContainer">
-                    <label>Filter</label>
-                    <div style={{ width: '600px' }}>
+                <div className="card">
+                  {/* <div className="card-header"></div> */}
+                  <div className="card-body">
+                  
+                  <div className="row">
+                    {/* <label>Filter</label> */}
+                    <div className="col-lg-6" >
                       <DonutChart reducerDataProps="planned1stPieData" />
                     </div>
-                    <div style={{ width: '600px' }}>
+                    <div className="col-lg-6">
                       <DonutChart reducerDataProps="achieved1stPieData" />
                     </div>
                   </div>
-                  <div id="pie-secondContainer">
-                    <select
+                  </div>
+                  </div>
+                  <div className="card mt-5">
+                  <div className="card-header">
+                  <select
+                  
                       style={{
                         height: '32px',
                         width: '140px',
@@ -2057,29 +2067,20 @@ class MiddleChartSection extends Component {
                       {totalRangeDateName.map(data => {
                         return <option value={data}>{data}</option>;
                       })}
-
-                      {/* <option value="Milestone Year 2">
-                        Milestone Year 2
-                      </option>
-                      <option value="Milestone Year 3">
-                        Milestone Year 3
-                      </option>
-                      <option value="Milestone Year 4">
-                        Milestone Year 4
-                      </option>
-                      <option value="Milestone Year 5">
-                        Milestone Year 5
-                      </option>
-                      <option value="Milestone Year 6">
-                        Milestone Year 6
-                      </option> */}
                     </select>
-                    <div style={{ width: '600px' }}>
+                  </div>
+                  <div className="card-body">
+                  
+                  <div className="row">
+                    
+                    <div className="col-lg-6">
                       <DonutChart reducerDataProps="planned2ndPieData" />
                     </div>
-                    <div style={{ width: '600px' }}>
+                    <div className="col-lg-6">
                       <DonutChart reducerDataProps="achieved2ndPieData" />
                     </div>
+                  </div>
+                  </div>
                   </div>
                 </>
               )}
