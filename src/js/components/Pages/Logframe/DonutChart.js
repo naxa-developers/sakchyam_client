@@ -11,7 +11,7 @@ function numberWithCommas(x) {
   }
   return x;
 }
-let total = '';
+// let total = '';
 class DonutChart extends Component {
   constructor(props) {
     super(props);
@@ -73,13 +73,13 @@ class DonutChart extends Component {
                   //     return a + b;
                   //   }, 0);
                   // }
-                  if (typeof w === 'number') {
-                    // if (!total) {
-                    total = w;
-                    // }
-                    return numberWithCommas(w);
-                  }
-                  return numberWithCommas(total);
+                  // if (typeof w === 'number') {
+                  //   // if (!total) {
+                  //   total = w;
+                  //   // }
+                  //   return numberWithCommas(w);
+                  // }
+                  // return numberWithCommas(total);
                   // return null;
                 },
                 value: {
@@ -95,11 +95,11 @@ class DonutChart extends Component {
                 fontWeight: 100,
                 color: '#d9202c',
                 formatter(w) {
-                  let x = 0;
-                  w.globals.seriesTotals.forEach(i => {
-                    x += i;
-                  });
-                  return numberWithCommas(x);
+                  // let x = 0;
+                  // w.globals.seriesTotals.forEach(i => {
+                  //   x += i;
+                  // });
+                  // return numberWithCommas(x);
                 },
               },
             },

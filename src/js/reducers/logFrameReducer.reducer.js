@@ -218,23 +218,23 @@ const initialState = {
         rotate: 0,
         formatter: value => {
           console.log(value, 'value');
-          if (value === 0) {
-            return value;
-          }
-          if (value === 1) {
-            return value;
-          }
-          if (value <= 1) {
-            return value.toFixed(1);
-          }
+          // if (value === 0) {
+          //   return value;
+          // }
+          // if (value === 1) {
+          //   return value;
+          // }
+          // if (value <= 1) {
+          //   return value.toFixed(1);
+          // }
 
-          // console.log(value, 'v');
-          // const roundNumber = Math.round(value);
-          // console.log(convert(roundNumber));
-          //   console.log(convert(roundNumber));
-          if (value % 1 !== 0) {
-            return convert(Math.round(value * 10) / 10);
-          }
+          // // console.log(value, 'v');
+          // // const roundNumber = Math.round(value);
+          // // console.log(convert(roundNumber));
+          // //   console.log(convert(roundNumber));
+          // if (value % 1 !== 0) {
+          //   return convert(Math.round(value * 10) / 10);
+          // }
           return convert(value);
         },
       },
@@ -523,18 +523,20 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   console.log(dataUnit, 'dataUnit');
   console.log(dataType, 'dataType');
   // console.log(dataUnit, 'dataUnit');
-  if (dataType === 'Percent') {
-    type = '%';
-  } else if (dataUnit === 'GBP') {
-    unit = '£';
-  } else if (dataUnit === 'NPR') {
-    unit = 'Rs';
-  } else if (dataType !== undefined && dataType.includes('Percent')) {
-    type = '%';
-    // } else if (dataType !== null && dataType.includes('Percent')) {
-    //   type = '%';
-  } else {
-    type = '';
+  if (dataType !== undefined && dataType !== null) {
+    if (dataType === 'Percent') {
+      type = '%';
+    } else if (dataUnit === 'GBP') {
+      unit = '£';
+    } else if (dataUnit === 'NPR') {
+      unit = 'Rs';
+    } else if (dataType.includes('Percent')) {
+      type = '%';
+      // } else if (dataType !== null && dataType.includes('Percent')) {
+      //   type = '%';
+    } else {
+      type = '';
+    }
   }
 
   function getPercentageChange(
@@ -678,7 +680,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
               return value;
             }
             if (value <= 1) {
-              return value.toFixed(1);
+              return value.toFixed(2);
             }
 
             // console.log(value, 'v');
@@ -686,7 +688,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
             // console.log(convert(roundNumber));
             //   console.log(convert(roundNumber));
             if (value % 1 !== 0) {
-              return convert(Math.round(value * 10) / 10);
+              return convert(value.toFixed(2));
             }
             if (activeLayer === 'Output Indicator 1.4') {
               return value;
@@ -1052,11 +1054,11 @@ const getPlannedAchievedDataFor2ndPieCharts = (state, action) => {
     ...state,
     planned2ndPieData: {
       series: plannedData,
-      label: ['Male %', 'Female %'],
+      label: ['Female %', 'Male %'],
     },
     achieved2ndPieData: {
       series: achievedData,
-      label: ['Male %', 'Female %'],
+      label: ['Female %', 'Male %'],
     },
   };
 };

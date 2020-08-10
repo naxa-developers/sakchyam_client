@@ -1,18 +1,38 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import DonutChart from './DonutChart';
 // import 'apexcharts';
 
 // require 'apexcharts';
 require('apexcharts');
 
-export default class ModalChart extends Component {
+export default class CustomChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
+      keyRandom: 0,
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.activeLine1 !== this.props.activeLine1) {
+      if (this.props.activeModal) {
+        this.setState({ keyRandom: Math.random() });
+      }
+    }
+    if (prevProps.activeBar1 !== this.props.activeBar1) {
+      if (this.props.activeModal) {
+        this.setState({ keyRandom: Math.random() });
+      }
+    }
+    // if (prevProps.activeModal !== this.props.activeModal) {
+    //   if (this.props.activeModal) {
+    //     this.setState({ keyRandom: Math.random() });
+    //   }
+    // }
+  }
   // componentDidMount() {
   //   const firstLegend = document.getElementsByClassName(
   //     'apexcharts-legend-series',
@@ -38,35 +58,30 @@ export default class ModalChart extends Component {
   // }
 
   render() {
-    const { modal } = this.state;
+    const { modal, keyRandom } = this.state;
     const {
       options,
       series,
-      chartRef,
+      chartModalRef,
       activeDateValues,
     } = this.props;
     // const { series, options } = this.state;
     return (
-      <div id="chartmodal">
-        {/* {activeDateValues.length === 0 ? (
-          <label>
-            {activeDateValues.length === 0
-              ? 'No Data Selected'
-              : `${activeDateValues}`}
-          </label>
-        ) : ( */}
-        <ReactApexChart
-          // modal={modal}
-          //   key={series}
-          ref={chartRef}
-          options={options}
-          series={series}
-          type="line"
-          height={500}
-          // width={1300}
-        />
-        {/* )} */}
-      </div>
+      <>
+        <div id="logframe-chart">
+          <ReactApexChart
+            // modal={modal}
+            key={series}
+            // key={keyRandom}
+            ref={chartModalRef}
+            options={options}
+            series={series}
+            type="line"
+            height={500}
+            // width={700}
+          />
+        </div>
+      </>
     );
   }
 }
