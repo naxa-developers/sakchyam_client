@@ -8,7 +8,7 @@ const generateIndirectLines = (svgRect, rects, containerWidth) => {
 
   const coordinates = [];
   rects.forEach(item => {
-    const x1 = containerWidth;
+    const x1 = 178;
     const x2 = containerWidth * 0.6;
     const y1 = scale(item.rect1.top + item.rect1.height * 0.7);
     const y2 = scale(item.rect2.top + item.rect2.height * 0.5);

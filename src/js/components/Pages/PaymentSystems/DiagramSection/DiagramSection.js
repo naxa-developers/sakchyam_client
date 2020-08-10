@@ -27,7 +27,6 @@ const color = {
 };
 
 const DiagramSection = () => {
-  const [containerDimension, setContainerDimension] = useState({});
   const containerRef = useRef();
   const leftCardRefs = useRef({});
   const rightCardRefs = useRef({});
@@ -42,8 +41,8 @@ const DiagramSection = () => {
   const [rightCoordinates, setRightCoordinates] = useState([]);
   const [indirectCoordinates, setIndirectCoordinates] = useState([]);
 
-  const [isLeftCardSelected, setIsLeftCardSelected] = useState(true);
-  const [selectedCardRef, setSelectedCardRef] = useState(0);
+  const [isLeftCardSelected, setIsLeftCardSelected] = useState();
+  const [selectedCardRef, setSelectedCardRef] = useState(null);
   const [lineColor, setLineColor] = useState('red');
 
   const getMiddleLines = ({ leftRefLinks, rightRefLinks }) => {
@@ -150,10 +149,12 @@ const DiagramSection = () => {
         : item.rightRef === selectedCardRef,
     );
 
-    getMiddleLines(data[0]);
-    getLeftLines(data[0]);
-    getRightLines(data[0]);
-    getIndirectLines(data[0]);
+    if (!isArrayEmpty(data)) {
+      getMiddleLines(data[0]);
+      getLeftLines(data[0]);
+      getRightLines(data[0]);
+      getIndirectLines(data[0]);
+    }
   }, [selectedCardRef, isLeftCardSelected]);
 
   const onLeftCardClick = ref => {
@@ -194,10 +195,10 @@ const DiagramSection = () => {
       />
       <div
         style={{
-          // width: `${width}px`,
           width: '235px',
           height: '675px',
           alignSelf: 'flex-start',
+          zIndex: 1,
         }}
         ref={middleSVGContainerRef}
       >

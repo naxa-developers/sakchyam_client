@@ -34,7 +34,6 @@ const LeftPortion = ({
           style={{
             width: '60px',
             height: '74%',
-            // backgroundColor: 'red',
           }}
           ref={leftSVGContainerRef}
         >
@@ -44,7 +43,7 @@ const LeftPortion = ({
           />
         </div>
         <div>
-          <a href="#" className="nepalbank-logo">
+          <a href={() => {}} className="nepalbank-logo">
             <img src={NepalBankLogo} alt="nepal bank" />
           </a>
           <ul className="top-payment">

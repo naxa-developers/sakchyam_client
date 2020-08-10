@@ -60,32 +60,32 @@ const RightPortion = ({
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={() => {}}>
                   <img src={Master} alt="master" />
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={() => {}}>
                   <img src={Switches} alt="switches" />
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={() => {}}>
                   <img src={NePS} alt="nepse" />
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={() => {}}>
                   <img src={SCT} alt="sct" />
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={() => {}}>
                   <img src={NPN} alt="npn" />
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={() => {}}>
                   <span>Other Switches</span>
                 </a>
               </li>
@@ -104,26 +104,26 @@ const RightPortion = ({
           <h5>PSPs/PSOs</h5>
           <ul className="payment-logos">
             <li>
-              <a href="#">
+              <a href={() => {}}>
                 <img src={IMEPay} alt="ime pay" />
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href={() => {}}>
                 <img src={eSEWA} alt="esewa" />
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href={() => {}}>
                 <img src={Khalti} alt="khalti" />
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href={() => {}}>
                 <img src={CellPay} alt="cellpay" />
               </a>
             </li>
-            <li>
+            {/* <li>
               <a href="#">
                 <img src={NepalTelecom} alt="telecom" />
               </a>
@@ -132,10 +132,10 @@ const RightPortion = ({
               <a href="#">
                 <img src={Ncell} alt="ncell" />
               </a>
-            </li>
+            </li> */}
             <li>
-              <a href="#">
-                <span>Other Switches</span>
+              <a href={() => {}}>
+                <span>PSPs/PSOs</span>
               </a>
             </li>
           </ul>
@@ -152,7 +152,7 @@ const RightPortion = ({
           onClick={() => onRightCardClick(2)}
         >
           <ul className="payment-logos">
-            <a href="#">
+            <a href={() => {}}>
               <img src={NepalClearingHouse} alt="connect ips" />
             </a>
             <li>
@@ -184,12 +184,12 @@ const RightPortion = ({
           <h5>BFIs</h5>
           <ul className="payment-logos">
             <li>
-              <a href="#">
+              <a href={() => {}}>
                 <span>Banks</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href={() => {}}>
                 <span>Financial Institutions</span>
               </a>
             </li>
@@ -207,7 +207,7 @@ const RightPortion = ({
           <h5>Capital Market Players</h5>
           <ul className="payment-logos">
             <li>
-              <a href="#">
+              <a href={() => {}}>
                 <img src={Nepse} alt="nepse" />
               </a>
             </li>

@@ -9,13 +9,13 @@ const generateLeftLines = (leftSVGRect, rects) => {
   const newCoordinates = [];
   rects.forEach((item, index) => {
     if (index % 2 === 0) {
-      const x1 = 60;
+      const x1 = 52;
       const x2 = 40;
       const y1 = scale(item.rect1.top + item.rect1.height * 0.6);
       const y2 = scale(item.rect2.top + item.rect2.height * 0.4);
       newCoordinates.push({ x1, x2, y1, y2 });
     } else {
-      const x1 = 60;
+      const x1 = 52;
       const x2 = 20;
       const y1 = scale(item.rect1.top + item.rect1.height * 0.4);
       const y2 = scale(item.rect2.top + item.rect2.height * 0.6);

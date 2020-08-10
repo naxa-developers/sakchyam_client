@@ -22,7 +22,12 @@ const PlotLeftLines = ({
       </defs>
 
       {coordinates.map(item => (
-        <g fill="white" stroke={lineColor} strokeWidth="2">
+        <g
+          fill="white"
+          stroke={lineColor}
+          strokeWidth="2"
+          key={item.y1}
+        >
           <line
             x1={item.x1}
             x2={item.x2}
