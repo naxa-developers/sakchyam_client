@@ -1,72 +1,84 @@
-// export const middleLineData = [
-//   { from: 'rtgs', to: 'psps', index: 2 },
-//   { from: 'rtgs', to: 'bfis', index: 3 },
-//   { from: 'rtgs', to: 'card systems', index: 0 },
-// ];
-
-export const middleLineData = [
-  { leftIndex: 0, rightIndex: 4 },
-  { leftIndex: 0, rightIndex: 0 },
-  { leftIndex: 0, rightIndex: 2 },
-  { leftIndex: 0, rightIndex: 1 },
-  { leftIndex: 0, rightIndex: 3 },
-];
-
 export const lineData = [
-  { leftRef: 0, leftRefLinks: [0], rightRefLinks: [2, 3] },
+  {
+    leftRef: 0,
+    leftRefLinks: [0],
+    rightRefLinks: [2, 3],
+    leftToLeftLink: [
+      [0, 1],
+      [0, 2],
+    ],
+    rightToRightLink: [],
+    indirectLink: [],
+  },
+  {
+    leftRef: 1,
+    leftRefLinks: [1],
+    rightRefLinks: [0],
+    leftToLeftLink: [[0, 1]],
+    rightToRightLink: [],
+    indirectLink: [],
+  },
+  {
+    leftRef: 2,
+    leftRefLinks: [2],
+    rightRefLinks: [4],
+    leftToLeftLink: [[0, 2]],
+    rightToRightLink: [],
+    indirectLink: [],
+  },
+  {
+    rightRef: 0,
+    leftRefLinks: [1],
+    rightRefLinks: [0],
+    leftToLeftLink: [[0, 1]],
+    rightToRightLink: [],
+    indirectLink: [],
+  },
+  {
+    rightRef: 1,
+    leftRefLinks: [0],
+    rightRefLinks: [2],
+    leftToLeftLink: [],
+    rightToRightLink: [
+      [1, 2],
+      [2, 3],
+    ],
+    indirectLink: [],
+  },
+  {
+    rightRef: 2,
+    leftRefLinks: [0],
+    rightRefLinks: [2],
+    leftToLeftLink: [],
+    rightToRightLink: [
+      [1, 2],
+      [2, 3],
+      [3, 4],
+    ],
+    indirectLink: [],
+  },
+  {
+    rightRef: 3,
+    leftRefLinks: [0],
+    rightRefLinks: [3],
+    leftToLeftLink: [],
+    rightToRightLink: [
+      [1, 2],
+      [2, 3],
+    ],
+    indirectLink: [2, 4],
+  },
+  {
+    rightRef: 4,
+    leftRefLinks: [2],
+    rightRefLinks: [4],
+    leftToLeftLink: [],
+    rightToRightLink: [
+      [2, 3],
+      [3, 4],
+    ],
+    indirectLink: [],
+  },
 ];
 
 export const leftLineData = [];
-
-const apiData = {
-  Sheet1: [
-    {
-      Components: 'RTGS',
-      'Direct Link 1': 'National Switch',
-      'Direct Link 2': 'BFIs',
-      'Direct Link 3': 'NCHL',
-    },
-    {
-      Components: 'National Switch',
-      'Direct Link 1': 'RTGS',
-      'Direct Link 2': 'Card and Switch System',
-    },
-    {
-      Components: 'CSD',
-      'Direct Link 1': 'Capital Market Players',
-    },
-    {
-      Components: 'Card and Switch System',
-      'Direct Link 1': 'National Switch',
-      'Link with Indirect': 'National Switch',
-      'Indirect Link': 'RTGS',
-    },
-    {
-      Components: 'PSPs/PSOs',
-      'Direct Link 1': 'NCHL',
-      'Direct Link 2': 'BFIs',
-      'Link with Indirect': 'NCHL',
-      'Indirect Link': 'RTGS',
-    },
-    {
-      Components: 'NCHL',
-      'Direct Link 1': 'RTGS',
-      'Direct Link 2': 'BFIs',
-      'Direct Link 3': 'PSPs/PSOs',
-    },
-    {
-      Components: 'BFIs',
-      'Direct Link 1': 'RTGS',
-      'Direct Link 2': 'PSPs/PSOs',
-      'Direct Link 3': 'NCHL',
-      'Link with Indirect': 'NCHL',
-      'Indirect Link': 'Capital Market Players',
-    },
-    {
-      Components: 'Capital Market Players',
-      'Direct Link 1': 'NCHL',
-      'Direct Link 2': 'BFIs',
-      'Direct Link 3': 'CSD',
-    },
-  ],
-};

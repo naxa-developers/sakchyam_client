@@ -11,7 +11,7 @@ function numberWithCommas(x) {
   }
   return x;
 }
-let total = '';
+// let total = '';
 class DonutChart extends Component {
   constructor(props) {
     super(props);
@@ -73,13 +73,13 @@ class DonutChart extends Component {
                   //     return a + b;
                   //   }, 0);
                   // }
-                  if (typeof w === 'number') {
-                    // if (!total) {
-                    total = w;
-                    // }
-                    return numberWithCommas(w);
-                  }
-                  return numberWithCommas(total);
+                  // if (typeof w === 'number') {
+                  //   // if (!total) {
+                  //   total = w;
+                  //   // }
+                  //   return numberWithCommas(w);
+                  // }
+                  // return numberWithCommas(total);
                   // return null;
                 },
                 value: {
@@ -95,11 +95,11 @@ class DonutChart extends Component {
                 fontWeight: 100,
                 color: '#d9202c',
                 formatter(w) {
-                  let x = 0;
-                  w.globals.seriesTotals.forEach(i => {
-                    x += i;
-                  });
-                  return numberWithCommas(x);
+                  // let x = 0;
+                  // w.globals.seriesTotals.forEach(i => {
+                  //   x += i;
+                  // });
+                  // return numberWithCommas(x);
                 },
               },
             },
@@ -114,9 +114,9 @@ class DonutChart extends Component {
           fontColor: '#fff',
           backgroundColor: '#fff',
         },
-        y: {
-          formatter: val => `${val.toFixed(2)}%`,
-        },
+        // y: {
+        //   formatter: val => `${val.toFixed(2)}%`,
+        // },
         // followCursor: false,
         // fixed: {
         //   enabled: true,
@@ -232,7 +232,7 @@ class DonutChart extends Component {
               options={options}
               series={series && series}
               type="donut"
-              height={this.props.activeModal ? '400' : '250'}
+              height={this.props.activeModal ? '400' : '350'}
             />
             {/* <div
               className="pie-legend"

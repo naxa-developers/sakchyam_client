@@ -639,9 +639,12 @@ class MainPartnership extends Component {
   };
 
   setMapViewDataBy = selectedView => {
-    this.setState({
-      mapViewDataBy: selectedView,
-    });
+    console.log(selectedView, 'selectedView');
+    console.log(this.state.mapViewDataBy, 'prevState');
+    this.setState(prevState => ({
+      mapViewDataBy:
+        selectedView === prevState.mapViewDataBy ? '' : selectedView,
+    }));
   };
 
   setActiveView = selectedView => {

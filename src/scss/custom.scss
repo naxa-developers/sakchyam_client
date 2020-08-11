@@ -267,25 +267,25 @@
   }
 }
 }
-#modal-content {
-  #logframe-chart {
-    .apexcharts-inner {
-      transform: translate(90px, 36px);
-    }
-    .apexcharts-svg .apexcharts-yaxis {
-      // transform: translate(40px, 8px);
-      // transform: translate(74px, 8px);
-      transform: translate(95px, 8px);
-    }
-    .apexcharts-yaxis-title {
-      transform: translate(20px, -6px);
-      // transform: translate(40px, 10px);
-    }
-    .apexcharts-yaxis-label {
-      transform: translate(-22px, 8px);
-    }
-  }
-}
+// #modal-content {
+//   #logframe-chart {
+//     .apexcharts-inner {
+//       transform: translate(90px, 36px);
+//     }
+//     .apexcharts-svg .apexcharts-yaxis {
+//       // transform: translate(40px, 8px);
+//       // transform: translate(74px, 8px);
+//       transform: translate(95px, 8px);
+//     }
+//     .apexcharts-yaxis-title {
+//       transform: translate(20px, -6px);
+//       // transform: translate(40px, 10px);
+//     }
+//     .apexcharts-yaxis-label {
+//       transform: translate(-22px, 8px);
+//     }
+//   }
+// }
 .loader {
   position: fixed;
   top: 0;
@@ -719,3 +719,9 @@
   display: flex;
   flex-wrap: nowrap;
 }
+// #logframe_modal_chart{
+//   position: inherit !important;
+// }
+// #logframe_modal_chart > div:nth-of-type(1){
+//   min-height: 0 !important;
+// }

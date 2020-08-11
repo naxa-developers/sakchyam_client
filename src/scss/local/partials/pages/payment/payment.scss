@@ -52,7 +52,7 @@ $payment-orange:#FF6D00;
         @include flex(0 0 320px);
         max-width: 320px;
         .payment-sidebar-cover{
-            background-color: $payment-red-light;
+            background-color: $payment-yellow;
             border:1px solid $payment-border;
             @include radius(5px);
             padding:15px 15px 15px 50px;
@@ -71,6 +71,7 @@ $payment-orange:#FF6D00;
                     @include justify-content-center;
                     @include align-items-start;
                     @include flex-direction-column(column);
+                    font-family: $avenir-heavy;
                     font-size: 24px;
                     color:$primary-color;
                     background-color: $white-color;
@@ -181,13 +182,7 @@ $payment-orange:#FF6D00;
             text-transform: capitalize;
             text-align: center;
         }
-        .top-section-payment{
-            background-color: $payment-red-light;
-            @include radius(5px);
-            border:1px solid $payment-border;
-            padding:15px 30px;
-            
-        }
+        
         .bottom-section-payment{
             padding:15px 30px;
             position: relative;
@@ -236,7 +231,7 @@ $payment-orange:#FF6D00;
             }
         }
         .payment-card{
-            border:1px solid $payment-border;
+            border:2px solid $payment-border;
             padding:15px 15px 5px 15px;
             background-color: $white-color;
             @include radius(5px);
@@ -336,8 +331,8 @@ $payment-orange:#FF6D00;
                 }
             }
             h5{
-                font-family: $body-fonts;
-                font-size: 1.5rem;
+                font-family: $avenir-heavy;
+                font-size: 1.3rem;
                 @include flex( 0 0 180px);
                 max-width: 180px;
                 @media screen and(max-width:1400px){
@@ -358,6 +353,11 @@ $payment-orange:#FF6D00;
                     border-color: $payment-green;
                 }
             }
+            &.connectips-system{
+                &.active{
+                    background-color: $payment-yellow;
+                }
+            }
             @media screen and (max-width:1200px){
                 @include flex-wrap(wrap);
                 .payment-logos{
@@ -376,6 +376,18 @@ $payment-orange:#FF6D00;
             &::before{
                 opacity: 1;
             }
+        }
+        .top-section-payment{
+            background-color: $payment-red-light;
+            @include radius(5px);
+            border:1px solid $payment-border;
+            padding:15px 30px;
+            .payment-card{
+                &.active{
+                    background-color:$payment-red-light;
+                }
+            }
+            
         }
     }
     .payement-content{

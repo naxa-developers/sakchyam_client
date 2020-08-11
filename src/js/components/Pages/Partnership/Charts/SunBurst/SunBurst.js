@@ -258,7 +258,7 @@ class Sunburst extends React.Component {
         .style("class", "sunburst-svg")
         .style("width", w + "px")
         .style("height", h + "px")
-        .style("transform", "translate(-34px, 0px)")
+        .style("transform", "translate(-61px, 0px)")
         .attr("viewBox", `${-w / 2} ${-h / 2} ${w} ${h}`)
         // .append("circle")
         // .attr("cx", this.x)
