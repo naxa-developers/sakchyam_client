@@ -29,6 +29,7 @@ export default function MapFilter(props) {
     setViewDataBy,
     setMapViewDataBy,
     setOutreachByLU,
+    loading,
   } = props;
 
   const [selectedOption, setOption] = useState(
@@ -43,37 +44,8 @@ export default function MapFilter(props) {
 
   return (
     <div className="partnership-tab">
-      <ul>
-        {activeView === 'visualization' ? (
-          <>
-            <FilterBadge
-              viewDataBy={viewDataBy}
-              onclick={() => {
-                setViewDataBy('allocated_beneficiary');
-              }}
-              dataTitle="allocated_beneficiary"
-              icon="people"
-              title="Beneficiaries"
-            />
-            <FilterBadge
-              viewDataBy={viewDataBy}
-              onclick={() => {
-                setViewDataBy('allocated_budget');
-              }}
-              dataTitle="allocated_budget"
-              icon="monetization_on"
-              title="Budget Allocated"
-            />
-            <FilterBadge
-              viewDataBy={viewDataBy}
-              onclick={() => {
-                setViewDataBy('Leverage');
-              }}
-              dataTitle="Leverage"
-              title="Leverage"
-            />
-          </>
-        ) : (
+      {!loading && (
+        <ul>
           <>
             <FilterBadge
               viewDataBy={mapViewDataBy}
@@ -92,8 +64,9 @@ export default function MapFilter(props) {
               title="Outreach by Local Unit"
             />
           </>
-        )}
-      </ul>
+        </ul>
+      )}
+
       {mapViewDataBy === 'outreach_local_units' && (
         <div className="outreach-dropdown">
           {/* style={{
