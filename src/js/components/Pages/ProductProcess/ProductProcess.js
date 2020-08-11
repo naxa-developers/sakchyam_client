@@ -59,7 +59,6 @@ class ProductProcess extends React.Component {
 
   componentDidMount() {
     this.props.getProductProcessList();
-    // this.props.getProductProcessData();
   }
 
   componentDidUpdate(prevProps, prevState) {

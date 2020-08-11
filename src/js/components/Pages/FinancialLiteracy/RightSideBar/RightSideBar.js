@@ -55,7 +55,6 @@ class RightSideBar extends Component {
       filteredData: [],
       maxValue: 0,
       timelineData: [],
-      loading: true,
     };
   }
 
@@ -532,6 +531,7 @@ class RightSideBar extends Component {
     const {
       financialProgram,
       financialData,
+      loading,
     } = this.props.financialReducer;
 
     const {
@@ -550,7 +550,6 @@ class RightSideBar extends Component {
       programCount,
       maxValue,
       timelineData,
-      loading,
     } = this.state;
 
     return (
