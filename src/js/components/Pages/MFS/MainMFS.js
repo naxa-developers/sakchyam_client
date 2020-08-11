@@ -37,6 +37,7 @@ import {
 } from '../../../actions/common.actions';
 import 'react-toastify/dist/ReactToastify.css';
 import CardTab from '../Partnership/common/CardTab';
+import StackedBarWithAllFederal from './Chart/StackedBarWithAllFederal/StackedBarWithAllFederal';
 
 global.markerList = [];
 function removeMarker() {
@@ -1224,39 +1225,6 @@ class MainMFS extends Component {
                     // showBarof={showBarof}
                     // handleShowBarOf={handleShowBarOf}
                     cardTitle="Province Wise Budget & Beneficiaries Count"
-                    cardClass="col-xl-12"
-                    cardChartId="groupedChart"
-                    handleModal={this.handleModal}
-                    handleSelectedModal={() => {
-                      this.handleSelectedModal('groupedChart');
-                    }}
-                    renderChartComponent={() => {
-                      return (
-                        <label>Test</label>
-                        // <StackedBarWithProvince
-                        //   viewDataBy={viewDataBy}
-                        //   activeModal={activeModal}
-                        //   investmentFocusSelection={
-                        //     investmentFocusSelection
-                        //   }
-                        //   partnerSelection={partnerSelection}
-                        //   partnerTypeSelection={partnerTypeSelection}
-                        //   projectSelection={projectSelection}
-                        //   projectStatus={projectStatus}
-                        //   showBarof={showBarof}
-                        //   handleShowBarOf={handleShowBarOf}
-                        // />
-                      );
-                    }}
-                  />
-                  <CardTab
-                    // resetFunction={() => {
-                    //   this.props.resetBarDatas();
-                    //   this.props.handleShowBarOf('Provinces');
-                    // }}
-                    // showBarof={showBarof}
-                    // handleShowBarOf={handleShowBarOf}
-                    cardTitle="Province Wise Budget & Beneficiaries Count"
                     style={{ position: 'relative' }}
                     cardClass="col-xl-12"
                     cardChartId="groupedChart"
@@ -1283,6 +1251,40 @@ class MainMFS extends Component {
                           mapViewDataBy={mapViewDataBy}
                           setMapViewBy={this.setMapViewBy}
                         />
+                      );
+                    }}
+                  />
+                  <CardTab
+                    // resetFunction={() => {
+                    //   this.props.resetBarDatas();
+                    //   this.props.handleShowBarOf('Provinces');
+                    // }}
+                    // showBarof={showBarof}
+                    // handleShowBarOf={handleShowBarOf}
+                    cardTitle="Province Wise Budget & Beneficiaries Count"
+                    cardClass="col-xl-12"
+                    cardChartId="groupedChart"
+                    handleModal={this.handleModal}
+                    handleSelectedModal={() => {
+                      this.handleSelectedModal('groupedChart');
+                    }}
+                    renderChartComponent={() => {
+                      return (
+                        // <label>Test</label>
+                        <StackedBarWithAllFederal />
+                        // <StackedBarWithProvince
+                        //   viewDataBy={viewDataBy}
+                        //   activeModal={activeModal}
+                        //   investmentFocusSelection={
+                        //     investmentFocusSelection
+                        //   }
+                        //   partnerSelection={partnerSelection}
+                        //   partnerTypeSelection={partnerTypeSelection}
+                        //   projectSelection={projectSelection}
+                        //   projectStatus={projectStatus}
+                        //   showBarof={showBarof}
+                        //   handleShowBarOf={handleShowBarOf}
+                        // />
                       );
                     }}
                   />

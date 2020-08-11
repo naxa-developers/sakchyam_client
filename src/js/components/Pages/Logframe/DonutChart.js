@@ -114,9 +114,9 @@ class DonutChart extends Component {
           fontColor: '#fff',
           backgroundColor: '#fff',
         },
-        y: {
-          formatter: val => `${val.toFixed(2)}%`,
-        },
+        // y: {
+        //   formatter: val => `${val.toFixed(2)}%`,
+        // },
         // followCursor: false,
         // fixed: {
         //   enabled: true,
@@ -232,7 +232,7 @@ class DonutChart extends Component {
               options={options}
               series={series && series}
               type="donut"
-              height={this.props.activeModal ? '400' : '250'}
+              height={this.props.activeModal ? '400' : '350'}
             />
             {/* <div
               className="pie-legend"
