@@ -51,8 +51,6 @@ class LeftSideBar extends Component {
         partnerSelection,
         expsnsionSelection,
         handelExpansionCheckbox,
-        handlePartnerSelectionCheckbox,
-        handlePartnerParentCheckbox,
         handelExpansionParentCheckbox,
         G2PTypes,
         serviceType,
@@ -60,7 +58,6 @@ class LeftSideBar extends Component {
         demonstrationType,
         applyBtnClick,
         resetFilters,
-        isAllPartnerSelected,
         isAllInvestmentFocusSelected,
         institutionSelection,
         isAllInstitutionSelected,
@@ -135,45 +132,65 @@ class LeftSideBar extends Component {
                   </div>
                 </div>
               </div>
-              <div
-                className="sidebar-widget partner-institue"
-                style={{ marginTop: '2vh' }}
-              >
-                <h6 className="title">Type of FI </h6>
+
+              <div className="sidebar-widget">
+                <h6 className="title">TYPE OF FI</h6>
                 <div className="widget-body">
-                  <div className="checklist-group">
-                    <div className="checklist-header">
-                      <div className="custom-checkbox">
-                        <input
-                          id="Initiative14"
-                          type="checkbox"
-                          name="Initiative14"
-                          onChange={handlePartnerParentCheckbox}
-                          checked={isAllPartnerSelected}
-                        />
-                        <label htmlFor="Initiative14">All</label>
-                      </div>
-                    </div>
-                    <ul className="checkbox-list">
-                      {fiList &&
-                        fiList.map(partner => {
-                          return (
-                            <CheckBox
-                              id={partner.id}
-                              className="partner_checkbox"
-                              key={partner.id}
-                              label={partner.partner_type}
-                              name={partner.partner_type}
-                              changeHandler={
-                                handlePartnerSelectionCheckbox
-                              }
-                              checked={partnerSelection.includes(
-                                partner.partner_type,
-                              )}
-                            />
-                          );
-                        })}
-                    </ul>
+                  <div className="widget-tag partner-tag">
+                    <a
+                      data-label="Microfinance Institutions/Cooperatives"
+                      className={
+                        partnerSelection.includes('Commercial Bank')
+                          ? 'active'
+                          : ''
+                      }
+                      role="tab"
+                      tabIndex="-1"
+                      onClick={() => {
+                        handelMultiChoice('Commercial Bank', 4);
+                      }}
+                      onKeyUp={() => {
+                        handelMultiChoice('Commercial Bank', 4);
+                      }}
+                    >
+                      <span>Commercial Bank</span>
+                    </a>
+                    <a
+                      data-label="Microfinance Institutions/Cooperatives"
+                      className={
+                        partnerSelection.includes('Apex Organization')
+                          ? 'active'
+                          : ''
+                      }
+                      role="tab"
+                      tabIndex="-1"
+                      onClick={() => {
+                        handelMultiChoice('Apex Organization', 4);
+                      }}
+                      onKeyUp={() => {
+                        handelMultiChoice('Apex Organization', 4);
+                      }}
+                    >
+                      <span>Apex Organization</span>
+                    </a>
+                    <a
+                      data-label="Commercial Bank and Other Partners"
+                      className={
+                        partnerSelection.includes('Cooperative')
+                          ? 'active'
+                          : ''
+                      }
+                      role="tab"
+                      tabIndex="-1"
+                      onClick={() => {
+                        handelMultiChoice('Cooperative', 4);
+                      }}
+                      onKeyUp={() => {
+                        handelMultiChoice('Cooperative', 4);
+                      }}
+                    >
+                      <span>Cooperative</span>
+                    </a>
                   </div>
                 </div>
               </div>
