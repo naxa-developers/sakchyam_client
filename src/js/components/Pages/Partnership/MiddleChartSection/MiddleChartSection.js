@@ -278,6 +278,7 @@ class MiddleChartSection extends Component {
             // visible={selectedModal === 'bar' ? true : false}
             // modalHeader="Sakchyam Investment Focus"
             groupedStackData={groupedStackData}
+            showBarof={showBarof}
             handleShowBarOf={handleShowBarOf}
             resetFilters={resetFilters}
             selectedModal={selectedModal}

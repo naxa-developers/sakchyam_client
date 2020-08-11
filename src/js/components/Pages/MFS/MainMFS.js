@@ -36,6 +36,8 @@ import {
   filterMunListFromDistrict,
 } from '../../../actions/common.actions';
 import 'react-toastify/dist/ReactToastify.css';
+import CardTab from '../Partnership/common/CardTab';
+import StackedBarWithAllFederal from './Chart/StackedBarWithAllFederal/StackedBarWithAllFederal';
 
 global.markerList = [];
 function removeMarker() {
@@ -59,9 +61,11 @@ class MainMFS extends Component {
     super();
     this.state = {
       // Event Handle Section
-      selectedPartner: '',
-      selectedInnovation: '',
-      selectedAchievement: '',
+      selectedPartner: [],
+      selectedInnovation: [],
+      isAllInnovationSelected: false,
+      selectedAchievement: [],
+      isAllAchievementSelected: false,
       provinceList: provinceLists(),
       districtList: districtLists(),
       municipalityList: municipalityLists(),
@@ -685,31 +689,179 @@ class MainMFS extends Component {
     this.setState({ showBarof: value });
   };
 
-  handlePartnerSelection = clickedValue => {
+  handlePartnerSelection = name => {
     const { selectedPartner } = this.state;
-    if (selectedPartner === clickedValue) {
-      this.setState({ selectedPartner: '' });
+
+    this.setState(preState => {
+      if (!preState.selectedPartner.includes(name)) {
+        return {
+          selectedPartner: [...preState.selectedPartner, name],
+        };
+      }
+      if (preState.selectedPartner.includes(name)) {
+        const newArr = selectedPartner.filter(
+          partner => partner !== name,
+        );
+        return { selectedPartner: newArr };
+      }
+      return null;
+    });
+  };
+
+  // handlePartnerSelection = clickedValue => {
+  //   const { selectedPartner } = this.state;
+  //   if (selectedPartner === clickedValue) {
+  //     this.setState({ selectedPartner: '' });
+  //   } else {
+  //     this.setState({ selectedPartner: clickedValue });
+  //   }
+  // };
+
+  // handleInnovationSelection = clickedValue => {
+  //   const { selectedInnovation } = this.state;
+  //   if (selectedInnovation === clickedValue) {
+  //     this.setState({ selectedInnovation: '' });
+  //   } else {
+  //     this.setState({ selectedInnovation: clickedValue });
+  //   }
+  // };
+  handleInnovationAllSelection = e => {
+    // e.stopPropagation();
+    const {
+      selectedInnovation,
+      isAllInnovationSelected,
+    } = this.state;
+    if (isAllInnovationSelected) {
+      const allInnovationElement = document.getElementsByClassName(
+        'innovation_checkbox',
+      );
+
+      for (let i = 0; i < allInnovationElement.length; i += 1) {
+        allInnovationElement[i].checked = false;
+      }
+      this.setState({
+        selectedInnovation: [],
+        isAllInnovationSelected: false,
+      });
     } else {
-      this.setState({ selectedPartner: clickedValue });
+      this.setState({
+        isAllInnovationSelected: true,
+      });
+      if (e.target.checked === true) {
+        const allInnovationElement = document.getElementsByClassName(
+          'innovation_checkbox',
+        );
+        const innovationSelection = selectedInnovation;
+        for (let i = 0; i < allInnovationElement.length; i += 1) {
+          allInnovationElement[i].checked = true;
+          innovationSelection.push(allInnovationElement[i].name);
+        }
+        this.setState({
+          selectedInnovation: innovationSelection,
+        });
+        // this.setState({
+        //   checkedProgressItems: joined,
+        // });
+      }
     }
   };
 
-  handleInnovationSelection = clickedValue => {
-    const { selectedInnovation } = this.state;
-    if (selectedInnovation === clickedValue) {
-      this.setState({ selectedInnovation: '' });
+  handleInnovationSelection = e => {
+    const {
+      state: { selectedInnovation, isAllPartnerSelected },
+    } = this;
+    const {
+      target: { name, checked },
+    } = e;
+    this.setState(preState => {
+      if (checked) {
+        return {
+          selectedInnovation: [...preState.selectedInnovation, name],
+        };
+      }
+      if (!checked) {
+        const newArr = selectedInnovation.filter(
+          innovselected => innovselected !== name,
+        );
+        return { selectedInnovation: newArr };
+      }
+      return null;
+    });
+  };
+
+  // handleAchievementSelection = clickedValue => {
+  //   const { selectedAchievement } = this.state;
+  //   if (selectedAchievement === clickedValue) {
+  //     this.setState({ selectedAchievement: '' });
+  //   } else {
+  //     this.setState({ selectedAchievement: clickedValue });
+  //   }
+  // };
+  handleAchievementAllSelection = e => {
+    // e.stopPropagation();
+    const {
+      selectedAchievement,
+      isAllAchievementSelected,
+    } = this.state;
+    if (isAllAchievementSelected) {
+      const allAchievementElement = document.getElementsByClassName(
+        'achievement_checkbox',
+      );
+
+      for (let i = 0; i < allAchievementElement.length; i += 1) {
+        allAchievementElement[i].checked = false;
+      }
+      this.setState({
+        selectedAchievement: [],
+        isAllAchievementSelected: false,
+      });
     } else {
-      this.setState({ selectedInnovation: clickedValue });
+      this.setState({
+        isAllAchievementSelected: true,
+      });
+      if (e.target.checked === true) {
+        const allAchievementElement = document.getElementsByClassName(
+          'achievement_checkbox',
+        );
+        const achievementSelection = selectedAchievement;
+        for (let i = 0; i < allAchievementElement.length; i += 1) {
+          allAchievementElement[i].checked = true;
+          achievementSelection.push(allAchievementElement[i].name);
+        }
+        this.setState({
+          selectedAchievement: achievementSelection,
+        });
+        // this.setState({
+        //   checkedProgressItems: joined,
+        // });
+      }
     }
   };
 
-  handleAchievementSelection = clickedValue => {
-    const { selectedAchievement } = this.state;
-    if (selectedAchievement === clickedValue) {
-      this.setState({ selectedAchievement: '' });
-    } else {
-      this.setState({ selectedAchievement: clickedValue });
-    }
+  handleAchievementSelection = e => {
+    const {
+      state: { selectedAchievement, isAllPartnerSelected },
+    } = this;
+    const {
+      target: { name, checked },
+    } = e;
+    this.setState(preState => {
+      if (checked) {
+        return {
+          selectedAchievement: [
+            ...preState.selectedAchievement,
+            name,
+          ],
+        };
+      }
+      if (!checked) {
+        const newArr = selectedAchievement.filter(
+          achievementSelected => achievementSelected !== name,
+        );
+        return { selectedAchievement: newArr };
+      }
+      return null;
+    });
   };
 
   handlePartnerType = clickedValue => {
@@ -876,6 +1028,7 @@ class MainMFS extends Component {
         selectedInnovation,
         selectedPartner,
         selectedAchievement,
+        isAllAchievementSelected,
         provinceList,
         districtList,
         municipalityList,
@@ -916,10 +1069,16 @@ class MainMFS extends Component {
             selectedPartner={selectedPartner}
             handlePartnerSelection={this.handlePartnerSelection}
             selectedInnovation={selectedInnovation}
+            handleInnovationAllSelection={
+              this.handleInnovationAllSelection
+            }
             handleInnovationSelection={this.handleInnovationSelection}
             selectedAchievement={selectedAchievement}
             handleAchievementSelection={
               this.handleAchievementSelection
+            }
+            handleAchievementAllSelection={
+              this.handleAchievementAllSelection
             }
           />
           <main className="main">
@@ -1055,179 +1214,83 @@ class MainMFS extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="partnership-tab">
-                  <span>view data by</span>
-                  <ul>
-                    {activeView === 'visualization' ? (
-                      <>
-                        <FilterBadge
-                          viewDataBy={viewDataBy}
-                          onclick={() => {
-                            this.setViewDataBy(
-                              'allocated_beneficiary',
-                            );
-                          }}
-                          dataTitle="allocated_beneficiary"
-                          icon="people"
-                          title="Beneficiaries"
-                        />
-                        <FilterBadge
-                          viewDataBy={viewDataBy}
-                          onclick={() => {
-                            this.setViewDataBy('allocated_budget');
-                          }}
-                          dataTitle="allocated_budget"
-                          icon="monetization_on"
-                          title="Budget Allocated"
-                        />
-                        <FilterBadge
-                          viewDataBy={viewDataBy}
-                          onclick={() => {
-                            this.setViewDataBy('Leverage');
-                          }}
-                          dataTitle="Leverage"
-                          title="Leverage"
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <FilterBadge
-                          viewDataBy={mapViewDataBy}
-                          onclick={() => {
-                            this.setMapViewDataBy('investment_focus');
-                          }}
-                          dataTitle="investment_focus"
-                          icon="payments"
-                          title="Partners"
-                        />
-                        <FilterBadge
-                          viewDataBy={mapViewDataBy}
-                          onclick={() => {
-                            this.setMapViewDataBy(
-                              'allocated_beneficiary',
-                            );
-                          }}
-                          dataTitle="allocated_beneficiary"
-                          icon="people"
-                          title="Beneficiaries"
-                        />
-                        {/* <FilterBadge
-                          viewDataBy={mapViewDataBy}
-                          onclick={() => {
-                            this.setMapViewDataBy('allocated_budget');
-                          }}
-                          dataTitle="allocated_budget"
-                          title="Budget Allocated"
-                        /> */}
-                        {/* total_beneficiary branch blb extension_counter
-                        tablet */}
-                        <FilterBadge
-                          viewDataBy={mapViewDataBy}
-                          onclick={() => {
-                            this.setMapViewDataBy('allocated_budget');
-                          }}
-                          icon="monetization_on"
-                          dataTitle="allocated_budget"
-                          title="Allocated Budget"
-                        />
-                        {/* <FilterBadge
-                          viewDataBy={mapViewDataBy}
-                          onclick={() => {
-                            this.setMapViewDataBy('branch');
-                          }}
-                          dataTitle="branch"
-                          title="Physical Branches"
-                        />
-                        <FilterBadge
-                          viewDataBy={mapViewDataBy}
-                          onclick={() => {
-                            this.setMapViewDataBy('tablet');
-                          }}
-                          dataTitle="tablet"
-                          title="Tablet"
-                          icon="tablet"
-                        /> */}
-                        {/* <FilterBadge
-                          viewDataBy={viewDataBy}
-                          onclick={() => {
-                            this.setViewDataBy('Other major product');
-                          }}
-                          dataTitle="Other major product"
-                          title="Other major product"
-                        /> */}
-                      </>
-                    )}
-                    {/* <li
-                      className={
-                        viewDataBy === 'allocated_beneficiary'
-                          ? 'active'
-                          : ''
-                      }
-                      onClick={() => {
-                        this.setViewDataBy('allocated_beneficiary');
-                      }}
-                      onKeyDown={() => {
-                        this.setViewDataBy('allocated_beneficiary');
-                      }}
-                      role="tab"
-                      tabIndex="-1"
-                    >
-                      <a>Beneficiaries</a>
-                    </li> */}
-                    {/* <li
-                      className={
-                        viewDataBy === 'allocated_budget'
-                          ? 'active'
-                          : ''
-                      }
-                      onClick={() => {
-                        this.setViewDataBy('allocated_budget');
-                      }}
-                      onKeyDown={() => {
-                        this.setViewDataBy('allocated_budget');
-                      }}
-                      role="tab"
-                      tabIndex="-1"
-                    >
-                      <a>Budget Allocated</a>
-                    </li>
-                    <li
-                      className={
-                        viewDataBy === 'Leverage' ? 'active' : ''
-                      }
-                      onClick={() => {
-                        this.setViewDataBy('Leverage');
-                      }}
-                      onKeyDown={() => {
-                        this.setViewDataBy('Leverage');
-                      }}
-                      role="tab"
-                      tabIndex="-1"
-                    >
-                      <a>Leverage</a>
-                    </li> */}
-                  </ul>
-                </div>
               </div>
               <div className="literacy-tab-content">
                 <div className="literacy-tab-item">
+                  <CardTab
+                    // resetFunction={() => {
+                    //   this.props.resetBarDatas();
+                    //   this.props.handleShowBarOf('Provinces');
+                    // }}
+                    // showBarof={showBarof}
+                    // handleShowBarOf={handleShowBarOf}
+                    cardTitle="Province Wise Budget & Beneficiaries Count"
+                    style={{ position: 'relative' }}
+                    cardClass="col-xl-12"
+                    cardChartId="groupedChart"
+                    handleModal={this.handleModal}
+                    handleSelectedModal={() => {
+                      this.handleSelectedModal('groupedChart');
+                    }}
+                    renderChartComponent={() => {
+                      return (
+                        <MapboxPartnership
+                          selectedProvince={selectedProvince}
+                          selectedDistrict={selectedDistrict}
+                          selectedMunicipality={selectedMunicipality}
+                          handleProvinceClick={
+                            this.handleProvinceClick
+                          }
+                          addMap={this.addMap}
+                          handleFederalClickOnMap={
+                            this.handleFederalClickOnMap
+                          }
+                          map={map}
+                          vectorTileUrl={vectorTileUrl}
+                          mapViewBy={mapViewBy}
+                          mapViewDataBy={mapViewDataBy}
+                          setMapViewBy={this.setMapViewBy}
+                        />
+                      );
+                    }}
+                  />
+                  <CardTab
+                    // resetFunction={() => {
+                    //   this.props.resetBarDatas();
+                    //   this.props.handleShowBarOf('Provinces');
+                    // }}
+                    // showBarof={showBarof}
+                    // handleShowBarOf={handleShowBarOf}
+                    cardTitle="Province Wise Budget & Beneficiaries Count"
+                    cardClass="col-xl-12"
+                    cardChartId="groupedChart"
+                    handleModal={this.handleModal}
+                    handleSelectedModal={() => {
+                      this.handleSelectedModal('groupedChart');
+                    }}
+                    renderChartComponent={() => {
+                      return (
+                        // <label>Test</label>
+                        <StackedBarWithAllFederal />
+                        // <StackedBarWithProvince
+                        //   viewDataBy={viewDataBy}
+                        //   activeModal={activeModal}
+                        //   investmentFocusSelection={
+                        //     investmentFocusSelection
+                        //   }
+                        //   partnerSelection={partnerSelection}
+                        //   partnerTypeSelection={partnerTypeSelection}
+                        //   projectSelection={projectSelection}
+                        //   projectStatus={projectStatus}
+                        //   showBarof={showBarof}
+                        //   handleShowBarOf={handleShowBarOf}
+                        // />
+                      );
+                    }}
+                  />
                   {/* <div id="map" className="map"> */}
                   {/* {activeView === 'map' && ( */}
-                  <MapboxPartnership
-                    selectedProvince={selectedProvince}
-                    selectedDistrict={selectedDistrict}
-                    selectedMunicipality={selectedMunicipality}
-                    handleProvinceClick={this.handleProvinceClick}
-                    addMap={this.addMap}
-                    handleFederalClickOnMap={
-                      this.handleFederalClickOnMap
-                    }
-                    map={map}
-                    vectorTileUrl={vectorTileUrl}
-                    mapViewBy={mapViewBy}
-                    mapViewDataBy={mapViewDataBy}
-                    setMapViewBy={this.setMapViewBy}
-                  />
+
                   {/* )} */}
                   {/* </div> */}
                 </div>

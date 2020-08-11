@@ -221,7 +221,7 @@ class Landing extends Component {
                     cardImage={GridImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md mt-120"
                     cardTitle="Insurance"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[

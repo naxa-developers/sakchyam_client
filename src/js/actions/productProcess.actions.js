@@ -1,6 +1,8 @@
 import {
   GET_PRODUCT_PROCESS_DATA,
-  GET_PRODUCT_PROCESS_LIST,
+  GET_PRODUCT_PROCESS_LIST_REQUEST,
+  GET_PRODUCT_PROCESS_LIST_SUCCESS,
+  GET_PRODUCT_PROCESS_LIST_FAILURE,
   GET_INITIAL_CHART_DATA,
   FILTER_PRODUCT_NAME_LIST,
   FILTER_PARTNER_NAME_LIST,
@@ -11,16 +13,22 @@ import axiosInstance from '../axiosApi';
 
 // eslint-disable-next-line import/prefer-default-export
 export const getProductProcessList = () => dispatch => {
+  dispatch({ type: GET_PRODUCT_PROCESS_LIST_REQUEST });
   try {
     const response = axiosInstance
       .get('/api/v1/product-process/process/')
       .then(function(result) {
+        console.log('result', result.data);
         return dispatch({
-          type: GET_PRODUCT_PROCESS_LIST,
+          type: GET_PRODUCT_PROCESS_LIST_SUCCESS,
           payload: result.data,
         });
       });
   } catch (err) {
+    dispatch({
+      type: GET_PRODUCT_PROCESS_LIST_FAILURE,
+      payload: err,
+    });
     console.log(err);
   }
 };

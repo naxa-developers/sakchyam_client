@@ -6,6 +6,9 @@ import {
   FILTER_INDICATOR_GRAPH_DATA,
   FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
   LOADING_TRUE,
+  FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
+  GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+  GET_PLANNED_ACHIEVED_DATA_FOR_2NDPIECHARTS,
 } from '../actions/index.actions';
 import DownloadIcon from '../../img/save_alt.svg';
 
@@ -99,6 +102,7 @@ const initialState = {
   isDataFetched: false,
   indicatorCategory: [],
   logDataGraph: [],
+  planned1stPieData: {},
   series: [
     {
       name: 'Achievement',
@@ -214,22 +218,23 @@ const initialState = {
         rotate: 0,
         formatter: value => {
           console.log(value, 'value');
-          if (value === 0) {
-            return value;
-          }
-          if (value === 1) {
-            return value;
-          }
-          if (value <= 1) {
-            return value.toFixed(1);
-          }
-          // console.log(value, 'v');
-          // const roundNumber = Math.round(value);
-          // console.log(convert(roundNumber));
-          //   console.log(convert(roundNumber));
-          if (value % 1 !== 0) {
-            return convert(Math.round(value * 10) / 10);
-          }
+          // if (value === 0) {
+          //   return value;
+          // }
+          // if (value === 1) {
+          //   return value;
+          // }
+          // if (value <= 1) {
+          //   return value.toFixed(1);
+          // }
+
+          // // console.log(value, 'v');
+          // // const roundNumber = Math.round(value);
+          // // console.log(convert(roundNumber));
+          // //   console.log(convert(roundNumber));
+          // if (value % 1 !== 0) {
+          //   return convert(Math.round(value * 10) / 10);
+          // }
           return convert(value);
         },
       },
@@ -255,6 +260,7 @@ const initialState = {
   },
 };
 const filterIndicatorGraphData = (state, action) => {
+  const activeLayer = action.payload;
   // console.log('gilterindicatorgraphdata ');
   // console.log(action);
   // const a = 'Output Indicator 2.5';
@@ -345,6 +351,7 @@ const filterIndicatorGraphData = (state, action) => {
     series,
     filteredDynamicData: filtered,
     dateRange: totalDateList,
+    defaultdateRange: totalDateList,
     options: {
       ...state.options,
       grid: {
@@ -381,11 +388,49 @@ const filterIndicatorGraphData = (state, action) => {
         shared: true,
         intersect: false,
         y: {
-          formatter(y) {
-            // console.log(y, 'y');
+          formatter(y, x) {
+            let Output41 = '';
+            if (
+              activeLayer === 'Output Indicator 4.1' &&
+              x.seriesIndex === 0 &&
+              y === 1
+            ) {
+              Output41 = 'Approved';
+            } else if (
+              activeLayer === 'Output Indicator 4.1' &&
+              x.seriesIndex === 1 &&
+              y === 1
+            ) {
+              Output41 = 'Submitted To DFID';
+            } else if (
+              activeLayer === 'Output Indicator 4.2' &&
+              x.seriesIndex === 0 &&
+              y === 1
+            ) {
+              Output41 = 'Established And Operational';
+            }
+            // const percentForOI2 =
+            //   activeLayer === 'Outcome Indicator 2'
+            //     ? x.seriesIndex === 0
+            //       ? plannedPercent[x.dataPointIndex].toFixed(0) !==
+            //         '0'
+            //         ? `(${plannedPercent[x.dataPointIndex].toFixed(
+            //             2,
+            //           )}%)`
+            //         : ''
+            //       : achievedPercent[x.dataPointIndex].toFixed(0) !==
+            //         '0'
+            //       ? `(${achievedPercent[x.dataPointIndex].toFixed(
+            //           2,
+            //         )}%)`
+            //       : ''
+            //     : '';
+            // console.log(y.toLocaleString(), 'y');
             if (typeof y !== 'undefined') {
               // return `${unit} ${y.toFixed(0)}${type}`;
-              return `${unit} ${y.toLocaleString()}${type}`;
+              return `${unit} ${
+                Output41 !== '' ? '' : y.toLocaleString()
+              }${type} ${Output41}`;
             }
             return y;
           },
@@ -465,9 +510,9 @@ const filterIndicatorGraphData = (state, action) => {
 //   }));
 // };
 const filterIndicatorGraphDataWithDate = (state, action) => {
-  const { activeLayer, activeDate } = action.payload;
-  console.log(`[${activeLayer}]`, 'activeLayer');
-  console.log(activeDate, 'activeYear');
+  const { activeLayer, activeDate, activeDataType } = action.payload;
+  // console.log(`[${activeLayer}]`, 'activeLayer');
+  // console.log(activeDate, 'activeYear');
   const activeDateClone = activeDate;
   let activeDates = [];
   if (activeLayer === 'Output Indicator 1.5') {
@@ -480,6 +525,305 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       date => date === '2020' || date === '2019' || date === '2018',
     );
     console.log(activeDates, 'activeDateClone');
+  } else if (activeLayer === 'Output Indicator 1.4') {
+    // activeDate = activeDate.map(data => {
+    //   if (data === '2020') {
+    //     return data;
+    //   }
+    // });
+    activeDates = activeDateClone.filter(date => date < '2019');
+    // console.log(activeDates, 'activeDateClone');
+  } else {
+    activeDates = activeDate;
+  }
+
+  const filtered = [];
+  // eslint-disable-next-line array-callback-return
+  activeDates.map(date => {
+    // eslint-disable-next-line array-callback-return
+    state.logDataGraph.map(data => {
+      if (
+        data.year.range === date &&
+        data.sub_category.name === activeLayer
+      ) {
+        filtered.push(data);
+      }
+    });
+  });
+
+  // const { dataType } = filtered[0];
+  const dataType = filtered && filtered[0] && filtered[0].data_type;
+  const dataUnit = filtered && filtered[0] && filtered[0].unit;
+
+  let unit = '';
+  let type = '';
+  let plannedPercent = [];
+  let achievedPercent = [];
+  console.log(dataUnit, 'dataUnit');
+  console.log(dataType, 'dataType');
+  // console.log(dataUnit, 'dataUnit');
+  if (dataType !== undefined && dataType !== null) {
+    if (dataType === 'Percent') {
+      type = '%';
+    } else if (dataUnit === 'GBP') {
+      unit = '£';
+    } else if (dataUnit === 'NPR') {
+      unit = 'Rs';
+    } else if (dataType.includes('Percent')) {
+      type = '%';
+      // } else if (dataType !== null && dataType.includes('Percent')) {
+      //   type = '%';
+    } else {
+      type = '';
+    }
+  }
+
+  function getPercentageChange(
+    prevNumber,
+    currentNumber,
+    activeDataTypeParam,
+  ) {
+    if (activeDataTypeParam === 'Cumulative') {
+      const decreaseValue = currentNumber - prevNumber;
+
+      return (decreaseValue / prevNumber) * 100;
+    }
+    const decreaseValue = currentNumber - prevNumber;
+
+    return (decreaseValue / prevNumber) * 100;
+  }
+
+  const planned = filtered.map(el => {
+    return `${el.planned_afp}`;
+  });
+  const achieved = filtered.map(el => {
+    return `${el.achieved}`;
+  });
+  plannedPercent = planned.map((x, y) => {
+    // console.log(x, 'x');
+    // console.log(y, 'y');
+    // console.log(planned[y - 1], 'old');
+    // console.log(planned[y], 'new');
+    const oldValue =
+      planned[y - 1] === undefined ? 0 : planned[y - 1];
+    return getPercentageChange(oldValue, x) === Infinity
+      ? 0
+      : getPercentageChange(oldValue, x, activeDataType);
+    // return planned[y - 1];
+  });
+  achievedPercent = planned.map((x, y) => {
+    // console.log(x, 'x');
+    // console.log(y, 'y');
+    // console.log(achieved[y - 1], 'old');
+    // console.log(achieved[y], 'new');
+    const oldValue =
+      achieved[y - 1] === undefined ? 0 : achieved[y - 1];
+    return getPercentageChange(oldValue, x) === Infinity
+      ? 0
+      : getPercentageChange(oldValue, x, activeDataType);
+    // return planned[y - 1];
+  });
+  // const plannedPercent = planned.reduce((x, y, z) => {
+  //   // console.log(x, 'x');
+  //   // console.log(y, 'y');
+  //   // console.log(z, 'z');
+  //   return parseInt(x, 10) + parseInt(y, 10);
+  // });
+  console.log(plannedPercent, 'plannedPercent');
+  console.log(achievedPercent, 'achievedPercent');
+
+  // console.log(planned, 'comma planned');
+
+  const label = filtered.map(el => {
+    //   console.log(el, 'elLabel');
+    return el.year.name;
+  });
+  const category = filtered.map(el => {
+    //   console.log(el, 'elLabel');
+    return [el.year.range];
+  });
+  // console.log(category, 'cat');
+  // console.log(label, 'label');
+  // console.log(achieved, 'achieved');
+  const series = [
+    {
+      name: 'Target',
+      type: 'column',
+      data: planned,
+    },
+    {
+      name: 'Achievement ',
+      type: 'column',
+      data: achieved,
+    },
+    {
+      name: 'Target ',
+      type: 'area',
+      data: planned,
+    },
+    {
+      name: 'Achievement',
+      type: 'area',
+      data: achieved,
+    },
+  ];
+
+  // console.log(series, 'se');
+  // const { getDateRange } = this.props;
+  // getDateRange(totalDateList);
+
+  return {
+    ...state,
+    filteredDynamicData: filtered,
+    series,
+    // dateRange: totalDateList,
+    options: {
+      ...state.options,
+      grid: {
+        show: false,
+      },
+      labels: label,
+      xaxis: {
+        ...state.options.xaxis,
+        categories: category,
+        axisBorder: {
+          show: true,
+        },
+      },
+      yaxis: {
+        ...state.options.yaxis,
+        axisBorder: {
+          show: true,
+        },
+        labels: {
+          show: true,
+          align: 'left',
+          minWidth: 0,
+          maxWidth: 160,
+          style: {
+            colors: [],
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 400,
+            cssClass: 'apexcharts-yaxis-label',
+          },
+          // offsetX: -50,
+          offsetY: -5,
+          rotate: 0,
+          formatter: value => {
+            console.log(value, 'value');
+            if (value === 0) {
+              return value;
+            }
+            if (value === 1) {
+              return value;
+            }
+            if (value <= 1) {
+              return value.toFixed(2);
+            }
+
+            // console.log(value, 'v');
+            // const roundNumber = Math.round(value);
+            // console.log(convert(roundNumber));
+            //   console.log(convert(roundNumber));
+            if (value % 1 !== 0) {
+              return convert(value.toFixed(2));
+            }
+            if (activeLayer === 'Output Indicator 1.4') {
+              return value;
+            }
+            return convert(value);
+          },
+        },
+        title: {
+          text: `${
+            dataType !== null && dataType !== undefined
+              ? dataType
+              : ``
+          }  ${
+            dataUnit !== null && dataUnit !== undefined
+              ? `(${dataUnit})`
+              : ''
+          }`,
+          style: {
+            color: '#f37b2e',
+            fontFamily: 'Avenir Heavy',
+            fontSize: '15px',
+          },
+        },
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter(y, x) {
+            let Output41 = '';
+            if (
+              activeLayer === 'Output Indicator 4.1' &&
+              x.seriesIndex === 0 &&
+              y === 1
+            ) {
+              Output41 = 'Approved';
+            } else if (
+              activeLayer === 'Output Indicator 4.1' &&
+              x.seriesIndex === 1 &&
+              y === 1
+            ) {
+              Output41 = 'Submitted To DFID';
+            } else if (
+              activeLayer === 'Output Indicator 4.2' &&
+              x.seriesIndex === 0 &&
+              y === 1
+            ) {
+              Output41 = 'Established And Operational';
+            }
+            const percentForOI2 =
+              activeLayer === 'Outcome Indicator 2'
+                ? x.seriesIndex === 0
+                  ? plannedPercent[x.dataPointIndex].toFixed(0) !==
+                    '0'
+                    ? `(${plannedPercent[x.dataPointIndex].toFixed(
+                        2,
+                      )}%)`
+                    : ''
+                  : achievedPercent[x.dataPointIndex].toFixed(0) !==
+                    '0'
+                  ? `(${achievedPercent[x.dataPointIndex].toFixed(
+                      2,
+                    )}%)`
+                  : ''
+                : '';
+            // console.log(y.toLocaleString(), 'y');
+            if (typeof y !== 'undefined') {
+              // return `${unit} ${y.toFixed(0)}${type}`;
+              return `${unit} ${
+                Output41 !== '' ? '' : y.toLocaleString()
+              }${type} ${`${percentForOI2}`}${Output41}`;
+            }
+            return y;
+          },
+        },
+      },
+    },
+  };
+};
+const filterOutputIndicatorForPercentOrNumber = (state, action) => {
+  // const dataTypePayload = action.payload;
+  const { activeLayer, activeDate, dataTypePayload } = action.payload;
+  console.log(`[${activeLayer}]`, 'activeLayer');
+  console.log(activeDate, 'activeYear');
+  const activeDateClone = activeDate;
+  let activeDates = [];
+  if (dataTypePayload === 'percent') {
+    // activeDate = activeDate.map(data => {
+    //   if (data === '2020') {
+    //     return data;
+    //   }
+    // });
+    activeDates = activeDateClone.filter(date => date < '2019');
+    console.log(activeDates, 'activeDateClone');
+  } else if (dataTypePayload === 'number') {
+    activeDates = activeDateClone.filter(date => date >= '2019');
   } else {
     activeDates = activeDate;
   }
@@ -512,7 +856,10 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     unit = '£';
   } else if (dataUnit === 'NPR') {
     unit = 'Rs';
-  } else if (dataType !== undefined && dataType.includes('Percent')) {
+  } else if (
+    dataType !== undefined ||
+    (dataType !== null && dataType.includes('Percent'))
+  ) {
     type = '%';
   }
   const planned = filtered.map(el => {
@@ -558,12 +905,21 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   // console.log(series, 'se');
   // const { getDateRange } = this.props;
   // getDateRange(totalDateList);
-
+  const { defaultdateRange } = state;
+  const filterRange = defaultdateRange.filter(date => {
+    if (dataTypePayload === 'percent') {
+      return date.range < '2019';
+    }
+    if (dataTypePayload === 'number') {
+      return date.range >= '2019';
+    }
+    return date;
+  });
   return {
     ...state,
     filteredDynamicData: filtered,
     series,
-    // dateRange: totalDateList,
+    dateRange: filterRange,
     options: {
       ...state.options,
       grid: {
@@ -582,6 +938,53 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
         axisBorder: {
           show: true,
         },
+        labels: {
+          show: true,
+          align: 'left',
+          minWidth: 0,
+          maxWidth: 160,
+          style: {
+            colors: [],
+            fontSize: '12px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 400,
+            cssClass: 'apexcharts-yaxis-label',
+          },
+          // offsetX: -50,
+          offsetY: -5,
+          rotate: 0,
+          formatter: value => {
+            console.log(value, 'value');
+            if (value === 0) {
+              return value;
+            }
+            if (value === 1) {
+              return value;
+            }
+            if (value <= 1) {
+              return value.toFixed(1);
+            }
+
+            // console.log(value, 'v');
+            // const roundNumber = Math.round(value);
+            // console.log(convert(roundNumber));
+            //   console.log(convert(roundNumber));
+            if (value % 1 !== 0) {
+              return convert(Math.round(value * 10) / 10);
+            }
+            if (
+              activeLayer === 'Output Indicator 1.4' &&
+              dataTypePayload === 'percent'
+            ) {
+              return value;
+            }
+            return convert(value);
+          },
+        },
+        min: 0,
+        forceNiceScale: true,
+
+        // max: 10,
         title: {
           text: `${
             dataType !== null && dataType !== undefined
@@ -599,24 +1002,129 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
           },
         },
       },
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: {
-          formatter(y) {
-            // console.log(y.toLocaleString(), 'y');
-            if (typeof y !== 'undefined') {
-              // return `${unit} ${y.toFixed(0)}${type}`;
-              return `${unit} ${y.toLocaleString()}${type}`;
-            }
-            return y;
-          },
-        },
-      },
+      // tooltip: {
+      //   shared: true,
+      //   intersect: false,
+      //   y: {
+      //     formatter(y) {
+      //       console.log(y, 'y');
+      //       // console.log(y.toLocaleString(), 'y');
+      //       if (typeof y !== 'undefined') {
+      //         // return `${unit} ${y.toFixed(0)}${type}`;
+      //         return `${unit} ${y.toLocaleString()}${type}`;
+      //       }
+      //       return y;
+      //     },
+      //   },
+      // },
     },
   };
 };
+const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
+  const { activeYear } = action.payload;
+  const totalData = state.logDataGraph;
+  const filteredDataByCategory = totalData.filter(data => {
+    return data.sub_category.name === 'Outcome Indicator 4';
+  });
+  // console.log(activeYear, 'activeYear');
+  const filteredData = filteredDataByCategory.filter(data => {
+    // console.log(data, 'data');
+    if (activeYear.length > 0) {
+      return activeYear.includes(data.year.range);
+    }
+    return data;
+  });
+  const labelForPiechart = filteredData.map(filtered => {
+    return filtered.year.name;
+  });
+  // console.log(filteredData, 'filteredData');
+  const plannedData = filteredData.map(filtered => {
+    // console.log(filtered.planned_afp, 'afp');
+    const splitted = filtered.planned_afp.toString().includes(',')
+      ? filtered.planned_afp.split(',')
+      : filtered.planned_afp;
+    return filtered.planned_afp.toString().includes(',')
+      ? +splitted[0]
+      : +splitted;
+  });
+  // const totalPlannedSum = plannedData.reduce((a, b) => {
+  //   return +a + +b;
+  // });
+  const achievedData = filteredData.map(filtered => {
+    const splitted = filtered.achieved.toString().includes(',')
+      ? filtered.achieved.split(',')
+      : filtered.achieved;
+    return filtered.achieved.toString().includes(',')
+      ? +splitted[0]
+      : +splitted;
+  });
+  // const totalAchievedSum = achievedData.reduce((a, b) => {
+  //   return +a + +b;
+  // });
+  // const plannedPercents = plannedData.map(data => {
+  //   const calculatedPercent = (data / totalPlannedSum) * 100;
+  //   return calculatedPercent;
+  // });
+  // const achievedPercents = achievedData.map(data => {
+  //   const calculatedPercent = (data / totalAchievedSum) * 100;
+  //   return calculatedPercent;
+  // });
+  // console.log(totalPlannedSum, 'plannedSum');
+  // console.log(plannedPercents, 'plannedSum');
+  // console.log(achievedPercents, 'achievedPercents');
+  // console.log(totalAchievedSum, 'achievedSum');
+  console.log(plannedData, 'plannedData');
+  console.log(achievedData, 'achievedData');
+  // // console.log(filteredData, 'filteredData');
+  // console.log(action.payload, 'payload');
 
+  return {
+    ...state,
+    planned1stPieData: {
+      series: plannedData,
+      label: labelForPiechart,
+    },
+    achieved1stPieData: {
+      series: achievedData,
+      label: labelForPiechart,
+    },
+  };
+};
+const getPlannedAchievedDataFor2ndPieCharts = (state, action) => {
+  const { selectedMilestone } = action.payload;
+  console.log(selectedMilestone, 'state');
+  const totalData = [...state.logDataGraph];
+  const filteredData = totalData.filter(data => {
+    return data.sub_category.name === 'Outcome Indicator 4';
+  });
+  const milestoneWiseFilter = filteredData.filter(data => {
+    return data.year.name === selectedMilestone;
+  });
+  console.log(milestoneWiseFilter, 'milestone');
+  const plannedData = milestoneWiseFilter.map(filtered => {
+    const splitted = filtered.planned_afp.split(',');
+    return +splitted[1];
+  });
+  plannedData.push(100 - +plannedData[0]);
+
+  const achievedData = milestoneWiseFilter.map(filtered => {
+    const splitted = filtered.achieved.split(',');
+    return +splitted[1];
+  });
+  achievedData.push(100 - +achievedData[0]);
+  console.log(plannedData, 'plan');
+  return {
+    ...state,
+    planned2ndPieData: {
+      series: plannedData,
+      label: ['Female %', 'Male %'],
+    },
+    achieved2ndPieData: {
+      series: achievedData,
+      label: ['Female %', 'Male %'],
+    },
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOADING_TRUE:
@@ -651,6 +1159,12 @@ export default function(state = initialState, action) {
         ...state,
         indicatorCategory: action.payload,
       };
+    case FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER:
+      return filterOutputIndicatorForPercentOrNumber(state, action);
+    case GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS:
+      return getPlannedAchievedDataFor1stPieCharts(state, action);
+    case GET_PLANNED_ACHIEVED_DATA_FOR_2NDPIECHARTS:
+      return getPlannedAchievedDataFor2ndPieCharts(state, action);
 
     // case TOGGLE_NULL_SUBMISSIONS_ANSWER:
     //   return toggleNullSubmission(state);

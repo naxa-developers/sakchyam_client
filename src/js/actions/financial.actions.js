@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
-  GET_FINANCIAL_DATA,
+  GET_FINANCIAL_DATA_REQUEST,
+  GET_FINANCIAL_DATA_SUCCESS,
   GET_FINANCIAL_PROGRAM,
   GET_PARTNERS_LIST,
   FILTER_FINANCIAL_DATA_FOR_GRAPH,
@@ -27,6 +28,7 @@ export const getPartnersList = () => dispatch => {
 };
 export const getFinancialData = () => dispatch => {
   try {
+    dispatch({ type: GET_FINANCIAL_DATA_REQUEST });
     const requestOne = axiosInstance.get(
       '/api/v1/financial/partner/',
     );
@@ -49,7 +51,7 @@ export const getFinancialData = () => dispatch => {
           // alert('as');
           return dispatch(
             {
-              type: GET_FINANCIAL_DATA,
+              type: GET_FINANCIAL_DATA_SUCCESS,
               payload: {
                 partnerList: responseOne.data,
                 programList: responseTwo.data,

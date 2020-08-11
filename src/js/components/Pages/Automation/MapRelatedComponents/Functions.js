@@ -10,7 +10,8 @@ export const choroplethColorArray = (stops, color) =>{
     var gradient = gradStop({
         stops: stops,
         inputFormat: 'hex',
-        colorArray: ['#ffffff', color]
+        colorArray: ['#e5ebec', color]
+        // colorArray: ['#d1e8ea', color]
     });
     return gradient;
 }

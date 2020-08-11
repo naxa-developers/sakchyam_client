@@ -49,6 +49,7 @@ const CardTab = ({
   handleSelectedModal,
   renderChartComponent,
   showBarof,
+  style,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -173,7 +174,7 @@ const CardTab = ({
             </span>
           </div>
         </div>
-        <div className="card-body" id={cardChartId}>
+        <div className="card-body" style={style} id={cardChartId}>
           {renderChartComponent()}
         </div>
       </div>

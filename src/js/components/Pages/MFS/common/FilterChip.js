@@ -4,7 +4,7 @@ const FilterChip = ({ name, handleClick, chipState }) => {
   return (
     <a
       data-label={name}
-      className={chipState === name ? 'active' : ''}
+      className={chipState.includes(name) ? 'active' : ''}
       role="tab"
       tabIndex="-1"
       onClick={() => {

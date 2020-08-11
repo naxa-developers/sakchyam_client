@@ -1,6 +1,7 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import DonutChart from './DonutChart';
 // import 'apexcharts';
 
 // require 'apexcharts';
@@ -26,6 +27,11 @@ export default class CustomChart extends Component {
         this.setState({ keyRandom: Math.random() });
       }
     }
+    // if (prevProps.activeModal !== this.props.activeModal) {
+    //   if (this.props.activeModal) {
+    //     this.setState({ keyRandom: Math.random() });
+    //   }
+    // }
   }
   // componentDidMount() {
   //   const firstLegend = document.getElementsByClassName(
@@ -61,27 +67,21 @@ export default class CustomChart extends Component {
     } = this.props;
     // const { series, options } = this.state;
     return (
-      <div id="logframe-chart">
-        {/* {activeDateValues.length === 0 ? (
-          <label>
-            {activeDateValues.length === 0
-              ? 'No Data Selected'
-              : `${activeDateValues}`}
-          </label>
-        ) : ( */}
-        <ReactApexChart
-          // modal={modal}
-          key={series}
-          // key={keyRandom}
-          ref={chartRef}
-          options={options}
-          series={series}
-          type="line"
-          height={500}
-          // width={1300}
-        />
-        {/* )} */}
-      </div>
+      <>
+        <div id="logframe-chart">
+          <ReactApexChart
+            // modal={modal}
+            key={series}
+            // key={keyRandom}
+            ref={chartRef}
+            options={options}
+            series={series}
+            type="line"
+            height={500}
+            // width={700}
+          />
+        </div>
+      </>
     );
   }
 }

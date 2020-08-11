@@ -115,11 +115,12 @@ class LeftSidebarMain extends Component {
               </div>
               <ul>
                 {activeListFilteredData[0].subcat.map(data => {
+                  console.log(data, 'data');
                   // const regex = /[+-]?\d+(?:\.\d+)?/g;
                   // const indicatorNumber = regex.exec(data.name)[0];
-                  const indicatorNumber = data.name
-                    .split('Indicator')[1]
-                    .split(' ')[1];
+                  const indicatorNumber =
+                    data.name.includes('Indicator') &&
+                    data.name.split('Indicator')[1].split(' ')[1];
                   return (
                     <li
                       className={

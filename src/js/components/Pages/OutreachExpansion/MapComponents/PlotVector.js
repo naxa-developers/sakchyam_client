@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable prefer-template */
 /* eslint-disable array-callback-return */
@@ -6,15 +7,14 @@
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { connect } from 'react-redux';
-import { getCenterBboxProvince } from '../common/ProvinceFunction';
 import {
   calculateRange,
   choroplethColorArray,
 } from '../../../common/Functions';
 
 import Branch from '../../../../../img/Group5084.svg';
-import BLB from '../../../../../img/Group5085.svg';
 import Others from '../../../../../img/Group5086.svg';
+import { getShortNumbers } from '../../../common/utilFunctions';
 
 const defaultData = [
   { id: '1', count: 0 },
@@ -35,6 +35,7 @@ class PlotVector extends Component {
       finalStyle: null,
       stateMarker: '',
       vectorTileInitialized: false,
+      legendTitle: 'Points of Service',
     };
   }
 
@@ -50,21 +51,27 @@ class PlotVector extends Component {
       choroplethData,
       primaryData,
       mapViewDataBy,
+      localOutreachSelected,
     } = this.props;
     const that = this;
     const { stateMarker, vectorTileInitialized } = this.state;
 
     if (prevProps.mapViewDataBy !== mapViewDataBy) {
-      console.log('mapViewDataBy', mapViewDataBy);
       if (mapViewDataBy === 'outreach_local_units') {
         if (stateMarker.length > 0) {
           stateMarker.map(marker => {
             marker.remove();
           });
         }
+        this.setState({ legendTitle: localOutreachSelected });
       } else {
         this.setMarkers(that);
+        this.setState({ legendTitle: 'Points of Service' });
       }
+    }
+
+    if (localOutreachSelected !== prevProps.localOutreachSelected) {
+      this.setState({ legendTitle: localOutreachSelected });
     }
 
     if (prevProps.choroplethData !== choroplethData) {
@@ -199,6 +206,8 @@ class PlotVector extends Component {
       range = [0, 1];
     }
 
+    console.log('max and min', max, min, range);
+
     this.setState({
       grade: fullRange.length > 0 ? fullRange : range,
     });
@@ -217,7 +226,7 @@ class PlotVector extends Component {
         : '#ff0000';
     const data = this.state.grade;
 
-    const firstColor = '#FFCCCB';
+    const firstColor = '#add8e6';
 
     let choroplethColors = choroplethColorArray(
       data.length,
@@ -367,7 +376,7 @@ class PlotVector extends Component {
     } else {
       // eslint-disable-next-line array-callback-return
       grade.map((gradeitem, j) => {
-        if (value > gradeitem) {
+        if (value >= gradeitem && value !== 0) {
           color = legendColors[j];
         }
       });
@@ -396,10 +405,7 @@ class PlotVector extends Component {
     } = this.props;
     const condition =
       mapViewDataBy === 'general_outreach' ? false : true;
-    const legendTitle =
-      localOutreachSelected && condition
-        ? localOutreachSelected
-        : 'Points of Service';
+    const { legendTitle } = this.state;
 
     return (
       <>
@@ -416,7 +422,7 @@ class PlotVector extends Component {
                   const grade1 =
                     grade < 1000
                       ? grade.toString()
-                      : this.getShortNumbers(grade, 1);
+                      : getShortNumbers(grade);
 
                   return (
                     <li>
