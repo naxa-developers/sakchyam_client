@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import FilterBadge from './common/FilterBadge';
+import FilterBadge from '../../common/FilterBadge';
 
 const categoryOption = [
   'Population in the Local Unit',

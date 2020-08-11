@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
@@ -8,14 +9,6 @@ import Modal from '../../../common/Modal';
 import CardTab from '../common/CardTab';
 import StackedBarWithProvince from '../Charts/StackedBarWithProvince/StackedBarWithProvince';
 import StackedBarWithInvestment from '../Charts/StackedBarWithInvestment/StackedBarWithInvestment';
-import {
-  getRadialData,
-  resetBarDatas,
-  resetRadialData,
-  resetSankeyChartData,
-  resetLeverageData,
-  resetBarDataByInvestmentFocus,
-} from '../../../../actions/partnership.actions';
 import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
 import SunburstContainer from '../Charts/SunBurst';
 import StackedBarWithAllFederal from '../Charts/StackedBarWithAllFederal/StackedBarWithAllFederal';
@@ -39,13 +32,7 @@ class MiddleChartSection extends Component {
     super(props);
     this.state = {
       activeModal: false,
-      selectedModal: '',
-      isDownloading: false,
     };
-  }
-
-  componentDidMount() {
-    this.props.getRadialData();
   }
 
   handleModal = () => {
@@ -197,24 +184,11 @@ class MiddleChartSection extends Component {
 
   render() {
     const {
-      state: { selectedModal, activeModal, isDownloading },
       props: {
-        resetFilters,
-        resetLeftSideBarSelection,
-        activeView,
-        activeOverview,
-        sankeyChartwidth,
         viewDataBy,
-        investmentFocusSelection,
-        partnerSelection,
-        partnerTypeSelection,
-        projectSelection,
-        projectStatus,
         showBarof,
         handleShowBarOf,
-        showBarofInvestmentBudgetBenef,
-        handleShowBarOfInvestmentBudgetBenefBar,
-        groupedStackData,
+        insuranceData,
       },
     } = this;
     const {
@@ -243,7 +217,9 @@ class MiddleChartSection extends Component {
                 this.handleSelectedModal('groupedChart');
               }}
               renderChartComponent={() => {
-                return <BarChartInsurance />;
+                return (
+                  <BarChartInsurance insuranceData={insuranceData} />
+                );
               }}
             />
 
@@ -261,7 +237,11 @@ class MiddleChartSection extends Component {
                 this.handleSelectedModal('sankey');
               }}
               renderChartComponent={() => {
-                return <DonutChartInsurance />;
+                return (
+                  <DonutChartInsurance
+                    insuranceData={insuranceData}
+                  />
+                );
               }}
             />
             <CardTab
@@ -290,11 +270,4 @@ class MiddleChartSection extends Component {
 const mapStateToProps = ({ partnershipReducer }) => ({
   partnershipReducer,
 });
-export default connect(mapStateToProps, {
-  getRadialData,
-  resetBarDatas,
-  resetLeverageData,
-  resetRadialData,
-  resetSankeyChartData,
-  resetBarDataByInvestmentFocus,
-})(MiddleChartSection);
+export default connect(mapStateToProps)(MiddleChartSection);
