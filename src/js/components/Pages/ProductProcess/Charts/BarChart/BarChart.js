@@ -20,7 +20,15 @@ class BarChart extends Component {
       chart: {
         toolbar: { show: false },
         type: 'bar',
-        // height: 350,
+        events: {
+          click(
+            event,
+            chartContext,
+            { seriesIndex, dataPointIndex, config },
+          ) {
+            // console.log(dataPointIndex, 'dataPoint');
+          },
+        },
       },
       plotOptions: {
         bar: {
