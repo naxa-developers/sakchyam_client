@@ -260,6 +260,7 @@ const initialState = {
   },
 };
 const filterIndicatorGraphData = (state, action) => {
+  const activeLayer = action.payload;
   // console.log('gilterindicatorgraphdata ');
   // console.log(action);
   // const a = 'Output Indicator 2.5';
@@ -387,11 +388,49 @@ const filterIndicatorGraphData = (state, action) => {
         shared: true,
         intersect: false,
         y: {
-          formatter(y) {
-            // console.log(y, 'y');
+          formatter(y, x) {
+            let Output41 = '';
+            if (
+              activeLayer === 'Output Indicator 4.1' &&
+              x.seriesIndex === 0 &&
+              y === 1
+            ) {
+              Output41 = 'Approved';
+            } else if (
+              activeLayer === 'Output Indicator 4.1' &&
+              x.seriesIndex === 1 &&
+              y === 1
+            ) {
+              Output41 = 'Submitted To DFID';
+            } else if (
+              activeLayer === 'Output Indicator 4.2' &&
+              x.seriesIndex === 0 &&
+              y === 1
+            ) {
+              Output41 = 'Established And Operational';
+            }
+            // const percentForOI2 =
+            //   activeLayer === 'Outcome Indicator 2'
+            //     ? x.seriesIndex === 0
+            //       ? plannedPercent[x.dataPointIndex].toFixed(0) !==
+            //         '0'
+            //         ? `(${plannedPercent[x.dataPointIndex].toFixed(
+            //             2,
+            //           )}%)`
+            //         : ''
+            //       : achievedPercent[x.dataPointIndex].toFixed(0) !==
+            //         '0'
+            //       ? `(${achievedPercent[x.dataPointIndex].toFixed(
+            //           2,
+            //         )}%)`
+            //       : ''
+            //     : '';
+            // console.log(y.toLocaleString(), 'y');
             if (typeof y !== 'undefined') {
               // return `${unit} ${y.toFixed(0)}${type}`;
-              return `${unit} ${y.toLocaleString()}${type}`;
+              return `${unit} ${
+                Output41 !== '' ? '' : y.toLocaleString()
+              }${type} ${Output41}`;
             }
             return y;
           },
@@ -718,6 +757,26 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
         intersect: false,
         y: {
           formatter(y, x) {
+            let Output41 = '';
+            if (
+              activeLayer === 'Output Indicator 4.1' &&
+              x.seriesIndex === 0 &&
+              y === 1
+            ) {
+              Output41 = 'Approved';
+            } else if (
+              activeLayer === 'Output Indicator 4.1' &&
+              x.seriesIndex === 1 &&
+              y === 1
+            ) {
+              Output41 = 'Submitted To DFID';
+            } else if (
+              activeLayer === 'Output Indicator 4.2' &&
+              x.seriesIndex === 0 &&
+              y === 1
+            ) {
+              Output41 = 'Established And Operational';
+            }
             const percentForOI2 =
               activeLayer === 'Outcome Indicator 2'
                 ? x.seriesIndex === 0
@@ -737,7 +796,9 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
             // console.log(y.toLocaleString(), 'y');
             if (typeof y !== 'undefined') {
               // return `${unit} ${y.toFixed(0)}${type}`;
-              return `${unit} ${y.toLocaleString()}${type} ${`${percentForOI2}`}`;
+              return `${unit} ${
+                Output41 !== '' ? '' : y.toLocaleString()
+              }${type} ${`${percentForOI2}`}${Output41}`;
             }
             return y;
           },
@@ -941,20 +1002,21 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
           },
         },
       },
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: {
-          formatter(y) {
-            // console.log(y.toLocaleString(), 'y');
-            if (typeof y !== 'undefined') {
-              // return `${unit} ${y.toFixed(0)}${type}`;
-              return `${unit} ${y.toLocaleString()}${type}`;
-            }
-            return y;
-          },
-        },
-      },
+      // tooltip: {
+      //   shared: true,
+      //   intersect: false,
+      //   y: {
+      //     formatter(y) {
+      //       console.log(y, 'y');
+      //       // console.log(y.toLocaleString(), 'y');
+      //       if (typeof y !== 'undefined') {
+      //         // return `${unit} ${y.toFixed(0)}${type}`;
+      //         return `${unit} ${y.toLocaleString()}${type}`;
+      //       }
+      //       return y;
+      //     },
+      //   },
+      // },
     },
   };
 };
@@ -982,47 +1044,48 @@ const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
       ? filtered.planned_afp.split(',')
       : filtered.planned_afp;
     return filtered.planned_afp.toString().includes(',')
-      ? splitted[0]
+      ? +splitted[0]
       : +splitted;
   });
-  const totalPlannedSum = plannedData.reduce((a, b) => {
-    return +a + +b;
-  });
+  // const totalPlannedSum = plannedData.reduce((a, b) => {
+  //   return +a + +b;
+  // });
   const achievedData = filteredData.map(filtered => {
     const splitted = filtered.achieved.toString().includes(',')
       ? filtered.achieved.split(',')
       : filtered.achieved;
     return filtered.achieved.toString().includes(',')
-      ? splitted[0]
+      ? +splitted[0]
       : +splitted;
   });
-  const totalAchievedSum = achievedData.reduce((a, b) => {
-    return +a + +b;
-  });
-  const plannedPercents = plannedData.map(data => {
-    const calculatedPercent = (data / totalPlannedSum) * 100;
-    return calculatedPercent;
-  });
-  const achievedPercents = achievedData.map(data => {
-    const calculatedPercent = (data / totalAchievedSum) * 100;
-    return calculatedPercent;
-  });
+  // const totalAchievedSum = achievedData.reduce((a, b) => {
+  //   return +a + +b;
+  // });
+  // const plannedPercents = plannedData.map(data => {
+  //   const calculatedPercent = (data / totalPlannedSum) * 100;
+  //   return calculatedPercent;
+  // });
+  // const achievedPercents = achievedData.map(data => {
+  //   const calculatedPercent = (data / totalAchievedSum) * 100;
+  //   return calculatedPercent;
+  // });
   // console.log(totalPlannedSum, 'plannedSum');
   // console.log(plannedPercents, 'plannedSum');
   // console.log(achievedPercents, 'achievedPercents');
   // console.log(totalAchievedSum, 'achievedSum');
-  // // console.log(plannedData, 'plannedData');
+  console.log(plannedData, 'plannedData');
+  console.log(achievedData, 'achievedData');
   // // console.log(filteredData, 'filteredData');
   // console.log(action.payload, 'payload');
 
   return {
     ...state,
     planned1stPieData: {
-      series: plannedPercents,
+      series: plannedData,
       label: labelForPiechart,
     },
     achieved1stPieData: {
-      series: achievedPercents,
+      series: achievedData,
       label: labelForPiechart,
     },
   };

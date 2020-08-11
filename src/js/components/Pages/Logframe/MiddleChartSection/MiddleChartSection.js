@@ -2043,11 +2043,12 @@ class MiddleChartSection extends Component {
                   <div className="card-body">
                   
                   <div className="row">
-                    {/* <label>Filter</label> */}
                     <div className="col-lg-6" >
+                    <label>Planned</label>
                       <DonutChart reducerDataProps="planned1stPieData" />
                     </div>
                     <div className="col-lg-6">
+                    <label>Achieved</label>
                       <DonutChart reducerDataProps="achieved1stPieData" />
                     </div>
                   </div>
