@@ -63,6 +63,7 @@ class LeftSideBar extends Component {
         isAllInstitutionSelected,
         handleInstitutionParentCheckbox,
         handleInstitutionSelectionCheckbox,
+        loading,
       },
     } = this;
     return (
@@ -368,6 +369,7 @@ class LeftSideBar extends Component {
                   type="button"
                   onClick={resetFilters}
                   className="common-button is-clear "
+                  disabled={loading}
                 >
                   reset
                 </button>
@@ -375,6 +377,7 @@ class LeftSideBar extends Component {
                   onClick={applyBtnClick}
                   type="button"
                   className="common-button is-bg"
+                  disabled={loading}
                 >
                   apply
                 </button>

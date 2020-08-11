@@ -248,8 +248,8 @@ class MainPartnership extends Component {
       );
       this.changeMapTiles(filteredList);
 
-      map.setCenter([82.5, 29]);
-      map.setZoom(6.5);
+      map.setCenter([80.5, 29.5]);
+      map.setZoom(6.2);
     }
   };
 
@@ -1159,6 +1159,7 @@ class MainPartnership extends Component {
             handelMultiChoice={this.handelMultiChoice}
             resetFilters={this.resetFilters}
             applyBtnClick={this.handleApplyFederalFilter}
+            loading={loading}
           />
           <main className="main">
             <div className="main-card literacy-main-card">
@@ -1241,6 +1242,7 @@ class MainPartnership extends Component {
                           type="button"
                           onClick={this.resetFilters}
                           className="common-button is-clear"
+                          disabled={loading}
                         >
                           <i className="material-icons">refresh</i>
                         </button>
@@ -1248,6 +1250,7 @@ class MainPartnership extends Component {
                           onClick={this.handleApplyFederalFilter}
                           type="button"
                           className="common-button is-clear"
+                          disabled={loading}
                         >
                           Apply
                         </button>
@@ -1263,6 +1266,7 @@ class MainPartnership extends Component {
                   setViewDataBy={this.setViewDataBy}
                   setMapViewDataBy={this.setMapViewDataBy}
                   setOutreachByLU={this.setOutreachByLU}
+                  loading={loading}
                 />
               </div>
               <div className="literacy-tab-content">
