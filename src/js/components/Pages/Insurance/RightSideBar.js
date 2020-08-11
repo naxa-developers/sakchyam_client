@@ -92,6 +92,8 @@ class RightSideBar extends Component {
         claimed,
       },
     } = this;
+
+    console.log('activeOverview state', activeOverview);
     return (
       <aside
         className="sidebar right-sidebar literacy-right-sidebar"
@@ -142,7 +144,7 @@ class RightSideBar extends Component {
                     iconTitle="tablet_mac"
                   />
                   <OverviewTab
-                    title="Claimed"
+                    title="Claimed Amount"
                     number={numberWithCommas(claimed)}
                     iconTitle="tablet_mac"
                   />
@@ -151,7 +153,8 @@ class RightSideBar extends Component {
             </div>
           </div>
         </div>
-        <div
+
+        {/* <div
           className={`expand-button ${
             activeOverview ? 'active' : ''
           } `}
@@ -163,7 +166,7 @@ class RightSideBar extends Component {
           >
             <i className="material-icons">chevron_right</i>
           </button>
-        </div>
+        </div> */}
       </aside>
     );
   }
