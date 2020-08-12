@@ -31,6 +31,7 @@ import {
   filterByKeyInnovation,
   filterOverViewData,
   filterMfsChartData,
+  filterMfsMapPieData,
 } from '../../../actions/mfs.action';
 import {
   filterDistrictListFromProvince,
@@ -917,6 +918,12 @@ class MainMFS extends Component {
         selectedInnovation,
         selectedAchievement,
       );
+      this.props.filterMfsMapPieData(
+        mapViewBy,
+        selectedPartner,
+        selectedInnovation,
+        selectedAchievement,
+      );
     }
     // this.props.filterMapChoropleth(
     //   investmentFocusSelection,
@@ -1237,7 +1244,7 @@ class MainMFS extends Component {
                     // }}
                     // showBarof={showBarof}
                     // handleShowBarOf={handleShowBarOf}
-                    cardTitle="Province Wise Budget & Beneficiaries Count"
+                    cardTitle={`${mapViewBy} Wise Achievement Type`}
                     style={{ position: 'relative' }}
                     cardClass="col-xl-12"
                     cardChartId="groupedChart"
@@ -1274,7 +1281,7 @@ class MainMFS extends Component {
                     // }}
                     // showBarof={showBarof}
                     // handleShowBarOf={handleShowBarOf}
-                    cardTitle="Province Wise Budget & Beneficiaries Count"
+                    cardTitle={`${mapViewBy} Wise Achievement Type`}
                     cardClass="col-xl-12"
                     cardChartId="groupedChart"
                     handleModal={this.handleModal}
@@ -1384,4 +1391,5 @@ export default connect(mapStateToProps, {
   filterByKeyInnovation,
   filterOverViewData,
   filterMfsChartData,
+  filterMfsMapPieData,
 })(MainMFS);
