@@ -52,7 +52,6 @@ class MainPartnership extends Component {
       selectedProvince: '',
       selectedDistrict: null,
       selectedMunicipality: null,
-      isAllPartnerSelected: false,
       isAllInvestmentFocusSelected: false,
       isAllInstitutionSelected: false,
       activeFilter: false,
@@ -236,7 +235,7 @@ class MainPartnership extends Component {
       map.setCenter([84.5, 28.5]);
       map.setZoom(6);
     } else {
-      this.setState({ localOutreachSelected: '' });
+      // this.setState({ localOutreachSelected: '' });
       setTimeout(() => {
         this.setMapViewBy('municipality');
       }, 100);
@@ -249,8 +248,8 @@ class MainPartnership extends Component {
       );
       this.changeMapTiles(filteredList);
 
-      map.setCenter([82.5, 29]);
-      map.setZoom(6.5);
+      map.setCenter([80.5, 29.5]);
+      map.setZoom(6.2);
     }
   };
 
@@ -324,32 +323,6 @@ class MainPartnership extends Component {
     });
   };
 
-  handlePartnerSelectionCheckbox = e => {
-    const {
-      state: { partnerSelection },
-    } = this;
-    const {
-      target: { name, checked },
-    } = e;
-    this.setState(preState => {
-      if (checked) {
-        return {
-          partnerSelection: [...preState.partnerSelection, name],
-        };
-      }
-      if (!checked) {
-        const newArr = partnerSelection.filter(
-          partnerSelected => partnerSelected !== name,
-        );
-        return {
-          partnerSelection: newArr,
-          isAllPartnerSelected: false,
-        };
-      }
-      return null;
-    });
-  };
-
   handleInstitutionSelectionCheckbox = e => {
     const {
       state: { institutionSelection },
@@ -377,46 +350,6 @@ class MainPartnership extends Component {
       }
       return null;
     });
-  };
-
-  handlePartnerParentCheckbox = e => {
-    // e.stopPropagation();
-    const { partnerSelection, isAllPartnerSelected } = this.state;
-    if (isAllPartnerSelected) {
-      const allPartnerElement = document.getElementsByClassName(
-        'partner_checkbox',
-      );
-
-      for (let i = 0; i < allPartnerElement.length; i += 1) {
-        allPartnerElement[i].checked = false;
-      }
-      this.setState({
-        partnerSelection: [],
-        isAllPartnerSelected: false,
-      });
-    } else {
-      this.setState({
-        isAllPartnerSelected: true,
-      });
-      if (e.target.checked === true) {
-        const allPartnerElement = document.getElementsByClassName(
-          'partner_checkbox',
-        );
-        const selectedPartner = partnerSelection;
-        for (let i = 0; i < allPartnerElement.length; i += 1) {
-          allPartnerElement[i].checked = true;
-          selectedPartner.push(allPartnerElement[i].name);
-        }
-
-        const unique = selectedPartner.reduce(function(a, b) {
-          if (a.indexOf(b) < 0) a.push(b);
-          return a;
-        }, []);
-        this.setState({
-          partnerSelection: unique,
-        });
-      }
-    }
   };
 
   handleInstitutionParentCheckbox = e => {
@@ -463,7 +396,12 @@ class MainPartnership extends Component {
   };
 
   handelMultiChoice = (clickedValue, type) => {
-    const { serviceType, G2PTypes, demonstrationType } = this.state;
+    const {
+      serviceType,
+      G2PTypes,
+      demonstrationType,
+      partnerSelection,
+    } = this.state;
     let tempCollection;
     let filteredData = [];
 
@@ -476,6 +414,9 @@ class MainPartnership extends Component {
         break;
       case 3:
         tempCollection = demonstrationType;
+        break;
+      case 4:
+        tempCollection = partnerSelection;
         break;
       default:
         tempCollection = '';
@@ -501,128 +442,131 @@ class MainPartnership extends Component {
       case 3:
         this.setState({ demonstrationType: filteredData });
         break;
+      case 4:
+        this.setState({ partnerSelection: filteredData });
+        break;
       default:
         tempCollection = '';
     }
   };
 
-  leftApplyHandler = () => {
-    const {
-      G2PTypes,
-      demonstrationType,
-      serviceType,
-      expsnsionSelection,
-      partnerSelection,
-      institutionSelection,
-      dataByAdmin,
-      filterDataByAdmin,
-    } = this.state;
-    let filteredData = [];
-    let { primaryData } = this.props.outreachReducer;
-    if (filterDataByAdmin) {
-      primaryData = dataByAdmin;
-    }
+  // leftApplyHandler = () => {
+  //   const {
+  //     G2PTypes,
+  //     demonstrationType,
+  //     serviceType,
+  //     expsnsionSelection,
+  //     partnerSelection,
+  //     institutionSelection,
+  //     dataByAdmin,
+  //     filterDataByAdmin,
+  //   } = this.state;
+  //   let filteredData = [];
+  //   let { primaryData } = this.props.outreachReducer;
+  //   if (filterDataByAdmin) {
+  //     primaryData = dataByAdmin;
+  //   }
 
-    if (
-      G2PTypes.length === 0 &&
-      demonstrationType.length === 0 &&
-      serviceType.length === 0 &&
-      expsnsionSelection.length === 0 &&
-      expsnsionSelection.length === 0 &&
-      institutionSelection.length === 0
-    ) {
-      filteredData = primaryData;
-    }
+  //   if (
+  //     G2PTypes.length === 0 &&
+  //     demonstrationType.length === 0 &&
+  //     serviceType.length === 0 &&
+  //     expsnsionSelection.length === 0 &&
+  //     expsnsionSelection.length === 0 &&
+  //     institutionSelection.length === 0
+  //   ) {
+  //     filteredData = primaryData;
+  //   }
 
-    if (serviceType.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      serviceType.map(type => {
-        value.map(data => {
-          if (type === data.point_service) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
+  //   if (serviceType.length > 0) {
+  //     const value =
+  //       filteredData.length > 0 ? filteredData : primaryData;
+  //     filteredData = [];
+  //     serviceType.map(type => {
+  //       value.map(data => {
+  //         if (type === data.point_service) {
+  //           filteredData.push(data);
+  //         }
+  //       });
+  //     });
+  //   }
 
-    if (G2PTypes.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      G2PTypes.map(type => {
-        value.map(data => {
-          if (type === data.g2p_payment) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
+  //   if (G2PTypes.length > 0) {
+  //     const value =
+  //       filteredData.length > 0 ? filteredData : primaryData;
+  //     filteredData = [];
+  //     G2PTypes.map(type => {
+  //       value.map(data => {
+  //         if (type === data.g2p_payment) {
+  //           filteredData.push(data);
+  //         }
+  //       });
+  //     });
+  //   }
 
-    if (demonstrationType.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      demonstrationType.map(type => {
-        value.map(data => {
-          if (type === data.demonstration_effect) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
+  //   if (demonstrationType.length > 0) {
+  //     const value =
+  //       filteredData.length > 0 ? filteredData : primaryData;
+  //     filteredData = [];
+  //     demonstrationType.map(type => {
+  //       value.map(data => {
+  //         if (type === data.demonstration_effect) {
+  //           filteredData.push(data);
+  //         }
+  //       });
+  //     });
+  //   }
 
-    // console.log('filter after demonstrationType', filteredData);
+  //   // console.log('filter after demonstrationType', filteredData);
 
-    if (expsnsionSelection.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      expsnsionSelection.map(type => {
-        value.map(data => {
-          if (type === data.expansion_driven_by) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
-    if (partnerSelection.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      partnerSelection.map(type => {
-        value.map(data => {
-          if (type === data.partner_type) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
+  //   if (expsnsionSelection.length > 0) {
+  //     const value =
+  //       filteredData.length > 0 ? filteredData : primaryData;
+  //     filteredData = [];
+  //     expsnsionSelection.map(type => {
+  //       value.map(data => {
+  //         if (type === data.expansion_driven_by) {
+  //           filteredData.push(data);
+  //         }
+  //       });
+  //     });
+  //   }
+  //   if (partnerSelection.length > 0) {
+  //     const value =
+  //       filteredData.length > 0 ? filteredData : primaryData;
+  //     filteredData = [];
+  //     partnerSelection.map(type => {
+  //       value.map(data => {
+  //         if (type === data.partner_type) {
+  //           filteredData.push(data);
+  //         }
+  //       });
+  //     });
+  //   }
 
-    if (institutionSelection.length > 0) {
-      const value =
-        filteredData.length > 0 ? filteredData : primaryData;
-      filteredData = [];
-      institutionSelection.map(type => {
-        value.map(data => {
-          if (type === data.partner) {
-            filteredData.push(data);
-          }
-        });
-      });
-    }
+  //   if (institutionSelection.length > 0) {
+  //     const value =
+  //       filteredData.length > 0 ? filteredData : primaryData;
+  //     filteredData = [];
+  //     institutionSelection.map(type => {
+  //       value.map(data => {
+  //         if (type === data.partner) {
+  //           filteredData.push(data);
+  //         }
+  //       });
+  //     });
+  //   }
 
-    const filteredByLeftData =
-      JSON.stringify(primaryData) === JSON.stringify(filteredData);
+  //   const filteredByLeftData =
+  //     JSON.stringify(primaryData) === JSON.stringify(filteredData);
 
-    this.setAdminChoropleth(filteredData);
-    this.setState({
-      primaryData: filteredData,
-      filteredByLeftData: !filteredByLeftData,
-      dataByLeft: filteredData,
-    });
-  };
+  //   this.setAdminChoropleth(filteredData);
+  //   this.setState({
+  //     primaryData: filteredData,
+  //     filteredByLeftData: !filteredByLeftData,
+  //     dataByLeft: filteredData,
+  //   });
+  // };
 
   setAdminChoropleth = filteredData => {
     const provinceList = [];
@@ -747,8 +691,6 @@ class MainPartnership extends Component {
     let filteredData = [];
     const { primaryData } = this.props.outreachReducer;
 
-    console.log('expsnsionSelection', expsnsionSelection);
-
     if (
       G2PTypes.length === 0 &&
       demonstrationType.length === 0 &&
@@ -837,8 +779,6 @@ class MainPartnership extends Component {
         });
       });
     }
-
-    console.log('data after expsnsionSelection', filteredData);
 
     this.setAdminChoropleth(filteredData);
 
@@ -992,7 +932,6 @@ class MainPartnership extends Component {
     const filteredArray = array.filter(data => data.value !== 'all');
     const filteredPrimaryData = [];
 
-    console.log('values received', type, filteredArray);
     switch (type) {
       case 'province':
         filteredArray.map(selectedData => {
@@ -1025,10 +964,6 @@ class MainPartnership extends Component {
       default:
     }
 
-    console.log(
-      'filteredPrimaryData from admin',
-      filteredPrimaryData,
-    );
     this.setState({
       primaryData: filteredPrimaryData,
       dataByAdmin: filteredPrimaryData,
@@ -1106,7 +1041,6 @@ class MainPartnership extends Component {
       demonstrationType: [],
       serviceType: [],
       G2PTypes: [],
-      isAllPartnerSelected: false,
       isAllInvestmentFocusSelected: false,
       isAllInstitutionSelected: false,
       primaryData: this.props.outreachReducer.primaryData,
@@ -1185,7 +1119,6 @@ class MainPartnership extends Component {
         provinceList,
         districtList,
         municipalityList,
-        isAllPartnerSelected,
         isAllInvestmentFocusSelected,
         institutionSelection,
         isAllInstitutionSelected,
@@ -1208,7 +1141,6 @@ class MainPartnership extends Component {
             G2PTypes={G2PTypes}
             serviceType={serviceType}
             demonstrationType={demonstrationType}
-            isAllPartnerSelected={isAllPartnerSelected}
             institutionSelection={institutionSelection}
             isAllInstitutionSelected={isAllInstitutionSelected}
             handleInstitutionParentCheckbox={
@@ -1221,18 +1153,13 @@ class MainPartnership extends Component {
               isAllInvestmentFocusSelected
             }
             handelExpansionCheckbox={this.handelExpansionCheckbox}
-            handlePartnerSelectionCheckbox={
-              this.handlePartnerSelectionCheckbox
-            }
-            handlePartnerParentCheckbox={
-              this.handlePartnerParentCheckbox
-            }
             handelExpansionParentCheckbox={
               this.handelExpansionParentCheckbox
             }
             handelMultiChoice={this.handelMultiChoice}
             resetFilters={this.resetFilters}
             applyBtnClick={this.handleApplyFederalFilter}
+            loading={loading}
           />
           <main className="main">
             <div className="main-card literacy-main-card">
@@ -1315,6 +1242,7 @@ class MainPartnership extends Component {
                           type="button"
                           onClick={this.resetFilters}
                           className="common-button is-clear"
+                          disabled={loading}
                         >
                           <i className="material-icons">refresh</i>
                         </button>
@@ -1322,6 +1250,7 @@ class MainPartnership extends Component {
                           onClick={this.handleApplyFederalFilter}
                           type="button"
                           className="common-button is-clear"
+                          disabled={loading}
                         >
                           Apply
                         </button>
@@ -1337,6 +1266,7 @@ class MainPartnership extends Component {
                   setViewDataBy={this.setViewDataBy}
                   setMapViewDataBy={this.setMapViewDataBy}
                   setOutreachByLU={this.setOutreachByLU}
+                  loading={loading}
                 />
               </div>
               <div className="literacy-tab-content">
