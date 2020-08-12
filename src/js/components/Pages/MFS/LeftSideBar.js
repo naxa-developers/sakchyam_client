@@ -156,9 +156,9 @@ class LeftSideBar extends Component {
                             label={innov}
                             name={innov}
                             changeHandler={handleInnovationSelection}
-                            // checked={investmentFocusSelection.includes(
-                            //   innov,
-                            // )}
+                            checked={selectedInnovation.includes(
+                              innov,
+                            )}
                           />
                         );
                       })}
@@ -230,9 +230,9 @@ class LeftSideBar extends Component {
                             label={achievement}
                             name={achievement}
                             changeHandler={handleAchievementSelection}
-                            // checked={investmentFocusSelection.includes(
-                            //   innov,
-                            // )}
+                            checked={selectedAchievement.includes(
+                              achievement,
+                            )}
                           />
                         );
                       })}

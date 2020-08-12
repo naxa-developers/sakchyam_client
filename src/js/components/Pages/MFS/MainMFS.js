@@ -974,9 +974,11 @@ class MainMFS extends Component {
 
   resetLeftSideBarSelection = () => {
     this.setState({
-      investmentFocusSelection: [],
-      partnerSelection: [],
-      projectSelection: [],
+      selectedPartner: [],
+      selectedInnovation: [],
+      selectedAchievement: [],
+      isAllAchievementSelected: false,
+      isAllInnovationSelected: false,
     });
   };
 
@@ -989,39 +991,26 @@ class MainMFS extends Component {
       selectedDistrict: [],
       selectedMunicipality: [],
     });
-    if (activeView === 'visualization') {
-      // this.props.resetRadialData();
+    this.props.filterMfsChoroplethData('province', [], [], []);
+    this.props.filterMfsChartData('province', [], [], []);
+    this.props.filterOverViewData('province', [], [], []);
+    // this.props.resetOverviewData();
+    document.querySelectorAll('.allCheckbox').forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.checked = false;
+    });
 
-      this.props.resetOverviewData();
-    } else {
-      this.props.resetOverviewData();
-      this.setMapViewBy(mapViewBy);
-      this.setState({
-        selectedProvince: [],
-        selectedDistrict: [],
-        selectedMunicipality: [],
-      });
-
-      const combinedBbox = [];
-      // console.log(selectedProvince, 'selectedProvine');
-      const getBboxValue = getCenterBboxProvince([
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-      ]);
-      getBboxValue.map(data => {
-        combinedBbox.push(data.bbox);
-        return true;
-      });
-      const extendedValue = extendBounds(combinedBbox);
-      map.fitBounds(extendedValue);
-      map.setFilter('vector-tile-fill', null);
-      map.setFilter('vector-tile-outline', null);
-    }
+    const combinedBbox = [];
+    // console.log(selectedProvince, 'selectedProvine');
+    const getBboxValue = getCenterBboxProvince([1, 2, 3, 4, 5, 6, 7]);
+    getBboxValue.map(data => {
+      combinedBbox.push(data.bbox);
+      return true;
+    });
+    const extendedValue = extendBounds(combinedBbox);
+    map.fitBounds(extendedValue);
+    map.setFilter('vector-tile-fill', null);
+    map.setFilter('vector-tile-outline', null);
   };
 
   render() {
@@ -1252,6 +1241,7 @@ class MainMFS extends Component {
                     handleSelectedModal={() => {
                       this.handleSelectedModal('groupedChart');
                     }}
+                    disableResetButton
                     renderChartComponent={() => {
                       return (
                         <MapboxPartnership
@@ -1311,6 +1301,13 @@ class MainMFS extends Component {
                         >
                           <StackedBarWithAllFederal
                             mapViewBy={mapViewBy}
+                            selectedPartner={selectedPartner}
+                            selectedInnovation={selectedInnovation}
+                            selectedAchievement={selectedAchievement}
+                            provinceList={provinceList}
+                            districtList={districtList}
+                            showBarof={showBarof}
+                            handleShowBarOf={this.handleShowBarOf}
                           />
                         </div>
                         // <StackedBarWithProvince

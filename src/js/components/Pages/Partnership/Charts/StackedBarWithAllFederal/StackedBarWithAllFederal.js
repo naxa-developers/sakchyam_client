@@ -274,6 +274,7 @@ class StackedBarWithAllFederal extends Component {
     const that = this;
     const {
       partnershipReducer: { barDatas },
+      cardView,
     } = this.props;
     console.log(barDatas, 'barDatas');
     // alert('test');
@@ -415,7 +416,7 @@ class StackedBarWithAllFederal extends Component {
       },
       plotOptions: {
         bar: {
-          columnWidth: '20%',
+          columnWidth: cardView ? '40%' : '20%',
         },
       },
       dataLabels: {
@@ -626,7 +627,7 @@ class StackedBarWithAllFederal extends Component {
   render() {
     console.log(window.innerWidth);
     const { options, series } = this.state;
-    const { activeModal } = this.props;
+    const { activeModal, cardView } = this.props;
     return (
       <div id="stacked_chart">
         <ReactApexChart
@@ -634,7 +635,13 @@ class StackedBarWithAllFederal extends Component {
           options={options}
           series={series}
           type="bar"
-          height={activeModal && window.innerWidth < 1400 ? 450 : 500}
+          height={
+            cardView && !activeModal
+              ? 350
+              : activeModal && window.innerWidth < 1400
+              ? 450
+              : 500
+          }
           // width={activeModal === true ? 1600 : '100%'}
         />
       </div>
