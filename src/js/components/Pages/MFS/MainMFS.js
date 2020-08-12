@@ -30,6 +30,7 @@ import {
   filterMfsChoroplethData,
   filterByKeyInnovation,
   filterOverViewData,
+  filterMfsChartData,
 } from '../../../actions/mfs.action';
 import {
   filterDistrictListFromProvince,
@@ -369,6 +370,12 @@ class MainMFS extends Component {
       mapViewBy: selectedMapView,
     });
     this.props.filterMfsChoroplethData(
+      selectedMapView,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterMfsChartData(
       selectedMapView,
       selectedPartner,
       selectedInnovation,
@@ -885,14 +892,20 @@ class MainMFS extends Component {
       mapViewBy,
     } = this.state;
 
-    // if (selectedPartner === '') {
-    //   toast.warning('⚠ Please Select Partner!');
-    // } else if (selectedInnovation === '') {
-    //   toast.warning('⚠ Please Select Innovation Type!');
-    if (selectedAchievement === '') {
+    if (selectedPartner === '') {
+      toast.warning('⚠ Please Select Partner!');
+    } else if (selectedInnovation === '') {
+      toast.warning('⚠ Please Select Innovation Type!');
+    } else if (selectedAchievement === '') {
       toast.warning('⚠ Please Select Achievement!');
     } else {
       this.props.filterMfsChoroplethData(
+        mapViewBy,
+        selectedPartner,
+        selectedInnovation,
+        selectedAchievement,
+      );
+      this.props.filterMfsChartData(
         mapViewBy,
         selectedPartner,
         selectedInnovation,
@@ -1271,7 +1284,28 @@ class MainMFS extends Component {
                     renderChartComponent={() => {
                       return (
                         // <label>Test</label>
-                        <StackedBarWithAllFederal />
+                        <div
+                          className="scroller_card"
+                          style={
+                            mapViewBy === 'district' &&
+                            window.innerWidth > 1400
+                              ? {
+                                  width: '1200px',
+                                  overflowX: 'scroll',
+                                }
+                              : mapViewBy === 'district' &&
+                                window.innerWidth < 1400
+                              ? {
+                                  width: '800px',
+                                  overflowX: 'scroll',
+                                }
+                              : {}
+                          }
+                        >
+                          <StackedBarWithAllFederal
+                            mapViewBy={mapViewBy}
+                          />
+                        </div>
                         // <StackedBarWithProvince
                         //   viewDataBy={viewDataBy}
                         //   activeModal={activeModal}
@@ -1349,4 +1383,5 @@ export default connect(mapStateToProps, {
   filterMunListFromDistrict,
   filterByKeyInnovation,
   filterOverViewData,
+  filterMfsChartData,
 })(MainMFS);

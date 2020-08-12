@@ -60,7 +60,7 @@ class MapboxPartnership extends Component {
         <div
           id="map"
           style={{
-            position: 'unset',
+            position: 'inherit',
             top: 'unset',
             bottom: 'unset',
             width: '100%',

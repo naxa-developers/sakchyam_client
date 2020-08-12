@@ -87,7 +87,8 @@ class VectorGridComponent extends Component {
 
             // console.log(data, "data new")
             var max = Math.max.apply(null, data);
-            var min = 1;//Math.min(...data);
+            var min = Math.min.apply(null, data);
+            // var min = 1;//Math.min(...data);
             // console.log(max, "max")
             // console.log(min, "min")
             range = (max-min)/(gradeCount-1)<1?[0,2,4,6,8,10,12]:calculateRange(min, max, (max-min)/(gradeCount-1));
