@@ -17,6 +17,7 @@ import { getCenterBboxMunicipality } from '../common/MunicipalityFunction';
 
 import { extendBounds } from '../../Automation/MapRelatedComponents/extendBbox';
 import Loading from '../../../common/Loading';
+import Popup from '../common/Popup';
 
 global.markerList = [];
 function removeMarker() {
@@ -272,6 +273,133 @@ class Choropleth extends Component {
     //
   }
 
+  filterPieCharts(viewBy) {
+    const that = this;
+    const {
+      mapViewBy,
+      circleMarkerData,
+      map,
+      mapViewDataBy,
+    } = that.props;
+    const FederalData =
+      mapViewBy === 'municipality'
+        ? fullGeojsonMunicipality
+        : mapViewBy === 'district'
+        ? fullGeojsonDistrict
+        : fullGeojsonProvince;
+    removeMarker();
+    const FinalGeojson = { ...FederalData };
+
+    FinalGeojson.features.forEach((item, index) => {
+      circleMarkerData.forEach(p => {
+        if (p.code === item.properties.code) {
+          FinalGeojson.features[index].properties = {
+            ...item.properties,
+            ...p,
+          };
+        }
+      });
+    });
+    const myArrayFiltered = FinalGeojson.features.filter(el => {
+      return circleMarkerData.some(f => {
+        return f.code === el.properties.code;
+      });
+    });
+    FinalGeojson.features = myArrayFiltered;
+
+    // console.log(r, 'r');
+    let singleData = {};
+    let partnerList = [];
+    let singleData2nd = {};
+    const total = [];
+    const total2nd = [];
+    FinalGeojson.features.forEach(data => {
+      //
+      singleData2nd = {
+        point_count: 0,
+      };
+      if (data.properties.pie) {
+        data.properties.pie.forEach(piedata => {
+          //
+          singleData2nd[`${piedata.investment_primary}`] =
+            piedata[`${viewBy}`];
+          singleData2nd.point_count += piedata[`${viewBy}`];
+        });
+      }
+      total2nd.push(singleData2nd.point_count);
+      const allCount = [];
+      Object.values(singleData2nd).forEach(singledata => {
+        //
+        allCount.push(singledata);
+      });
+      const sum = allCount.reduce(
+        (partialSum, a) => partialSum + a,
+        0,
+      );
+      // const min = Math.min.apply(null, allCount);
+      // const max = Math.max.apply(null, allCount);
+      // eslint-disable-next-line no-param-reassign
+      // data.min = min;
+      // eslint-disable-next-line no-param-reassign
+      // data.max = max;
+      // eslint-disable-next-line no-param-reassign
+      data.total_sum = sum;
+    });
+    const totalSumList = [];
+    FinalGeojson.features.forEach(fed => {
+      totalSumList.push(fed.total_sum);
+    });
+    const min = Math.min.apply(null, totalSumList);
+    const max = Math.max.apply(null, totalSumList);
+    FinalGeojson.features.forEach(data => {
+      //
+      partnerList = [];
+      singleData = {
+        point_count: 0,
+        federal_name: data.properties.name,
+      };
+      if (data.properties.pie) {
+        data.properties.pie.forEach(piedata => {
+          //
+          singleData[`${piedata.investment_primary}`] =
+            piedata[`${viewBy}`];
+          if (piedata.partner_list) {
+            singleData[`${piedata.investment_primary}_partnerList`] =
+              piedata.partner_list;
+
+            partnerList.push({
+              partnerName: piedata.investment_primary,
+              partnerlist: piedata.partner_list,
+            });
+          }
+          singleData.point_count += piedata[`${viewBy}`];
+        });
+      }
+      total.push(singleData.point_count);
+      const radiusRange =
+        // eslint-disable-next-line prettier/prettier
+      (data.total_sum - min) / (max - min) *(30 - 10) + 10;
+      const testElMain = document.createElement('div');
+      testElMain.className = 'marker';
+
+      // console.log(singleData, 'singleDataProv');
+      // const props = data.properties;
+      // eslint-disable-next-line no-use-before-define
+      const testEl = this.createDonutChart(
+        singleData,
+        total2nd,
+        radiusRange,
+        partnerList,
+        mapViewDataBy,
+        data.total_sum,
+      );
+      const marker = new mapboxgl.Marker({ element: testEl })
+        .setLngLat(data.geometry.coordinates)
+        .addTo(map);
+      global.markerList.push(marker);
+    });
+  }
+
   plotVectorTile = () => {
     const { map } = this.props;
     const that = this;
@@ -512,6 +640,40 @@ class Choropleth extends Component {
             );
           },
         );
+        //     props,
+        // totals,
+        // radiusValue,
+        // partners,
+        // mapViewDataBy,
+        // totalSum,
+        const donut = that.createDonutChart(
+          {},
+          30,
+          30,
+          ['a', 'b'],
+          100,
+        );
+        console.log(`${donut}`, 'donut');
+        function popupContent() {
+          return (
+            <div
+              className="leaflet-popup-content federal-popup"
+              style={{ width: '100px' }}
+            >
+              <div className="map-popup-view">
+                <div className="map-popup-view-header">
+                  <h5>{e.features[0].properties.name}</h5>
+                  <div className="icons">
+                    <i className="material-icons">tablet_mac</i>
+                    <b>{filteredCodeData[0].count}</b>
+                  </div>
+                </div>
+                <div className="map-view-footer">{donut}</div>
+              </div>
+            </div>
+          );
+        }
+        // ${donut}
         popup
           .setLngLat(e.lngLat)
           .setHTML(
@@ -528,6 +690,7 @@ class Choropleth extends Component {
                       </div>
                   </div>`,
           )
+          // .setDOMContent(donut)
           .addTo(map);
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
@@ -610,7 +773,53 @@ class Choropleth extends Component {
       mapViewBy,
       mapViewDataBy,
     } = this.props;
+    if (prevProps.circleMarkerData !== circleMarkerData) {
+      // removeMarker();
+      if (
+        this.props.pieSquareLegend &&
+        this.props.pieSquareLegend.current &&
+        this.props.pieSquareLegend.current.childNodes.length <= 0
+      ) {
+        this.createPieLegend();
+      }
+      const viewBy =
+        mapViewDataBy === 'allocated_beneficiary'
+          ? 'total_beneficiary'
+          : mapViewDataBy === 'allocated_budget'
+          ? 'allocated_budget'
+          : 'partner_count';
 
+      // if (mapViewBy === 'municipality') {
+      //   if (mapViewDataBy !== '') {
+      //     this.filterPieCharts(viewBy);
+      //   }
+      // } else
+      if (mapViewBy === 'district') {
+        if (mapViewDataBy !== '') {
+          this.filterPieCharts(viewBy);
+        }
+      } else if (mapViewBy === 'province') {
+        if (mapViewDataBy !== '') {
+          this.filterPieCharts(viewBy);
+        }
+      }
+
+      const FederalData =
+        mapViewBy === 'municipality'
+          ? fullGeojsonMunicipality
+          : mapViewBy === 'district'
+          ? fullGeojsonDistrict
+          : fullGeojsonProvince;
+
+      if (mapViewDataBy === 'investment_focus') {
+        this.filterPieCharts(viewBy);
+      } else if (mapViewDataBy === 'allocated_beneficiary') {
+        this.filterPieCharts(viewBy);
+      } else if (mapViewDataBy === 'allocated_budget') {
+        this.filterPieCharts(viewBy);
+      }
+      // const test = this.createDonutChart(a, b);
+    }
     if (prevProps.choroplethData !== this.props.choroplethData) {
       // map.addLayer({
       //   id: 'circle-tile-label',
@@ -698,6 +907,373 @@ class Choropleth extends Component {
     d = p(10, d);
     x -= x % 3;
     return Math.round((n * d) / p(10, x)) / d + ' kMGTPE'[x / 3];
+  };
+
+  createDonutChart = (
+    props,
+    totals,
+    radiusValue,
+    partners,
+    mapViewDataBy,
+    totalSum,
+  ) => {
+    const div = document.createElement('div');
+
+    const allCount = [];
+    Object.values(props).forEach(data => {
+      //
+      allCount.push(data);
+    });
+    // const maxValue=
+    //     const getRadius = data.properties.pie.total_beneficiary -
+    //     minValue) /
+    //   (maxValue - minValue)) *
+    //   (30 - 10) +
+    // 10,
+    const data = [
+      {
+        type: 'Automation of MFIs',
+        count: 5,
+      },
+      {
+        type: 'Channel Innovations',
+        count: 10,
+      },
+      {
+        type: 'Digital Financial Services',
+        count: 15,
+      },
+      {
+        type: 'Downscaling and Value Chain Financing By Banks',
+        count: 20,
+      },
+      {
+        type: 'Increased uptake of microinsurance',
+        count: 25,
+      },
+      {
+        type: 'Outreach Expansion',
+        count: 30,
+      },
+      {
+        type: 'Product Innovations',
+        count: 35,
+      },
+      {
+        type: 'SME Financing',
+        count: 40,
+      },
+    ];
+
+    const thickness = 10;
+    // const scale = d3
+    //   .scaleLinear()
+    //   .domain([d3.min(totals), d3.max(totals)])
+    //   .range([d3.min(totals), d3.max(totals)]);
+
+    // const radius = scale(props.point_count);
+    const radius = radiusValue ? radiusValue : 30;
+
+    // const radius = scale(props.point_count - 10);
+    // const circleRadius = radius - thickness;
+    // const circleRadius = radiusValue;
+    const svg = d3
+      .select(div)
+      .append('svg')
+      .attr('class', 'pie')
+      .attr('width', radius * 2)
+      .attr('height', radius * 2);
+    //
+    // center
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${radius}, ${radius})`);
+
+    // <div
+    //       className="leaflet-popup  leaflet-zoom-animated"
+    //       style="opacity: 1; transform: translate3d(116px, 282px, 0px); bottom: -7px; left: -141px;"
+    //     >
+    //       <div className="leaflet-popup-content-wrapper">
+    //     <div className="leaflet-popup-content" style="width: 281px;">
+    //           <ul>
+    //         <li>
+    //               <div className="organization-icon">
+    //             <span>CH</span>
+    //           </div>
+    //               <div className="organization-content">
+    //             <h5>Kisan Microfinance</h5>
+    //           </div>
+    //             </li>
+    //       </ul>
+    //         </div>
+    //   </div>
+    //       <div className="leaflet-popup-tip-container">
+    //     <div className="leaflet-popup-tip" />
+    //   </div>
+    //       <a className="leaflet-popup-close-button" href="#close">
+    //     ×
+    //   </a>
+    //     </div>;
+    const tooltip = d3
+      .select(div)
+      .append('div')
+      .attr('class', 'pie-mapbox-popup')
+      .style('opacity', 0);
+
+    tooltip.append('div').attr('class', 'popup-div');
+    const tooltip2nd = d3
+      .select(div)
+      .append('div')
+      .attr('class', 'pie-mapbox-popup')
+      .style('opacity', 0);
+
+    tooltip2nd.append('div').attr('class', 'popup-div');
+
+    // tooltip
+    //   .select('.popup-div')
+    //   .append('ul')
+    //   .attr('class', 'mapbox-popup-content');
+    // .style('width', '281px');
+
+    // tooltip
+    //   .select('.leaflet-popup-content')
+    //   .append('div')
+    //   .attr('class', 'organization-content');
+
+    const arc = d3
+      .arc()
+      .innerRadius(radius - thickness)
+      .outerRadius(radius);
+
+    const pie = d3
+      .pie()
+      .value(d => d.count)
+      .sort(null);
+
+    const path = g
+      .selectAll('path')
+      .data(pie(data.sort((x, y) => d3.ascending(y.count, x.count))))
+      .enter()
+      .append('path')
+      .attr('d', arc)
+      .attr('fill', d => colorScale(d.data.type))
+      .on('click', function() {
+        d3.event.stopPropagation();
+        // d.stopPropagation();
+        document
+          .querySelectorAll('.pie-mapbox-popup')
+          .forEach(function(el) {
+            // eslint-disable-next-line no-param-reassign
+            el.style.display = 'none';
+            // a.remove();
+          });
+        // const that = this;
+
+        // console.log(props, 'props');
+        // if (document.querySelector('.federal-popup')) {
+        //   document.querySelector('.federal-popup').style.display =
+        //     'none';
+        // }
+        // popup.remove();
+        /* <div className="icons">
+        <i className="material-icons">tablet_mac</i>
+        <b>4</b></div> */
+        // <div className="icon-list">
+        //             </div>
+        // document
+        //   .querySelectorAll('.pie-mapbox-popup')
+        //   .forEach(function(el) {
+        //     // eslint-disable-next-line no-param-reassign
+        //     el.style.display = 'none';
+        //     // a.remove();
+        //   });
+        let partnerContent = null;
+        // partnerList =
+        // eslint-disable-next-line no-restricted-syntax
+        partnerContent = partners
+          .map((partnerData, index) => {
+            const partnerList = partnerData.partnerlist
+              .map(singlepartner => {
+                return `
+                <li>
+                  <a>${singlepartner}</a>
+                </li>
+                `;
+              })
+              .join('');
+            return `
+          <div class="acc-list ${
+            index === 0 ? 'active' : ''
+          }" onclick="this.classList.toggle('active');">
+            <div class="acc-header">
+              <h5>${partnerData.partnerName}</h5>
+            </div>
+            <div class="acc-body">
+              <ul>
+              ${partnerList}
+              </ul>
+            </div>
+          </div>
+        `;
+          })
+          .join('');
+
+        // <h6>${props.federal_name}</h6>
+        tooltip.select('.popup-div').html(
+          `<div class="leaflet-popup-content" style="width: 100px;">
+            <div class="map-popup-view" style="${
+              mapViewDataBy === 'investment_focus'
+                ? 'height: 302px;'
+                : 'height: 10px'
+            }overflow-y: scroll;">
+              <div class="map-popup-view-header">
+                  <h5>${props.federal_name}</h5>
+                  <div class="icons">
+                    <i class="material-icons">${
+                      mapViewDataBy === 'allocated_beneficiary'
+                        ? 'people'
+                        : mapViewDataBy === 'allocated_budget'
+                        ? 'monetization_on'
+                        : 'payments'
+                    }</i><b>${totalSum}</b>
+                  </div>
+              </div>
+              <div class="acc is-after is-border">
+                  ${
+                    partnerContent !== undefined &&
+                    mapViewDataBy === 'investment_focus'
+                      ? partnerContent
+                      : ''
+                  }
+                  </div>
+                
+              <div class="map-view-footer">
+              </div>
+            </div>
+          </div>` /* eslint-disable-line */
+        );
+
+        // const t = document.querySelector('.acc-header');
+        // t.addEventListener('click', function(e) {
+        //   // console.log('test');
+        //   e.stopPropagation();
+        //   alert('function');
+        // });
+        const mapPopup = document.querySelector('.map-popup-view');
+        mapPopup.addEventListener('click', function(e) {
+          // console.log('test');
+          e.stopPropagation();
+          // alert('function');
+        });
+        const Popupscroll = document.querySelector('.map-popup-view');
+        Popupscroll.addEventListener('wheel', function(e) {
+          e.stopPropagation();
+        });
+        // const accList = document.querySelector('.acc-list');
+        // accList.addEventListener('click', function(e) {
+        //   console.log(e, 'test');
+        //   // if (e.target.classList.includes('active')) {
+        //   this.classList.remove('active');
+        //   // } else {
+        //   // e.target.classList.add('active');
+        //   // }
+        //   // e.stopPropagation();
+        //   // alert('function');
+        // });
+        // .style('color', 'black');
+        // .style('background-color', 'white');
+        // tooltip.select('.count').html('Test');
+        // tooltip.select('.percent').html(`${34}%`);
+
+        tooltip.style('display', 'block');
+        tooltip.style('opacity', 2);
+      })
+      .on('mouseover', function(d) {
+        d3.select(this)
+          .transition()
+          .duration('50')
+          .attr('opacity', '.65')
+          .attr(
+            'd',
+            d3
+              .arc()
+              .innerRadius(radius - thickness)
+              .outerRadius(radius * 1.04),
+          );
+        tooltip2nd.style('display', 'block');
+        tooltip2nd.style('opacity', 1);
+        tooltip2nd.select('.popup-div').html(
+          `<div class="leaflet-popup-content" style="width: 100px;">
+            <div class="map-popup-view">
+              <div class="map-popup-view-header">
+                  <h5>${d.data.type}</h5>
+                  <div class="icons">
+                    <i class="material-icons">${
+                      mapViewDataBy === 'allocated_beneficiary'
+                        ? 'people'
+                        : mapViewDataBy === 'allocated_budget'
+                        ? 'monetization_on'
+                        : 'payments'
+                    }</i><b>${d.data.count}</b>
+                  </div>
+              </div>
+            </div>
+          </div>` /* eslint-disable-line */
+        );
+      })
+      .on('mousemove', function() {
+        tooltip2nd
+          .style('top', `${d3.event.offsetY + 20}px`)
+          .style('left', `${d3.event.offsetX + 20}px`);
+        tooltip
+          .style('top', `${d3.event.offsetY + 20}px`)
+          .style('left', `${d3.event.offsetX + 20}px`);
+      })
+      .on('mouseout', function() {
+        tooltip2nd.style('display', 'none');
+        tooltip2nd.style('opacity', 0);
+
+        d3.select(this)
+          .transition()
+          // .duration('200')
+          // .ease(d3.easeBounceIn)
+          .attr('opacity', '1')
+          .attr(
+            'd',
+            d3
+              .arc()
+              .innerRadius(radius - thickness)
+              .outerRadius(radius),
+          );
+      });
+
+    // const circle = g
+    //   .append('circle')
+    //   .attr('r', circleRadius)
+    //   .attr('fill', 'rgba(0, 0, 0, 0)')
+    //   .attr('class', 'center-circle');
+
+    // const text = g
+    //   .append('text')
+    //   .attr('class', 'total')
+    //   .text(props.point_count)
+    //   .attr('text-anchor', 'middle')
+    //   .attr('dy', 5)
+    //   .attr('fill', 'white');
+
+    // const infoEl = createTable(props);
+
+    // svg.on('click', () => {
+    //   d3.selectAll('.center-circle').attr(
+    //     'fill',
+    //     'rgba(0, 0, 0, 0.7)',
+    //   );
+    //   circle.attr('fill', 'rgb(71, 79, 102)');
+    //   document.getElementById('key').innerHTML = '';
+    //   document.getElementById('key').append(infoEl);
+    // });
+
+    return div;
   };
 
   render() {
