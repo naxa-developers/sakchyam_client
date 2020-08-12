@@ -134,9 +134,6 @@ class BarChart extends Component {
       },
       yaxis: {
         title: {
-          // text: !this.props.activeModal
-          //   ? 'No. of Products'
-          //   : undefined,
           text: 'No. of Products',
           rotate: 90,
           offsetX: 0,
