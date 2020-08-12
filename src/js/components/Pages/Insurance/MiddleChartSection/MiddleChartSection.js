@@ -218,7 +218,11 @@ class MiddleChartSection extends Component {
               }}
               renderChartComponent={() => {
                 return (
-                  <BarChartInsurance insuranceData={insuranceData} />
+                  <BarChartInsurance
+                    clickIndex={this.state.clickIndex}
+                    insuranceData={insuranceData}
+                    handleClickIndex={this.handleClickIndex}
+                  />
                 );
               }}
             />
@@ -258,7 +262,11 @@ class MiddleChartSection extends Component {
                 this.handleSelectedModal('sankey');
               }}
               renderChartComponent={() => {
-                return <SankeyChartInsurance />;
+                return (
+                  <SankeyChartInsurance
+                    insuranceData={insuranceData}
+                  />
+                );
               }}
             />
           </div>
