@@ -174,8 +174,8 @@ class BarChartInsurance extends Component {
           title: {
             text: 'Amount of Insurance',
           },
-          axisTicks: { show: true },
-          axisBorder: { show: true },
+          axisTicks: { show: true, color: '#E11D3F' },
+          axisBorder: { show: true, color: '#E11D3F' },
           labels: {
             show: true,
             offsetX: 0,
@@ -187,6 +187,8 @@ class BarChartInsurance extends Component {
           title: {
             text: 'Amount of Sum Insuranced',
           },
+          axisTicks: { show: true, color: '#FFCD00' },
+          axisBorder: { show: true, color: '#FFCD00' },
           labels: {
             show: true,
             offsetX: -1,
