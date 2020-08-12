@@ -7,6 +7,7 @@ import {
   CaretUp,
   CaretDown,
 } from '../../FinancialLiteracy/RightSideBar/Caret';
+import { WidgetCardLoader } from '../../FinancialLiteracy/Loader/RightSidebarLoaderFL';
 
 class RightSideBar extends Component {
   constructor(props) {
@@ -62,7 +63,6 @@ class RightSideBar extends Component {
       this.setState({
         timelineData,
       });
-      console.log('timeline for outreach', timelineData);
 
       const years = [];
       timelineData.forEach(item => years.push(item.year));
@@ -111,7 +111,7 @@ class RightSideBar extends Component {
     const {
       showRightSidebar,
       handleRightSidebarShow,
-      productProcessReducer: { overviewData },
+      productProcessReducer: { overviewData, loading },
     } = this.props;
 
     const {
@@ -138,61 +138,65 @@ class RightSideBar extends Component {
                 className="widget-body"
                 style={{ backgroundColor: '#f7f7f7' }}
               >
-                <ul className="widget-list">
-                  <li>
-                    <div className="widget-content">
-                      <h6>Innovation area</h6>
-                      <span>
-                        {/* {innovationAreaCount !== 0
+                {loading ? (
+                  <WidgetCardLoader />
+                ) : (
+                  <ul className="widget-list">
+                    <li>
+                      <div className="widget-content">
+                        <h6>Innovation area</h6>
+                        <span>
+                          {/* {innovationAreaCount !== 0
                           ? innovationAreaCount
                           : defaultInnovation} */}
-                        {/* {numberWithCommas(totalBeneficiaries)} */}
-                        {innovationAreaCount}
-                      </span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">people</i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Partner Institutions</h6>
-                      <span>
-                        {/* {partnerInstitutionCount !== 0
+                          {/* {numberWithCommas(totalBeneficiaries)} */}
+                          {innovationAreaCount}
+                        </span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">people</i>
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="widget-content">
+                        <h6>Partner Institutions</h6>
+                        <span>
+                          {/* {partnerInstitutionCount !== 0
                           ? partnerInstitutionCount
                           : defaultPartner} */}
-                        {partnerInstitutionCount}
-                      </span>
-                      {/* <span>{partnerCount}</span> */}
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">
-                          location_city
-                        </i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>Products</h6>
-                      <span>
-                        {/* {productCount !== 0
+                          {partnerInstitutionCount}
+                        </span>
+                        {/* <span>{partnerCount}</span> */}
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">
+                            location_city
+                          </i>
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="widget-content">
+                        <h6>Products</h6>
+                        <span>
+                          {/* {productCount !== 0
                           ? productCount
                           : defaultProduct} */}
-                        {productCount}
-                      </span>
-                      {/* <span>{programCount}</span> */}
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">business</i>
-                      </span>
-                    </div>
-                  </li>
-                </ul>
+                          {productCount}
+                        </span>
+                        {/* <span>{programCount}</span> */}
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">business</i>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                )}
               </div>
             </div>
 

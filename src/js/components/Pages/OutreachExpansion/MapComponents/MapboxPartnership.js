@@ -365,7 +365,7 @@ class MapboxPartnership extends Component {
             <div>
               <PlotVector
                 choroplethData={choroplethData}
-                color="#eb5149"
+                color="#00008B"
                 YesNo={YesNo}
                 {...this.props}
                 setHoveredMunicipalityId={

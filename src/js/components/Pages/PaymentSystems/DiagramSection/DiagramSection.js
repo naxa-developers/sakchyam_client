@@ -179,6 +179,7 @@ const DiagramSection = () => {
 
   return (
     <main
+      id="payment-diagram"
       className="payment-system"
       ref={containerRef}
       style={{ zIndex: 0 }}

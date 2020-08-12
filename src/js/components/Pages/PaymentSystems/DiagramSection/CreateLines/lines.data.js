@@ -13,7 +13,7 @@ export const lineData = [
   {
     leftRef: 1,
     leftRefLinks: [1],
-    rightRefLinks: [0],
+    rightRefLinks: [0, 1, 3],
     leftToLeftLink: [[0, 1]],
     rightToRightLink: [],
     indirectLink: [],

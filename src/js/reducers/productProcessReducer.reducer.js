@@ -4,7 +4,9 @@
 /* eslint-disable camelcase */
 import {
   GET_PRODUCT_PROCESS_DATA,
-  GET_PRODUCT_PROCESS_LIST,
+  GET_PRODUCT_PROCESS_LIST_REQUEST,
+  GET_PRODUCT_PROCESS_LIST_SUCCESS,
+  GET_PRODUCT_PROCESS_LIST_FAILURE,
   FILTER_PRODUCT_NAME_LIST,
   FILTER_PARTNER_NAME_LIST,
   FILTER_ALL_CHART_PP,
@@ -20,6 +22,10 @@ const initialState = {
   partnerTypeList: [],
   partnerNameList: [],
   marketFailureList: [],
+  loading: false,
+  filteredData: [],
+
+  overviewData: [],
 };
 
 function convertLabelName(name) {
@@ -122,7 +128,6 @@ const getOverviewData = data => {
 const generateTimelineData = data => {
   // remove data with null date values
 
-  console.log('data for timeline', data);
   const filteredData = [];
   data.forEach(item => {
     if (item.date !== null)
@@ -424,6 +429,7 @@ const filterAllChartPP = (state, action) => {
     radarChartData,
     barChartData,
     overviewData: newOverviewData,
+    filteredData,
   };
 };
 
@@ -492,6 +498,7 @@ const resetAllChartPP = (state, action) => {
     radarChartData,
     barChartData,
     overviewData,
+    filteredData: [],
   };
 };
 
@@ -556,7 +563,7 @@ const getProductProcessList = (state, action) => {
     defaultRadarData,
     defaultBarData,
     defaultOverviewData,
-    // productProcessList: action.payload,
+    loading: false,
   };
 };
 
@@ -564,7 +571,9 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCT_PROCESS_DATA:
       return getProductProcessData(state, action);
-    case GET_PRODUCT_PROCESS_LIST:
+    case GET_PRODUCT_PROCESS_LIST_REQUEST:
+      return { ...state, loading: true };
+    case GET_PRODUCT_PROCESS_LIST_SUCCESS:
       return getProductProcessList(state, action);
     case FILTER_PRODUCT_NAME_LIST:
       return filterProductNameList(state, action);
