@@ -41,8 +41,9 @@ class StackedBarWithAllFederal extends Component {
     const options = {
       chart: {
         height: 350,
+        width: 2000,
         type: 'line',
-        // stacked: true,
+        stacked: true,
         // events: {
         //   click(
         //     event,
@@ -185,8 +186,9 @@ class StackedBarWithAllFederal extends Component {
     const options = {
       chart: {
         height: 350,
-        type: 'line',
-        // stacked: true,
+        width: 2000,
+        type: 'bar',
+        stacked: true,
         toolbar: {
           show: false,
           // download: false,
@@ -308,7 +310,18 @@ class StackedBarWithAllFederal extends Component {
       //   align: 'left',
       //   offsetX: 110,
       // },
-      colors: ['#13A8BE'],
+      colors: [
+        '#256EFF',
+        '#FF7F11',
+        '#3DDC97',
+        '#FF495C',
+        '#463F1A',
+        '#0D2149',
+        '#E1F2FE',
+        '#B2B1CF',
+        '#826AED',
+        '#CAFF8A',
+      ],
       xaxis: {
         categories: labels,
         // title: {
@@ -342,15 +355,21 @@ class StackedBarWithAllFederal extends Component {
   render() {
     console.log(window.innerWidth);
     const { options, series } = this.state;
-    const { activeModal } = this.props;
+    const { activeModal, mapViewBy } = this.props;
     return (
-      <div id="stacked_chart">
+      <div
+        id="stacked_chart"
+        style={mapViewBy === 'district' ? { width: '2500px' } : {}}
+      >
         <ReactApexChart
           key={series}
           options={options}
           series={series}
           type="bar"
           height={activeModal && window.innerWidth < 1400 ? 450 : 500}
+          // width={
+          //   activeModal && window.innerWidth < 1400 ? 2000 : 2000
+          // }
           // width={activeModal === true ? 1600 : '100%'}
         />
       </div>

@@ -12,6 +12,8 @@ import {
   FILTER_MFS_LIST_BY_KEY_INNOVATION,
   FILTER_MFS_CHART_DATA,
 } from '../actions/index.actions';
+import province from '../../data/province.json';
+import district from '../../data/district.json';
 
 function groupBy(a, keyFunction) {
   const groups = {};
@@ -237,25 +239,38 @@ const filterMfsChoroplethData = (state, action) => {
   } = action.payload;
   console.log(action, 'action');
   const mfsData = [...state.mfsListAllData];
-  const filteredChoroplethData = mfsData.filter(data => {
+  const filteredByPartner = mfsData.filter(data => {
+    return selectedPartner.includes(data.partner_name);
+  });
+  const filteredByInnovation = filteredByPartner.filter(data => {
+    return selectedInnovation.includes(data.key_innovation);
+  });
+  const filteredChoroplethData = filteredByInnovation.filter(data => {
     return selectedAchievement.includes(data.achievement_type);
   });
 
-  console.log(filteredChoroplethData);
-
-  const testArray = [];
   const anotherArray = [...filteredChoroplethData];
   const federalKey =
     mapViewBy === 'province' ? 'province_code' : 'district_code';
 
-  const byName = groupBy(anotherArray, it => it[federalKey]);
+  const byFederal = groupBy(anotherArray, it => it[federalKey]);
+  const byAchievementType = groupBy(
+    anotherArray,
+    it => it.achievement_type,
+  );
+  // console.log(province, 'province');
+  // console.log(district, 'district');
+  const provinceData = province.map(data => {
+    return { code: data.FIRST_PROV, name: data.prov_name, count: 0 };
+  });
+  console.log(provinceData, 'provinceData');
   // console.log(byName, 'byName');
-  const output = Object.keys(byName).map((name, second) => {
+  const output = Object.keys(byFederal).map((name, second) => {
     // console.log(byName[name][0], '1stname');
     // console.log(name, 'name');
     // console.log(second, 'second');
     // const byZone = groupBy(byName[name], it => it.Zone);
-    const sum = byName[name].reduce(
+    const sum = byFederal[name].reduce(
       (acc, it) => acc + it.achieved_number,
       0,
     );
@@ -265,44 +280,10 @@ const filterMfsChoroplethData = (state, action) => {
       count: sum,
     };
   });
-  // console.log(output, 'output');
-  // console.log(output)
-  // console.log(maps, 'mapTest');
-  // console.log(anotherArray, 'anotherArray1');
-  // console.log(federalKey, 'federalKey2');
-  // console.log(
-  //   federalFilterofChoropleth,
-  //   'federalFilterOfChoropleth3',
-  // );
-  // const choroplethFormat = [];
-  // federalFilterofChoropleth.forEach(data => {
-  //   choroplethFormat.push({
-  //     code: data[federalKey],
-  //     count: data.achieved_number,
-  //   });
-  // });
-  // console.log(federalFilterofChoropleth, 'federalCOde');
+
   return {
     ...state,
     mfsChoroplethData: output,
-    mfsChartData: {
-      series: [
-        {
-          name: 'Income',
-          // type: 'column',
-          data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
-        },
-      ],
-      labels: [
-        'Province1',
-        'Province2',
-        'Province3',
-        'Province4',
-        'Province5',
-        'Province6',
-        'Province7',
-      ],
-    },
   };
 };
 const filterMfsChartData = (state, action) => {
@@ -312,40 +293,106 @@ const filterMfsChartData = (state, action) => {
     selectedInnovation,
     selectedAchievement,
   } = action.payload;
-  console.log(action, 'action');
   const mfsData = [...state.mfsListAllData];
-  const filteredChoroplethData = mfsData.filter(data => {
+  const filteredByPartner = mfsData.filter(data => {
+    return selectedPartner.includes(data.partner_name);
+  });
+  const filteredByInnovation = filteredByPartner.filter(data => {
+    return selectedInnovation.includes(data.key_innovation);
+  });
+  const filteredChoroplethData = filteredByInnovation.filter(data => {
     return selectedAchievement.includes(data.achievement_type);
   });
 
-  console.log(filteredChoroplethData);
-
-  const testArray = [];
   const anotherArray = [...filteredChoroplethData];
   const federalKey =
     mapViewBy === 'province' ? 'province_code' : 'district_code';
-  const federalFilterofChoropleth = filterDistinctJsonWithKey(
+
+  const byFederal = groupBy(anotherArray, it => it[federalKey]);
+  const byAchievementType = groupBy(
     anotherArray,
-    federalKey,
-    'achieved_number',
+    it => it.achievement_type,
   );
-  console.log(anotherArray, 'anotherArray1');
-  console.log(federalKey, 'federalKey2');
-  console.log(
-    federalFilterofChoropleth,
-    'federalFilterOfChoropleth3',
-  );
-  // const choroplethFormat = [];
-  // federalFilterofChoropleth.forEach(data => {
-  //   choroplethFormat.push({
-  //     code: data[federalKey],
-  //     count: data.achieved_number,
-  //   });
-  // });
-  console.log(federalFilterofChoropleth, 'federalCOde');
+  // console.log(province, 'province');
+  // console.log(district, 'district');
+  let federalData = [];
+  if (mapViewBy === 'province') {
+    federalData = province.map(data => {
+      return {
+        code: data.FIRST_PROV,
+        name: data.prov_name,
+        count: 0,
+      };
+    });
+  } else {
+    federalData = district.map(data => {
+      return {
+        code: data.districtid,
+        name: data.name,
+        count: 0,
+      };
+    });
+  }
+  console.log(federalData, 'federalData');
+  const labels = federalData.map(data => {
+    const name = data.name.toLowerCase();
+    const nameCapitalized =
+      name.charAt(0).toUpperCase() + name.slice(1);
+    return nameCapitalized;
+  });
+  const output = Object.keys(byFederal).map((name, second) => {
+    const sum = byFederal[name].reduce(
+      (acc, it) => acc + it.achieved_number,
+      0,
+    );
+    return {
+      code: name,
+      // ZoneCount: Object.keys(byZone).length,
+      count: sum,
+    };
+  });
+
+  const finalArray = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(byAchievementType)) {
+    const groupByFed = groupBy(value, it => it[federalKey]);
+    const final = Object.keys(groupByFed).map((name, second) => {
+      // console.log(byName[name][0], '1stname');
+      // console.log(name, 'name');
+      // console.log(second, 'second');
+      // const byZone = groupBy(byName[name], it => it.Zone);
+      const sum = groupByFed[name].reduce(
+        (acc, it) => acc + it.achieved_number,
+        0,
+      );
+      return {
+        code: name,
+        // ZoneCount: Object.keys(byZone).length,
+        count: sum,
+      };
+    });
+    const test = federalData.map(data => {
+      final.map(el => {
+        // console.log(data, 'data');
+        // console.log(el, 'el');
+        if (data.code === +el.code) {
+          // eslint-disable-next-line no-param-reassign
+          data.count = el.count;
+        }
+      });
+      return data;
+    });
+    const mappedCount = test.map(data => {
+      return data.count;
+    });
+    finalArray.push({ name: key, data: mappedCount });
+  }
   return {
     ...state,
-    // mfsChoroplethData: choroplethFormat,
+    mfsChartData: {
+      series: finalArray,
+      labels,
+    },
   };
 };
 export default function(state = initialState, action) {
