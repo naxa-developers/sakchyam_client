@@ -244,6 +244,7 @@ class Select extends PureComponent {
       );
     }
     return filteredOptions.map(opt => {
+      const { idValue } = this.props;
       // Handling nested options
       if (opt.options) {
         return (
@@ -274,7 +275,11 @@ class Select extends PureComponent {
           {/* <div className="vr-checkbox" style={{ width: '100%' }}> */}
           {withCheckbox && (
             <input
-              id={opt.label.replace(' ', '_')}
+              id={
+                idValue
+                  ? opt.label.replace(' ', '_') + idValue
+                  : opt.label.replace(' ', '_')
+              }
               className={`check_${opt.code}`}
               type="checkbox"
               value={opt.value}

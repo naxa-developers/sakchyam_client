@@ -370,6 +370,12 @@ class MainAutomation extends Component {
       activeTableView,
       dataTypeLevel,
     } = this.state;
+    const {
+      automationReducer: {
+        automationChoroplethData,
+        automationDataByProvince,
+      },
+    } = this.props;
 
     const { automationReducer } = this.props;
     const allPartners =
@@ -451,138 +457,131 @@ class MainAutomation extends Component {
         // this.setState({ partnersData: a });
       }
     }
-    // const { activeClickPartners } = this.state;
-    // if (prevState.activeClickPartners !== activeClickPartners) {
-    //   const {
-    //     selectedProvince,
-    //     selectedDistrict,
-    //     selectedMunicipality,
-    //     mapType,
-    //   } = this.state;
-    //   if (activeTableView) {
-    //     this.props.getTableDataByPartnerSelect(activeClickPartners);
-    //   }
-    //   const mapLayers = this.mapRef.current.leafletElement._layers;
-    //   global.map = this.mapRef.current.leafletElement;
-    //   if (activeClickPartners.length === 0) {
-    //     if (mapType === 'branches') {
-    //       global.migrationLayer.hide();
-    //     }
-    //     this.props.filterPartnerSelect(activeClickPartners);
-    //     Object.entries(mapLayers).forEach(([key, value]) => {
-    //       if (
-    //         value.options &&
-    //         value.options.properties &&
-    //         value.options.properties.partner_id
-    //       ) {
-    //         value.setIcon(allActive);
-    //         value.closePopup();
-    //       }
-    //     });
-    //   } else {
-    //     const array = [];
-    //     global.a = this.props.automationReducer.automationTableData;
-    //     global.a.map(branch => {
-    //       const trimelat = getCenterBboxMunicipality(
-    //         branch.municipality_code,
-    //       ).center;
-    //       const trimelong = getCenterBboxMunicipality(
-    //         branch.municipality_code,
-    //       ).center;
-    //       branch.des_long = trimelong ? trimelong[0] : null;
-    //       branch.des_lat = trimelong ? trimelong[1] : null;
-    //       // }
-    //       return true;
-    //     });
-    //     const x = this.state.activeClickPartners.map(
-    //       clickedPartners => {
-    //         global.a.map(data => {
-    //           // console.log(data);
-    //           if (data.des_lat !== null) {
-    //             if (data.partner_id === clickedPartners) {
-    //               // console.log('inside 2 if');
-    //               array.push({
-    //                 from: [data.longitude, data.latitude],
-    //                 to: [data.des_long, data.des_lat],
-    //                 labels: [data.partner, data.branch],
-    //                 // color: '#ff3a31',
-    //                 color: getPartnerColor(data.partner_id),
-    //                 value: 15,
-    //               });
-    //             }
-    //           }
-    //           return true;
-    //         });
-    //         return true;
-    //       },
-    //     );
-    //     // eslint-disable-next-line react/no-did-update-set-state
-    //     this.setState({ migrationArray: array });
-    //     if (mapType === 'branches') {
-    //       // console.log(array, 'array Migration');
-    //       global.migrationLayer.setData(array);
-    //       global.migrationLayer.pause();
-    //       global.migrationLayer.show();
-    //     }
-    //     // eslint-disable-next-line new-cap
-    //     if (
-    //       selectedProvince.length > 0 ||
-    //       selectedDistrict.length > 0 ||
-    //       selectedMunicipality.length > 0
-    //     ) {
-    //       this.props.getFilteredPartnersByFederalWithClickedPartners(
-    //         {
-    //           municipality: selectedMunicipality,
-    //           district: selectedDistrict,
-    //           province: selectedProvince,
-    //         },
-    //         activeClickPartners,
-    //       );
-    //     } else {
-    //       this.props.filterPartnerSelect(activeClickPartners);
-    //     }
 
-    //     // if (activeTableView) {
-    //     //   this.props.getTableDataByPartnerSelect(activeClickPartners);
-    //     // }
-    //     Object.entries(mapLayers).forEach(([key, value]) => {
-    //       if (
-    //         value.options &&
-    //         value.options.properties &&
-    //         value.options.properties.partner_id
-    //       ) {
-    //         value.setIcon(Inactive);
-    //       }
-    //     });
-    //   }
-    //   activeClickPartners.map(data => {
-    //     Object.entries(mapLayers).forEach(([key, value]) => {
-    //       if (
-    //         value.options &&
-    //         value.options.properties &&
-    //         value.options.properties.partner_id &&
-    //         value.options.properties.partner_id === data
-    //       ) {
-    //         value.setIcon(allActive);
-    //         if (
-    //           selectedMunicipality.length < 1 &&
-    //           selectedDistrict.length < 1 &&
-    //           selectedProvince.length < 1
-    //         ) {
-    //           value.openPopup();
-    //         }
-    //       }
-    //     });
-    //     return true;
-    //   });
-    // }
+    if (prevState.activeClickPartners !== activeClickPartners) {
+      const {
+        selectedProvince,
+        selectedDistrict,
+        selectedMunicipality,
+        mapType,
+      } = this.state;
+      if (activeTableView) {
+        this.props.getTableDataByPartnerSelect(activeClickPartners);
+      }
+      // const mapLayers = this.mapRef.current.leafletElement._layers;
+      // global.map = this.mapRef.current.leafletElement;
+      if (activeClickPartners.length === 0) {
+        // if (mapType === 'branches') {
+        //   global.migrationLayer.hide();
+        // }
+        // this.props.filterPartnerSelect(activeClickPartners);
+        // Object.entries(mapLayers).forEach(([key, value]) => {
+        //   if (
+        //     value.options &&
+        //     value.options.properties &&
+        //     value.options.properties.partner_id
+        //   ) {
+        //     value.setIcon(allActive);
+        //     value.closePopup();
+        //   }
+        // });
+      } else {
+        const array = [];
+        global.a = this.props.automationReducer.automationTableData;
+        global.a.map(branch => {
+          const trimelat = getCenterBboxMunicipality(
+            branch.municipality_code,
+          ).center;
+          const trimelong = getCenterBboxMunicipality(
+            branch.municipality_code,
+          ).center;
+          branch.des_long = trimelong ? trimelong[0] : null;
+          branch.des_lat = trimelong ? trimelong[1] : null;
+          // }
+          return true;
+        });
+        const x = this.state.activeClickPartners.map(
+          clickedPartners => {
+            global.a.map(data => {
+              // console.log(data);
+              if (data.des_lat !== null) {
+                if (data.partner_id === clickedPartners) {
+                  // console.log('inside 2 if');
+                  array.push({
+                    from: [data.longitude, data.latitude],
+                    to: [data.des_long, data.des_lat],
+                    labels: [data.partner, data.branch],
+                    // color: '#ff3a31',
+                    color: getPartnerColor(data.partner_id),
+                    value: 15,
+                  });
+                }
+              }
+              return true;
+            });
+            return true;
+          },
+        );
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ migrationArray: array });
+        if (mapType === 'branches') {
+          // console.log(array, 'array Migration');
+          global.migrationLayer.setData(array);
+          global.migrationLayer.pause();
+          global.migrationLayer.show();
+        }
+        // eslint-disable-next-line new-cap
+        if (
+          selectedProvince.length > 0 ||
+          selectedDistrict.length > 0 ||
+          selectedMunicipality.length > 0
+        ) {
+          this.props.getFilteredPartnersByFederalWithClickedPartners(
+            {
+              municipality: selectedMunicipality,
+              district: selectedDistrict,
+              province: selectedProvince,
+            },
+            activeClickPartners,
+          );
+        } else {
+          this.props.filterPartnerSelect(activeClickPartners);
+        }
 
-    const {
-      automationReducer: {
-        automationChoroplethData,
-        automationDataByProvince,
-      },
-    } = this.props;
+        // if (activeTableView) {
+        //   this.props.getTableDataByPartnerSelect(activeClickPartners);
+        // }
+        // Object.entries(mapLayers).forEach(([key, value]) => {
+        //   if (
+        //     value.options &&
+        //     value.options.properties &&
+        //     value.options.properties.partner_id
+        //   ) {
+        //     value.setIcon(Inactive);
+        //   }
+        // });
+      }
+      activeClickPartners.map(data => {
+        // Object.entries(mapLayers).forEach(([key, value]) => {
+        //   if (
+        //     value.options &&
+        //     value.options.properties &&
+        //     value.options.properties.partner_id &&
+        //     value.options.properties.partner_id === data
+        //   ) {
+        //     value.setIcon(allActive);
+        //     if (
+        //       selectedMunicipality.length < 1 &&
+        //       selectedDistrict.length < 1 &&
+        //       selectedProvince.length < 1
+        //     ) {
+        //       value.openPopup();
+        //     }
+        //   }
+        // });
+        return true;
+      });
+    }
 
     if (
       prevProps.automationReducer.getAutomationDataByMunicipality !==
@@ -626,7 +625,7 @@ class MainAutomation extends Component {
   };
 
   handleActiveClickPartners = clicked => {
-    // console.log(clicked, 'name');
+    console.log(clicked, ' handleActiveClickPartners name');
     const {
       activeClickPartners,
       activeOutreachButton,
