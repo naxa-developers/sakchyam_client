@@ -597,20 +597,30 @@ class Choropleth extends Component {
         const filterMapChoroplethPie = (getBbox, federalCode) => {
           map.fitBounds(getBbox.bbox);
           that.props.handleProvinceClick(parseInt(federalCode, 10));
-          map.setFilter('vector-tile-fill', [
-            'in',
-            ['get', 'code'],
-            ['literal', [federalCode]],
-          ]);
-          map.setFilter('vector-tile-outline', [
-            'in',
-            ['get', 'code'],
-            ['literal', [federalCode.toString()]],
-          ]);
+          // map.setFilter('vector-tile-fill', [
+          //   'in',
+          //   ['get', 'code'],
+          //   ['literal', [federalCode]],
+          // ]);
+          // map.setFilter('vector-tile-outline', [
+          //   'in',
+          //   ['get', 'code'],
+          //   ['literal', [federalCode.toString()]],
+          // ]);
         };
 
         e.preventDefault();
         const federalCode = e.features[0].properties.code;
+        map.setFilter('vector-tile-fill', [
+          'in',
+          ['get', 'code'],
+          ['literal', [federalCode]],
+        ]);
+        map.setFilter('vector-tile-outline', [
+          'in',
+          ['get', 'code'],
+          ['literal', [federalCode.toString()]],
+        ]);
 
         if (that.props.mapViewBy === 'province') {
           // console.log(e.features[0]);
@@ -847,11 +857,15 @@ class Choropleth extends Component {
       setTimeout(() => {
         //
         //
-        map.setPaintProperty(
-          'vector-tile-fill',
-          'fill-color',
-          this.state.finalStyle,
-        );
+        const mapLayer = map.getLayer('vector-tile-fill');
+
+        if (typeof mapLayer !== 'undefined') {
+          map.setPaintProperty(
+            'vector-tile-fill',
+            'fill-color',
+            this.state.finalStyle,
+          );
+        }
       }, 2000);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {

@@ -12,6 +12,7 @@ import {
   FILTER_MFS_LIST_BY_KEY_INNOVATION,
   FILTER_MFS_CHART_DATA,
   FILTER_MFS_MAP_PIE_DATA,
+  FILTER_MFS_CHART_DATA_BY_DISTRICT_ID,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -73,6 +74,9 @@ const initialState = {
   partnerList: [],
   mfsChoroplethData: [],
   mfsChartData: {},
+  defaultMfsOverviewData: {},
+  defaultMfsChoroplethData: [],
+  defaultMfsChartData: {},
 };
 const getMfsListSuccess = (state, action) => {
   return {
@@ -137,6 +141,11 @@ const getMfsOverviewData = (state, action) => {
       innovationNo: noOfInnovation,
       partnerNo: noOfPartners,
     },
+    defaultMfsOverviewData: {
+      totalCashpoint: totalAchievedNumber,
+      innovationNo: noOfInnovation,
+      partnerNo: noOfPartners,
+    },
     // innovationList,
   };
 };
@@ -147,12 +156,36 @@ const filterMfsOverviewData = (state, action) => {
     selectedAchievement,
   } = action.payload;
   const mfsData = [...state.mfsListAllData];
-  const filteredData = mfsData.filter(data => {
-    return selectedAchievement.includes(data.achievement_type);
-  });
+  let filteredData = [];
+  if (selectedAchievement.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedAchievement.includes(data.achievement_type);
+    });
+  } else if (selectedInnovation.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedInnovation.includes(data.key_innovation);
+    });
+  } else if (selectedPartner.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedPartner.includes(data.partner_name);
+    });
+  } else {
+    filteredData = mfsData;
+  }
+  // const filteredData = mfsData.filter(data => {
+  //   return selectedAchievement.includes(data.achievement_type);
+  // });
   const mfsAchievedData = getUniqueValuesFromArray(
     filteredData,
     'achieved_number',
+  );
+  const mfsInnovationLength = getUniqueValuesFromArray(
+    filteredData,
+    'key_innovation',
+  );
+  const mfsPartnerLength = getUniqueValuesFromArray(
+    filteredData,
+    'partner_id',
   );
 
   const totalAchievedNumber = [...mfsAchievedData].reduce(function(
@@ -167,8 +200,8 @@ const filterMfsOverviewData = (state, action) => {
     ...state,
     mfsOverviewData: {
       totalCashpoint: totalAchievedNumber,
-      innovationNo: selectedInnovation.length,
-      partnerNo: selectedPartner.length,
+      innovationNo: mfsInnovationLength.length,
+      partnerNo: mfsPartnerLength.length,
     },
     // innovationList,
   };
@@ -240,17 +273,31 @@ const filterMfsChoroplethData = (state, action) => {
   } = action.payload;
   console.log(action, 'action');
   const mfsData = [...state.mfsListAllData];
-  const filteredByPartner = mfsData.filter(data => {
-    return selectedPartner.includes(data.partner_name);
-  });
-  const filteredByInnovation = filteredByPartner.filter(data => {
-    return selectedInnovation.includes(data.key_innovation);
-  });
-  const filteredChoroplethData = filteredByInnovation.filter(data => {
-    return selectedAchievement.includes(data.achievement_type);
-  });
+  let filteredData = [];
+  if (selectedAchievement.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedAchievement.includes(data.achievement_type);
+    });
+  } else if (selectedInnovation.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedInnovation.includes(data.key_innovation);
+    });
+  } else if (selectedPartner.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedPartner.includes(data.partner_name);
+    });
+  } else {
+    filteredData = mfsData;
+  }
+  // const filteredByInnovation = filteredByPartner.filter(data => {
+  //   return selectedInnovation.includes(data.key_innovation);
+  // });
+  // const filteredChoroplethData = filteredByInnovation.filter(data => {
+  //   return selectedAchievement.includes(data.achievement_type);
+  // });
+  // console.log(filteredByPartner, 'filteredByPartner');
 
-  const anotherArray = [...filteredChoroplethData];
+  const anotherArray = [...filteredData];
   const federalKey =
     mapViewBy === 'province' ? 'province_code' : 'district_code';
 
@@ -295,17 +342,23 @@ const filterMfsChartData = (state, action) => {
     selectedAchievement,
   } = action.payload;
   const mfsData = [...state.mfsListAllData];
-  const filteredByPartner = mfsData.filter(data => {
-    return selectedPartner.includes(data.partner_name);
-  });
-  const filteredByInnovation = filteredByPartner.filter(data => {
-    return selectedInnovation.includes(data.key_innovation);
-  });
-  const filteredChoroplethData = filteredByInnovation.filter(data => {
-    return selectedAchievement.includes(data.achievement_type);
-  });
-
-  const anotherArray = [...filteredChoroplethData];
+  let filteredData = [];
+  if (selectedAchievement.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedAchievement.includes(data.achievement_type);
+    });
+  } else if (selectedInnovation.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedInnovation.includes(data.key_innovation);
+    });
+  } else if (selectedPartner.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedPartner.includes(data.partner_name);
+    });
+  } else {
+    filteredData = mfsData;
+  }
+  const anotherArray = [...filteredData];
   const federalKey =
     mapViewBy === 'province' ? 'province_code' : 'district_code';
 
@@ -396,6 +449,126 @@ const filterMfsChartData = (state, action) => {
     },
   };
 };
+const filterMfsChartDataByDistrict = (state, action) => {
+  const {
+    mapViewBy,
+    districtList,
+    selectedPartner,
+    selectedInnovation,
+    selectedAchievement,
+  } = action.payload;
+  const mfsData = [...state.mfsListAllData];
+  let filteredData = [];
+  if (selectedAchievement.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedAchievement.includes(data.achievement_type);
+    });
+  } else if (selectedInnovation.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedInnovation.includes(data.key_innovation);
+    });
+  } else if (selectedPartner.length > 0) {
+    filteredData = mfsData.filter(data => {
+      return selectedPartner.includes(data.partner_name);
+    });
+  } else {
+    filteredData = mfsData;
+  }
+  const anotherArray = [...filteredData];
+  const federalKey =
+    mapViewBy === 'province' ? 'province_code' : 'district_code';
+
+  const byFederal = groupBy(anotherArray, it => it[federalKey]);
+  const byAchievementType = groupBy(
+    anotherArray,
+    it => it.achievement_type,
+  );
+  // console.log(province, 'province');
+  // console.log(district, 'district');
+  let federalData = [];
+  if (mapViewBy === 'province') {
+    federalData = province.map(data => {
+      return {
+        code: data.FIRST_PROV,
+        name: data.prov_name,
+        count: 0,
+      };
+    });
+  } else {
+    federalData = district.map(data => {
+      return {
+        code: data.districtid,
+        name: data.name,
+        count: 0,
+      };
+    });
+  }
+  console.log(federalData, 'federalData');
+  const filteredFederalDistrict = federalData.filter(data => {
+    return districtList.includes(data.code);
+  });
+  const labels = filteredFederalDistrict.map(data => {
+    const name = data.name.toLowerCase();
+    const nameCapitalized =
+      name.charAt(0).toUpperCase() + name.slice(1);
+    return nameCapitalized;
+  });
+  const output = Object.keys(byFederal).map((name, second) => {
+    const sum = byFederal[name].reduce(
+      (acc, it) => acc + it.achieved_number,
+      0,
+    );
+    return {
+      code: name,
+      // ZoneCount: Object.keys(byZone).length,
+      count: sum,
+    };
+  });
+
+  const finalArray = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(byAchievementType)) {
+    const groupByFed = groupBy(value, it => it[federalKey]);
+    const final = Object.keys(groupByFed).map((name, second) => {
+      // console.log(byName[name][0], '1stname');
+      // console.log(name, 'name');
+      // console.log(second, 'second');
+      // const byZone = groupBy(byName[name], it => it.Zone);
+      const sum = groupByFed[name].reduce(
+        (acc, it) => acc + it.achieved_number,
+        0,
+      );
+      return {
+        code: name,
+        // ZoneCount: Object.keys(byZone).length,
+        count: sum,
+      };
+    });
+    const test = filteredFederalDistrict.map(data => {
+      final.map(el => {
+        // console.log(data, 'data');
+        // console.log(el, 'el');
+        if (data.code === +el.code) {
+          // eslint-disable-next-line no-param-reassign
+          data.count = el.count;
+        }
+      });
+      return data;
+    });
+    const mappedCount = test.map(data => {
+      return data.count;
+    });
+    finalArray.push({ name: key, data: mappedCount });
+  }
+  console.log(finalArray, 'finalArray');
+  return {
+    ...state,
+    mfsChartData: {
+      series: finalArray,
+      labels,
+    },
+  };
+};
 const filterMfsMapPieData = (state, action) => {
   const {
     mapViewBy,
@@ -407,6 +580,7 @@ const filterMfsMapPieData = (state, action) => {
   const filteredByPartner = mfsData.filter(data => {
     return selectedPartner.includes(data.partner_name);
   });
+  console.log(filteredByPartner, 'filteredByPartner');
   const filteredByInnovation = filteredByPartner.filter(data => {
     return selectedInnovation.includes(data.key_innovation);
   });
@@ -573,6 +747,8 @@ export default function(state = initialState, action) {
       return filterMfsChoroplethData(state, action);
     case FILTER_MFS_CHART_DATA:
       return filterMfsChartData(state, action);
+    case FILTER_MFS_CHART_DATA_BY_DISTRICT_ID:
+      return filterMfsChartDataByDistrict(state, action);
     case FILTER_MFS_MAP_PIE_DATA:
       return filterMfsMapPieData(state, action);
     // case GET_PROJECT_LIST_DATA:
