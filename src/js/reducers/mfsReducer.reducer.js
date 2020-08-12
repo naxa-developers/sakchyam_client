@@ -11,6 +11,7 @@ import {
   FILTER_MFS_OVERVIEW_DATA,
   FILTER_MFS_LIST_BY_KEY_INNOVATION,
   FILTER_MFS_CHART_DATA,
+  FILTER_MFS_MAP_PIE_DATA,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -333,7 +334,7 @@ const filterMfsChartData = (state, action) => {
       };
     });
   }
-  console.log(federalData, 'federalData');
+  // console.log(federalData, 'federalData');
   const labels = federalData.map(data => {
     const name = data.name.toLowerCase();
     const nameCapitalized =
@@ -395,6 +396,159 @@ const filterMfsChartData = (state, action) => {
     },
   };
 };
+const filterMfsMapPieData = (state, action) => {
+  const {
+    mapViewBy,
+    selectedPartner,
+    selectedInnovation,
+    selectedAchievement,
+  } = action.payload;
+  const mfsData = [...state.mfsListAllData];
+  const filteredByPartner = mfsData.filter(data => {
+    return selectedPartner.includes(data.partner_name);
+  });
+  const filteredByInnovation = filteredByPartner.filter(data => {
+    return selectedInnovation.includes(data.key_innovation);
+  });
+  const filteredChoroplethData = filteredByInnovation.filter(data => {
+    return selectedAchievement.includes(data.achievement_type);
+  });
+
+  const anotherArray = [...filteredChoroplethData];
+  const federalKey =
+    mapViewBy === 'province' ? 'province_code' : 'district_code';
+  // console.log(anotherArray, 'anotherArray');
+  const groupByFeds = groupBy(anotherArray, it => it[federalKey]);
+  // console.log(groupByFeds, 'groupByFeds');
+  const FinalOutput = [];
+
+  let federalData = [];
+  if (mapViewBy === 'province') {
+    federalData = province.map(data => {
+      return {
+        code: data.FIRST_PROV,
+        name: data.prov_name,
+        count: 0,
+      };
+    });
+  } else {
+    federalData = district.map(data => {
+      return {
+        code: data.districtid,
+        name: data.name,
+        count: 0,
+      };
+    });
+  }
+  // eslint-disable-next-line
+  for (const [key, value] of Object.entries(groupByFeds)) {
+    const groupByFed = groupBy(value, it => it.achievement_type);
+    // console.log(groupByFed, 'groupbyFed');
+    const final = Object.keys(groupByFed).map((name, second) => {
+      // console.log(byName[name][0], '1stname');
+      // console.log(name, 'name');
+      // console.log(second, 'second');
+      // const byZone = groupBy(byName[name], it => it.Zone);
+      const sum = groupByFed[name].reduce(
+        (acc, it) => acc + it.achieved_number,
+        0,
+      );
+      console.log(groupByFed[name][0][federalKey], '1st');
+      return {
+        fed_name: name,
+        code: groupByFed[name][0][federalKey],
+        // fed_code:
+        // ZoneCount: Object.keys(byZone).length,
+        count: sum,
+      };
+    });
+    console.log(final, 'final');
+    console.log(key, 'key');
+    federalData.forEach(test => {
+      if (test.code === +key) {
+        FinalOutput.push({ ...test, pie: final });
+      }
+    });
+    // console.log(groupByFed, 'groupByFed');
+    // console.log(key, 'key');
+  }
+  console.log(FinalOutput, 'finalOutput');
+  // const byFederal = groupBy(anotherArray, it => it[federalKey]);
+  // const byAchievementType = groupBy(
+  //   anotherArray,
+  //   it => it.achievement_type,
+  // );
+  // // console.log(province, 'province');
+  // // console.log(district, 'district');
+
+  // console.log(federalData, 'federalData');
+  // const labels = federalData.map(data => {
+  //   const name = data.name.toLowerCase();
+  //   const nameCapitalized =
+  //     name.charAt(0).toUpperCase() + name.slice(1);
+  //   return nameCapitalized;
+  // });
+  // const output = Object.keys(byFederal).map((name, second) => {
+  //   const sum = byFederal[name].reduce(
+  //     (acc, it) => acc + it.achieved_number,
+  //     0,
+  //   );
+  //   return {
+  //     code: name,
+  //     // ZoneCount: Object.keys(byZone).length,
+  //     count: sum,
+  //   };
+  // });
+
+  // const finalArray = [];
+  // // eslint-disable-next-line no-restricted-syntax
+  // for (const [key, value] of Object.entries(byAchievementType)) {
+  //   const groupByFed = groupBy(value, it => it[federalKey]);
+  //   // console.log(groupByFed, 'groupbyFed');
+  //   const final = Object.keys(groupByFed).map((name, second) => {
+  //     // console.log(byName[name][0], '1stname');
+  //     // console.log(name, 'name');
+  //     // console.log(second, 'second');
+  //     // const byZone = groupBy(byName[name], it => it.Zone);
+  //     const sum = groupByFed[name].reduce(
+  //       (acc, it) => acc + it.achieved_number,
+  //       0,
+  //     );
+  //     return {
+  //       code: name,
+  //       // ZoneCount: Object.keys(byZone).length,
+  //       count: sum,
+  //     };
+  //   });
+
+  //   const mappedCount = test.map(data => {
+  //     return data.count;
+  //   });
+  //   finalArray.push({ name: key, data: mappedCount });
+  //   console.log(finalArray, 'finalArray');
+
+  //   // id(pin):1
+  //   // name(pin):"Province 1"
+  //   // code(pin):1
+  //   // count(pin):24
+  //   // pie:{
+  //   //   investment_primary(pin):"Automation of MFIs"
+  //   //   partner_count(pin):3
+  //   //   partner_list:{
+  //   //   0(pin):"Laxmi Laghubitta Bittiya Sanstha Ltd."
+  //   //   1(pin):"Nepal Microfinance Bankers' Association"
+  //   //   2(pin):"Chhimek Laghubitta"
+  //   //   }
+  //   //   total_beneficiary(pin):0
+  //   //   allocated_budget(pin):0
+  //   // }
+  // }
+  return {
+    ...state,
+    mfsPieData: FinalOutput,
+    // mfsMapPieData: finalData,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_MFS_LIST_REQUEST:
@@ -419,6 +573,8 @@ export default function(state = initialState, action) {
       return filterMfsChoroplethData(state, action);
     case FILTER_MFS_CHART_DATA:
       return filterMfsChartData(state, action);
+    case FILTER_MFS_MAP_PIE_DATA:
+      return filterMfsMapPieData(state, action);
     // case GET_PROJECT_LIST_DATA:
     //   return getProjectListData(state, action);
 

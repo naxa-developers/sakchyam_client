@@ -12,6 +12,7 @@ import {
   FILTER_MFS_OVERVIEW_DATA,
   FILTER_MFS_LIST_BY_KEY_INNOVATION,
   FILTER_MFS_CHART_DATA,
+  FILTER_MFS_MAP_PIE_DATA,
 } from './index.actions';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -105,6 +106,22 @@ export const filterMfsChartData = (
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_CHART_DATA,
+    payload: {
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    },
+  });
+};
+export const filterMfsMapPieData = (
+  mapViewBy,
+  selectedPartner,
+  selectedInnovation,
+  selectedAchievement,
+) => dispatch => {
+  dispatch({
+    type: FILTER_MFS_MAP_PIE_DATA,
     payload: {
       mapViewBy,
       selectedPartner,

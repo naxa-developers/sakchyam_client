@@ -714,62 +714,19 @@ class ProductProcess extends React.Component {
 
                       <div className="col-xl-12">
                         <div className="card" id="bar-chart">
-                          <div className="card-header">
-                            <h5>{barTitle}</h5>
-                            {!isDownloading && (
-                              <div className="header-icons">
-                                <span
-                                  className=""
-                                  onClick={() => {
-                                    this.downloadPng(
-                                      'bar-chart',
-                                      `${barTitle}`,
-                                    );
-                                  }}
-                                  onKeyDown={() => {
-                                    this.downloadPng(
-                                      'bar-chart',
-                                      `${barTitle}`,
-                                    );
-                                  }}
-                                  role="tab"
-                                  tabIndex="0"
-                                >
-                                  <img
-                                    src={DownloadIcon}
-                                    alt="open"
-                                  />
-                                </span>
-                                <span
-                                  className=""
-                                  role="tab"
-                                  tabIndex="0"
-                                  onClick={() => {
-                                    this.handleModal();
-                                    this.handleSelectedModal(
-                                      'bar',
-                                      `${barTitle}`,
-                                    );
-                                  }}
-                                  onKeyDown={() => {
-                                    this.handleModal();
-                                    this.handleSelectedModal(
-                                      'bar',
-                                      `${barTitle}`,
-                                    );
-                                  }}
-                                >
-                                  <img src={ExpandIcon} alt="open" />
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                          <div className="card-body">
-                            <BarChart
-                              showRightSidebar={showRightSidebar}
-                              // activeModal={activeModal}
-                            />
-                          </div>
+                          <BarChart
+                            showRightSidebar={showRightSidebar}
+                            // activeModal={activeModal}
+                            barTitle={barTitle}
+                            isDownloading={isDownloading}
+                            DownloadIcon={DownloadIcon}
+                            ExpandIcon={ExpandIcon}
+                            downloadPng={this.downloadPng}
+                            handleModal={this.handleModal}
+                            handleSelectedModal={
+                              this.handleSelectedModal
+                            }
+                          />
                         </div>
                       </div>
                     </div>

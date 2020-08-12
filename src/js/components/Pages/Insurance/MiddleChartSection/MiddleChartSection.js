@@ -202,26 +202,26 @@ class MiddleChartSection extends Component {
       <div className="literacy-tab-item" style={{ display: 'block' }}>
         <div className="graph-view">
           <div className="row">
-            <CardTab
-              resetFunction={() => {
-                this.props.resetBarDatas();
-                this.props.handleShowBarOf('Provinces');
-              }}
-              showBarof={showBarof}
-              handleShowBarOf={handleShowBarOf}
-              cardTitle="Province Wise Budget & Beneficiaries Count"
-              cardClass="col-xl-12"
-              cardChartId="groupedChart"
-              handleModal={this.handleModal}
-              handleSelectedModal={() => {
-                this.handleSelectedModal('groupedChart');
-              }}
-              renderChartComponent={() => {
-                return (
-                  <BarChartInsurance insuranceData={insuranceData} />
-                );
-              }}
-            />
+            <div className="col-xl-12">
+              <div className="card" id="bar-chart">
+                <BarChartInsurance
+                  clickIndex={this.state.clickIndex}
+                  insuranceData={insuranceData}
+                  handleClickIndex={this.handleClickIndex}
+                  // showRightSidebar={showRightSidebar}
+                  activeModal={false}
+                  // activeModal={activeModal}
+                  // barTitle={barTitle}
+                  barTitle="Partner wise distribution of Amount of Insurance Premium (NPR) and Amount of Sum Insured"
+                  isDownloading={false}
+                  DownloadIcon={DownloadIcon}
+                  ExpandIcon={ExpandIcon}
+                  downloadPng={this.downloadPng}
+                  handleModal={this.handleModal}
+                  handleSelectedModal={this.handleSelectedModal}
+                />
+              </div>
+            </div>
 
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
@@ -246,11 +246,7 @@ class MiddleChartSection extends Component {
             />
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
-              cardTitle={
-                viewDataBy === 'allocated_budget'
-                  ? 'Budget Reached'
-                  : 'Beneficiary Reached'
-              }
+              cardTitle="Sankey chart based on number of insurance policies sold"
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
               handleModal={this.handleModal}
@@ -258,7 +254,11 @@ class MiddleChartSection extends Component {
                 this.handleSelectedModal('sankey');
               }}
               renderChartComponent={() => {
-                return <SankeyChartInsurance />;
+                return (
+                  <SankeyChartInsurance
+                    insuranceData={insuranceData}
+                  />
+                );
               }}
             />
           </div>

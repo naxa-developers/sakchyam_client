@@ -23,6 +23,7 @@ const initialState = {
   partnerNameList: [],
   marketFailureList: [],
   loading: false,
+  filteredData: [],
 
   overviewData: [],
 };
@@ -428,6 +429,7 @@ const filterAllChartPP = (state, action) => {
     radarChartData,
     barChartData,
     overviewData: newOverviewData,
+    filteredData,
   };
 };
 
@@ -496,6 +498,7 @@ const resetAllChartPP = (state, action) => {
     radarChartData,
     barChartData,
     overviewData,
+    filteredData: [],
   };
 };
 

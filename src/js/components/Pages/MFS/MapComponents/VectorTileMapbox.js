@@ -273,6 +273,133 @@ class Choropleth extends Component {
     //
   }
 
+  filterPieCharts(viewBy) {
+    const that = this;
+    const {
+      mapViewBy,
+      circleMarkerData,
+      map,
+      mapViewDataBy,
+    } = that.props;
+    const FederalData =
+      mapViewBy === 'municipality'
+        ? fullGeojsonMunicipality
+        : mapViewBy === 'district'
+        ? fullGeojsonDistrict
+        : fullGeojsonProvince;
+    removeMarker();
+    const FinalGeojson = { ...FederalData };
+
+    FinalGeojson.features.forEach((item, index) => {
+      circleMarkerData.forEach(p => {
+        if (p.code === item.properties.code) {
+          FinalGeojson.features[index].properties = {
+            ...item.properties,
+            ...p,
+          };
+        }
+      });
+    });
+    const myArrayFiltered = FinalGeojson.features.filter(el => {
+      return circleMarkerData.some(f => {
+        return f.code === el.properties.code;
+      });
+    });
+    FinalGeojson.features = myArrayFiltered;
+
+    // console.log(r, 'r');
+    let singleData = {};
+    let partnerList = [];
+    let singleData2nd = {};
+    const total = [];
+    const total2nd = [];
+    FinalGeojson.features.forEach(data => {
+      //
+      singleData2nd = {
+        point_count: 0,
+      };
+      if (data.properties.pie) {
+        data.properties.pie.forEach(piedata => {
+          //
+          singleData2nd[`${piedata.investment_primary}`] =
+            piedata[`${viewBy}`];
+          singleData2nd.point_count += piedata[`${viewBy}`];
+        });
+      }
+      total2nd.push(singleData2nd.point_count);
+      const allCount = [];
+      Object.values(singleData2nd).forEach(singledata => {
+        //
+        allCount.push(singledata);
+      });
+      const sum = allCount.reduce(
+        (partialSum, a) => partialSum + a,
+        0,
+      );
+      // const min = Math.min.apply(null, allCount);
+      // const max = Math.max.apply(null, allCount);
+      // eslint-disable-next-line no-param-reassign
+      // data.min = min;
+      // eslint-disable-next-line no-param-reassign
+      // data.max = max;
+      // eslint-disable-next-line no-param-reassign
+      data.total_sum = sum;
+    });
+    const totalSumList = [];
+    FinalGeojson.features.forEach(fed => {
+      totalSumList.push(fed.total_sum);
+    });
+    const min = Math.min.apply(null, totalSumList);
+    const max = Math.max.apply(null, totalSumList);
+    FinalGeojson.features.forEach(data => {
+      //
+      partnerList = [];
+      singleData = {
+        point_count: 0,
+        federal_name: data.properties.name,
+      };
+      if (data.properties.pie) {
+        data.properties.pie.forEach(piedata => {
+          //
+          singleData[`${piedata.investment_primary}`] =
+            piedata[`${viewBy}`];
+          if (piedata.partner_list) {
+            singleData[`${piedata.investment_primary}_partnerList`] =
+              piedata.partner_list;
+
+            partnerList.push({
+              partnerName: piedata.investment_primary,
+              partnerlist: piedata.partner_list,
+            });
+          }
+          singleData.point_count += piedata[`${viewBy}`];
+        });
+      }
+      total.push(singleData.point_count);
+      const radiusRange =
+        // eslint-disable-next-line prettier/prettier
+      (data.total_sum - min) / (max - min) *(30 - 10) + 10;
+      const testElMain = document.createElement('div');
+      testElMain.className = 'marker';
+
+      // console.log(singleData, 'singleDataProv');
+      // const props = data.properties;
+      // eslint-disable-next-line no-use-before-define
+      const testEl = this.createDonutChart(
+        singleData,
+        total2nd,
+        radiusRange,
+        partnerList,
+        mapViewDataBy,
+        data.total_sum,
+      );
+      const marker = new mapboxgl.Marker({ element: testEl })
+        .setLngLat(data.geometry.coordinates)
+        .addTo(map);
+      global.markerList.push(marker);
+    });
+  }
+
   plotVectorTile = () => {
     const { map } = this.props;
     const that = this;
@@ -546,6 +673,7 @@ class Choropleth extends Component {
             </div>
           );
         }
+        // ${donut}
         popup
           .setLngLat(e.lngLat)
           .setHTML(
@@ -558,7 +686,6 @@ class Choropleth extends Component {
                       </div>
                   </div>
                   <div class="map-view-footer">
-                  ${donut}
                   </div>
                       </div>
                   </div>`,
@@ -646,7 +773,53 @@ class Choropleth extends Component {
       mapViewBy,
       mapViewDataBy,
     } = this.props;
+    if (prevProps.circleMarkerData !== circleMarkerData) {
+      // removeMarker();
+      if (
+        this.props.pieSquareLegend &&
+        this.props.pieSquareLegend.current &&
+        this.props.pieSquareLegend.current.childNodes.length <= 0
+      ) {
+        this.createPieLegend();
+      }
+      const viewBy =
+        mapViewDataBy === 'allocated_beneficiary'
+          ? 'total_beneficiary'
+          : mapViewDataBy === 'allocated_budget'
+          ? 'allocated_budget'
+          : 'partner_count';
 
+      // if (mapViewBy === 'municipality') {
+      //   if (mapViewDataBy !== '') {
+      //     this.filterPieCharts(viewBy);
+      //   }
+      // } else
+      if (mapViewBy === 'district') {
+        if (mapViewDataBy !== '') {
+          this.filterPieCharts(viewBy);
+        }
+      } else if (mapViewBy === 'province') {
+        if (mapViewDataBy !== '') {
+          this.filterPieCharts(viewBy);
+        }
+      }
+
+      const FederalData =
+        mapViewBy === 'municipality'
+          ? fullGeojsonMunicipality
+          : mapViewBy === 'district'
+          ? fullGeojsonDistrict
+          : fullGeojsonProvince;
+
+      if (mapViewDataBy === 'investment_focus') {
+        this.filterPieCharts(viewBy);
+      } else if (mapViewDataBy === 'allocated_beneficiary') {
+        this.filterPieCharts(viewBy);
+      } else if (mapViewDataBy === 'allocated_budget') {
+        this.filterPieCharts(viewBy);
+      }
+      // const test = this.createDonutChart(a, b);
+    }
     if (prevProps.choroplethData !== this.props.choroplethData) {
       // map.addLayer({
       //   id: 'circle-tile-label',
