@@ -401,7 +401,6 @@ class TableViewComponent extends Component {
           <div className="filter-content">
             <div className="filter-row">
               <div className="filter-list">
-                {/* <DropdownCheckbox /> */}
                 <div className="form-group">
                   <Select
                     idValue="table"
