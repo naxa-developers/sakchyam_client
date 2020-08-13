@@ -75,6 +75,7 @@ class RightSideBar extends Component {
       tableDataLoading,
       showBeneficiary,
       branchesCooperative,
+      loading,
     } = this.props;
     const a =
       automationReducer.automationRightSidePartnerData &&
@@ -92,20 +93,22 @@ class RightSideBar extends Component {
         <div className="sidebar-in">
           <div className="right-sidebar-header">
             <h5>Result</h5>
-            <a
-              style={{
-                opacity: 1,
-                pointerEvents: 'auto',
-                cursor: 'pointer',
-              }}
-              // style={{ cursor: 'pointer' }}
-              onClick={toggleTableViewButton}
-              onKeyDown={toggleTableViewButton}
-              role="tab"
-              tabIndex="0"
-            >
-              View on table
-            </a>
+            {!loading && (
+              <a
+                style={{
+                  opacity: 1,
+                  pointerEvents: 'auto',
+                  cursor: 'pointer',
+                }}
+                // style={{ cursor: 'pointer' }}
+                onClick={toggleTableViewButton}
+                onKeyDown={toggleTableViewButton}
+                role="tab"
+                tabIndex="0"
+              >
+                View on table
+              </a>
+            )}
           </div>
           <div className="aside-body">
             <div className="sidebar-widget">
@@ -131,7 +134,7 @@ class RightSideBar extends Component {
                   />
                 </div>
                 <ul className="widget-list">
-                  <Loading loaderState={rightSideBarLoader} />
+                  <Loading loaderState={loading} />
                   <li>
                     <div className="widget-content">
                       <h6>

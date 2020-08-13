@@ -68,6 +68,7 @@ class MainAutomation extends Component {
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
       searchText: '',
+      loading: false,
       activeClickPartners: [],
       allPartners: '',
       finalPartnerList: '',
@@ -294,6 +295,10 @@ class MainAutomation extends Component {
     this.props.getAutomationDataByMunicipality();
     this.props.getBranchesTableData();
     this.props.getTimelineData();
+
+    setTimeout(() => {
+      this.props.partnerSelectWithOutreach([], 'municipality');
+    }, 200);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -502,7 +507,9 @@ class MainAutomation extends Component {
 
   handleActiveClickPartners = id => {
     let { activeClickPartners } = this.state;
-    const { activeTableView, mapViewBy } = this.state;
+
+    const { activeTableView, mapViewBy, loading } = this.state;
+
     const tempArray = activeClickPartners.slice();
     if (!activeClickPartners.includes(id)) {
       tempArray.push(id);
@@ -733,6 +740,14 @@ class MainAutomation extends Component {
     ]);
   };
 
+  loadingHandler = value => {
+    if (value === 1) {
+      this.setState({ loading: true });
+    } else {
+      this.setState({ loading: false });
+    }
+  };
+
   render() {
     const {
       map,
@@ -745,28 +760,22 @@ class MainAutomation extends Component {
       tabletsDeployed,
       activeClickPartners,
       allPartners,
-      vectorGridFirstLoad,
-      isTileLoaded,
       branchesCountOptions,
       areaChartOptions,
-      activeFilterButton,
       activeRightSideBar,
       activeTableView,
-      dataTypeLevel,
-      filteredProvinceChoropleth,
       vectorTileUrl,
-      vectorGridKey,
-      color,
       activeOutreachButton,
       searchText,
       partnersData,
       rightSideBarLoader,
       showBeneficiary,
       branchesCooperative,
+      loading,
     } = this.state;
     const { tableDataLoading } = this.props.automationReducer;
 
-    // console.log('activeClickPartners', activeClickPartners);
+    console.log('activeClickPartners', loading);
     return (
       <div className="page-wrap page-100">
         <Header />
@@ -784,6 +793,7 @@ class MainAutomation extends Component {
             handleActiveClickPartners={this.handleActiveClickPartners}
             toggleOutreachButton={this.toggleOutreachButton}
             refreshSelectedPartnerBtn={this.refreshSelectedPartnerBtn}
+            loading={loading}
           />
 
           <main className="main">
@@ -796,7 +806,10 @@ class MainAutomation extends Component {
                 allPartners={allPartners}
                 activeClickPartners={activeClickPartners}
                 activeOutreachButton={activeOutreachButton}
+                loadingHandler={this.loadingHandler}
+                loading={loading}
               />
+
               <div
                 className={`partnership-filter ${
                   activeView === 'map' ? 'is-position' : ''
@@ -807,14 +820,17 @@ class MainAutomation extends Component {
                     activeFilter ? 'active' : ''
                   }`}
                 >
-                  <button
-                    type="button"
-                    onClick={this.setFilterTab}
-                    className="common-buttonm is-borderm filter-button is-icon"
-                  >
-                    <i className="material-icons">filter_list</i>
-                    <span>Filters</span>
-                  </button>
+                  {!loading && (
+                    <button
+                      type="button"
+                      onClick={this.setFilterTab}
+                      className="common-buttonm is-borderm filter-button is-icon"
+                    >
+                      <i className="material-icons">filter_list</i>
+                      <span>Filters</span>
+                    </button>
+                  )}
+
                   <div className="filter-content">
                     <ListByView
                       mapViewBy={mapViewBy}
@@ -913,6 +929,7 @@ class MainAutomation extends Component {
             areaChartOptions={areaChartOptions}
             toggleRightSideBarButton={this.toggleRightSideBarButton}
             toggleTableViewButton={this.toggleTableViewButton}
+            loading={loading}
           />
         </div>
       </div>

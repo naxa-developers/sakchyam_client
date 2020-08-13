@@ -13,7 +13,7 @@ import {
   getTableDataByPartnerSelect,
 } from '../../../../actions/automation.actions';
 import TableViewSkeleton from '../../../common/TableViewSkeleton';
-import Loading from '../../../common/Loading';
+
 import {
   provinceLists,
   districtLists,
@@ -21,6 +21,7 @@ import {
   districtListByProvince,
   muniByDistrict,
 } from '../../../common/adminList';
+import Loading from '../../../common/Loading';
 
 function getClassName(i) {
   if (i % 12 === 0) return 'is-color1';
@@ -64,7 +65,7 @@ class TableViewComponent extends Component {
       municipalityListT,
     } = this.state;
 
-    const { activeClickPartners } = this.props;
+    const { activeClickPartners, automationReducer } = this.props;
 
     if (prevState.selectedProvinceT !== selectedProvinceT) {
       let districts;
@@ -220,10 +221,7 @@ class TableViewComponent extends Component {
       municipalityListT,
       tableDataTypeLevel,
     } = this.state;
-    const {
-      automationTableData,
-      tableDataLoading,
-    } = this.props.automationReducer;
+    const { automationTableData } = this.props.automationReducer;
     const { toggleTableViewButton } = this.props;
     return (
       <div className="main-card table-card">
@@ -364,6 +362,7 @@ class TableViewComponent extends Component {
                   </th>
                 </tr>
               </thead>
+
               <tbody>
                 {// tableDataLoading ? (
                 //   <TableViewSkeleton />

@@ -99,23 +99,6 @@ export const getAutomationDataByMunicipality = () => dispatch => {
   } catch (err) {
     console.error(err);
   }
-  // const token = localStorage.getItem('userToken');
-  // axios
-  //   .get(
-  //     `${process.env.PUBLIC_URL}/api/v1/adminlevel/municipality/`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     },
-  //   )
-  //   .then(res => {
-  //     dispatch({
-  //       type: GET_AUTOMATION_DATA_BY_MUNICIPALITY,
-  //       payload: res.data,
-  //     });
-  //   })
-  //   .catch(() => {});
 };
 export const filterAutomationDataForVectorTiles = dataLevel => dispatch => {
   return dispatch({

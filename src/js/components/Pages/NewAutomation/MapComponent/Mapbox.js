@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable radix */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable default-case */
 /* eslint-disable array-callback-return */
@@ -35,6 +37,7 @@ class MapboxPartnership extends Component {
       markerOpen: false,
       activeMarkers: '',
       inactiveMarkers: '',
+      popUpData: '',
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -45,23 +48,19 @@ class MapboxPartnership extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      automationDataByMunicipality,
-      automationDataByDistrict,
-      automationDataByProvince,
-      automationChoroplethData,
-    } = this.props.automationReducer;
+    const { automationChoroplethData } = this.props.automationReducer;
     const { mapViewBy } = this.props;
 
     if (
       automationChoroplethData !==
       prevProps.automationReducer.automationChoroplethData
     ) {
-      // console.log(
-      //   'new choropleth data recived',
-      //   mapViewBy,
-      //   automationChoroplethData,
-      // );
+      console.log(
+        'new choropleth data recived',
+        automationChoroplethData,
+      );
+
+      this.setState({ allData: automationChoroplethData });
 
       if (mapViewBy === 'province') {
         const provinceData = automationChoroplethData.map(item => ({
@@ -107,24 +106,54 @@ class MapboxPartnership extends Component {
 
   setHoveredMunicipalityId = id => {
     // console.log('id oh region', id, this.state.filteredMapData);
-    // const { filteredMapData } = this.state;
-    // const { mapViewBy } = this.props;
-    // if (id !== 0) {
-    //   this.setState({ hoveredId: id });
-    //   if (mapViewBy === 'province') {
-    //     const province = filteredMapData.filter(
-    //       region => region.code === id,
-    //     );
-    //     console.log('region', province);
-    //   }
-    // } else {
-    //   this.setState({ hoveredId: '' });
-    // }
+    const { filteredMapData, allData } = this.state;
+    const { mapViewBy } = this.props;
+    if (id !== 0) {
+      this.setState({ hoveredId: id });
+      if (mapViewBy === 'province') {
+        const province = allData.filter(
+          region => region.code === parseInt(id),
+        );
+        const type = mapViewBy.toUpperCase();
+        const name = province[0].prov_name;
+        const { count } = province[0];
+        const data = { name, type, count };
+        this.setState({ popUpData: data });
+      }
+      if (mapViewBy === 'district') {
+        const province = allData.filter(
+          region => region.code === parseInt(id),
+        );
+        const type = mapViewBy.toUpperCase();
+        const { name } = province[0];
+        const { count } = province[0];
+        const data = { name, type, count };
+        this.setState({ popUpData: data });
+      }
+      if (mapViewBy === 'municipality') {
+        const province = allData.filter(
+          region => region.munid === parseInt(id),
+        );
+        console.log('muni is', allData, id, province);
+        const type = mapViewBy.toUpperCase();
+        const name = province[0].lu_name;
+        const { count } = province[0];
+        const data = { name, type, count };
+        this.setState({ popUpData: data });
+      }
+    } else {
+      this.setState({ hoveredId: '' });
+    }
   };
 
   render() {
-    const { filteredMapData, hoveredId } = this.state;
-    const { map, loading, activeOutreachButton } = this.props;
+    const { filteredMapData, hoveredId, popUpData } = this.state;
+    const {
+      map,
+      loading,
+      activeOutreachButton,
+      mapViewBy,
+    } = this.props;
 
     const choroplethData = activeOutreachButton
       ? filteredMapData
@@ -161,7 +190,9 @@ class MapboxPartnership extends Component {
               <MyLoader />
             </div>
           )}
-          {/* {hoveredId && <PopUp />} */}
+          {hoveredId && (
+            <PopUp data={popUpData} mapViewBy={mapViewBy} />
+          )}
         </div>
       </>
     );
