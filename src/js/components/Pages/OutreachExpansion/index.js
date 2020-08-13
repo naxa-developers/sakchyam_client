@@ -12,9 +12,9 @@ import RightSideBar from './RightSideBar';
 import ListByView from './ViewByList';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
-import { getCenterBboxProvince } from './common/ProvinceFunction';
-import { getCenterBboxDistrict } from './common/DistrictFunction';
-import { getCenterBboxMunicipality } from './common/MunicipalityFunction';
+import { getCenterBboxMunicipality } from '../../common/BBoxFunctionsMapBox/MunicipalityFunction';
+import { getCenterBboxDistrict } from '../../common/BBoxFunctionsMapBox/DistrictFunction';
+import { getCenterBboxProvince } from '../../common/BBoxFunctionsMapBox/ProvinceFunction';
 import { extendBounds } from '../Automation/MapRelatedComponents/extendBbox';
 import MapFilter from './MapFilter';
 import {

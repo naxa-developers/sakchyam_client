@@ -8,9 +8,9 @@ import 'mapbox-gl/src/css/mapbox-gl.css';
 import { connect } from 'react-redux';
 import MapComp from './MapComponent/Mapbox';
 import ListByView from './AdminList';
-import { getCenterBboxMunicipality } from './MapRelatedComponents/MunicipalityFunction';
-import { getCenterBboxDistrict } from '../OutreachExpansion/common/DistrictFunction';
-import { getCenterBboxProvince } from '../OutreachExpansion/common/ProvinceFunction';
+import { getCenterBboxMunicipality } from '../../common/BBoxFunctionsMapBox/MunicipalityFunction';
+import { getCenterBboxDistrict } from '../../common/BBoxFunctionsMapBox/DistrictFunction';
+import { getCenterBboxProvince } from '../../common/BBoxFunctionsMapBox/ProvinceFunction';
 import Select from '../../common/Select/Select';
 import {
   getAllAutomationDataByPartner,
@@ -47,9 +47,6 @@ import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
 import TableViewComponent from './TableViewComponent/TableViewComponent';
-import AllActiveIcon from '../../../../img/fullactive.png';
-import InactiveIcon from '../../../../img/inactive.png';
-
 import { extendBounds } from './MapRelatedComponents/extendBbox';
 
 let total = '';
@@ -93,6 +90,7 @@ class MainAutomation extends Component {
       allPartners: '',
       finalPartnerList: '',
       partnerApiCall: 0,
+      activeOutreachButton: true,
       mapType: 'choropleth',
       branchesCooperative: 1,
       showBeneficiary: true,
@@ -100,7 +98,7 @@ class MainAutomation extends Component {
       rightSideBarLoader: false,
       isTileLoaded: false,
       partnersData: null,
-      activeOutreachButton: false,
+
       activeFilterButton: false,
       activeRightSideBar: true,
       activeTableView: false,
@@ -315,113 +313,9 @@ class MainAutomation extends Component {
     });
     this.props.getAllAutomationDataByPartner([]);
     this.props.filterPartnerSelect([]);
-    setTimeout(() => {
-      this.props.getAutomationDataByMunicipality();
-      this.props.getBranchesTableData();
-    }, 5000);
+    this.props.getAutomationDataByMunicipality();
+    this.props.getBranchesTableData();
   }
-
-  addMap = () => {
-    mapboxgl.accessToken =
-      'pk.eyJ1IjoiZ2VvbWF0dXBlbiIsImEiOiJja2E5bDFwb2swdHNyMnNvenZxa2Vpeml2In0.fCStqdwmFYFP-cUvb5vMCw';
-    const map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/light-v10',
-      center: [84.5, 28.5],
-      zoom: 5.5,
-    });
-    this.setState({ map });
-  };
-
-  toggleRightSideBarButton = () => {
-    this.setState(prevState => ({
-      activeRightSideBar: !prevState.activeRightSideBar,
-    }));
-    setTimeout(() => {
-      this.state.map.resize();
-    }, 10);
-  };
-
-  setFilterTab = () => {
-    this.setState(prevState => ({
-      activeFilter: !prevState.activeFilter,
-    }));
-  };
-
-  setMapViewBy = selectedMapView => {
-    const { activeClickPartners } = this.state;
-    this.setState({
-      mapViewBy: selectedMapView,
-    });
-    this.setState({
-      vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
-    });
-
-    this.props.partnerSelectWithOutreach(
-      activeClickPartners,
-      selectedMapView,
-    );
-  };
-
-  setFilterTab = () => {
-    this.setState(prevState => ({
-      activeFilter: !prevState.activeFilter,
-    }));
-  };
-
-  toggleOutreachButton = () => {
-    this.setState(prevState => ({
-      activeOutreachButton: !prevState.activeOutreachButton,
-    }));
-  };
-
-  refreshSelectedPartnerBtn = () => {
-    const {
-      activeTableView,
-      activeClickPartners,
-      selectedMunicipality,
-      map,
-    } = this.state;
-    this.setState({
-      activeClickPartners: [],
-      activeOutreachButton: false,
-      provinceList: provinceLists(),
-      districtList: districtLists(),
-      municipalityList: municipalityLists(),
-      selectedProvince: provinceLists(),
-      selectedDistrict: '',
-      selectedMunicipality: municipalityLists(),
-    });
-
-    if (activeClickPartners.length > 0) {
-      this.props.filterPartnerSelect([]);
-    }
-
-    if (activeTableView && activeClickPartners.length > 0) {
-      this.props.getBranchesTableData();
-    }
-
-    map.setZoom(5.5);
-    map.setCenter([84.5, 28.5]);
-
-    setTimeout(() => {
-      this.setMapViewBy('municipality');
-    }, 500);
-
-    setTimeout(() => {
-      this.changeMapTiles(selectedMunicipality);
-    }, 1500);
-  };
-
-  toggleTableViewButton = () => {
-    const { activeTableView, activeClickPartners } = this.state;
-    if (!activeTableView && activeClickPartners.length > 0) {
-      this.props.getTableDataByPartnerSelect(activeClickPartners);
-    }
-    this.setState(prevState => ({
-      activeTableView: !prevState.activeTableView,
-    }));
-  };
 
   componentDidUpdate(prevProps, prevState) {
     const { automationReducer } = this.props;
@@ -521,11 +415,109 @@ class MainAutomation extends Component {
         municipalityList: municipality,
       });
     }
-
-    // if (prevState.activeClickPartners !== activeClickPartners) {
-    //   this.handleStateLevel();
-    // }
   }
+
+  addMap = () => {
+    mapboxgl.accessToken =
+      'pk.eyJ1IjoiZ2VvbWF0dXBlbiIsImEiOiJja2E5bDFwb2swdHNyMnNvenZxa2Vpeml2In0.fCStqdwmFYFP-cUvb5vMCw';
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v10',
+      center: [84.5, 28.5],
+      zoom: 5.5,
+    });
+    this.setState({ map });
+  };
+
+  toggleRightSideBarButton = () => {
+    this.setState(prevState => ({
+      activeRightSideBar: !prevState.activeRightSideBar,
+    }));
+    setTimeout(() => {
+      this.state.map.resize();
+    }, 10);
+  };
+
+  setFilterTab = () => {
+    this.setState(prevState => ({
+      activeFilter: !prevState.activeFilter,
+    }));
+  };
+
+  setMapViewBy = selectedMapView => {
+    const { activeClickPartners } = this.state;
+    this.setState({
+      mapViewBy: selectedMapView,
+    });
+    this.setState({
+      vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
+    });
+
+    this.props.partnerSelectWithOutreach(
+      activeClickPartners,
+      selectedMapView,
+    );
+  };
+
+  setFilterTab = () => {
+    this.setState(prevState => ({
+      activeFilter: !prevState.activeFilter,
+    }));
+  };
+
+  toggleOutreachButton = () => {
+    this.setState(prevState => ({
+      activeOutreachButton: !prevState.activeOutreachButton,
+    }));
+  };
+
+  refreshSelectedPartnerBtn = () => {
+    const {
+      activeTableView,
+      activeClickPartners,
+      selectedMunicipality,
+      map,
+    } = this.state;
+    this.setState({
+      activeClickPartners: [],
+      activeOutreachButton: true,
+      provinceList: provinceLists(),
+      districtList: districtLists(),
+      municipalityList: municipalityLists(),
+      selectedProvince: provinceLists(),
+      selectedDistrict: '',
+      selectedMunicipality: municipalityLists(),
+    });
+
+    if (activeClickPartners.length > 0) {
+      this.props.filterPartnerSelect([]);
+    }
+
+    if (activeTableView && activeClickPartners.length > 0) {
+      this.props.getBranchesTableData();
+    }
+
+    map.setZoom(5.5);
+    map.setCenter([84.5, 28.5]);
+
+    setTimeout(() => {
+      this.setMapViewBy('municipality');
+    }, 500);
+
+    setTimeout(() => {
+      this.changeMapTiles(selectedMunicipality);
+    }, 1500);
+  };
+
+  toggleTableViewButton = () => {
+    const { activeTableView, activeClickPartners } = this.state;
+    if (!activeTableView && activeClickPartners.length > 0) {
+      this.props.getTableDataByPartnerSelect(activeClickPartners);
+    }
+    this.setState(prevState => ({
+      activeTableView: !prevState.activeTableView,
+    }));
+  };
 
   handleActiveClickPartners = id => {
     let { activeClickPartners } = this.state;

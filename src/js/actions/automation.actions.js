@@ -634,24 +634,15 @@ export const getBranchesTableDataByFed = (
   if (partnerSelect.length > 0) {
     partners = `partner=${partnerSelect}`;
   }
-  if (
-    federalSelect.province.length > 0 &&
-    federalSelect.province.length < 15
-  ) {
+  if (federalSelect.province.length > 0) {
     provinceSelect = `province_id=${federalSelect.province}`;
     // })
     // .join('&');
   }
-  if (
-    federalSelect.district.length > 0 &&
-    federalSelect.district.length < 15
-  ) {
+  if (federalSelect.district.length > 0) {
     districtSelect = `district_id=${federalSelect.district}`;
   }
-  if (
-    federalSelect.municipality.length > 0 &&
-    federalSelect.municipality.length < 15
-  ) {
+  if (federalSelect.municipality.length > 0) {
     municipalitySelect = `municipality_id=${federalSelect.municipality}`;
   }
   // console.log(federalSelect, 'fedSelect');
