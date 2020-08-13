@@ -30,23 +30,7 @@ import {
   getAutomationDataByMunicipality,
   filterAutomationDataForVectorTiles,
 } from '../../../../actions/automation.actions';
-import automationReducerReducer from '../../../../reducers/automationReducer.reducer';
-import { getCenterBboxMunicipality } from '../MapRelatedComponents/MunicipalityFunction';
-import { getCenterBboxDistrict } from '../MapRelatedComponents/DistrictFunction';
-// import ScrollTab from './ScrollTab';
-// import IosSwitch from '../../Includes/IosSwitch';
 
-// const map = {};
-// const greenIcon = L.icon({
-//   iconUrl: '../../../../img/marker.png',
-//   // shadowUrl: 'leaf-shadow.png',
-
-//   iconSize: [38, 95], // size of the icon
-//   shadowSize: [50, 64], // size of the shadow
-//   iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-//   shadowAnchor: [4, 62], // the same for the shadow
-//   popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
-// });
 let i = 1;
 export const activeIcon = new L.Icon({
   iconUrl: ActiveIcon,
@@ -57,23 +41,11 @@ class MapComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      provinceBbox: [],
       provinceAllData: [],
-      selectedBaseLayer: 'harje',
       bounds: [
         [30.441792349047404, 87.91087222877736],
         [25.504959616615796, 80.4671531221034],
       ],
-      // bounds: [
-      //   [0, 0],
-      //   [0, 0],
-      // ],
-      province: null,
-      district: null,
-      municipality: null,
-      SelectedProvince: null,
-      SelectedDistrict: null,
-      SelectedMunicipality: null,
       minValue: '1/1/2015',
       maxValue: '1/1/2020',
       key: 1,
@@ -89,10 +61,6 @@ class MapComponent extends Component {
     }, 500);
   };
 
-  componentDidMount() {}
-
-  componentDidUpdate(prevProps, prevState) {}
-
   markerClickProvinceSelect = clickedValue => {
     this.props.handleActiveClickPartners(clickedValue);
   };
@@ -105,9 +73,6 @@ class MapComponent extends Component {
     const year = d.getFullYear();
 
     const dateStr = `${month}/${day}/${year}`;
-    // time = dateStr;
-    // console.log(time ,"time returns")
-    // this.setState({ time: dateStr });
     return dateStr;
   };
 
@@ -119,7 +84,6 @@ class MapComponent extends Component {
       playClick: true,
     });
     i += 1;
-    // global.timerId = null;
   };
 
   toggleMapChange = () => {
@@ -130,8 +94,6 @@ class MapComponent extends Component {
 
   render() {
     const {
-      automationDataByPartner,
-      automationDataByProvince,
       automationChoroplethData,
       dataLoading,
       automationLeftSidePartnerData,
@@ -139,14 +101,6 @@ class MapComponent extends Component {
       tableDataLoading,
     } = this.props.automationReducer;
     const {
-      provinceBbox,
-      selectedBaseLayer,
-      province,
-      district,
-      municipality,
-      SelectedProvince,
-      SelectedDistrict,
-      SelectedMunicipality,
       provinceAllData,
       minValue,
       maxValue,
@@ -232,23 +186,8 @@ class MapComponent extends Component {
             color: 'black',
             fill: true,
           };
-    // console.log('map component', activeOutreachButton);
-    // console.log(vectorGridInputUrl, 'url');
-    // console.log(automationDataByProvince, 'data');
-    // console.log(filteredProvinceChoropleth, 'filterProvince');
-    // console.log(randomGeojson, 'geojson');
     return (
       <>
-        {/* <div>
-          <select
-            onChange={this.handleStateLevel}
-            value={dataTypeLevel}
-          >
-            <option value="province">Province</option>
-            <option value="district">District</option>
-            <option value="municipality">Municipality</option>
-          </select>
-        </div> */}
         <Map
           doubleClickZoom={this.props.zoomControl}
           onMoveEnd={this.moveEnd}
@@ -256,15 +195,6 @@ class MapComponent extends Component {
           scrollWheelZoom={false} // disable original zoom function
           smoothWheelZoom // enable smooth zoom
           smoothSensitivity={2}
-          // closePopupOnClick={this.props.zoomControl}
-          // dragging={this.props.zoomControl}
-          // zoomSnap= {this.props.zoomControl}
-          // zoomDelta= {this.props.zoomControl}
-          // trackResize= {this.props.zoomControl}
-          // zoomControl={false}
-          // touchZoom={this.props.zoomControl}
-          // scrollWheelZoom={this.props.zoomControl}
-          // preferCanvas
           animate
           // zoom={12}
           maxZoom={18}
@@ -282,31 +212,8 @@ class MapComponent extends Component {
           // zoomDelta = {0.5}
           zoomSnap={0.5}
         >
-          {/* <IosSwitch/> */}
           <BaseLayers initialbase="mapbox" />
-          {/* {choroplethInputData&&choroplethInputData.length >0 &&  */}
-          {/* {!activeOutreachButton && (
-            <VectorGrid
-              dataTypeLevel={dataTypeLevel}
-              activeOutreachButton={activeOutreachButton}
-              handleVectorGridFirstLoad={
-                this.props.handleVectorGridFirstLoad
-              }
-              vectorGridKey={vectorGridKey}
-              vectorGridFirstLoad={vectorGridFirstLoad}
-              // changetheme={this.props.changetheme}
-              handleProvinceClick={handleProvinceClick}
-              handleTileLoad={this.props.handleTileLoad}
-              mapRef={this.props.mapRef}
-              style={inputStyle} // Province style setting
-              // divisions={inputDivisions}
-              choroplethData={[]} //
-              vectorGridUrl={vectorGridInputUrl} // vectortile url setting
-            />
-          )} */}
-          {/* {activeOutreachButton &&
-            automationChoroplethData &&
-            filteredProvinceChoropleth && ( */}
+
           <VectorGrid
             activeClickPartners={activeClickPartners}
             dataTypeLevel={dataTypeLevel}
@@ -316,87 +223,21 @@ class MapComponent extends Component {
             handleTileLoadEnd={this.props.handleTileLoadEnd}
             isTileLoaded={isTileLoaded}
             handleTileLoad={this.props.handleTileLoad}
-            // changetheme={this.props.changetheme}
-            //   key={"0"}
-            // mapRef={this.props.mapRef}
-            // style={inputStyle} // Province style setting
-            //   provinceCounts={[20, 12, 30, 4, 5, 26, 17]} //province counts for circles at center of province
-            // choroplethData={choroplethInputData} //
-            // color="#0000FF" //single color gradient - to make this active dont pass colorArray
-            // legendDivisions = {10} //no of divisions in legend
-            // colorArray={colors} // multi color custom gradient
-            // divisions = {inputDivisions}
-            // label = {true}
             legend={!activeOutreachButton ? false : true}
-            // choroplethTitle = {"Covid Cases"}
-            // vectorGridUrl={vectorGridInputUrl} // vectortile url setting
             handleProvinceClick={handleProvinceClick}
             changetheme={this.props.changetheme}
             key={vectorGridKey}
             mapRef={this.props.mapRef}
             style={inputStyle} // Province style setting
             choroplethTitle="Number of Tablet Deployed"
-            // provinceCounts={[20, 12, 30, 4, 5, 26, 17]} // province counts for circles at center of province
-            // provinceCounts={
-            //   filteredProvinceChoropleth && filteredProvinceChoropleth
-            // } // province counts for circles at center of province
             mode="choropleth" // options- choropleth, provinceCircles, both
             choroplethData={
               !activeOutreachButton ? [] : automationChoroplethData
             } //
-            color="#007078" // single color gradient
-            // legendDivisions = {10} //no of divisions in legend
-            // colorArray={[
-            //   '#2b580c',
-            //   '#639a67',
-            //   '#d8ebb5',
-            //   '#d9bf77',
-            //   '#2b580c',
-            //   '#639a67',
-            //   '#d8ebb5',
-            //   '#d9bf77',
-            //   '#d8ebb5',
-            //   '#d9bf77',
-            // ]}
-            // colorArray={[
-            //   '#e69109',
-            //   '#63a4ff',
-            //   '#8629ff',
-            //   '#e553ed',
-            //   '#f2575f',
-            //   '#915e0d',
-            //   '#a1970d',
-            //   '#4f7d14',
-            //   '#07aba1',
-            //   '#1d4c8f',
-            //   '#491991',
-            //   '#610766',
-            //   '#6e0208',
-            //   '#f07818',
-            //   '#7F95D1',
-            //   '#FF82A9',
-            //   '#FFC0BE',
-            //   '#f0e111',
-            //   '#9ff035',
-            //   '#34ede1',
-            // ]} // multi color custom gradient
-            // colorArray={[
-            //   '#FFF3D4',
-            //   '#FED976',
-            //   '#FEB24C',
-            //   '#FD8D3C',
-            //   '#FC4E2A',
-            //   '#E31A1C',
-            //   '#BD0026',
-            //   '#800026',
-            // ]} // multi color custom gradient
-            // divisions={inputDivisions}
-            // divisions={[0, 5, 10, 15, 20]}
-            // choroplethTitle = {"New Choropleth"}
+            color="#007078"
             vectorGridUrl={vectorGridInputUrl} // vectortile url setting
           />
-          {/* )} */}
-          {/* } */}
+
           <MarkerClusterComponent
             mapRef={this.props.mapRef}
             innovationData={provinceAllData}
@@ -458,8 +299,6 @@ class MapComponent extends Component {
           {/* {!activeOutreachButton ? ( */}
           <TimelineChart
             activeOutreachButton={activeOutreachButton}
-            // key={Math.random()}
-            // key={this.state.key}
             minValue={minValue}
             maxValue={maxValue}
             playBtn={this.playBtn}

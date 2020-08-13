@@ -50,25 +50,7 @@ import TableViewComponent from './TableViewComponent/TableViewComponent';
 import { extendBounds } from './MapRelatedComponents/extendBbox';
 
 let total = '';
-const count = 0;
-const bbox = [];
-function getPartnerColor(i) {
-  if (i % 12 === 0) return '#e69109';
-  if (i % 12 === 1) return '#63a4ff';
-  if (i % 12 === 2) return '#8629ff';
-  if (i % 12 === 3) return '#e553ed';
-  if (i % 12 === 4) return '#f2575f';
-  if (i % 12 === 5) return '#915e0d';
-  if (i % 12 === 6) return '#a1970d';
-  if (i % 12 === 7) return '#4f7d14';
-  if (i % 12 === 8) return '#07aba1';
-  if (i % 12 === 9) return '#1d4c8f';
-  if (i % 12 === 10) return '#491991';
-  if (i % 12 === 11) return '#610766';
-  if (i % 12 === 12) return '#6e0208';
-  if (i % 12 === 13) return '#f07818';
-  return 'green';
-}
+
 class MainAutomation extends Component {
   constructor(props) {
     super(props);
@@ -98,7 +80,6 @@ class MainAutomation extends Component {
       rightSideBarLoader: false,
       isTileLoaded: false,
       partnersData: null,
-
       activeFilterButton: false,
       activeRightSideBar: true,
       activeTableView: false,
@@ -106,9 +87,6 @@ class MainAutomation extends Component {
       vectorGridFirstLoad: false,
       color: '',
       filteredProvinceChoropleth: '',
-      activeProvince: false,
-      activeDistrict: false,
-      activeMunicipality: false,
       branchesCountOptions: {
         series: [
           {
@@ -315,6 +293,7 @@ class MainAutomation extends Component {
     this.props.filterPartnerSelect([]);
     this.props.getAutomationDataByMunicipality();
     this.props.getBranchesTableData();
+    this.props.getTimelineData();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -504,9 +483,11 @@ class MainAutomation extends Component {
       this.setMapViewBy('municipality');
     }, 500);
 
+    const allMunis = municipalityLists();
+
     setTimeout(() => {
-      this.changeMapTiles(selectedMunicipality);
-    }, 1500);
+      this.changeMapTiles(allMunis);
+    }, 1000);
   };
 
   toggleTableViewButton = () => {
