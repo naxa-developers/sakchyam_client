@@ -287,7 +287,13 @@ class Select extends PureComponent {
               onChange={e => checkboxHandler(e, opt)}
             />
           )}
-          <label htmlFor={opt.label.replace(' ', '_')}>
+          <label
+            htmlFor={
+              idValue
+                ? opt.label.replace(' ', '_') + idValue
+                : opt.label.replace(' ', '_')
+            }
+          >
             <i className="icon-ok-2" />
             {opt.label}
           </label>

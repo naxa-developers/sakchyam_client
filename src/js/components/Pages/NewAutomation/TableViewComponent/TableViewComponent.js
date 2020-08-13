@@ -403,7 +403,7 @@ class TableViewComponent extends Component {
               <div className="filter-list">
                 <div className="form-group">
                   <Select
-                    idValue="table"
+                    idValue="table_view"
                     withCheckbox
                     name="Select Province Table"
                     options={provinceListT && provinceListT}
@@ -420,6 +420,7 @@ class TableViewComponent extends Component {
                 tableDataTypeLevel === 'district' ? (
                   <div className="form-group">
                     <Select
+                      idValue="table_view"
                       withCheckbox
                       name="Select District Table"
                       options={districtListT && districtListT}
@@ -435,6 +436,7 @@ class TableViewComponent extends Component {
                 {tableDataTypeLevel === 'municipality' && (
                   <div className="form-group">
                     <Select
+                      idValue="table_view"
                       withCheckbox
                       name="Select Municipality Table"
                       options={municipalityListT && municipalityListT}
