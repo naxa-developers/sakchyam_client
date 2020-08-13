@@ -1,12 +1,13 @@
 import React from 'react';
-import districtData from '../../../../../data/district.json';
+import municipalityData from '../../../../data/municipality.json';
 
-export const getCenterBboxDistrict = id => {
-  let distData = [];
-  districtData.map(data => {
+export const getCenterBboxMunicipality = id => {
+  let munData = [];
+  // debugger;
+  municipalityData.map(data => {
     if (typeof id === 'object') {
-      id.map(distid => {
-        if (distid === data.districtid) {
+      id.map(mid => {
+        if (mid === data.munid) {
           const bboxArray = data.bbox.split(',');
           // console.log(bboxArray,'bboxaray')
           const a = bboxArray.map(datas => {
@@ -14,8 +15,8 @@ export const getCenterBboxDistrict = id => {
           });
           // const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
           const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
-          distData.push({
-            name: data.name,
+          munData.push({
+            name: data.munid,
             center: [data.centroid_x, data.centroid_y],
             bbox: b,
           });
@@ -24,7 +25,7 @@ export const getCenterBboxDistrict = id => {
       });
 
       // console.log(munData,'munData');
-    } else if (id === data.districtid) {
+    } else if (id === data.munid) {
       const bboxArray = data.bbox.split(',');
       // console.log(bboxArray,'bboxaray')
       const a = bboxArray.map(datas => {
@@ -33,16 +34,16 @@ export const getCenterBboxDistrict = id => {
       // const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
       const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
       const c = {
-        name: data.name,
+        name: data.munid,
         center: [data.centroid_x, data.centroid_y],
         bbox: b,
       };
-      distData = c;
+      munData = c;
     }
     return true;
   });
-  console.log(distData, 'munData');
-  return distData;
+  // console.log(munData,'munData');
+  return munData;
 };
 
 export const testFunction = id => {};

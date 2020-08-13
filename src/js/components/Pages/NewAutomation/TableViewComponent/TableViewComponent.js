@@ -1,3 +1,5 @@
+/* eslint-disable react/no-did-update-set-state */
+/* eslint-disable prefer-const */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
@@ -8,6 +10,7 @@ import {
   getBranchesTableData,
   getDistrictDataFromProvince,
   getMunicipalityDataFromDistrict,
+  getTableDataByPartnerSelect,
 } from '../../../../actions/automation.actions';
 import TableViewSkeleton from '../../../common/TableViewSkeleton';
 import Loading from '../../../common/Loading';
@@ -44,292 +47,137 @@ class TableViewComponent extends Component {
       districtListT: districtLists(),
       municipalityListT: municipalityLists(),
       selectedProvinceT: '',
-      selectedDistrictT: null,
-      selectedMunicipalityT: null,
+      selectedDistrictT: [],
+      selectedMunicipalityT: [],
       tableDataTypeLevel: 'municipality',
-
       isLoading: false,
     };
   }
 
   componentDidMount() {}
 
-  handleProvinceDropdown = () => {
-    this.setState(prevState => ({
-      tableProvinceDropdown: !prevState.tableProvinceDropdown,
-    }));
-  };
-
-  handleDistrictDropdown = () => {
-    this.setState(prevState => ({
-      tableDistrictDropdown: !prevState.tableDistrictDropdown,
-    }));
-  };
-
-  handleMunicipalityDropdown = () => {
-    this.setState(prevState => ({
-      tableMunicipalityDropdown: !prevState.tableMunicipalityDropdown,
-    }));
-  };
-
-  handleProvinceAllCheck = event => {
-    const { allProvinceName } = this.props.automationReducer;
-    if (event.target.checked) {
-      const a = allProvinceName.map(data => {
-        return data.id;
-      });
-      const provinceNames = allProvinceName.map(data => {
-        return data.name;
-      });
-      const provinceNamesDropdown = allProvinceName.map(data => {
-        return data.code;
-      });
-      // console.log(provinceCheckboxes, 'checkboxes');
-      this.setState({
-        tableSelectedProvince: a,
-        tableSelectedProvinceDropdown: provinceNamesDropdown,
-        tableSelectedProvinceName: provinceNames,
-      });
-    } else {
-      this.setState({
-        tableSelectedProvince: [],
-        tableSelectedProvinceDropdown: [],
-        tableSelectedProvinceName: [],
-      });
-    }
-  };
-
-  handleProvinceSingleClick = (value, id, name) => {
-    const {
-      tableSelectedProvince,
-      tableSelectedProvinceDropdown,
-      tableSelectedProvinceName,
-    } = this.state;
-    if (tableSelectedProvince.includes(value)) {
-      const a = tableSelectedProvince.filter(data => data !== value);
-      const filteredProvinceName = tableSelectedProvinceName.filter(
-        data => data !== name,
-      );
-      const d = tableSelectedProvinceDropdown.filter(
-        data => data !== id,
-      );
-      this.setState({
-        tableSelectedProvince: a,
-        tableSelectedProvinceDropdown: d,
-        tableSelectedProvinceName: filteredProvinceName,
-      });
-    } else {
-      const b = tableSelectedProvince.concat(value);
-      const c = tableSelectedProvinceDropdown.concat(id);
-      const filteredProvinceName = tableSelectedProvinceName.concat(
-        name,
-      );
-      this.setState({
-        tableSelectedProvince: b,
-        tableSelectedProvinceDropdown: c,
-        tableSelectedProvinceName: filteredProvinceName,
-      });
-    }
-  };
-
-  handleDistrictAllCheck = event => {
-    const { allDistrictName } = this.props.automationReducer;
-
-    if (event.target.checked) {
-      const a = allDistrictName.map(data => {
-        return data.id;
-      });
-      const districtNames = allDistrictName.map(data => {
-        return data.name;
-      });
-      const districtNamesDropdown = allDistrictName.map(data => {
-        return data.code;
-      });
-      // console.log(provinceCheckboxes, 'checkboxes');
-      this.setState({
-        tableSelectedDistrict: a,
-        tableSelectedDistrictDropdown: districtNamesDropdown,
-        tableSelectedDistrictName: districtNames,
-      });
-    } else {
-      this.setState({
-        tableSelectedDistrict: [],
-        tableSelectedDistrictDropdown: [],
-        tableSelectedDistrictName: [],
-      });
-    }
-  };
-
-  handleDistrictSingleClick = (value, id, name) => {
-    const {
-      tableSelectedDistrict,
-      tableSelectedDistrictDropdown,
-      tableSelectedDistrictName,
-    } = this.state;
-    if (tableSelectedDistrict.includes(value)) {
-      const a = tableSelectedDistrict.filter(data => data !== value);
-      const d = tableSelectedDistrictDropdown.filter(
-        data => data !== id,
-      );
-      const filteredDistrictName = tableSelectedDistrictName.filter(
-        data => data !== name,
-      );
-      this.setState({
-        tableSelectedDistrict: a,
-        tableSelectedDistrictDropdown: d,
-        tableSelectedDistrictName: filteredDistrictName,
-      });
-    } else {
-      const b = tableSelectedDistrict.concat(value);
-      const c = tableSelectedDistrictDropdown.concat(id);
-      const filteredDistrictName = tableSelectedDistrictName.concat(
-        name,
-      );
-      this.setState({
-        tableSelectedDistrict: b,
-        tableSelectedDistrictDropdown: c,
-        tableSelectedDistrictName: filteredDistrictName,
-      });
-    }
-  };
-
-  handleMunicipalityAllCheck = event => {
-    const { allMunicipalityName } = this.props.automationReducer;
-
-    if (event.target.checked) {
-      const a = allMunicipalityName.map(data => {
-        return data.id;
-      });
-      const MunicipalityNames = allMunicipalityName.map(data => {
-        return data.name;
-      });
-      const MunicipalityNamesDropdown = allMunicipalityName.map(
-        data => {
-          return data.code;
-        },
-      );
-      // console.log(provinceCheckboxes, 'checkboxes');
-      this.setState({
-        tableSelectedMunicipality: a,
-        tableSelectedMunicipalityDropdown: MunicipalityNamesDropdown,
-        tableSelectedMunicipalityName: MunicipalityNames,
-      });
-    } else {
-      this.setState({
-        tableSelectedMunicipality: [],
-        tableSelectedMunicipalityDropdown: [],
-        tableSelectedMunicipalityName: [],
-      });
-    }
-  };
-
-  handleMunicipalitySingleClick = (value, id, name) => {
-    const {
-      tableSelectedMunicipality,
-      tableSelectedMunicipalityDropdown,
-      tableSelectedMunicipalityName,
-    } = this.state;
-    if (tableSelectedMunicipality.includes(value)) {
-      const a = tableSelectedMunicipality.filter(
-        data => data !== value,
-      );
-      const d = tableSelectedMunicipalityDropdown.filter(
-        data => data !== id,
-      );
-      const filteredMunicipalityName = tableSelectedMunicipalityName.filter(
-        data => data !== name,
-      );
-      this.setState({
-        tableSelectedMunicipality: a,
-        tableSelectedMunicipalityDropdown: d,
-        tableSelectedMunicipalityName: filteredMunicipalityName,
-      });
-    } else {
-      const b = tableSelectedMunicipality.concat(value);
-      const c = tableSelectedMunicipalityDropdown.concat(id);
-      const filteredMunicipalityName = tableSelectedMunicipalityName.concat(
-        name,
-      );
-      this.setState({
-        tableSelectedMunicipality: b,
-        tableSelectedMunicipalityDropdown: c,
-        tableSelectedMunicipalityName: filteredMunicipalityName,
-      });
-    }
-  };
-
   componentDidUpdate(prevProps, prevState) {
-    const { tableSelectedMunicipality } = this.state;
-    if (
-      prevProps.automationReducer.automationTableData !==
-      this.props.automationReducer.automationTableData
-    ) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ isLoading: false });
+    const {
+      selectedProvinceT,
+      selectedDistrictT,
+      districtListT,
+      municipalityListT,
+    } = this.state;
+
+    const { activeClickPartners } = this.props;
+
+    if (prevState.selectedProvinceT !== selectedProvinceT) {
+      let districts;
+      if (
+        (selectedProvinceT[0] &&
+          selectedProvinceT[0].value === 'all') ||
+        selectedProvinceT.length === 0
+      ) {
+        districts = districtLists();
+      } else {
+        districts = districtListByProvince(
+          selectedProvinceT,
+          districtListT,
+        );
+      }
+      this.setState({
+        selectedDistrictT: '',
+        selectedMunicipalityT: '',
+        districtListT: districts,
+      });
     }
 
-    if (
-      prevState.tableSelectedProvince !==
-      this.state.tableSelectedProvince
-    ) {
-      this.props.getDistrictDataFromProvince(
-        this.state.tableSelectedProvinceDropdown,
-      );
-    }
-    if (
-      prevState.tableSelectedDistrict !==
-      this.state.tableSelectedDistrict
-    ) {
-      this.props.getMunicipalityDataFromDistrict(
-        this.state.tableSelectedDistrictDropdown,
-      );
+    if (prevState.selectedDistrictT !== selectedDistrictT) {
+      let municipality;
+      if (
+        (selectedDistrictT &&
+          selectedDistrictT[0] &&
+          selectedDistrictT[0].value === 'all') ||
+        selectedDistrictT.length === 0
+      ) {
+        municipality = municipalityLists();
+      } else {
+        municipality = muniByDistrict(
+          selectedDistrictT,
+          municipalityListT,
+        );
+      }
+      this.setState({
+        selectedMunicipalityT: '',
+        municipalityListT: municipality,
+      });
     }
 
-    if (
-      prevState.tableDataTypeLevel !== this.state.tableDataTypeLevel
-    ) {
-      if (this.state.tableDataTypeLevel === 'municipality') {
-        this.props.getBranchesTableData('municipality');
-      }
-      if (this.state.tableDataTypeLevel === 'district') {
-        this.props.getBranchesTableData('district');
-      }
-      if (this.state.tableDataTypeLevel === 'province') {
-        this.props.getBranchesTableData('province');
-      }
+    if (prevProps.activeClickPartners !== activeClickPartners) {
+      this.applyClickForPartnerFilter();
     }
   }
 
   applyClickForPartnerFilter = () => {
-    this.setState({ isLoading: true });
-    const {
-      tableSelectedMunicipality,
-      tableSelectedMunicipalityDropdown,
-      tableSelectedDistrict,
-      tableSelectedProvince,
-    } = this.state;
     const { activeClickPartners } = this.props;
-    this.props.getBranchesTableDataByFed(
-      {
-        municipality: tableSelectedMunicipalityDropdown,
-        district: tableSelectedDistrict,
-        province: tableSelectedProvince,
-      },
-      activeClickPartners,
-    );
+    const {
+      selectedProvinceT,
+      selectedDistrictT,
+      selectedMunicipalityT,
+    } = this.state;
+    let provinceCodes = [];
+    let muniCodes = [];
+    let districtCodes = [];
+
+    const condition =
+      selectedDistrictT.length > 0 ||
+      selectedProvinceT.length > 0 ||
+      selectedMunicipalityT.length > 0;
+
+    if (selectedProvinceT.length > 0) {
+      provinceCodes = this.getCodes(selectedProvinceT);
+    }
+
+    if (selectedDistrictT.length > 0) {
+      districtCodes = this.getCodes(selectedDistrictT);
+    }
+
+    if (selectedMunicipalityT.length > 0) {
+      muniCodes = this.getCodes(selectedMunicipalityT);
+    }
+
+    if (condition) {
+      this.props.getBranchesTableDataByFed(
+        {
+          municipality: muniCodes,
+          district: districtCodes,
+          province: provinceCodes,
+        },
+        activeClickPartners,
+      );
+    }
+  };
+
+  getCodes = array => {
+    let filteredList = array;
+    if (array[0].value === 'all') {
+      filteredList = array.filter(item => item.value !== 'all');
+    }
+    const codeList = filteredList.map(item => item.code);
+    return codeList;
   };
 
   handleResetButtonForFilter = () => {
-    this.props.getBranchesTableData();
     this.setState({
-      tableSelectedProvince: [],
-      tableSelectedDistrict: [],
-      tableSelectedMunicipality: [],
+      provinceListT: provinceLists(),
+      districtListT: districtLists(),
+      municipalityListT: municipalityLists(),
+      selectedProvinceT: '',
+      selectedDistrictT: [],
+      selectedMunicipalityT: [],
     });
-  };
 
-  toggleDataState = state => {
-    this.setState({ tableDataTypeLevel: state });
+    const { activeClickPartners } = this.props;
+    if (activeClickPartners) {
+      this.props.getTableDataByPartnerSelect(activeClickPartners);
+    } else {
+      this.props.getBranchesTableData();
+    }
   };
 
   exportTableToExcel = () => {
@@ -401,17 +249,15 @@ class TableViewComponent extends Component {
           <div className="filter-content">
             <div className="filter-row">
               <div className="filter-list">
-                {/* <DropdownCheckbox /> */}
                 <div className="form-group">
                   <Select
-                    idValue="table"
+                    idValue="table_view"
                     withCheckbox
                     name="Select Province Table"
                     options={provinceListT && provinceListT}
-                    onChange={selected => {
-                      console.log('selected option', selected);
+                    onChange={selectedOptions => {
                       this.setState({
-                        selectedProvinceT: selected,
+                        selectedProvinceT: selectedOptions,
                       });
                       // eslint-disable-next-line react/jsx-curly-newline
                     }}
@@ -421,6 +267,7 @@ class TableViewComponent extends Component {
                 tableDataTypeLevel === 'district' ? (
                   <div className="form-group">
                     <Select
+                      idValue="table_view"
                       withCheckbox
                       name="Select District Table"
                       options={districtListT && districtListT}
@@ -436,6 +283,7 @@ class TableViewComponent extends Component {
                 {tableDataTypeLevel === 'municipality' && (
                   <div className="form-group">
                     <Select
+                      idValue="table_view"
                       withCheckbox
                       name="Select Municipality Table"
                       options={municipalityListT && municipalityListT}
@@ -572,6 +420,7 @@ const mapStateToProps = ({ automationReducer }) => ({
 });
 export default connect(mapStateToProps, {
   getBranchesTableDataByFed,
+  getTableDataByPartnerSelect,
   getBranchesTableData,
   getDistrictDataFromProvince,
   getMunicipalityDataFromDistrict,
