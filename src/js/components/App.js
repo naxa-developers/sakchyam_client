@@ -11,7 +11,7 @@ import PrivateRoute from '../Routes/PrivateRouter.routes';
 import MainComponent from './Pages/Logframe/MainComponent';
 import ForgotPassword from './ForgotPassword';
 import Landing from './Landing';
-import MainAutomation from './Pages/Automation/MainAutomation';
+// import MainAutomation from './Pages/Automation/MainAutomation';
 // import NewAutomation from './Pages/AutomationAgain/MainAutomation';
 import NewAutomation from './Pages/NewAutomation/Automation';
 // import MainAutomation from './Pages/Automation/MainAutomationMapbox';
@@ -41,12 +41,12 @@ class App extends Component {
           {/* <PrivateRoute path="/" component={Landing} /> */}
           <PrivateRoute
             path="/automation"
-            component={MainAutomation}
-          />
-          <PrivateRoute
-            path="/nautomation"
             component={NewAutomation}
           />
+          {/* <PrivateRoute
+            path="/nautomation"
+            component={NewAutomation}
+          /> */}
           <PrivateRoute
             path="/financial"
             component={FinancialLiteracy}
