@@ -124,7 +124,10 @@ class Login extends Component {
             text="Signing In...Please Wait"
           />
           <div className="container-fluid p-0">
-            <div className="login-wrapper" style={{ backgroundImage: `url(${BG})` }}>
+            <div
+              className="login-wrapper"
+              style={{ backgroundImage: `url(${BG})` }}
+            >
               {/* <aside className="login-sidebar">
                 <div className="login">
                   <div className="login-header">
@@ -241,14 +244,15 @@ class Login extends Component {
                 <div className="banner-header">
                   <h1 className="banner-title">
                     Welcome
-                  <span className="small"> To</span>
-                    <br /> Data Visualization Port{' '}
+                    <span className="small"> To</span>
+                    <br />
+                    Data Visualization Port
                     <span className="abbr">(DVP)</span>
                   </h1>
                   <p className="span_book_18">
-                    A Small Leap towards Application of Open Data on Aid
-                    and Budget in Nepal.
-                </p>
+                    A Small Leap towards Application of Open Data on
+                    Aid and Budget in Nepal.
+                  </p>
                 </div>
                 <div className="row align-items-center">
                   <div className="col-xl-7">
@@ -263,7 +267,7 @@ class Login extends Component {
                         <span className="span_book_15">
                           Please log in to your account using email &
                           password.
-                  </span>
+                        </span>
                       </div>
 
                       <form
@@ -276,7 +280,7 @@ class Login extends Component {
                             className="span_heavy_15"
                           >
                             Email
-                    </label>
+                          </label>
                           <input
                             type="text"
                             name="username"
@@ -293,7 +297,7 @@ class Login extends Component {
                             className="span_heavy_15"
                           >
                             Password
-                    </label>
+                          </label>
                           <input
                             type="password"
                             className="form-control span_book_15"
@@ -305,13 +309,16 @@ class Login extends Component {
                         </div>
 
                         <div className="form-group checkbox">
-                          <input type="checkbox" id="checkbox_checked" />
+                          <input
+                            type="checkbox"
+                            id="checkbox_checked"
+                          />
                           <label
                             htmlFor="checkbox_checked"
                             className="span_book_15"
                           >
                             Remember me
-                    </label>
+                          </label>
                         </div>
 
                         <div className="btn-wrap">
@@ -330,14 +337,10 @@ class Login extends Component {
                     </div>
                   </div>
                 </div>
-
-
-
               </div>
             </div>
           </div>
         </div>
-
       </>
     );
   }

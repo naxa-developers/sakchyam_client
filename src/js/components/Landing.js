@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import AutomationImg from '../../img/Automation.svg';
+// import AutomationImg from '../../img/Automation.svg';
 import BG from '../../img/BG.jpg';
 import Main from '../../img/Main.png';
 import GridImg from '../../img/grid-img.png';
@@ -10,6 +10,15 @@ import LoginIllustration from '../../img/Login-illustration.png';
 import Footer from './Footer';
 import Header from './Header';
 import LandingCard from './common/LandingCard';
+import LogframeImg from '../../img/cardimage/Logical Framework.png';
+import AutomationImg from '../../img/cardimage/Automation.png';
+import FinancialLiteracyImg from '../../img/cardimage/Financial Literacy.png';
+import ProductProcessImg from '../../img/cardimage/Product:Process Innovations.png';
+import PartnershipImg from '../../img/cardimage/Sakchyam Partnerships.png';
+import OutreachImg from '../../img/cardimage/Outreach Expansion.png';
+import InusranceImg from '../../img/cardimage/Insurance.png';
+import MfsImg from '../../img/cardimage/MFS.png';
+import PaymentSystemImg from '../../img/cardimage/Payment Systems.png';
 
 let permissionObject = {};
 class Landing extends Component {
@@ -118,7 +127,7 @@ class Landing extends Component {
                     permissions={permissions}
                     cardUrl="/partnership"
                     cardPermission="view_logentry"
-                    cardImage={GridImg}
+                    cardImage={PartnershipImg}
                   />
                   <LandingCard
                     cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
@@ -128,7 +137,7 @@ class Landing extends Component {
                     permissions={permissions}
                     cardUrl="/logframe"
                     cardPermission="view_logentry"
-                    cardImage={GridImg}
+                    cardImage={LogframeImg}
                   />
                   <LandingCard
                     cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
@@ -158,7 +167,7 @@ class Landing extends Component {
                     permissions={permissions}
                     cardUrl="/productprocess"
                     cardPermission="view_automation"
-                    cardImage={GridImg}
+                    cardImage={ProductProcessImg}
                   />
                   <LandingCard
                     cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
@@ -173,7 +182,7 @@ class Landing extends Component {
                     permissions={permissions}
                     cardUrl="/paymentsystems"
                     cardPermission="view_automation"
-                    cardImage={GridImg}
+                    cardImage={PaymentSystemImg}
                   />
                   <LandingCard
                     cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
@@ -188,7 +197,7 @@ class Landing extends Component {
                     permissions={permissions}
                     cardUrl="/mfs"
                     cardPermission="view_automation"
-                    cardImage={GridImg}
+                    cardImage={MfsImg}
                   />
                   <LandingCard
                     cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
@@ -203,7 +212,7 @@ class Landing extends Component {
                     permissions={permissions}
                     cardUrl="/financial"
                     cardPermission="view_automation"
-                    cardImage={GridImg}
+                    cardImage={FinancialLiteracyImg}
                   />
                   <LandingCard
                     cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
@@ -218,7 +227,7 @@ class Landing extends Component {
                     permissions={permissions}
                     cardUrl="/outreachexpansion"
                     cardPermission="view_logentry"
-                    cardImage={GridImg}
+                    cardImage={OutreachImg}
                   />
                   <LandingCard
                     cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
@@ -233,7 +242,7 @@ class Landing extends Component {
                     permissions={permissions}
                     cardUrl="/insurance"
                     cardPermission="view_logentry"
-                    cardImage={GridImg}
+                    cardImage={InusranceImg}
                   />
                 </div>
               </div>

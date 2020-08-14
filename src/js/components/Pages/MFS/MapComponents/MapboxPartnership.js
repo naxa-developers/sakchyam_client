@@ -14,6 +14,8 @@ class MapboxPartnership extends Component {
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
+    this.circleLegendRef = React.createRef();
+    this.pieSquareLegend = React.createRef();
   }
 
   // addMap = () => {
@@ -53,7 +55,7 @@ class MapboxPartnership extends Component {
       // state: {  },
       props: { vectorTileUrl, mapViewDataBy, map },
     } = this;
-    const { mfsChoroplethData } = this.props.mfsReducer;
+    const { mfsChoroplethData, mfsPieData } = this.props.mfsReducer;
     return (
       <>
         <div id="key" ref={this.keyRef} />
@@ -81,6 +83,7 @@ class MapboxPartnership extends Component {
                 choroplethData={mfsChoroplethData}
                 vectorTileUrl={vectorTileUrl}
                 map={map}
+                circleMarkerData={mfsPieData}
                 // divisions={inputDivisions}
                 label
                 color="#5014e4"
@@ -97,7 +100,22 @@ class MapboxPartnership extends Component {
                 // height: '40px',
                 // }}
               /> */}
-
+              {/* {mapViewDataBy && ( */}
+              <div className="legend-wrapper">
+                <div
+                  // id="markercircleLegend"
+                  className="markercircleLegend"
+                  ref={this.circleLegendRef}
+                />
+                <div id="markerPieLegend">
+                  <svg
+                    // id="pieSquareLegend"
+                    className="pieSquareLegend"
+                    ref={this.pieSquareLegend}
+                  />
+                </div>
+              </div>
+              {/* )} */}
               {/* <MarkerCluster
               filteredByPartner={filteredByPartner}
               handleActiveClickPartners={handleActiveClickPartners}

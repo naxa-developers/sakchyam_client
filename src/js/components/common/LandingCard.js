@@ -26,46 +26,44 @@ const LandingCard = ({
           </ul> */}
           </div>
           {permissions &&
+          permissions[0] &&
+          permissions[0].permission.includes(cardPermission) ? (
+            <Link to={cardUrl}>
+              <button type="button" className="access_button">
+                <span className="span_heavy_15">View</span>
+              </button>
+            </Link>
+          ) : permissions &&
             permissions[0] &&
-            permissions[0].permission.includes(cardPermission) ? (
-              <Link to={cardUrl}>
-                <button type="button" className="access_button">
-                  <span className="span_heavy_15">View</span>
-                </button>
-              </Link>
-            ) : permissions && permissions[0] && permissions[0].email ? (
-              <>
+            permissions[0].email ? (
+            // eslint-disable-next-line react/jsx-indent
+            <button type="button" className="deny_button">
+              <span className="span_heavy_15">No Access</span>
+            </button>
+          ) : null}
+          {permissions &&
+          permissions[0] &&
+          permissions[0].email ? null : (
+            <>
+              <Link
+                to={{
+                  pathname: '/login',
+                  state: { afterLogin: cardUrl },
+                }}
+              >
                 <button type="button" className="deny_button">
                   <span className="span_heavy_15">No Access</span>
                 </button>
-                
-              </>
-            ) : null}
-          {permissions &&
-            permissions[0] &&
-            permissions[0].email ? null : (
-              <>
-                <Link
-                  to={{
-                    pathname: '/login',
-                    state: { afterLogin: cardUrl },
-                  }}
-                >
-                  <button type="button" className="deny_button">
-                    <span className="span_heavy_15">No Access</span>
-                  </button>
-                </Link>
-                <Link
-                  to={{
-                    pathname: '/login',
-                    state: { afterLogin: cardUrl },
-                  }}
-                  className="span_book_14"
-                >
-            </Link>
-              </>
-            )}
-
+              </Link>
+              <Link
+                to={{
+                  pathname: '/login',
+                  state: { afterLogin: cardUrl },
+                }}
+                className="span_book_14"
+              />
+            </>
+          )}
         </div>
         <img className="grid-img" src={cardImage} alt="" />
       </div>
