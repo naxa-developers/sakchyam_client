@@ -11,24 +11,28 @@ class DonutChartInsurance extends Component {
     this.state = {
       series: [],
       options: {},
-      selectedTab: 'innovations',
+      selectedTab: 'insurance',
       data: '',
     };
   }
 
   plotChart = () => {
-    const series = [44, 55, 41, 100, 15];
+    const series = [];
     const options = {
       chart: {
+        width: 150,
         type: 'donut',
       },
-      labels: ['Apple', 'Mango', 'Orange', 'Watermelon', 'bananna'],
+      fill: {
+        colors: ['#E11D3F', '#13A8BE', '#FF6D00'],
+      },
+      // labels: ['Apple', 'Mango', 'Orange', 'Watermelon', 'bananna'],
       responsive: [
         {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200,
+              width: 150,
             },
             legend: {
               position: 'bottom',
@@ -36,6 +40,64 @@ class DonutChartInsurance extends Component {
           },
         },
       ],
+      tooltip: { fillSeriesColor: false },
+      dataLabels: { enabled: false },
+      plotOptions: {
+        pie: {
+          startAngle: 0,
+          expandOnClick: true,
+          offsetX: 0,
+          offsetY: 0,
+          customScale: 1,
+          dataLabels: {
+            offset: 0,
+            minAngleToShowLabel: 10,
+          },
+          donut: {
+            size: '65%',
+            background: 'transparent',
+            labels: {
+              show: true,
+              name: {
+                show: false,
+                fontSize: '22px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 600,
+                color: undefined,
+                offsetY: -10,
+                formatter(val) {
+                  return val;
+                },
+              },
+              value: {
+                show: true,
+                fontSize: '16px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 400,
+                color: undefined,
+                offsetY: 16,
+                formatter(val) {
+                  return val;
+                },
+              },
+              total: {
+                show: true,
+                showAlways: true,
+                label: 'Total',
+                fontSize: '24px',
+                fontFamily: 'Avenir book',
+                fontWeight: 100,
+                color: '#d9202c',
+                formatter(w) {
+                  return w.globals.seriesTotals.reduce((a, b) => {
+                    return a + b;
+                  }, 0);
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     this.setState({ series, options });
@@ -103,7 +165,7 @@ class DonutChartInsurance extends Component {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200,
+              width: 150,
             },
             legend: {
               position: 'bottom',
@@ -163,11 +225,11 @@ class DonutChartInsurance extends Component {
     const { selectedTab } = this.state;
     return (
       <>
-        <SwitchComponent
+        {/* <SwitchComponent
           selectedTab={selectedTab}
           setSelectedTab={this.setSelectedTab}
-        />
-        <div id="chart">
+        /> */}
+        <div id="insurance-donut">
           <ReactApexChart
             options={this.state.options}
             series={this.state.series}

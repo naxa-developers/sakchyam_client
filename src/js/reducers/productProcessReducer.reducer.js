@@ -32,7 +32,7 @@ function convertLabelName(name) {
   const nameArr = name.split(' ');
   let firstElement;
   let rest;
-  if (nameArr.length < 3) {
+  if (nameArr.length < 2) {
     // eslint-disable-next-line prefer-destructuring
     firstElement = nameArr[0];
     rest = name

@@ -412,7 +412,8 @@ class HeatmapChart extends React.Component {
       }
     } else {
       // height = 425;
-      height = 550;
+      // height = 550;
+      height = 700;
       // width = 450;
     }
     if (!activeModal) {

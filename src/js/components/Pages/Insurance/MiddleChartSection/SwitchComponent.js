@@ -10,27 +10,27 @@ export default function MapFilter(props) {
         <FilterBadge
           viewDataBy={selectedTab}
           onclick={() => {
-            setSelectedTab('innovations');
+            setSelectedTab('insurance-premium');
           }}
-          dataTitle="innovations"
-          title="Innovation"
+          dataTitle="insurance-premium"
+          title="Amount of Insurance Premium (NPR)"
         />
         <FilterBadge
           viewDataBy={selectedTab}
           onclick={() => {
-            setSelectedTab('products');
+            setSelectedTab('sum-insured');
           }}
-          dataTitle="products"
-          title="Products"
+          dataTitle="sum-insured"
+          title="Amount of Sum Insured"
         />
-        <FilterBadge
+        {/* <FilterBadge
           viewDataBy={selectedTab}
           onclick={() => {
             setSelectedTab('insurance');
           }}
           dataTitle="insurance"
           title="Insurance Policy Sold"
-        />
+        /> */}
       </ul>
     </div>
   );
