@@ -1943,6 +1943,12 @@ class MainAutomation extends Component {
       allMunicipalityName,
       tableDataLoading,
     } = this.props.automationReducer;
+    // console.log(
+    //   'activeClickPartners',
+    //   vectorGridFirstLoad,
+    //   mapType,
+
+    // );
     return (
       <div className="page-wrap page-100">
         <Header />

@@ -1,21 +1,21 @@
-// import React from 'react';
-import provinceData from '../../../../../data/province.json';
+import React from 'react';
+import districtData from '../../../../data/district.json';
 
-export const getCenterBboxProvince = id => {
-  let munData = [];
-  provinceData.map(data => {
+export const getCenterBboxDistrict = id => {
+  let distData = [];
+  districtData.map(data => {
     if (typeof id === 'object') {
-      id.map(provid => {
-        if (provid === data.FIRST_PROV) {
-          const bboxArray = data.BBOX.split(',');
+      id.map(distid => {
+        if (distid === data.districtid) {
+          const bboxArray = data.bbox.split(',');
           // console.log(bboxArray,'bboxaray')
           const a = bboxArray.map(datas => {
             return parseFloat(datas);
           });
           // const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
           const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
-          munData.push({
-            name: data.prov_name,
+          distData.push({
+            name: data.name,
             center: [data.centroid_x, data.centroid_y],
             bbox: b,
           });
@@ -24,8 +24,8 @@ export const getCenterBboxProvince = id => {
       });
 
       // console.log(munData,'munData');
-    } else if (parseInt(id, 10) === data.FIRST_PROV) {
-      const bboxArray = data.BBOX.split(',');
+    } else if (id === data.districtid) {
+      const bboxArray = data.bbox.split(',');
       // console.log(bboxArray,'bboxaray')
       const a = bboxArray.map(datas => {
         return parseFloat(datas);
@@ -33,16 +33,16 @@ export const getCenterBboxProvince = id => {
       // const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
       const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
       const c = {
-        name: data.prov_name,
+        name: data.name,
         center: [data.centroid_x, data.centroid_y],
         bbox: b,
       };
-      munData = c;
+      distData = c;
     }
     return true;
   });
-  // console.log(munData,'munData');
-  return munData;
+  console.log(distData, 'munData');
+  return distData;
 };
 
 export const testFunction = id => {};

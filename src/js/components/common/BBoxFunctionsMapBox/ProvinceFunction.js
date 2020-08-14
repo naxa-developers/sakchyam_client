@@ -1,14 +1,13 @@
-import React from 'react';
-import municipalityData from '../../../../../data/municipality.json';
+// import React from 'react';
+import provinceData from '../../../../data/province.json';
 
-export const getCenterBboxMunicipality = id => {
+export const getCenterBboxProvince = id => {
   let munData = [];
-  // debugger;
-  municipalityData.map(data => {
+  provinceData.map(data => {
     if (typeof id === 'object') {
-      id.map(mid => {
-        if (mid === data.munid) {
-          const bboxArray = data.bbox.split(',');
+      id.map(provid => {
+        if (provid === data.FIRST_PROV) {
+          const bboxArray = data.BBOX.split(',');
           // console.log(bboxArray,'bboxaray')
           const a = bboxArray.map(datas => {
             return parseFloat(datas);
@@ -16,7 +15,7 @@ export const getCenterBboxMunicipality = id => {
           // const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
           const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
           munData.push({
-            name: data.munid,
+            name: data.prov_name,
             center: [data.centroid_x, data.centroid_y],
             bbox: b,
           });
@@ -25,8 +24,8 @@ export const getCenterBboxMunicipality = id => {
       });
 
       // console.log(munData,'munData');
-    } else if (id === data.munid) {
-      const bboxArray = data.bbox.split(',');
+    } else if (parseInt(id, 10) === data.FIRST_PROV) {
+      const bboxArray = data.BBOX.split(',');
       // console.log(bboxArray,'bboxaray')
       const a = bboxArray.map(datas => {
         return parseFloat(datas);
@@ -34,7 +33,7 @@ export const getCenterBboxMunicipality = id => {
       // const b = [a[1], a[0], a[3], a[2]]; // FOR LEAFLET
       const b = [a[0], a[1], a[2], a[3]]; // FOR MAPBOX
       const c = {
-        name: data.munid,
+        name: data.prov_name,
         center: [data.centroid_x, data.centroid_y],
         bbox: b,
       };

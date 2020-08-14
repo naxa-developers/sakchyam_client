@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import convert from '../../../../utils/convertNumbers';
+import { filterMfsChartDataByDistrict } from '../../../../../actions/mfs.action';
 
 class StackedBarWithAllFederal extends Component {
   constructor(props) {
@@ -44,57 +45,58 @@ class StackedBarWithAllFederal extends Component {
         width: 2000,
         type: 'line',
         stacked: true,
-        // events: {
-        //   click(
-        //     event,
-        //     chartContext,
-        //     { seriesIndex, dataPointIndex, config },
-        //   ) {
-        //     // console.log(seriesIndex, 'seriesIndex');
-        //     // console.log(event, 'event');
-        //     // console.log(chartContext, 'chartContext');
-        //     // console.log(dataPointIndex, 'dataPointIndex');
-        //     // console.log(config, 'config');
-        //     // console.log(
-        //     //   config.xaxis.categories[dataPointIndex],
-        //     //   'dataPointIndex Calc',
-        //     // );
-        //     const {
-        //       partnerSelection,
-        //       projectSelection,
-        //       projectStatus,
-        //       showBarOf,
-        //     } = that.props;
-        //     // if (showBarOf === 'Provinces') {
-        //     const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
-        //       data => {
-        //         return data.name.includes(
-        //           config.xaxis.categories[dataPointIndex],
-        //         );
-        //       },
-        //     );
-        //     // console.log(filteredProvinceId, 'filteredProvinceId');
-        //     const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
-        //       data => {
-        //         return data.province_id === filteredProvinceId[0].id;
-        //       },
-        //     );
-        //     // console.log(finalDistrictId, 'finalDistrtic');
-        //     const districtIdList = finalDistrictId.map(data => {
-        //       return data.n_code;
-        //     });
-        //     that.props.handleShowBarOf('district');
-        //     // console.log(districtIdList, 'districtIdList');
-        //     that.props.filterFinancialDataOfDistrictFromProvince(
-        //       that.props.viewDataBy,
-        //       districtIdList,
-        //       partnerSelection,
-        //       projectSelection,
-        //       projectStatus,
-        //     );
-        //     // }
-        //   },
-        // },
+        events: {
+          click(
+            event,
+            chartContext,
+            { seriesIndex, dataPointIndex, config },
+          ) {
+            // console.log(seriesIndex, 'seriesIndex');
+            // console.log(event, 'event');
+            // console.log(chartContext, 'chartContext');
+            // console.log(dataPointIndex, 'dataPointIndex');
+            // console.log(config, 'config');
+            // console.log(
+            //   config.xaxis.categories[dataPointIndex],
+            //   'dataPointIndex Calc',
+            // );
+            const {
+              partnerSelection,
+              projectSelection,
+              projectStatus,
+              showBarOf,
+            } = that.props;
+            console.log('clicked');
+            // if (showBarOf === 'Provinces') {
+            const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
+              data => {
+                return data.name.includes(
+                  config.xaxis.categories[dataPointIndex],
+                );
+              },
+            );
+            // console.log(filteredProvinceId, 'filteredProvinceId');
+            const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
+              data => {
+                return data.province_id === filteredProvinceId[0].id;
+              },
+            );
+            // console.log(finalDistrictId, 'finalDistrtic');
+            const districtIdList = finalDistrictId.map(data => {
+              return data.n_code;
+            });
+            that.props.handleShowBarOf('district');
+            // console.log(districtIdList, 'districtIdList');
+            that.props.filterMfsChartDataByDistrict(
+              that.props.viewDataBy,
+              districtIdList,
+              partnerSelection,
+              projectSelection,
+              projectStatus,
+            );
+            // }
+          },
+        },
       },
       plotOptions: {
         bar: {
@@ -206,32 +208,33 @@ class StackedBarWithAllFederal extends Component {
             // console.log(config, 'config');
 
             const clicked = config.xaxis.categories[dataPointIndex];
+            console.log(clicked.toLowerCase());
             if (clicked !== undefined) {
               const {
-                partnerSelection,
-                investmentFocusSelection,
-                partnerTypeSelection,
-                projectSelection,
-                projectStatus,
+                selectedPartner,
+                selectedInnovation,
+                selectedAchievement,
                 showBarof,
               } = that.props;
-              // console.log(showBarof, 'showBarOf');
+              console.log(showBarof, 'showBarOf');
               if (showBarof === 'Provinces') {
                 // console.log(clicked, 'clicked');
-                const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
+                const filteredProvinceId = that.props.provinceList.filter(
                   data => {
-                    // console.log(data, 'data');
+                    // console.log(data.label, 'data');
                     // return (
                     //   data.code ===
                     //   config.xaxis.categories[dataPointIndex]
                     // );
                     return data.label.includes(
-                      config.xaxis.categories[dataPointIndex],
+                      config.xaxis.categories[
+                        dataPointIndex
+                      ].toUpperCase(),
                     );
                   },
                 );
                 console.log(filteredProvinceId, 'filteredProvinceId');
-                const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
+                const finalDistrictId = that.props.districtList.filter(
                   data => {
                     return (
                       data.province_code ===
@@ -246,48 +249,12 @@ class StackedBarWithAllFederal extends Component {
                 that.props.handleShowBarOf('Districts');
                 console.log(districtIdList, 'distrList');
                 // console.log(districtIdList, 'districtIdList');
-                that.props.filterFinancialDataOfDistrictFromProvince(
-                  that.props.viewDataBy,
+                that.props.filterMfsChartDataByDistrict(
+                  'district',
                   districtIdList,
-                  investmentFocusSelection,
-                  partnerSelection,
-                  partnerTypeSelection,
-                  projectSelection,
-                  projectStatus,
-                );
-              } else if (showBarof === 'Districts') {
-                const filteredDistrictId = that.props.partnershipReducer.allDistrictList.filter(
-                  data => {
-                    return data.label.includes(
-                      config.xaxis.categories[dataPointIndex],
-                    );
-                  },
-                );
-                // console.log(filteredProvinceId, 'filteredProvinceId');
-                const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
-                  data => {
-                    return (
-                      data.district_code ===
-                      filteredDistrictId[0].code
-                    );
-                  },
-                );
-                // console.log(finalMunicipalityId, 'finalMunicipalityId');
-                const districtIdList = finalMunicipalityId.map(
-                  data => {
-                    return data.code;
-                  },
-                );
-                that.props.handleShowBarOf('Municipality');
-                // console.log(districtIdList, 'districtIdList');
-                that.props.filterFinancialDataOfMunicipalityFromDistrict(
-                  that.props.viewDataBy,
-                  districtIdList,
-                  investmentFocusSelection,
-                  partnerSelection,
-                  partnerTypeSelection,
-                  projectSelection,
-                  projectStatus,
+                  selectedPartner,
+                  selectedInnovation,
+                  selectedAchievement,
                 );
               }
             }
@@ -380,6 +347,7 @@ const mapStateToProps = ({ mfsReducer }) => ({
   mfsReducer,
 });
 export default connect(mapStateToProps, {
+  filterMfsChartDataByDistrict,
   // filterFinancialDataOfDistrictFromProvince,
   // filterFinancialDataOfMunicipalityFromDistrict,
 })(StackedBarWithAllFederal);

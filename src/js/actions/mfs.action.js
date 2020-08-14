@@ -12,6 +12,8 @@ import {
   FILTER_MFS_OVERVIEW_DATA,
   FILTER_MFS_LIST_BY_KEY_INNOVATION,
   FILTER_MFS_CHART_DATA,
+  FILTER_MFS_MAP_PIE_DATA,
+  FILTER_MFS_CHART_DATA_BY_DISTRICT_ID,
 } from './index.actions';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -41,6 +43,33 @@ export const getMfsAllData = () => dispatch => {
         dispatch({
           type: GET_MFS_OVERVIEW_DATA,
           payload: result.data,
+        }),
+        dispatch({
+          type: FILTER_MFS_CHOROPLETH_DATA,
+          payload: {
+            mapViewBy: 'province',
+            selectedPartner: [],
+            selectedInnovation: [],
+            selectedAchievement: [],
+          },
+        }),
+        dispatch({
+          type: FILTER_MFS_CHART_DATA,
+          payload: {
+            mapViewBy: 'province',
+            selectedPartner: [],
+            selectedInnovation: [],
+            selectedAchievement: [],
+          },
+        }),
+        dispatch({
+          type: FILTER_MFS_OVERVIEW_DATA,
+          payload: {
+            mapViewBy: 'province',
+            selectedPartner: [],
+            selectedInnovation: [],
+            selectedAchievement: [],
+          },
         })
       );
     });
@@ -105,6 +134,40 @@ export const filterMfsChartData = (
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_CHART_DATA,
+    payload: {
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    },
+  });
+};
+export const filterMfsChartDataByDistrict = (
+  mapViewBy,
+  districtList,
+  selectedPartner,
+  selectedInnovation,
+  selectedAchievement,
+) => dispatch => {
+  dispatch({
+    type: FILTER_MFS_CHART_DATA_BY_DISTRICT_ID,
+    payload: {
+      mapViewBy,
+      districtList,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    },
+  });
+};
+export const filterMfsMapPieData = (
+  mapViewBy,
+  selectedPartner,
+  selectedInnovation,
+  selectedAchievement,
+) => dispatch => {
+  dispatch({
+    type: FILTER_MFS_MAP_PIE_DATA,
     payload: {
       mapViewBy,
       selectedPartner,

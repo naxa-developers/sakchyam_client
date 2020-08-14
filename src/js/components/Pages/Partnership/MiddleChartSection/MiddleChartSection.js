@@ -333,12 +333,26 @@ class MiddleChartSection extends Component {
               }}
               renderChartComponent={() => {
                 return (
-                  <StackedBarWithProvince
+                  // <StackedBarWithProvince
+                  //   viewDataBy={viewDataBy}
+                  //   activeModal={activeModal}
+                  //   investmentFocusSelection={
+                  //     investmentFocusSelection
+                  //   }
+                  //   partnerSelection={partnerSelection}
+                  //   partnerTypeSelection={partnerTypeSelection}
+                  //   projectSelection={projectSelection}
+                  //   projectStatus={projectStatus}
+                  //   showBarof={showBarof}
+                  //   handleShowBarOf={handleShowBarOf}
+                  // />
+                  <StackedBarWithAllFederal
                     viewDataBy={viewDataBy}
                     activeModal={activeModal}
                     investmentFocusSelection={
                       investmentFocusSelection
                     }
+                    cardView
                     partnerSelection={partnerSelection}
                     partnerTypeSelection={partnerTypeSelection}
                     projectSelection={projectSelection}

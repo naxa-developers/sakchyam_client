@@ -50,6 +50,7 @@ const CardTab = ({
   renderChartComponent,
   showBarof,
   style,
+  disableResetButton,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -93,7 +94,7 @@ const CardTab = ({
                       </label>
                       <small>ON</small>
                     </div> */}
-            {cardChartId === 'groupedChart' ? (
+            {!disableResetButton && cardChartId === 'groupedChart' ? (
               showBarof !== 'Provinces' && (
                 <button
                   // id="chart-reset"
