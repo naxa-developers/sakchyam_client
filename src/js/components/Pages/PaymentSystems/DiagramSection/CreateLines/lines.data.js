@@ -37,7 +37,7 @@ export const lineData = [
   {
     rightRef: 1,
     leftRefLinks: [0],
-    rightRefLinks: [2],
+    rightRefLinks: [1, 2, 3],
     leftToLeftLink: [],
     rightToRightLink: [
       [1, 2],
@@ -48,7 +48,7 @@ export const lineData = [
   {
     rightRef: 2,
     leftRefLinks: [0],
-    rightRefLinks: [2],
+    rightRefLinks: [1, 2, 3, 4],
     leftToLeftLink: [],
     rightToRightLink: [
       [1, 2],
@@ -60,7 +60,7 @@ export const lineData = [
   {
     rightRef: 3,
     leftRefLinks: [0],
-    rightRefLinks: [3],
+    rightRefLinks: [1, 2, 3],
     leftToLeftLink: [],
     rightToRightLink: [
       [1, 2],
@@ -71,7 +71,7 @@ export const lineData = [
   {
     rightRef: 4,
     leftRefLinks: [2],
-    rightRefLinks: [4],
+    rightRefLinks: [2, 3, 4],
     leftToLeftLink: [],
     rightToRightLink: [
       [2, 3],

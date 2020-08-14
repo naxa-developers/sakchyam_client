@@ -42,7 +42,7 @@ const DiagramSection = () => {
   const [indirectCoordinates, setIndirectCoordinates] = useState([]);
 
   const [isLeftCardSelected, setIsLeftCardSelected] = useState(true);
-  const [selectedCardRef, setSelectedCardRef] = useState(0);
+  const [selectedCardRef, setSelectedCardRef] = useState(null);
   const [lineColor, setLineColor] = useState('#FF6D00');
 
   const getMiddleLines = ({ leftRefLinks, rightRefLinks }) => {
@@ -152,7 +152,7 @@ const DiagramSection = () => {
     if (!isArrayEmpty(data)) {
       getMiddleLines(data[0]);
       getLeftLines(data[0]);
-      getRightLines(data[0]);
+      // getRightLines(data[0]);
       getIndirectLines(data[0]);
     }
   }, [selectedCardRef, isLeftCardSelected]);
