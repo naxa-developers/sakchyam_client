@@ -25,7 +25,7 @@ const PlotLeftLines = ({
         <g
           fill="white"
           stroke={lineColor}
-          strokeWidth="2"
+          strokeWidth="4"
           key={item.y1}
         >
           <line

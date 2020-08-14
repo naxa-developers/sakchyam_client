@@ -41,9 +41,9 @@ const DiagramSection = () => {
   const [rightCoordinates, setRightCoordinates] = useState([]);
   const [indirectCoordinates, setIndirectCoordinates] = useState([]);
 
-  const [isLeftCardSelected, setIsLeftCardSelected] = useState();
-  const [selectedCardRef, setSelectedCardRef] = useState(null);
-  const [lineColor, setLineColor] = useState('red');
+  const [isLeftCardSelected, setIsLeftCardSelected] = useState(true);
+  const [selectedCardRef, setSelectedCardRef] = useState(0);
+  const [lineColor, setLineColor] = useState('#FF6D00');
 
   const getMiddleLines = ({ leftRefLinks, rightRefLinks }) => {
     const middleSVGRect = middleSVGContainerRef.current.getBoundingClientRect();

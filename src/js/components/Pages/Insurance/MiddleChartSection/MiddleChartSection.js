@@ -32,8 +32,15 @@ class MiddleChartSection extends Component {
     super(props);
     this.state = {
       activeModal: false,
+      isBarChartToggled: false,
     };
   }
+
+  handleBarChartToggle = () => {
+    this.setState(prevState => ({
+      isBarChartToggled: !prevState.isBarChartToggled,
+    }));
+  };
 
   handleModal = () => {
     this.setState(prevState => ({
@@ -219,6 +226,8 @@ class MiddleChartSection extends Component {
                   downloadPng={this.downloadPng}
                   handleModal={this.handleModal}
                   handleSelectedModal={this.handleSelectedModal}
+                  handleBarChartToggle={this.handleBarChartToggle}
+                  isBarChartToggled={this.state.isBarChartToggled}
                 />
               </div>
             </div>

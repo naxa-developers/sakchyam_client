@@ -27,7 +27,7 @@ const PlotLines = ({
         <g
           fill="white"
           stroke={lineColor}
-          strokeWidth="2"
+          strokeWidth="4"
           key={item.y2}
         >
           <line
@@ -57,7 +57,7 @@ const PlotLines = ({
         <g
           fill="white"
           stroke={lineColor}
-          strokeWidth="2"
+          strokeWidth="4"
           key={item.y2}
         >
           <line
@@ -81,7 +81,7 @@ const PlotLines = ({
         <g
           fill="white"
           stroke={lineColor}
-          strokeWidth="2"
+          strokeWidth="4"
           key={item.y2}
         >
           <line
