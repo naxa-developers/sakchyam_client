@@ -2,6 +2,19 @@
     @include transition(all .2s linear);
     .login-wrapper{
         @include transition(all .2s linear);
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        width: 100%;
+        margin: 0 auto;
+        padding: 60px 0;
+        color: $white-color;
+        position: relative;
+        min-height:100vh;
+        @include display-flex(flex);
+        @include flex-direction-column(column);
+        @include justify-content-center;
+        position: relative;
         aside.login-sidebar{
             width: 810px;
             max-width: 100%;
@@ -253,13 +266,146 @@
         }    
     }
 }
-@media #{$breakpoint-xxl}{
-    .login-page, .login-reset-page{
-        .login-wrapper{
-            height: 150vh !important;
+.login-content{
+    position: relative;
+    padding:30px;
+    width: 100%;
+    margin: 0 auto;
+    background-color:#fff;
+    color: $primary-color;
+    border-radius:5px;
+    .login-header{
+        margin-bottom: 30px;
+        text-align: center;
+        h3{
+            text-transform: capitalize;
+            margin-bottom: 20px;
+        }
+        span{
+            text-transform: capitalize;
+        }
+    }
+    .login-form{
+        width: 100%;
+        
+        .form-group{
+            margin-bottom: 0;
+            &:first-child{
+                margin-bottom: 42px;
+            }
+            label{
+                margin-bottom: .938rem;
+                margin-left: 12px;
+            }
+            input.form-control{
+                width: 100%;
+                color: $primary-light;
+                @include radius(25px);
+                padding: .75rem 0 .793rem 1.25rem;
+                border: 1px solid $primary-xs-light;
+                &:focus{
+                    background: $red-light;
+                    color: $text-color;
+                    border: 1px solid $red-color;
+                    // @include box-shadow(0 0 5px 0 $primary-xs-light);
+                }
+                &::placeholder{
+                    font-size: .938rem;
+                    line-height: 1.25rem;
+                }
+            }
+            &.checkbox{
+                margin: 20px 0 40px;
+                input[type="checkbox"]{
+                    &:checked{
+                        ~label{
+                            background-color: transparent;
+                            color: $primary-light;
+                        }
+                    }
+                } 
+                label{
+                    margin-bottom: 0;
+                    color: $primary-light;
+                    padding-left: 32px;
+                    &::before, 
+                    &::after{  
+                        width: 14.5px;
+                        height: 15.25px;
+                        top: 2px;
+                        left: 4px;
+                        font-size: 11px;;
+                       @include display-flex(flex);
+                       @include align-items-center;
+                       @include justify-content-center;
+                    }
+                    &::before{
+                        border: 1px solid $primary-light;
+                    }
+                }
+            }
+        }
+        .btn-wrap{
+            button{
+                padding: 14px 0 13px;
+                width: 100%;
+                background-color: $red-color;
+                @include transition(all .4s ease-in-out);
+                border: 0;
+                margin-bottom: 16px;
+                cursor: pointer;
+                &:hover{
+                    background: $red-bright;
+                }
+                a{
+                    color: $white-color;
+                    display: block;
+                    &:hover{
+                        font-family: $avenir-heavy;
+                    }
+                }
+            }
+            span{
+                display: block;
+                width: 100%;
+                text-align: center;
+                a{
+                    display: inline;
+                    color: $primary-light;
+                    cursor: pointer;
+                    @include transition(all .3s ease-in-out);
+                    &:hover{
+                        color: $red-hover;
+                    }
+                }
+            }
         }
     }
 }
+.login-footer{
+    @include display-flex(flex);
+    @include justify-content-center;
+    @include align-items-center;
+    .left-img{
+        padding-right: 30px;
+        border-right: 2px solid $primary-xs-light;
+        img{
+            max-width: 82px;
+            width: 100%;
+            height: 65px;
+           
+        }
+    }
+    .right-img{
+        padding-left: 30px;
+        img{
+            max-width: 57px;
+            width: 100%;
+            height: 63px;
+        }
+    }
+}
+
 
 @media #{$breakpoint-xl}{
     .login-page{
@@ -345,9 +491,6 @@
 
 @media #{$breakpoint-pt}{
     .login-page{
-        .login-wrapper{
-            height: 100vh !important;
-        }
         &.login-reset-page{
             .login-wrapper{
                 main.main-section{

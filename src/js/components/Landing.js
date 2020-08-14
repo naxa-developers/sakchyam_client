@@ -68,7 +68,7 @@ class Landing extends Component {
     return (
       <>
         <Header headerTransparent disableScroll />
-        <section className="banner">
+        {/* <section className="banner">
           <div
             className="banner_content"
             style={{ backgroundImage: `url(${BG})` }}
@@ -92,7 +92,7 @@ class Landing extends Component {
             </div>
             <div className="bottom-border-block" />
           </div>
-        </section>
+        </section> */}
 
         <section className="home-content">
           <div className="container-fluid">
@@ -105,9 +105,9 @@ class Landing extends Component {
 
             <div className="content-tools">
               <div className="tools-list">
-                <div className="row no-gutters rw-mod">
+                <div className="row  rw-mod">
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="Sakchyam Partnerships"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[
@@ -121,7 +121,7 @@ class Landing extends Component {
                     cardImage={GridImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="Logical Framework"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={['Impact', 'Outcome', 'Output']}
@@ -131,7 +131,7 @@ class Landing extends Component {
                     cardImage={GridImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="Automation"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[
@@ -146,7 +146,7 @@ class Landing extends Component {
                     cardImage={AutomationImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="Product/Process Innovations"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[
@@ -161,7 +161,7 @@ class Landing extends Component {
                     cardImage={GridImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="Payment Systems"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[
@@ -176,7 +176,7 @@ class Landing extends Component {
                     cardImage={GridImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="MFS"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[
@@ -191,7 +191,7 @@ class Landing extends Component {
                     cardImage={GridImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="Financial Literacy Initiatives"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[
@@ -206,7 +206,7 @@ class Landing extends Component {
                     cardImage={GridImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="Outreach Expansion"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[
@@ -221,7 +221,7 @@ class Landing extends Component {
                     cardImage={GridImg}
                   />
                   <LandingCard
-                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 cl-md mt-120"
+                    cardClass="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-5"
                     cardTitle="Insurance"
                     cardDescription="Revised Indicators as per the Budget Allocated to the Access to Finance Programme, and Over Achieved Indicators"
                     cardLists={[
