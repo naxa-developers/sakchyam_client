@@ -586,10 +586,7 @@ const getTimelineData = (state, action) => {
 const timeLineFilter = (state, action) => {
   const minRange = action.payload.min;
   const maxRange = action.payload.max;
-  // console.log(minRange, 'minRange');
-  // console.log(maxRange, 'maxRange');
   const markerData = state.automationAllDataByPartner;
-  // console.log(markerData, 'MarkerData');
   const filteredDataByYear =
     markerData &&
     markerData[0] &&

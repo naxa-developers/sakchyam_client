@@ -93,6 +93,7 @@ class LeftSideBar extends Component {
       refreshSelectedPartnerBtn,
       handleSearchTextChange,
       activeTableView,
+      loading,
     } = this.props;
 
     return (
@@ -155,7 +156,7 @@ class LeftSideBar extends Component {
             </div>
           </div>
           <div className="aside-body">
-            {dataLoading ? (
+            {dataLoading || loading ? (
               <LeftSideAutomationLoader />
             ) : (
               <ul className="table-ranking-list">

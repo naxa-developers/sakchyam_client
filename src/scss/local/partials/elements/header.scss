@@ -6,55 +6,7 @@
         top: 0;
         left: 0;
     }
-    &.home-header{
-        position: fixed;
-        z-index: 111;
-        width: 100%;
-        background: transparent;
-        border: 0;
-        ul {
-            li{
-                &:last-child{
-                    .link-wrap{
-                        li {
-                            &:hover{
-                                a{
-                                    color: $text-color;
-                                }
-                                &:first-child {
-                                    a{
-                                        &::after {
-                                            color: $text-color;
-                                        }  
-                                    }
-                                }
-                            }
-                            &:first-child {
-                                a{
-                                    &::after {
-                                        color: $white-color;
-                                    }  
-                                }
-                            }
-                            a {
-                                color: $white-color;
-                                &::after{
-                                    color: $white-color;
-                                }
-                            }
-                        }
-                    }
-                    .profile-img {
-                        .log-out {
-                            img {
-                                border: 2px solid $white-color;
-                            }
-                        }
-                    }
-                } 
-            }
-        }
-    }
+   
     // @include box-shadow(0 0 6px rgba($primary-color, .2));
     // @include transition(all 500ms ease);
     border-bottom: .5px solid $primary-xs-light;
@@ -65,7 +17,7 @@
     left: 0;
     padding: .5rem 1rem;
         .logo,img {
-            max-width: 200px;
+            max-width: 150px;
         }
         ul {
             @include display-flex(flex);
@@ -167,7 +119,7 @@
                     }
                     a.logo{
                         img{
-                            max-width: 68px;
+                            max-width: 50px;
                         }
                     }
                     .link-wrap{
@@ -254,7 +206,7 @@ body{
 @media #{$breakpoint-xxl}{
     .main-header{
         .logo,img {
-            max-width: 185px;
+            max-width: 130px;
         }
         ul {
             li{
@@ -266,7 +218,7 @@ body{
                     }
                     a.logo{
                         img{
-                            max-width: 62px;
+                            max-width: 40px;
                         }
                     }
                 }

@@ -41,11 +41,11 @@ class App extends Component {
           {/* <PrivateRoute path="/" component={Landing} /> */}
           <PrivateRoute
             path="/automation"
-            component={MainAutomation}
+            component={NewAutomation}
           />
           <PrivateRoute
             path="/nautomation"
-            component={NewAutomation}
+            component={MainAutomation}
           />
           <PrivateRoute
             path="/financial"

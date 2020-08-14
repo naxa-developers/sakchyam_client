@@ -14,6 +14,7 @@ import {
   choroplethColorArray,
 } from '../../../common/Functions';
 import { removeDuplicates } from '../../../common/utilFunctions';
+import TimelineChart from '../Chart/TimelineChart';
 
 const defaultData = [
   { id: '1', count: 0 },
@@ -25,6 +26,7 @@ const defaultData = [
   { id: '7', count: 0 },
 ];
 
+let i = 1;
 class PlotVector extends Component {
   constructor(props) {
     super(props);
@@ -34,9 +36,11 @@ class PlotVector extends Component {
       finalStyle: null,
       stateMarker: '',
       vectorTileInitialized: false,
-      activeMarkers: '',
-      inactiveMarkers: '',
+      activeMarkers: [],
+      inactiveMarkers: [],
       count: 0,
+      minValue: '1/1/2015',
+      maxValue: '1/1/2020',
     };
   }
 
@@ -50,11 +54,12 @@ class PlotVector extends Component {
       map,
       vectorTileUrl,
       choroplethData,
-      primaryData,
-      mapViewDataBy,
       activeClickPartners,
       allPartners,
+      inactiveMarkers,
       activeMarkers,
+      automationReducer,
+      activeOutreachButton,
     } = this.props;
     const that = this;
     const { stateMarker, vectorTileInitialized } = this.state;
@@ -135,6 +140,21 @@ class PlotVector extends Component {
       ];
       map.setStyle(newStyle);
       this.plotVectorTile();
+    }
+
+    if (!activeOutreachButton) {
+      if (
+        prevProps.automationReducer.automationLeftSidePartnerData !==
+        automationReducer.automationLeftSidePartnerData
+      ) {
+        this.setState({
+          activeMarkers:
+            automationReducer.automationLeftSidePartnerData,
+        });
+        setTimeout(() => {
+          this.setMarkers(that);
+        }, 100);
+      }
     }
   }
 
@@ -344,11 +364,6 @@ class PlotVector extends Component {
         },
       });
 
-      const popup = new mapboxgl.Popup({
-        closeButton: false,
-        closeOnClick: false,
-      });
-
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
           if (hoveredStateId) {
@@ -390,17 +405,17 @@ class PlotVector extends Component {
       });
     });
 
-    // map.on('style.load', () => {
-    //   const waiting = () => {
-    //     if (!map.isStyleLoaded()) {
-    //       setTimeout(waiting, 200);
-    //       that.props.loadingHandler(1);
-    //     } else {
-    //       that.props.loadingHandler(2);
-    //     }
-    //   };
-    //   waiting();
-    // });
+    map.on('style.load', () => {
+      const waiting = () => {
+        if (!map.isStyleLoaded()) {
+          setTimeout(waiting, 200);
+          that.props.loadingHandler(1);
+        } else {
+          that.props.loadingHandler(2);
+        }
+      };
+      waiting();
+    });
   };
 
   getLegendColor(value) {
@@ -431,6 +446,27 @@ class PlotVector extends Component {
     return Math.round((n * d) / p(10, x)) / d + ' kMGTPE'[x / 3];
   };
 
+  playBtn = (min, max) => {
+    this.setState({
+      minValue: this.getYear(min),
+      maxValue: this.getYear(max),
+      key: i,
+      playClick: true,
+    });
+    i += 1;
+  };
+
+  getYear = minDate => {
+    const d = new Date(minDate);
+
+    const day = d.getDate();
+    const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
+    const year = d.getFullYear();
+
+    const dateStr = `${month}/${day}/${year}`;
+    return dateStr;
+  };
+
   render() {
     const stateGrade = this.state.grade;
     const {
@@ -439,6 +475,8 @@ class PlotVector extends Component {
       mapViewDataBy,
       activeOutreachButton,
     } = this.props;
+
+    const { minValue, maxValue } = this.state;
 
     return (
       <>
@@ -449,10 +487,10 @@ class PlotVector extends Component {
               <ul id="state-legend" className="color-legend">
                 {stateGrade &&
                   !YesNo &&
-                  stateGrade.map((grade, i) => {
+                  stateGrade.map((grade, key) => {
                     let hideLastdiv = false;
                     hideLastdiv =
-                      i === stateGrade.length - 1 ? true : false;
+                      key === stateGrade.length - 1 ? true : false;
                     const grade1 =
                       grade < 1000
                         ? grade.toString()
@@ -489,13 +527,19 @@ class PlotVector extends Component {
             </div>
           </div>
         )}
+        <TimelineChart
+          activeOutreachButton={activeOutreachButton}
+          minValue={minValue}
+          maxValue={maxValue}
+          playBtn={this.playBtn}
+        />
       </>
     );
   }
 }
 
-const mapStateToProps = ({ partnershipReducer }) => ({
-  partnershipReducer,
+const mapStateToProps = ({ automationReducer }) => ({
+  automationReducer,
 });
 
 export default connect(mapStateToProps, {})(PlotVector);

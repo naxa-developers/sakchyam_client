@@ -157,15 +157,8 @@ class TimelineChart extends Component {
     return optionsLine;
   };
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillMount() {} // componentwillmount
-
   componentDidMount() {
-    // console.log(this.props.minValue, 'didmount min val');
     setTimeout(() => {
-      // this.setState({
-      //   data: githubdata.series,
-      // });
       const { githubdata } = this.state;
       const defaultMin = new Date('1 Jan 2015').getTime();
       const defaultMax = new Date('1 Jan 2020').getTime();
@@ -253,8 +246,6 @@ class TimelineChart extends Component {
   render() {
     const { playSelected, minCurrent, maxCurrent, key } = this.state;
     const { activeOutreachButton } = this.props;
-    // console.log(this.props.minValue, 'minValue render');
-    // console.log(this.props.maxValue, 'maxValue Render');
     return (
       <div
         id="wrapper"
@@ -268,10 +259,6 @@ class TimelineChart extends Component {
         <a
           onClick={() => {
             time = '1/1/2015';
-            // console.log(new Date(minCurrent), 'onClick maxValue');
-            // console.log(new Date(this.props.minValue), ' Current min Value');
-            // global.chart.render();
-            // console.log(this.props.minValue, 'onClick minValue');
             this.props.playBtn(minCurrent, maxCurrent);
             this.setState({ playSelected: true });
             setTimeout(() => {
@@ -285,10 +272,6 @@ class TimelineChart extends Component {
           }}
           onKeyDown={() => {
             time = '1/1/2015';
-            // console.log(new Date(minCurrent), 'onClick maxValue');
-            // console.log(new Date(this.props.minValue), ' Current min Value');
-            // global.chart.render();
-            // console.log(this.props.minValue, 'onClick minValue');
             this.props.playBtn(minCurrent, maxCurrent);
             this.setState({ playSelected: true });
             setTimeout(() => {

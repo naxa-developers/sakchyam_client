@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import province from '../../../data/province.json';
 import dsitrict from '../../../data/district.json';
 import municiplaity from '../../../data/municipality.json';
@@ -76,15 +77,16 @@ export const muniByDistrict = (districts, munis) => {
   const tempMuni = municipalityLists();
   tempMuni.shift();
 
-  districts.map(district => {
-    tempMuni.map(muni => {
-      if (muni.district_code === district.code) {
-        filteredMunis.push(muni);
-      }
+  districts &&
+    districts.map(district => {
+      tempMuni.map(muni => {
+        if (muni.district_code === district.code) {
+          filteredMunis.push(muni);
+        }
+        return true;
+      });
       return true;
     });
-    return true;
-  });
 
   filteredMunis.unshift({ label: 'All Municipality', value: 'all' });
   return filteredMunis;

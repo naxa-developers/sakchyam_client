@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable radix */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable default-case */
 /* eslint-disable array-callback-return */
@@ -8,6 +10,7 @@ import React, { Component } from 'react';
 import ContentLoader from 'react-content-loader';
 import { connect } from 'react-redux';
 import PlotVector from './PlotVector';
+import PopUp from './divisionInfoPopUp';
 
 const MyLoader = () => (
   <ContentLoader
@@ -26,7 +29,7 @@ class MapboxPartnership extends Component {
     super(props);
     this.state = {
       filteredMapData: '',
-      hoveredMunicipalityId: 0,
+      hoveredId: '',
       secondaryData: '',
       selectedMuni: '',
       YesNo: false,
@@ -34,6 +37,7 @@ class MapboxPartnership extends Component {
       markerOpen: false,
       activeMarkers: '',
       inactiveMarkers: '',
+      popUpData: '',
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -44,23 +48,19 @@ class MapboxPartnership extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      automationDataByMunicipality,
-      automationDataByDistrict,
-      automationDataByProvince,
-      automationChoroplethData,
-    } = this.props.automationReducer;
+    const { automationChoroplethData } = this.props.automationReducer;
     const { mapViewBy } = this.props;
 
     if (
       automationChoroplethData !==
       prevProps.automationReducer.automationChoroplethData
     ) {
-      // console.log(
-      //   'new choropleth data recived',
-      //   mapViewBy,
-      //   automationChoroplethData,
-      // );
+      console.log(
+        'new choropleth data recived',
+        automationChoroplethData,
+      );
+
+      this.setState({ allData: automationChoroplethData });
 
       if (mapViewBy === 'province') {
         const provinceData = automationChoroplethData.map(item => ({
@@ -102,126 +102,63 @@ class MapboxPartnership extends Component {
         }
       }
     }
-
-    // if (
-    //   automationDataByMunicipality !==
-    //   prevProps.automationReducer.automationDataByMunicipality
-    // ) {
-    //   const municipalityData = automationDataByMunicipality.map(
-    //     item => ({
-    //       id: item.id,
-    //       code: item.id,
-    //       count: item.count,
-    //     }),
-    //   );
-    //   if (mapViewBy === 'municipality') {
-    //     console.log('muni case');
-    //     this.setState({ filteredMapData: municipalityData });
-    //   }
-    // }
-
-    // if (
-    //   automationDataByDistrict !==
-    //   prevProps.automationReducer.automationDataByDistrict
-    // ) {
-    //   const districtData = automationDataByDistrict.map(item => ({
-    //     id: item.id,
-    //     code: item.id,
-    //     count: item.count,
-    //   }));
-    //   if (mapViewBy === 'district') {
-    //     console.log('district case');
-    //     this.setState({ filteredMapData: districtData });
-    //   }
-    // }
-
-    // if (
-    //   automationDataByProvince !==
-    //   prevProps.automationReducer.automationDataByProvince
-    // ) {
-    //   const provinceData = automationDataByProvince.map(item => ({
-    //     id: item.id,
-    //     code: item.id,
-    //     count: item.count,
-    //   }));
-    //   if (mapViewBy === 'province') {
-    //     console.log('province case');
-    //     this.setState({ filteredMapData: provinceData });
-    //   }
-    // }
-
-    // if (mapViewBy !== prevProps.mapViewBy) {
-    //   let choroplethData;
-    //   switch (mapViewBy) {
-    //     case 'municipality':
-    //       const municipalityData = automationDataByMunicipality.map(
-    //         item => ({
-    //           id: item.id,
-    //           code: item.id,
-    //           count: item.count,
-    //         }),
-    //       );
-    //       choroplethData = municipalityData;
-    //       break;
-
-    //     case 'district':
-    //       const districtData = automationDataByDistrict.map(item => ({
-    //         id: item.id,
-    //         code: item.id,
-    //         count: item.count,
-    //       }));
-    //       choroplethData = districtData;
-    //       break;
-
-    //     case 'province':
-    //       const provinceData = automationDataByProvince.map(item => ({
-    //         id: item.id,
-    //         code: item.id,
-    //         count: item.count,
-    //       }));
-    //       choroplethData = provinceData;
-    //       break;
-    //   }
-    //   this.setState({ filteredMapData: choroplethData });
-    // }
   }
 
-  // setHoveredMunicipalityId = id => {
-  //   const { secondaryData } = this.state;
-  //   const { mapViewDataBy } = this.props;
-  //   let tempId = 0;
-
-  //   if (mapViewDataBy !== 'general_outreach') {
-  //     // eslint-disable-next-line array-callback-return
-  //     secondaryData.map(data => {
-  //       // eslint-disable-next-line radix
-  //       if (parseInt(data.municipality_code) === parseInt(id)) {
-  //         this.setState({ selectedMuni: data });
-  //         tempId = id;
-  //       }
-  //     });
-
-  //     this.setState({ hoveredMunicipalityId: tempId });
-  //   }
-  // };
-
-  // markerEventHandler = e => {
-  //   this.setState({ markerOpen: true, markerData: e });
-  // };
-
-  // closeMarker = () => {
-  //   this.setState({ markerOpen: false });
-  // };
+  setHoveredMunicipalityId = id => {
+    // console.log('id oh region', id, this.state.filteredMapData);
+    const { filteredMapData, allData } = this.state;
+    const { mapViewBy } = this.props;
+    if (id !== 0) {
+      this.setState({ hoveredId: id });
+      if (mapViewBy === 'province') {
+        const province = allData.filter(
+          region => region.code === parseInt(id),
+        );
+        const type = mapViewBy.toUpperCase();
+        const name = province[0].prov_name;
+        const { count } = province[0];
+        const data = { name, type, count };
+        this.setState({ popUpData: data });
+      }
+      if (mapViewBy === 'district') {
+        const province = allData.filter(
+          region => region.code === parseInt(id),
+        );
+        const type = mapViewBy.toUpperCase();
+        const { name } = province[0];
+        const { count } = province[0];
+        const data = { name, type, count };
+        this.setState({ popUpData: data });
+      }
+      if (mapViewBy === 'municipality') {
+        const province = allData.filter(
+          region => region.munid === parseInt(id),
+        );
+        console.log('muni is', allData, id, province);
+        const type = mapViewBy.toUpperCase();
+        const name = province[0].lu_name;
+        const { count } = province[0];
+        const data = { name, type, count };
+        this.setState({ popUpData: data });
+      }
+    } else {
+      this.setState({ hoveredId: '' });
+    }
+  };
 
   render() {
-    const { filteredMapData } = this.state;
-    const { map, loading, activeOutreachButton } = this.props;
+    const { filteredMapData, hoveredId, popUpData } = this.state;
+    const {
+      map,
+      loading,
+      activeOutreachButton,
+      mapViewBy,
+    } = this.props;
 
     const choroplethData = activeOutreachButton
       ? filteredMapData
       : '';
 
-    choroplethData && console.log('choroplethData', choroplethData);
     return (
       <>
         <div id="key" ref={this.keyRef} />
@@ -233,9 +170,9 @@ class MapboxPartnership extends Component {
                 choroplethData={choroplethData}
                 color="#000080"
                 {...this.props}
-                // setHoveredMunicipalityId={
-                //   this.setHoveredMunicipalityId
-                // }
+                setHoveredMunicipalityId={
+                  this.setHoveredMunicipalityId
+                }
                 // markerEventHandler={this.markerEventHandler}
               />
 
@@ -252,6 +189,9 @@ class MapboxPartnership extends Component {
               {' '}
               <MyLoader />
             </div>
+          )}
+          {hoveredId && (
+            <PopUp data={popUpData} mapViewBy={mapViewBy} />
           )}
         </div>
       </>
