@@ -32,6 +32,7 @@ import {
   filterOverViewData,
   filterMfsChartData,
   filterMfsMapPieData,
+  filterMfsMapChartDataByPartner,
 } from '../../../actions/mfs.action';
 import {
   filterDistrictListFromProvince,
@@ -85,6 +86,8 @@ class MainMFS extends Component {
       mapViewBy: 'province',
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
+      showBarChartBy: true,
+      barData: [],
     };
   }
 
@@ -102,6 +105,7 @@ class MainMFS extends Component {
       districtList,
       municipalityList,
       selectedInnovation,
+      showBarChartBy,
     } = this.state;
 
     if (prevState.selectedProvince !== selectedProvince) {
@@ -299,6 +303,19 @@ class MainMFS extends Component {
     if (prevState.selectedInnovation !== selectedInnovation) {
       this.props.filterByKeyInnovation(selectedInnovation);
     }
+    if (prevState.showBarChartBy !== showBarChartBy) {
+      if (showBarChartBy === true) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          barData: this.props.mfsReducer.mfsChartData,
+        });
+      } else {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          barData: this.props.mfsReducer.mfsChartDataByPartner,
+        });
+      }
+    }
   }
 
   handleFederalClickOnMap = (statelevel, code) => {
@@ -318,6 +335,12 @@ class MainMFS extends Component {
         vectorTileUrl: `https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}&${query}`,
       });
     }
+  };
+
+  setShowBarChartBy = () => {
+    this.setState(prevState => ({
+      showBarChartBy: !prevState.showBarChartBy,
+    }));
   };
 
   addMap = () => {
@@ -912,6 +935,12 @@ class MainMFS extends Component {
         selectedInnovation,
         selectedAchievement,
       );
+      this.props.filterMfsMapChartDataByPartner(
+        mapViewBy,
+        selectedPartner,
+        selectedInnovation,
+        selectedAchievement,
+      );
       this.props.filterOverViewData(
         mapViewBy,
         selectedPartner,
@@ -1041,6 +1070,8 @@ class MainMFS extends Component {
         provinceList,
         districtList,
         municipalityList,
+        showBarChartBy,
+        barData,
       },
       // props: {},
     } = this;
@@ -1272,12 +1303,16 @@ class MainMFS extends Component {
                     // showBarof={showBarof}
                     // handleShowBarOf={handleShowBarOf}
                     cardTitle={`${mapViewBy} Wise Achievement Type`}
+                    showBarChartBy={showBarChartBy}
+                    setShowBarChartBy={this.setShowBarChartBy}
                     cardClass="col-xl-12"
                     cardChartId="groupedChart"
                     handleModal={this.handleModal}
                     handleSelectedModal={() => {
                       this.handleSelectedModal('groupedChart');
                     }}
+                    radioBtn
+                    radioBtnProps={['Federal', 'Partner']}
                     renderChartComponent={() => {
                       return (
                         // <label>Test</label>
@@ -1300,6 +1335,8 @@ class MainMFS extends Component {
                           }
                         >
                           <StackedBarWithAllFederal
+                            barData={barData}
+                            showBarChartBy={showBarChartBy}
                             mapViewBy={mapViewBy}
                             selectedPartner={selectedPartner}
                             selectedInnovation={selectedInnovation}
@@ -1388,5 +1425,6 @@ export default connect(mapStateToProps, {
   filterByKeyInnovation,
   filterOverViewData,
   filterMfsChartData,
+  filterMfsMapChartDataByPartner,
   filterMfsMapPieData,
 })(MainMFS);

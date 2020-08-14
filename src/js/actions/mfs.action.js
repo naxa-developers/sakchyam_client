@@ -11,7 +11,8 @@ import {
   GET_MFS_OVERVIEW_DATA,
   FILTER_MFS_OVERVIEW_DATA,
   FILTER_MFS_LIST_BY_KEY_INNOVATION,
-  FILTER_MFS_CHART_DATA,
+  FILTER_MFS_CHART_DATA_BY_PARTNER,
+  FILTER_MFS_CHART_DATA_BY_ACHIEVEMENT,
   FILTER_MFS_MAP_PIE_DATA,
   FILTER_MFS_CHART_DATA_BY_DISTRICT_ID,
 } from './index.actions';
@@ -54,7 +55,16 @@ export const getMfsAllData = () => dispatch => {
           },
         }),
         dispatch({
-          type: FILTER_MFS_CHART_DATA,
+          type: FILTER_MFS_CHART_DATA_BY_ACHIEVEMENT,
+          payload: {
+            mapViewBy: 'province',
+            selectedPartner: [],
+            selectedInnovation: [],
+            selectedAchievement: [],
+          },
+        }),
+        dispatch({
+          type: FILTER_MFS_CHART_DATA_BY_PARTNER,
           payload: {
             mapViewBy: 'province',
             selectedPartner: [],
@@ -64,6 +74,15 @@ export const getMfsAllData = () => dispatch => {
         }),
         dispatch({
           type: FILTER_MFS_OVERVIEW_DATA,
+          payload: {
+            mapViewBy: 'province',
+            selectedPartner: [],
+            selectedInnovation: [],
+            selectedAchievement: [],
+          },
+        }),
+        dispatch({
+          type: FILTER_MFS_MAP_PIE_DATA,
           payload: {
             mapViewBy: 'province',
             selectedPartner: [],
@@ -133,7 +152,7 @@ export const filterMfsChartData = (
   selectedAchievement,
 ) => dispatch => {
   dispatch({
-    type: FILTER_MFS_CHART_DATA,
+    type: FILTER_MFS_CHART_DATA_BY_ACHIEVEMENT,
     payload: {
       mapViewBy,
       selectedPartner,
@@ -168,6 +187,22 @@ export const filterMfsMapPieData = (
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_MAP_PIE_DATA,
+    payload: {
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    },
+  });
+};
+export const filterMfsMapChartDataByPartner = (
+  mapViewBy,
+  selectedPartner,
+  selectedInnovation,
+  selectedAchievement,
+) => dispatch => {
+  dispatch({
+    type: FILTER_MFS_CHART_DATA_BY_PARTNER,
     payload: {
       mapViewBy,
       selectedPartner,
