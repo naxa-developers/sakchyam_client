@@ -1,6 +1,9 @@
 .automation-wrapper {
-    margin-top: 94px;
+    margin-top: 70px;
     color: $text-color;
+    @media screen and(max-width:1400px){
+        margin-top:60px;
+    }
 
     aside {
         &.sidebar {
@@ -837,7 +840,7 @@
 
             .expand-button {
                 position: absolute;
-                top: 16px;
+                top: 20px;
                 z-index: 1010;
                 @include transform(translateY(-50%));
 
