@@ -352,6 +352,7 @@ class MainMFS extends Component {
       style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
       center: [84.0, 27.5], // starting position [lng, lat]
       zoom: 7, // starting zoom
+      preserveDrawingBuffer: true,
     });
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
@@ -369,6 +370,9 @@ class MainMFS extends Component {
     this.setState(prevState => ({
       activeOverview: !prevState.activeOverview,
     }));
+    setTimeout(() => {
+      this.state.map.resize();
+    }, 100);
   };
 
   setMapViewDataBy = selectedView => {
@@ -1257,117 +1261,123 @@ class MainMFS extends Component {
               </div>
               <div className="literacy-tab-content">
                 <div className="literacy-tab-item">
-                  <CardTab
-                    // resetFunction={() => {
-                    //   this.props.resetBarDatas();
-                    //   this.props.handleShowBarOf('Provinces');
-                    // }}
-                    // showBarof={showBarof}
-                    // handleShowBarOf={handleShowBarOf}
-                    cardTitle={`${mapViewBy} Wise Achievement Type`}
-                    style={{ position: 'relative' }}
-                    cardClass="col-xl-12"
-                    cardChartId="groupedChart"
-                    handleModal={this.handleModal}
-                    handleSelectedModal={() => {
-                      this.handleSelectedModal('groupedChart');
-                    }}
-                    disableResetButton
-                    renderChartComponent={() => {
-                      return (
-                        <MapboxPartnership
-                          selectedProvince={selectedProvince}
-                          selectedDistrict={selectedDistrict}
-                          selectedMunicipality={selectedMunicipality}
-                          handleProvinceClick={
-                            this.handleProvinceClick
-                          }
-                          addMap={this.addMap}
-                          handleFederalClickOnMap={
-                            this.handleFederalClickOnMap
-                          }
-                          map={map}
-                          vectorTileUrl={vectorTileUrl}
-                          mapViewBy={mapViewBy}
-                          mapViewDataBy={mapViewDataBy}
-                          setMapViewBy={this.setMapViewBy}
-                        />
-                      );
-                    }}
-                  />
-                  <CardTab
-                    // resetFunction={() => {
-                    //   this.props.resetBarDatas();
-                    //   this.props.handleShowBarOf('Provinces');
-                    // }}
-                    // showBarof={showBarof}
-                    // handleShowBarOf={handleShowBarOf}
-                    cardTitle={`${mapViewBy} Wise Achievement Type`}
-                    showBarChartBy={showBarChartBy}
-                    setShowBarChartBy={this.setShowBarChartBy}
-                    cardClass="col-xl-12"
-                    cardChartId="groupedChart"
-                    handleModal={this.handleModal}
-                    handleSelectedModal={() => {
-                      this.handleSelectedModal('groupedChart');
-                    }}
-                    radioBtn
-                    radioBtnProps={['Federal', 'Partner']}
-                    renderChartComponent={() => {
-                      return (
-                        // <label>Test</label>
-                        <div
-                          className="scroller_card"
-                          style={
-                            mapViewBy === 'district' &&
-                            window.innerWidth > 1400
-                              ? {
-                                  width: '1200px',
-                                  overflowX: 'scroll',
-                                }
-                              : mapViewBy === 'district' &&
-                                window.innerWidth < 1400
-                              ? {
-                                  width: '800px',
-                                  overflowX: 'scroll',
-                                }
-                              : {}
-                          }
-                        >
-                          <StackedBarWithAllFederal
-                            barData={barData}
-                            showBarChartBy={showBarChartBy}
+                  <div className="graph-view">
+                    <CardTab
+                      // resetFunction={() => {
+                      //   this.props.resetBarDatas();
+                      //   this.props.handleShowBarOf('Provinces');
+                      // }}
+                      // showBarof={showBarof}
+                      // handleShowBarOf={handleShowBarOf}
+                      cardTitle={`${mapViewBy} Wise Achievement Type`}
+                      style={{ position: 'relative' }}
+                      cardClass="col-xl-12"
+                      cardChartId="groupedChart"
+                      handleModal={this.handleModal}
+                      handleSelectedModal={() => {
+                        this.handleSelectedModal('groupedChart');
+                      }}
+                      disableResetButton
+                      renderChartComponent={() => {
+                        return (
+                          <MapboxPartnership
+                            selectedProvince={selectedProvince}
+                            selectedDistrict={selectedDistrict}
+                            selectedMunicipality={
+                              selectedMunicipality
+                            }
+                            handleProvinceClick={
+                              this.handleProvinceClick
+                            }
+                            addMap={this.addMap}
+                            handleFederalClickOnMap={
+                              this.handleFederalClickOnMap
+                            }
+                            map={map}
+                            vectorTileUrl={vectorTileUrl}
                             mapViewBy={mapViewBy}
-                            selectedPartner={selectedPartner}
-                            selectedInnovation={selectedInnovation}
-                            selectedAchievement={selectedAchievement}
-                            provinceList={provinceList}
-                            districtList={districtList}
-                            showBarof={showBarof}
-                            handleShowBarOf={this.handleShowBarOf}
+                            mapViewDataBy={mapViewDataBy}
+                            setMapViewBy={this.setMapViewBy}
                           />
-                        </div>
-                        // <StackedBarWithProvince
-                        //   viewDataBy={viewDataBy}
-                        //   activeModal={activeModal}
-                        //   investmentFocusSelection={
-                        //     investmentFocusSelection
-                        //   }
-                        //   partnerSelection={partnerSelection}
-                        //   partnerTypeSelection={partnerTypeSelection}
-                        //   projectSelection={projectSelection}
-                        //   projectStatus={projectStatus}
-                        //   showBarof={showBarof}
-                        //   handleShowBarOf={handleShowBarOf}
-                        // />
-                      );
-                    }}
-                  />
-                  {/* <div id="map" className="map"> */}
-                  {/* {activeView === 'map' && ( */}
+                        );
+                      }}
+                    />
+                    <CardTab
+                      // resetFunction={() => {
+                      //   this.props.resetBarDatas();
+                      //   this.props.handleShowBarOf('Provinces');
+                      // }}
+                      // showBarof={showBarof}
+                      // handleShowBarOf={handleShowBarOf}
+                      cardTitle={`${mapViewBy} Wise Achievement Type`}
+                      showBarChartBy={showBarChartBy}
+                      setShowBarChartBy={this.setShowBarChartBy}
+                      cardClass="col-xl-12"
+                      cardChartId="groupedChart"
+                      handleModal={this.handleModal}
+                      handleSelectedModal={() => {
+                        this.handleSelectedModal('groupedChart');
+                      }}
+                      radioBtn
+                      radioBtnProps={['Federal', 'Partner']}
+                      renderChartComponent={() => {
+                        return (
+                          // <label>Test</label>
+                          <div
+                            className="scroller_card"
+                            style={
+                              mapViewBy === 'district' &&
+                              window.innerWidth > 1400
+                                ? {
+                                    width: '1200px',
+                                    overflowX: 'scroll',
+                                  }
+                                : mapViewBy === 'district' &&
+                                  window.innerWidth < 1400
+                                ? {
+                                    width: '800px',
+                                    overflowX: 'scroll',
+                                  }
+                                : {}
+                            }
+                          >
+                            <StackedBarWithAllFederal
+                              barData={barData}
+                              showBarChartBy={showBarChartBy}
+                              mapViewBy={mapViewBy}
+                              selectedPartner={selectedPartner}
+                              selectedInnovation={selectedInnovation}
+                              selectedAchievement={
+                                selectedAchievement
+                              }
+                              provinceList={provinceList}
+                              districtList={districtList}
+                              showBarof={showBarof}
+                              handleShowBarOf={this.handleShowBarOf}
+                            />
+                          </div>
+                          // <StackedBarWithProvince
+                          //   viewDataBy={viewDataBy}
+                          //   activeModal={activeModal}
+                          //   investmentFocusSelection={
+                          //     investmentFocusSelection
+                          //   }
+                          //   partnerSelection={partnerSelection}
+                          //   partnerTypeSelection={partnerTypeSelection}
+                          //   projectSelection={projectSelection}
+                          //   projectStatus={projectStatus}
+                          //   showBarof={showBarof}
+                          //   handleShowBarOf={handleShowBarOf}
+                          // />
+                        );
+                      }}
+                    />
+                    {/* <div id="map" className="map"> */}
+                    {/* {activeView === 'map' && ( */}
 
-                  {/* )} */}
-                  {/* </div> */}
+                    {/* )} */}
+                    {/* </div> */}
+                  </div>
                 </div>
               </div>
             </div>
