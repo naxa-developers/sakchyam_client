@@ -51,6 +51,10 @@ const CardTab = ({
   showBarof,
   style,
   disableResetButton,
+  radioBtn,
+  radioBtnProps,
+  setShowBarChartBy,
+  showBarChartBy,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -94,6 +98,22 @@ const CardTab = ({
                       </label>
                       <small>ON</small>
                     </div> */}
+            {radioBtn && (
+              <div className="card-switcher">
+                <small>{radioBtnProps[0]}</small>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={showBarChartBy}
+                    onChange={() => {
+                      setShowBarChartBy(!showBarChartBy);
+                    }}
+                  />
+                  <span className="slider" />
+                </label>
+                <small>{radioBtnProps[1]}</small>
+              </div>
+            )}
             {!disableResetButton && cardChartId === 'groupedChart' ? (
               showBarof !== 'Provinces' && (
                 <button

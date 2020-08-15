@@ -156,6 +156,7 @@ class StackedBarWithAllFederal extends Component {
       mfsReducer: {
         mfsChartData: { series, labels },
       },
+      showBarChartof,
     } = this.props;
     // console.log(barDatas, 'barDatas');
     // // alert('test');
@@ -304,41 +305,106 @@ class StackedBarWithAllFederal extends Component {
       },
     };
     // console.log(barDatas.series, 'bardataxx');
-    this.setState({ options, series });
+    this.setState({
+      options,
+      series,
+    });
   };
 
   componentDidUpdate(prevProps, prevState) {
     const {
       mfsReducer: {
         mfsChartData: { series },
+        mfsChartDataByPartner,
       },
     } = this.props;
     if (prevProps.mfsReducer.mfsChartData.series !== series) {
       // alert('test');
       this.updateBarChart();
     }
+
+    if (prevProps.showBarChartBy !== this.props.showBarChartBy) {
+      alert(this.props.showBarChartBy);
+      // this.updateBarChart();
+      if (this.props.showBarChartBy === false) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          series: this.props.mfsReducer.mfsChartDataByPartner.series,
+          options: {
+            // eslint-disable-next-line react/no-access-state-in-setstate
+            ...this.state.options,
+            xaxis: {
+              categories: this.props.mfsReducer.mfsChartDataByPartner
+                .labels,
+              // title: {
+              //   text: 'Provinces',
+              // },
+            },
+          },
+        });
+      } else {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          series: this.props.mfsReducer.mfsChartData.series,
+          options: {
+            // eslint-disable-next-line react/no-access-state-in-setstate
+            ...this.state.options,
+            xaxis: {
+              categories: this.props.mfsReducer.mfsChartData.labels,
+              // title: {
+              //   text: 'Provinces',
+              // },
+            },
+          },
+        });
+      }
+    }
+    // if (
+    //   prevProps.mfsReducer.mfsChartDataByPartner.series !== series
+    // ) {
+    //   // alert('test');
+    //   this.updateBarChart();
+    // }
   }
 
   render() {
     console.log(window.innerWidth);
     const { options, series } = this.state;
-    const { activeModal, mapViewBy } = this.props;
+    const { activeModal, mapViewBy, showBarChartof } = this.props;
     return (
       <div
         id="stacked_chart"
         style={mapViewBy === 'district' ? { width: '2500px' } : {}}
       >
-        <ReactApexChart
-          key={series}
-          options={options}
-          series={series}
-          type="bar"
-          height={activeModal && window.innerWidth < 1400 ? 450 : 500}
-          // width={
-          //   activeModal && window.innerWidth < 1400 ? 2000 : 2000
-          // }
-          // width={activeModal === true ? 1600 : '100%'}
-        />
+        {showBarChartof ? (
+          <ReactApexChart
+            key={series}
+            options={options}
+            series={series}
+            type="bar"
+            height={
+              activeModal && window.innerWidth < 1400 ? 450 : 500
+            }
+            // width={
+            //   activeModal && window.innerWidth < 1400 ? 2000 : 2000
+            // }
+            // width={activeModal === true ? 1600 : '100%'}
+          />
+        ) : (
+          <ReactApexChart
+            key={series}
+            options={options}
+            series={series}
+            type="bar"
+            height={
+              activeModal && window.innerWidth < 1400 ? 450 : 500
+            }
+            // width={
+            //   activeModal && window.innerWidth < 1400 ? 2000 : 2000
+            // }
+            // width={activeModal === true ? 1600 : '100%'}
+          />
+        )}
       </div>
     );
   }
