@@ -9,6 +9,7 @@ export const lineData = [
     ],
     rightToRightLink: [],
     indirectLink: [],
+    indirectLinkLeftToRight: [],
   },
   {
     leftRef: 1,
@@ -17,6 +18,7 @@ export const lineData = [
     leftToLeftLink: [[0, 1]],
     rightToRightLink: [],
     indirectLink: [],
+    indirectLinkLeftToRight: [],
   },
   {
     leftRef: 2,
@@ -25,6 +27,7 @@ export const lineData = [
     leftToLeftLink: [[0, 2]],
     rightToRightLink: [],
     indirectLink: [],
+    indirectLinkLeftToRight: [],
   },
   {
     rightRef: 0,
@@ -33,51 +36,46 @@ export const lineData = [
     leftToLeftLink: [[0, 1]],
     rightToRightLink: [],
     indirectLink: [],
+    indirectLinkLeftToRight: [],
   },
   {
     rightRef: 1,
     leftRefLinks: [0],
-    rightRefLinks: [1, 2, 3],
+    rightRefLinks: [],
     leftToLeftLink: [],
     rightToRightLink: [
       [1, 2],
       [2, 3],
     ],
     indirectLink: [],
+    indirectLinkLeftToRight: [0, 2],
   },
   {
     rightRef: 2,
     leftRefLinks: [0],
     rightRefLinks: [1, 2, 3, 4],
     leftToLeftLink: [],
-    rightToRightLink: [
-      [1, 2],
-      [2, 3],
-      [3, 4],
-    ],
+    rightToRightLink: [],
     indirectLink: [],
+    indirectLinkLeftToRight: [],
   },
   {
     rightRef: 3,
     leftRefLinks: [0],
     rightRefLinks: [1, 2, 3],
     leftToLeftLink: [],
-    rightToRightLink: [
-      [1, 2],
-      [2, 3],
-    ],
+    rightToRightLink: [],
     indirectLink: [2, 4],
+    indirectLinkLeftToRight: [],
   },
   {
     rightRef: 4,
     leftRefLinks: [2],
     rightRefLinks: [2, 3, 4],
     leftToLeftLink: [],
-    rightToRightLink: [
-      [2, 3],
-      [3, 4],
-    ],
+    rightToRightLink: [],
     indirectLink: [],
+    indirectLinkLeftToRight: [],
   },
 ];
 

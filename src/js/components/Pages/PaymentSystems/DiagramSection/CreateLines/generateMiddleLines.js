@@ -1,6 +1,11 @@
 import * as d3 from 'd3';
 
-const generateMiddleLines = (svgRect, leftRects, rightRects) => {
+const generateMiddleLines = (
+  svgRect,
+  leftRects,
+  rightRects,
+  indirectLeftToRightRect,
+) => {
   const scale = d3
     .scaleLinear()
     .domain([svgRect.top, svgRect.top + svgRect.height])

@@ -123,7 +123,6 @@ class RightSideBar extends Component {
 
       // eslint-disable-next-line no-use-before-define
       const timelineData = generateTimelineData(primaryData);
-      // console.log('time data', timeliendata);
 
       const years = [];
       timelineData.forEach(item => years.push(item.year));
@@ -380,10 +379,24 @@ class RightSideBar extends Component {
                                             {`${monthName}
                                    ${item.year}`}
                                           </span>
-                                          <p>
-                                            {list.partner} at{' '}
+                                          {/* <p>
+                                            {list.partner} at
                                             {list.market_name}
-                                          </p>
+                                          </p> */}
+                                          <ul>
+                                            {list.name.map(nam => (
+                                              <li
+                                                style={{
+                                                  listStyle: 'disc',
+                                                }}
+                                              >
+                                                <p>
+                                                  {nam.partner} at{' '}
+                                                  {nam.market_name}
+                                                </p>
+                                              </li>
+                                            ))}
+                                          </ul>
                                         </div>
                                       </div>
                                     </li>
@@ -447,15 +460,27 @@ const generateTimelineData = data => {
       if (!obj) {
         filteredData.push({
           date: item.date_established,
-          name: [item.partner],
+          name: [
+            { partner: item.partner, market_name: item.market_name },
+          ],
         });
       } else {
         const objIndex = filteredData.findIndex(
           i =>
             i.date.slice(0, 7) === item.date_established.slice(0, 7),
         );
-        if (!filteredData[objIndex].name.includes(item.partner)) {
-          filteredData[objIndex].name.push(item.partner);
+        const obj1 = filteredData[objIndex].name
+          .map(
+            x =>
+              x.partner === item.partner &&
+              x.market_name === item.market_name,
+          )
+          .includes(true);
+        if (!obj1) {
+          filteredData[objIndex].name.push({
+            partner: item.partner,
+            market_name: item.market_name,
+          });
         }
       }
     }

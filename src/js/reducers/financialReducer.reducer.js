@@ -702,6 +702,9 @@ const getFinancialProgram = (state, action) => {
 const filterFinancialDataForGraph = (state, action) => {
   const microfinance = 'Microfinance Institutions';
   const commercial = 'Commercial Bank and Other Partners';
+
+  console.log(state, 'statex');
+
   const {
     selectedPartners,
     selectedProgram,
