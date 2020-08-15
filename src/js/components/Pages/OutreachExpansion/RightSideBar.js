@@ -430,13 +430,35 @@ const generateTimelineData = data => {
   // remove data with null date values
 
   const filteredData = [];
+  // data.forEach(item => {
+  //   if (item.date_established !== null)
+  //     filteredData.push({
+  //       date: item.date_established,
+  //       partner: item.partner,
+  //       market_name: item.market_name,
+  //     });
+  // });
+
   data.forEach(item => {
-    if (item.date_established !== null)
-      filteredData.push({
-        date: item.date_established,
-        partner: item.partner,
-        market_name: item.market_name,
-      });
+    if (item.date_established !== null) {
+      const obj = filteredData.some(
+        x => x.date.slice(0, 7) === item.date_established.slice(0, 7),
+      );
+      if (!obj) {
+        filteredData.push({
+          date: item.date_established,
+          name: [item.partner],
+        });
+      } else {
+        const objIndex = filteredData.findIndex(
+          i =>
+            i.date.slice(0, 7) === item.date_established.slice(0, 7),
+        );
+        if (!filteredData[objIndex].name.includes(item.partner)) {
+          filteredData[objIndex].name.push(item.partner);
+        }
+      }
+    }
   });
 
   const allYears = [];

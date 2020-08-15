@@ -432,11 +432,22 @@ class RightSideBar extends Component {
     // const data = financialProgram.filter(item => item.total === 0);
     const data = [];
     financialProgram.forEach(item => {
-      if (item.date !== null)
-        data.push({
-          date: item.date,
-          name: item.name,
-        });
+      if (item.date !== null) {
+        const obj = data.some(
+          x => x.date.slice(0, 7) === item.date.slice(0, 7),
+        );
+        if (!obj) {
+          data.push({
+            date: item.date,
+            name: [item.name],
+          });
+        } else {
+          const objIndex = data.findIndex(
+            i => i.date.slice(0, 7) === item.date.slice(0, 7),
+          );
+          data[objIndex].name.push(item.name);
+        }
+      }
     });
 
     // const data = financialProgram;
@@ -484,6 +495,8 @@ class RightSideBar extends Component {
       });
       return true;
     });
+
+    console.log(arr, 'timelinedata');
 
     setTimeout(() => {
       const x = document.getElementById(`${years[0]}`);
@@ -750,7 +763,18 @@ class RightSideBar extends Component {
                                           {`${monthName}
                                         ${item.year}`}
                                         </span>
-                                        <p>{list.name}</p>
+                                        <ul>
+                                          {list.name.map(nam => (
+                                            <li
+                                              style={{
+                                                listStyle: 'disc',
+                                              }}
+                                            >
+                                              <p>{nam}</p>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                        {/* <p>{list.name}</p> */}
                                       </div>
                                     </div>
                                   </li>
