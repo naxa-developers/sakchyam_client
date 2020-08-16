@@ -292,7 +292,11 @@ class TimelineChart extends Component {
             playSelected ? { display: 'none' } : { display: 'block' }
           }
         >
-          <img src={playIcon} alt="map" />
+          <img
+            src={playIcon}
+            alt="map"
+            style={{ marginTop: '2vh' }}
+          />
         </a>
         <a
           onClick={this.pauseBtn}
@@ -305,7 +309,11 @@ class TimelineChart extends Component {
             !playSelected ? { display: 'none' } : { display: 'block' }
           }
         >
-          <img src={pauseIcon} alt="pause" />
+          <img
+            src={pauseIcon}
+            alt="pause"
+            style={{ marginTop: '2vh' }}
+          />
         </a>
         <div id="timelineChart" style={{ marginLeft: '20px' }} />
       </div>

@@ -128,21 +128,6 @@ export const filterDistrictFromProvinceColor = dataCode => dispatch => {
     .catch(() => {});
 };
 
-// const token = localStorage.getItem('userToken');
-// axios
-//   .get(`${process.env.PUBLIC_URL}/api/v1/logframe/log-category`, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   })
-//   .then(res => {
-//     dispatch({
-//       type: GET_INDICATORS_CATEGORY,
-//       payload: res.data,
-//     });
-//   })
-//   .catch(() => {});
-
 export const getProvinceData = () => dispatch => {
   try {
     const formdata = new FormData();

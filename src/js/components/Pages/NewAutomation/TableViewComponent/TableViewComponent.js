@@ -58,127 +58,118 @@ class TableViewComponent extends Component {
   componentDidMount() {}
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      selectedProvinceT,
-      selectedDistrictT,
-      districtListT,
-      municipalityListT,
-    } = this.state;
+    const { selectedProvinceT, selectedDistrictT } = this.state;
 
     const { activeClickPartners, automationReducer } = this.props;
 
     if (prevState.selectedProvinceT !== selectedProvinceT) {
-      let districts;
-      if (
-        (selectedProvinceT[0] &&
-          selectedProvinceT[0].value === 'all') ||
-        selectedProvinceT.length === 0
-      ) {
-        districts = districtLists();
-      } else {
-        districts = districtListByProvince(
-          selectedProvinceT,
-          districtListT,
-        );
-      }
-      this.setState({
-        selectedDistrictT: '',
-        selectedMunicipalityT: '',
-        districtListT: districts,
-      });
+      // let districts;
+      // if (
+      //   (selectedProvinceT[0] &&
+      //     selectedProvinceT[0].value === 'all') ||
+      //   selectedProvinceT.length === 0
+      // ) {
+      //   districts = districtLists();
+      // } else {
+      //   districts = districtListByProvince(
+      //     selectedProvinceT,
+      //     districtListT,
+      //   );
+      // }
+      // this.setState({
+      //   selectedDistrictT: '',
+      //   selectedMunicipalityT: '',
+      //   districtListT: districts,
+      // });
     }
 
     if (prevState.selectedDistrictT !== selectedDistrictT) {
-      let municipality;
-      if (
-        (selectedDistrictT &&
-          selectedDistrictT[0] &&
-          selectedDistrictT[0].value === 'all') ||
-        selectedDistrictT.length === 0
-      ) {
-        municipality = municipalityLists();
-      } else {
-        municipality = muniByDistrict(
-          selectedDistrictT,
-          municipalityListT,
-        );
-      }
-      this.setState({
-        selectedMunicipalityT: '',
-        municipalityListT: municipality,
-      });
-    }
-
-    if (prevProps.activeClickPartners !== activeClickPartners) {
-      this.applyClickForPartnerFilter();
+      // let municipality;
+      // if (
+      //   (selectedDistrictT &&
+      //     selectedDistrictT[0] &&
+      //     selectedDistrictT[0].value === 'all') ||
+      //   selectedDistrictT.length === 0
+      // ) {
+      //   municipality = municipalityLists();
+      // } else {
+      //   municipality = muniByDistrict(
+      //     selectedDistrictT,
+      //     municipalityListT,
+      //   );
+      // }
+      // this.setState({
+      //   selectedMunicipalityT: '',
+      //   municipalityListT: municipality,
+      // });
     }
   }
 
   applyClickForPartnerFilter = () => {
-    const { activeClickPartners } = this.props;
-    const {
-      selectedProvinceT,
-      selectedDistrictT,
-      selectedMunicipalityT,
-    } = this.state;
-    let provinceCodes = [];
-    let muniCodes = [];
-    let districtCodes = [];
+    this.props.handleStateLevel();
+    // const { activeClickPartners } = this.props;
+    // const {
+    //   selectedProvinceT,
+    //   selectedDistrictT,
+    //   selectedMunicipalityT,
+    // } = this.state;
+    // let provinceCodes = [];
+    // let muniCodes = [];
+    // let districtCodes = [];
 
-    const condition =
-      selectedDistrictT.length > 0 ||
-      selectedProvinceT.length > 0 ||
-      selectedMunicipalityT.length > 0;
+    // const condition =
+    //   selectedDistrictT.length > 0 ||
+    //   selectedProvinceT.length > 0 ||
+    //   selectedMunicipalityT.length > 0;
 
-    if (selectedProvinceT.length > 0) {
-      provinceCodes = this.getCodes(selectedProvinceT);
-    }
+    // if (selectedProvinceT.length > 0) {
+    //   provinceCodes = this.getCodes(selectedProvinceT);
+    // }
 
-    if (selectedDistrictT.length > 0) {
-      districtCodes = this.getCodes(selectedDistrictT);
-    }
+    // if (selectedDistrictT.length > 0) {
+    //   districtCodes = this.getCodes(selectedDistrictT);
+    // }
 
-    if (selectedMunicipalityT.length > 0) {
-      muniCodes = this.getCodes(selectedMunicipalityT);
-    }
+    // if (selectedMunicipalityT.length > 0) {
+    //   muniCodes = this.getCodes(selectedMunicipalityT);
+    // }
 
-    if (condition) {
-      this.props.getBranchesTableDataByFed(
-        {
-          municipality: muniCodes,
-          district: districtCodes,
-          province: provinceCodes,
-        },
-        activeClickPartners,
-      );
-    }
+    // if (condition) {
+    //   this.props.getBranchesTableDataByFed(
+    //     {
+    //       municipality: muniCodes,
+    //       district: districtCodes,
+    //       province: provinceCodes,
+    //     },
+    //     activeClickPartners,
+    //   );
+    // }
   };
 
   getCodes = array => {
-    let filteredList = array;
-    if (array[0].value === 'all') {
-      filteredList = array.filter(item => item.value !== 'all');
-    }
-    const codeList = filteredList.map(item => item.code);
-    return codeList;
+    // let filteredList = array;
+    // if (array[0].value === 'all') {
+    //   filteredList = array.filter(item => item.value !== 'all');
+    // }
+    // const codeList = filteredList.map(item => item.code);
+    // return codeList;
   };
 
   handleResetButtonForFilter = () => {
-    this.setState({
-      provinceListT: provinceLists(),
-      districtListT: districtLists(),
-      municipalityListT: municipalityLists(),
-      selectedProvinceT: '',
-      selectedDistrictT: [],
-      selectedMunicipalityT: [],
-    });
-
-    const { activeClickPartners } = this.props;
-    if (activeClickPartners) {
-      this.props.getTableDataByPartnerSelect(activeClickPartners);
-    } else {
-      this.props.getBranchesTableData();
-    }
+    // this.setState({
+    //   provinceListT: provinceLists(),
+    //   districtListT: districtLists(),
+    //   municipalityListT: municipalityLists(),
+    //   selectedProvinceT: '',
+    //   selectedDistrictT: [],
+    //   selectedMunicipalityT: [],
+    // });
+    // const { activeClickPartners } = this.props;
+    // if (activeClickPartners) {
+    //   this.props.getTableDataByPartnerSelect(activeClickPartners);
+    // } else {
+    //   this.props.getBranchesTableData();
+    // }
   };
 
   exportTableToExcel = () => {
@@ -215,12 +206,13 @@ class TableViewComponent extends Component {
   };
 
   render() {
+    const { tableDataTypeLevel } = this.state;
+
     const {
-      provinceListT,
-      districtListT,
-      municipalityListT,
-      tableDataTypeLevel,
-    } = this.state;
+      provinceList,
+      municipalityList,
+      districtList,
+    } = this.props;
     const { automationTableData } = this.props.automationReducer;
     const { toggleTableViewButton } = this.props;
     return (
@@ -252,11 +244,12 @@ class TableViewComponent extends Component {
                     idValue="table_view"
                     withCheckbox
                     name="Select Province Table"
-                    options={provinceListT && provinceListT}
+                    options={provinceList && provinceList}
                     onChange={selectedOptions => {
-                      this.setState({
-                        selectedProvinceT: selectedOptions,
-                      });
+                      this.props.handleAdminSelects(
+                        selectedOptions,
+                        'province',
+                      );
                       // eslint-disable-next-line react/jsx-curly-newline
                     }}
                   />
@@ -268,12 +261,12 @@ class TableViewComponent extends Component {
                       idValue="table_view"
                       withCheckbox
                       name="Select District Table"
-                      options={districtListT && districtListT}
+                      options={districtList && districtList}
                       onChange={selectedOptions => {
-                        this.setState({
-                          selectedDistrictT: selectedOptions,
-                        });
-                        // eslint-disable-next-line react/jsx-curly-newline
+                        this.props.handleAdminSelects(
+                          selectedOptions,
+                          'district',
+                        );
                       }}
                     />
                   </div>
@@ -284,12 +277,12 @@ class TableViewComponent extends Component {
                       idValue="table_view"
                       withCheckbox
                       name="Select Municipality Table"
-                      options={municipalityListT && municipalityListT}
+                      options={municipalityList && municipalityList}
                       onChange={selectedOptions => {
-                        this.setState({
-                          selectedMunicipalityT: selectedOptions,
-                        });
-                        // eslint-disable-next-line react/jsx-curly-newline
+                        this.props.handleAdminSelects(
+                          selectedOptions,
+                          'municipality',
+                        );
                       }}
                     />
                   </div>
@@ -307,7 +300,7 @@ class TableViewComponent extends Component {
                 <button
                   type="button"
                   className="common-button is-clear"
-                  onClick={this.handleResetButtonForFilter}
+                  onClick={this.props.refreshSelectedPartnerBtn}
                 >
                   <i className="material-icons">refresh</i>
                 </button>
