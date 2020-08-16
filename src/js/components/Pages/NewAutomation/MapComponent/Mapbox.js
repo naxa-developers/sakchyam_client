@@ -11,6 +11,10 @@ import ContentLoader from 'react-content-loader';
 import { connect } from 'react-redux';
 import PlotVector from './PlotVector';
 import PopUp from './divisionInfoPopUp';
+import {
+  removeDuplicates,
+  aggregateCounts,
+} from '../../../common/utilFunctions';
 
 const MyLoader = () => (
   <ContentLoader
@@ -48,18 +52,16 @@ class MapboxPartnership extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { automationChoroplethData } = this.props.automationReducer;
+    const {
+      automationChoroplethData,
+      automationTableData,
+    } = this.props.automationReducer;
     const { mapViewBy } = this.props;
 
     if (
       automationChoroplethData !==
       prevProps.automationReducer.automationChoroplethData
     ) {
-      console.log(
-        'new choropleth data recived',
-        automationChoroplethData,
-      );
-
       this.setState({ allData: automationChoroplethData });
 
       if (mapViewBy === 'province') {
@@ -102,48 +104,94 @@ class MapboxPartnership extends Component {
         }
       }
     }
+
+    if (
+      automationTableData !==
+      prevProps.automationReducer.automationTableData
+    ) {
+      this.setState({ tableData: automationTableData });
+    }
   }
 
   setHoveredMunicipalityId = id => {
     // console.log('id oh region', id, this.state.filteredMapData);
-    const { filteredMapData, allData } = this.state;
-    const { mapViewBy } = this.props;
+    const { tableData } = this.state;
+    const { mapViewBy, activeOutreachButton } = this.props;
+    let data;
     if (id !== 0) {
-      this.setState({ hoveredId: id });
+      if (activeOutreachButton) {
+        this.setState({ hoveredId: id });
+      }
+
       if (mapViewBy === 'province') {
-        const province = allData.filter(
-          region => region.code === parseInt(id),
+        const province = tableData.filter(
+          region => region.province_code === parseInt(id),
         );
-        const type = mapViewBy.toUpperCase();
-        const name = province[0].prov_name;
-        const { count } = province[0];
-        const data = { name, type, count };
-        this.setState({ popUpData: data });
+
+        const arrayNew = aggregateCounts(province);
+
+        const uniqueData = removeDuplicates(arrayNew, 'partner');
+
+        const totalCount = uniqueData.reduce(
+          (total, i) => total + i.count,
+          0,
+        );
+        data = { uniqueData, totalCount, name: province[0].province };
+        if (activeOutreachButton) {
+          this.setState({ popUpData: data });
+        }
       }
       if (mapViewBy === 'district') {
-        const province = allData.filter(
-          region => region.code === parseInt(id),
+        const province = tableData.filter(
+          region => region.district_code === parseInt(id),
         );
-        const type = mapViewBy.toUpperCase();
-        const { name } = province[0];
-        const { count } = province[0];
-        const data = { name, type, count };
-        this.setState({ popUpData: data });
+
+        const arrayNew = aggregateCounts(province);
+
+        const uniqueData = removeDuplicates(arrayNew, 'partner');
+
+        const totalCount = uniqueData.reduce(
+          (total, i) => total + i.count,
+          0,
+        );
+        data = { uniqueData, totalCount, name: province[0].district };
+        if (activeOutreachButton) {
+          this.setState({ popUpData: data });
+        }
       }
       if (mapViewBy === 'municipality') {
-        const province = allData.filter(
-          region => region.munid === parseInt(id),
+        const municipality = tableData.filter(
+          region => region.municipality_code === parseInt(id),
         );
-        console.log('muni is', allData, id, province);
-        const type = mapViewBy.toUpperCase();
-        const name = province[0].lu_name;
-        const { count } = province[0];
-        const data = { name, type, count };
-        this.setState({ popUpData: data });
+
+        const arrayNew = aggregateCounts(municipality);
+
+        const uniqueData = removeDuplicates(arrayNew, 'partner');
+
+        const totalCount = uniqueData.reduce(
+          (total, i) => total + i.count,
+          0,
+        );
+        if (
+          municipality &&
+          municipality[0] &&
+          municipality[0].municipality
+        ) {
+          data = {
+            uniqueData,
+            totalCount,
+            name: municipality[0].municipality,
+          };
+          if (activeOutreachButton) {
+            this.setState({ popUpData: data });
+          }
+        }
       }
     } else {
       this.setState({ hoveredId: '' });
+      data = {};
     }
+    return data;
   };
 
   render() {

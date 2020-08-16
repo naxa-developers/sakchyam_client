@@ -81,3 +81,19 @@ export const getShortNumbers = labelValue => {
     ? `${(Math.abs(Number(labelValue)) / 1.0e3).toFixed(2)}K`
     : Math.abs(Number(labelValue));
 };
+
+export const aggregateCounts = array => {
+  const arrayNew = [];
+
+  array.forEach(partner => {
+    let count = 0;
+    array.forEach(parts => {
+      if (partner.partner === parts.partner) {
+        count += parts.tablets;
+      }
+    });
+    arrayNew.push({ partner: partner.partner, count });
+  });
+
+  return arrayNew;
+};
