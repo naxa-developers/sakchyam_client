@@ -5,31 +5,14 @@ import { connect } from 'react-redux';
 import DownloadIcon from '../../../../../img/get_app.png';
 import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import { resetBarDatas } from '../../../../actions/partnership.actions';
-import FilterTab from './FilterTab';
 
 const downloadPng = (chartid, imageTitle) => {
-  // document.querySelector('.info-header-bottom').style.display =
-  //   'none';
-  // document
-  //   .querySelector('.download-dropdown')
-  //   .classList.remove('active');
+  const icons = document.querySelector('#insurance-icons');
+  icons.style.display = 'none';
+
   setTimeout(() => {
-    // document
-    //   .querySelector(`.${chartid}`)
-    //   .append(<label>Varun</label>);
     html2canvas(document.querySelector(`#${chartid}`), {
-      // logging: true,
-      // letterRendering: 1,
       allowTaint: true,
-      // scale: window.devicePixelRatio,
-      // windowWidth: window.innerWidth,
-      // windowHeight: window.innerHeight + 120,
-      // x: 20,
-      // y: 70,
-      // width: window.innerWidth + 40,
-      // height: window.innerHeight + 40,
-      // foreignObjectRendering: true,
-      // useCORS: true,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
@@ -37,7 +20,9 @@ const downloadPng = (chartid, imageTitle) => {
     });
   }, 500);
 
-  // this.setState({ downloadActive: false });
+  setTimeout(() => {
+    icons.style.display = 'block';
+  }, 600);
 };
 const CardTab = ({
   resetFunction,
@@ -50,40 +35,12 @@ const CardTab = ({
   renderChartComponent,
   showBarof,
 }) => {
-  const modalHeader =
-    cardChartId === 'sunburst'
-      ? 'Sakchyam Investment Focus'
-      : cardChartId === 'groupedChart'
-      ? 'Province Wise Programme Results'
-      : cardChartId === 'leverageChart'
-      ? 'S-CF Funds & Leverage By Investment Focus'
-      : cardChartId === 'radar'
-      ? 'Key Services Introduced'
-      : cardChartId === 'sankeyChart'
-      ? 'Beneficiaries Reached'
-      : cardChartId === 'timeline'
-      ? 'Projects Timeline'
-      : cardChartId === 'stackedWithInvestment'
-      ? 'Investment Focus Wise Budget & Beneficiaries Count'
-      : '';
-  const selectedChartId =
-    cardChartId === 'groupedChart'
-      ? 'stacked_chart'
-      : cardChartId === 'leverageChart'
-      ? 'leverage_chart'
-      : cardChartId === 'sankeyChart'
-      ? 'sankey_chart'
-      : cardChartId === 'sunburst'
-      ? 'sunburst-wrapper'
-      : cardChartId === 'stackedWithInvestment'
-      ? 'stackedWithInvestment'
-      : '';
   return (
     <div className={cardClass}>
       <div className="card" id={cardChartId}>
         <div className="card-header">
           <h5>{cardTitle}</h5>
-          <div className="header-icons">
+          <div className="header-icons" id="insurance-icons">
             {/* <div className="card-switcher">
                       <small>OFF</small>
                       <label className="switch">
@@ -145,10 +102,10 @@ const CardTab = ({
             <span
               className=""
               onClick={() => {
-                downloadPng(cardChartId, modalHeader);
+                downloadPng(cardChartId, cardTitle);
               }}
               onKeyDown={() => {
-                downloadPng(cardChartId, modalHeader);
+                downloadPng(cardChartId, cardTitle);
               }}
               role="button"
               tabIndex="-1"

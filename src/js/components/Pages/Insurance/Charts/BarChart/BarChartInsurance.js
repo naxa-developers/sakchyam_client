@@ -1,7 +1,22 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import SwitchComponent from '../../MiddleChartSection/SwitchComponent';
 import { getShortNumbers } from '../../../../common/utilFunctions';
+// import convert from '../../../../utils/convertNumbers';
+
+function convert(num) {
+  if (num > 999 && num < 1000000) {
+    return `${num / 1000000}M`; // convert to K for number from > 1000 < 1 million
+  }
+  if (num > 1000000) {
+    return `${num / 1000000}M`; // convert to M for number from > 1 million
+  }
+  if (num < 900) {
+    return num; // if value < 1000, nothing to do
+  }
+  return num;
+}
 
 function getBarChartLabels(data, name) {
   return [...new Set(data.map(item => item[name]))];
@@ -11,27 +26,32 @@ function getCount(data, name) {
   return data.reduce((sum, item) => sum + item[name], 0);
 }
 
+const colors = {
+  red: '#E11D3F',
+  yellow: '#FFCD00',
+};
 class BarChartInsurance extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       data: '',
-      series: [],
+      series1: [],
+      series2: [],
       options: {},
       chartData1: {},
-      chartData2: {},
+      chartData2: { series1: [], series2: [], options: {} },
       chartData3: {},
-      barChartClickIndex: 0,
+      isBarChartClicked: false,
     };
   }
 
   generateBarChartData2 = i => {
-    const clickedInnovation = this.state.chartData2.options.labels[i];
+    const clickedInnovation = this.state.options.labels[i];
     const { insuranceData } = this.props;
 
     const data = insuranceData.filter(
-      item => item.innovation === clickedInnovation,
+      item => item.partner_name === clickedInnovation,
     );
     const labels = getBarChartLabels(data, 'product');
     const columnData = [];
@@ -50,81 +70,83 @@ class BarChartInsurance extends Component {
       lineData.push(amountOfSumInsuranced);
     });
 
-    const series = [];
-    series.push({
+    const series1 = [];
+    const series2 = [];
+
+    series1.push({
       name: 'Amount of Insurance',
-      type: 'column',
       data: columnData,
     });
-    series.push({
+    series2.push({
       name: 'Amount of Sum Insuranced',
-      type: 'line',
-      data: lineData,
-    });
-    this.setState(prevState => ({
-      chartData3: {
-        series,
-        options: {
-          ...prevState.options,
-          labels,
-        },
-      },
-      barChartClickIndex: 2,
-    }));
-  };
-
-  generateBarChartData1 = i => {
-    const clickedPartner = this.state.chartData1.options.labels[i];
-
-    const { insuranceData } = this.props;
-
-    const data = insuranceData.filter(
-      item => item.partner_name === clickedPartner,
-    );
-
-    const labels = getBarChartLabels(data, 'innovation');
-
-    const columnData = [];
-    const lineData = [];
-
-    labels.forEach(item => {
-      const filteredData = data.filter(x => x.innovation === item);
-      const amountOfInsurance = getCount(
-        filteredData,
-        'amount_of_insurance',
-      );
-      const amountOfSumInsuranced = getCount(
-        filteredData,
-        'amount_of_sum_insuranced',
-      );
-      columnData.push(amountOfInsurance);
-      lineData.push(amountOfSumInsuranced);
-    });
-
-    const series = [];
-    series.push({
-      name: 'Amount of Insurance',
-      type: 'column',
-      data: columnData,
-    });
-    series.push({
-      name: 'Amount of Sum Insuranced',
-      type: 'line',
       data: lineData,
     });
 
     this.setState(prevState => ({
-      // options,
       chartData2: {
-        series,
+        series1,
+        series2,
         options: {
           ...prevState.options,
           labels,
         },
       },
-      barChartClickIndex: 1,
+      isBarChartClicked: true,
     }));
   };
+
+  // generateBarChartData1 = i => {
+  //   const clickedPartner = this.state.chartData1.options.labels[i];
+
+  //   const { insuranceData } = this.props;
+
+  //   const data = insuranceData.filter(
+  //     item => item.partner_name === clickedPartner,
+  //   );
+
+  //   const labels = getBarChartLabels(data, 'innovation');
+
+  //   const columnData = [];
+  //   const lineData = [];
+
+  //   labels.forEach(item => {
+  //     const filteredData = data.filter(x => x.innovation === item);
+  //     const amountOfInsurance = getCount(
+  //       filteredData,
+  //       'amount_of_insurance',
+  //     );
+  //     const amountOfSumInsuranced = getCount(
+  //       filteredData,
+  //       'amount_of_sum_insuranced',
+  //     );
+  //     columnData.push(amountOfInsurance);
+  //     lineData.push(amountOfSumInsuranced);
+  //   });
+
+  //   const series = [];
+  //   series.push({
+  //     name: 'Amount of Insurance',
+  //     type: 'column',
+  //     data: columnData,
+  //   });
+  //   series.push({
+  //     name: 'Amount of Sum Insuranced',
+  //     type: 'line',
+  //     data: lineData,
+  //   });
+
+  //   this.setState(prevState => ({
+  //     // options,
+  //     chartData2: {
+  //       series,
+  //       options: {
+  //         ...prevState.options,
+  //         labels,
+  //       },
+  //     },
+  //     barChartClickIndex: 1,
+  //   }));
+  // };
 
   plotChart = () => {
     const that = this;
@@ -132,10 +154,10 @@ class BarChartInsurance extends Component {
     const { barChartClickIndex } = that.state;
 
     const options = {
-      colors: ['#E11D3F', '#FFCD00'],
+      colors: [colors.red],
       chart: {
         height: 350,
-        type: 'line',
+        type: 'bar',
         toolbar: { show: false },
         events: {
           click(
@@ -144,9 +166,16 @@ class BarChartInsurance extends Component {
             { seriesIndex, dataPointIndex, config },
           ) {
             if (dataPointIndex >= 0) {
-              if (that.state.barChartClickIndex === 0) {
-                that.generateBarChartData1(dataPointIndex);
-              } else if (that.state.barChartClickIndex === 1) {
+              //   if (that.state.barChartClickIndex === 0) {
+              //     that.generateBarChartData1(dataPointIndex);
+              //   } else if (that.state.barChartClickIndex === 1) {
+              //     that.generateBarChartData2(dataPointIndex);
+              //   }
+              // }
+              // if (that.state.isBarChartClicked) {
+              //   that.generateBarChartData1(dataPointIndex);
+              // }
+              if (!that.state.isBarChartClicked) {
                 that.generateBarChartData2(dataPointIndex);
               }
             }
@@ -160,42 +189,87 @@ class BarChartInsurance extends Component {
           // endingShape: 'rounded',
         },
       },
-      stroke: {
-        width: [0, 4],
-      },
+      // stroke: {
+      //   width: [0, 4],
+      //   show: true,
+      //   curve: 'smooth',
+      //   lineCap: 'butt',
+      //   colors: undefined,
+      //   // width: 1,
+      //   dashArray: 0,
+      // },
       dataLabels: {
         enabled: false,
-        enabledOnSeries: [1],
+        // enabledOnSeries: [1],
       },
       // labels: [],
       grid: { show: false },
-      yaxis: [
-        {
-          title: {
-            text: 'Amount of Insurance',
-          },
-          axisTicks: { show: true, color: '#E11D3F' },
-          axisBorder: { show: true, color: '#E11D3F' },
-          labels: {
-            show: true,
-            offsetX: 0,
-            formatter: val => getShortNumbers(val),
-          },
+      xaxis: {
+        categories: [],
+        labels: {
+          trim: true,
+          hideOverlappingLabels: false,
         },
-        {
-          opposite: true,
-          title: {
-            text: 'Amount of Sum Insuranced',
-          },
-          axisTicks: { show: true, color: '#FFCD00' },
-          axisBorder: { show: true, color: '#FFCD00' },
-          labels: {
-            show: true,
-            offsetX: -1,
-            formatter: val => getShortNumbers(val),
-          },
+      },
+      yaxis: {
+        title: {
+          text:
+            // formatter: val => 'hello',
+            that.props.selectedTabBar === 'insurance-premium'
+              ? 'Amount of Insurance (NPR)'
+              : 'Amount of Sum Insuranced',
         },
-      ],
+        axisTicks: { show: true },
+        axisBorder: { show: true },
+        labels: {
+          show: true,
+          offsetX: 0,
+          minWidth: 65,
+          maxWidth: 300,
+          // formatter: val => getShortNumbers(val),
+          formatter: val => convert(val),
+          // style: {
+          //   colors: [colors.red],
+          //   fontSize: '9px',
+          //   fontFamily: 'Helvetica, Arial, sans-serif',
+          //   fontWeight: 400,
+          //   cssClass: 'apexcharts-yaxis-label',
+          // },
+        },
+      },
+      // {
+      //   opposite: true,
+      //   title: {
+      //     text: 'Amount of Sum Insuranced',
+      //   },
+      //   axisTicks: { show: true, color: colors.yellow },
+      //   axisBorder: { show: true, color: colors.yellow },
+      //   labels: {
+      //     // style: { colors: colors.yellow },
+      //     show: true,
+      //     offsetX: 0,
+      //     // formatter: val => getShortNumbers(val),
+      //     formatter: val => convert(val),
+      //   },
+      markers: {
+        size: 7,
+        strokeWidth: 0,
+        // colors: colors.yellow,
+      },
+      legend: {
+        markers: {
+          width: 12,
+          height: 12,
+          radius: 0,
+          offsetX: 0,
+          offsetY: 0,
+        },
+      },
+      // tooltip: {
+      //   onDatasetHover: {
+      //     highlightDataSeries: true,
+      //   },
+      // },
     };
 
     this.setState({
@@ -205,13 +279,36 @@ class BarChartInsurance extends Component {
 
   componentDidMount() {
     this.plotChart();
+
+    const { activeModal, insuranceData } = this.props;
+    if (activeModal) this.setInsuranceData(insuranceData);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { insuranceData } = this.props;
+    const { insuranceData, selectedTabBar } = this.props;
 
     if (insuranceData !== prevProps.insuranceData) {
       this.setInsuranceData(insuranceData);
+    }
+    if (selectedTabBar !== prevProps.selectedTabBar) {
+      // this.plotChart();
+      // this.setInsuranceData(insuranceData);
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState(prev => ({
+        options: {
+          ...prev.options,
+          yaxis: {
+            ...prev.options.yaxis,
+            title: {
+              ...prev.options.yaxis.title,
+              text:
+                selectedTabBar === 'insurance-premium'
+                  ? 'Amount of Insurance (NPR)'
+                  : 'Amount of Sum Insuranced',
+            },
+          },
+        },
+      }));
     }
   }
 
@@ -245,22 +342,23 @@ class BarChartInsurance extends Component {
     const amountInsurance = Array1.map(partner => partner.sum);
     const sumInsuranced = Array2.map(partner => partner.sum);
 
-    const series = [];
-    series.push({
+    const series1 = [];
+    const series2 = [];
+
+    series1.push({
       name: 'Amount of Insurance (NPR)',
-      type: 'column',
       data: amountInsurance,
     });
-    series.push({
+    series2.push({
       name: 'Amount of Sum Insuranced',
-      type: 'line',
       data: sumInsuranced,
     });
 
     const options = {
+      // colors: [colors.red],
       chart: {
         height: 450,
-        type: 'line',
+        type: 'bar',
         toolbar: {
           show: false,
         },
@@ -276,9 +374,9 @@ class BarChartInsurance extends Component {
         enabledOnSeries: [1],
       },
       labels,
-      xaxis: {
-        type: 'string',
-      },
+      // xaxis: {
+      //   type: 'string',
+      // },
       // yaxis: [
       //   {
       //     title: {
@@ -303,23 +401,27 @@ class BarChartInsurance extends Component {
       //   },
       // ],
     };
-    this.setState({
-      series,
-      options,
+    this.setState(prev => ({
+      series1,
+      series2,
+      options: { ...prev.options, labels },
       data: array,
-      chartData1: { series, options },
-    });
+      chartData1: { series1, options: { ...prev.options } },
+      chartData2: { options },
+      barChartClickIndex: 0,
+    }));
   };
 
   handleBarChartBackBtn = () => {
     this.setState(prev => ({
-      barChartClickIndex: prev.barChartClickIndex - 1,
+      isBarChartClicked: !prev.isBarChartClicked,
     }));
   };
 
   render() {
     const {
       barChartClickIndex,
+      isBarChartClicked,
       chartData1,
       chartData2,
       chartData3,
@@ -334,6 +436,8 @@ class BarChartInsurance extends Component {
       activeModal,
       barTitle,
       isDownloading,
+      isBarChartToggled,
+      selectedTabBar,
     } = this.props;
 
     return (
@@ -341,18 +445,19 @@ class BarChartInsurance extends Component {
         <div
           className="card-header"
           // style={activeModal && { backgroundColor: '#fff' }}
+          style={{ backgroundColor: activeModal ? '#fff' : '' }}
         >
           {!activeModal && <h5>{barTitle}</h5>}
           {!isDownloading && (
             <div className="header-icons">
-              {barChartClickIndex > 0 && (
+              {isBarChartClicked && (
                 <button
                   id="chart-reset"
                   type="button"
                   onClick={this.handleBarChartBackBtn}
                   className="is-border common-button chart-reset"
                 >
-                  Back
+                  Reset
                 </button>
               )}
               {!activeModal && (
@@ -391,26 +496,32 @@ class BarChartInsurance extends Component {
           )}
         </div>
         <div className="card-body">
-          {barChartClickIndex === 0 ? (
+          <SwitchComponent
+            selectedTab={selectedTabBar}
+            setSelectedTab={this.props.setSelectedTabBar}
+          />
+          {!isBarChartClicked ? (
             <ReactApexChart
               options={this.state.options}
-              series={this.state.series}
-              type="line"
-              height={400}
-            />
-          ) : barChartClickIndex === 1 ? (
-            <ReactApexChart
-              options={chartData2.options}
-              series={chartData2.series}
-              type="line"
-              height={400}
+              series={
+                // !isBarChartToggled
+                selectedTabBar === 'insurance-premium'
+                  ? this.state.series1
+                  : this.state.series2
+              }
+              type="bar"
+              height={!activeModal ? 400 : 550}
             />
           ) : (
             <ReactApexChart
-              options={chartData3.options}
-              series={chartData3.series}
-              type="line"
-              height={400}
+              options={chartData2.options}
+              series={
+                selectedTabBar === 'insurance-premium'
+                  ? chartData2.series1
+                  : chartData2.series2
+              }
+              type="bar"
+              height={!activeModal ? 400 : 550}
             />
           )}
         </div>

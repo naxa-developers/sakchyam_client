@@ -1,7 +1,7 @@
 import React from 'react';
 import FilterBadge from '../../../common/FilterBadge';
 
-export default function MapFilter(props) {
+export default function SwitchComponentDonut(props) {
   const { selectedTab, setSelectedTab } = props;
 
   return (
@@ -10,27 +10,27 @@ export default function MapFilter(props) {
         <FilterBadge
           viewDataBy={selectedTab}
           onclick={() => {
-            setSelectedTab('insurance-premium');
+            setSelectedTab('innovation');
           }}
-          dataTitle="insurance-premium"
-          title="Amount of Insurance Premium (NPR)"
+          dataTitle="innovation"
+          title="Innovation"
         />
         <FilterBadge
           viewDataBy={selectedTab}
           onclick={() => {
-            setSelectedTab('sum-insured');
+            setSelectedTab('product');
           }}
-          dataTitle="sum-insured"
-          title="Amount of Sum Insured"
+          dataTitle="product"
+          title="Product"
         />
-        {/* <FilterBadge
+        <FilterBadge
           viewDataBy={selectedTab}
           onclick={() => {
-            setSelectedTab('insurance');
+            setSelectedTab('partner');
           }}
-          dataTitle="insurance"
-          title="Insurance Policy Sold"
-        /> */}
+          dataTitle="partner"
+          title="Partner"
+        />
       </ul>
     </div>
   );

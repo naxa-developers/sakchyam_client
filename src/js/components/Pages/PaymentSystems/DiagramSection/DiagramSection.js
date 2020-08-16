@@ -8,6 +8,7 @@ import generateLeftLines from './CreateLines/generateLeftLines';
 import generateRightLines from './CreateLines/generateRightLines';
 import { isArrayEmpty } from '../utils/utilities';
 import generateIndirectLines from './CreateLines/generateIndirectLines';
+import generateLeftToRightIndirectLines from './CreateLines/generateLeftToRightIndirectLines';
 
 const width = 235;
 
@@ -38,17 +39,26 @@ const DiagramSection = () => {
     leftToRightCoordinates,
     setLeftToRightCoordinates,
   ] = useState([]);
+  const [
+    leftToRightIndirectCoordinates,
+    setLeftToRigthIndirectCoordinates,
+  ] = useState([]);
   const [rightCoordinates, setRightCoordinates] = useState([]);
   const [indirectCoordinates, setIndirectCoordinates] = useState([]);
 
-  const [isLeftCardSelected, setIsLeftCardSelected] = useState();
+  const [isLeftCardSelected, setIsLeftCardSelected] = useState(true);
   const [selectedCardRef, setSelectedCardRef] = useState(null);
-  const [lineColor, setLineColor] = useState('red');
+  const [lineColor, setLineColor] = useState('#FF6D00');
 
-  const getMiddleLines = ({ leftRefLinks, rightRefLinks }) => {
+  const getMiddleLines = ({
+    leftRefLinks,
+    rightRefLinks,
+    indirectLinkLeftToRight,
+  }) => {
     const middleSVGRect = middleSVGContainerRef.current.getBoundingClientRect();
     const leftRects = [];
     const rightRects = [];
+    let indirectLeftToRightRect = [];
 
     leftRefLinks.forEach(item => {
       leftRects.push(
@@ -62,11 +72,30 @@ const DiagramSection = () => {
       );
     });
 
+    if (!isArrayEmpty(indirectLinkLeftToRight)) {
+      const rect1 = leftCardRefs.current[
+        indirectLinkLeftToRight[0]
+      ].getBoundingClientRect();
+      const rect2 = rightCardRefs.current[
+        indirectLinkLeftToRight[1]
+      ].getBoundingClientRect();
+      indirectLeftToRightRect = [rect1, rect2];
+      const newIndirectCoordinates = generateLeftToRightIndirectLines(
+        middleSVGRect,
+        indirectLeftToRightRect,
+      );
+      setLeftToRigthIndirectCoordinates(newIndirectCoordinates);
+    } else {
+      setLeftToRigthIndirectCoordinates([]);
+    }
+
     const newCoordinates = generateMiddleLines(
       middleSVGRect,
       leftRects,
       rightRects,
+      indirectLeftToRightRect,
     );
+
     setLeftToRightCoordinates(newCoordinates);
   };
 
@@ -208,6 +237,9 @@ const DiagramSection = () => {
           coordinates={leftToRightCoordinates}
           rightCoordinates={rightCoordinates}
           indirectCoordinates={indirectCoordinates}
+          leftToRightIndirectCoordinates={
+            leftToRightIndirectCoordinates
+          }
           width={width}
         />
       </div>

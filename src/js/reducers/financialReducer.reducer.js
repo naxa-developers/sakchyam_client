@@ -30,8 +30,9 @@ const getColor = (function() {
 
 function colorPicker3(i) {
   // COLORPICKER FOR PARTNER TYPE
-  if (i === 'Microfinance Institutions') return '#008080';
-  if (i === 'Commercial Bank and Other Partners') return '#8BB0EC';
+  if (i === 'Microfinance/Cooperative') return '#008080';
+  if (i === 'Commercial Banks and Mobile Network Operators')
+    return '#8BB0EC';
   return '#17A589'; //  #AEB6BF #8BB0EC
 }
 
@@ -251,13 +252,14 @@ const filterPieChartData = (data, type) => {
 
   // if (type === 'single_count') {
   microFinance = data
-    .filter(item => item.partner_type === 'Microfinance Institutions')
+    .filter(item => item.partner_type === 'Microfinance/Cooperative')
     .reduce((total, i) => total + i.single_count, 0);
 
   commercial = data
     .filter(
       item =>
-        item.partner_type === 'Commercial Bank and Other Partners',
+        item.partner_type ===
+        'Commercial Banks and Mobile Network Operators',
     )
     .reduce((total, i) => total + i.single_count, 0);
   // } else {
@@ -422,6 +424,10 @@ const getPartnersList = (state, action) => {
 const getFinancialData = (state, action) => {
   const { partnerList, programList, allData } = action.payload;
   const financialData = allData;
+
+  const partnerTypeList = [
+    ...new Set(allData.map(item => item.partner_type)),
+  ];
 
   financialData.map((item, index) => {
     programList.map(p => {
@@ -614,10 +620,11 @@ const getFinancialData = (state, action) => {
   const commercial = [];
   const microfinancial = [];
   a.forEach(function(c) {
-    if (c.partner_type === 'Microfinance Institutions') {
+    if (c.partner_type === 'Microfinance/Cooperative') {
       microfinancial.push(c);
     } else if (
-      c.partner_type === 'Commercial Bank and Other Partners'
+      c.partner_type ===
+      'Commercial Banks and Mobile Network Operators'
     ) {
       commercial.push(c);
     }
@@ -651,6 +658,7 @@ const getFinancialData = (state, action) => {
     loading: false,
     sankeyData,
     treeMapData,
+    partnerTypeList,
     financialData: allData,
     // extractedFinancialData: ObjByProgram,
     filteredByProgramDefault: {
@@ -670,8 +678,8 @@ const getFinancialData = (state, action) => {
     pieData: {
       series: [totalCommercialBenef, totalMicroBenef],
       label: [
-        'Commercial Bank and Other Partners',
-        'Microfinance Institutions',
+        'Commercial Banks and Mobile Network Operators',
+        'Microfinance/Cooperative',
       ],
     },
     allTableData: tableDatas,
@@ -700,8 +708,9 @@ const getFinancialProgram = (state, action) => {
 };
 
 const filterFinancialDataForGraph = (state, action) => {
-  const microfinance = 'Microfinance Institutions';
-  const commercial = 'Commercial Bank and Other Partners';
+  const microfinance = 'Microfinance/Cooperative';
+  const commercial = 'Commercial Banks and Mobile Network Operators';
+
   const {
     selectedPartners,
     selectedProgram,
@@ -745,10 +754,11 @@ const filterFinancialDataForGraph = (state, action) => {
     });
 
     a.forEach(function(c) {
-      if (c.partner_type === 'Microfinance Institutions') {
+      if (c.partner_type === 'Microfinance/Cooperative') {
         filteredMicroFinance.push(c);
       } else if (
-        c.partner_type === 'Commercial Bank and Other Partners'
+        c.partner_type ===
+        'Commercial Banks and Mobile Network Operators'
       ) {
         filteredCommercial.push(c);
       }
@@ -882,10 +892,11 @@ const filterFinancialDataForGraph = (state, action) => {
     });
 
     a.forEach(function(c) {
-      if (c.partner_type === 'Microfinance Institutions') {
+      if (c.partner_type === 'Microfinance/Cooperative') {
         filteredMicroFinance.push(c);
       } else if (
-        c.partner_type === 'Commercial Bank and Other Partners'
+        c.partner_type ===
+        'Commercial Banks and Mobile Network Operators'
       ) {
         filteredCommercial.push(c);
       }
@@ -985,10 +996,11 @@ const filterFinancialDataForGraph = (state, action) => {
     });
 
     a.forEach(function(c) {
-      if (c.partner_type === 'Microfinance Institutions') {
+      if (c.partner_type === 'Microfinance/Cooperative') {
         filteredMicroFinance.push(c);
       } else if (
-        c.partner_type === 'Commercial Bank and Other Partners'
+        c.partner_type ===
+        'Commercial Banks and Mobile Network Operators'
       ) {
         filteredCommercial.push(c);
       }
@@ -1115,10 +1127,11 @@ const filterFinancialDataForGraph = (state, action) => {
     });
 
     a.forEach(function(c) {
-      if (c.partner_type === 'Microfinance Institutions') {
+      if (c.partner_type === 'Microfinance/Cooperative') {
         filteredMicroFinance.push(c);
       } else if (
-        c.partner_type === 'Commercial Bank and Other Partners'
+        c.partner_type ===
+        'Commercial Banks and Mobile Network Operators'
       ) {
         filteredCommercial.push(c);
       }

@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import React, { Component } from 'react';
 import {
   removeDuplicates,
@@ -93,7 +94,6 @@ class RightSideBar extends Component {
       },
     } = this;
 
-    console.log('activeOverview state', activeOverview);
     return (
       <aside
         className="sidebar right-sidebar literacy-right-sidebar"
@@ -110,43 +110,43 @@ class RightSideBar extends Component {
                   <OverviewTab
                     title="Partner Institution"
                     number={partners}
-                    iconTitle="account_balance"
+                    iconTitle="location_city"
                     // iconTitle="payments"
                   />
                   <OverviewTab
                     title="Distribution Channel"
                     number={channels}
-                    iconTitle="assignment"
+                    iconTitle="business"
                   />
                   <OverviewTab
                     title="Innovations"
                     number={innovations}
-                    iconTitle="assignment"
+                    iconTitle="flag"
                   />
                   <OverviewTab
                     title="Products"
                     number={products}
-                    iconTitle="assignment"
+                    iconTitle="local_offer"
                   />
                   <OverviewTab
                     title="Insurance Policies Sold"
-                    number={numberWithCommas(policies)}
+                    number={numberWithCommas(parseInt(policies))}
                     iconTitle="assignment"
                   />
                   <OverviewTab
                     title="Insurance Premium"
-                    number={numberWithCommas(premium)}
-                    iconTitle="account_balance"
+                    number={numberWithCommas(parseInt(premium))}
+                    iconTitle="local_atm"
                   />
                   <OverviewTab
                     title="Sum Insured"
-                    number={numberWithCommas(totalSum)}
-                    iconTitle="tablet_mac"
+                    number={numberWithCommas(parseInt(totalSum))}
+                    iconTitle="monetization_on"
                   />
                   <OverviewTab
                     title="Claimed Amount"
-                    number={numberWithCommas(claimed)}
-                    iconTitle="tablet_mac"
+                    number={numberWithCommas(parseInt(claimed))}
+                    iconTitle="account_balance_wallet"
                   />
                 </ul>
               </div>
@@ -154,7 +154,7 @@ class RightSideBar extends Component {
           </div>
         </div>
 
-        {/* <div
+        <div
           className={`expand-button ${
             activeOverview ? 'active' : ''
           } `}
@@ -166,7 +166,7 @@ class RightSideBar extends Component {
           >
             <i className="material-icons">chevron_right</i>
           </button>
-        </div> */}
+        </div>
       </aside>
     );
   }

@@ -10,7 +10,7 @@ const generateRightLines = (svgRect, rects, containerWidth) => {
   rects.forEach(item => {
     // const x1 = containerWidth;
     // const x2 = containerWidth * 0.45;
-    const x1 = 178;
+    const x1 = 175;
     const x2 = containerWidth * 0.45;
     const y1 = scale(item.rect1.top + item.rect1.height * 0.4);
     const y2 = scale(item.rect2.top + item.rect2.height * 0.4);

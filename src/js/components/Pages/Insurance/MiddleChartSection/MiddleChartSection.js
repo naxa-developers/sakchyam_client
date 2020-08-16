@@ -5,7 +5,7 @@ import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import RadarChart from '../Charts/RadarChart/RadarChart';
 import CirclePackChart from '../Charts/CirclePack/CirclePackChart';
-import Modal from '../../../common/Modal';
+import Modal from './Modal';
 import CardTab from '../common/CardTab';
 import StackedBarWithProvince from '../Charts/StackedBarWithProvince/StackedBarWithProvince';
 import StackedBarWithInvestment from '../Charts/StackedBarWithInvestment/StackedBarWithInvestment';
@@ -32,8 +32,26 @@ class MiddleChartSection extends Component {
     super(props);
     this.state = {
       activeModal: false,
+      isBarChartToggled: false,
+      selectedTab: 'innovation',
+      selectedTabBar: 'insurance-premium',
+      modalHeader: '',
     };
   }
+
+  setSelectedTabBar = e => {
+    this.setState({ selectedTabBar: e });
+  };
+
+  setSelectedTabDonut = e => {
+    this.setState({ selectedTab: e });
+  };
+
+  handleBarChartToggle = () => {
+    this.setState(prevState => ({
+      isBarChartToggled: !prevState.isBarChartToggled,
+    }));
+  };
 
   handleModal = () => {
     this.setState(prevState => ({
@@ -42,8 +60,16 @@ class MiddleChartSection extends Component {
   };
 
   handleSelectedModal = value => {
+    const modalHeader =
+      value === 'bar'
+        ? 'Partner wise distribution of Amount of Insurance Premium (NPR) and Amount of Sum Insured'
+        : value === 'donut'
+        ? 'Ratio of number of insurance policies sold'
+        : 'Sankey chart based on number of insurance policies sold';
+
     this.setState({
       selectedModal: value,
+      modalHeader,
     });
   };
 
@@ -66,7 +92,8 @@ class MiddleChartSection extends Component {
   };
 
   getModalContent = contentType => {
-    const { activeModal } = this.state;
+    const { activeModal, selectedTab, selectedTabBar } = this.state;
+
     const {
       props: {
         activeView,
@@ -82,80 +109,38 @@ class MiddleChartSection extends Component {
         handleShowBarOf,
         showBarofInvestmentBudgetBenef,
         handleShowBarOfInvestmentBudgetBenefBar,
+        insuranceData,
       },
     } = this;
     const {
       partnershipReducer: { radialData },
     } = this.props;
     switch (contentType) {
-      case 'sunburst':
+      case 'bar':
         return (
-          <SunburstContainer
-            data={radialData}
-            height={700}
-            width={900}
-            count_member="size"
-            activeModal={activeModal}
-            // reset={this.props.resetSunburst}
+          <BarChartInsurance
+            activeModal
+            insuranceData={insuranceData}
+            selectedTabBar={selectedTabBar}
+            setSelectedTabBar={this.setSelectedTabBar}
           />
         );
 
-      case 'sankey':
-        return <SankeyChartInsurance activeModal />;
-      case 'radar':
-        return <RadarChart activeModal />;
-      case 'circle':
-        return <CirclePackChart activeModal />;
-      case 'groupedChart':
+      case 'donut':
         return (
-          <div
-            id="barContainer"
-            style={{ width: '1900px', overflowX: 'scroll' }}
+          <DonutChartInsurance
+            activeModal
+            insuranceData={insuranceData}
+            selectedTab={selectedTab}
+            setSelectedTabDonut={this.setSelectedTabDonut}
           />
         );
-      case 'stackedWithInvestment':
+      case 'sankey':
         return (
-          <div
-            id="barContainer"
-            style={{ width: '1900px', overflowX: 'scroll' }}
-          >
-            <StackedBarWithInvestment
-              viewDataBy={viewDataBy}
-              activeModal={activeModal}
-              investmentFocusSelection={investmentFocusSelection}
-              partnerSelection={partnerSelection}
-              partnerTypeSelection={partnerTypeSelection}
-              projectSelection={projectSelection}
-              projectStatus={projectStatus}
-              showBarof={showBarof}
-              handleShowBarOf={handleShowBarOf}
-              showBarofInvestmentBudgetBenef={
-                showBarofInvestmentBudgetBenef
-              }
-              handleShowBarOfInvestmentBudgetBenefBar={
-                handleShowBarOfInvestmentBudgetBenefBar
-              }
-            />
-          </div>
-        );
-      case 'leverageChart':
-        return (
-          <div
-            id="barContainer"
-            style={{ width: '1900px', overflowX: 'scroll' }}
-          >
-            <LeverageStackedBar
-              viewDataBy={viewDataBy}
-              activeModal={activeModal}
-              investmentFocusSelection={investmentFocusSelection}
-              partnerSelection={partnerSelection}
-              partnerTypeSelection={partnerTypeSelection}
-              projectSelection={projectSelection}
-              projectStatus={projectStatus}
-              showBarof={showBarof}
-              handleShowBarOf={handleShowBarOf}
-            />
-          </div>
+          <SankeyChartInsurance
+            activeModal
+            insuranceData={insuranceData}
+          />
         );
 
       default:
@@ -167,6 +152,9 @@ class MiddleChartSection extends Component {
   downloadPng = (chartid, filename) => {
     this.setState({ isDownloading: true });
     const name = filename ? filename : 'chart';
+    const icons = document.querySelector('.header-icons');
+    icons.style.display = 'none';
+
     setTimeout(() => {
       html2canvas(document.querySelector(`#${chartid}`), {
         allowTaint: true,
@@ -178,7 +166,8 @@ class MiddleChartSection extends Component {
     }, 500);
 
     setTimeout(() => {
-      this.setState({ isDownloading: false });
+      // this.setState({ isDownloading: false });
+      icons.style.display = 'block';
     }, 600);
   };
 
@@ -198,8 +187,30 @@ class MiddleChartSection extends Component {
     if (radialData && radialData.children) {
       formatData(radialData.children);
     }
+    const {
+      activeModal,
+      selectedModal,
+      selectedTab,
+      selectedTabBar,
+      modalHeader,
+    } = this.state;
+
     return (
       <div className="literacy-tab-item" style={{ display: 'block' }}>
+        {activeModal && (
+          <Modal
+            // visible={selectedModal === 'bar' ? true : false}
+            modalHeader={modalHeader}
+            // groupedStackData={groupedStackData}
+            showBarof={showBarof}
+            handleShowBarOf={handleShowBarOf}
+            // resetFilters={resetFilters}
+            selectedModal={selectedModal}
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={() => this.getModalContent(selectedModal)}
+          />
+        )}
         <div className="graph-view">
           <div className="row">
             <div className="col-xl-12">
@@ -219,27 +230,30 @@ class MiddleChartSection extends Component {
                   downloadPng={this.downloadPng}
                   handleModal={this.handleModal}
                   handleSelectedModal={this.handleSelectedModal}
+                  handleBarChartToggle={this.handleBarChartToggle}
+                  isBarChartToggled={this.state.isBarChartToggled}
+                  selectedTabBar={selectedTabBar}
+                  setSelectedTabBar={this.setSelectedTabBar}
                 />
               </div>
             </div>
 
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
-              cardTitle={
-                viewDataBy === 'allocated_budget'
-                  ? 'Budget Reached'
-                  : 'Beneficiary Reached'
-              }
+              cardTitle="Ratio of number of insurance policies sold"
               cardClass="col-xl-12"
-              cardChartId="sankeyChart"
+              cardChartId="insurance-donut"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
-                this.handleSelectedModal('sankey');
+                this.handleSelectedModal('donut');
               }}
               renderChartComponent={() => {
                 return (
                   <DonutChartInsurance
                     insuranceData={insuranceData}
+                    selectedTab={selectedTab}
+                    setSelectedTabDonut={this.setSelectedTabDonut}
+                    activeModal={activeModal}
                   />
                 );
               }}
@@ -248,7 +262,7 @@ class MiddleChartSection extends Component {
               resetFunction={this.props.resetSankeyChartData}
               cardTitle="Sankey chart based on number of insurance policies sold"
               cardClass="col-xl-12"
-              cardChartId="sankeyChart"
+              cardChartId="insurance-sankey"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
                 this.handleSelectedModal('sankey');
@@ -257,6 +271,7 @@ class MiddleChartSection extends Component {
                 return (
                   <SankeyChartInsurance
                     insuranceData={insuranceData}
+                    activeModal={activeModal}
                   />
                 );
               }}

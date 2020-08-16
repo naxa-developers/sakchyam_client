@@ -384,8 +384,6 @@ class MainPartnership extends Component {
       });
     }
 
-    console.log('is all partner selected', filteredData);
-
     this.setState({
       insuranceData: filteredData,
     });
@@ -438,7 +436,7 @@ class MainPartnership extends Component {
             applyBtnClick={this.handelApplyFilters}
           />
           <main className="main">
-            <div className="main-card literacy-main-card">
+            <div className="main-card literacy-main-card product-process-custom">
               {/* <Loading
                 loaderState={!isDataFetched}
                 top="50%"

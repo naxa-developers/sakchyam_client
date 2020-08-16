@@ -40,13 +40,19 @@ const RightPortion = ({
     >
       <div className="top-section-payment">
         <h3>Retail payment System</h3>
-        <div className="switch-connect-system ">
+        <div className="switch-connect-system">
           <div
             className={
               !isLeftCardSelected && selectedCardRef === 0
                 ? 'payment-card switch-system active'
                 : 'payment-card switch-system'
             }
+            style={{
+              borderColor:
+                !isLeftCardSelected &&
+                selectedCardRef === 0 &&
+                '#E11D3F',
+            }}
             ref={el => (rightCardRefs.current[0] = el)}
             onClick={() => {
               onRightCardClick(0);
@@ -98,6 +104,12 @@ const RightPortion = ({
               ? 'payment-card psp-system active'
               : 'payment-card psp-system'
           }
+          style={{
+            borderColor:
+              !isLeftCardSelected &&
+              selectedCardRef === 1 &&
+              '#E11D3F',
+          }}
           ref={el => (rightCardRefs.current[1] = el)}
           onClick={() => onRightCardClick(1)}
         >

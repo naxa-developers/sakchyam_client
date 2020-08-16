@@ -21,7 +21,7 @@ const FilterBadge = ({
     >
       <a>
         <i className="material-icons">{icon ? icon : ''}</i>
-        <span>{title}</span>
+        <span style={{ textTransform: 'none' }}>{title}</span>
       </a>
       {/* <a>{title}</a> */}
     </li>

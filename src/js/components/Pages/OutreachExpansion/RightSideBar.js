@@ -123,7 +123,6 @@ class RightSideBar extends Component {
 
       // eslint-disable-next-line no-use-before-define
       const timelineData = generateTimelineData(primaryData);
-      // console.log('time data', timeliendata);
 
       const years = [];
       timelineData.forEach(item => years.push(item.year));
@@ -380,10 +379,24 @@ class RightSideBar extends Component {
                                             {`${monthName}
                                    ${item.year}`}
                                           </span>
-                                          <p>
-                                            {list.partner} at{' '}
+                                          {/* <p>
+                                            {list.partner} at
                                             {list.market_name}
-                                          </p>
+                                          </p> */}
+                                          <ul>
+                                            {list.name.map(nam => (
+                                              <li
+                                                style={{
+                                                  listStyle: 'disc',
+                                                }}
+                                              >
+                                                <p>
+                                                  {nam.partner} at{' '}
+                                                  {nam.market_name}
+                                                </p>
+                                              </li>
+                                            ))}
+                                          </ul>
                                         </div>
                                       </div>
                                     </li>
@@ -430,13 +443,47 @@ const generateTimelineData = data => {
   // remove data with null date values
 
   const filteredData = [];
+  // data.forEach(item => {
+  //   if (item.date_established !== null)
+  //     filteredData.push({
+  //       date: item.date_established,
+  //       partner: item.partner,
+  //       market_name: item.market_name,
+  //     });
+  // });
+
   data.forEach(item => {
-    if (item.date_established !== null)
-      filteredData.push({
-        date: item.date_established,
-        partner: item.partner,
-        market_name: item.market_name,
-      });
+    if (item.date_established !== null) {
+      const obj = filteredData.some(
+        x => x.date.slice(0, 7) === item.date_established.slice(0, 7),
+      );
+      if (!obj) {
+        filteredData.push({
+          date: item.date_established,
+          name: [
+            { partner: item.partner, market_name: item.market_name },
+          ],
+        });
+      } else {
+        const objIndex = filteredData.findIndex(
+          i =>
+            i.date.slice(0, 7) === item.date_established.slice(0, 7),
+        );
+        const obj1 = filteredData[objIndex].name
+          .map(
+            x =>
+              x.partner === item.partner &&
+              x.market_name === item.market_name,
+          )
+          .includes(true);
+        if (!obj1) {
+          filteredData[objIndex].name.push({
+            partner: item.partner,
+            market_name: item.market_name,
+          });
+        }
+      }
+    }
   });
 
   const allYears = [];

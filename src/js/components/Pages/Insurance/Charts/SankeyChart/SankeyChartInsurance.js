@@ -127,6 +127,11 @@ class SankeyChartInsurance extends Component {
     };
   }
 
+  componentDidMount() {
+    const { activeModal, insuranceData } = this.props;
+    if (activeModal) this.getSankeyData(insuranceData);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { insuranceData } = this.props;
 
@@ -146,7 +151,7 @@ class SankeyChartInsurance extends Component {
     const { sankeyData } = this.state;
 
     return (
-      <div style={{ height: '750px' }}>
+      <div style={{ height: '750px' }} id="insurance-sankey">
         {Object.entries(sankeyData).length !== 0 &&
           sankeyData.nodes.length !== 0 && (
             <ResponsiveSankey
@@ -167,7 +172,7 @@ class SankeyChartInsurance extends Component {
                 from: 'color',
                 modifiers: [['darker', 0.8]],
               }}
-              linkOpacity={0.8}
+              linkOpacity={1}
               linkHoverOthersOpacity={0.1}
               enableLinkGradient
               colorBy={node => node.nodeColor}
