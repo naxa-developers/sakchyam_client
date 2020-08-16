@@ -1,3 +1,7 @@
+/* eslint-disable radix */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable default-case */
+/* eslint-disable no-else-return */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/no-did-update-set-state */
 /* eslint-disable new-cap */
@@ -13,6 +17,7 @@ import { getCenterBboxDistrict } from '../../common/BBoxFunctionsMapBox/District
 import { getCenterBboxProvince } from '../../common/BBoxFunctionsMapBox/ProvinceFunction';
 import Select from '../../common/Select/Select';
 import {
+  getBranchesTableDataByFed,
   getAllAutomationDataByPartner,
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
@@ -58,9 +63,9 @@ class MainAutomation extends Component {
       provinceList: provinceLists(),
       districtList: districtLists(),
       municipalityList: municipalityLists(),
-      selectedProvince: '',
-      selectedDistrict: null,
-      selectedMunicipality: null,
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
       map: '',
       mapViewBy: 'municipality',
       activeView: 'map',
@@ -379,7 +384,6 @@ class MainAutomation extends Component {
       });
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
-      // this.props.filterMunListFromDistrict(selectedDistrict);
       let municipality;
       if (
         (selectedDistrict &&
@@ -450,6 +454,10 @@ class MainAutomation extends Component {
   };
 
   toggleOutreachButton = () => {
+    // if (this.state.activeOutreachButton) {
+    //   this.refreshSelectedPartnerBtn();
+    // }
+
     this.setState(prevState => ({
       activeOutreachButton: !prevState.activeOutreachButton,
     }));
@@ -469,7 +477,7 @@ class MainAutomation extends Component {
       districtList: districtLists(),
       municipalityList: municipalityLists(),
       selectedProvince: provinceLists(),
-      selectedDistrict: '',
+      selectedDistrict: [],
       selectedMunicipality: municipalityLists(),
     });
 
@@ -477,9 +485,7 @@ class MainAutomation extends Component {
       this.props.filterPartnerSelect([]);
     }
 
-    if (activeTableView && activeClickPartners.length > 0) {
-      this.props.getBranchesTableData();
-    }
+    this.props.getBranchesTableData();
 
     map.setZoom(5.5);
     map.setCenter([84.5, 28.5]);
@@ -496,10 +502,8 @@ class MainAutomation extends Component {
   };
 
   toggleTableViewButton = () => {
-    const { activeTableView, activeClickPartners } = this.state;
-    if (!activeTableView && activeClickPartners.length > 0) {
-      this.props.getTableDataByPartnerSelect(activeClickPartners);
-    }
+    const { activeTableView } = this.state;
+
     this.setState(prevState => ({
       activeTableView: !prevState.activeTableView,
     }));
@@ -507,10 +511,10 @@ class MainAutomation extends Component {
 
   handleActiveClickPartners = id => {
     let { activeClickPartners } = this.state;
-
-    const { activeTableView, mapViewBy, loading } = this.state;
+    const { mapViewBy, activeTableView } = this.state;
 
     const tempArray = activeClickPartners.slice();
+
     if (!activeClickPartners.includes(id)) {
       tempArray.push(id);
       activeClickPartners = tempArray;
@@ -521,18 +525,14 @@ class MainAutomation extends Component {
       activeClickPartners = filteredData;
     }
     this.setState({ activeClickPartners });
-    this.props.filterPartnerSelect(activeClickPartners);
+
     this.props.partnerSelectWithOutreach(
       activeClickPartners,
       mapViewBy,
     );
-    if (activeTableView) {
-      this.props.getTableDataByPartnerSelect(activeClickPartners);
-    } else {
-      setTimeout(() => {
-        this.handleStateLevel();
-      }, 100);
-    }
+    setTimeout(() => {
+      this.handleStateLevel();
+    }, 100);
   };
 
   handleStateLevel = () => {
@@ -544,8 +544,12 @@ class MainAutomation extends Component {
       selectedProvince,
       municipalityList,
       districtList,
-      activeTableView,
+      activeClickPartners,
     } = this.state;
+
+    let provinceCodes = [];
+    let muniCodes = [];
+    let districtCodes = [];
 
     const provinceCheck =
       selectedProvince && selectedProvince.length > 0;
@@ -555,7 +559,6 @@ class MainAutomation extends Component {
       selectedMunicipality && selectedMunicipality.length > 0;
 
     if (provinceCheck || districtCheck || muniCheck) {
-      this.setState({ filterDataByAdmin: true });
       if (mapViewBy === 'municipality') {
         if (muniCheck) {
           const combinedBbox = [];
@@ -647,7 +650,26 @@ class MainAutomation extends Component {
           this.changeMapTiles(selectedProvince);
         }
       }
+
+      if (activeClickPartners.length > 0) {
+        this.props.getFilteredPartnersByFederalWithClickedPartners(
+          {
+            municipality: this.getCodes(selectedMunicipality),
+            district: this.getCodes(selectedDistrict),
+            province: this.getCodes(selectedProvince),
+          },
+          activeClickPartners,
+        );
+      } else {
+        this.props.getFilteredPartnersByFederal({
+          municipality: this.getCodes(selectedMunicipality),
+          district: this.getCodes(selectedDistrict),
+          province: this.getCodes(selectedProvince),
+        });
+      }
     } else {
+      this.props.filterPartnerSelect(activeClickPartners);
+      this.props.getTableDataByPartnerSelect(activeClickPartners);
       map.setZoom(5.5);
       map.setCenter([84.5, 28.5]);
       if (mapViewBy === 'municipality') {
@@ -657,6 +679,38 @@ class MainAutomation extends Component {
       } else if (mapViewBy === 'province') {
         this.changeMapTiles(provinceLists());
       }
+    }
+
+    if (provinceCheck) {
+      provinceCodes = this.getCodes(selectedProvince);
+    }
+    if (districtCheck) {
+      districtCodes = this.getCodes(selectedDistrict);
+    }
+    if (muniCheck) {
+      muniCodes = this.getCodes(selectedMunicipality);
+    }
+    if (provinceCheck || districtCheck || muniCheck) {
+      this.props.getBranchesTableDataByFed(
+        {
+          municipality: muniCodes,
+          district: districtCodes,
+          province: provinceCodes,
+        },
+        activeClickPartners,
+      );
+    }
+  };
+
+  getCodes = array => {
+    if (array.length > 0) {
+      const filteredArray = array.filter(
+        data => data.value !== 'all',
+      );
+      const codeList = filteredArray.map(item => item.code);
+      return codeList;
+    } else {
+      return [];
     }
   };
 
@@ -748,6 +802,53 @@ class MainAutomation extends Component {
     }
   };
 
+  handleAdminSelects = (option, type) => {
+    switch (type) {
+      case 'province':
+        this.setState({ selectedProvince: option });
+        break;
+      case 'district':
+        this.setState({ selectedDistrict: option });
+        break;
+      case 'municipality':
+        this.setState({ selectedMunicipality: option });
+        break;
+    }
+  };
+
+  handleMapClick = value => {
+    const { mapViewBy } = this.state;
+    if (mapViewBy === 'province') {
+      const allProvinces = provinceLists();
+      allProvinces.unshift();
+      const selectedProvince = allProvinces.filter(
+        pro => parseInt(pro.code) === parseInt(value),
+      );
+      this.setState({ selectedProvince });
+      setTimeout(() => {
+        this.handleStateLevel();
+      }, 10);
+      setTimeout(() => {
+        this.setMapViewBy('district');
+      }, 100);
+    }
+
+    if (mapViewBy === 'district') {
+      const allDistricts = districtLists();
+      allDistricts.unshift();
+      const selectedDistrict = allDistricts.filter(
+        pro => parseInt(pro.code) === parseInt(value),
+      );
+      this.setState({ selectedDistrict });
+      setTimeout(() => {
+        this.handleStateLevel();
+      }, 10);
+      setTimeout(() => {
+        this.setMapViewBy('municipality');
+      }, 100);
+    }
+  };
+
   render() {
     const {
       map,
@@ -760,6 +861,7 @@ class MainAutomation extends Component {
       tabletsDeployed,
       activeClickPartners,
       allPartners,
+      finalPartnerList,
       branchesCountOptions,
       areaChartOptions,
       activeRightSideBar,
@@ -775,7 +877,6 @@ class MainAutomation extends Component {
     } = this.state;
     const { tableDataLoading } = this.props.automationReducer;
 
-    console.log('activeClickPartners', loading);
     return (
       <div className="page-wrap page-100">
         <Header />
@@ -803,11 +904,12 @@ class MainAutomation extends Component {
                 addMap={this.addMap}
                 mapViewBy={mapViewBy}
                 vectorTileUrl={vectorTileUrl}
-                allPartners={allPartners}
+                allPartners={finalPartnerList}
                 activeClickPartners={activeClickPartners}
                 activeOutreachButton={activeOutreachButton}
                 loadingHandler={this.loadingHandler}
                 loading={loading}
+                handleMapClick={this.handleMapClick}
               />
 
               <div
@@ -911,9 +1013,17 @@ class MainAutomation extends Component {
               </div>
             </div>
             <TableViewComponent
-              toggleTableViewButton={this.toggleTableViewButton}
               activeTableView={activeTableView}
               activeClickPartners={activeClickPartners}
+              provinceList={provinceList}
+              districtList={districtList}
+              municipalityList={municipalityList}
+              toggleTableViewButton={this.toggleTableViewButton}
+              handleAdminSelects={this.handleAdminSelects}
+              handleStateLevel={this.handleStateLevel}
+              refreshSelectedPartnerBtn={
+                this.refreshSelectedPartnerBtn
+              }
             />
           </main>
           <RightSideBar
@@ -940,6 +1050,7 @@ const mapStateToProps = ({ automationReducer }) => ({
   automationReducer,
 });
 export default connect(mapStateToProps, {
+  getBranchesTableDataByFed,
   getAllAutomationDataByPartner,
   getAutomationDataByProvince,
   getAutomationDataByDistrict,
