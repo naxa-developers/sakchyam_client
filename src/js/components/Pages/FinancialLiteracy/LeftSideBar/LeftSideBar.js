@@ -73,18 +73,14 @@ class LeftSideBar extends Component {
                   <div className="widget-tag partner-tag">
                     <a
                       onClick={() => {
-                        handlePartnerType(
-                          'Microfinance Institutions',
-                        );
+                        handlePartnerType('Microfinance/Cooperative');
                       }}
                       onKeyDown={() => {
-                        handlePartnerType(
-                          'Microfinance Institutions',
-                        );
+                        handlePartnerType('Microfinance/Cooperative');
                       }}
                       className={
                         partnerType.includes(
-                          'Microfinance Institutions',
+                          'Microfinance/Cooperative',
                         )
                           ? 'active'
                           : ''
@@ -92,22 +88,22 @@ class LeftSideBar extends Component {
                       role="tab"
                       tabIndex="0"
                     >
-                      <span>Microfinance</span>
+                      <span>Microfinance/Cooperative</span>
                     </a>
                     <a
                       onClick={() => {
                         handlePartnerType(
-                          'Commercial Bank and Other Partners',
+                          'Commercial Banks and Mobile Network Operators',
                         );
                       }}
                       onKeyDown={() => {
                         handlePartnerType(
-                          'Commercial Bank and Other Partners',
+                          'Commercial Banks and Mobile Network Operators',
                         );
                       }}
                       className={
                         partnerType.includes(
-                          'Commercial Bank and Other Partners',
+                          'Commercial Banks and Mobile Network Operators',
                         )
                           ? 'active'
                           : ''
@@ -116,7 +112,7 @@ class LeftSideBar extends Component {
                       role="tab"
                     >
                       <span style={{ textTransform: 'none' }}>
-                        Commercial Banks and PSPs
+                        Commercial Banks and Mobile Network Operators
                       </span>
                     </a>
                   </div>

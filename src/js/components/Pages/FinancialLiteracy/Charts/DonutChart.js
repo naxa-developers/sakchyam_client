@@ -184,22 +184,20 @@ class DonutChart extends Component {
     this.plotChart();
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { label } = this.props.financialReducer.pieData;
-  //   if (
-  //     prevProps.financialReducer.pieData !==
-  //     this.props.financialReducer.pieData
-  //   ) {
-  //     // this.getDonutChartData();
-  //     // console.log(label, 'label');
-  //     this.setState(preState => ({
-  //       options: {
-  //         ...preState.options,
-  //         labels: label,
-  //       },
-  //     }));
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    const { label } = this.props.financialReducer.pieData;
+    if (
+      prevProps.financialReducer.pieData !==
+      this.props.financialReducer.pieData
+    ) {
+      this.setState(preState => ({
+        options: {
+          ...preState.options,
+          labels: label,
+        },
+      }));
+    }
+  }
 
   render() {
     const { series, label } = this.props.financialReducer.pieData;
@@ -235,7 +233,7 @@ class DonutChart extends Component {
                   <small style={{ backgroundColor: '#e11d3f' }} />
                   <span>
                     <strong style={{ fontSize: '12px' }}>
-                      Microfinance Institutions
+                      Microfinance/Cooperative
                     </strong>
                   </span>
                 </h5>
@@ -256,7 +254,7 @@ class DonutChart extends Component {
                   <small style={{ backgroundColor: '#13a8be' }} />
                   <span>
                     <strong style={{ fontSize: '12px' }}>
-                      Commercial Bank & Other Partners
+                      Commercial Banks and Mobile Network Operators
                     </strong>
                   </span>
                 </h5>
