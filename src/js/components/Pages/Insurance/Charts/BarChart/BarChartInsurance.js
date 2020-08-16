@@ -3,7 +3,20 @@ import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import SwitchComponent from '../../MiddleChartSection/SwitchComponent';
 import { getShortNumbers } from '../../../../common/utilFunctions';
-import convert from '../../../../utils/convertNumbers';
+// import convert from '../../../../utils/convertNumbers';
+
+function convert(num) {
+  if (num > 999 && num < 1000000) {
+    return `${num / 1000000}M`; // convert to K for number from > 1000 < 1 million
+  }
+  if (num > 1000000) {
+    return `${num / 1000000}M`; // convert to M for number from > 1 million
+  }
+  if (num < 900) {
+    return num; // if value < 1000, nothing to do
+  }
+  return num;
+}
 
 function getBarChartLabels(data, name) {
   return [...new Set(data.map(item => item[name]))];
@@ -30,7 +43,6 @@ class BarChartInsurance extends Component {
       chartData2: { series1: [], series2: [], options: {} },
       chartData3: {},
       isBarChartClicked: false,
-      selectedTab: 'insurance-premium',
     };
   }
 
@@ -202,16 +214,18 @@ class BarChartInsurance extends Component {
       yaxis: {
         title: {
           text:
-            that.state.selectedTab === 'insurance-premium'
+            // formatter: val => 'hello',
+            that.props.selectedTabBar === 'insurance-premium'
               ? 'Amount of Insurance (NPR)'
               : 'Amount of Sum Insuranced',
-          style: { colors: colors.red },
         },
-        axisTicks: { show: true, color: colors.red },
-        axisBorder: { show: true, color: colors.red },
+        axisTicks: { show: true },
+        axisBorder: { show: true },
         labels: {
           show: true,
           offsetX: 0,
+          minWidth: 65,
+          maxWidth: 300,
           // formatter: val => getShortNumbers(val),
           formatter: val => convert(val),
           // style: {
@@ -251,6 +265,11 @@ class BarChartInsurance extends Component {
           offsetY: 0,
         },
       },
+      // tooltip: {
+      //   onDatasetHover: {
+      //     highlightDataSeries: true,
+      //   },
+      // },
     };
 
     this.setState({
@@ -260,13 +279,36 @@ class BarChartInsurance extends Component {
 
   componentDidMount() {
     this.plotChart();
+
+    const { activeModal, insuranceData } = this.props;
+    if (activeModal) this.setInsuranceData(insuranceData);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { insuranceData } = this.props;
+    const { insuranceData, selectedTabBar } = this.props;
 
     if (insuranceData !== prevProps.insuranceData) {
       this.setInsuranceData(insuranceData);
+    }
+    if (selectedTabBar !== prevProps.selectedTabBar) {
+      // this.plotChart();
+      // this.setInsuranceData(insuranceData);
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState(prev => ({
+        options: {
+          ...prev.options,
+          yaxis: {
+            ...prev.options.yaxis,
+            title: {
+              ...prev.options.yaxis.title,
+              text:
+                selectedTabBar === 'insurance-premium'
+                  ? 'Amount of Insurance (NPR)'
+                  : 'Amount of Sum Insuranced',
+            },
+          },
+        },
+      }));
     }
   }
 
@@ -313,6 +355,7 @@ class BarChartInsurance extends Component {
     });
 
     const options = {
+      // colors: [colors.red],
       chart: {
         height: 450,
         type: 'bar',
@@ -358,25 +401,21 @@ class BarChartInsurance extends Component {
       //   },
       // ],
     };
-    this.setState({
+    this.setState(prev => ({
       series1,
       series2,
-      options,
+      options: { ...prev.options, labels },
       data: array,
-      chartData1: { series1, options },
+      chartData1: { series1, options: { ...prev.options } },
       chartData2: { options },
       barChartClickIndex: 0,
-    });
+    }));
   };
 
   handleBarChartBackBtn = () => {
     this.setState(prev => ({
       isBarChartClicked: !prev.isBarChartClicked,
     }));
-  };
-
-  setSelectedTab = e => {
-    this.setState({ selectedTab: e });
   };
 
   render() {
@@ -386,7 +425,6 @@ class BarChartInsurance extends Component {
       chartData1,
       chartData2,
       chartData3,
-      selectedTab,
     } = this.state;
 
     const {
@@ -399,6 +437,7 @@ class BarChartInsurance extends Component {
       barTitle,
       isDownloading,
       isBarChartToggled,
+      selectedTabBar,
     } = this.props;
 
     return (
@@ -406,6 +445,7 @@ class BarChartInsurance extends Component {
         <div
           className="card-header"
           // style={activeModal && { backgroundColor: '#fff' }}
+          style={{ backgroundColor: activeModal ? '#fff' : '' }}
         >
           {!activeModal && <h5>{barTitle}</h5>}
           {!isDownloading && (
@@ -457,31 +497,31 @@ class BarChartInsurance extends Component {
         </div>
         <div className="card-body">
           <SwitchComponent
-            selectedTab={selectedTab}
-            setSelectedTab={this.setSelectedTab}
+            selectedTab={selectedTabBar}
+            setSelectedTab={this.props.setSelectedTabBar}
           />
           {!isBarChartClicked ? (
             <ReactApexChart
               options={this.state.options}
               series={
                 // !isBarChartToggled
-                selectedTab === 'insurance-premium'
+                selectedTabBar === 'insurance-premium'
                   ? this.state.series1
                   : this.state.series2
               }
               type="bar"
-              height={400}
+              height={!activeModal ? 400 : 550}
             />
           ) : (
             <ReactApexChart
               options={chartData2.options}
               series={
-                selectedTab === 'insurance-premium'
+                selectedTabBar === 'insurance-premium'
                   ? chartData2.series1
                   : chartData2.series2
               }
               type="bar"
-              height={400}
+              height={!activeModal ? 400 : 550}
             />
           )}
         </div>
