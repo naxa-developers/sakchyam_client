@@ -26,7 +26,7 @@ const PlotLeftLines = ({
           fill="white"
           stroke={lineColor}
           strokeWidth="3"
-          key={item.y1}
+          key={item.y2}
         >
           <line
             x1={item.x1}

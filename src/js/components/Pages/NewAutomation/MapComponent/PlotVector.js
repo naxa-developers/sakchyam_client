@@ -15,6 +15,7 @@ import {
 } from '../../../common/Functions';
 import { removeDuplicates } from '../../../common/utilFunctions';
 import TimelineChart from '../Chart/TimelineChart';
+import { getCenterBboxProvince } from '../../../common/BBoxFunctionsMapBox/ProvinceFunction';
 
 const defaultData = [
   { id: '1', count: 0 },
@@ -207,25 +208,38 @@ class PlotVector extends Component {
 
     const markerCollection = [];
     tempActive.features.forEach(function(marker) {
-      const popup = new mapboxgl.Popup({ offset: 25 }).setText(
-        `${marker.properties.partner_name}`,
-      );
+      const popup = new mapboxgl.Popup({
+        offset: 25,
+        closeButton: false,
+      }).setText(`${marker.properties.partner_name}`);
       const el = document.createElement('div');
-      let Marker1 = '';
 
       el.className = 'marker-outreach-branch';
-      Marker1 = new mapboxgl.Marker(el)
+
+      const Marker1 = new mapboxgl.Marker(el)
         .setLngLat(marker.geometry.coordinates)
         .setPopup(popup)
         .addTo(map);
+
+      el.addEventListener('mouseenter', () => Marker1.togglePopup());
+      el.addEventListener('mouseleave', () => Marker1.togglePopup());
+
+      if (!that.props.activeOutreachButton) {
+        Marker1.togglePopup();
+        setTimeout(() => {
+          Marker1.togglePopup();
+        }, 2000);
+      }
+
       markerCollection.push(Marker1);
     });
 
     tempInActive &&
       tempInActive.features.forEach(function(marker) {
-        const popup = new mapboxgl.Popup({ offset: 25 }).setText(
-          `${marker.properties.partner_name}`,
-        );
+        const popup = new mapboxgl.Popup({
+          offset: 25,
+          closeButton: false,
+        }).setText(`${marker.properties.partner_name}`);
         const el = document.createElement('div');
         let Marker1 = '';
 
@@ -234,6 +248,13 @@ class PlotVector extends Component {
           .setLngLat(marker.geometry.coordinates)
           .setPopup(popup)
           .addTo(map);
+
+        el.addEventListener('mouseenter', () =>
+          Marker1.togglePopup(),
+        );
+        el.addEventListener('mouseleave', () =>
+          Marker1.togglePopup(),
+        );
 
         markerCollection.push(Marker1);
       });
@@ -364,6 +385,10 @@ class PlotVector extends Component {
         },
       });
 
+      map.on('click', 'vector-tile-fill', function(e) {
+        that.props.handleMapClick(e.features[0].properties.code);
+      });
+
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {
           if (hoveredStateId) {
@@ -377,7 +402,8 @@ class PlotVector extends Component {
             );
           }
           hoveredStateId = e.features[0].id;
-          that.props.setHoveredMunicipalityId(e.features[0].id);
+          that.props.activeOutreachButton &&
+            that.props.setHoveredMunicipalityId(e.features[0].id);
           map.setFeatureState(
             {
               source: 'municipality',
@@ -399,6 +425,7 @@ class PlotVector extends Component {
             },
             { hover: false },
           );
+          // popup.remove();
         }
         hoveredStateId = null;
         that.props.setHoveredMunicipalityId(0);

@@ -129,12 +129,35 @@ const generateTimelineData = data => {
   // remove data with null date values
 
   const filteredData = [];
+  // data.forEach(item => {
+  //   if (item.date !== null)
+  //     filteredData.push({
+  //       date: item.date,
+  //       name: item.product_name,
+  //     });
+  // });
+
   data.forEach(item => {
-    if (item.date !== null)
-      filteredData.push({
-        date: item.date,
-        name: item.product_name,
-      });
+    if (item.date !== null) {
+      const obj = filteredData.some(
+        x => x.date.slice(0, 7) === item.date.slice(0, 7),
+      );
+      if (!obj) {
+        filteredData.push({
+          date: item.date,
+          name: [item.product_name],
+        });
+      } else {
+        const objIndex = filteredData.findIndex(
+          i => i.date.slice(0, 7) === item.date.slice(0, 7),
+        );
+        if (
+          !filteredData[objIndex].name.includes(item.product_name)
+        ) {
+          filteredData[objIndex].name.push(item.product_name);
+        }
+      }
+    }
   });
 
   const allYears = [];

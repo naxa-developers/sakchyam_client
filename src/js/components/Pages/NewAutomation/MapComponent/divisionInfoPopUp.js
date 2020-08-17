@@ -1,21 +1,51 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import { toUpper } from 'lodash';
 
 export default function divisionInfoPopUp(props) {
   const code = props.data;
-  console.log('code ', code);
   return (
-    <div className="map-popup" style={{ left: '30vw' }}>
-      <div className="map-popup-container">
-        <div className="map-popup-body">
-          <div className="map-popup-header">
-            <h3>
-              {code.type}:{code.name}
-            </h3>
-            <h4>Count:{code.count}</h4>
+    <div
+      className="mapbox-popup-content"
+      style={{
+        top: '5vh',
+        position: 'relative',
+        float: 'right',
+        backgroundColor: 'white',
+        zIndex: '1000',
+      }}
+    >
+      <div
+        className="map-popup-view"
+        style={{ marginBottom: '0 !important' }}
+      >
+        <div className="map-popup-view-header">
+          <h5>{code.name}</h5>
+          <div className="icons">
+            <i className="material-icons">tablet_mac</i>
+            <b>{code.totalCount}</b>
           </div>
         </div>
+        <ul style={{ height: '100%', fontSize: '10px' }}>
+          {code.uniqueData &&
+            code.uniqueData.map(data => {
+              return (
+                <li style={{ marginBottom: '0 !important' }}>
+                  <div className="organization-icon" />
+                  <div className="organization-content">
+                    <div className="org-header">
+                      <>{data.partner}</>
+                      <div className="icon-list">
+                        <div className="icons">
+                          <i className="material-icons">tablet_mac</i>
+                          <>{data.count}</>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+        </ul>
       </div>
     </div>
   );

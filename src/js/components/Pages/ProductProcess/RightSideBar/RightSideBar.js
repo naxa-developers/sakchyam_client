@@ -279,7 +279,20 @@ class RightSideBar extends Component {
                                           {`${monthName}
                                         ${item.year}`}
                                         </span>
-                                        <p>{list.name}</p>
+
+                                        <ul>
+                                          {list.name.map(nam => (
+                                            <li
+                                              style={{
+                                                listStyle: 'disc',
+                                              }}
+                                            >
+                                              <p>{nam}</p>
+                                            </li>
+                                          ))}
+                                        </ul>
+
+                                        {/* <p>{list.name}</p> */}
                                       </div>
                                     </div>
                                   </li>
