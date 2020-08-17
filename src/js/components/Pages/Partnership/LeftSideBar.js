@@ -197,7 +197,7 @@ class LeftSideBar extends Component {
                   {partnerTypeList.map(data => {
                     return (
                       <a
-                        data-label="Microfinance Institutions/Cooperatives"
+                        data-label={data}
                         className={
                           partnerType.includes(data) ? 'active' : ''
                         }

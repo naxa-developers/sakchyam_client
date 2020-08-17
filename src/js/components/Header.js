@@ -201,7 +201,7 @@ class Header extends Component {
                       activeProfileDropdown ? 'active' : ''
                     }`}
                   >
-                    <li>
+                    {/* <li>
                       <a
                         href="#/"
                         className="disabled profile span_heavy_15"
@@ -216,7 +216,7 @@ class Header extends Component {
                       >
                         Settings
                       </a>
-                    </li>
+                    </li> */}
                     <li>
                       {' '}
                       <a
