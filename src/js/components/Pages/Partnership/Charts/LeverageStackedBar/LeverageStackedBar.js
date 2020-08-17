@@ -520,7 +520,7 @@ class StackedBar extends Component {
 
   render() {
     const { options, series } = this.state;
-    const { activeModal, viewDataBy } = this.props;
+    const { activeModal, viewDataBy, cardTitle } = this.props;
     return (
       <div
         id="leverage_chart"
@@ -530,6 +530,7 @@ class StackedBar extends Component {
         //     : { display: 'none' }
         // }
       >
+        <h6>{cardTitle}</h6>
         <ReactApexChart
           options={options}
           series={series}

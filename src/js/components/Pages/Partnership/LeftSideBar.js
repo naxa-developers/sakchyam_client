@@ -43,6 +43,7 @@ class LeftSideBar extends Component {
       partnershipInvestmentFocus,
       projectLists,
       partnersList,
+      partnerTypeList,
       filteredPartnerList,
     } = this.props.partnershipReducer;
     return (
@@ -193,31 +194,28 @@ class LeftSideBar extends Component {
               <h6 className="title">Partner Type</h6>
               <div className="widget-body">
                 <div className="widget-tag partner-tag">
-                  <a
-                    data-label="Microfinance Institutions/Cooperatives"
-                    className={
-                      partnerType.includes(
-                        'Microfinance Institutions/Cooperatives',
-                      )
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType(
-                        'Microfinance Institutions/Cooperatives',
-                      );
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType(
-                        'Microfinance Institutions/Cooperatives',
-                      );
-                    }}
-                  >
-                    <span>Microfinance</span>
-                  </a>
-                  <a
+                  {partnerTypeList.map(data => {
+                    return (
+                      <a
+                        data-label="Microfinance Institutions/Cooperatives"
+                        className={
+                          partnerType.includes(data) ? 'active' : ''
+                        }
+                        role="tab"
+                        tabIndex="-1"
+                        onClick={() => {
+                          handlePartnerType(data);
+                        }}
+                        onKeyUp={() => {
+                          handlePartnerType(data);
+                        }}
+                      >
+                        <span>{data}</span>
+                      </a>
+                    );
+                  })}
+
+                  {/* <a
                     data-label="Commercial Bank and Other Partners"
                     className={
                       partnerType.includes(
@@ -240,7 +238,7 @@ class LeftSideBar extends Component {
                     }}
                   >
                     <span>Commercial Bank</span>
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>

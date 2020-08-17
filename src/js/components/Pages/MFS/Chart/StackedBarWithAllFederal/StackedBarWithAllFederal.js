@@ -158,6 +158,7 @@ class StackedBarWithAllFederal extends Component {
       },
       showBarChartof,
     } = this.props;
+    const { mapViewBy } = this.props;
     // console.log(barDatas, 'barDatas');
     // // alert('test');
     // const newArray = barDatas.series[0].data.map(
@@ -264,7 +265,7 @@ class StackedBarWithAllFederal extends Component {
       },
       plotOptions: {
         bar: {
-          columnWidth: '20%',
+          columnWidth: mapViewBy === 'district' ? '40%' : '20%',
         },
       },
       dataLabels: {
@@ -324,7 +325,7 @@ class StackedBarWithAllFederal extends Component {
     }
 
     if (prevProps.showBarChartBy !== this.props.showBarChartBy) {
-      alert(this.props.showBarChartBy);
+      // alert(this.props.showBarChartBy);
       // this.updateBarChart();
       if (this.props.showBarChartBy === false) {
         // eslint-disable-next-line react/no-did-update-set-state
@@ -371,6 +372,9 @@ class StackedBarWithAllFederal extends Component {
     console.log(window.innerWidth);
     const { options, series } = this.state;
     const { activeModal, mapViewBy, showBarChartof } = this.props;
+    const {
+      mfsReducer: { mfsChartDataByPartner },
+    } = this.props;
     return (
       <div
         id="stacked_chart"

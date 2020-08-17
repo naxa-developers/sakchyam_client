@@ -55,6 +55,7 @@ const CardTab = ({
   radioBtnProps,
   setShowBarChartBy,
   showBarChartBy,
+  resetFilters,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -122,6 +123,7 @@ const CardTab = ({
                   onClick={() => {
                     handleShowBarOf('Provinces');
                     resetFunction();
+                    resetFilters();
                   }}
                   className="is-border common-button chart-reset"
                 >
@@ -134,6 +136,7 @@ const CardTab = ({
                 type="button"
                 onClick={() => {
                   resetFunction();
+                  resetFilters();
                 }}
                 className="is-border common-button chart-reset"
               >
@@ -145,6 +148,7 @@ const CardTab = ({
                 type="button"
                 onClick={() => {
                   resetFunction();
+                  resetFilters();
                 }}
                 className="is-border common-button chart-reset"
               >
@@ -157,6 +161,7 @@ const CardTab = ({
                   type="button"
                   onClick={() => {
                     resetFunction();
+                    resetFilters();
                   }}
                   className="is-border common-button chart-reset"
                 >
@@ -164,19 +169,21 @@ const CardTab = ({
                 </button>
               )
             ) : null}
-            <span
-              className=""
-              onClick={() => {
-                downloadPng(cardChartId, modalHeader);
-              }}
-              onKeyDown={() => {
-                downloadPng(cardChartId, modalHeader);
-              }}
-              role="button"
-              tabIndex="-1"
-            >
-              <img src={DownloadIcon} alt="open" />
-            </span>
+            {cardChartId !== 'sunburst' && (
+              <span
+                className=""
+                onClick={() => {
+                  downloadPng(cardChartId, modalHeader);
+                }}
+                onKeyDown={() => {
+                  downloadPng(cardChartId, modalHeader);
+                }}
+                role="button"
+                tabIndex="-1"
+              >
+                <img src={DownloadIcon} alt="open" />
+              </span>
+            )}
             <span
               role="tab"
               tabIndex="0"

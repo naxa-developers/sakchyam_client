@@ -260,7 +260,7 @@ class Choropleth extends Component {
   }
 
   setChoroplethStyle(values) {
-    console.log('values', values);
+    // console.log('values', values);
     //
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
@@ -288,10 +288,10 @@ class Choropleth extends Component {
     //
   }
 
-  filterPieCharts(viewBy) {
+  filterPieCharts(mapViewBy) {
     const that = this;
     const {
-      mapViewBy,
+      // mapViewBy,
       circleMarkerData,
       map,
       mapViewDataBy,
@@ -320,6 +320,7 @@ class Choropleth extends Component {
         return f.code === el.properties.code;
       });
     });
+    console.log(FinalGeojson, 'finalGeojson');
     FinalGeojson.features = myArrayFiltered;
 
     // console.log(r, 'r');
@@ -335,8 +336,8 @@ class Choropleth extends Component {
       };
       if (data.properties.pie) {
         data.properties.pie.forEach(piedata => {
-          console.log(piedata, 'piedata');
-          singleData2nd[`${piedata.fed_name}`] = piedata.count;
+          // console.log(piedata, 'piedata');
+          singleData2nd[`${piedata.name}`] = piedata.count;
           singleData2nd.count += piedata.count;
         });
       }
@@ -367,7 +368,7 @@ class Choropleth extends Component {
     const max = Math.max.apply(null, totalSumList);
     FinalGeojson.features.forEach(data => {
       const FullnameList = [];
-      //
+      // console.log(data, 'data');
       partnerList = [];
       singleData = {
         count: 0,
@@ -375,19 +376,19 @@ class Choropleth extends Component {
       };
       if (data.properties.pie) {
         data.properties.pie.forEach(piedata => {
-          console.log(piedata, 'piedata');
+          // console.log(piedata, 'piedata');
           FullnameList.push({
-            type: piedata.fed_name,
+            type: piedata.name,
             count: piedata.count,
           });
-          singleData[`${piedata.fed_name}`] = piedata.count;
+          singleData[`${piedata.name}`] = piedata.count;
           if (piedata.partner_list) {
-            singleData[`${piedata.fed_name}_partnerList`] =
+            singleData[`${piedata.name}_partnerList`] =
               piedata.partner_list;
 
             partnerList.push({
-              partnerName: piedata.fed_name,
-              partnerlist: piedata.partner_list,
+              partnerName: piedata.name,
+              partnerlist: piedata.piePopup,
             });
           }
           singleData.count += piedata.count;
@@ -401,7 +402,7 @@ class Choropleth extends Component {
       testElMain.className = 'marker';
 
       // console.log(singleData, 'singleDataProv');
-      // const props = data.properties;
+      // // const props = data.properties;
       // console.log(singleData, 'singleData');
       // console.log(total2nd, 'total2nd');
       // console.log(radiusRange, 'radiusRange');
@@ -418,6 +419,7 @@ class Choropleth extends Component {
         mapViewDataBy,
         data.total_sum,
         FullnameList,
+        data.properties.piePopup,
       );
       if (
         this.props.pieSquareLegend &&
@@ -729,7 +731,9 @@ class Choropleth extends Component {
     mapViewDataBy,
     totalSum,
     FullnameList,
+    popupData,
   ) => {
+    console.log('test');
     const div = document.createElement('div');
 
     const allCount = [];
@@ -913,13 +917,15 @@ class Choropleth extends Component {
         let partnerContent = null;
         // partnerList =
         // eslint-disable-next-line no-restricted-syntax
-        partnerContent = partners
+        console.log(props, 'props');
+        partnerContent = popupData
           .map((partnerData, index) => {
-            const partnerList = partnerData.partnerlist
+            const partnerList = partnerData.achievementType
               .map(singlepartner => {
                 return `
                 <li>
-                  <a>${singlepartner}</a>
+                  <a>${singlepartner.name}</a>
+                  <label>${singlepartner.count}</label>
                 </li>
                 `;
               })
@@ -929,7 +935,7 @@ class Choropleth extends Component {
             index === 0 ? 'active' : ''
           }" onclick="this.classList.toggle('active');">
             <div class="acc-header">
-              <h5>${partnerData.partnerName}</h5>
+              <h5>${partnerData.partner_name}</h5>
             </div>
             <div class="acc-body">
               <ul>
@@ -948,6 +954,12 @@ class Choropleth extends Component {
         //     ? partnerContent
         //     : ''
         // }
+        // ${FullnameList.map(el => {
+        //   return `<label>${el.type}</label>
+        //   <div class="icons">
+        //       <i class="material-icons">payments</i><b>${el.count}</b>
+        //     </div>`;
+        // }).join('')}
         tooltip.select('.popup-div').html(
           `<div class="leaflet-popup-content" style="width: 100px;">
             <div class="map-popup-view" style="${
@@ -971,15 +983,7 @@ class Choropleth extends Component {
                   </div>
                 
               <div class="map-view-footer">
-              <div class="acc-header">
-              ${FullnameList.map(el => {
-                return `<label>${el.type}</label>
-                <div class="icons">
-                    <i class="material-icons">payments</i><b>${el.count}</b>
-                  </div>`;
-              }).join('')}
-              
-            </div>
+              ${partnerContent !== undefined ? partnerContent : ''}
               </div>
             </div>
           </div>` /* eslint-disable-line */
@@ -1607,6 +1611,8 @@ class Choropleth extends Component {
     } = this.props;
 
     if (prevProps.circleMarkerData !== circleMarkerData) {
+      console.log(circleMarkerData, 'circleMarkerData');
+      // alert(`dataChanged ${mapViewBy} `);
       // removeMarker();
       if (
         this.props.pieSquareLegend &&
@@ -1615,26 +1621,33 @@ class Choropleth extends Component {
       ) {
         // this.createPieLegend();
       }
-      const viewBy =
-        mapViewDataBy === 'allocated_beneficiary'
-          ? 'total_beneficiary'
-          : mapViewDataBy === 'allocated_budget'
-          ? 'allocated_budget'
-          : 'partner_count';
+      // const viewBy =
+      //   mapViewDataBy === 'allocated_beneficiary'
+      //     ? 'total_beneficiary'
+      //     : mapViewDataBy === 'allocated_budget'
+      //     ? 'allocated_budget'
+      //     : 'partner_count';
 
       // if (mapViewBy === 'municipality') {
       //   if (mapViewDataBy !== '') {
       //     this.filterPieCharts(viewBy);
       //   } } else
-      this.filterPieCharts(viewBy);
+      // this.filterPieCharts(mapViewBy);
 
       if (mapViewBy === 'district') {
+        // alert('district');
         // if (mapViewDataBy !== '') {
-        this.filterPieCharts(viewBy);
+        setTimeout(() => {
+          this.filterPieCharts(mapViewBy);
+        }, 500);
         // }
       } else if (mapViewBy === 'province') {
+        // alert('province');
         // if (mapViewDataBy !== '') {
-        this.filterPieCharts(viewBy);
+        setTimeout(() => {
+          this.filterPieCharts(mapViewBy);
+        }, 500);
+        // this.filterPieCharts(mapViewBy);
         // }
       }
 

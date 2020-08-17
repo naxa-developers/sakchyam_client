@@ -44,6 +44,7 @@ import {
   RESET_BAR_DATA_BY_INVESTMENT_FOCUS,
   FILTER_MAPDATA_CHOROPLETH,
   FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
+  GET_PARTNERSHIP_PARTNERSTYPE_LIST,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -87,8 +88,30 @@ export const getPartnersList = () => dispatch => {
       .then(function(result) {
         // console.log(result, 'result');
 
+        return dispatch(
+          {
+            type: GET_PARTNERSHIP_PARTNERS_LIST,
+            payload: result.data,
+          },
+          // {
+          //   type: GET_PARTNERSHIP_PARTNERSTYPE_LIST,
+          //   payload: result.data,
+          // },
+        );
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getPartnerTypeList = () => dispatch => {
+  try {
+    axiosInstance
+      .get('/api/v1/partner/partner/')
+      .then(function(result) {
+        // console.log(result, 'result');
+
         return dispatch({
-          type: GET_PARTNERSHIP_PARTNERS_LIST,
+          type: GET_PARTNERSHIP_PARTNERSTYPE_LIST,
           payload: result.data,
         });
       });

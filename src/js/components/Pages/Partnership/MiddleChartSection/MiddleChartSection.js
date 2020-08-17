@@ -152,11 +152,9 @@ class MiddleChartSection extends Component {
         return <CirclePackChart activeModal />;
       case 'groupedChart':
         return (
-          <div
-            id="barContainer"
-            style={{ width: '1900px', overflowX: 'scroll' }}
-          >
+          <div id="barContainer" style={{ width: '1900px' }}>
             <StackedBarWithAllFederal
+              cardTitle="Federal Wise Budget & Beneficiaries Count"
               viewDataBy={viewDataBy}
               activeModal={activeModal}
               investmentFocusSelection={investmentFocusSelection}
@@ -171,11 +169,9 @@ class MiddleChartSection extends Component {
         );
       case 'stackedWithInvestment':
         return (
-          <div
-            id="barContainer"
-            style={{ width: '1900px', overflowX: 'scroll' }}
-          >
+          <div id="barContainer" style={{ width: '1900px' }}>
             <StackedBarWithInvestment
+              cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
               viewDataBy={viewDataBy}
               activeModal={activeModal}
               investmentFocusSelection={investmentFocusSelection}
@@ -196,11 +192,9 @@ class MiddleChartSection extends Component {
         );
       case 'leverageChart':
         return (
-          <div
-            id="barContainer"
-            style={{ width: '1900px', overflowX: 'scroll' }}
-          >
+          <div id="barContainer" style={{ width: '1900px' }}>
             <LeverageStackedBar
+              cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
               viewDataBy={viewDataBy}
               activeModal={activeModal}
               investmentFocusSelection={investmentFocusSelection}
@@ -293,6 +287,7 @@ class MiddleChartSection extends Component {
               resetFunction={() => {
                 // this.props.resetLeftSideBarSelection();
                 this.props.resetRadialData();
+                this.props.resetFilters();
               }}
               cardTitle="Sakchyam Investment Focus"
               cardClass="col-xl-12"
@@ -321,10 +316,11 @@ class MiddleChartSection extends Component {
               resetFunction={() => {
                 this.props.resetBarDatas();
                 this.props.handleShowBarOf('Provinces');
+                this.props.resetFilters();
               }}
               showBarof={showBarof}
               handleShowBarOf={handleShowBarOf}
-              cardTitle="Province Wise Budget & Beneficiaries Count"
+              cardTitle="Federal Wise Budget & Beneficiaries Count"
               cardClass="col-xl-6"
               cardChartId="groupedChart"
               handleModal={this.handleModal}
@@ -370,6 +366,7 @@ class MiddleChartSection extends Component {
                   this.props.handleShowBarOfInvestmentBudgetBenefBar(
                     'investmentFocus',
                   );
+                  this.props.resetFilters();
                 }}
                 showBarof={showBarofInvestmentBudgetBenef}
                 handleShowBarOf={
@@ -409,7 +406,10 @@ class MiddleChartSection extends Component {
             )}
             {viewDataBy === 'Leverage' && (
               <CardTab
-                resetFunction={this.props.resetLeverageData}
+                resetFunction={() => {
+                  this.props.resetLeverageData();
+                  this.props.resetFilters();
+                }}
                 cardTitle="S-CF Funds & Leverage By Investment Focus"
                 cardClass="col-xl-6"
                 cardChartId="leverageChart"

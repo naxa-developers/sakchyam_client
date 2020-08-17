@@ -11,13 +11,14 @@
     max-width: 100%;
     &.content-mod{
         // height: 100vh;
-        padding-top: 95px;
+        padding-top: 60px;
+        // padding-top: 95px;
     }
     @include display-flex(flex);
     .sidebar{
         height: 100%;
         width: 320px;
-        background: $white-color;
+        // background: $white-color;
         @include transition(all .7s ease-in-out);
         border-right: .8px solid $primary-xs-light;
         position: fixed;
