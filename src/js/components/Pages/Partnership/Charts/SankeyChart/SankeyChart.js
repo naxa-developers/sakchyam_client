@@ -54,7 +54,8 @@ class SankeyChart extends Component {
     const {
       partnershipReducer: { sankeyChartData },
     } = this.props;
-
+    console.log(window.innerWidth, 'innerwidth');
+    console.log(activeOverview, 'activeOverview');
     return (
       <div
         id="sankey_chart"
@@ -68,19 +69,33 @@ class SankeyChart extends Component {
       >
         {sankeyChartData.nodes && (
           <ResponsiveSankey
+            key={Math.random()}
             data={sankeyChartData}
             margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
-            // width={
-            //   this.props.activeModal
-            //     ? 1600
-            //     : showRightSidebar && window.innerWidth < 1600
-            //     ? 780
-            //     : showRightSidebar && window.innerWidth > 1600
-            //     ? 1100
-            //     : !showRightSidebar && window.innerWidth < 1600
-            //     ? 1100
-            //     : 1400
-            // }
+            width={
+              this.props.activeModal && window.innerWidth > 1400
+                ? 1400
+                : this.props.activeModal && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth > 1400
+                ? 1200
+                : activeOverview && window.innerWidth > 1400
+                ? 1500
+                : activeOverview && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth < 1400
+                ? 750
+                : 800
+              // this.props.activeModal
+              //   ? 1400
+              //   : activeOverview && window.innerWidth < 1600
+              //   ? 780
+              //   : activeOverview && window.innerWidth > 1600
+              //   ? 1500
+              //   : !activeOverview && window.innerWidth < 1600
+              //   ? 1100
+              //   : 1200
+            }
             // width={780}
             label="name"
             align="justify"

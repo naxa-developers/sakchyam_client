@@ -40,6 +40,7 @@ import {
   FILTER_BENEFBUDGET_DATA_FOR_BARCLICK,
   FILTER_MAPDATA_CHOROPLETH,
   FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
+  GET_PARTNERSHIP_PARTNERSTYPE_LIST,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -155,6 +156,7 @@ const initialState = {
   isDataFetched: false,
   partnershipInvestmentFocus: [],
   partnersList: [],
+  partnerTypeList: [],
   projectLists: [],
   mapDataByProvince: [],
   mapDataByDistrict: [],
@@ -1539,6 +1541,21 @@ const filterTimelineData = (state, action) => {
     filteredMapData: finalchoroplethData,
   };
 };
+const getPartnersTypeList = (state, action) => {
+  const partnersData = action.payload;
+  // console.log(partnersData, 'partnersData');
+  const partnersType = partnersData.map(data => {
+    return data.partnership !== 'nan' && data.partnership;
+  });
+  // console.log(partnersType, 'partnerType');
+  const unique = [...new Set(partnersType)];
+  // console.log(unique, 'unique');
+
+  return {
+    ...state,
+    partnerTypeList: unique,
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERSHIP_INVESTMENT_FOCUS:
@@ -1547,6 +1564,8 @@ export default function(state = initialState, action) {
       return getProjectListData(state, action);
     case GET_PARTNERSHIP_PARTNERS_LIST:
       return getPartnersList(state, action);
+    case GET_PARTNERSHIP_PARTNERSTYPE_LIST:
+      return getPartnersTypeList(state, action);
     case GET_BARDATA_BY_BENEF_BUDGET:
       return getBarDataByBenefBudget(state, action);
     case GET_BARDATA_BY_INVESTMENTFOCUS:

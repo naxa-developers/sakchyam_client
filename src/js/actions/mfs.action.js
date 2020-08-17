@@ -52,6 +52,8 @@ export const getMfsAllData = () => dispatch => {
             selectedPartner: [],
             selectedInnovation: [],
             selectedAchievement: [],
+            selectedDistrict: [],
+            selectedProvince: [],
           },
         }),
         dispatch({
@@ -61,6 +63,8 @@ export const getMfsAllData = () => dispatch => {
             selectedPartner: [],
             selectedInnovation: [],
             selectedAchievement: [],
+            selectedDistrict: [],
+            selectedProvince: [],
           },
         }),
         dispatch({
@@ -70,6 +74,8 @@ export const getMfsAllData = () => dispatch => {
             selectedPartner: [],
             selectedInnovation: [],
             selectedAchievement: [],
+            selectedDistrict: [],
+            selectedProvince: [],
           },
         }),
         dispatch({
@@ -79,6 +85,8 @@ export const getMfsAllData = () => dispatch => {
             selectedPartner: [],
             selectedInnovation: [],
             selectedAchievement: [],
+            selectedDistrict: [],
+            selectedProvince: [],
           },
         }),
         dispatch({
@@ -88,6 +96,8 @@ export const getMfsAllData = () => dispatch => {
             selectedPartner: [],
             selectedInnovation: [],
             selectedAchievement: [],
+            selectedDistrict: [],
+            selectedProvince: [],
           },
         })
       );
@@ -118,6 +128,8 @@ export const filterMfsChoroplethData = (
   selectedPartner,
   selectedInnovation,
   selectedAchievement,
+  selectedDistrict,
+  selectedProvince,
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_CHOROPLETH_DATA,
@@ -126,6 +138,8 @@ export const filterMfsChoroplethData = (
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     },
   });
 };
@@ -134,6 +148,8 @@ export const filterOverViewData = (
   selectedPartner,
   selectedInnovation,
   selectedAchievement,
+  selectedDistrict,
+  selectedProvince,
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_OVERVIEW_DATA,
@@ -142,6 +158,8 @@ export const filterOverViewData = (
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     },
   });
 };
@@ -150,6 +168,8 @@ export const filterMfsChartData = (
   selectedPartner,
   selectedInnovation,
   selectedAchievement,
+  selectedDistrict,
+  selectedProvince,
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_CHART_DATA_BY_ACHIEVEMENT,
@@ -158,6 +178,8 @@ export const filterMfsChartData = (
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     },
   });
 };
@@ -184,6 +206,8 @@ export const filterMfsMapPieData = (
   selectedPartner,
   selectedInnovation,
   selectedAchievement,
+  selectedDistrict,
+  selectedProvince,
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_MAP_PIE_DATA,
@@ -192,6 +216,8 @@ export const filterMfsMapPieData = (
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     },
   });
 };
@@ -200,6 +226,8 @@ export const filterMfsMapChartDataByPartner = (
   selectedPartner,
   selectedInnovation,
   selectedAchievement,
+  selectedDistrict,
+  selectedProvince,
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_CHART_DATA_BY_PARTNER,
@@ -208,6 +236,8 @@ export const filterMfsMapChartDataByPartner = (
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     },
   });
 };

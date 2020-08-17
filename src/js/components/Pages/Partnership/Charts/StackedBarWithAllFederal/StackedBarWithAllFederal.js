@@ -587,12 +587,12 @@ class StackedBarWithAllFederal extends Component {
         strokeWidth: 3,
       },
       tooltip: {
-        // fixed: {
-        //   enabled: true,
-        //   position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
-        //   offsetY: 30,
-        //   offsetX: 60,
-        // },
+        fixed: {
+          enabled: true,
+          position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+          offsetY: 30,
+          offsetX: 60,
+        },
         x: {
           show: true,
           // format: 'dd MMM',
@@ -627,9 +627,10 @@ class StackedBarWithAllFederal extends Component {
   render() {
     console.log(window.innerWidth);
     const { options, series } = this.state;
-    const { activeModal, cardView } = this.props;
+    const { activeModal, cardView, cardTitle } = this.props;
     return (
       <div id="stacked_chart">
+        <h5>{cardTitle}</h5>
         <ReactApexChart
           key={series}
           options={options}

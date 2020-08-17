@@ -10,31 +10,32 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
   // document
   //   .querySelector('.download-dropdown')
   //   .classList.remove('active');
+  const popupEl = document.querySelector(
+    selectedModal === 'logframe'
+      ? `.info-content-wrap`
+      : `#${chartid}`,
+  );
+  // const titleEl = document.createElement('h6');
+  // popupEl.appendChild(titleEl).textContent = 'spaghetti';
+  // titleEl.setAttribute('class', 'popup_title');
   setTimeout(() => {
     // document
     //   .querySelector(`.${chartid}`)
     //   .append(<label>Varun</label>);
-    html2canvas(
-      document.querySelector(
-        selectedModal === 'logframe'
-          ? `.info-content-wrap`
-          : `#${chartid}`,
-      ),
-      {
-        // logging: true,
-        // letterRendering: 1,
-        allowTaint: true,
-        // scale: window.devicePixelRatio,
-        // windowWidth: window.innerWidth,
-        // windowHeight: window.innerHeight + 120,
-        // x: 20,
-        // y: 70,
-        // width: window.innerWidth + 40,
-        // height: window.innerHeight + 40,
-        // foreignObjectRendering: true,
-        // useCORS: true,
-      },
-    ).then(canvas => {
+    html2canvas(popupEl, {
+      // logging: true,
+      // letterRendering: 1,
+      allowTaint: true,
+      // scale: window.devicePixelRatio,
+      // windowWidth: window.innerWidth,
+      // windowHeight: window.innerHeight + 120,
+      // x: 20,
+      // y: 70,
+      // width: window.innerWidth + 40,
+      // height: window.innerHeight + 40,
+      // foreignObjectRendering: true,
+      // useCORS: true,
+    }).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
       });
@@ -74,7 +75,7 @@ const Modal = props => {
     selectedModal === 'sunburst'
       ? 'Sakchyam Investment Focus'
       : selectedModal === 'groupedChart'
-      ? `${showBarof} Wise Budget & Beneficiaries Count`
+      ? `Federal Wise Budget & Beneficiaries Count`
       : selectedModal === 'leverageChart'
       ? 'S-CF Fund & Leverage By Investment Focus'
       : selectedModal === 'radar'

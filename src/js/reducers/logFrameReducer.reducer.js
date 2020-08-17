@@ -401,12 +401,14 @@ const filterIndicatorGraphData = (state, action) => {
               x.seriesIndex === 1 &&
               y === 1
             ) {
+              alert('4.1');
               Output41 = 'Submitted To DFID';
             } else if (
               activeLayer === 'Output Indicator 4.2' &&
               x.seriesIndex === 0 &&
               y === 1
             ) {
+              alert('4.2');
               Output41 = 'Established And Operational';
             }
             // const percentForOI2 =
@@ -511,6 +513,7 @@ const filterIndicatorGraphData = (state, action) => {
 // };
 const filterIndicatorGraphDataWithDate = (state, action) => {
   const { activeLayer, activeDate, activeDataType } = action.payload;
+
   // console.log(`[${activeLayer}]`, 'activeLayer');
   // console.log(activeDate, 'activeYear');
   const activeDateClone = activeDate;
@@ -642,6 +645,58 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     //   console.log(el, 'elLabel');
     return [el.year.range];
   });
+  console.log(activeLayer, 'activeLayer1st');
+
+  const returnedFormat = (x, y) => {
+    console.log(activeLayer, 'activeLayer2nd');
+    let Output41 = '';
+    if (
+      activeLayer === 'Output Indicator 4.1' &&
+      x.seriesIndex === 0 &&
+      y === 1
+    ) {
+      Output41 = 'Approved';
+    } else if (
+      activeLayer === 'Output Indicator 4.1' &&
+      x.seriesIndex === 1 &&
+      y === 1
+    ) {
+      // alert('4.1');
+      Output41 = 'Submitted To DFID';
+    } else if (
+      activeLayer === 'Output Indicator 4.2' &&
+      x.seriesIndex === 0 &&
+      y === 1
+    ) {
+      // alert('4.2');
+      Output41 = 'Established And Operational';
+    } else if (
+      activeLayer === 'Output Indicator 4.2' &&
+      x.seriesIndex === 0 &&
+      y === 0
+    ) {
+      // alert('4.2');
+      Output41 = 'Established And Operational';
+    }
+    const percentForOI2 =
+      activeLayer === 'Outcome Indicator 2'
+        ? x.seriesIndex === 0
+          ? plannedPercent[x.dataPointIndex].toFixed(0) !== '0'
+            ? `(${plannedPercent[x.dataPointIndex].toFixed(2)}%)`
+            : ''
+          : achievedPercent[x.dataPointIndex].toFixed(0) !== '0'
+          ? `(${achievedPercent[x.dataPointIndex].toFixed(2)}%)`
+          : ''
+        : '';
+    // console.log(y.toLocaleString(), 'y');
+    if (typeof y !== 'undefined') {
+      // return `${unit} ${y.toFixed(0)}${type}`;
+      return `${unit} ${
+        Output41 !== '' ? '' : y.toLocaleString()
+      }${type} ${`${percentForOI2}`}${Output41}`;
+    }
+    return y;
+  };
   // console.log(category, 'cat');
   // console.log(label, 'label');
   // console.log(achieved, 'achieved');
@@ -679,6 +734,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     // dateRange: totalDateList,
     options: {
       ...state.options,
+      count: Math.random(),
       grid: {
         show: false,
       },
@@ -712,6 +768,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
           rotate: 0,
           formatter: value => {
             console.log(value, 'value');
+            console.log(activeLayer, 'label MAIN ACTIVELAYER');
             if (value === 0) {
               return value;
             }
@@ -757,50 +814,11 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
         intersect: false,
         y: {
           formatter(y, x) {
-            let Output41 = '';
-            if (
-              activeLayer === 'Output Indicator 4.1' &&
-              x.seriesIndex === 0 &&
-              y === 1
-            ) {
-              Output41 = 'Approved';
-            } else if (
-              activeLayer === 'Output Indicator 4.1' &&
-              x.seriesIndex === 1 &&
-              y === 1
-            ) {
-              Output41 = 'Submitted To DFID';
-            } else if (
-              activeLayer === 'Output Indicator 4.2' &&
-              x.seriesIndex === 0 &&
-              y === 1
-            ) {
-              Output41 = 'Established And Operational';
-            }
-            const percentForOI2 =
-              activeLayer === 'Outcome Indicator 2'
-                ? x.seriesIndex === 0
-                  ? plannedPercent[x.dataPointIndex].toFixed(0) !==
-                    '0'
-                    ? `(${plannedPercent[x.dataPointIndex].toFixed(
-                        2,
-                      )}%)`
-                    : ''
-                  : achievedPercent[x.dataPointIndex].toFixed(0) !==
-                    '0'
-                  ? `(${achievedPercent[x.dataPointIndex].toFixed(
-                      2,
-                    )}%)`
-                  : ''
-                : '';
-            // console.log(y.toLocaleString(), 'y');
-            if (typeof y !== 'undefined') {
-              // return `${unit} ${y.toFixed(0)}${type}`;
-              return `${unit} ${
-                Output41 !== '' ? '' : y.toLocaleString()
-              }${type} ${`${percentForOI2}`}${Output41}`;
-            }
-            return y;
+            // const activeL = activeLayer;
+
+            // alert(activeL);
+            const finalFormatter = returnedFormat(x, y);
+            return finalFormatter;
           },
         },
       },

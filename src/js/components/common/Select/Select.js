@@ -51,7 +51,7 @@ class Select extends PureComponent {
     };
   };
 
-  toggleListHandler = () => {
+  toggleListHandler = e => {
     this.setState(prevState => {
       if (prevState.showList) {
         return {
@@ -228,6 +228,7 @@ class Select extends PureComponent {
       checkboxHandler,
       onClickHandler,
     } = this;
+
     if (filteredOptions.length === 0) {
       return (
         <li>
@@ -359,13 +360,21 @@ class Select extends PureComponent {
 
   render() {
     const {
-      state: { selectTitle, showList, searchText },
+      state: { selectTitle, showList, searchText, selectedOptions },
       props: { withSearchBar, style },
       toggleListHandler,
       closeListHandler,
     } = this;
+    console.log(showList, 'showList');
+    console.log(selectTitle, 'selectTitle');
+    console.log(searchText, 'searchText');
     return (
-      <div className="select-dropdown">
+      <div
+        className="select-dropdown"
+        onBlur={closeListHandler}
+        tabIndex="-1"
+        // role="tab"
+      >
         <span
           className={`span-label ${showList ? 'span-active' : ''} `}
           onClick={toggleListHandler}
@@ -373,7 +382,11 @@ class Select extends PureComponent {
           role="tab"
           tabIndex="-1"
         >
-          {!searchText && selectTitle}
+          {!searchText && selectedOptions.length < 1
+            ? selectTitle
+            : selectedOptions.map(data => {
+                return data.label;
+              })}
         </span>
         {showList && withSearchBar && this.renderSearchBar()}
         <ul
