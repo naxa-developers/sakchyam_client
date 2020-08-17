@@ -632,6 +632,9 @@ class MainPartnership extends Component {
     this.setState(prevState => ({
       activeOverview: !prevState.activeOverview,
     }));
+    setTimeout(() => {
+      this.state.map.resize();
+    }, 100);
   };
 
   setViewDataBy = selectedView => {

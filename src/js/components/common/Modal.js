@@ -15,6 +15,15 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
       ? `.info-content-wrap`
       : `#${chartid}`,
   );
+  document.querySelector('.info-header-bottom').style.display =
+    'none';
+  document.querySelectorAll('.download-icon-image').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'none';
+  });
+  document
+    .querySelector('.download-dropdown')
+    .classList.remove('active');
   // const titleEl = document.createElement('h6');
   // popupEl.appendChild(titleEl).textContent = 'spaghetti';
   // titleEl.setAttribute('class', 'popup_title');
@@ -39,6 +48,14 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
       });
+      document.querySelector('.info-header-bottom').style.display =
+        'block';
+      document
+        .querySelectorAll('.download-icon-image')
+        .forEach(el => {
+          // eslint-disable-next-line no-param-reassign
+          el.style.display = 'block';
+        });
     });
   }, 500);
 
@@ -172,7 +189,7 @@ const Modal = props => {
                 type="button"
                 onClick={() => {
                   resetFilters();
-                  handleShowBarOf('Provinces');
+                  // handleShowBarOf('Provinces');
                   // resetFunction();
                 }}
                 className="is-border common-button chart-reset"
@@ -180,7 +197,41 @@ const Modal = props => {
                 Reset
               </button>
             ) : // </span>
-            null}
+            selectedModal === 'stackedWithInvestment' ? (
+              // <span
+              //   style={{
+              //     position: 'absolute',
+              //     right: '140px',
+              //     top: '30px',
+              //     padding: '5px 6px',
+              //     // border: '1px solid #F0F0F0',
+              //     // borderColor: 'lightgrey',
+              //     cursor: 'pointer',
+              //   }}
+              //   onClick={
+              //     () => downloadPng(selectedChartId, modalHeader)
+              //     // eslint-disable-next-line react/jsx-curly-newline
+              //   }
+              //   onKeyDown={
+              //     () => downloadPng(selectedChartId, modalHeader)
+              //     // eslint-disable-next-line react/jsx-curly-newline
+              //   }
+              //   role="button"
+              //   tabIndex="-1"
+              // >
+              <button
+                // id="chart-reset"
+                type="button"
+                onClick={() => {
+                  resetFilters();
+                  handleShowBarOf('Provinces');
+                  // resetFunction();
+                }}
+                className="is-border common-button chart-reset"
+              >
+                Reset
+              </button>
+            ) : null}
             {/* <span
               style={{
                 position: 'absolute',

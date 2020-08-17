@@ -77,7 +77,7 @@ export default class CustomChart extends Component {
             options={options}
             series={series}
             type="line"
-            height={500}
+            height={window.innerWidth < 1400 ? 370 : 500}
             // width={700}
           />
         </div>

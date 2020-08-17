@@ -61,7 +61,7 @@ class Landing extends Component {
     const permissionData = localStorage.getItem('userPermission');
     permissionObject = JSON.parse(permissionData);
     this.setState({ permissions: permissionObject });
-    console.log(permissionObject, '======permission');
+    // console.log(permissionObject, '======permission');
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);
