@@ -276,7 +276,7 @@ class StackedBarWithAllFederal extends Component {
       partnershipReducer: { barDatas },
       cardView,
     } = this.props;
-    console.log(barDatas, 'barDatas');
+    // console.log(barDatas, 'barDatas');
     // alert('test');
     const newArray = barDatas.series[0].data.map(
       (e, i) => e + barDatas.series[1].data[i],
@@ -284,7 +284,7 @@ class StackedBarWithAllFederal extends Component {
     // console.log(newArray, 'newArray');
     // console.log(Math.max(...newArray));
     const maxValue = Math.max(...newArray);
-    console.log(maxValue, 'maxValue');
+    // console.log(maxValue, 'maxValue');
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     // const series = [
     //   {
@@ -350,7 +350,7 @@ class StackedBarWithAllFederal extends Component {
                     );
                   },
                 );
-                console.log(filteredProvinceId, 'filteredProvinceId');
+                // console.log(filteredProvinceId, 'filteredProvinceId');
                 const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
                   data => {
                     return (
@@ -364,7 +364,7 @@ class StackedBarWithAllFederal extends Component {
                   return data.n_code;
                 });
                 that.props.handleShowBarOf('Districts');
-                console.log(districtIdList, 'distrList');
+                // console.log(districtIdList, 'distrList');
                 // console.log(districtIdList, 'districtIdList');
                 that.props.filterFinancialDataOfDistrictFromProvince(
                   that.props.viewDataBy,
@@ -463,7 +463,7 @@ class StackedBarWithAllFederal extends Component {
 
             // return 10000;
             // global.totalMaxValue = max / 120;
-            console.log(maxValue, 'yaxis Maxvalue');
+            // console.log(maxValue, 'yaxis Maxvalue');
             return maxValue;
           },
           axisTicks: {
@@ -625,7 +625,7 @@ class StackedBarWithAllFederal extends Component {
   }
 
   render() {
-    console.log(window.innerWidth);
+    // console.log(window.innerWidth);
     const { options, series } = this.state;
     const { activeModal, cardView, cardTitle } = this.props;
     return (

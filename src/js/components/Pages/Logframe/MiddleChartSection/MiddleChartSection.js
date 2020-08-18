@@ -1345,7 +1345,7 @@ class MiddleChartSection extends Component {
     //   // console.log(`Option selected:`, this.state.selectedOption),
     // );
   };
-
+  
   downloadPng = () => {
     // console.log('test');
     const {
@@ -1355,6 +1355,10 @@ class MiddleChartSection extends Component {
     } = this;
     document.querySelector('.info-header-bottom').style.display =
       'none';
+      if(document.querySelector('.multiple-bar')){
+        document.querySelector('.multiple-bar').style.display =
+        'none';
+      }
     document.querySelectorAll('.download-icon-image').forEach(el => {
       // eslint-disable-next-line no-param-reassign
       el.style.display = 'none';
@@ -1391,7 +1395,58 @@ class MiddleChartSection extends Component {
             // eslint-disable-next-line no-param-reassign
             el.style.display = 'block';
           });
+          if(document.querySelector('.multiple-bar')){
+            document.querySelector('.multiple-bar').style.display ='flex';
+          }
         // document.body.append(canvas);
+      });
+
+      // Clean up
+      // document.body.removeChild(canvas);
+    }, 500);
+  
+  }
+  downloadPiePng = () => {
+    // console.log('test');
+    // const {
+    //   props: {
+    //     logFrameReducer: { filteredDynamicData },
+    //   },
+    // } = this;
+    // document.querySelector('.info-header-bottom').style.display =
+    //   'none';
+    //   if(document.querySelector('.multiple-bar')){
+    //     document.querySelector('.multiple-bar').style.display =
+    //     'none';
+    //   }
+    // document.querySelectorAll('.download-icon-image').forEach(el => {
+    //   // eslint-disable-next-line no-param-reassign
+    //   el.style.display = 'none';
+    // });
+    // document
+    //   .querySelector('.download-dropdown')
+    //   .classList.remove('active');
+    setTimeout(() => {
+      html2canvas(document.querySelector(query), {
+        // logging: true,
+        // letterRendering: 1,
+        // allowTaint: true,
+        // scale: window.devicePixelRatio,
+        // windowWidth: window.innerWidth,
+        // windowHeight: window.innerHeight + 120,
+        // x: 270,
+        // y: 70,
+        // width: window.innerWidth + 40,
+        // height: window.innerHeight + 40,
+        // foreignObjectRendering: true,
+        // useCORS: true,
+      }).then(function(canvas) {
+        // console.log(canvas, 'canvas');
+        // theCanvas = canvas;
+        // document.body.appendChild(canvas);
+
+        // Convert and download as image
+        Canvas2Image.saveAsPNG(canvas);
       });
 
       // Clean up
@@ -1469,7 +1524,6 @@ class MiddleChartSection extends Component {
     //   });
     // }, 500);
 
-    this.setState({ downloadActive: false });
   };
 
   handle2ndPieFilter = e => {
@@ -1537,6 +1591,8 @@ class MiddleChartSection extends Component {
       handleLegend1Click,
       handleLegend2Click,
       expandMore,
+      output14firstState,
+      setOutput14firstState
     } = this.props;
     const {
       props: {
@@ -1903,6 +1959,7 @@ class MiddleChartSection extends Component {
             >
               <button
                 onClick={() => {
+                  setOutput14firstState();
                   this.props.filterOuputIndicatorWithPercentOrNumber(
                     activeLayer,
                     activeDate,
@@ -1916,6 +1973,7 @@ class MiddleChartSection extends Component {
               </button>
               <button
                 onClick={() => {
+                  setOutput14firstState();
                   this.props.filterOuputIndicatorWithPercentOrNumber(
                     activeLayer,
                     activeDate,
@@ -2041,8 +2099,21 @@ class MiddleChartSection extends Component {
                 <div className="card">
                   {/* <div className="card-header"></div> */}
                   <div className="card-body">
-                  
                   <div className="row">
+                  <a
+                    role="tab"
+                    tabIndex="0"
+                    id="downloadDropdown"
+                    className="download-icon-image"
+                    // onClick={this.downloadPng}
+                    onClick={this.downloadPng}
+                    onKeyPress={this.downloadPng}
+                    style={{ right: '37px' }}
+                  >
+                    {/* <label>Download</label> */}
+                    <img src={saveAlt} alt="" />
+                    {/* <i className="fa fa-download" aria-hidden="true" /> */}
+                  </a>
                     <div className="col-lg-6" >
                     <label>Planned</label>
                       <DonutChart reducerDataProps="planned1stPieData" />

@@ -45,6 +45,7 @@ import {
   FILTER_MAPDATA_CHOROPLETH,
   FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
   GET_PARTNERSHIP_PARTNERSTYPE_LIST,
+  GET_PARTNERSHIP_TIMELINE_DATA_API,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -2429,6 +2430,24 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
       )
       .catch(errors => {
         // react on errors.
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getTimelineData = () => dispatch => {
+  try {
+    axiosInstance
+      .get(
+        `https://sakchyam.naxa.com.np/api/v1/partnership/timeline/?district_id=0`,
+      )
+      .then(function(result) {
+        // console.log(result, 'result');
+
+        return dispatch({
+          type: GET_PARTNERSHIP_TIMELINE_DATA_API,
+          payload: result.data,
+        });
       });
   } catch (err) {
     console.error(err);
