@@ -15,8 +15,11 @@ class TimelineChart extends Component {
       // data: [],
       playSelected: false,
       // time: '1/1/2015',
+      timelineFrom: '',
+      timelineTo: '',
       minCurrent: '',
       maxCurrent: '',
+      fourMonthArray: [],
       githubdata: {
         series: [
           {
@@ -80,6 +83,11 @@ class TimelineChart extends Component {
           //     console.log(e, opts);
           //   },
           selection(chartContext, { xaxis, yaxis }) {
+            const selectedMin = that.compareMinMax(xaxis.min);
+            // console.log(new Date(+selectedMin), 'selectedMin');
+            setTimeout(() => {
+              that.setState({ timelineFrom: new Date(+selectedMin) });
+            }, 1000);
             // that.props.filterTimeline(xaxis.min, xaxis.max);
             that.setState({
               minCurrent: xaxis.min,
@@ -159,10 +167,85 @@ class TimelineChart extends Component {
     return optionsLine;
   };
 
+  createDateRange = (minValue, maxValue) => {
+    const array = [];
+    array.push(minValue);
+    // const convertedMaxValue = new Date(maxValue);
+    let temp = minValue;
+    // console.log(minValue);
+    // console.log(maxValue);
+    // console.log(new Date(temp).getTime(), 'tempGetTime');
+    // console.log(new Date(maxValue).getTime(), 'maxValueGetTime');
+    while (new Date(temp).getTime() < new Date(maxValue).getTime()) {
+      temp = this.getAddedMonth(temp);
+      // console.log(temp, 'temp');
+      array.push(temp);
+    }
+    // console.log(array, 'array');
+    this.setState({ fourMonthArray: array });
+  };
+
+  removeTime = minDate => {
+    const d = new Date(minDate);
+
+    const day = d.getDate();
+    let month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
+    let year = d.getFullYear();
+    if (month === 13) {
+      month = 1;
+      year = d.getFullYear();
+    } else {
+      month = d.getMonth() + 1;
+    }
+
+    const dateStr = `${year}-${month}-${day}`;
+    time = dateStr;
+    // console.log(time, 'time returns');
+    // this.setState({ time: dateStr });
+    return dateStr;
+  };
+
+  compareMinMax = value => {
+    const { fourMonthArray } = this.state;
+    let returnedTime = '';
+
+    // console.log(fourMonthArray, 'fourMonthArray');
+    fourMonthArray.forEach((data, i) => {
+      // console.log(new Date(data).getTime(), '1st');
+      // console.log(new Date(fourMonthArray[i + 1]).getTime(), '2nd');
+      const firstIndexData = new Date(
+        this.removeTime(data),
+      ).getTime();
+      const secondIndexData = new Date(
+        this.removeTime(fourMonthArray[i + 1]),
+      ).getTime();
+      const getTimeValue = new Date(this.removeTime(value)).getTime();
+      // console.log(firstIndexData, '1stIndexData');
+      // console.log(secondIndexData, 'secondIndexData');
+      // console.log(getTimeValue, 'value');
+      if (
+        firstIndexData === new Date(this.removeTime(value)).getTime()
+      ) {
+        // console.log(firstIndexData.toString(), 'true1st');
+        returnedTime = firstIndexData.toString();
+      } else if (
+        firstIndexData < new Date(this.removeTime(value)).getTime() &&
+        secondIndexData >= new Date(this.removeTime(value)).getTime()
+      ) {
+        returnedTime = secondIndexData.toString();
+      }
+    });
+    console.log(returnedTime, 'returned Time');
+    return returnedTime;
+  };
+
   // eslint-disable-next-line react/no-deprecated
   componentWillMount() {} // componentwillmount
 
   componentDidMount() {
+    const { minValue } = this.props;
+    const { maxValue } = this.props;
+    this.createDateRange(minValue, maxValue);
     // console.log(this.props.minValue, 'didmount min val');
     setTimeout(() => {
       // this.setState({
@@ -188,6 +271,26 @@ class TimelineChart extends Component {
     }, 1500);
   }
 
+  getAddedMonth = minDate => {
+    const d = new Date(minDate);
+
+    const day = d.getDate();
+    let month = d.getMonth() + 5; // Since getMonth() returns month from 0-11 not 1-12
+    let year = d.getFullYear();
+    if (month === 13) {
+      month = 1;
+      year = d.getFullYear() + 1;
+    } else {
+      month = d.getMonth() + 5;
+    }
+
+    const dateStr = `${year}-${month}-${day}`;
+    time = dateStr;
+    // console.log(time, 'time returns');
+    // this.setState({ time: dateStr });
+    return dateStr;
+  };
+
   getAddedYear = minDate => {
     const d = new Date(minDate);
 
@@ -203,7 +306,7 @@ class TimelineChart extends Component {
 
     const dateStr = `${year}-${month}-${day}`;
     time = dateStr;
-    console.log(time, 'time returns');
+    // console.log(time, 'time returns');
     // this.setState({ time: dateStr });
     return dateStr;
   };
@@ -219,8 +322,8 @@ class TimelineChart extends Component {
       if (new Date(time).getTime() < new Date(maxValue).getTime()) {
         const minval = new Date(minValue).getTime();
         const maxval = new Date(this.getAddedYear(time)).getTime();
-        console.log(new Date(minval));
-        console.log(new Date(maxval));
+        // console.log(new Date(minval));
+        // console.log(new Date(maxval));
         this.props.filterTimelineData(
           minval,
           maxval,
@@ -250,7 +353,7 @@ class TimelineChart extends Component {
         clearInterval(global.timerId);
         this.setState({ playSelected: false });
       }
-    }, 3000);
+    }, 1250);
   };
 
   componentDidUpdate(prevProps, prevStates) {
@@ -265,15 +368,28 @@ class TimelineChart extends Component {
   pauseBtn = () => {
     clearInterval(global.timerId);
     this.setState({ playSelected: false });
+    this.props.handleIsTimeline();
   };
 
   render() {
-    const { playSelected, minCurrent, maxCurrent, key } = this.state;
+    const {
+      playSelected,
+      minCurrent,
+      maxCurrent,
+      key,
+      fourMonthArray,
+      timelineFrom,
+      timelineTo,
+    } = this.state;
+    const minCurr = new Date(minCurrent);
     const d = new Date(maxCurrent);
 
     const day = d.getDate();
     const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
     const year = d.getFullYear();
+    const minday = minCurr.getDate();
+    const minmonth = minCurr.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
+    const minyear = minCurr.getFullYear();
     // console.log(this.props.minValue, 'minValue render');
     // console.log(this.props.maxValue, 'maxValue Render');
     return (
@@ -288,7 +404,12 @@ class TimelineChart extends Component {
         <div className="timeline-date start-date">
           {/* <time>Date:1 December 2019</time> */}
           <time>
-            Date:
+            FROM:
+            {`${timelineFrom}`}
+            {/* {`${minyear}-${minmonth}-${minday}`} */}
+          </time>
+          <time style={{ marginLeft: '43px' }}>
+            TO:
             {`${year}-${month}-${day}`}
           </time>
         </div>

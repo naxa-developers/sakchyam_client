@@ -41,6 +41,7 @@ import {
   FILTER_MAPDATA_CHOROPLETH,
   FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
   GET_PARTNERSHIP_PARTNERSTYPE_LIST,
+  GET_PARTNERSHIP_TIMELINE_DATA_API,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -49,6 +50,7 @@ import municipality from '../../data/municipality.json';
 import WebWorker from '../WebWorker/webWorker';
 import workerfile from '../WebWorker/worker';
 
+let timelineIndex = 0;
 function provinceCodeToName(code) {
   if (code === 1) return 'Province 1';
   if (code === 2) return 'Province 2';
@@ -181,6 +183,7 @@ const initialState = {
   defaultRadialData: {},
   defaultSankeyChartData: {},
   defaultBarDataByLeverage: [],
+  timelineData: [],
 };
 
 // {
@@ -1468,79 +1471,103 @@ const filterMapdataChoropleth = (state, action) => {
 };
 const filterTimelineData = (state, action) => {
   const { min, max, fedtype } = action.payload;
-  const { partnershipAllData } = state;
-  // const that = this;
-  const finalchoroplethData = [];
-  // const finalData = [];
-  if (fedtype === 'municipality') {
-    municipality.map(mun => {
-      finalchoroplethData.push({
-        id: mun.munid,
-        count: 0,
-      });
-      return true;
+
+  const { timelineData } = state;
+  const FilteredTimeline = [];
+  // console.log(timelineData, 'timelineData');
+  // console.log(timelineData[0], 'timelineData[0]');
+  // console.log(timelineData[timelineIndex], 'timelineData[index]');
+  // console.log(timelineIndex, 'index');
+  console.log('Data Changed Timline');
+  timelineData[timelineIndex].data.forEach(timeline => {
+    return FilteredTimeline.push({
+      id: timeline.code,
+      code: timeline.code,
+      count: timeline.count,
     });
-  } else if (fedtype === 'district') {
-    district.map(mun => {
-      finalchoroplethData.push({
-        id: mun.districtid,
-        count: 0,
-      });
-      return true;
-    });
-  } else {
-    province.map(mun => {
-      finalchoroplethData.push({
-        id: mun.FIRST_PROV,
-        count: 0,
-      });
-      return true;
-    });
-  }
-
-  // const worker = new Worker(demoWorker);
-
-  // // Receive messages from postMessage() calls in the Worker
-  // worker.onmessage = evt => {
-  //   console.log(`Message posted from webworker: ${evt.data}`);
-  // };
-
-  // // Pass data to the WebWorker
-  // worker.postMessage({ data: '123456789' });
-  // const workers = new WebWorker(workerfile);
-
-  // workers.postMessage({
-  //   minmax: [min, max],
-  //   provincedata,
-  //   partnershipAllData,
-  // });
-
-  // workers.addEventListener('message', event => {
-  //   console.log('message addevenet');
-  //   console.log(event, 'event');
-  //   // dispatch({
-  //   //   type: FILTER_PRIMARYGEOJSON,
-  //   //   payload: event.data,
-  //   // });
-  // });
-  // this.worker.postMessage(
-  //   [min, max],
-  //   provincedata,
-  //   partnershipAllData,
-  // );
-  CaculateCount(
-    [min, max],
-    finalchoroplethData,
-    partnershipAllData,
-    fedtype,
-  );
-  // console.log(action.payload, 'action');
-  // const filteredLeverage = filterLeverageChart(action.payload);
+  });
+  timelineIndex += 1;
+  // console.log(finalchoroplethData);
   return {
     ...state,
-    filteredMapData: finalchoroplethData,
+    filteredMapData: FilteredTimeline,
   };
 };
+// const filterTimelineData = (state, action) => {
+//   const { min, max, fedtype } = action.payload;
+//   const { partnershipAllData } = state;
+//   // const that = this;
+//   const finalchoroplethData = [];
+//   // const finalData = [];
+//   if (fedtype === 'municipality') {
+//     municipality.map(mun => {
+//       finalchoroplethData.push({
+//         id: mun.munid,
+//         count: 0,
+//       });
+//       return true;
+//     });
+//   } else if (fedtype === 'district') {
+//     district.map(mun => {
+//       finalchoroplethData.push({
+//         id: mun.districtid,
+//         count: 0,
+//       });
+//       return true;
+//     });
+//   } else {
+//     province.map(mun => {
+//       finalchoroplethData.push({
+//         id: mun.FIRST_PROV,
+//         count: 0,
+//       });
+//       return true;
+//     });
+//   }
+
+//   // const worker = new Worker(demoWorker);
+
+//   // // Receive messages from postMessage() calls in the Worker
+//   // worker.onmessage = evt => {
+//   //   console.log(`Message posted from webworker: ${evt.data}`);
+//   // };
+
+//   // // Pass data to the WebWorker
+//   // worker.postMessage({ data: '123456789' });
+//   // const workers = new WebWorker(workerfile);
+
+//   // workers.postMessage({
+//   //   minmax: [min, max],
+//   //   provincedata,
+//   //   partnershipAllData,
+//   // });
+
+//   // workers.addEventListener('message', event => {
+//   //   console.log('message addevenet');
+//   //   console.log(event, 'event');
+//   //   // dispatch({
+//   //   //   type: FILTER_PRIMARYGEOJSON,
+//   //   //   payload: event.data,
+//   //   // });
+//   // });
+//   // this.worker.postMessage(
+//   //   [min, max],
+//   //   provincedata,
+//   //   partnershipAllData,
+//   // );
+//   CaculateCount(
+//     [min, max],
+//     finalchoroplethData,
+//     partnershipAllData,
+//     fedtype,
+//   );
+//   // console.log(action.payload, 'action');
+//   // const filteredLeverage = filterLeverageChart(action.payload);
+//   return {
+//     ...state,
+//     filteredMapData: finalchoroplethData,
+//   };
+// };
 const getPartnersTypeList = (state, action) => {
   const partnersData = action.payload;
   // console.log(partnersData, 'partnersData');
@@ -1554,6 +1581,14 @@ const getPartnersTypeList = (state, action) => {
   return {
     ...state,
     partnerTypeList: unique,
+  };
+};
+const getPartnershipTimelineData = (state, action) => {
+  const timelinedata = action.payload;
+  console.log(timelinedata, 'timeline data');
+  return {
+    ...state,
+    timelineData: timelinedata,
   };
 };
 export default function(state = initialState, action) {
@@ -1646,6 +1681,8 @@ export default function(state = initialState, action) {
       return filterBenefBudgetDataonClick(state, action);
     case FILTER_MAPDATA_CHOROPLETH:
       return filterMapdataChoropleth(state, action);
+    case GET_PARTNERSHIP_TIMELINE_DATA_API:
+      return getPartnershipTimelineData(state, action);
     // case GET_MAP_DATA:
     //   return getMapData(state, action);
     default:

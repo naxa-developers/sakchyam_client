@@ -401,14 +401,14 @@ const filterIndicatorGraphData = (state, action) => {
               x.seriesIndex === 1 &&
               y === 1
             ) {
-              alert('4.1');
+              // alert('4.1');
               Output41 = 'Submitted To DFID';
             } else if (
               activeLayer === 'Output Indicator 4.2' &&
               x.seriesIndex === 0 &&
               y === 1
             ) {
-              alert('4.2');
+              // alert('4.2');
               Output41 = 'Established And Operational';
             }
             // const percentForOI2 =
@@ -693,7 +693,9 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
       // return `${unit} ${y.toFixed(0)}${type}`;
       return `${unit} ${
         Output41 !== '' ? '' : y.toLocaleString()
-      }${type} ${`${percentForOI2}`}${Output41}`;
+      }${type} ${`${percentForOI2}`}${Output41} ${
+        activeLayer === 'Output Indicator 1.4' ? '%' : ''
+      }`;
     }
     return y;
   };
@@ -731,7 +733,10 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     ...state,
     filteredDynamicData: filtered,
     series,
-    // dateRange: totalDateList,
+    dateRange:
+      activeLayer === 'Output Indicator 1.4'
+        ? state.dateRange
+        : state.defaultdateRange,
     options: {
       ...state.options,
       count: Math.random(),
