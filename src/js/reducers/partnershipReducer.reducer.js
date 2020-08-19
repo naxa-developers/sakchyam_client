@@ -1471,14 +1471,22 @@ const filterMapdataChoropleth = (state, action) => {
 };
 const filterTimelineData = (state, action) => {
   const { min, max, fedtype } = action.payload;
-
-  const { timelineData } = state;
+  let timelineData = state.timelineData.provinceTimelineData;
+  if (fedtype === 'province') {
+    timelineData = state.timelineData.provinceTimelineData;
+  } else if (fedtype === 'district') {
+    timelineData = state.timelineData.districtTimelineData;
+  } else if (fedtype === 'municipality') {
+    timelineData = state.timelineData.municipalityTimelineData;
+  }
+  // const { timelineData } = state;
   const FilteredTimeline = [];
   // console.log(timelineData, 'timelineData');
   // console.log(timelineData[0], 'timelineData[0]');
   // console.log(timelineData[timelineIndex], 'timelineData[index]');
   // console.log(timelineIndex, 'index');
   console.log('Data Changed Timline');
+  // if(timelineData.data.length > )
   timelineData[timelineIndex].data.forEach(timeline => {
     return FilteredTimeline.push({
       id: timeline.code,
@@ -1584,11 +1592,18 @@ const getPartnersTypeList = (state, action) => {
   };
 };
 const getPartnershipTimelineData = (state, action) => {
-  const timelinedata = action.payload;
-  console.log(timelinedata, 'timeline data');
+  const {
+    provinceTimelineData,
+    districtTimelineData,
+    municipalityTimelineData,
+  } = action.payload;
   return {
     ...state,
-    timelineData: timelinedata,
+    timelineData: {
+      provinceTimelineData,
+      districtTimelineData,
+      municipalityTimelineData,
+    },
   };
 };
 export default function(state = initialState, action) {
