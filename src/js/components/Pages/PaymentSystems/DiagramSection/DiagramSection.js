@@ -97,6 +97,14 @@ const DiagramSection = () => {
     );
 
     setLeftToRightCoordinates(newCoordinates);
+
+    //   if (selectedCardRef === null) {
+    //     setLeftToRightCoordinates(prev => {
+    //       return [...prev, ...newCoordinates];
+    //     });
+    //   } else {
+    //     setLeftToRightCoordinates(newCoordinates);
+    //   }
   };
 
   const getLeftLines = ({ leftToLeftLink }) => {
@@ -141,6 +149,7 @@ const DiagramSection = () => {
       );
 
       setRightCoordinates(newCoordinates);
+      // setRightCoordinates(prev => [...prev, ...newCoordinates]);
     } else {
       setRightCoordinates([]);
     }
@@ -165,11 +174,36 @@ const DiagramSection = () => {
         containerWidth,
       );
 
+      // setIndirectCoordinates(newCoordinates);
       setIndirectCoordinates(newCoordinates);
     } else {
       setIndirectCoordinates([]);
     }
   };
+
+  // useLayoutEffect(() => {
+  //   // const data = lineData.filter(item =>
+  //   //   isLeftCardSelected
+  //   //     ? item.leftRef === selectedCardRef
+  //   //     : item.rightRef === selectedCardRef,
+  //   // );
+
+  //   // if (!isArrayEmpty(data)) {
+  //   //   getMiddleLines(data[0]);
+  //   //   getLeftLines(data[0]);
+  //   //   getRightLines(data[0]);
+  //   //   getIndirectLines(data[0]);
+  //   // }
+
+  //   lineData.forEach(item => {
+  //     // if (!isArrayEmpty(data)) {
+  //     getMiddleLines(item);
+  //     getLeftLines(item);
+  //     getRightLines(item);
+  //     getIndirectLines(item);
+  //     // }
+  //   });
+  // }, []);
 
   useLayoutEffect(() => {
     const data = lineData.filter(item =>

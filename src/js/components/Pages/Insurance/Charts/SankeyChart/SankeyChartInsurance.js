@@ -149,14 +149,33 @@ class SankeyChartInsurance extends Component {
 
   render() {
     const { sankeyData } = this.state;
+    const { activeModal, showRightSidebar } = this.props;
 
     return (
-      <div style={{ height: '750px' }} id="insurance-sankey">
+      <div
+        style={{
+          height: window.innerHeight < 1400 ? '600px' : '750px',
+        }}
+        id="insurance-sankey"
+      >
         {Object.entries(sankeyData).length !== 0 &&
           sankeyData.nodes.length !== 0 && (
             <ResponsiveSankey
               data={sankeyData}
               margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
+              width={
+                activeModal && window.innerWidth < 1600
+                  ? 1400
+                  : activeModal && window.innerWidth > 1600
+                  ? 1750
+                  : showRightSidebar && window.innerWidth < 1600
+                  ? 780
+                  : showRightSidebar && window.innerWidth > 1600
+                  ? 1200
+                  : !showRightSidebar && window.innerWidth < 1600
+                  ? 1100
+                  : 1400
+              }
               label="name"
               align="end"
               colors={{ scheme: 'set2' }}
