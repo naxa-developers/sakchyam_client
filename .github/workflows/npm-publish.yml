@@ -41,7 +41,7 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         message: |
-          Your App is Sucessfully Deployed to http://pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh ✅ @Varun
+          Your App is Sucessfully Deployed to http://pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh ✅ @varun2948
 
 #       if: contains(github.event.comment.body, '/deploy')
       env:
