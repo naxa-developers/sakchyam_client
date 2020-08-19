@@ -133,6 +133,8 @@ class MainPartnership extends Component {
     this.props.getBarDataByBenefBudget(viewDataBy);
     this.props.getBarDataByInvestmentFocus(viewDataBy);
     this.props.getSankeyChartData();
+    console.log('dimount');
+    this.props.getRadialData(viewDataBy);
 
     // this.props.getMapDataByDistrict(viewDataBy);
     // this.props.getMapDataByMunicipality(viewDataBy);
@@ -282,15 +284,16 @@ class MainPartnership extends Component {
         //   partnerSelection,
         //   projectStatus,
         // );
-        this.props.filterRadialData(
-          // 'province',
-          viewDataBy,
-          investmentFocusSelection,
-          projectSelection,
-          partnerType,
-          partnerSelection,
-          projectStatus,
-        );
+        this.props.getRadialData(viewDataBy);
+        // this.props.filterRadialData(
+        //   // 'province',
+        //   viewDataBy,
+        //   investmentFocusSelection,
+        //   projectSelection,
+        //   partnerType,
+        //   partnerSelection,
+        //   projectStatus,
+        // );
       }
     }
     if (prevState.partnerType !== partnerType) {
@@ -1440,6 +1443,16 @@ class MainPartnership extends Component {
         partnerType,
         partnerSelection,
         projectStatus,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
+      );
+      this.props.filterBarDataByInvestment(
+        'province',
+        viewDataBy,
+        partnerType,
+        partnerSelection,
+        projectSelection,
+        projectStatus,
+        investmentFocusSelection,
         { selectedMunicipality, selectedDistrict, selectedProvince },
       );
     } else {

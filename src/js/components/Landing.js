@@ -14,7 +14,7 @@ import LandingCard from './common/LandingCard';
 import LogframeImg from '../../img/cardimage/Logical Framework.png';
 import AutomationImg from '../../img/cardimage/Automation.png';
 import FinancialLiteracyImg from '../../img/cardimage/Financial Literacy.png';
-import ProductProcessImg from '../../img/cardimage/Product:Process Innovations.png';
+import ProductProcessImg from '../../img/cardimage/Product Process.png';
 import PartnershipImg from '../../img/cardimage/Sakchyam Partnerships.png';
 import OutreachImg from '../../img/cardimage/Outreach Expansion.png';
 import InusranceImg from '../../img/cardimage/Insurance.png';

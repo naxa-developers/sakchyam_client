@@ -83,10 +83,16 @@ class TimelineChart extends Component {
           //     console.log(e, opts);
           //   },
           selection(chartContext, { xaxis, yaxis }) {
-            const selectedMin = that.compareMinMax(xaxis.min);
-            // console.log(new Date(+selectedMin), 'selectedMin');
+            // // console.log(new Date(+selectedMin), 'selectedMin');
+            const minaxis = xaxis.min;
+            const maxaxis = xaxis.max;
+            const selectedMin = that.compareMinMax(minaxis);
+            const selectedMax = that.compareMinMax(maxaxis);
             setTimeout(() => {
-              that.setState({ timelineFrom: new Date(+selectedMin) });
+              that.setState({
+                timelineFrom: new Date(+selectedMin),
+                timelineTo: new Date(+selectedMax),
+              });
             }, 1000);
             // that.props.filterTimeline(xaxis.min, xaxis.max);
             that.setState({
@@ -211,31 +217,37 @@ class TimelineChart extends Component {
 
     // console.log(fourMonthArray, 'fourMonthArray');
     fourMonthArray.forEach((data, i) => {
+      console.log(new Date(data).setHours(0, 0, 0), 'data 1ST');
+      console.log(new Date(value).setHours(0, 0, 0), 'value 1ST');
+      console.log(new Date(data).getTime(), 'data');
+      console.log(new Date(value).getTime(), 'value');
       // console.log(new Date(data).getTime(), '1st');
       // console.log(new Date(fourMonthArray[i + 1]).getTime(), '2nd');
-      const firstIndexData = new Date(
-        this.removeTime(data),
-      ).getTime();
+      const firstIndexData = new Date(data).setHours(0, 0, 0);
       const secondIndexData = new Date(
-        this.removeTime(fourMonthArray[i + 1]),
-      ).getTime();
-      const getTimeValue = new Date(this.removeTime(value)).getTime();
+        fourMonthArray[i + 1],
+      ).setHours(0, 0, 0);
+      const getTimeValue = new Date(value).setHours(0, 0, 0);
+      // console.log(firstIndexData, 'first');
+      // console.log(secondIndexData, 'second');
+      // console.log(getTimeValue, 'value');
       // console.log(firstIndexData, '1stIndexData');
       // console.log(secondIndexData, 'secondIndexData');
       // console.log(getTimeValue, 'value');
-      if (
-        firstIndexData === new Date(this.removeTime(value)).getTime()
-      ) {
+      if (firstIndexData === getTimeValue) {
         // console.log(firstIndexData.toString(), 'true1st');
         returnedTime = firstIndexData.toString();
+        console.log('if');
       } else if (
-        firstIndexData < new Date(this.removeTime(value)).getTime() &&
-        secondIndexData >= new Date(this.removeTime(value)).getTime()
+        firstIndexData < getTimeValue &&
+        secondIndexData >= getTimeValue
       ) {
+        console.log('else');
         returnedTime = secondIndexData.toString();
       }
     });
     console.log(returnedTime, 'returned Time');
+    console.log(new Date(+returnedTime), 'returned Time');
     return returnedTime;
   };
 
@@ -275,13 +287,13 @@ class TimelineChart extends Component {
     const d = new Date(minDate);
 
     const day = d.getDate();
-    let month = d.getMonth() + 5; // Since getMonth() returns month from 0-11 not 1-12
+    let month = d.getMonth() + 4; // Since getMonth() returns month from 0-11 not 1-12
     let year = d.getFullYear();
     if (month === 13) {
       month = 1;
       year = d.getFullYear() + 1;
     } else {
-      month = d.getMonth() + 5;
+      month = d.getMonth() + 4;
     }
 
     const dateStr = `${year}-${month}-${day}`;
@@ -410,7 +422,8 @@ class TimelineChart extends Component {
           </time>
           <time style={{ marginLeft: '43px' }}>
             TO:
-            {`${year}-${month}-${day}`}
+            {`${timelineTo}`}
+            {/* {`${year}-${month}-${day}`} */}
           </time>
         </div>
         <a

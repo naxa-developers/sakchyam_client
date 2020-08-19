@@ -545,7 +545,7 @@ export const getFilteredMapData = selectedFederalType => dispatch => {
   //   }
   // }
 };
-export const getRadialData = () => dispatch => {
+export const getRadialData = viewDataBy => dispatch => {
   // let data = selectedInvestmentFocus;
   // if (
   //   selectedInvestmentFocus === undefined ||
@@ -555,7 +555,7 @@ export const getRadialData = () => dispatch => {
   // }
   try {
     axiosInstance
-      .get('/api/v1/partnership/radial/?view=allocated_beneficiary')
+      .get(`/api/v1/partnership/radial/?view=${viewDataBy}`)
       .then(function(result) {
         // console.log(result, 'result');
 
@@ -1177,12 +1177,13 @@ export const filterBarDataByInvestment = (
   selectedProjectId,
   selectedStatus,
   selectedInvestment,
+  selectedFederalList,
 ) => dispatch => {
-  // console.log(selectedFederalTypes, 'selectedFederalTypes');
+  console.log(selectedFederalTypes, 'selectedFederalTypes');
   // console.log(selectedDataView, 'selectedDataView');
   // console.log(selectedPartnerId, 'selectedPartnerId');
   // console.log(selectedProjectId, 'selectedProjectId');
-  console.log(selectedStatus, 'selectedStatus');
+  // console.log(selectedStatus, 'selectedStatus');
   // debugger;
   let partnerId = [];
   let partnerType = [];
@@ -1226,6 +1227,32 @@ export const filterBarDataByInvestment = (
     // eslint-disable-next-line prefer-destructuring
     statusSelected = selectedStatus[0];
   }
+  const munList =
+    selectedFederalList &&
+    selectedFederalList.selectedMunicipality &&
+    selectedFederalList.selectedMunicipality.length > 0
+      ? selectedFederalList.selectedMunicipality.map(mun => {
+          return mun.code;
+        })
+      : [];
+  const distList =
+    selectedFederalList &&
+    selectedFederalList.selectedDistrict &&
+    selectedFederalList.selectedDistrict.length > 0
+      ? selectedFederalList.selectedDistrict.map(dist => {
+          return dist.code;
+        })
+      : [];
+  const provList =
+    selectedFederalList &&
+    selectedFederalList.selectedProvince &&
+    selectedFederalList.selectedProvince.length > 0
+      ? selectedFederalList.selectedProvince.map(prov => {
+          return prov.code;
+        })
+      : [];
+  // if(munList)
+  // console.log(federalFilter, 'federalFilter');
   // if (data === 'allocated_beneficiary') {
   // data = ['total_beneficiary', 'female_beneficiary'];
 
@@ -1238,9 +1265,9 @@ export const filterBarDataByInvestment = (
         partner_id: partnerId,
         partner_type: partnerType,
         project_id: projectId,
-        province_id: [],
-        district_id: [],
-        municipality_id: [],
+        province_id: provList,
+        district_id: distList,
+        municipality_id: munList,
         investment: investmentFocus,
         investment_filter: [],
         investment_project: [],
@@ -1254,9 +1281,9 @@ export const filterBarDataByInvestment = (
         partner_id: partnerId,
         partner_type: partnerType,
         project_id: projectId,
-        province_id: [],
-        district_id: [],
-        municipality_id: [],
+        province_id: provList,
+        district_id: distList,
+        municipality_id: munList,
         investment: investmentFocus,
         investment_filter: [],
         investment_project: [],
@@ -2349,7 +2376,12 @@ export const filterLeverageDataForBarClick = data => dispatch => {
     payload: data,
   });
 };
-export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
+export const filterBenefBudgetDataForBarClick = (
+  clicked,
+  projectSelection,
+) => dispatch => {
+  const selectedProject =
+    projectSelection.length > 0 ? projectSelection : [0];
   // const data = selectedDataView;
   // if (data === 'allocated_beneficiary') {
   // data = ['total_beneficiary', 'female_beneficiary'];
@@ -2361,7 +2393,7 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         status: '',
         partner_id: [0],
         partner_type: [],
-        project_id: [0],
+        project_id: selectedProject,
         province_id: [],
         district_id: [],
         view: 'total_beneficiary',
@@ -2400,7 +2432,7 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
         status: '',
         partner_id: [0],
         partner_type: [],
-        project_id: [0],
+        project_id: selectedProject,
         province_id: [],
         district_id: [],
         view: 'allocated_budget',
@@ -2437,17 +2469,35 @@ export const filterBenefBudgetDataForBarClick = clicked => dispatch => {
 };
 export const getTimelineData = () => dispatch => {
   try {
-    axiosInstance
-      .get(
-        `https://sakchyam.naxa.com.np/api/v1/partnership/timeline/?district_id=0`,
-      )
-      .then(function(result) {
-        // console.log(result, 'result');
+    const requestOne = axiosInstance.get(
+      '/api/v1/partnership/timeline/?province_id=0',
+    );
+    const requestTwo = axiosInstance.get(
+      '/api/v1/partnership/timeline/?district_id=0',
+    );
+    const requestThree = axiosInstance.get(
+      '/api/v1/partnership/timeline/?municipality_id=0',
+    );
 
-        return dispatch({
-          type: GET_PARTNERSHIP_TIMELINE_DATA_API,
-          payload: result.data,
-        });
+    axios
+      .all([requestOne, requestTwo, requestThree])
+      .then(
+        axios.spread((...responses) => {
+          const provinceTimelineData = responses[0].data;
+          const districtTimelineData = responses[1].data;
+          const municipalityTimelineData = responses[2].data;
+          return dispatch({
+            type: GET_PARTNERSHIP_TIMELINE_DATA_API,
+            payload: {
+              provinceTimelineData,
+              districtTimelineData,
+              municipalityTimelineData,
+            },
+          });
+        }),
+      )
+      .catch(errors => {
+        // react on errors.
       });
   } catch (err) {
     console.error(err);

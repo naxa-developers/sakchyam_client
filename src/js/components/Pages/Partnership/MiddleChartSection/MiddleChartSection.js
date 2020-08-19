@@ -42,7 +42,7 @@ class MiddleChartSection extends Component {
   }
 
   componentDidMount() {
-    this.props.getRadialData();
+    // this.props.getRadialData(this.props.viewDataBy);
     // setTimeout(() => {
     //   this.props.getRadialData();
     // }, 500);
@@ -85,12 +85,13 @@ class MiddleChartSection extends Component {
       // alert('partnership');
       this.props.resetRadialData();
       this.props.resetFilters();
+    } else {
+      document
+        .querySelectorAll(`[data-label='${clickedName}']`)[0]
+        .click();
+      // document.getElementsByName(clickedName)[0].click();
+      this.props.applyBtnClick();
     }
-    document
-      .querySelectorAll(`[data-label='${clickedName}']`)[0]
-      .click();
-    // document.getElementsByName(clickedName)[0].click();
-    this.props.applyBtnClick();
     // }
     // console.log(this.props, 'partnership');
     // console.log(e.data.name);
