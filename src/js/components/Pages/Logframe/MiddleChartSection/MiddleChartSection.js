@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
+import domtoimage from 'dom-to-image';
+
 // import Canvas2Image, {
 //   saveAsPNG,
 // } from '../../../../../library/canvas2image';
@@ -1345,48 +1347,108 @@ class MiddleChartSection extends Component {
     //   // console.log(`Option selected:`, this.state.selectedOption),
     // );
   };
-  
-  downloadPng = () => {
-    // console.log('test');
-    const {
-      props: {
-        logFrameReducer: { filteredDynamicData },
-      },
-    } = this;
-    document.querySelector('.info-header-bottom').style.display =
-      'none';
-      if(document.querySelector('.multiple-bar')){
-        document.querySelector('.multiple-bar').style.display =
-        'none';
-      }
-    document.querySelectorAll('.download-icon-image').forEach(el => {
-      // eslint-disable-next-line no-param-reassign
-      el.style.display = 'none';
+  downloadPngs = (chartid, imageTitle, selectedModal) => {
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    
+    var data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
+               '<foreignObject width="100%" height="100%">' +
+               '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">' +
+                 '<em>I</em> like ' +
+                 '<span style="color:white; text-shadow:0 0 2px blue;">' +
+                 'cheese</span>' +
+               '</div>' +
+               '</foreignObject>' +
+               '</svg>';
+        
+     data = encodeURIComponent(data);
+     var img = new Image();
+
+    img.onload = function() {
+      ctx.drawImage(img, 0, 0);
+      console.log(canvas.toDataURL());
+      // const pdfUrl = URL.createObjectURL(
+      //   new Blob([canvas.toDataURL()], { type: 'application/pdf' })
+      // );
+      // const link = document.createElement('a');
+      // link.href = pdfUrl;
+      // link.target = '_blank';
+      // document.body.appendChild(link);
+      // link.click();
+      // link.remove();
+
+      canvas.toBlob(function(blob) {
+        var newImg = document.createElement('img'),
+        url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        
+
+        newImg.onload = function() {
+        // no longer need to read the blob so it's revoked
+        URL.revokeObjectURL(url);
+      };
+
+      newImg.src = url;
+      document.body.appendChild(newImg);
     });
-    document
-      .querySelector('.download-dropdown')
-      .classList.remove('active');
+    }
+
+    img.src = "data:image/svg+xml," + data
+    
+  };
+  downloadPng = (chartid, imageTitle, selectedModal) => {
+    // document.querySelector('.info-header-bottom').style.display =
+    //   'none';
+    // document
+    //   .querySelector('.download-dropdown')
+    //   .classList.remove('active');
+    document.querySelector('.info-header-bottom').style.display =
+    'none';
+    if(document.querySelector('.multiple-bar')){
+      document.querySelector('.multiple-bar').style.display =
+      'none';
+    }
+  document.querySelectorAll('.download-icon-image').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'none';
+  });
+  document
+    .querySelector('.download-dropdown')
+    .classList.remove('active');
+    const popupEl=document.querySelector('.info-content-wrap');
+    const useWidth = document.querySelector('.info-content-wrap').style.width;
+    const useHeight = document.querySelector('.info-content-wrap').style.height;
+    // const titleEl = document.createElement('h6');
+    // popupEl.appendChild(titleEl).textContent = 'spaghetti';
+    // titleEl.setAttribute('class', 'popup_title');
     setTimeout(() => {
-      html2canvas(document.querySelector('.info-content-wrap'), {
+      // document
+      //   .querySelector(`.${chartid}`)
+      //   .append(<label>Varun</label>);
+      html2canvas(popupEl, {
         // logging: true,
         // letterRendering: 1,
-        // allowTaint: true,
+        allowTaint: true,
         // scale: window.devicePixelRatio,
-        // windowWidth: window.innerWidth,
+        // windowWidth: window.innerWidth+120,
         // windowHeight: window.innerHeight + 120,
-        // x: 270,
+        // x: 20,
         // y: 70,
+        // width: useWidth,
+        // height: useHeight,
         // width: window.innerWidth + 40,
         // height: window.innerHeight + 40,
         // foreignObjectRendering: true,
         // useCORS: true,
-      }).then(function(canvas) {
-        console.log(canvas, 'canvas');
-        // theCanvas = canvas;
-        // document.body.appendChild(canvas);
-
-        // Convert and download as image
-        Canvas2Image.saveAsPNG(canvas);
+      }).then(canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, `${imageTitle}.png`);
+        });
         document.querySelector('.info-header-bottom').style.display =
           'block';
         document
@@ -1395,17 +1457,71 @@ class MiddleChartSection extends Component {
             // eslint-disable-next-line no-param-reassign
             el.style.display = 'block';
           });
-          if(document.querySelector('.multiple-bar')){
-            document.querySelector('.multiple-bar').style.display ='flex';
-          }
-        // document.body.append(canvas);
       });
-
-      // Clean up
-      // document.body.removeChild(canvas);
     }, 500);
   
-  }
+    // this.setState({ downloadActive: false });
+  };
+  // downloadPng = (title) => {
+  //   // console.log('test');
+  //   const {
+  //     props: {
+  //       logFrameReducer: { filteredDynamicData },
+  //     },
+  //   } = this;
+  //   document.querySelector('.info-header-bottom').style.display =
+  //     'none';
+  //     if(document.querySelector('.multiple-bar')){
+  //       document.querySelector('.multiple-bar').style.display =
+  //       'none';
+  //     }
+  //   document.querySelectorAll('.download-icon-image').forEach(el => {
+  //     // eslint-disable-next-line no-param-reassign
+  //     el.style.display = 'none';
+  //   });
+  //   document
+  //     .querySelector('.download-dropdown')
+  //     .classList.remove('active');
+  //   setTimeout(() => {
+  //     html2canvas(document.querySelector('.info-content-wrap'), {
+  //       // logging: true,
+  //       // letterRendering: 1,
+  //       // allowTaint: true,
+  //       // scale: window.devicePixelRatio,
+  //       // windowWidth: window.innerWidth,
+  //       // windowHeight: window.innerHeight + 120,
+  //       // x: 270,
+  //       // y: 70,
+  //       // width: window.innerWidth + 40,
+  //       // height: window.innerHeight + 40,
+  //       // foreignObjectRendering: true,
+  //       // useCORS: true,
+  //     }).then(function(canvas) {
+  //       console.log(canvas, 'canvas');
+  //       // theCanvas = canvas;
+  //       // document.body.appendChild(canvas);
+
+  //       // Convert and download as image
+  //       Canvas2Image.saveAsPNG(canvas);
+  //       document.querySelector('.info-header-bottom').style.display =
+  //         'block';
+  //       document
+  //         .querySelectorAll('.download-icon-image')
+  //         .forEach(el => {
+  //           // eslint-disable-next-line no-param-reassign
+  //           el.style.display = 'block';
+  //         });
+  //         if(document.querySelector('.multiple-bar')){
+  //           document.querySelector('.multiple-bar').style.display ='flex';
+  //         }
+  //       // document.body.append(canvas);
+  //     });
+
+  //     // Clean up
+  //     // document.body.removeChild(canvas);
+  //   }, 500);
+  
+  // }
   downloadPiePng = () => {
     // console.log('test');
     // const {
@@ -1612,6 +1728,8 @@ class MiddleChartSection extends Component {
     // console.log(active)
     return (
       <div className="info-content">
+        {/* <canvas id="canvas" style={{border:"2px solid black", width:"200", height:"200"}}>
+      </canvas> */}
         <Modal
           // visible={selectedModal === 'bar' ? true : false}
           headerTitle={
@@ -2030,8 +2148,12 @@ class MiddleChartSection extends Component {
             >
               <li>
                 <a
-                  onClick={this.downloadPng}
-                  onKeyPress={this.downloadPng}
+                  onClick={()=>{this.downloadPng('.info-content-wrap',filteredDynamicData &&
+                    filteredDynamicData[0] &&
+                    filteredDynamicData[0].category.title)}}
+                  onKeyPress={()=>{this.downloadPng('.info-content-wrap',filteredDynamicData &&
+                    filteredDynamicData[0] &&
+                    filteredDynamicData[0].category.title)}}
                   role="button"
                   tabIndex="0"
                 >

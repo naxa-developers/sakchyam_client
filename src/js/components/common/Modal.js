@@ -307,11 +307,11 @@ const Modal = props => {
             )}
             {component()}
           </div>
-          <div className="popup-footer buttons is-end">
-            {/* <button type="button" className="common-button is-border">
+          {/* <div className="popup-footer buttons is-end"> */}
+          {/* <button type="button" className="common-button is-border">
               <span>cancel</span>
             </button> */}
-            {/* <button
+          {/* <button
               onClick={() => {
                 downloadPng(selectedChartId);
               }}
@@ -320,7 +320,7 @@ const Modal = props => {
             >
               <span>Download</span>
             </button> */}
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </div>
