@@ -37,8 +37,12 @@ jobs:
         login: ${{ secrets.SURGE_LOGIN }}
         project: ${{ secrets.BUILD_DIRECTORY }}
         domain: pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh
-    - name: Echo the greeting's time
-      run: echo 'The time was 12.'
+    - uses: marocchino/sticky-pull-request-comment@v1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        message: |
+          Deployed to pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh
+
 #       if: contains(github.event.comment.body, '/deploy')
       env:
         URL: ${{ github.event.issue.comments_url }}
