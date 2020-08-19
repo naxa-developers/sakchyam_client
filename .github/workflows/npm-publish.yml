@@ -33,9 +33,10 @@ jobs:
       shell: bash
     - uses: dswistowski/surge-sh-action@v1
       with:
-        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-        BUILD_DIRECTORY: ${{ secrets.BUILD_DIRECTORY }}
-        DOMAIN_NAME: pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh
+        token: ${{ secrets.SURGE_TOKEN }}
+        login: ${{ secrets.SURGE_LOGIN }}
+        project: ${{ secrets.BUILD_DIRECTORY }}
+        domain: pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh
 #       if: contains(github.event.comment.body, '/deploy')
       env:
         URL: ${{ github.event.issue.comments_url }}
