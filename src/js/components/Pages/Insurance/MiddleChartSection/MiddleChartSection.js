@@ -124,6 +124,8 @@ class MiddleChartSection extends Component {
             insuranceData={insuranceData}
             selectedTabBar={selectedTabBar}
             setSelectedTabBar={this.setSelectedTabBar}
+            resetBarChartClick={this.resetBarChartClick}
+            handleBarChartClick={this.handleBarChartClick}
           />
         );
 
@@ -247,7 +249,7 @@ class MiddleChartSection extends Component {
                   // activeModal={activeModal}
                   // barTitle={barTitle}
                   barTitle={barTitle}
-                  isDownloading={false}
+                  // isDownloading={false}
                   DownloadIcon={DownloadIcon}
                   ExpandIcon={ExpandIcon}
                   downloadPng={this.downloadPng}

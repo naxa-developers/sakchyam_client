@@ -280,7 +280,9 @@ class BarChartInsurance extends Component {
     this.plotChart();
 
     const { activeModal, insuranceData } = this.props;
-    if (activeModal) this.setInsuranceData(insuranceData);
+    if (activeModal) {
+      this.setInsuranceData(insuranceData);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -401,8 +403,6 @@ class BarChartInsurance extends Component {
       // ],
     };
 
-    this.props.resetBarChartClick();
-
     this.setState(prev => ({
       series1,
       series2,
@@ -412,6 +412,8 @@ class BarChartInsurance extends Component {
       chartData2: { options },
       // isBarChartClicked: false,
     }));
+
+    this.props.resetBarChartClick();
   };
 
   handleBarChartBackBtn = () => {
