@@ -168,6 +168,7 @@ class Choropleth extends Component {
       playClick: false,
       circleMarkerRadius: null,
       loading: false,
+      isTimeline: false,
     };
   }
 
@@ -189,6 +190,12 @@ class Choropleth extends Component {
     });
     return color;
   }
+
+  handleIsTimeline = () => {
+    this.setState({
+      isTimeline: false,
+    });
+  };
 
   changeGrades() {
     let range = [];
@@ -240,7 +247,7 @@ class Choropleth extends Component {
     this.setState({
       grade: fullRange.length > 0 ? fullRange : range,
     }); // add grade provided from props if available
-
+    console.log('fulData Entered Change Grades');
     setTimeout(() => {
       this.ChangeLegendColors();
       this.setChoroplethStyle(fullData);
@@ -260,12 +267,12 @@ class Choropleth extends Component {
   }
 
   setChoroplethStyle(values) {
-    console.log('values', values);
+    // console.log('values', values);
     //
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
       const color = this.getLegendColor(value.count);
-      expression.push(value.code.toString(), color);
+      expression.push(value.id.toString(), color);
     });
 
     // const data = this.props.choroplethData;
@@ -284,7 +291,10 @@ class Choropleth extends Component {
     // Last value is the default, used where there is no data
     expression.push('rgba(0,0,0,0)');
 
+    console.time();
     this.setState({ finalStyle: expression });
+    console.timeEnd();
+    console.log('setChoropleth Style');
     //
   }
 
@@ -1636,17 +1646,19 @@ class Choropleth extends Component {
       //     'text-halo-blur': 1,
       //   },
       // });
-
+      // setInterval(console.time(), 250);
+      // const timerId = setInterval(
+      //   () => console.log('start Time'),
+      //   250,
+      // );
       this.changeGrades();
       setTimeout(() => {
-        //
-        //
         map.setPaintProperty(
           'vector-tile-fill',
           'fill-color',
           this.state.finalStyle,
         );
-      }, 2000);
+      }, 100);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
       //
@@ -1683,13 +1695,14 @@ class Choropleth extends Component {
   playBtn = (min, max) => {
     setTimeout(() => {
       this.setState({
+        isTimeline: true,
         minValue: this.getYear(min),
         maxValue: this.getYear(max),
         key: timelineKey,
         playClick: true,
       });
       timelineKey += 1;
-    }, 10000);
+    }, 200);
     // global.timerId = null;
   };
 
@@ -1714,6 +1727,7 @@ class Choropleth extends Component {
       playClick,
       circleMarkerRadius,
       loading,
+      isTimeline,
     } = this.state;
     return (
       <>
@@ -1768,6 +1782,7 @@ class Choropleth extends Component {
           minValue={minValue}
           maxValue={maxValue}
           playBtn={this.playBtn}
+          handleIsTimeline={this.handleIsTimeline}
           mapViewBy={mapViewBy}
         />
       </>

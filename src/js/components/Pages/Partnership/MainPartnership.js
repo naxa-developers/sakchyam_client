@@ -47,6 +47,7 @@ import {
   filterMapChoropleth,
   filterMapDataOfCircleMarkerWithViewDataBy,
   getPartnerTypeList,
+  getTimelineData,
 } from '../../../actions/partnership.actions';
 import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
@@ -138,6 +139,7 @@ class MainPartnership extends Component {
     this.props.getDistrictData();
     this.props.getMunicipalityData();
     this.props.getPartnerTypeList();
+    this.props.getTimelineData();
     const filterBar = document.getElementsByClassName(
       'filter-bar',
     )[0];
@@ -2064,4 +2066,5 @@ export default connect(mapStateToProps, {
   filterMapChoropleth,
   filterMapDataOfCircleMarkerWithViewDataBy,
   getPartnerTypeList,
+  getTimelineData,
 })(MainPartnership);

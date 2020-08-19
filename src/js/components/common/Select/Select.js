@@ -365,9 +365,9 @@ class Select extends PureComponent {
       toggleListHandler,
       closeListHandler,
     } = this;
-    console.log(showList, 'showList');
-    console.log(selectTitle, 'selectTitle');
-    console.log(searchText, 'searchText');
+    // console.log(showList, 'showList');
+    // console.log(selectTitle, 'selectTitle');
+    // console.log(searchText, 'searchText');
     return (
       <div
         className="select-dropdown"

@@ -220,7 +220,7 @@
                         }
                     }
                     &.apply-body{
-                        max-height: calc(100vh - 230px);
+                        max-height: calc(100vh - 183px);
                         @media #{$breakpoint-ls} {
                             height: auto;
                             max-height: initial;
@@ -228,7 +228,7 @@
                         }
                     }
                     &.outreach-body{
-                        max-height: calc(100vh - 280px);
+                        max-height: calc(100vh - 192px);
                         @media #{$breakpoint-ls} {
                             height: auto;
                             max-height: initial;
@@ -437,7 +437,7 @@
                 padding: .6125rem 1rem;
                 background-color: $white-color;
                 position: fixed;
-                bottom:10px;
+                bottom:2px;
                 left:0;
                 right:auto;
                 z-index: 1;

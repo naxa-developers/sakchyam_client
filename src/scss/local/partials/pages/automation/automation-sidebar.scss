@@ -891,7 +891,7 @@
                 }
 
                 .aside-body {
-                    max-height: calc(100vh - 264px);
+                    max-height: calc(100vh - 240px);
                     height: 100vh;
 
                     @media #{$breakpoint-ls} {
@@ -940,7 +940,7 @@
 
                     .aside-body {
                         background-color: $white-color;
-                        max-height: calc(100vh - 135px);
+                        max-height: calc(100vh - 110px);
                         height: 100vh;
                         padding: 10px 1rem;
 

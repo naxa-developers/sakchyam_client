@@ -79,6 +79,7 @@ class MainComponent extends Component {
       activeTimeGraph: true,
       activeBar: true,
       options: null,
+      output14firstState: true,
     };
   }
 
@@ -441,6 +442,12 @@ class MainComponent extends Component {
     window.removeEventListener('resize', this.updateWindowDimensions);
     window.removeEventListener('scroll', this.updateScrollResponsive);
   }
+
+  setOutput14firstState = () => {
+    this.setState(prevState => ({
+      output14firstState: !prevState.output14firstState,
+    }));
+  };
 
   handleModal = clicked => {
     // console.log('statemodal', this.state.activeModal);
@@ -845,6 +852,7 @@ class MainComponent extends Component {
       activeListItem,
       activeListFilteredData,
       expandMore,
+      output14firstState,
     } = this.state;
     const {
       props: {
@@ -920,6 +928,8 @@ class MainComponent extends Component {
               // chartRef={arg => {
               //   this.chartRef = arg;
               // }}
+              output14firstState={output14firstState}
+              setOutput14firstState={this.setOutput14firstState}
               prevBtnClick={this.prevBtnClick}
               nextBtnClick={this.nextBtnClick}
               options={options}
