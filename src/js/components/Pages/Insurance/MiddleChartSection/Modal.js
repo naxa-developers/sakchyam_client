@@ -4,6 +4,14 @@ import saveAs from 'file-saver';
 import DownloadIcon from '../../../../../img/get_app.png';
 
 const downloadPng = (chartid, imageTitle) => {
+  const closeIcon = document.querySelector('.close-icon');
+  closeIcon.style.display = 'none';
+  const downloadIcon = document.querySelector('#download-icon-popup');
+  downloadIcon.style.display = 'none';
+
+  const barTab = document.querySelector('#bar-tab-insurance');
+  barTab.style.display = 'none';
+
   setTimeout(() => {
     html2canvas(document.querySelector(`#${chartid}`), {
       allowTaint: true,
@@ -13,6 +21,12 @@ const downloadPng = (chartid, imageTitle) => {
       });
     });
   }, 500);
+
+  setTimeout(() => {
+    closeIcon.style.display = 'block';
+    downloadIcon.style.display = 'block';
+    barTab.style.display = 'block';
+  }, 600);
 };
 
 const Modal = props => {
@@ -25,15 +39,6 @@ const Modal = props => {
     activeModal,
     resetFilters,
   } = props;
-
-  const selectedChartId =
-    selectedModal === 'bubble'
-      ? 'bubble-chart'
-      : selectedModal === 'radar'
-      ? 'radar-chart'
-      : selectedModal === 'bar'
-      ? 'bar-chart'
-      : 'heatmap-chart';
 
   return (
     <div
@@ -95,13 +100,16 @@ const Modal = props => {
               }}
               onClick={
                 // () => downloadPng(selectedChartId, modalHeader)
-                () => downloadPng('modal-content', modalHeader)
+                // () => downloadPng('modal-content', modalHeader)
+                () => downloadPng('popup-body', modalHeader)
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               onKeyDown={
-                () => downloadPng('modal-content', modalHeader)
+                // () => downloadPng('modal-content', modalHeader)
+                () => downloadPng('popup-body', modalHeader)
                 // eslint-disable-next-line react/jsx-curly-newline
               }
+              id="download-icon-popup"
               role="button"
               tabIndex="-1"
             >

@@ -79,4 +79,4 @@ export const lineData = [
   },
 ];
 
-export const leftLineData = [];
+export const allConnections = [{}];

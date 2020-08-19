@@ -1,17 +1,12 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import RadarChart from '../Charts/RadarChart/RadarChart';
-import CirclePackChart from '../Charts/CirclePack/CirclePackChart';
 import Modal from './Modal';
 import CardTab from '../common/CardTab';
-import StackedBarWithProvince from '../Charts/StackedBarWithProvince/StackedBarWithProvince';
-import StackedBarWithInvestment from '../Charts/StackedBarWithInvestment/StackedBarWithInvestment';
-import LeverageStackedBar from '../Charts/LeverageStackedBar/LeverageStackedBar';
-import SunburstContainer from '../Charts/SunBurst';
-import StackedBarWithAllFederal from '../Charts/StackedBarWithAllFederal/StackedBarWithAllFederal';
 import DownloadIcon from '../../../../../img/get_app.png';
 import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import DonutChartInsurance from '../Charts/DonutChart/DonutChartInsurance';
@@ -32,7 +27,7 @@ class MiddleChartSection extends Component {
     super(props);
     this.state = {
       activeModal: false,
-      isBarChartToggled: false,
+      isBarChartClicked: false,
       selectedTab: 'innovation',
       selectedTabBar: 'insurance-premium',
       modalHeader: '',
@@ -47,10 +42,16 @@ class MiddleChartSection extends Component {
     this.setState({ selectedTab: e });
   };
 
-  handleBarChartToggle = () => {
+  handleBarChartClick = () => {
     this.setState(prevState => ({
-      isBarChartToggled: !prevState.isBarChartToggled,
+      isBarChartClicked: !prevState.isBarChartClicked,
     }));
+  };
+
+  resetBarChartClick = () => {
+    this.setState({
+      isBarChartClicked: false,
+    });
   };
 
   handleModal = () => {
@@ -155,6 +156,9 @@ class MiddleChartSection extends Component {
     const icons = document.querySelector('.header-icons');
     icons.style.display = 'none';
 
+    const barTab = document.querySelector('#bar-tab-insurance');
+    barTab.style.display = 'none';
+
     setTimeout(() => {
       html2canvas(document.querySelector(`#${chartid}`), {
         allowTaint: true,
@@ -168,16 +172,17 @@ class MiddleChartSection extends Component {
     setTimeout(() => {
       // this.setState({ isDownloading: false });
       icons.style.display = 'block';
+      barTab.style.display = 'block';
     }, 600);
   };
 
   render() {
     const {
       props: {
-        viewDataBy,
         showBarof,
         handleShowBarOf,
         insuranceData,
+        activeOverview,
       },
     } = this;
     const {
@@ -193,7 +198,25 @@ class MiddleChartSection extends Component {
       selectedTab,
       selectedTabBar,
       modalHeader,
+      isBarChartToggled,
+      isBarChartClicked,
     } = this.state;
+
+    const barTitle =
+      selectedTabBar === 'insurance-premium' && !isBarChartClicked
+        ? 'Partner wise distribution of Amount of Insurance Premium (NPR)'
+        : selectedTabBar === 'insurance-premium' && isBarChartClicked
+        ? 'Product wise distribution of Amount of Insurance Premium (NPR)'
+        : selectedTabBar !== 'insurance-premium' && !isBarChartClicked
+        ? 'Partner wise distribution of Amount of Sum Insured'
+        : 'Product wise distribution of Amount of Sum Insured';
+
+    const donutTitle =
+      selectedTab === 'innovation'
+        ? 'Innovation wise ratio of number of insurance policies sold'
+        : selectedTab === 'product'
+        ? 'Product wise ratio of number of insurance policies sold'
+        : 'Partner wise ratio of number of insurance policies sold';
 
     return (
       <div className="literacy-tab-item" style={{ display: 'block' }}>
@@ -219,11 +242,11 @@ class MiddleChartSection extends Component {
                   clickIndex={this.state.clickIndex}
                   insuranceData={insuranceData}
                   handleClickIndex={this.handleClickIndex}
-                  // showRightSidebar={showRightSidebar}
+                  showRightSidebar={!activeOverview}
                   activeModal={false}
                   // activeModal={activeModal}
                   // barTitle={barTitle}
-                  barTitle="Partner wise distribution of Amount of Insurance Premium (NPR) and Amount of Sum Insured"
+                  barTitle={barTitle}
                   isDownloading={false}
                   DownloadIcon={DownloadIcon}
                   ExpandIcon={ExpandIcon}
@@ -234,13 +257,16 @@ class MiddleChartSection extends Component {
                   isBarChartToggled={this.state.isBarChartToggled}
                   selectedTabBar={selectedTabBar}
                   setSelectedTabBar={this.setSelectedTabBar}
+                  isBarChartClicked={isBarChartClicked}
+                  handleBarChartClick={this.handleBarChartClick}
+                  resetBarChartClick={this.resetBarChartClick}
                 />
               </div>
             </div>
 
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
-              cardTitle="Ratio of number of insurance policies sold"
+              cardTitle={donutTitle}
               cardClass="col-xl-12"
               cardChartId="insurance-donut"
               handleModal={this.handleModal}
@@ -254,10 +280,12 @@ class MiddleChartSection extends Component {
                     selectedTab={selectedTab}
                     setSelectedTabDonut={this.setSelectedTabDonut}
                     activeModal={activeModal}
+                    showRightSidebar={!activeOverview}
                   />
                 );
               }}
             />
+
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle="Sankey chart based on number of insurance policies sold"
@@ -272,6 +300,7 @@ class MiddleChartSection extends Component {
                   <SankeyChartInsurance
                     insuranceData={insuranceData}
                     activeModal={activeModal}
+                    showRightSidebar={!activeOverview}
                   />
                 );
               }}

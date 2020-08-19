@@ -60,6 +60,7 @@ class SankeyDiagram extends Component {
   render() {
     const {
       financialReducer: { sankeyData },
+      activeModal,
     } = this.props;
 
     const sankeyColor =
@@ -75,10 +76,12 @@ class SankeyDiagram extends Component {
               data={sankeyData}
               margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
               width={
-                this.props.activeModal
+                activeModal && window.innerWidth < 1600
+                  ? 780
+                  : activeModal && window.innerWidth > 1600
                   ? 1400
                   : showRightSidebar && window.innerWidth < 1600
-                  ? 780
+                  ? 900
                   : showRightSidebar && window.innerWidth > 1600
                   ? 1100
                   : !showRightSidebar && window.innerWidth < 1600
@@ -160,5 +163,3 @@ const mapStateToProps = ({ financialReducer }) => ({
   financialReducer,
 });
 export default connect(mapStateToProps, {})(SankeyDiagram);
-
-const word = 'hello world';
