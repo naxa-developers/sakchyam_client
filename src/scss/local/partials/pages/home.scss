@@ -112,7 +112,7 @@
                 button {
                     border: 0;
                     display: block;
-                    padding: 8px 20px;
+                    padding: 8px 17px;
                     background: $white-color;
                     cursor: pointer;
                     @include transition(all .4s ease-in-out);
@@ -170,6 +170,13 @@
                     display: inline-block;
                     color: $primary-light;
                     cursor: pointer;
+                    position: absolute;
+                    left: 50%;
+                    margin: 0 auto;
+                    text-align: center;
+                    -webkit-transform: translateX(-50%);
+                    transform: translateX(-50%);
+                    top: 39%;
 
                     span {
                         color: $orange-color;
