@@ -37,6 +37,8 @@ jobs:
         login: ${{ secrets.SURGE_LOGIN }}
         project: ${{ secrets.BUILD_DIRECTORY }}
         domain: pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh
+        - name: Echo the greeting's time
+        run: echo 'The time was ${{ steps.hello.outputs.time }}.'
 #       if: contains(github.event.comment.body, '/deploy')
       env:
         URL: ${{ github.event.issue.comments_url }}
