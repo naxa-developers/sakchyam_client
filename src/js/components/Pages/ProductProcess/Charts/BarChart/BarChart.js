@@ -155,6 +155,8 @@ class BarChart extends Component {
           show: true,
         },
         labels: {
+          minWidth: 45,
+          maxWidth: 300,
           formatter(value) {
             return value;
           },

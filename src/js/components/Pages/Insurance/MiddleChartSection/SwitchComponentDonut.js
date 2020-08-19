@@ -5,8 +5,8 @@ export default function SwitchComponentDonut(props) {
   const { selectedTab, setSelectedTab } = props;
 
   return (
-    <div className="partnership-tab">
-      <ul>
+    <div className="partnership-tab" id="donut-tab-insurance">
+      <ul style={{ width: '330px' }}>
         <FilterBadge
           viewDataBy={selectedTab}
           onclick={() => {

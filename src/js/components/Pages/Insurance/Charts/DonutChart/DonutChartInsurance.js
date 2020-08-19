@@ -341,6 +341,7 @@ class DonutChartInsurance extends Component {
       selectedTab,
       setSelectedTabDonut,
       activeModal,
+      showRightSidebar,
     } = this.props;
 
     return (
@@ -370,6 +371,19 @@ class DonutChartInsurance extends Component {
             }
             type="donut"
             height={!activeModal ? 337 : 437}
+            width={
+              activeModal && window.innerWidth < 1600
+                ? 1400
+                : activeModal && window.innerWidth > 1600
+                ? 1750
+                : showRightSidebar && window.innerWidth < 1600
+                ? 780
+                : showRightSidebar && window.innerWidth > 1600
+                ? 1200
+                : !showRightSidebar && window.innerWidth < 1600
+                ? 1100
+                : 1400
+            }
           />
         </div>
       </>

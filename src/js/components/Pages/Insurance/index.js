@@ -335,7 +335,6 @@ class MainPartnership extends Component {
     let filteredData = [];
     const insuranceData = this.props.insuranceReducer.insuranceData
       .data;
-    console.log('this one called', insuranceData);
 
     if (
       institutionSelection.length === 0 &&

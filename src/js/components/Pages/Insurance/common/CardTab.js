@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 import React from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
@@ -7,8 +9,11 @@ import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import { resetBarDatas } from '../../../../actions/partnership.actions';
 
 const downloadPng = (chartid, imageTitle) => {
-  const icons = document.querySelector('#insurance-icons');
-  icons.style.display = 'none';
+  const icons = document.querySelectorAll('#insurance-icons');
+  icons.forEach(el => (el.style.display = 'none'));
+
+  const pieTab = document.querySelector('#donut-tab-insurance');
+  pieTab.style.display = 'none';
 
   setTimeout(() => {
     html2canvas(document.querySelector(`#${chartid}`), {
@@ -21,7 +26,8 @@ const downloadPng = (chartid, imageTitle) => {
   }, 500);
 
   setTimeout(() => {
-    icons.style.display = 'block';
+    icons.forEach(el => (el.style.display = 'block'));
+    pieTab.style.display = 'block';
   }, 600);
 };
 const CardTab = ({

@@ -5,8 +5,8 @@ export default function MapFilter(props) {
   const { selectedTab, setSelectedTab } = props;
 
   return (
-    <div className="partnership-tab">
-      <ul>
+    <div className="partnership-tab" id="bar-tab-insurance">
+      <ul style={{ width: '496px' }}>
         <FilterBadge
           viewDataBy={selectedTab}
           onclick={() => {

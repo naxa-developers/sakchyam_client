@@ -129,22 +129,22 @@ class RightSideBar extends Component {
                     iconTitle="local_offer"
                   />
                   <OverviewTab
-                    title="Insurance Policies Sold"
+                    title="Number of Insurance Policies Sold during project period"
                     number={numberWithCommas(parseInt(policies))}
                     iconTitle="assignment"
                   />
                   <OverviewTab
-                    title="Insurance Premium"
+                    title="Amount of Insurance Premium(NPR)"
                     number={numberWithCommas(parseInt(premium))}
                     iconTitle="local_atm"
                   />
                   <OverviewTab
-                    title="Sum Insured"
+                    title="Amount of Sum-Insured"
                     number={numberWithCommas(parseInt(totalSum))}
                     iconTitle="monetization_on"
                   />
                   <OverviewTab
-                    title="Claimed Amount"
+                    title="Amount of Claim"
                     number={numberWithCommas(parseInt(claimed))}
                     iconTitle="account_balance_wallet"
                   />

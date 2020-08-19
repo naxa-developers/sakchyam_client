@@ -42,7 +42,7 @@ class BarChartInsurance extends Component {
       chartData1: {},
       chartData2: { series1: [], series2: [], options: {} },
       chartData3: {},
-      isBarChartClicked: false,
+      // isBarChartClicked: false,
     };
   }
 
@@ -91,8 +91,9 @@ class BarChartInsurance extends Component {
           labels,
         },
       },
-      isBarChartClicked: true,
+      // isBarChartClicked: true,
     }));
+    this.props.handleBarChartClick();
   };
 
   // generateBarChartData1 = i => {
@@ -151,8 +152,6 @@ class BarChartInsurance extends Component {
   plotChart = () => {
     const that = this;
 
-    const { barChartClickIndex } = that.state;
-
     const options = {
       colors: [colors.red],
       chart: {
@@ -175,7 +174,7 @@ class BarChartInsurance extends Component {
               // if (that.state.isBarChartClicked) {
               //   that.generateBarChartData1(dataPointIndex);
               // }
-              if (!that.state.isBarChartClicked) {
+              if (!that.props.isBarChartClicked) {
                 that.generateBarChartData2(dataPointIndex);
               }
             }
@@ -216,7 +215,7 @@ class BarChartInsurance extends Component {
           text:
             // formatter: val => 'hello',
             that.props.selectedTabBar === 'insurance-premium'
-              ? 'Amount of Insurance (NPR)'
+              ? 'Amount of Insurance Premium (NPR)'
               : 'Amount of Sum Insuranced',
         },
         axisTicks: { show: true },
@@ -224,7 +223,7 @@ class BarChartInsurance extends Component {
         labels: {
           show: true,
           offsetX: 0,
-          minWidth: 65,
+          minWidth: 80,
           maxWidth: 300,
           // formatter: val => getShortNumbers(val),
           formatter: val => convert(val),
@@ -281,7 +280,9 @@ class BarChartInsurance extends Component {
     this.plotChart();
 
     const { activeModal, insuranceData } = this.props;
-    if (activeModal) this.setInsuranceData(insuranceData);
+    if (activeModal) {
+      this.setInsuranceData(insuranceData);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -303,7 +304,7 @@ class BarChartInsurance extends Component {
               ...prev.options.yaxis.title,
               text:
                 selectedTabBar === 'insurance-premium'
-                  ? 'Amount of Insurance (NPR)'
+                  ? 'Amount of Insurance Premium (NPR)'
                   : 'Amount of Sum Insuranced',
             },
           },
@@ -401,6 +402,7 @@ class BarChartInsurance extends Component {
       //   },
       // ],
     };
+
     this.setState(prev => ({
       series1,
       series2,
@@ -408,24 +410,22 @@ class BarChartInsurance extends Component {
       data: array,
       chartData1: { series1, options: { ...prev.options } },
       chartData2: { options },
-      barChartClickIndex: 0,
+      // isBarChartClicked: false,
     }));
+
+    this.props.resetBarChartClick();
   };
 
   handleBarChartBackBtn = () => {
-    this.setState(prev => ({
-      isBarChartClicked: !prev.isBarChartClicked,
-    }));
+    this.props.resetBarChartClick();
+    // this.setState(prev => ({
+    //   isBarChartClicked: !prev.isBarChartClicked,
+    // }));
   };
 
   render() {
-    const {
-      barChartClickIndex,
-      isBarChartClicked,
-      chartData1,
-      chartData2,
-      chartData3,
-    } = this.state;
+    const { chartData2 } = this.state;
+    const { isBarChartClicked } = this.props;
 
     const {
       DownloadIcon,
@@ -436,8 +436,8 @@ class BarChartInsurance extends Component {
       activeModal,
       barTitle,
       isDownloading,
-      isBarChartToggled,
       selectedTabBar,
+      showRightSidebar,
     } = this.props;
 
     return (
@@ -510,7 +510,26 @@ class BarChartInsurance extends Component {
                   : this.state.series2
               }
               type="bar"
-              height={!activeModal ? 400 : 550}
+              height={
+                !activeModal
+                  ? 400
+                  : activeModal && window.innerWidth < 1400
+                  ? 450
+                  : 550
+              }
+              width={
+                activeModal && window.innerWidth < 1600
+                  ? 1400
+                  : activeModal && window.innerWidth > 1600
+                  ? 1750
+                  : showRightSidebar && window.innerWidth < 1600
+                  ? 780
+                  : showRightSidebar && window.innerWidth > 1600
+                  ? 1200
+                  : !showRightSidebar && window.innerWidth < 1600
+                  ? 1100
+                  : 1400
+              }
             />
           ) : (
             <ReactApexChart
@@ -521,7 +540,26 @@ class BarChartInsurance extends Component {
                   : chartData2.series2
               }
               type="bar"
-              height={!activeModal ? 400 : 550}
+              height={
+                !activeModal
+                  ? 400
+                  : activeModal && window.innerWidth < 1400
+                  ? 450
+                  : 550
+              }
+              width={
+                activeModal && window.innerWidth < 1600
+                  ? 1400
+                  : activeModal && window.innerWidth > 1600
+                  ? 1750
+                  : showRightSidebar && window.innerWidth < 1600
+                  ? 780
+                  : showRightSidebar && window.innerWidth > 1600
+                  ? 1200
+                  : !showRightSidebar && window.innerWidth < 1600
+                  ? 1100
+                  : 1400
+              }
             />
           )}
         </div>
