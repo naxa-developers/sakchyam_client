@@ -31,6 +31,7 @@ class MapboxPartnership extends Component {
       YesNo: false,
       markerData: '',
       markerOpen: false,
+      localPopUp: false,
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -332,7 +333,10 @@ class MapboxPartnership extends Component {
         }
       });
 
-      this.setState({ hoveredMunicipalityId: tempId });
+      this.setState({
+        hoveredMunicipalityId: tempId,
+        localPopUp: true,
+      });
     }
   };
 
@@ -344,6 +348,10 @@ class MapboxPartnership extends Component {
     this.setState({ markerOpen: false });
   };
 
+  localPopUpClose = () => {
+    this.setState({ localPopUp: false });
+  };
+
   render() {
     const {
       filteredMapData,
@@ -352,6 +360,7 @@ class MapboxPartnership extends Component {
       YesNo,
       markerOpen,
       markerData,
+      localPopUp,
     } = this.state;
     const { map, loading } = this.props;
 
@@ -374,8 +383,12 @@ class MapboxPartnership extends Component {
                 markerEventHandler={this.markerEventHandler}
               />
 
-              {hoveredMunicipalityId !== 0 && (
-                <MunicipalityPopUp selectedMuni={selectedMuni} />
+              {hoveredMunicipalityId !== 0 && localPopUp && (
+                <MunicipalityPopUp
+                  selectedMuni={selectedMuni}
+                  localPopUp={localPopUp}
+                  localPopUpClose={this.localPopUpClose}
+                />
               )}
               {markerOpen && (
                 <MarkerPopup

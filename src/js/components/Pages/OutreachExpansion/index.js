@@ -186,7 +186,7 @@ class MainPartnership extends Component {
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v10',
       center: [84.5, 28.5],
-      zoom: 6,
+      zoom: 5.8,
     });
     this.setState({ map });
   };
@@ -233,7 +233,7 @@ class MainPartnership extends Component {
       this.setMapViewBy('province');
 
       map.setCenter([84.5, 28.5]);
-      map.setZoom(6);
+      map.setZoom(5.8);
     } else {
       // this.setState({ localOutreachSelected: '' });
       setTimeout(() => {
@@ -909,7 +909,7 @@ class MainPartnership extends Component {
       this.setState({
         primaryData: filteredData,
       });
-      map.setZoom(6);
+      map.setZoom(5.8);
       map.setCenter([84.5, 28.5]);
       if (mapViewBy === 'municipality') {
         this.changeMapTiles(municipalityLists());
@@ -1070,11 +1070,11 @@ class MainPartnership extends Component {
       );
       this.changeMapTiles(filteredList);
 
-      map.setZoom(6);
+      map.setZoom(5.8);
       map.setCenter([84.5, 28.5]);
     } else if (mapViewDataBy === 'general_outreach') {
       this.props.fetchOutreachChoropleth();
-      map.setZoom(6);
+      map.setZoom(5.8);
       map.setCenter([84.5, 28.5]);
       setTimeout(() => {
         this.setMapViewBy('province');
