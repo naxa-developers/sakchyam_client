@@ -91,6 +91,7 @@
     "canvas2image": "^1.0.5",
     "core-js": "^2.5.7",
     "d3": "^5.16.0",
+    "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.2",
     "fusioncharts": "^3.15.1-sr.1",
     "gradstop": "^2.2.3",

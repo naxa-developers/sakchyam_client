@@ -133,7 +133,7 @@ class MainPartnership extends Component {
     this.props.getBarDataByBenefBudget(viewDataBy);
     this.props.getBarDataByInvestmentFocus(viewDataBy);
     this.props.getSankeyChartData();
-    console.log('dimount');
+    // console.log('dimount');
     this.props.getRadialData(viewDataBy);
 
     // this.props.getMapDataByDistrict(viewDataBy);
@@ -2009,7 +2009,7 @@ class MainPartnership extends Component {
                   <h3>modal header</h3>
                 </div>
                 <div className="popup-content" />
-                <div className="popup-footer buttons is-end">
+                {/* <div className="popup-footer buttons is-end">
                   <button
                     type="button"
                     className="common-button is-border"
@@ -2022,7 +2022,7 @@ class MainPartnership extends Component {
                   >
                     <span>save</span>
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
