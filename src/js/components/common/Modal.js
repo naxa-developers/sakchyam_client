@@ -73,6 +73,7 @@ const Modal = props => {
     resetFilters,
     headerTitle,
     groupedStackData,
+    handleShowBarOfInvestmentBudgetBenefBar,
   } = props;
   const selectedChartId =
     selectedModal === 'groupedChart'
@@ -189,7 +190,7 @@ const Modal = props => {
                 type="button"
                 onClick={() => {
                   resetFilters();
-                  // handleShowBarOf('Provinces');
+                  handleShowBarOf('Provinces');
                   // resetFunction();
                 }}
                 className="is-border common-button chart-reset"
@@ -224,7 +225,10 @@ const Modal = props => {
                 type="button"
                 onClick={() => {
                   resetFilters();
-                  handleShowBarOf('Provinces');
+                  // handleShowBarOf('Provinces');
+                  handleShowBarOfInvestmentBudgetBenefBar(
+                    'investmentFocus',
+                  );
                   // resetFunction();
                 }}
                 className="is-border common-button chart-reset"
