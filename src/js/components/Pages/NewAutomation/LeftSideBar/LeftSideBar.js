@@ -33,8 +33,8 @@ class LeftSideBar extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { automationReducer, activeClickPartners } = this.props;
-    const { count, searchText, finalList } = this.state;
+    const { automationReducer, searchText } = this.props;
+    const { count, finalList } = this.state;
     if (
       automationReducer.automationRightSidePartnerData !==
       prevProps.automationReducer.automationRightSidePartnerData
@@ -57,15 +57,14 @@ class LeftSideBar extends Component {
         });
       }
     }
-    if (prevState.searchText !== searchText) {
-      if (this.state.searchText.length === 0) {
+    if (prevProps.searchText !== searchText) {
+      if (searchText.length === 0) {
         this.setState({
-          partnerList:
-            automationReducer.automationRightSidePartnerData[0]
-              .partner_data,
+          partnerList: finalList,
+          // automationReducer.automationRightSidePartnerData[0]
+          //   .partner_data,
         });
       } else {
-        console.log('finallist', finalList);
         const tempArray = finalList.filter(partner =>
           partner.partner_name
             .toUpperCase()
@@ -78,12 +77,8 @@ class LeftSideBar extends Component {
     }
   }
 
-  handleSearchTextChange = e => {
-    this.setState({ searchText: e.target.value });
-  };
-
   render() {
-    const { partnerList, dataLoading, searchText } = this.state;
+    const { partnerList, dataLoading } = this.state;
 
     const {
       activeClickPartners,
@@ -94,6 +89,7 @@ class LeftSideBar extends Component {
       handleSearchTextChange,
       activeTableView,
       loading,
+      searchText,
     } = this.props;
 
     return (
@@ -112,7 +108,7 @@ class LeftSideBar extends Component {
                   type="search"
                   value={searchText}
                   onChange={e => {
-                    this.handleSearchTextChange(e);
+                    handleSearchTextChange(e);
                   }}
                   className="form-control"
                   placeholder="search"
