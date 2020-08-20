@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable radix */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable default-case */
@@ -93,6 +94,7 @@ class MainAutomation extends Component {
       vectorGridFirstLoad: false,
       color: '',
       filteredProvinceChoropleth: '',
+      showBranches: false,
       branchesCountOptions: {
         series: [
           {
@@ -283,6 +285,8 @@ class MainAutomation extends Component {
   }
 
   componentDidMount() {
+    const token = localStorage.getItem('userToken');
+    console.log('token hai', token);
     const filterBar = document.getElementsByClassName(
       'filter-bar',
     )[0];
@@ -319,9 +323,13 @@ class MainAutomation extends Component {
       partnerApiCall,
     } = this.state;
 
+    const tableData = this.props.automationReducer
+      .automationTableData;
+
     if (prevState.mapViewBy !== mapViewBy) {
       this.handleStateLevel();
     }
+
     if (
       prevProps.automationReducer.automationRightSidePartnerData !==
       automationReducer.automationRightSidePartnerData
@@ -330,30 +338,166 @@ class MainAutomation extends Component {
       const {
         automationRightSidePartnerData,
       } = this.props.automationReducer;
-      this.setState({
-        tabletsDeployed: {
-          ...tabletsDeployed,
-          series: automationRightSidePartnerData[0].tabletsGraphData,
-          labels: automationRightSidePartnerData[0].tabletsGraphLabel,
-          fill: {
-            ...tabletsDeployed.fill,
-            colors:
-              automationRightSidePartnerData[0].tabletsGraphColor,
+      const numberTabletsDeployed =
+        automationReducer.automationRightSidePartnerData[0]
+          .total_tablet;
+      if (numberTabletsDeployed > 0) {
+        this.setState({
+          tabletsDeployed: {
+            ...tabletsDeployed,
+            series:
+              automationRightSidePartnerData[0].tabletsGraphData,
+            labels:
+              automationRightSidePartnerData[0].tabletsGraphLabel,
+            fill: {
+              ...tabletsDeployed.fill,
+              colors:
+                automationRightSidePartnerData[0].tabletsGraphColor,
+            },
+            total_beneficiary:
+              automationRightSidePartnerData[0].total_beneficiary,
           },
-        },
-        rightSideBarLoader: false,
-      });
+          rightSideBarLoader: false,
+        });
+      } else {
+        this.setState({
+          tabletsDeployed: {
+            series: [0, 0],
+            chart: {
+              width: 150,
+              type: 'donut',
+            },
+            plotOptions: {
+              pie: {
+                donut: {
+                  labels: {
+                    show: true,
+                    name: {
+                      show: false,
+                      fontSize: '24px',
+                      fontFamily: 'Avenir book',
+                      fontWeight: 100,
+                      color: '#fff',
+                      offsetY: 50,
+                      formatter(val) {
+                        return 'Totals';
+                      },
+                      value: {
+                        show: true,
+                      },
+                    },
+                    value: {
+                      show: true,
+                      fontSize: '24px',
+                      fontFamily: 'Avenir book',
+                      fontWeight: 100,
+                      color: '#d9202c',
+                      offsetY: 5,
+                      // eslint-disable-next-line consistent-return
+                      formatter(w) {
+                        if (typeof w === 'number') {
+                          // if (!total) {
+                          total = w;
+                          // }
+                          return w;
+                        }
+                        return total;
+
+                        // return null;
+                      },
+                      value: {
+                        show: true,
+                      },
+                    },
+                    total: {
+                      show: true,
+                      showAlways: false,
+                      label: 'Total',
+                      fontSize: '24px',
+                      fontFamily: 'Avenir book',
+                      fontWeight: 100,
+                      color: '#d9202c',
+                      formatter(w) {
+                        return w.globals.seriesTotals.reduce(
+                          (a, b) => {
+                            return a + b;
+                          },
+                          0,
+                        );
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            tooltip: {
+              // enabled: false,
+              fillSeriesColor: false,
+              fontColor: '#fff',
+              style: {
+                fontSize: '12px',
+                fontColor: '#fff',
+              },
+              followCursor: false,
+              fixed: {
+                enabled: true,
+                position: 'topRight',
+                offsetX: 100,
+                offsetY: 100,
+              },
+              marker: {
+                show: false,
+              },
+            },
+            dataLabels: {
+              enabled: false,
+            },
+            legend: {
+              show: false,
+              position: 'right',
+              offsetY: 0,
+              height: 230,
+            },
+            fill: {
+              opacity: 1,
+              colors: [
+                '#e69109',
+                '#63a4ff',
+                '#8629ff',
+                '#e553ed',
+                '#f2575f',
+                '#915e0d',
+                '#a1970d',
+                '#4f7d14',
+                '#07aba1',
+                '#1d4c8f',
+                '#491991',
+                '#610766',
+                '#6e0208',
+                '#f07818',
+                '#7F95D1',
+                '#FF82A9',
+                '#FFC0BE',
+                '#f0e111',
+                '#9ff035',
+                '#34ede1',
+              ],
+            },
+          },
+          rightSideBarLoader: false,
+        });
+      }
     }
-    const allPartners =
-      automationReducer &&
-      automationReducer.automationAllDataByPartner &&
-      automationReducer.automationAllDataByPartner[0] &&
-      automationReducer.automationAllDataByPartner[0].partner_data;
 
     if (
       prevProps.automationReducer.automationAllDataByPartner !==
       automationReducer.automationAllDataByPartner
     ) {
+      const allPartners =
+        automationReducer &&
+        automationReducer.automationAllDataByPartner &&
+        automationReducer.automationAllDataByPartner[0] &&
+        automationReducer.automationAllDataByPartner[0].partner_data;
       this.setState({ allPartners });
       if (partnerApiCall === 0) {
         this.setState({
@@ -403,7 +547,63 @@ class MainAutomation extends Component {
         municipalityList: municipality,
       });
     }
+
+    if (
+      tableData !== prevProps.automationReducer.automationTableData
+    ) {
+      const array = [];
+
+      tableData.map(branch => {
+        const trimelong = getCenterBboxMunicipality(
+          branch.municipality_code,
+        ).center;
+
+        branch.des_long = trimelong ? trimelong[0] : null;
+        branch.des_lat = trimelong ? trimelong[1] : null;
+
+        return true;
+      });
+
+      activeClickPartners.map((clickedPartners, i) => {
+        console.log('index ,i', i);
+        const partnerColor = this.makeRandomColor();
+        tableData.map(data => {
+          if (data.partner_id === clickedPartners) {
+            array.push({
+              origin: [data.longitude, data.latitude],
+              destination: [data.des_long, data.des_lat],
+              originName: data.partner,
+              destinationName: data.branch,
+              size: 2,
+              color: partnerColor,
+            });
+          }
+
+          return true;
+        });
+        return true;
+      });
+      this.setState({ migrationArray: array });
+    }
+
+    if (prevState.activeClickPartners !== activeClickPartners) {
+      if (activeClickPartners.length === 0) {
+        this.props.filterPartnerSelect(activeClickPartners);
+        this.setState({ migrationArray: '' });
+      }
+    }
   }
+
+  makeRandomColor = () => {
+    let c = '';
+    while (c.length < 7) {
+      c += Math.random()
+        .toString(16)
+        .substr(-6)
+        .substr(-1);
+    }
+    return `#${c}`;
+  };
 
   addMap = () => {
     mapboxgl.accessToken =
@@ -411,8 +611,8 @@ class MainAutomation extends Component {
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v10',
-      center: [84.5, 28.5],
-      zoom: 5.5,
+      center: [84, 28.5],
+      zoom: 5.8,
     });
     this.setState({ map });
   };
@@ -432,21 +632,6 @@ class MainAutomation extends Component {
     }));
   };
 
-  setMapViewBy = selectedMapView => {
-    const { activeClickPartners } = this.state;
-    this.setState({
-      mapViewBy: selectedMapView,
-    });
-    this.setState({
-      vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
-    });
-
-    this.props.partnerSelectWithOutreach(
-      activeClickPartners,
-      selectedMapView,
-    );
-  };
-
   setFilterTab = () => {
     this.setState(prevState => ({
       activeFilter: !prevState.activeFilter,
@@ -463,42 +648,8 @@ class MainAutomation extends Component {
     }));
   };
 
-  refreshSelectedPartnerBtn = () => {
-    const {
-      activeTableView,
-      activeClickPartners,
-      selectedMunicipality,
-      map,
-    } = this.state;
-    this.setState({
-      activeClickPartners: [],
-      activeOutreachButton: true,
-      provinceList: provinceLists(),
-      districtList: districtLists(),
-      municipalityList: municipalityLists(),
-      selectedProvince: provinceLists(),
-      selectedDistrict: [],
-      selectedMunicipality: municipalityLists(),
-    });
-
-    if (activeClickPartners.length > 0) {
-      this.props.filterPartnerSelect([]);
-    }
-
-    this.props.getBranchesTableData();
-
-    map.setZoom(5.5);
-    map.setCenter([84.5, 28.5]);
-
-    setTimeout(() => {
-      this.setMapViewBy('municipality');
-    }, 500);
-
-    const allMunis = municipalityLists();
-
-    setTimeout(() => {
-      this.changeMapTiles(allMunis);
-    }, 1000);
+  handleSearchTextChange = e => {
+    this.setState({ searchText: e.target.value });
   };
 
   toggleTableViewButton = () => {
@@ -507,9 +658,14 @@ class MainAutomation extends Component {
     this.setState(prevState => ({
       activeTableView: !prevState.activeTableView,
     }));
+
+    setTimeout(() => {
+      this.state.map.resize();
+    }, 10);
   };
 
   handleActiveClickPartners = id => {
+    console.log('id check', id);
     let { activeClickPartners } = this.state;
     const { mapViewBy, activeTableView } = this.state;
 
@@ -652,26 +808,41 @@ class MainAutomation extends Component {
       }
 
       if (activeClickPartners.length > 0) {
-        this.props.getFilteredPartnersByFederalWithClickedPartners(
-          {
+        if (
+          selectedMunicipality.length === 776 ||
+          selectedDistrict.length === 78
+        ) {
+          this.props.filterPartnerSelect(activeClickPartners);
+        } else {
+          this.props.getFilteredPartnersByFederalWithClickedPartners(
+            {
+              municipality: this.getCodes(selectedMunicipality),
+              district: this.getCodes(selectedDistrict),
+              province: this.getCodes(selectedProvince),
+            },
+            activeClickPartners,
+          );
+        }
+      } else {
+        if (
+          selectedMunicipality.length === 776 ||
+          selectedDistrict.length === 78
+        ) {
+          console.log('automation all case');
+          this.props.getAllAutomationDataByPartner([]);
+        } else {
+          this.props.getFilteredPartnersByFederal({
             municipality: this.getCodes(selectedMunicipality),
             district: this.getCodes(selectedDistrict),
             province: this.getCodes(selectedProvince),
-          },
-          activeClickPartners,
-        );
-      } else {
-        this.props.getFilteredPartnersByFederal({
-          municipality: this.getCodes(selectedMunicipality),
-          district: this.getCodes(selectedDistrict),
-          province: this.getCodes(selectedProvince),
-        });
+          });
+        }
       }
     } else {
       this.props.filterPartnerSelect(activeClickPartners);
-      this.props.getTableDataByPartnerSelect(activeClickPartners);
-      map.setZoom(5.5);
-      map.setCenter([84.5, 28.5]);
+
+      map.setZoom(5.8);
+      map.setCenter([84, 28.5]);
       if (mapViewBy === 'municipality') {
         this.changeMapTiles(municipalityLists());
       } else if (mapViewBy === 'district') {
@@ -691,14 +862,23 @@ class MainAutomation extends Component {
       muniCodes = this.getCodes(selectedMunicipality);
     }
     if (provinceCheck || districtCheck || muniCheck) {
-      this.props.getBranchesTableDataByFed(
-        {
-          municipality: muniCodes,
-          district: districtCodes,
-          province: provinceCodes,
-        },
-        activeClickPartners,
-      );
+      if (
+        selectedMunicipality.length === 776 ||
+        selectedDistrict.length === 78
+      ) {
+        this.props.getTableDataByPartnerSelect(activeClickPartners);
+      } else {
+        this.props.getBranchesTableDataByFed(
+          {
+            municipality: muniCodes,
+            district: districtCodes,
+            province: provinceCodes,
+          },
+          activeClickPartners,
+        );
+      }
+    } else {
+      this.props.getTableDataByPartnerSelect(activeClickPartners);
     }
   };
 
@@ -849,6 +1029,91 @@ class MainAutomation extends Component {
     }
   };
 
+  refreshSelectedPartnerBtn = () => {
+    // const {
+    //   activeTableView,
+    //   activeClickPartners,
+    //   selectedMunicipality,
+    //   map,
+    // } = this.state;
+    // this.setState({
+    //   activeClickPartners: [],
+    //   activeOutreachButton: true,
+    //   provinceList: provinceLists(),
+    //   districtList: districtLists(),
+    //   municipalityList: municipalityLists(),
+    //   selectedProvince: provinceLists(),
+    //   selectedDistrict: [],
+    //   selectedMunicipality: municipalityLists(),
+    //   searchText: '',
+    // });
+    // if (activeClickPartners.length > 0) {
+    //   this.props.filterPartnerSelect([]);
+    // }
+    // this.props.getBranchesTableData();
+    // map.setZoom(5.8);
+    // map.setCenter([84, 28.5]);
+    // setTimeout(() => {
+    //   this.setMapViewBy('municipality');
+    // }, 500);
+    // const allMunis = municipalityLists();
+    // setTimeout(() => {
+    //   this.changeMapTiles(allMunis);
+    // }, 1000);
+  };
+
+  // change set time out value once migration lines issues is resolved
+  resetPartnersOnly = () => {
+    const { mapViewBy } = this.state;
+    this.setState({
+      activeClickPartners: [],
+      searchText: '',
+      activeOutreachButton: true,
+    });
+
+    setTimeout(() => {
+      this.props.partnerSelectWithOutreach([], mapViewBy);
+    }, 500);
+    setTimeout(() => {
+      this.handleStateLevel();
+    }, 1000);
+  };
+
+  setMapViewBy = selectedMapView => {
+    const { activeClickPartners } = this.state;
+    this.setState({
+      mapViewBy: selectedMapView,
+    });
+    this.setState({
+      vectorTileUrl: `https://vectortile.naxa.com.np/federal/${selectedMapView}.mvt/?tile={z}/{x}/{y}`,
+    });
+
+    this.props.partnerSelectWithOutreach(
+      activeClickPartners,
+      selectedMapView,
+    );
+  };
+
+  resetAdminFiltersOnly = () => {
+    const { activeClickPartners } = this.state;
+    this.setState({
+      provinceList: provinceLists(),
+      districtList: districtLists(),
+      municipalityList: municipalityLists(),
+      selectedProvince: provinceLists(),
+      selectedDistrict: [],
+      selectedMunicipality: municipalityLists(),
+    });
+
+    setTimeout(() => {
+      this.setMapViewBy('municipality');
+    }, 10);
+
+    setTimeout(() => {
+      this.handleStateLevel();
+    }, 500);
+  };
+
   render() {
     const {
       map,
@@ -874,8 +1139,11 @@ class MainAutomation extends Component {
       showBeneficiary,
       branchesCooperative,
       loading,
+      migrationArray,
     } = this.state;
     const { tableDataLoading } = this.props.automationReducer;
+
+    // console.log('migrationArray', migrationArray);
 
     return (
       <div className="page-wrap page-100">
@@ -893,7 +1161,8 @@ class MainAutomation extends Component {
             handleSearchTextChange={this.handleSearchTextChange}
             handleActiveClickPartners={this.handleActiveClickPartners}
             toggleOutreachButton={this.toggleOutreachButton}
-            refreshSelectedPartnerBtn={this.refreshSelectedPartnerBtn}
+            refreshSelectedPartnerBtn={this.resetPartnersOnly}
+            toogleBranches={this.toggleOutreachButton}
             loading={loading}
           />
 
@@ -910,6 +1179,7 @@ class MainAutomation extends Component {
                 loadingHandler={this.loadingHandler}
                 loading={loading}
                 handleMapClick={this.handleMapClick}
+                migrationArray={migrationArray}
               />
 
               <div
@@ -994,7 +1264,7 @@ class MainAutomation extends Component {
                       <div className="buttons is-end">
                         <button
                           type="button"
-                          onClick={this.refreshSelectedPartnerBtn}
+                          onClick={this.resetAdminFiltersOnly}
                           className="common-button is-clear"
                         >
                           <i className="material-icons">refresh</i>

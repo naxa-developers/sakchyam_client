@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-unused-vars */
 /* eslint-disable radix */
 /* eslint-disable no-unused-expressions */
@@ -9,6 +10,7 @@
 import React, { Component } from 'react';
 import ContentLoader from 'react-content-loader';
 import { connect } from 'react-redux';
+import Switch from 'react-switch';
 import PlotVector from './PlotVector';
 import PopUp from './divisionInfoPopUp';
 import {
@@ -42,6 +44,8 @@ class MapboxPartnership extends Component {
       activeMarkers: '',
       inactiveMarkers: '',
       popUpData: '',
+      showBranches: false,
+      checked: false,
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -56,7 +60,11 @@ class MapboxPartnership extends Component {
       automationChoroplethData,
       automationTableData,
     } = this.props.automationReducer;
-    const { mapViewBy } = this.props;
+    const {
+      mapViewBy,
+      activeClickPartners,
+      activeOutreachButton,
+    } = this.props;
 
     if (
       automationChoroplethData !==
@@ -111,10 +119,22 @@ class MapboxPartnership extends Component {
     ) {
       this.setState({ tableData: automationTableData });
     }
+
+    if (prevProps.activeOutreachButton !== activeOutreachButton) {
+      if (activeOutreachButton) {
+        this.setState({ showBranches: false });
+      }
+    }
+
+    if (prevProps.activeClickPartners !== activeClickPartners) {
+      if (activeClickPartners.length === 0) {
+        this.setState({ showBranches: false });
+      }
+    }
   }
 
   setHoveredMunicipalityId = id => {
-    // console.log('id oh region', id, this.state.filteredMapData);
+    // console.log('id oh region', id);
     const { tableData } = this.state;
     const { mapViewBy, activeOutreachButton } = this.props;
     let data;
@@ -136,9 +156,18 @@ class MapboxPartnership extends Component {
           (total, i) => total + i.count,
           0,
         );
-        data = { uniqueData, totalCount, name: province[0].province };
-        if (activeOutreachButton) {
-          this.setState({ popUpData: data });
+
+        if (province.length > 0) {
+          data = {
+            uniqueData,
+            totalCount,
+            name: province[0].province,
+          };
+          if (activeOutreachButton) {
+            this.setState({ popUpData: data });
+          }
+        } else {
+          this.setState({ hoveredId: '' });
         }
       }
       if (mapViewBy === 'district') {
@@ -154,9 +183,19 @@ class MapboxPartnership extends Component {
           (total, i) => total + i.count,
           0,
         );
-        data = { uniqueData, totalCount, name: province[0].district };
-        if (activeOutreachButton) {
-          this.setState({ popUpData: data });
+
+        console.log('value of pro', province);
+        if (province.length > 0) {
+          if (activeOutreachButton) {
+            data = {
+              uniqueData,
+              totalCount,
+              name: province[0].district,
+            };
+            this.setState({ popUpData: data });
+          }
+        } else {
+          this.setState({ hoveredId: '' });
         }
       }
       if (mapViewBy === 'municipality') {
@@ -185,6 +224,8 @@ class MapboxPartnership extends Component {
           if (activeOutreachButton) {
             this.setState({ popUpData: data });
           }
+        } else {
+          this.setState({ hoveredId: '' });
         }
       }
     } else {
@@ -194,18 +235,33 @@ class MapboxPartnership extends Component {
     return data;
   };
 
+  toogleBranches = () => {
+    this.setState(prevState => ({
+      showBranches: !prevState.showBranches,
+    }));
+  };
+
   render() {
-    const { filteredMapData, hoveredId, popUpData } = this.state;
+    const {
+      filteredMapData,
+      hoveredId,
+      popUpData,
+      showBranches,
+    } = this.state;
     const {
       map,
       loading,
       activeOutreachButton,
       mapViewBy,
+      activeClickPartners,
     } = this.props;
 
     const choroplethData = activeOutreachButton
       ? filteredMapData
       : '';
+
+    const migrationLineCondition =
+      !activeOutreachButton && activeClickPartners.length > 0;
 
     return (
       <>
@@ -216,6 +272,7 @@ class MapboxPartnership extends Component {
             <div>
               <PlotVector
                 choroplethData={choroplethData}
+                showBranches={showBranches}
                 color="#000080"
                 {...this.props}
                 setHoveredMunicipalityId={
@@ -242,6 +299,26 @@ class MapboxPartnership extends Component {
             <PopUp data={popUpData} mapViewBy={mapViewBy} />
           )}
         </div>
+        {migrationLineCondition && (
+          <div className="overlay-automation">
+            <div
+              style={{ display: 'block' }}
+              className="inline-group"
+            >
+              <b>View Branches</b>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={showBranches}
+                  onClick={() => {
+                    this.toogleBranches();
+                  }}
+                />
+                <span className="slider" />
+              </label>
+            </div>
+          </div>
+        )}
       </>
     );
   }

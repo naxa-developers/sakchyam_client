@@ -200,72 +200,72 @@
   color: #000 !important;
   background-color: #ccc !important;
 }
-.content-mod  {
-  #logframe-chart{
-  .apexcharts-legend-series:nth-child(0) {
-    display: none !important;
-  }
-  .apexcharts-legend-series:nth-child(1) {
-    display: none !important;
-  }
-  .apexcharts-legend-series:nth-child(2) {
-    display: none !important;
-  }
-  .apexcharts-legend-series:nth-child(3) {
-    display: none !important;
-  }
-  .apexcharts-legend-series:nth-child(4) {
-    display: none !important;
-  }
-  //   .apexcharts-legend-series:nth-child(4){
-  //       display: none !important;
-  //   }
-  .apexcharts-yaxis-title-text {
-    text-transform: capitalize;
-    // font-variant: petite-caps !important;
-    // font-size: 0.875rem !important;
-  }
-  // .apexcharts-svg .apexcharts-yaxis {
-  //   transform: translate(40px, 2px) !important;
-  // }
-  .apexcharts-menu-icon {
-    top: 3px;
-    left: 4px;
-  }
-  // .apexcharts-yaxis-title-text{
-  //   y:272.674;
-  // }
-  .none {
-    display: none !important;
-  }
-  .flex {
-    display: flex !important;
-  }
-  .disabled {
-    pointer-events: none; //This makes it not clickable
-    opacity: 0.6; //This grays it out to look disabled
-  }
-  .apexcharts-toolbar {
-    display: none !important;
-  }
-  // .apexcharts-xaxis-label{
-  //   width: 2;
-  //   text-decoration-color: red;
-  // }
+.content-mod {
+  #logframe-chart {
+    .apexcharts-legend-series:nth-child(0) {
+      display: none !important;
+    }
+    .apexcharts-legend-series:nth-child(1) {
+      display: none !important;
+    }
+    .apexcharts-legend-series:nth-child(2) {
+      display: none !important;
+    }
+    .apexcharts-legend-series:nth-child(3) {
+      display: none !important;
+    }
+    .apexcharts-legend-series:nth-child(4) {
+      display: none !important;
+    }
+    //   .apexcharts-legend-series:nth-child(4){
+    //       display: none !important;
+    //   }
+    .apexcharts-yaxis-title-text {
+      text-transform: capitalize;
+      // font-variant: petite-caps !important;
+      // font-size: 0.875rem !important;
+    }
+    // .apexcharts-svg .apexcharts-yaxis {
+    //   transform: translate(40px, 2px) !important;
+    // }
+    .apexcharts-menu-icon {
+      top: 3px;
+      left: 4px;
+    }
+    // .apexcharts-yaxis-title-text{
+    //   y:272.674;
+    // }
+    .none {
+      display: none !important;
+    }
+    .flex {
+      display: flex !important;
+    }
+    .disabled {
+      pointer-events: none; //This makes it not clickable
+      opacity: 0.6; //This grays it out to look disabled
+    }
+    .apexcharts-toolbar {
+      display: none !important;
+    }
+    // .apexcharts-xaxis-label{
+    //   width: 2;
+    //   text-decoration-color: red;
+    // }
 
-  .x-axislabel {
-    font-weight: 900;
+    .x-axislabel {
+      font-weight: 900;
+    }
+    .apexcharts-inner .apexcharts-graphical {
+      // apexcharts-inner apexcharts-graphical  translate(155px, 31px)
+      // transform: translate(75.6875, 30) !important;
+      transform: translate(155px, 31px) !important;
+    }
+    .apexcharts-svg .apexcharts-yaxis {
+      // transform: translate(40px, 8px);
+      transform: translate(50px, 8px);
+    }
   }
-  .apexcharts-inner .apexcharts-graphical {
-    // apexcharts-inner apexcharts-graphical  translate(155px, 31px)
-    // transform: translate(75.6875, 30) !important;
-    transform: translate(155px, 31px) !important;
-  }
-  .apexcharts-svg .apexcharts-yaxis {
-    // transform: translate(40px, 8px);
-    transform: translate(50px, 8px);
-  }
-}
 }
 // #modal-content {
 //   #logframe-chart {
@@ -676,6 +676,7 @@
   background-size: cover;
   width: 20px;
   height: 20px;
+
   border-radius: 50%;
   cursor: pointer;
   background-color: #007078;
@@ -694,8 +695,8 @@
 .marker-outreach-inactive {
   background-image: url('../img/inactive.png');
   background-size: cover;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   cursor: pointer;
   background-color: #007078;
@@ -710,8 +711,8 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-#stacked_chart{
-  .apexcharts-legend{
+#stacked_chart {
+  .apexcharts-legend {
     text-align: center;
     right: 0;
     position: sticky;
@@ -721,11 +722,11 @@
     justify-content: center;
   }
 }
-#pie-firstContainer{
+#pie-firstContainer {
   display: flex;
   flex-wrap: nowrap;
 }
-#pie-secondContainer{
+#pie-secondContainer {
   display: flex;
   flex-wrap: nowrap;
 }

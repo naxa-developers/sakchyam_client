@@ -479,7 +479,7 @@ class PlotVector extends Component {
 
           {!condition && (
             <div className="color-list marker-legend">
-              <h6>Marker Legend</h6>
+              {/* <h6>Marker Legend</h6> */}
               <ul
                 id="state-legend"
                 className="color-legend outreach-legend"

@@ -17,6 +17,7 @@ export default function ViewByList(props) {
             onKeyUp={() => {
               props.setMapViewBy('province');
             }}
+            style={{ cursor: 'pointer' }}
           >
             Province
           </a>
@@ -33,6 +34,7 @@ export default function ViewByList(props) {
             onKeyUp={() => {
               props.setMapViewBy('district');
             }}
+            style={{ cursor: 'pointer' }}
           >
             District
           </a>
@@ -52,6 +54,7 @@ export default function ViewByList(props) {
             onKeyUp={() => {
               props.setMapViewBy('municipality');
             }}
+            style={{ cursor: 'pointer' }}
           >
             Municipality
           </a>

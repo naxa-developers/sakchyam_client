@@ -86,6 +86,22 @@ class RightSideBar extends Component {
         },
       );
 
+    const branchCount =
+      automationReducer.automationRightSidePartnerData &&
+      automationReducer.automationRightSidePartnerData[0] &&
+      automationReducer.automationRightSidePartnerData[0]
+        .total_branch;
+
+    let cooperativeHeader = 'Branches/Cooperative';
+    if (activeClickPartners.length > 0) {
+      if (!activeClickPartners.includes(3)) {
+        cooperativeHeader = 'Branch';
+        if (branchCount && branchCount > 1) {
+          cooperativeHeader = 'Branches';
+        }
+      }
+    }
+
     const maxBranchValue = a && Math.max(...a);
 
     return (
@@ -126,15 +142,19 @@ class RightSideBar extends Component {
                   </li>
                 </ul>
                 <div id="motivation-pie">
-                  <ReactApexChart
-                    options={tabletsDeployed}
-                    series={tabletsDeployed.series}
-                    type="donut"
-                    height="140"
-                  />
+                  {tabletsDeployed.total_branch === 0 ? (
+                    0
+                  ) : (
+                    <ReactApexChart
+                      options={tabletsDeployed}
+                      series={tabletsDeployed.series}
+                      type="donut"
+                      height="140"
+                    />
+                  )}
                 </div>
                 <ul className="widget-list">
-                  <Loading loaderState={loading} />
+                  {/* <Loading loaderState={loading} /> */}
                   <li>
                     <div className="widget-content">
                       <h6>
@@ -166,13 +186,7 @@ class RightSideBar extends Component {
                   </li>
                   <li>
                     <div className="widget-content">
-                      <h6>
-                        {branchesCooperative === 2
-                          ? 'Branches'
-                          : branchesCooperative === 0
-                          ? 'Cooperative'
-                          : 'Branches/Cooperative'}
-                      </h6>
+                      <h6>{cooperativeHeader}</h6>
                       <span>
                         {automationReducer.automationRightSidePartnerData &&
                           automationReducer
@@ -198,19 +212,9 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Beneficiaries</h6>
                       <span>
-                        {automationReducer.automationRightSidePartnerData &&
-                        automationReducer
-                          .automationRightSidePartnerData[0] &&
-                        automationReducer
-                          .automationRightSidePartnerData[0]
-                          .total_beneficiary !== 0
-                          ? automationReducer.automationRightSidePartnerData &&
-                            automationReducer
-                              .automationRightSidePartnerData[0] &&
-                            numberWithCommas(
-                              automationReducer
-                                .automationRightSidePartnerData[0]
-                                .total_beneficiary,
+                        {tabletsDeployed.total_beneficiary
+                          ? numberWithCommas(
+                              tabletsDeployed.total_beneficiary,
                             )
                           : 'N/A'}
                       </span>
@@ -377,4 +381,5 @@ class RightSideBar extends Component {
 const mapStateToProps = ({ automationReducer }) => ({
   automationReducer,
 });
-export default connect(mapStateToProps, {})(RightSideBar);
+
+export default connect(mapStateToProps)(RightSideBar);

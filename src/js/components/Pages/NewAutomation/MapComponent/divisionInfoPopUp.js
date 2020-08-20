@@ -7,7 +7,7 @@ export default function divisionInfoPopUp(props) {
     <div
       className="mapbox-popup-content"
       style={{
-        top: '5vh',
+        top: '6vh',
         position: 'relative',
         float: 'right',
         backgroundColor: 'white',

@@ -294,6 +294,13 @@ class TableViewComponent extends Component {
                   type="button"
                   onClick={this.exportTableToExcel}
                   className="common-button is-border"
+                  style={{
+                    fontSize: '.8125rem',
+                    color: 'white',
+                    backgroundColor: '#F4A535',
+                    borderColor: '#F4A535',
+                    padding: ' .25rem 1rem',
+                  }}
                 >
                   EXPORT
                 </button>
