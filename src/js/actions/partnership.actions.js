@@ -191,6 +191,9 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         investment: [],
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -207,6 +210,9 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         investment: [],
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -223,6 +229,9 @@ export const getBarDataByBenefBudget = selectedDataView => dispatch => {
         investment: [],
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
 
@@ -306,6 +315,9 @@ export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
         ],
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     // const requestTwo = axiosInstance.post(
@@ -355,6 +367,9 @@ export const getBarDataByInvestmentFocus = selectedDataView => dispatch => {
         ],
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
 
@@ -733,6 +748,9 @@ export const filterFinancialDataOfDistrictFromProvince = (
         investment: [],
         investment_filter: investmentSelection,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -749,6 +767,9 @@ export const filterFinancialDataOfDistrictFromProvince = (
         investment: [],
         investment_filter: investmentSelection,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -765,6 +786,9 @@ export const filterFinancialDataOfDistrictFromProvince = (
         investment: [],
         investment_filter: investmentSelection,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
 
@@ -850,6 +874,9 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         investment: [],
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -866,6 +893,9 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         investment: [],
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -882,6 +912,9 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         investment: [],
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
 
@@ -1084,6 +1117,9 @@ export const filterFinancialDataWithAllFilters = (
         investment: [],
         investment_filter: selectedInvestment,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -1100,6 +1136,9 @@ export const filterFinancialDataWithAllFilters = (
         investment: [],
         investment_filter: selectedInvestment,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -1116,6 +1155,9 @@ export const filterFinancialDataWithAllFilters = (
         investment: [],
         investment_filter: selectedInvestment,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
 
@@ -1271,6 +1313,9 @@ export const filterBarDataByInvestment = (
         investment: investmentFocus,
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -1287,6 +1332,9 @@ export const filterBarDataByInvestment = (
         investment: investmentFocus,
         investment_filter: [],
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
 
@@ -2064,6 +2112,9 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         investment: [],
         investment_filter: selectedInvestment,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestTwo = axiosInstance.post(
@@ -2080,6 +2131,9 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         investment: [],
         investment_filter: selectedInvestment,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     const requestThree = axiosInstance.post(
@@ -2096,6 +2150,9 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
         investment: [],
         investment_filter: selectedInvestment,
         investment_project: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
 
@@ -2401,6 +2458,9 @@ export const filterBenefBudgetDataForBarClick = (
         investment_project: [clicked],
         investment_filter: [],
         investment: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
     // const requestTwo = axiosInstance.post(
@@ -2440,6 +2500,9 @@ export const filterBenefBudgetDataForBarClick = (
         investment_project: [clicked],
         investment_filter: [],
         investment: [],
+        investment_province: [],
+        investment_district: [],
+        investment_municipality: [],
       },
     );
 
