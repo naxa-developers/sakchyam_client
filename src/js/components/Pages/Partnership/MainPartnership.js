@@ -104,6 +104,7 @@ class MainPartnership extends Component {
       mapViewBy: 'province',
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
+      isLeverageBarClicked: false,
     };
   }
 
@@ -584,6 +585,12 @@ class MainPartnership extends Component {
       }
     }
   }
+
+  handleLeverageBarClicked = clickedBool => {
+    this.setState(prevState => ({
+      isLeverageBarClicked: clickedBool,
+    }));
+  };
 
   handleFederalClickOnMap = (statelevel, code) => {
     console.log(statelevel, code);
@@ -1455,6 +1462,7 @@ class MainPartnership extends Component {
         investmentFocusSelection,
         { selectedMunicipality, selectedDistrict, selectedProvince },
       );
+      this.handleLeverageBarClicked(false);
     } else {
       this.props.filterOverviewData(
         investmentFocusSelection,
@@ -1502,6 +1510,7 @@ class MainPartnership extends Component {
       this.props.resetLeverageData();
       this.props.resetBarDatas();
       this.props.resetBarDataByInvestmentFocus();
+      this.handleLeverageBarClicked(false);
     } else {
       this.props.resetOverviewData();
       this.setMapViewBy(mapViewBy);
@@ -1568,6 +1577,7 @@ class MainPartnership extends Component {
         selectedProvince,
         selectedDistrict,
         selectedMunicipality,
+        isLeverageBarClicked,
       },
       // props: {},
     } = this;
@@ -1930,6 +1940,34 @@ class MainPartnership extends Component {
                       <a>Leverage</a>
                     </li> */}
                   </ul>
+                  {activeView === 'visualization' ? (
+                    <a
+                      onClick={() => {
+                        this.setActiveView('map');
+                      }}
+                      onKeyUp={() => {
+                        this.setActiveView('map');
+                      }}
+                      role="tab"
+                      tabIndex="0"
+                    >
+                      View on map
+                    </a>
+                  ) : (
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                    <a
+                      onClick={() => {
+                        this.setActiveView('visualization');
+                      }}
+                      // onKeyDown={() => {
+                      //   setActiveView('visualization');
+                      // }}
+                      role="tab"
+                      tabIndex="0"
+                    >
+                      Back to Visualization
+                    </a>
+                  )}
                 </div>
               </div>
               <div className="literacy-tab-content">
@@ -1947,6 +1985,10 @@ class MainPartnership extends Component {
                       projectStatus,
                     },
                   ]}
+                  isLeverageBarClicked={isLeverageBarClicked}
+                  handleLeverageBarClicked={
+                    this.handleLeverageBarClicked
+                  }
                   resetFilters={this.resetFilters}
                   viewDataBy={viewDataBy}
                   mapViewDataBy={mapViewDataBy}

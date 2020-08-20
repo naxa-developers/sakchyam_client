@@ -118,6 +118,8 @@ class MiddleChartSection extends Component {
         handleShowBarOf,
         showBarofInvestmentBudgetBenef,
         handleShowBarOfInvestmentBudgetBenefBar,
+        isLeverageBarClicked,
+        handleLeverageBarClicked,
       },
     } = this;
     const {
@@ -195,6 +197,8 @@ class MiddleChartSection extends Component {
         return (
           <div id="barContainer" style={{ width: '1900px' }}>
             <LeverageStackedBar
+              isLeverageBarClicked={isLeverageBarClicked}
+              handleLeverageBarClicked={handleLeverageBarClicked}
               cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
               viewDataBy={viewDataBy}
               activeModal={activeModal}
@@ -246,6 +250,8 @@ class MiddleChartSection extends Component {
         showBarofInvestmentBudgetBenef,
         handleShowBarOfInvestmentBudgetBenefBar,
         groupedStackData,
+        isLeverageBarClicked,
+        handleLeverageBarClicked,
       },
     } = this;
     const {
@@ -280,6 +286,9 @@ class MiddleChartSection extends Component {
             handleModal={this.handleModal}
             activeModal={activeModal}
             component={() => this.getModalContent(selectedModal)}
+            handleShowBarOfInvestmentBudgetBenefBar={
+              handleShowBarOfInvestmentBudgetBenefBar
+            }
           />
         )}
         <div className="graph-view">
@@ -421,6 +430,10 @@ class MiddleChartSection extends Component {
                 renderChartComponent={() => {
                   return (
                     <LeverageStackedBar
+                      isLeverageBarClicked={isLeverageBarClicked}
+                      handleLeverageBarClicked={
+                        handleLeverageBarClicked
+                      }
                       viewDataBy={viewDataBy}
                       activeModal={activeModal}
                       investmentFocusSelection={
@@ -461,7 +474,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'
@@ -483,7 +496,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

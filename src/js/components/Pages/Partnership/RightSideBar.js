@@ -52,7 +52,7 @@ class RightSideBar extends Component {
         <div className="sidebar-in">
           <div className="right-sidebar-header">
             <h5>Overview</h5>
-            {activeView === 'visualization' ? (
+            {/* {activeView === 'visualization' ? (
               <a
                 onClick={() => {
                   setActiveView('map');
@@ -79,7 +79,7 @@ class RightSideBar extends Component {
               >
                 Back to Visualization
               </a>
-            )}
+            )} */}
           </div>
           <div className="aside-body">
             <div className="sidebar-widget">
