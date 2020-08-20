@@ -270,7 +270,7 @@ class MainPartnership extends Component {
     if (prevState.viewDataBy !== viewDataBy) {
       // this.props.getMapDataByProvince(viewDataBy);
       // this.props.filterFinancialDataWithAllFilters(
-      //   'province',
+      //   'province',mapbox-popup-content
       //   viewDataBy,
       //   partnerSelection,
       //   projectSelection,
@@ -1941,7 +1941,7 @@ class MainPartnership extends Component {
                     </li> */}
                   </ul>
                   {activeView === 'visualization' ? (
-                    <a
+                    <a className="viewon-map common-button is-bg"
                       onClick={() => {
                         this.setActiveView('map');
                       }}
