@@ -8,9 +8,10 @@ const downloadPng = (chartid, imageTitle) => {
   closeIcon.style.display = 'none';
   const downloadIcon = document.querySelector('#download-icon-popup');
   downloadIcon.style.display = 'none';
-
   const barTab = document.querySelector('#bar-tab-insurance');
   barTab.style.display = 'none';
+  const pieTab = document.querySelector('#donut-tab-insurance');
+  pieTab.style.display = 'none';
 
   setTimeout(() => {
     html2canvas(document.querySelector(`#${chartid}`), {
@@ -26,6 +27,7 @@ const downloadPng = (chartid, imageTitle) => {
     closeIcon.style.display = 'block';
     downloadIcon.style.display = 'block';
     barTab.style.display = 'block';
+    pieTab.style.display = 'block';
   }, 600);
 };
 
@@ -38,7 +40,47 @@ const Modal = props => {
     modalHeader,
     activeModal,
     resetFilters,
+    selectedTabBar,
+    selectedTab,
+    isBarChartClicked,
   } = props;
+
+  let modalTitle = '';
+  const barTitle =
+    selectedTabBar === 'insurance-premium' && !isBarChartClicked
+      ? 'Partner wise distribution of Amount of Insurance Premium (NPR)'
+      : selectedTabBar === 'insurance-premium' && isBarChartClicked
+      ? 'Product wise distribution of Amount of Insurance Premium (NPR)'
+      : selectedTabBar !== 'insurance-premium' && !isBarChartClicked
+      ? 'Partner wise distribution of Amount of Sum Insured'
+      : 'Product wise distribution of Amount of Sum Insured';
+
+  const donutTitle =
+    selectedTab === 'innovation'
+      ? 'Innovation wise ratio of number of insurance policies sold'
+      : selectedTab === 'product'
+      ? 'Product wise ratio of number of insurance policies sold'
+      : 'Partner wise ratio of number of insurance policies sold';
+
+  const sankeyTitle =
+    'Sankey chart based on number of insurance policies sold';
+
+  switch (selectedModal) {
+    case 'bar':
+      modalTitle = barTitle;
+      break;
+
+    case 'donut':
+      modalTitle = donutTitle;
+      break;
+
+    case 'sankey':
+      modalTitle = sankeyTitle;
+      break;
+
+    default:
+      modalTitle = '';
+  }
 
   return (
     <div
@@ -61,7 +103,8 @@ const Modal = props => {
 
           <div className="popup-header no-flex">
             <h3 style={{ color: '#C2002F', textTransform: 'none' }}>
-              {modalHeader}
+              {/* {modalHeader} */}
+              {modalTitle}
             </h3>
             {selectedModal === 'sunburst' ? (
               <button
