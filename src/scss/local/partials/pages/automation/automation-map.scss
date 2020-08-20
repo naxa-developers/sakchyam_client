@@ -332,3 +332,11 @@
     }
   }
 }
+.mapbox-popup-content{
+  position:absolute;
+  top:40px;
+  right: 2px;
+  z-index: 1011;
+  background-color: #fff;
+  padding:5px;
+}
