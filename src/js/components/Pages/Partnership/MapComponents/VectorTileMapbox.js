@@ -247,7 +247,7 @@ class Choropleth extends Component {
     this.setState({
       grade: fullRange.length > 0 ? fullRange : range,
     }); // add grade provided from props if available
-    console.log('fulData Entered Change Grades');
+    // console.log('fulData Entered Change Grades');
     setTimeout(() => {
       this.ChangeLegendColors();
       this.setChoroplethStyle(fullData);
@@ -291,10 +291,10 @@ class Choropleth extends Component {
     // Last value is the default, used where there is no data
     expression.push('rgba(0,0,0,0)');
 
-    console.time();
+    // console.time();
     this.setState({ finalStyle: expression });
-    console.timeEnd();
-    console.log('setChoropleth Style');
+    // console.timeEnd();
+    // console.log('setChoropleth Style');
     //
   }
 

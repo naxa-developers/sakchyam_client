@@ -1432,7 +1432,7 @@ class MainMFS extends Component {
                   <h3>modal header</h3>
                 </div>
                 <div className="popup-content" />
-                <div className="popup-footer buttons is-end">
+                {/* <div className="popup-footer buttons is-end">
                   <button
                     type="button"
                     className="common-button is-border"
@@ -1445,7 +1445,7 @@ class MainMFS extends Component {
                   >
                     <span>save</span>
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

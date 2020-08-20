@@ -247,6 +247,7 @@ class StackedBarWithInvestment extends Component {
     const that = this;
     const {
       partnershipReducer: { barDatasByInvestment },
+      projectSelection,
     } = this.props;
     const newArray = barDatasByInvestment.series[0].data.map(
       (e, i) => e + barDatasByInvestment.series[1].data[i],
@@ -306,6 +307,7 @@ class StackedBarWithInvestment extends Component {
                 // alert(clickedBar);
                 that.props.filterBenefBudgetDataForBarClick(
                   clickedBar,
+                  projectSelection,
                 );
               }
               that.props.handleShowBarOfInvestmentBudgetBenefBar(
