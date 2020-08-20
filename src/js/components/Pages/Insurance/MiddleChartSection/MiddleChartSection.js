@@ -61,9 +61,20 @@ class MiddleChartSection extends Component {
   };
 
   handleSelectedModal = value => {
+    const { selectedTabBar, isBarChartClicked } = this.state;
+
+    const barTitle =
+      selectedTabBar === 'insurance-premium' && !isBarChartClicked
+        ? 'Partner wise distribution of Amount of Insurance Premium (NPR)'
+        : selectedTabBar === 'insurance-premium' && isBarChartClicked
+        ? 'Product wise distribution of Amount of Insurance Premium (NPR)'
+        : selectedTabBar !== 'insurance-premium' && !isBarChartClicked
+        ? 'Partner wise distribution of Amount of Sum Insured'
+        : 'Product wise distribution of Amount of Sum Insured';
+
     const modalHeader =
       value === 'bar'
-        ? 'Partner wise distribution of Amount of Insurance Premium (NPR) and Amount of Sum Insured'
+        ? barTitle
         : value === 'donut'
         ? 'Ratio of number of insurance policies sold'
         : 'Sankey chart based on number of insurance policies sold';
@@ -120,11 +131,12 @@ class MiddleChartSection extends Component {
       case 'bar':
         return (
           <BarChartInsurance
-            activeModal
+            activeModal={this.state.activeModal}
             insuranceData={insuranceData}
             selectedTabBar={selectedTabBar}
             setSelectedTabBar={this.setSelectedTabBar}
             resetBarChartClick={this.resetBarChartClick}
+            isBarChartClicked={this.state.isBarChartClicked}
             handleBarChartClick={this.handleBarChartClick}
           />
         );
@@ -234,6 +246,9 @@ class MiddleChartSection extends Component {
             handleModal={this.handleModal}
             activeModal={activeModal}
             component={() => this.getModalContent(selectedModal)}
+            selectedTabBar={selectedTabBar}
+            selectedTab={selectedTab}
+            isBarChartClicked={isBarChartClicked}
           />
         )}
         <div className="graph-view">
@@ -241,22 +256,15 @@ class MiddleChartSection extends Component {
             <div className="col-xl-12">
               <div className="card" id="bar-chart">
                 <BarChartInsurance
-                  clickIndex={this.state.clickIndex}
                   insuranceData={insuranceData}
-                  handleClickIndex={this.handleClickIndex}
                   showRightSidebar={!activeOverview}
-                  activeModal={false}
-                  // activeModal={activeModal}
-                  // barTitle={barTitle}
+                  activeModal={activeModal}
                   barTitle={barTitle}
-                  // isDownloading={false}
                   DownloadIcon={DownloadIcon}
                   ExpandIcon={ExpandIcon}
                   downloadPng={this.downloadPng}
                   handleModal={this.handleModal}
                   handleSelectedModal={this.handleSelectedModal}
-                  handleBarChartToggle={this.handleBarChartToggle}
-                  isBarChartToggled={this.state.isBarChartToggled}
                   selectedTabBar={selectedTabBar}
                   setSelectedTabBar={this.setSelectedTabBar}
                   isBarChartClicked={isBarChartClicked}

@@ -82,18 +82,20 @@ class BarChartInsurance extends Component {
       data: lineData,
     });
 
-    this.setState(prevState => ({
-      chartData2: {
-        series1,
-        series2,
-        options: {
-          ...prevState.options,
-          labels,
+    this.setState(
+      prevState => ({
+        chartData2: {
+          series1,
+          series2,
+          options: {
+            ...prevState.options,
+            labels,
+          },
         },
-      },
-      // isBarChartClicked: true,
-    }));
-    this.props.handleBarChartClick();
+        // isBarChartClicked: true,
+      }),
+      () => this.props.handleBarChartClick(),
+    );
   };
 
   // generateBarChartData1 = i => {
@@ -175,6 +177,7 @@ class BarChartInsurance extends Component {
               //   that.generateBarChartData1(dataPointIndex);
               // }
               if (!that.props.isBarChartClicked) {
+                // that.props.handleBarChartClick();
                 that.generateBarChartData2(dataPointIndex);
               }
             }

@@ -99,7 +99,7 @@ class RightSideBar extends Component {
                   <OutreachTab
                     title={
                       mfsOverviewData.totalCashpoint
-                        ? 'Total Innovation Type'
+                        ? 'Total Achieved Number'
                         : selectedInnovation
                     }
                     number={numberWithCommas(
