@@ -48,6 +48,7 @@ import {
   GET_PARTNERSHIP_TIMELINE_DATA_API,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
+import { districtLists } from '../components/common/adminList';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
 export const getPartnershipAllData = () => dispatch => {
@@ -622,7 +623,13 @@ export const filterRadialData = (
     selectedPartnerId.length > 0
       ? `partner_filter=${selectedPartnerId}`
       : '';
-  const viewData = viewDataBy ? `view=${viewDataBy}` : '';
+  const viewData = viewDataBy
+    ? `view=${
+        viewDataBy === 'Leverage'
+          ? 'allocated_beneficiary'
+          : viewDataBy
+      }`
+    : '';
   const federalFilter =
     selectedFederalList &&
     selectedFederalList.selectedMunicipality &&
@@ -1307,15 +1314,15 @@ export const filterBarDataByInvestment = (
         partner_id: partnerId,
         partner_type: partnerType,
         project_id: projectId,
-        province_id: provList,
-        district_id: distList,
-        municipality_id: munList,
+        province_id: [],
+        district_id: [],
+        municipality_id: [],
         investment: investmentFocus,
         investment_filter: [],
         investment_project: [],
-        investment_province: [],
-        investment_district: [],
-        investment_municipality: [],
+        investment_province: provList,
+        investment_district: distList,
+        investment_municipality: munList,
       },
     );
     const requestThree = axiosInstance.post(
@@ -1326,15 +1333,15 @@ export const filterBarDataByInvestment = (
         partner_id: partnerId,
         partner_type: partnerType,
         project_id: projectId,
-        province_id: provList,
-        district_id: distList,
-        municipality_id: munList,
+        province_id: [],
+        district_id: [],
+        municipality_id: [],
         investment: investmentFocus,
         investment_filter: [],
         investment_project: [],
-        investment_province: [],
-        investment_district: [],
-        investment_municipality: [],
+        investment_province: provList,
+        investment_district: distList,
+        investment_municipality: munList,
       },
     );
 

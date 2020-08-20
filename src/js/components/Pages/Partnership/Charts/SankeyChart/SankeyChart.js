@@ -60,10 +60,10 @@ class SankeyChart extends Component {
       <div
         id="sankey_chart"
         style={
-          activeModal && window.innerHeight < 1400
-            ? { height: '580px' }
+          activeModal && window.innerWidth < 1400
+            ? { height: '480px' } // modal on and arjun screen size perfect
             : activeModal
-            ? { height: '680px' }
+            ? { height: '780px' }
             : { height: '580px' }
         }
       >

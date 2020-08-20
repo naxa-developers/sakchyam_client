@@ -629,11 +629,11 @@ class StackedBarWithInvestment extends Component {
           type="bar"
           // height={activeModal ? 600 : 350}
           height={
-            activeModal && window.innerWidth < 1400
-              ? 560
-              : activeModal
-              ? 650
-              : 350
+            !activeModal
+              ? 350
+              : activeModal && window.innerWidth < 1400
+              ? 400 // modal on and arjun screen size perfect
+              : 620
           }
 
           // width={activeModal === true ? 1600 : '100%'}
