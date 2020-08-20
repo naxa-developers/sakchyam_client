@@ -4,10 +4,7 @@ import React from 'react';
 export default function divisionInfoPopUp(props) {
   const code = props.data;
   return (
-    <div
-      className="mapbox-popup-content"
-      
-    >
+    <div className="mapbox-popup-content">
       <div
         className="map-popup-view"
         style={{ marginBottom: '0 !important' }}

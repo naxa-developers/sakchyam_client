@@ -1941,7 +1941,8 @@ class MainPartnership extends Component {
                     </li> */}
                   </ul>
                   {activeView === 'visualization' ? (
-                    <a className="viewon-map common-button is-bg"
+                    <a
+                      className="viewon-map common-button is-bg"
                       onClick={() => {
                         this.setActiveView('map');
                       }}
@@ -1956,7 +1957,11 @@ class MainPartnership extends Component {
                   ) : (
                     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                     <a
+                      className="viewon-map common-button is-bg"
                       onClick={() => {
+                        this.setActiveView('visualization');
+                      }}
+                      onKeyDown={() => {
                         this.setActiveView('visualization');
                       }}
                       // onKeyDown={() => {

@@ -41,6 +41,7 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 import CardTab from '../Partnership/common/CardTab';
 import StackedBarWithAllFederal from './Chart/StackedBarWithAllFederal/StackedBarWithAllFederal';
+import Modal from '../../common/Modal';
 
 global.markerList = [];
 function removeMarker() {
@@ -86,8 +87,10 @@ class MainMFS extends Component {
       mapViewBy: 'province',
       vectorTileUrl:
         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
-      showBarChartBy: true,
+      showBarChartBy: 'Federal',
       barData: [],
+      activeModal: false,
+      selectedModal: '',
     };
   }
 
@@ -297,12 +300,12 @@ class MainMFS extends Component {
       this.props.filterByKeyInnovation(selectedInnovation);
     }
     if (prevState.showBarChartBy !== showBarChartBy) {
-      if (showBarChartBy === true) {
+      if (showBarChartBy === 'Federal') {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
           barData: this.props.mfsReducer.mfsChartData,
         });
-      } else {
+      } else if (showBarChartBy === 'Partner') {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
           barData: this.props.mfsReducer.mfsChartDataByPartner,
@@ -310,6 +313,75 @@ class MainMFS extends Component {
       }
     }
   }
+
+  handleModal = () => {
+    this.setState(prevState => ({
+      activeModal: !prevState.activeModal,
+    }));
+  };
+
+  handleSelectedModal = value => {
+    this.setState({
+      selectedModal: value,
+    });
+  };
+
+  getModalContent = contentType => {
+    const {
+      state: {
+        mapViewBy,
+        showBarof,
+        selectedInnovation,
+        selectedPartner,
+        selectedAchievement,
+        provinceList,
+        districtList,
+        showBarChartBy,
+        activeModal,
+        barData,
+      },
+      // props: {},
+    } = this;
+    switch (contentType) {
+      case 'mfsBar':
+        return (
+          <div
+            className="scroller_card"
+            style={
+              mapViewBy === 'district' && window.innerWidth > 1400
+                ? {
+                    width: '1200px',
+                    overflowX: 'scroll',
+                  }
+                : mapViewBy === 'district' && window.innerWidth < 1400
+                ? {
+                    width: '800px',
+                    overflowX: 'scroll',
+                  }
+                : {}
+            }
+          >
+            <StackedBarWithAllFederal
+              barData={barData}
+              showBarChartBy={showBarChartBy}
+              mapViewBy={mapViewBy}
+              selectedPartner={selectedPartner}
+              selectedInnovation={selectedInnovation}
+              selectedAchievement={selectedAchievement}
+              provinceList={provinceList}
+              districtList={districtList}
+              showBarof={showBarof}
+              handleShowBarOf={this.handleShowBarOf}
+              activeModal={activeModal}
+            />
+          </div>
+        );
+
+      default:
+        break;
+    }
+    return true;
+  };
 
   handleFederalClickOnMap = (statelevel, code) => {
     if (statelevel === 'municipality') {
@@ -330,9 +402,9 @@ class MainMFS extends Component {
     }
   };
 
-  setShowBarChartBy = () => {
+  setShowBarChartBy = clicked => {
     this.setState(prevState => ({
-      showBarChartBy: !prevState.showBarChartBy,
+      showBarChartBy: clicked,
     }));
   };
 
@@ -1055,7 +1127,7 @@ class MainMFS extends Component {
   };
 
   resetFilters = () => {
-    console.log('resertfiles');
+    // console.log('resertfiles');
     const { mapViewBy, activeView, map } = this.state;
     this.resetLeftSideBarSelection();
     this.setState({
@@ -1067,6 +1139,8 @@ class MainMFS extends Component {
     this.props.filterMfsChartData('province', [], [], [], [], []);
     this.props.filterOverViewData('province', [], [], []);
     this.props.filterMfsMapPieData('province', [], [], [], [], []);
+    this.handleShowBarOf('Provinces');
+
     // this.props.resetOverviewData();
     document.querySelectorAll('.allCheckbox').forEach(el => {
       // eslint-disable-next-line no-param-reassign
@@ -1116,6 +1190,8 @@ class MainMFS extends Component {
         municipalityList,
         showBarChartBy,
         barData,
+        selectedModal,
+        activeModal,
       },
       // props: {},
     } = this;
@@ -1132,6 +1208,17 @@ class MainMFS extends Component {
             activeOverview ? 'expand-right-sidebar' : ''
           }`}
         >
+          {activeModal && (
+            <Modal
+              // visible={selectedModal === 'bar' ? true : false}
+              // modalHeader="Sakchyam Investment Focus"
+              activeModal={activeModal}
+              showBarof={showBarof}
+              selectedModal={selectedModal}
+              handleModal={this.handleModal}
+              component={() => this.getModalContent(selectedModal)}
+            />
+          )}
           <ToastContainer
             style={{
               fontFamily: 'Avenir Heavy',
@@ -1318,6 +1405,7 @@ class MainMFS extends Component {
                         this.handleSelectedModal('groupedChart');
                       }}
                       disableResetButton
+                      disableExpand
                       renderChartComponent={() => {
                         return (
                           <MapboxPartnership
@@ -1343,23 +1431,21 @@ class MainMFS extends Component {
                       }}
                     />
                     <CardTab
-                      // resetFunction={() => {
-                      //   this.props.resetBarDatas();
-                      //   this.props.handleShowBarOf('Provinces');
-                      // }}
+                      resetFunction={() => {
+                        this.resetFilters();
+                      }}
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
                       cardTitle={`${mapViewBy} Wise Achievement Type`}
                       showBarChartBy={showBarChartBy}
                       setShowBarChartBy={this.setShowBarChartBy}
                       cardClass="col-xl-12"
-                      cardChartId="groupedChart"
+                      cardChartId="mfsBar"
                       handleModal={this.handleModal}
                       handleSelectedModal={() => {
-                        this.handleSelectedModal('groupedChart');
+                        this.handleSelectedModal('mfsBar');
                       }}
-                      radioBtn
-                      radioBtnProps={['Partner', 'Federal']}
+                      badgeProp={['Partner', 'Federal']}
                       renderChartComponent={() => {
                         return (
                           // <label>Test</label>
