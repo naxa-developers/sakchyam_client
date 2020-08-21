@@ -340,6 +340,7 @@ class Choropleth extends Component {
           singleData2nd[`${piedata.name}`] = piedata.count;
           singleData2nd.count += piedata.count;
         });
+        console.log(singleData2nd.count, 'totalCount');
       }
       total2nd.push(singleData2nd.count);
       const allCount = [];
@@ -976,7 +977,7 @@ class Choropleth extends Component {
                         : mapViewDataBy === 'allocated_budget'
                         ? 'monetization_on'
                         : 'payments'
-                    }</i><b>${totalSum}</b>
+                    }</i><b>${props.count}</b>
                   </div>
               </div>
               <div class="acc is-after is-border">

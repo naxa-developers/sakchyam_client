@@ -91,6 +91,7 @@ class MainMFS extends Component {
       barData: [],
       activeModal: false,
       selectedModal: '',
+      showBarPartnerChartOf: 'Partner',
     };
   }
 
@@ -797,6 +798,10 @@ class MainMFS extends Component {
     this.setState({ showBarof: value });
   };
 
+  handleShowBarPartnerChartOf = value => {
+    this.setState({ showBarPartnerChartOf: value });
+  };
+
   handlePartnerSelection = name => {
     const { selectedPartner } = this.state;
 
@@ -1135,11 +1140,21 @@ class MainMFS extends Component {
       selectedDistrict: [],
       selectedMunicipality: [],
     });
+    this.handleShowBarOf('Province');
+    this.handleShowBarPartnerChartOf('Partner');
     this.props.filterMfsChoroplethData('province', [], [], []);
     this.props.filterMfsChartData('province', [], [], [], [], []);
+    this.props.filterMfsMapChartDataByPartner(
+      'district',
+      [],
+      [],
+      [],
+      [],
+      [],
+    );
     this.props.filterOverViewData('province', [], [], []);
     this.props.filterMfsMapPieData('province', [], [], [], [], []);
-    this.handleShowBarOf('Provinces');
+    // this.handleShowBarOf('Provinces');
 
     // this.props.resetOverviewData();
     document.querySelectorAll('.allCheckbox').forEach(el => {
@@ -1192,6 +1207,7 @@ class MainMFS extends Component {
         barData,
         selectedModal,
         activeModal,
+        showBarPartnerChartOf,
       },
       // props: {},
     } = this;
@@ -1480,6 +1496,12 @@ class MainMFS extends Component {
                               districtList={districtList}
                               showBarof={showBarof}
                               handleShowBarOf={this.handleShowBarOf}
+                              showBarPartnerChartOf={
+                                showBarPartnerChartOf
+                              }
+                              handleShowBarPartnerChartOf={
+                                this.handleShowBarPartnerChartOf
+                              }
                             />
                           </div>
                           // <StackedBarWithProvince
