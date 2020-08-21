@@ -1970,7 +1970,7 @@ class MainPartnership extends Component {
                       role="tab"
                       tabIndex="0"
                     >
-                      Back to Visualization
+                      Back to Visualisation
                     </a>
                   )}
                 </div>

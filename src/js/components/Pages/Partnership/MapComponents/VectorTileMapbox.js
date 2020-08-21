@@ -557,7 +557,7 @@ class Choropleth extends Component {
     //   10,
     // );
     SVG.append('text')
-      .text('Investment Focus Quantify')
+      .text('Investment Focus')
       .attr('x', 10)
       .attr('y', 20)
       .style('font-size', '13px');
@@ -939,7 +939,7 @@ class Choropleth extends Component {
                         : mapViewDataBy === 'allocated_budget'
                         ? 'monetization_on'
                         : 'payments'
-                    }</i><b>${totalSum}</b>
+                    }</i><b>${Math.round(totalSum)}</b>
                   </div>
               </div>
               <div class="acc is-after is-border">
@@ -1018,7 +1018,7 @@ class Choropleth extends Component {
                         : mapViewDataBy === 'allocated_budget'
                         ? 'monetization_on'
                         : 'payments'
-                    }</i><b>${d.data.count}</b>
+                    }</i><b>${Math.round(d.data.count)}</b>
                   </div>
               </div>
             </div>

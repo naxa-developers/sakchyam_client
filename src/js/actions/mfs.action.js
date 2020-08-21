@@ -15,6 +15,7 @@ import {
   FILTER_MFS_CHART_DATA_BY_ACHIEVEMENT,
   FILTER_MFS_MAP_PIE_DATA,
   FILTER_MFS_CHART_DATA_BY_DISTRICT_ID,
+  FILTER_MFS_CHART_DATA_BY_PARTNER_WITH_INNOVATION,
 } from './index.actions';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -238,6 +239,28 @@ export const filterMfsMapChartDataByPartner = (
       selectedAchievement,
       selectedDistrict,
       selectedProvince,
+    },
+  });
+};
+export const filterMfsMapChartDataByPartnerWithInnovation = (
+  mapViewBy,
+  selectedPartner,
+  selectedInnovation,
+  selectedAchievement,
+  selectedDistrict,
+  selectedProvince,
+  clickedPartner,
+) => dispatch => {
+  dispatch({
+    type: FILTER_MFS_CHART_DATA_BY_PARTNER_WITH_INNOVATION,
+    payload: {
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
+      clickedPartner,
     },
   });
 };
