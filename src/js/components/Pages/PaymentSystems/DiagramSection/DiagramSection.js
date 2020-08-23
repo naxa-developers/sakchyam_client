@@ -3,15 +3,17 @@ import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
 import PlotLines from './CreateLines/PlotLines';
 import generateMiddleLines from './CreateLines/generateMiddleLines';
-import { lineData } from './CreateLines/lines.data';
+import { lineData, allConnections } from './CreateLines/lines.data';
 import generateLeftLines from './CreateLines/generateLeftLines';
 import generateRightLines from './CreateLines/generateRightLines';
 import { isArrayEmpty } from '../utils/utilities';
 import generateIndirectLines from './CreateLines/generateIndirectLines';
 import generateLeftToRightIndirectLines from './CreateLines/generateLeftToRightIndirectLines';
+import generateLeftToRightLinesAll from './CreateLines/generateLeftToRightLinesAll';
+import generateRightLinesAll from './CreateLines/generateRightLinesAll';
 
 const width = 235;
-
+const defaultColor = '#FF6D00';
 const color = {
   leftRefs: [
     { ref: 0, color: '#FF6D00' },
@@ -48,7 +50,8 @@ const DiagramSection = () => {
 
   const [isLeftCardSelected, setIsLeftCardSelected] = useState(true);
   const [selectedCardRef, setSelectedCardRef] = useState(null);
-  const [lineColor, setLineColor] = useState('#FF6D00');
+  const [lineColor, setLineColor] = useState(defaultColor);
+  const [showAllLines, setShowAllLines] = useState(true);
 
   const getMiddleLines = ({
     leftRefLinks,
@@ -89,22 +92,16 @@ const DiagramSection = () => {
       setLeftToRigthIndirectCoordinates([]);
     }
 
+    const containerWidth = width;
+
     const newCoordinates = generateMiddleLines(
       middleSVGRect,
       leftRects,
       rightRects,
-      indirectLeftToRightRect,
+      containerWidth,
     );
 
     setLeftToRightCoordinates(newCoordinates);
-
-    //   if (selectedCardRef === null) {
-    //     setLeftToRightCoordinates(prev => {
-    //       return [...prev, ...newCoordinates];
-    //     });
-    //   } else {
-    //     setLeftToRightCoordinates(newCoordinates);
-    //   }
   };
 
   const getLeftLines = ({ leftToLeftLink }) => {
@@ -122,6 +119,7 @@ const DiagramSection = () => {
       });
 
       const newCoordinates = generateLeftLines(leftSVGRect, rects);
+
       setLeftCoordinates(newCoordinates);
     } else {
       setLeftCoordinates([]);
@@ -149,9 +147,6 @@ const DiagramSection = () => {
       );
 
       setRightCoordinates(newCoordinates);
-      // setRightCoordinates(prev => [...prev, ...newCoordinates]);
-    } else {
-      setRightCoordinates([]);
     }
   };
   const getIndirectLines = ({ indirectLink }) => {
@@ -174,36 +169,75 @@ const DiagramSection = () => {
         containerWidth,
       );
 
-      // setIndirectCoordinates(newCoordinates);
       setIndirectCoordinates(newCoordinates);
     } else {
       setIndirectCoordinates([]);
     }
   };
 
-  // useLayoutEffect(() => {
-  //   // const data = lineData.filter(item =>
-  //   //   isLeftCardSelected
-  //   //     ? item.leftRef === selectedCardRef
-  //   //     : item.rightRef === selectedCardRef,
-  //   // );
+  const getLeftToRightLinesAll = ({ leftToRightLink }) => {
+    const middleSVGRect = middleSVGContainerRef.current.getBoundingClientRect();
+    const refs = [];
+    leftToRightLink.forEach(item => {
+      const leftRef = leftCardRefs.current[
+        item.from
+      ].getBoundingClientRect();
+      const rightRef = item.to.map(x =>
+        rightCardRefs.current[x].getBoundingClientRect(),
+      );
 
-  //   // if (!isArrayEmpty(data)) {
-  //   //   getMiddleLines(data[0]);
-  //   //   getLeftLines(data[0]);
-  //   //   getRightLines(data[0]);
-  //   //   getIndirectLines(data[0]);
-  //   // }
+      refs.push({ leftRef, rightRef });
+    });
 
-  //   lineData.forEach(item => {
-  //     // if (!isArrayEmpty(data)) {
-  //     getMiddleLines(item);
-  //     getLeftLines(item);
-  //     getRightLines(item);
-  //     getIndirectLines(item);
-  //     // }
-  //   });
-  // }, []);
+    const newCoordinates = generateLeftToRightLinesAll(
+      middleSVGRect,
+      refs,
+    );
+
+    setLeftToRightCoordinates(newCoordinates);
+  };
+
+  const getRightLinesAll = ({ rightToRightLink }) => {
+    const middleSVGRect = middleSVGContainerRef.current.getBoundingClientRect();
+    const refs = [];
+    rightToRightLink.forEach(item => {
+      const tempRef = [];
+      item.forEach(x => {
+        const rect1 = rightCardRefs.current[
+          x[0]
+        ].getBoundingClientRect();
+        const rect2 = rightCardRefs.current[
+          x[1]
+        ].getBoundingClientRect();
+        tempRef.push({ rect1, rect2 });
+      });
+      refs.push(tempRef);
+    });
+
+    const containerWidth = width;
+
+    const newCoordinates = generateRightLinesAll(
+      middleSVGRect,
+      refs,
+      containerWidth,
+    );
+
+    setRightCoordinates(newCoordinates);
+  };
+
+  const clearAllLines = () => {
+    setLeftCoordinates([]);
+    setLeftToRightCoordinates([]);
+    setLeftToRigthIndirectCoordinates([]);
+    setRightCoordinates([]);
+    setIndirectCoordinates([]);
+  };
+
+  useLayoutEffect(() => {
+    getLeftToRightLinesAll(allConnections);
+    getLeftLines(allConnections);
+    getRightLinesAll(allConnections);
+  }, [showAllLines]);
 
   useLayoutEffect(() => {
     const data = lineData.filter(item =>
@@ -211,7 +245,6 @@ const DiagramSection = () => {
         ? item.leftRef === selectedCardRef
         : item.rightRef === selectedCardRef,
     );
-
     if (!isArrayEmpty(data)) {
       getMiddleLines(data[0]);
       getLeftLines(data[0]);
@@ -221,23 +254,39 @@ const DiagramSection = () => {
   }, [selectedCardRef, isLeftCardSelected]);
 
   const onLeftCardClick = ref => {
-    const newColor = color.leftRefs
-      .filter(item => item.ref === ref)
-      .map(item => item.color)[0];
+    clearAllLines();
 
-    setLineColor(newColor);
-    setIsLeftCardSelected(true);
-    setSelectedCardRef(ref);
+    if (isLeftCardSelected && ref === selectedCardRef) {
+      setLineColor(defaultColor);
+      setShowAllLines(prev => !prev);
+      setSelectedCardRef(null);
+    } else {
+      const newColor = color.leftRefs
+        .filter(item => item.ref === ref)
+        .map(item => item.color)[0];
+
+      setLineColor(newColor);
+      setIsLeftCardSelected(true);
+      setSelectedCardRef(ref);
+    }
   };
 
   const onRightCardClick = ref => {
-    const newColor = color.rightRefs
-      .filter(item => item.ref === ref)
-      .map(item => item.color)[0];
+    clearAllLines();
 
-    setLineColor(newColor);
-    setIsLeftCardSelected(false);
-    setSelectedCardRef(ref);
+    if (!isLeftCardSelected && ref === selectedCardRef) {
+      setLineColor(defaultColor);
+      setShowAllLines(prev => !prev);
+      setSelectedCardRef(null);
+    } else {
+      const newColor = color.rightRefs
+        .filter(item => item.ref === ref)
+        .map(item => item.color)[0];
+
+      setLineColor(newColor);
+      setIsLeftCardSelected(false);
+      setSelectedCardRef(ref);
+    }
   };
 
   return (
