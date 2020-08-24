@@ -197,6 +197,7 @@ class MiddleChartSection extends Component {
         handleShowBarOf,
         insuranceData,
         activeOverview,
+        loading,
       },
     } = this;
     const {
@@ -256,6 +257,7 @@ class MiddleChartSection extends Component {
             <div className="col-xl-12">
               <div className="card" id="bar-chart">
                 <BarChartInsurance
+                  loading={loading}
                   insuranceData={insuranceData}
                   showRightSidebar={!activeOverview}
                   activeModal={activeModal}
@@ -286,6 +288,7 @@ class MiddleChartSection extends Component {
               renderChartComponent={() => {
                 return (
                   <DonutChartInsurance
+                    loading={loading}
                     insuranceData={insuranceData}
                     selectedTab={selectedTab}
                     setSelectedTabDonut={this.setSelectedTabDonut}
@@ -308,6 +311,7 @@ class MiddleChartSection extends Component {
               renderChartComponent={() => {
                 return (
                   <SankeyChartInsurance
+                    loading={loading}
                     insuranceData={insuranceData}
                     activeModal={activeModal}
                     showRightSidebar={!activeOverview}

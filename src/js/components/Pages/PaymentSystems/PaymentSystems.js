@@ -5,6 +5,7 @@ import saveAs from 'file-saver';
 import Header from '../../Header';
 import DiagramSection from './DiagramSection/DiagramSection';
 import ContentSection from './ContentSection/ContentSection';
+import './custom-payment.scss';
 
 const downloadPng = chartid => {
   setTimeout(() => {

@@ -17,8 +17,6 @@ import IMEPay from '../../../../../img/imepay.png';
 import eSEWA from '../../../../../img/eSewa-Servie.png';
 import Khalti from '../../../../../img/khalti.png';
 import CellPay from '../../../../../img/CellPay-logo.png';
-import NepalTelecom from '../../../../../img/nepal-telecom.png';
-import Ncell from '../../../../../img/ncell.png';
 import Nepse from '../../../../../img/nepse.png';
 
 const RightPortion = ({
@@ -42,6 +40,7 @@ const RightPortion = ({
         <h3>Retail payment System</h3>
         <div className="switch-connect-system">
           <div
+            id="card"
             className={
               !isLeftCardSelected && selectedCardRef === 0
                 ? 'payment-card switch-system active'
@@ -99,6 +98,7 @@ const RightPortion = ({
           </div>
         </div>
         <div
+          id="card"
           className={
             !isLeftCardSelected && selectedCardRef === 1
               ? 'payment-card psp-system active'
@@ -155,6 +155,7 @@ const RightPortion = ({
       </div>
       <div className="bottom-section-payment">
         <div
+          id="card"
           className={
             !isLeftCardSelected && selectedCardRef === 2
               ? 'payment-card connectips-system active'
@@ -164,7 +165,7 @@ const RightPortion = ({
           onClick={() => onRightCardClick(2)}
         >
           <ul className="payment-logos">
-            <a href={() => {}}>
+            <a href={() => {}} style={{ paddingRight: '118px' }}>
               <img src={NepalClearingHouse} alt="connect ips" />
             </a>
             <li>
@@ -185,6 +186,7 @@ const RightPortion = ({
           </ul>
         </div>
         <div
+          id="card"
           className={
             !isLeftCardSelected && selectedCardRef === 3
               ? 'payment-card bfis active'
@@ -208,6 +210,7 @@ const RightPortion = ({
           </ul>
         </div>
         <div
+          id="card"
           className={
             !isLeftCardSelected && selectedCardRef === 4
               ? 'payment-card capital active'

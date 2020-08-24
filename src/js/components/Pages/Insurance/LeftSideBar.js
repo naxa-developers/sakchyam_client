@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
 import { removeDuplicates } from '../../common/utilFunctions';
+import BoxLoader from './Charts/Loader/Loader';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class LeftSideBar extends Component {
         handelInnovationParentCheckbox,
         applyBtnClick,
         resetFilters,
+        loading,
       },
       state: { partnerList, innovationList, productList },
     } = this;
@@ -89,7 +91,10 @@ class LeftSideBar extends Component {
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {partnerList &&
+                    {loading ? (
+                      <BoxLoader height={300} />
+                    ) : (
+                      partnerList &&
                       partnerList.map(partner => {
                         return (
                           <CheckBox
@@ -104,7 +109,8 @@ class LeftSideBar extends Component {
                             )}
                           />
                         );
-                      })}
+                      })
+                    )}
                   </ul>
                 </div>
               </div>
@@ -130,7 +136,10 @@ class LeftSideBar extends Component {
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {innovationList &&
+                    {loading ? (
+                      <BoxLoader height={300} />
+                    ) : (
+                      innovationList &&
                       innovationList.map(inn => {
                         return (
                           <CheckBox
@@ -145,7 +154,8 @@ class LeftSideBar extends Component {
                             )}
                           />
                         );
-                      })}
+                      })
+                    )}
                   </ul>
                 </div>
               </div>
@@ -171,7 +181,10 @@ class LeftSideBar extends Component {
                     </div>
                   </div>
                   <ul className="checkbox-list">
-                    {productList &&
+                    {loading ? (
+                      <BoxLoader height={300} />
+                    ) : (
+                      productList &&
                       productList.map(pro => {
                         return (
                           <CheckBox
@@ -186,7 +199,8 @@ class LeftSideBar extends Component {
                             )}
                           />
                         );
-                      })}
+                      })
+                    )}
                   </ul>
                 </div>
               </div>

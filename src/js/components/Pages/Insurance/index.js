@@ -402,6 +402,10 @@ class MainPartnership extends Component {
       },
     } = this;
 
+    const {
+      insuranceReducer: { loading },
+    } = this.props;
+
     return (
       <>
         {/* <Headers /> */}
@@ -411,6 +415,7 @@ class MainPartnership extends Component {
           }`}
         >
           <LeftSideBar
+            loading={loading}
             insuranceData={insuranceData}
             institutionSelection={institutionSelection}
             innovationSelection={innovationSelection}
@@ -446,6 +451,7 @@ class MainPartnership extends Component {
                 <MiddleChartSection
                   insuranceData={insuranceData}
                   activeOverview={activeOverview}
+                  loading={loading}
                 />
               </div>
             </div>
@@ -478,6 +484,7 @@ class MainPartnership extends Component {
             </div>
           </div>
           <RightSideBar
+            loading={loading}
             activeOverview={activeOverview}
             setActiveOverview={this.setActiveOverview}
             insuranceData={insuranceData}

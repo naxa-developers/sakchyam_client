@@ -658,8 +658,8 @@
     }
   }
 }
-.mfs-wrapper{
-  .mapbox-popup-content{
+.mfs-wrapper {
+  .mapbox-popup-content {
     width: 253px !important;
     height: 230px;
     overflow-y: scroll;
@@ -750,3 +750,9 @@
 // #logframe_modal_chart > div:nth-of-type(1){
 //   min-height: 0 !important;
 // }
+
+// NO DATA CASE FOR CHART
+#no-data {
+  height: 400px;
+  text-align: center;
+}
