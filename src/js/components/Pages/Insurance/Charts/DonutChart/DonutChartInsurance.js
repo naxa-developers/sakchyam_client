@@ -6,6 +6,8 @@ import {
   numberWithCommas,
 } from '../../../../common/utilFunctions';
 import SwitchComponentDonut from '../../MiddleChartSection/SwitchComponentDonut';
+import { isArrayEmpty } from '../../../../utils/utilities';
+import BoxLoader from '../Loader/Loader';
 
 class DonutChartInsurance extends Component {
   constructor(props) {
@@ -342,50 +344,61 @@ class DonutChartInsurance extends Component {
       setSelectedTabDonut,
       activeModal,
       showRightSidebar,
+      loading,
     } = this.props;
 
     return (
       <>
-        <SwitchComponentDonut
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTabDonut}
-        />
-        <div
-          id="insurance-donut"
-          style={{ height: !activeModal ? '347px' : '500px' }}
-        >
-          <ReactApexChart
-            options={
-              selectedTab === 'innovation'
-                ? innovationOptions
-                : selectedTab === 'product'
-                ? productOptions
-                : partnerOptions
-            }
-            series={
-              selectedTab === 'innovation'
-                ? innovationSeries
-                : selectedTab === 'product'
-                ? productSeries
-                : partnerSeries
-            }
-            type="donut"
-            height={!activeModal ? 337 : 437}
-            width={
-              activeModal && window.innerWidth < 1600
-                ? 1400
-                : activeModal && window.innerWidth > 1600
-                ? 1750
-                : showRightSidebar && window.innerWidth < 1600
-                ? 780
-                : showRightSidebar && window.innerWidth > 1600
-                ? 1200
-                : !showRightSidebar && window.innerWidth < 1600
-                ? 1100
-                : 1400
-            }
-          />
-        </div>
+        {loading ? (
+          <BoxLoader height={450} />
+        ) : !isArrayEmpty(innovationSeries) ? (
+          <>
+            <SwitchComponentDonut
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTabDonut}
+            />
+            <div
+              id="insurance-donut"
+              style={{ height: !activeModal ? '347px' : '500px' }}
+            >
+              <ReactApexChart
+                options={
+                  selectedTab === 'innovation'
+                    ? innovationOptions
+                    : selectedTab === 'product'
+                    ? productOptions
+                    : partnerOptions
+                }
+                series={
+                  selectedTab === 'innovation'
+                    ? innovationSeries
+                    : selectedTab === 'product'
+                    ? productSeries
+                    : partnerSeries
+                }
+                type="donut"
+                height={!activeModal ? 337 : 437}
+                width={
+                  activeModal && window.innerWidth < 1600
+                    ? 1400
+                    : activeModal && window.innerWidth > 1600
+                    ? 1750
+                    : showRightSidebar && window.innerWidth < 1600
+                    ? 780
+                    : showRightSidebar && window.innerWidth > 1600
+                    ? 1200
+                    : !showRightSidebar && window.innerWidth < 1600
+                    ? 1100
+                    : 1400
+                }
+              />
+            </div>
+          </>
+        ) : (
+          <div id="no-data">
+            <label>No data</label>
+          </div>
+        )}
       </>
     );
   }

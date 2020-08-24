@@ -75,19 +75,14 @@ class FinancialLiteracy extends Component {
       modalHeader: '',
       isBarChartToggled: false,
       isDownloading: false,
-      loading: false,
     };
     this.sankeyRef = React.createRef();
   }
 
   async componentDidMount() {
-    this.setState({ loading: true });
-
     await this.props.getPartnersList();
     await this.props.getFinancialProgram();
     await this.props.getFinancialData();
-
-    this.setState({ loading: false });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -361,7 +356,6 @@ class FinancialLiteracy extends Component {
         selectedModal,
         modalHeader,
         isDownloading,
-        loading,
       },
     } = this;
     return (
@@ -388,7 +382,6 @@ class FinancialLiteracy extends Component {
             handlePartnerParentCheckbox={
               this.handlePartnerParentCheckbox
             }
-            loading={loading}
           />
           <main className="main">
             <div className="main-card map-card" />

@@ -5,6 +5,7 @@ import {
   numberWithCommas,
 } from '../../common/utilFunctions';
 import OverviewTab from '../../common/overviewTab';
+import RightSidebarLoader from './Charts/Loader/RightSidebarLoaderI';
 
 class RightSideBar extends Component {
   constructor(props) {
@@ -81,7 +82,7 @@ class RightSideBar extends Component {
 
   render() {
     const {
-      props: { activeOverview, setActiveOverview },
+      props: { activeOverview, setActiveOverview, loading },
       state: {
         partners,
         products,
@@ -105,50 +106,57 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget">
-              <div className="widget-body">
-                <ul className="widget-list">
-                  <OverviewTab
-                    title="Partner Institution"
-                    number={partners}
-                    iconTitle="location_city"
-                    // iconTitle="payments"
-                  />
-                  <OverviewTab
-                    title="Distribution Channel"
-                    number={channels}
-                    iconTitle="business"
-                  />
-                  <OverviewTab
-                    title="Innovations"
-                    number={innovations}
-                    iconTitle="flag"
-                  />
-                  <OverviewTab
-                    title="Products"
-                    number={products}
-                    iconTitle="local_offer"
-                  />
-                  <OverviewTab
-                    title="Number of Insurance Policies Sold during project period"
-                    number={numberWithCommas(parseInt(policies))}
-                    iconTitle="assignment"
-                  />
-                  <OverviewTab
-                    title="Amount of Insurance Premium(NPR)"
-                    number={numberWithCommas(parseInt(premium))}
-                    iconTitle="local_atm"
-                  />
-                  <OverviewTab
-                    title="Amount of Sum-Insured"
-                    number={numberWithCommas(parseInt(totalSum))}
-                    iconTitle="monetization_on"
-                  />
-                  <OverviewTab
-                    title="Amount of Claim"
-                    number={numberWithCommas(parseInt(claimed))}
-                    iconTitle="account_balance_wallet"
-                  />
-                </ul>
+              <div
+                className="widget-body"
+                style={{ backgroundColor: '#f7f7f7' }}
+              >
+                {loading ? (
+                  <RightSidebarLoader />
+                ) : (
+                  <ul className="widget-list">
+                    <OverviewTab
+                      title="Partner Institution"
+                      number={partners}
+                      iconTitle="location_city"
+                      // iconTitle="payments"
+                    />
+                    <OverviewTab
+                      title="Distribution Channel"
+                      number={channels}
+                      iconTitle="business"
+                    />
+                    <OverviewTab
+                      title="Innovations"
+                      number={innovations}
+                      iconTitle="flag"
+                    />
+                    <OverviewTab
+                      title="Products"
+                      number={products}
+                      iconTitle="local_offer"
+                    />
+                    <OverviewTab
+                      title="Number of Insurance Policies Sold during project period"
+                      number={numberWithCommas(parseInt(policies))}
+                      iconTitle="assignment"
+                    />
+                    <OverviewTab
+                      title="Amount of Insurance Premium(NPR)"
+                      number={numberWithCommas(parseInt(premium))}
+                      iconTitle="local_atm"
+                    />
+                    <OverviewTab
+                      title="Amount of Sum-Insured"
+                      number={numberWithCommas(parseInt(totalSum))}
+                      iconTitle="monetization_on"
+                    />
+                    <OverviewTab
+                      title="Amount of Claim"
+                      number={numberWithCommas(parseInt(claimed))}
+                      iconTitle="account_balance_wallet"
+                    />
+                  </ul>
+                )}
               </div>
             </div>
           </div>

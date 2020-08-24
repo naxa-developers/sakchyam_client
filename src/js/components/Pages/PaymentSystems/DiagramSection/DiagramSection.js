@@ -13,7 +13,7 @@ import generateLeftToRightLinesAll from './CreateLines/generateLeftToRightLinesA
 import generateRightLinesAll from './CreateLines/generateRightLinesAll';
 
 const width = 235;
-const defaultColor = '#C2002F';
+const defaultColor = '#C2002F'; // #0055A5
 const color = {
   leftRefs: [
     { ref: 0, color: '#FF6D00' },
