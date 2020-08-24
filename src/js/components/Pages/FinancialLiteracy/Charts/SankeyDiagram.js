@@ -81,7 +81,7 @@ class SankeyDiagram extends Component {
                   : activeModal && window.innerWidth > 1600
                   ? 1400
                   : showRightSidebar && window.innerWidth < 1600
-                  ? 900
+                  ? 780
                   : showRightSidebar && window.innerWidth > 1600
                   ? 1100
                   : !showRightSidebar && window.innerWidth < 1600
