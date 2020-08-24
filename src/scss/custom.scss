@@ -450,6 +450,22 @@
 //   position: absolute; top: 0; bottom: 0; width: 100%;
 // }
 
+#insurance-donut {
+  .apexcharts-tooltip-series-group {
+    background-color: #fff;
+    .apexcharts-tooltip-marker {
+      display: none;
+    }
+    .apexcharts-tooltip-text-label {
+      color: black !important;
+      text-decoration-color: white;
+    }
+    .apexcharts-tooltip-text-value {
+      color: black !important;
+      text-decoration-color: white;
+    }
+  }
+}
 #donut-chart {
   .apexcharts-tooltip-series-group {
     background-color: #fff;

@@ -269,11 +269,11 @@ class BarChartInsurance extends Component {
           offsetY: 0,
         },
       },
-      // tooltip: {
-      //   onDatasetHover: {
-      //     highlightDataSeries: true,
-      //   },
-      // },
+      tooltip: {
+        marker: {
+          show: false,
+        },
+      },
     };
 
     this.setState({
