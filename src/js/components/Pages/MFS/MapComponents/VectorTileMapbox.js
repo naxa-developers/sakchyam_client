@@ -64,7 +64,7 @@ const popup = new mapboxgl.Popup();
 //   '#DE2693',
 // ];
 const colors = [
-  '#e45642',
+  '#2196F3',
   '#f7c349',
   '#4dd291',
   '#225687',
@@ -72,22 +72,8 @@ const colors = [
   '#70356f',
   '#8f1c52',
   '#cc4967',
-  '#2196F3',
+  '#e45642',
 ];
-const colorScale = d3
-  .scaleOrdinal()
-  .domain([
-    'Automation of MFIs',
-    'Channel Innovations',
-    'Digital Financial Services',
-    'Downscaling and Value Chain Financing By Banks',
-    'Increased uptake of microinsurance',
-    'Outreach Expansion',
-    'Product Innovations',
-    'SME Financing',
-  ])
-  .range(colors);
-
 const defaultData = [
   { id: '1', count: 0 },
   { id: '2', count: 0 },
@@ -304,7 +290,7 @@ class Choropleth extends Component {
         : fullGeojsonProvince;
     removeMarker();
     const FinalGeojson = { ...FederalData };
-
+    console.log(FinalGeojson, 'finalGeojson');
     FinalGeojson.features.forEach((item, index) => {
       circleMarkerData.forEach(p => {
         if (p.code === item.properties.code) {
@@ -320,7 +306,8 @@ class Choropleth extends Component {
         return f.code === el.properties.code;
       });
     });
-    console.log(FinalGeojson, 'finalGeojson');
+    const legendNameList = [];
+    // console.log(FinalGeojson, 'finalGeojson');
     FinalGeojson.features = myArrayFiltered;
 
     // console.log(r, 'r');
@@ -402,15 +389,18 @@ class Choropleth extends Component {
       const testElMain = document.createElement('div');
       testElMain.className = 'marker';
 
-      // console.log(singleData, 'singleDataProv');
-      // // const props = data.properties;
-      // console.log(singleData, 'singleData');
-      // console.log(total2nd, 'total2nd');
-      // console.log(radiusRange, 'radiusRange');
-      // console.log(partnerList, 'partnerList');
-      // console.log(mapViewDataBy, 'mapViewDataBy');
-      // console.log(data.total_sum, 'data.total_sum');
-      // console.log(FullnameList, 'fullNamelist');
+      console.log(singleData, 'singleDataProv');
+      // const props = data.properties;
+      console.log(singleData, 'singleData');
+      console.log(total2nd, 'total2nd');
+      console.log(radiusRange, 'radiusRange');
+      console.log(partnerList, 'partnerList');
+      console.log(mapViewDataBy, 'mapViewDataBy');
+      console.log(data.total_sum, 'data.total_sum');
+      console.log(FullnameList, 'fullNamelist');
+      FullnameList.forEach(x => {
+        legendNameList.push(x.type);
+      });
       // eslint-disable-next-line no-use-before-define
       const testEl = this.createDonutChart(
         singleData,
@@ -422,19 +412,25 @@ class Choropleth extends Component {
         FullnameList,
         data.properties.piePopup,
       );
-      if (
-        this.props.pieSquareLegend &&
-        this.props.pieSquareLegend.current &&
-        this.props.pieSquareLegend.current.childNodes.length <= 0
-      ) {
-        this.createPieLegend();
-      }
+
       // this.createPieLegend();
       const marker = new mapboxgl.Marker({ element: testEl })
         .setLngLat(data.geometry.coordinates)
         .addTo(map);
       global.markerList.push(marker);
     });
+    // console.log(legendNameList, 'nameListArray');
+    const uniqueLegendNameList = [
+      ...new Set(legendNameList.map(item => item)),
+    ];
+    console.log(uniqueLegendNameList, 'uniqueLegendNameList');
+    if (
+      this.props.pieSquareLegend &&
+      this.props.pieSquareLegend.current &&
+      this.props.pieSquareLegend.current.childNodes.length <= 0
+    ) {
+      this.createPieLegend(uniqueLegendNameList);
+    }
   }
   // setCircleMarkerRadius(values, viewdataBy) {
   //
@@ -523,43 +519,49 @@ class Choropleth extends Component {
   //   //
   // }
 
-  createPieLegend = () => {
+  createPieLegend = datas => {
+    console.log(this.props, 'props');
+    console.log('PIE FUNCTION');
+    const colorScale = d3
+      .scaleOrdinal()
+      .domain(this.props.mfsReducer.legendAchievement)
+      .range(colors);
     const that = this;
-    const datas = [
-      {
-        type: 'Automation of MFIs',
-        // count: props['Automation of MFIs'],
-      },
-      {
-        type: 'Channel Innovations',
-        // count: props['Channel Innovations'],
-      },
-      {
-        type: 'Digital Financial Services',
-        // count: props['Digital Financial Services'],
-      },
-      {
-        type: 'Downscaling and Value Chain Financing By Banks',
-        // count:
-        // props['Downscaling and Value Chain Financing By Banks'],
-      },
-      {
-        type: 'Increased uptake of microinsurance',
-        // count: props['Increased uptake of microinsurance'],
-      },
-      {
-        type: 'Outreach Expansion',
-        // count: props['Outreach Expansion'],
-      },
-      {
-        type: 'Product Innovations',
-        // count: props['Product Innovations'],
-      },
-      {
-        type: 'SME Financing',
-        // count: props['SME Financing'],
-      },
-    ];
+    // const datas = [
+    //   {
+    //     type: 'Automation of MFIs',
+    //     // count: props['Automation of MFIs'],
+    //   },
+    //   {
+    //     type: 'Channel Innovations',
+    //     // count: props['Channel Innovations'],
+    //   },
+    //   {
+    //     type: 'Digital Financial Services',
+    //     // count: props['Digital Financial Services'],
+    //   },
+    //   {
+    //     type: 'Downscaling and Value Chain Financing By Banks',
+    //     // count:
+    //     // props['Downscaling and Value Chain Financing By Banks'],
+    //   },
+    //   {
+    //     type: 'Increased uptake of microinsurance',
+    //     // count: props['Increased uptake of microinsurance'],
+    //   },
+    //   {
+    //     type: 'Outreach Expansion',
+    //     // count: props['Outreach Expansion'],
+    //   },
+    //   {
+    //     type: 'Product Innovations',
+    //     // count: props['Product Innovations'],
+    //   },
+    //   {
+    //     type: 'SME Financing',
+    //     // count: props['SME Financing'],
+    //   },
+    // ];
     // select the svg area
     const SVG = d3.select(that.props.pieSquareLegend.current);
     // const firstLegend = d3.select(SVG);
@@ -569,7 +571,7 @@ class Choropleth extends Component {
     //   10,
     // );
     SVG.append('text')
-      .text('Investment Focus Quantify')
+      .text('Investment Focus')
       .attr('x', 10)
       .attr('y', 20)
       .style('font-size', '13px');
@@ -604,7 +606,7 @@ class Choropleth extends Component {
       .attr('height', '12px')
       .style('transform', `translate(0px, ${size + 5}px)`)
       .style('fill', function(d) {
-        return colorScale(d.type);
+        return colorScale(d);
       });
 
     // Add one dot in the legend for each name.
@@ -628,7 +630,7 @@ class Choropleth extends Component {
           return str.length > n ? `${str.substr(0, n - 1)}...` : str;
         }
 
-        return truncate(d.type, 22);
+        return truncate(d, 22);
       })
       .attr('text-anchor', 'left')
       .style('alignment-baseline', 'middle');
@@ -735,62 +737,18 @@ class Choropleth extends Component {
     popupData,
   ) => {
     console.log('test');
+    const that = this;
     const div = document.createElement('div');
-
+    const colorScaleForPie = d3
+      .scaleOrdinal()
+      .domain(this.props.mfsReducer.legendAchievement)
+      .range(colors);
     const allCount = [];
     Object.values(props).forEach(data => {
       //
       allCount.push(data);
     });
-    // const maxValue=
-    //     const getRadius = data.properties.pie.total_beneficiary -
-    //     minValue) /
-    //   (maxValue - minValue)) *
-    //   (30 - 10) +
-    // 10,
-    // const data = [
-    //   {
-    //     type: 'Automation of MFIs',
-    //     // count: 10,
-    //     // count: props['Automation of MFIs'],
-    //   },
-    //   {
-    //     type: 'Channel Innovations',
-    //     // count: 10,
-    //     // count: props['Channel Innovations'],
-    //   },
-    //   {
-    //     type: 'Digital Financial Services',
-    //     // count: 10,
-    //     // count: props['Digital Financial Services'],
-    //   },
-    //   {
-    //     type: 'Downscaling and Value Chain Financing By Banks',
-    //     // count: 10,
-    //     // count:
-    //     //   props['Downscaling and Value Chain Financing By Banks'],
-    //   },
-    //   {
-    //     type: 'Increased uptake of microinsurance',
-    //     // count: 10,
-    //     // count: props['Increased uptake of microinsurance'],
-    //   },
-    //   {
-    //     type: 'Outreach Expansion',
-    //     // count: 10,
-    //     // count: props['Outreach Expansion'],
-    //   },
-    //   {
-    //     type: 'Product Innovations',
-    //     // count: 10,
-    //     // count: props['Product Innovations'],
-    //   },
-    //   {
-    //     type: 'SME Financing',
-    //     // count: 10,
-    //     // count: props['SME Financing'],
-    //   },
-    // ];
+
     const data = FullnameList;
 
     const thickness = 10;
@@ -884,30 +842,11 @@ class Choropleth extends Component {
       .enter()
       .append('path')
       .attr('d', arc)
-      .attr('fill', d => colorScale(d.data.type))
+      .attr('fill', d => colorScaleForPie(d.data.type))
       .on('click', function() {
         d3.event.stopPropagation();
+        that.props.setPopupData({ fulldata: { props }, popupData });
         // d.stopPropagation();
-        document
-          .querySelectorAll('.pie-mapbox-popup')
-          .forEach(function(el) {
-            // eslint-disable-next-line no-param-reassign
-            el.style.display = 'none';
-            // a.remove();
-          });
-        // const that = this;
-
-        // console.log(props, 'props');
-        // if (document.querySelector('.federal-popup')) {
-        //   document.querySelector('.federal-popup').style.display =
-        //     'none';
-        // }
-        // popup.remove();
-        /* <div className="icons">
-        <i className="material-icons">tablet_mac</i>
-        <b>4</b></div> */
-        // <div className="icon-list">
-        //             </div>
         // document
         //   .querySelectorAll('.pie-mapbox-popup')
         //   .forEach(function(el) {
@@ -915,115 +854,135 @@ class Choropleth extends Component {
         //     el.style.display = 'none';
         //     // a.remove();
         //   });
-        let partnerContent = null;
-        // partnerList =
-        // eslint-disable-next-line no-restricted-syntax
-        console.log(props, 'props');
-        partnerContent = popupData
-          .map((partnerData, index) => {
-            const partnerList = partnerData.achievementType
-              .map(singlepartner => {
-                return `
-                <li>
-                  <a>${singlepartner.name}</a>
-                  <label>${singlepartner.count}</label>
-                </li>
-                `;
-              })
-              .join('');
-            return `
-          <div class="acc-list ${
-            index === 0 ? 'active' : ''
-          }" onclick="this.classList.toggle('active');">
-            <div class="acc-header">
-              <h5>${partnerData.partner_name}</h5>
-            </div>
-            <div class="acc-body">
-              <ul>
-              ${partnerList}
-              </ul>
-            </div>
-          </div>
-        `;
-          })
-          .join('');
+        // // const that = this;
 
-        // <h6>${props.federal_name}</h6>
-        // ${
-        //   partnerContent !== undefined &&
-        //   mapViewDataBy === 'investment_focus'
-        //     ? partnerContent
-        //     : ''
-        // }
-        // ${FullnameList.map(el => {
-        //   return `<label>${el.type}</label>
-        //   <div class="icons">
-        //       <i class="material-icons">payments</i><b>${el.count}</b>
-        //     </div>`;
-        // }).join('')}
-        tooltip.select('.popup-div').html(
-          `<div class="leaflet-popup-content" style="width: 100px;">
-            <div class="map-popup-view" style="${
-              mapViewDataBy === 'investment_focus'
-                ? 'height: 302px;'
-                : 'height: 10px'
-            }overflow-y: scroll;">
-              <div class="map-popup-view-header">
-                  <h5>${props.federal_name}</h5>
-                  <div class="icons">
-                    <i class="material-icons">${
-                      mapViewDataBy === 'allocated_beneficiary'
-                        ? 'people'
-                        : mapViewDataBy === 'allocated_budget'
-                        ? 'monetization_on'
-                        : 'payments'
-                    }</i><b>${props.count}</b>
-                  </div>
-              </div>
-              <div class="acc is-after is-border">
-                  </div>
-                
-              <div class="map-view-footer">
-              ${partnerContent !== undefined ? partnerContent : ''}
-              </div>
-            </div>
-          </div>` /* eslint-disable-line */
-        );
+        // // console.log(props, 'props');
+        // // if (document.querySelector('.federal-popup')) {
+        // //   document.querySelector('.federal-popup').style.display =
+        // //     'none';
+        // // }
+        // // popup.remove();
+        // /* <div className="icons">
+        // <i className="material-icons">tablet_mac</i>
+        // <b>4</b></div> */
+        // // <div className="icon-list">
+        // //             </div>
+        // // document
+        // //   .querySelectorAll('.pie-mapbox-popup')
+        // //   .forEach(function(el) {
+        // //     // eslint-disable-next-line no-param-reassign
+        // //     el.style.display = 'none';
+        // //     // a.remove();
+        // //   });
+        // let partnerContent = null;
+        // // partnerList =
+        // // eslint-disable-next-line no-restricted-syntax
+        // console.log(props, 'props');
+        // partnerContent = popupData
+        //   .map((partnerData, index) => {
+        //     const partnerList = partnerData.achievementType
+        //       .map(singlepartner => {
+        //         return `
+        //         <li>
+        //           <a>${singlepartner.name}</a>
+        //           <label>${singlepartner.count}</label>
+        //         </li>
+        //         `;
+        //       })
+        //       .join('');
+        //     return `
+        //   <div class="acc-list ${
+        //     index === 0 ? 'active' : ''
+        //   }" onclick="this.classList.toggle('active');">
+        //     <div class="acc-header">
+        //       <h5>${partnerData.partner_name}</h5>
+        //     </div>
+        //     <div class="acc-body">
+        //       <ul>
+        //       ${partnerList}
+        //       </ul>
+        //     </div>
+        //   </div>
+        // `;
+        //   })
+        //   .join('');
 
-        // const t = document.querySelector('.acc-header');
-        // t.addEventListener('click', function(e) {
+        // // <h6>${props.federal_name}</h6>
+        // // ${
+        // //   partnerContent !== undefined &&
+        // //   mapViewDataBy === 'investment_focus'
+        // //     ? partnerContent
+        // //     : ''
+        // // }
+        // // ${FullnameList.map(el => {
+        // //   return `<label>${el.type}</label>
+        // //   <div class="icons">
+        // //       <i class="material-icons">payments</i><b>${el.count}</b>
+        // //     </div>`;
+        // // }).join('')}
+        // tooltip.select('.popup-div').html(
+        //   `<div class="leaflet-popup-content" style="width: 100px;">
+        //     <div class="map-popup-view" style="${
+        //       mapViewDataBy === 'investment_focus'
+        //         ? 'height: 302px;'
+        //         : 'height: 10px'
+        //     }overflow-y: scroll;">
+        //       <div class="map-popup-view-header">
+        //           <h5>${props.federal_name}</h5>
+        //           <div class="icons">
+        //             <i class="material-icons">${
+        //               mapViewDataBy === 'allocated_beneficiary'
+        //                 ? 'people'
+        //                 : mapViewDataBy === 'allocated_budget'
+        //                 ? 'monetization_on'
+        //                 : 'payments'
+        //             }</i><b>${props.count}</b>
+        //           </div>
+        //       </div>
+        //       <div class="acc is-after is-border">
+        //           </div>
+
+        //       <div class="map-view-footer">
+        //       ${partnerContent !== undefined ? partnerContent : ''}
+        //       </div>
+        //     </div>
+        //   </div>` /* eslint-disable-line */
+        // );
+
+        // // const t = document.querySelector('.acc-header');
+        // // t.addEventListener('click', function(e) {
+        // //   // console.log('test');
+        // //   e.stopPropagation();
+        // //   alert('function');
+        // // });
+        // const mapPopup = document.querySelector('.map-popup-view');
+        // mapPopup.addEventListener('click', function(e) {
         //   // console.log('test');
         //   e.stopPropagation();
-        //   alert('function');
-        // });
-        const mapPopup = document.querySelector('.map-popup-view');
-        mapPopup.addEventListener('click', function(e) {
-          // console.log('test');
-          e.stopPropagation();
-          // alert('function');
-        });
-        const Popupscroll = document.querySelector('.map-popup-view');
-        Popupscroll.addEventListener('wheel', function(e) {
-          e.stopPropagation();
-        });
-        // const accList = document.querySelector('.acc-list');
-        // accList.addEventListener('click', function(e) {
-        //   console.log(e, 'test');
-        //   // if (e.target.classList.includes('active')) {
-        //   this.classList.remove('active');
-        //   // } else {
-        //   // e.target.classList.add('active');
-        //   // }
-        //   // e.stopPropagation();
         //   // alert('function');
         // });
-        // .style('color', 'black');
-        // .style('background-color', 'white');
-        // tooltip.select('.count').html('Test');
-        // tooltip.select('.percent').html(`${34}%`);
+        // const Popupscroll = document.querySelector('.map-popup-view');
+        // Popupscroll.addEventListener('wheel', function(e) {
+        //   e.stopPropagation();
+        // });
+        // // const accList = document.querySelector('.acc-list');
+        // // accList.addEventListener('click', function(e) {
+        // //   console.log(e, 'test');
+        // //   // if (e.target.classList.includes('active')) {
+        // //   this.classList.remove('active');
+        // //   // } else {
+        // //   // e.target.classList.add('active');
+        // //   // }
+        // //   // e.stopPropagation();
+        // //   // alert('function');
+        // // });
+        // // .style('color', 'black');
+        // // .style('background-color', 'white');
+        // // tooltip.select('.count').html('Test');
+        // // tooltip.select('.percent').html(`${34}%`);
 
-        tooltip.style('display', 'block');
-        tooltip.style('opacity', 2);
+        // tooltip.style('display', 'block');
+        // tooltip.style('opacity', 2);
       })
       .on('mouseover', function(d) {
         d3.select(this)
@@ -1280,7 +1239,7 @@ class Choropleth extends Component {
         // }
       }
       map.on('click', function() {
-        // alert('clicked Map');
+        alert('clicked Map');
         document
           .querySelectorAll('.pie-mapbox-popup')
           .forEach(function(el) {
@@ -1288,6 +1247,7 @@ class Choropleth extends Component {
             el.style.display = 'none';
             // a.remove();
           });
+        that.props.setPopupData({ fulldata: {}, popupData: [] });
       });
 
       // map.on('click', function(e) {
@@ -1774,7 +1734,7 @@ class Choropleth extends Component {
         <Loading loaderState={!loading} />
         <div className="map-legend newmap-legend">
           <div className="color-list">
-            <h6>Number of Projects</h6>
+            <h6>Achieved Number</h6>
             <ul id="state-legend" className="color-legend">
               {this.state.grade &&
                 this.state.grade.map((grade, i) => {

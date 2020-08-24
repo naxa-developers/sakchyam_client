@@ -451,15 +451,15 @@ class MainComponent extends Component {
 
   handleModal = clicked => {
     // console.log('statemodal', this.state.activeModal);
-    if (!clicked) {
-      this.setState(prevState => ({
-        expandMore: !prevState.expandMore,
-      }));
-    } else {
-      this.setState(prevState => ({
-        expandMore: clicked,
-      }));
-    }
+    // if (!clicked) {
+    this.setState(prevState => ({
+      expandMore: !prevState.expandMore,
+    }));
+    // } else {
+    //   this.setState(prevState => ({
+    //     expandMore: clicked,
+    //   }));
+    // }
     // const bodyEl = document.getElementById('body');
     // if (this.state.activeModal === false) {
     //   bodyEl.className = 'modal-open';
@@ -861,7 +861,7 @@ class MainComponent extends Component {
     } = this;
     return (
       <>
-        <Header />
+        {/* <Header /> */}
 
         <main className="main">
           <section className="content content-mod">

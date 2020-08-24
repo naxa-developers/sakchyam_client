@@ -77,7 +77,7 @@ class Landing extends Component {
     const { permissions } = this.state;
     return (
       <>
-        <Header headerTransparent disableScroll />
+        {/* <Header headerTransparent disableScroll /> */}
         {/* <section className="banner">
           <div
             className="banner_content"

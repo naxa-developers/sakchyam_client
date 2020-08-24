@@ -1140,7 +1140,7 @@ class MainMFS extends Component {
       selectedDistrict: [],
       selectedMunicipality: [],
     });
-    this.handleShowBarOf('Province');
+    this.handleShowBarOf('Provinces');
     this.handleShowBarPartnerChartOf('Partner');
     this.props.filterMfsChoroplethData('province', [], [], []);
     this.props.filterMfsChartData('province', [], [], [], [], []);
@@ -1218,7 +1218,7 @@ class MainMFS extends Component {
 
     return (
       <>
-        <Headers />
+        {/* <Headers /> */}
         <div
           className={`automation-wrapper literacy-wrapper mfs-wrapper ${
             activeOverview ? 'expand-right-sidebar' : ''

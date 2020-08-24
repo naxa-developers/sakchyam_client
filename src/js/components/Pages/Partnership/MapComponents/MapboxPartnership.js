@@ -12,11 +12,13 @@ import {
   filterMapDataOfCircleMarkerWithViewDataBy,
   getPartnershipAllData,
 } from '../../../../actions/partnership.actions';
+import PopUp from '../common/divisionInfoPopUp';
 
 class MapboxPartnership extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      popupData: [],
       // map: null,
     };
     this.markerRef = React.createRef();
@@ -96,6 +98,10 @@ class MapboxPartnership extends Component {
     // }
   }
 
+  setPopupData = data => {
+    this.setState({ popupData: data });
+  };
+
   render() {
     const { mapViewBy, setMapViewBy } = this.props;
     const inputDivisions =
@@ -103,7 +109,7 @@ class MapboxPartnership extends Component {
         ? [0, 10, 20, 30, 40, 50, 60, 70]
         : [0, 2, 4, 6, 8, 10, 12, 14, 20];
     const {
-      // state: {  },
+      state: { popupData },
       props: { vectorTileUrl, mapViewDataBy, map },
     } = this;
     const {
@@ -132,6 +138,7 @@ class MapboxPartnership extends Component {
                 circleMarkerData={mapDataForCircleMarker}
                 vectorTileUrl={vectorTileUrl}
                 map={map}
+                setPopupData={this.setPopupData}
                 // divisions={inputDivisions}
                 label
                 color="#007078"
@@ -166,6 +173,8 @@ class MapboxPartnership extends Component {
                   </div>
                 </div>
               )}
+              <PopUp data={popupData} mapViewBy={mapViewBy} />
+
               {/* <MarkerCluster
               filteredByPartner={filteredByPartner}
               handleActiveClickPartners={handleActiveClickPartners}

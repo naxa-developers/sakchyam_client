@@ -5,11 +5,13 @@ import React, { Component } from 'react';
 // import 'mapbox-gl/src/css/svg/mapboxgl-ctrl-zoom-out.svg';
 import { connect } from 'react-redux';
 import VectorTileMapbox from './VectorTileMapbox';
+import PopUp from '../common/divisionInfoPopUp';
 
 class MapboxPartnership extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      popupData: [],
       // map: null,
     };
     this.markerRef = React.createRef();
@@ -29,7 +31,7 @@ class MapboxPartnership extends Component {
   //   });
   //   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
-  //   // console.log(map, 'map');
+  //   //
   //   this.setState({ map });
   // };
 
@@ -45,6 +47,10 @@ class MapboxPartnership extends Component {
     } = this.props;
   }
 
+  setPopupData = data => {
+    this.setState({ popupData: data });
+  };
+
   render() {
     const { mapViewBy, setMapViewBy } = this.props;
     const inputDivisions =
@@ -54,6 +60,7 @@ class MapboxPartnership extends Component {
     const {
       // state: {  },
       props: { vectorTileUrl, mapViewDataBy, map },
+      state: { popupData },
     } = this;
     const { mfsChoroplethData, mfsPieData } = this.props.mfsReducer;
     return (
@@ -85,8 +92,10 @@ class MapboxPartnership extends Component {
                 map={map}
                 circleMarkerData={mfsPieData}
                 // divisions={inputDivisions}
+                pieSquareLegend={this.pieSquareLegend}
                 label
                 color="#5014e4"
+                setPopupData={this.setPopupData}
               />
               {/* <div
                 // id="bargraph"
@@ -115,6 +124,7 @@ class MapboxPartnership extends Component {
                   />
                 </div>
               </div>
+              <PopUp data={popupData} mapViewBy={mapViewBy} />
               {/* )} */}
               {/* <MarkerCluster
               filteredByPartner={filteredByPartner}

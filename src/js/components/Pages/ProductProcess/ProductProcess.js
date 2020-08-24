@@ -574,7 +574,7 @@ class ProductProcess extends React.Component {
 
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         <div
           className={
             showRightSidebar

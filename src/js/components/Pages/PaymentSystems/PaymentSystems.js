@@ -21,7 +21,7 @@ const downloadPng = chartid => {
 const PaymentSystems = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="payment-body">
         <button type="button" className="common-button is-bg">
           Payment system

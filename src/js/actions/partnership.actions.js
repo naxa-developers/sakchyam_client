@@ -1344,7 +1344,6 @@ export const filterBarDataByInvestment = (
         investment_municipality: munList,
       },
     );
-
     axios
       .all([requestOne, requestThree])
       .then(

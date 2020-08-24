@@ -1951,7 +1951,7 @@ class MainAutomation extends Component {
     // );
     return (
       <div className="page-wrap page-100">
-        <Header />
+        {/* <Header /> */}
         <div
           className={`automation-wrapper ${
             activeRightSideBar ? '' : 'expand-right-sidebar'
