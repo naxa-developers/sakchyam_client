@@ -1593,7 +1593,7 @@ class MainPartnership extends Component {
 
     return (
       <>
-        <Headers />
+        {/* <Headers /> */}
         <div
           className={`automation-wrapper literacy-wrapper ${
             activeOverview ? 'expand-right-sidebar' : ''

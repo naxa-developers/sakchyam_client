@@ -658,7 +658,18 @@
     }
   }
 }
-
+.mfs-wrapper{
+  .mapbox-popup-content{
+    width: 253px !important;
+    height: 230px;
+    overflow-y: scroll;
+  }
+}
+// .mfs-wrapper{
+//   .leaflet-popup-content{
+//       width:max-content !important
+//   }
+// }
 #sankey_chart {
   span {
     white-space: pre-line;

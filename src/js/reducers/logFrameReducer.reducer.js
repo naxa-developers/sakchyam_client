@@ -513,7 +513,9 @@ const filterIndicatorGraphData = (state, action) => {
 // };
 const filterIndicatorGraphDataWithDate = (state, action) => {
   const { activeLayer, activeDate, activeDataType } = action.payload;
-
+  console.log(activeLayer, 'activeLayer');
+  console.log(activeDate, 'activeDate');
+  console.log(activeDataType, 'activeDataType');
   // console.log(`[${activeLayer}]`, 'activeLayer');
   // console.log(activeDate, 'activeYear');
   const activeDateClone = activeDate;
@@ -1025,21 +1027,21 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
           },
         },
       },
-      // tooltip: {
-      //   shared: true,
-      //   intersect: false,
-      //   y: {
-      //     formatter(y) {
-      //       console.log(y, 'y');
-      //       // console.log(y.toLocaleString(), 'y');
-      //       if (typeof y !== 'undefined') {
-      //         // return `${unit} ${y.toFixed(0)}${type}`;
-      //         return `${unit} ${y.toLocaleString()}${type}`;
-      //       }
-      //       return y;
-      //     },
-      //   },
-      // },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter(y) {
+            console.log(y, 'y');
+            // console.log(y.toLocaleString(), 'y');
+            if (typeof y !== 'undefined') {
+              // return `${unit} ${y.toFixed(0)}${type}`;
+              return `${unit} ${y.toLocaleString()}${type}`;
+            }
+            return y;
+          },
+        },
+      },
     },
   };
 };

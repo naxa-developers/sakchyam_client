@@ -72,6 +72,7 @@ const initialState = {
   mfsListAllData: [],
   mfsListLoading: false,
   achievementList: [],
+  legendAchievement: [],
   mfsOverviewData: {},
   partnerList: [],
   mfsChoroplethData: [],
@@ -104,6 +105,7 @@ const getMfsAchievementList = (state, action) => {
   return {
     ...state,
     achievementList,
+    legendAchievement: achievementList,
   };
 };
 const getMfsInnovationList = (state, action) => {

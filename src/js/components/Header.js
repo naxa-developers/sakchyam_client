@@ -77,6 +77,13 @@ class Header extends Component {
     }
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.activePage !== this.state.activePage) {
+  //     window.location.href = `#/${this.state.activePage}`;
+  //     // <Redirect to="/" />;
+  //   }
+  // }
+
   componentWillUnmount() {
     if (this.props.disableScroll) {
       window.removeEventListener('scroll', this.headerUpdate);
@@ -131,6 +138,7 @@ class Header extends Component {
 
   render() {
     const { activeProfileDropdown, permissions } = this.state;
+    const { activePage } = this.props;
     const { headerTransparent } = this.props;
     return (
       <header
@@ -150,6 +158,32 @@ class Header extends Component {
             </li>
             <li>
               <ul className="link-wrap">
+                <li>
+                  <select
+                    onChange={e => {
+                      this.props.setActivePage(e.target.value);
+                    }}
+                  >
+                    <option value="">Select Visualisation</option>
+                    <option value="logframe">Logframe</option>
+                    <option value="automation">Automation</option>
+                    <option value="financial">
+                      Financial Literacy
+                    </option>
+                    <option value="partnership">Partnership</option>
+                    <option value="outreach">
+                      Outreach Expansion
+                    </option>
+                    <option value="insurance">Insurance</option>
+                    <option value="product">Product/Process</option>
+                    <option value="payment">Payment System</option>
+                    <option value="mfs">MFS</option>
+                  </select>
+                  {/* <a href="#/" className="span_heavy_15">
+                    Visualisation Structures
+                  </a> */}
+                </li>
+
                 <li style={{ display: 'none' }}>
                   <Link to="/" className="span_heavy_15">
                     Home

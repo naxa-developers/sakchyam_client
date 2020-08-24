@@ -110,12 +110,12 @@ const getColor = (function() {
 function CaculateCount(date, finalData, api, fedType) {
   const startDate = date[0];
   const endDate = date[1];
-  // console.log(date, 'date');
-  // console.log(finalData, 'finalData');
-  // console.log(api, 'api');
+  //
+  //
+  //
   const ProjectIdList = [];
   finalData.map((prov, i) => {
-    // console.log(prov, 'prov 1st loop');
+    //
 
     api.map(data => {
       let idString = data.province_id;
@@ -132,18 +132,18 @@ function CaculateCount(date, finalData, api, fedType) {
           !ProjectIdList.includes(data.project_id + data.province_id)
         ) {
           if (parsedDate >= startDate && parsedDate < endDate) {
-            // console.log(data, 'data 3rd Loop');
-            // console.log(data,'')
+            //
+            //
             // eslint-disable-next-line no-param-reassign
             finalData[i].count += 1;
           }
         }
-        // console.log(startDate, ' local startDate');
-        // console.log(data.start_date, 'api startDate');
-        // console.log(endDate, 'endDate');
-        // console.log(data.start_date, 'api startDate');
-        // console.log(startDate >= data.start_date, '1st date');
-        // console.log(endDate <= data.start_date, '2nd date');
+        //
+        //
+        //
+        //
+        //
+        //
       }
       if (!ProjectIdList.includes(data.project_id)) {
         ProjectIdList.push(data.project_id + data.province_id);
@@ -152,11 +152,11 @@ function CaculateCount(date, finalData, api, fedType) {
     });
     return true;
   });
-  console.log(finalData, 'finalData');
 }
 const initialState = {
   isDataFetched: false,
   partnershipInvestmentFocus: [],
+  legendList: [],
   partnersList: [],
   partnerTypeList: [],
   projectLists: [],
@@ -235,8 +235,8 @@ function generateSankeyChartData(data) {
 
 const filterBeneficiaryBarChart = datas => {
   const checkProvince = datas.some(i => i.name.includes('Province'));
-  // console.log(checkProvince, 'check');
-  // console.log(datas, 'datas');
+  //
+  //
   const barLabels = checkProvince
     ? datas.map(label => {
         return label.name;
@@ -269,8 +269,8 @@ const filterBeneficiaryBarChart = datas => {
 };
 const filterBeneficiaryBarChartForProvinceOnly = datas => {
   // const checkProvince = datas.some(i => i.name.includes('Province'));
-  // console.log(checkProvince, 'check');
-  // console.log(datas, 'datas');
+  //
+  //
   const checkProvince = datas.some(i => i.province_code);
   const barLabels = datas.map(label => {
     return checkProvince
@@ -303,8 +303,8 @@ const filterBeneficiaryBarChartForInvestment = datas => {
   const checkProvince = datas.some(i =>
     i.name.includes('Provincesss'),
   );
-  // console.log(checkProvince, 'check');
-  // console.log(datas, 'datas');
+  //
+  //
   const barLabels = checkProvince
     ? datas.map(label => {
         return label.code;
@@ -375,15 +375,15 @@ const filterBudgetBarChartProvinceOnly = datas => {
   };
 };
 const filterLeverageChart = datas => {
-  // console.log(datas.projectList, 'projectList');
-  // console.log(datas.projectSelection, 'projectSelection');
+  //
+  //
   let filteredProjectList = datas.projectList;
   if (datas.projectSelection && datas.projectSelection.length > 0) {
     // eslint-disable-next-line array-callback-return
     filteredProjectList = datas.projectList.filter(function(item) {
       return datas.projectSelection.indexOf(item.id) !== -1;
     });
-    // console.log(filteredProjectList, 'filtered');
+    //
   }
   const summedScfFund = filteredProjectList.reduce((a, c) => {
     const filtered = a.filter(
@@ -410,8 +410,8 @@ const filterLeverageChart = datas => {
     return a;
   }, []);
 
-  // console.log(summedScfFund, 'scf');
-  // console.log(summedLeverage, 'leverage');
+  //
+  //
   const summedTotal = summedLeverage;
 
   const barLabelsScfFund = summedLeverage.map(label => {
@@ -488,7 +488,7 @@ const filterLeverageDataForBarClick = datas => {
 
 function sortArrayByKey(arrayData, sortKey) {
   arrayData.sort(function(a, b) {
-    // console.log(sortKey, 'sortKey');
+    //
     const nameA = a[sortKey]; // ignore upper and lowercase
     const nameB = b[sortKey]; // ignore upper and lowercase
     // debugger;
@@ -504,9 +504,13 @@ function sortArrayByKey(arrayData, sortKey) {
   });
 }
 const getPartnershipInvestmentFocus = (state, action) => {
+  const legendInvestmentFocusList = action.payload.map(
+    data => data.investment_primary,
+  );
   return {
     ...state,
     partnershipInvestmentFocus: action.payload,
+    legendList: legendInvestmentFocusList,
   };
 };
 const getPartnersList = (state, action) => {
@@ -544,15 +548,15 @@ const getBarDataByBenefBudget = (state, action) => {
   const filteredBenefValues = filterBeneficiaryBarChart(
     finalBeneficiaryArray,
   );
-  // console.log(result, 'rest');
+  //
 
   // }
   sortArrayByKey(allocatedBudget, 'code');
   const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // console.log(filteredBenefValues, 'filteredBenefValues');
+  //
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  //
   // );
   const circleMarkerData = totalBeneficiary.map(item => {
     return {
@@ -593,15 +597,15 @@ const getBarDataByInvestmentFocus = (state, action) => {
   const filteredBenefValues = filterBeneficiaryBarChartForInvestment(
     finalBeneficiaryArray,
   );
-  // console.log(result, 'rest');
+  //
 
   // }
   sortArrayByKey(allocatedBudget, 'code');
   const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // console.log(filteredBenefValues, 'filteredBenefValues');
+  //
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  //
   // );
   return {
     ...state,
@@ -633,15 +637,15 @@ const filterBenefBudgetDataonClick = (state, action) => {
   const filteredBenefValues = filterBeneficiaryBarChartForInvestment(
     finalBeneficiaryArray,
   );
-  // console.log(result, 'rest');
+  //
 
   // }
   sortArrayByKey(allocatedBudget, 'code');
   const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // console.log(filteredBenefValues, 'filteredBenefValues');
+  //
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  //
   // );
   return {
     ...state,
@@ -720,7 +724,7 @@ const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
   //   ...item,
   //   allocated_beneficiary: Math.round(item.allocated_beneficiary),
   //   allocated_budget: Math.round(item.allocated_budget),
-  // })); // console.log(choroplethFormat, 'formated circleMarker ');
+  // })); //
   return {
     ...state,
     mapDataForCircleMarker: action.payload,
@@ -737,10 +741,10 @@ const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
 // });
 
 const getRadialData = (state, action) => {
-  // console.log(action.payload);
+  //
   // eslint-disable-next-line array-callback-return
   action.payload.children.map((data, i) => {
-    // console.log(data, 'datx');
+    //
     // eslint-disable-next-line no-param-reassign
     data.color = colorPicker(i + 2);
   });
@@ -795,7 +799,7 @@ const filterFinancialDataOfDistrictFromProvince = (state, action) => {
   // const filteredBarValues = filterBeneficiaryBarChart(
   //   finalBeneficiaryArray,
   // );
-  // console.log(result, 'rest');
+  //
   //   return {
   //     ...state,
   //     mapDataByProvince: finalBeneficiaryArray,
@@ -807,15 +811,15 @@ const filterFinancialDataOfDistrictFromProvince = (state, action) => {
   const filteredBenefValues = filterBeneficiaryBarChart(
     finalBeneficiaryArray,
   );
-  // console.log(result, 'rest');
+  //
 
   // }
   sortArrayByKey(allocatedBudget, 'code');
   const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // console.log(filteredBenefValues, 'filteredBenefValues');
+  //
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  //
   // );
   return {
     ...state,
@@ -853,7 +857,7 @@ const filterFinancialDataOfMunicipalityFromDistrict = (
   // const filteredBarValues = filterBeneficiaryBarChart(
   //   finalBeneficiaryArray,
   // );
-  // console.log(result, 'rest');
+  //
   //   return {
   //     ...state,
   //     mapDataByProvince: finalBeneficiaryArray,
@@ -865,15 +869,15 @@ const filterFinancialDataOfMunicipalityFromDistrict = (
   const filteredBenefValues = filterBeneficiaryBarChart(
     finalBeneficiaryArray,
   );
-  // console.log(result, 'rest');
+  //
 
   // }
   sortArrayByKey(allocatedBudget, 'code');
   const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // console.log(filteredBenefValues, 'filteredBenefValues');
+  //
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  //
   // );
   return {
     ...state,
@@ -910,7 +914,7 @@ const filterFinancialDataOfMunicipalityFromDistrict = (
 //     const filteredBarValues = filterBeneficiaryBarChart(
 //       finalBeneficiaryArray,
 //     );
-//     // console.log(result, 'rest');
+//     //
 //     return {
 //       ...state,
 //       // mapDataByProvince: finalBeneficiaryArray,
@@ -947,15 +951,15 @@ const filterFinancialDataWithAllFilters = (state, action) => {
   const filteredBenefValues = filterBeneficiaryBarChart(
     finalBeneficiaryArray,
   );
-  // console.log(result, 'rest');
+  //
 
   // }
   sortArrayByKey(allocatedBudget, 'code');
   const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // console.log(filteredBenefValues, 'filteredBenefValues');
+  //
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  //
   // );
   return {
     ...state,
@@ -969,7 +973,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
   state,
   action,
 ) => {
-  // console.log(action, 'action');
+  //
   const {
     totalBeneficiary,
     femaleBeneficiary,
@@ -978,7 +982,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
   const totalbeneficiary = totalBeneficiary;
   const femalebeneficiary = femaleBeneficiary;
   const checkProvince = totalbeneficiary.some(i => i.province_code);
-  // console.log(checkProvince, 'checkProvinceOrNot');
+  //
   const totalBenefProvince = totalbeneficiary.reduce((a, c) => {
     const filtered = a.filter(el =>
       checkProvince
@@ -995,7 +999,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
     }
     return a;
   }, []);
-  // console.log(totalBenefProvince, 'totalbenefProvince');
+  //
   const femaleBenefProvince = femalebeneficiary.reduce((a, c) => {
     const filtered = a.filter(el =>
       checkProvince
@@ -1035,7 +1039,7 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
       ...femaleBenefProvince[i],
     }),
   );
-  // console.log(mergedBeneficiaryArray, 'testField');
+  //
   const finalBeneficiaryArray = mergedBeneficiaryArray.map(function(
     el,
   ) {
@@ -1043,22 +1047,22 @@ const filterbarDataOfBenefBudgetWithProvinceOnly = (
     o.male_beneficiary = el.total_beneficiary - el.female_beneficiary;
     return o;
   });
-  // console.log(finalBeneficiaryArray, 'finalbenefArray');
+  //
   sortArrayByKey(finalBeneficiaryArray, 'code');
   const filteredBenefValues = filterBeneficiaryBarChartForProvinceOnly(
     finalBeneficiaryArray,
   );
-  // console.log(result, 'rest');
+  //
 
   // }
   sortArrayByKey(allocatedBudgetProvince, 'code');
   const filteredBudgetValues = filterBudgetBarChartProvinceOnly(
     allocatedBudgetProvince,
   );
-  // console.log(filteredBenefValues, 'filteredBenefValues');
+  //
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  //
   // );
   return {
     ...state,
@@ -1091,15 +1095,15 @@ const filterBarDataByInvestmentFocus = (state, action) => {
   const filteredBenefValues = filterBeneficiaryBarChartForInvestment(
     finalBeneficiaryArray,
   );
-  // console.log(result, 'rest');
+  //
 
   // }
   sortArrayByKey(allocatedBudget, 'code');
   const filteredBudgetValues = filterBudgetBarChart(allocatedBudget);
-  // console.log(filteredBenefValues, 'filteredBenefValues');
+  //
   // console.log(
   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-  // console.log(filteredBenefValues, 'filteredBudgetValues');
+  //
   // );
   return {
     ...state,
@@ -1110,7 +1114,7 @@ const filterBarDataByInvestmentFocus = (state, action) => {
   // }
 };
 // const filterFinancialDataWithAllFiltersOfProvinceOnly = (state, action) => {
-//   console.log(action.payload, 'actionPayload');
+//
 //   const {
 //     selectedDataView,
 //     allocatedBudget,
@@ -1120,7 +1124,7 @@ const filterBarDataByInvestmentFocus = (state, action) => {
 //   const totalBudget = [...allocatedBudget];
 //   const totalBenef = [...totalBeneficiary];
 //   const femaleBenef = [...femaleBeneficiary];
-//   // console.log(JSON.stringify(testValues));
+//   //
 //   // const holder = {};
 
 //   // testValues.forEach(function(d) {
@@ -1139,10 +1143,10 @@ const filterBarDataByInvestmentFocus = (state, action) => {
 //   // for (const prop in holder) {
 //   //   obj2.push({ name: prop, value: holder[prop] });
 //   // }
-//   // console.log(obj2, 'finalOBj');
+//   //
 //   const summedBudget = totalBudget.reduce((a, c) => {
-//     // console.log(a, 'a');
-//     // console.log(c, 'c');
+//     //
+//     //
 
 //     const filtered = a.filter(
 //       el => el.province_code === c.province_code,
@@ -1158,8 +1162,8 @@ const filterBarDataByInvestmentFocus = (state, action) => {
 //     return a;
 //   }, []);
 //   const summedTotalBenef = totalBenef.reduce((a, c) => {
-//     // console.log(a, 'a');
-//     // console.log(c, 'c');
+//     //
+//     //
 
 //     const filtered = a.filter(
 //       el => el.province_code === c.province_code,
@@ -1175,8 +1179,8 @@ const filterBarDataByInvestmentFocus = (state, action) => {
 //     return a;
 //   }, []);
 //   const summedFemaleBenef = femaleBenef.reduce((a, c) => {
-//     // console.log(a, 'a');
-//     // console.log(c, 'c');
+//     //
+//     //
 
 //     const filtered = a.filter(
 //       el => el.province_code === c.province_code,
@@ -1191,7 +1195,7 @@ const filterBarDataByInvestmentFocus = (state, action) => {
 //     }
 //     return a;
 //   }, []);
-//   // console.log(summedScfFund, 'test');
+//   //
 //   // if (selectedDataView === 'allocated_beneficiary') {
 
 //   // debugger;
@@ -1211,15 +1215,15 @@ const filterBarDataByInvestmentFocus = (state, action) => {
 //   const filteredBenefValues = filterBeneficiaryBarChart(
 //     finalBeneficiaryArray,
 //   );
-//   // console.log(result, 'rest');
+//   //
 
 //   // }
 //   sortArrayByKey(summedBudget, 'code');
 //   const filteredBudgetValues = filterBudgetBarChart(summedBudget);
-//   // console.log(filteredBenefValues, 'filteredBenefValues');
+//   //
 //   // console.log(
 //   filteredBenefValues.series.push(filteredBudgetValues.series[0]);
-//   console.log(filteredBenefValues, 'filteredBudgetValues');
+//
 //   // );
 //   return {
 //     ...state,
@@ -1241,7 +1245,7 @@ const getProvinceData = (state, action) => {
       return 0;
     };
   }
-  // console.log(action.payload);
+  //
   action.payload.sort(GetSortOrder('code'));
   const provinceList = [];
   provinceList.push({ label: 'All Province', value: 'all' });
@@ -1373,9 +1377,9 @@ const filterMunListFromDistrict = (state, action) => {
   };
 };
 const getLeverageData = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   const filteredLeverage = filterLeverageChart(action.payload);
-  // console.log(filteredLeverage, 'bardatax');
+  //
 
   return {
     ...state,
@@ -1384,7 +1388,7 @@ const getLeverageData = (state, action) => {
   };
 };
 const filterLeverageData = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1392,7 +1396,7 @@ const filterLeverageData = (state, action) => {
   };
 };
 const filterLeverageDataOnClick = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   const filteredLeverage = filterLeverageDataForBarClick(
     action.payload,
   );
@@ -1402,7 +1406,7 @@ const filterLeverageDataOnClick = (state, action) => {
   };
 };
 const getPartnershipAllData = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1410,7 +1414,7 @@ const getPartnershipAllData = (state, action) => {
   };
 };
 const resetBarData = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1419,7 +1423,7 @@ const resetBarData = (state, action) => {
   };
 };
 const resetRadialData = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1430,7 +1434,7 @@ const resetRadialData = (state, action) => {
   };
 };
 const resetSankeyChartData = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1438,7 +1442,7 @@ const resetSankeyChartData = (state, action) => {
   };
 };
 const resetOverviewData = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1446,7 +1450,7 @@ const resetOverviewData = (state, action) => {
   };
 };
 const resetLeverageData = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1454,7 +1458,7 @@ const resetLeverageData = (state, action) => {
   };
 };
 const resetBarDataByInvestmentFocus = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1462,7 +1466,7 @@ const resetBarDataByInvestmentFocus = (state, action) => {
   };
 };
 const filterMapdataChoropleth = (state, action) => {
-  // console.log(action.payload, 'action');
+  //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
@@ -1481,11 +1485,11 @@ const filterTimelineData = (state, action) => {
   }
   // const { timelineData } = state;
   const FilteredTimeline = [];
-  // console.log(timelineData, 'timelineData');
-  // console.log(timelineData[0], 'timelineData[0]');
-  // console.log(timelineData[timelineIndex], 'timelineData[index]');
-  // console.log(timelineIndex, 'index');
-  console.log('Data Changed Timline');
+  //
+  //
+  //
+  //
+
   // if(timelineData.data.length > )
   timelineData[timelineIndex].data.forEach(timeline => {
     return FilteredTimeline.push({
@@ -1495,7 +1499,7 @@ const filterTimelineData = (state, action) => {
     });
   });
   timelineIndex += 1;
-  // console.log(finalchoroplethData);
+  //
   return {
     ...state,
     filteredMapData: FilteredTimeline,
@@ -1537,7 +1541,7 @@ const filterTimelineData = (state, action) => {
 
 //   // // Receive messages from postMessage() calls in the Worker
 //   // worker.onmessage = evt => {
-//   //   console.log(`Message posted from webworker: ${evt.data}`);
+//   //
 //   // };
 
 //   // // Pass data to the WebWorker
@@ -1551,8 +1555,8 @@ const filterTimelineData = (state, action) => {
 //   // });
 
 //   // workers.addEventListener('message', event => {
-//   //   console.log('message addevenet');
-//   //   console.log(event, 'event');
+//   //
+//   //
 //   //   // dispatch({
 //   //   //   type: FILTER_PRIMARYGEOJSON,
 //   //   //   payload: event.data,
@@ -1569,7 +1573,7 @@ const filterTimelineData = (state, action) => {
 //     partnershipAllData,
 //     fedtype,
 //   );
-//   // console.log(action.payload, 'action');
+//   //
 //   // const filteredLeverage = filterLeverageChart(action.payload);
 //   return {
 //     ...state,
@@ -1578,13 +1582,13 @@ const filterTimelineData = (state, action) => {
 // };
 const getPartnersTypeList = (state, action) => {
   const partnersData = action.payload;
-  // console.log(partnersData, 'partnersData');
+  //
   const partnersType = partnersData.map(data => {
     return data.partnership !== 'nan' && data.partnership;
   });
-  // console.log(partnersType, 'partnerType');
+  //
   const unique = [...new Set(partnersType)];
-  // console.log(unique, 'unique');
+  //
 
   return {
     ...state,
