@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import convert from '../../../../utils/convertNumbers';
-import { filterMfsChartDataByDistrict } from '../../../../../actions/mfs.action';
+import {
+  filterMfsChartDataByDistrict,
+  filterMfsMapChartDataByPartner,
+  filterMfsMapChartDataByPartnerWithInnovation,
+} from '../../../../../actions/mfs.action';
 
 class StackedBarWithAllFederal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      series: [],
+      Fedseries: [],
+      Partnerseries: [],
       options: {},
     };
   }
@@ -16,6 +21,7 @@ class StackedBarWithAllFederal extends Component {
   plotChart = () => {
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     const that = this;
+    const { showBarChartBy } = this.props;
     // const {
     //   mfsReducer: {
     //     mfsChartData: { series, labels },
@@ -66,35 +72,41 @@ class StackedBarWithAllFederal extends Component {
               projectStatus,
               showBarOf,
             } = that.props;
-            console.log('clicked');
-            // if (showBarOf === 'Provinces') {
-            const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
-              data => {
-                return data.name.includes(
-                  config.xaxis.categories[dataPointIndex],
-                );
-              },
-            );
-            // console.log(filteredProvinceId, 'filteredProvinceId');
-            const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
-              data => {
-                return data.province_id === filteredProvinceId[0].id;
-              },
-            );
-            // console.log(finalDistrictId, 'finalDistrtic');
-            const districtIdList = finalDistrictId.map(data => {
-              return data.n_code;
-            });
-            that.props.handleShowBarOf('district');
-            // console.log(districtIdList, 'districtIdList');
-            that.props.filterMfsChartDataByDistrict(
-              that.props.viewDataBy,
-              districtIdList,
-              partnerSelection,
-              projectSelection,
-              projectStatus,
-            );
-            // }
+            const clicked = config.xaxis.categories[dataPointIndex];
+            if (showBarChartBy === 'Federal') {
+              // if (showBarOf === 'Provinces') {
+              const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
+                data => {
+                  return data.name.includes(
+                    config.xaxis.categories[dataPointIndex],
+                  );
+                },
+              );
+              // console.log(filteredProvinceId, 'filteredProvinceId');
+              const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
+                data => {
+                  return (
+                    data.province_id === filteredProvinceId[0].id
+                  );
+                },
+              );
+              // console.log(finalDistrictId, 'finalDistrtic');
+              const districtIdList = finalDistrictId.map(data => {
+                return data.n_code;
+              });
+              that.props.handleShowBarOf('district');
+              // console.log(districtIdList, 'districtIdList');
+              that.props.filterMfsChartDataByDistrict(
+                that.props.viewDataBy,
+                districtIdList,
+                partnerSelection,
+                projectSelection,
+                projectStatus,
+              );
+            }
+            if (showBarChartBy === 'Partner') {
+              console.log(clicked);
+            }
           },
         },
       },
@@ -123,29 +135,36 @@ class StackedBarWithAllFederal extends Component {
       grid: {
         show: false,
       },
-      // tooltip: {
-      //   fixed: {
-      //     enabled: true,
-      //     position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
-      //     // offsetY: 30,
-      //     // offsetX: 60,
-      //   },
-      // },
+      tooltip: {
+        fixed: {
+          enabled: true,
+          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+          // offsetY: 30,
+          // offsetX: 60,
+        },
+      },
       legend: {
         horizontalAlign: 'left',
         offsetX: 40,
       },
     };
-    this.setState({ options, series });
+    this.setState({ options, Fedseries: series });
   };
 
   componentDidMount() {
     this.plotChart();
-
+    this.props.filterMfsMapChartDataByPartner(
+      'district',
+      [],
+      [],
+      [],
+      [],
+    );
     const { activeModal } = this.props;
     if (activeModal) {
       // this.plotChart();
       this.updateBarChart();
+      // this.props.filterMfsMapChartDataByPartner();
     }
     // this.updateBarChart();
   }
@@ -153,10 +172,8 @@ class StackedBarWithAllFederal extends Component {
   updateBarChart = () => {
     const that = this;
     const {
-      mfsReducer: {
-        mfsChartData: { series, labels },
-      },
-      showBarChartof,
+      mfsReducer: { mfsChartData, mfsChartDataByPartner },
+      showBarChartBy,
     } = this.props;
     const { mapViewBy } = this.props;
     // console.log(barDatas, 'barDatas');
@@ -208,56 +225,75 @@ class StackedBarWithAllFederal extends Component {
             // console.log(chartContext, 'chartContext');
             // console.log(dataPointIndex, 'dataPointIndex');
             // console.log(config, 'config');
-
+            const {
+              selectedPartner,
+              selectedInnovation,
+              selectedAchievement,
+              showBarof,
+              showBarPartnerChartOf,
+            } = that.props;
             const clicked = config.xaxis.categories[dataPointIndex];
-            console.log(clicked.toLowerCase());
-            if (clicked !== undefined) {
-              const {
-                selectedPartner,
-                selectedInnovation,
-                selectedAchievement,
-                showBarof,
-              } = that.props;
-              console.log(showBarof, 'showBarOf');
-              if (showBarof === 'Provinces') {
-                // console.log(clicked, 'clicked');
-                const filteredProvinceId = that.props.provinceList.filter(
-                  data => {
-                    // console.log(data.label, 'data');
-                    // return (
-                    //   data.code ===
-                    //   config.xaxis.categories[dataPointIndex]
-                    // );
-                    return data.label.includes(
-                      config.xaxis.categories[
-                        dataPointIndex
-                      ].toUpperCase(),
-                    );
-                  },
-                );
-                console.log(filteredProvinceId, 'filteredProvinceId');
-                const finalDistrictId = that.props.districtList.filter(
-                  data => {
-                    return (
-                      data.province_code ===
-                      filteredProvinceId[0].code
-                    );
-                  },
-                );
-                // console.log(finalDistrictId, 'finalDistrtic');
-                const districtIdList = finalDistrictId.map(data => {
-                  return data.n_code;
-                });
-                that.props.handleShowBarOf('Districts');
-                console.log(districtIdList, 'distrList');
-                // console.log(districtIdList, 'districtIdList');
-                that.props.filterMfsChartDataByDistrict(
-                  'district',
-                  districtIdList,
+            if (that.props.showBarChartBy === 'Federal') {
+              if (clicked !== undefined) {
+                console.log(showBarof, 'showBarOf');
+                if (showBarof === 'Provinces') {
+                  // console.log(clicked, 'clicked');
+                  const filteredProvinceId = that.props.provinceList.filter(
+                    data => {
+                      // console.log(data.label, 'data');
+                      // return (
+                      //   data.code ===
+                      //   config.xaxis.categories[dataPointIndex]
+                      // );
+                      return data.label.includes(
+                        config.xaxis.categories[
+                          dataPointIndex
+                        ].toUpperCase(),
+                      );
+                    },
+                  );
+                  console.log(
+                    filteredProvinceId,
+                    'filteredProvinceId',
+                  );
+                  const finalDistrictId = that.props.districtList.filter(
+                    data => {
+                      return (
+                        data.province_code ===
+                        filteredProvinceId[0].code
+                      );
+                    },
+                  );
+                  // console.log(finalDistrictId, 'finalDistrtic');
+                  const districtIdList = finalDistrictId.map(data => {
+                    return data.n_code;
+                  });
+                  that.props.handleShowBarOf('Districts');
+                  console.log(districtIdList, 'distrList');
+                  // console.log(districtIdList, 'districtIdList');
+                  that.props.filterMfsChartDataByDistrict(
+                    'district',
+                    districtIdList,
+                    selectedPartner,
+                    selectedInnovation,
+                    selectedAchievement,
+                  );
+                }
+              }
+            }
+            if (that.props.showBarChartBy === 'Partner') {
+              console.log(clicked);
+              if (showBarPartnerChartOf === 'Partner') {
+                that.props.filterMfsMapChartDataByPartnerWithInnovation(
+                  mapViewBy,
                   selectedPartner,
                   selectedInnovation,
                   selectedAchievement,
+                  [],
+                  [],
+                  clicked,
                 );
+                that.props.handleShowBarPartnerChartOf('Innovation');
               }
             }
           },
@@ -265,7 +301,7 @@ class StackedBarWithAllFederal extends Component {
       },
       plotOptions: {
         bar: {
-          columnWidth: mapViewBy === 'district' ? '40%' : '20%',
+          columnWidth: '40%',
         },
       },
       dataLabels: {
@@ -292,13 +328,24 @@ class StackedBarWithAllFederal extends Component {
         '#CAFF8A',
       ],
       xaxis: {
-        categories: labels,
+        categories:
+          showBarChartBy === 'Partner'
+            ? mfsChartDataByPartner.labels
+            : mfsChartData.labels,
         // title: {
         //   text: 'Provinces',
         // },
       },
       grid: {
         show: false,
+      },
+      tooltip: {
+        fixed: {
+          enabled: true,
+          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+          // offsetY: 30,
+          // offsetX: 60,
+        },
       },
       legend: {
         horizontalAlign: 'left',
@@ -308,18 +355,23 @@ class StackedBarWithAllFederal extends Component {
     // console.log(barDatas.series, 'bardataxx');
     this.setState({
       options,
-      series,
+      Fedseries: mfsChartData.series,
+      Partnerseries: mfsChartDataByPartner.series,
     });
   };
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      mfsReducer: {
-        mfsChartData: { series },
-        mfsChartDataByPartner,
-      },
+      mfsReducer: { mfsChartData, mfsChartDataByPartner },
     } = this.props;
-    if (prevProps.mfsReducer.mfsChartData.series !== series) {
+    if (prevProps.mfsReducer.mfsChartData !== mfsChartData) {
+      // alert('test');
+      this.updateBarChart();
+    }
+    if (
+      prevProps.mfsReducer.mfsChartDataByPartner !==
+      mfsChartDataByPartner
+    ) {
       // alert('test');
       this.updateBarChart();
     }
@@ -327,10 +379,11 @@ class StackedBarWithAllFederal extends Component {
     if (prevProps.showBarChartBy !== this.props.showBarChartBy) {
       // alert(this.props.showBarChartBy);
       // this.updateBarChart();
-      if (this.props.showBarChartBy === false) {
+      if (this.props.showBarChartBy === 'Partner') {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
-          series: this.props.mfsReducer.mfsChartDataByPartner.series,
+          Partnerseries: this.props.mfsReducer.mfsChartDataByPartner
+            .series,
           options: {
             // eslint-disable-next-line react/no-access-state-in-setstate
             ...this.state.options,
@@ -346,7 +399,7 @@ class StackedBarWithAllFederal extends Component {
       } else {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
-          series: this.props.mfsReducer.mfsChartData.series,
+          Fedseries: this.props.mfsReducer.mfsChartData.series,
           options: {
             // eslint-disable-next-line react/no-access-state-in-setstate
             ...this.state.options,
@@ -370,21 +423,21 @@ class StackedBarWithAllFederal extends Component {
 
   render() {
     console.log(window.innerWidth);
-    const { options, series } = this.state;
-    const { activeModal, mapViewBy, showBarChartof } = this.props;
+    const { options, Fedseries, Partnerseries } = this.state;
+    const { activeModal, mapViewBy, showBarChartBy } = this.props;
     const {
-      mfsReducer: { mfsChartDataByPartner },
+      mfsReducer: { mfsChartDataByPartner, mfsChartData },
     } = this.props;
     return (
       <div
         id="stacked_chart"
         style={mapViewBy === 'district' ? { width: '2500px' } : {}}
       >
-        {showBarChartof ? (
+        {showBarChartBy === 'Partner' ? (
           <ReactApexChart
-            key={series}
+            key={Partnerseries}
             options={options}
-            series={series}
+            series={Partnerseries}
             type="bar"
             height={
               activeModal && window.innerWidth < 1400 ? 450 : 500
@@ -396,9 +449,9 @@ class StackedBarWithAllFederal extends Component {
           />
         ) : (
           <ReactApexChart
-            key={series}
+            key={Fedseries}
             options={options}
-            series={series}
+            series={Fedseries}
             type="bar"
             height={
               activeModal && window.innerWidth < 1400 ? 450 : 500
@@ -418,6 +471,8 @@ const mapStateToProps = ({ mfsReducer }) => ({
 });
 export default connect(mapStateToProps, {
   filterMfsChartDataByDistrict,
+  filterMfsMapChartDataByPartner,
+  filterMfsMapChartDataByPartnerWithInnovation,
   // filterFinancialDataOfDistrictFromProvince,
   // filterFinancialDataOfMunicipalityFromDistrict,
 })(StackedBarWithAllFederal);

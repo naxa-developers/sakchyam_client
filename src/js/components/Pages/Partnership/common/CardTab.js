@@ -6,10 +6,17 @@ import DownloadIcon from '../../../../../img/get_app.png';
 import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import { resetBarDatas } from '../../../../actions/partnership.actions';
 import FilterTab from './FilterTab';
+import FilterBadge from '../../MFS/common/FilterBadge';
 
 const downloadPng = (chartid, imageTitle) => {
-  // document.querySelector('.info-header-bottom').style.display =
-  //   'none';
+  document.querySelectorAll('.download-span').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'none';
+  });
+  document.querySelectorAll('.expand-span').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'none';
+  });
   // document
   //   .querySelector('.download-dropdown')
   //   .classList.remove('active');
@@ -34,6 +41,14 @@ const downloadPng = (chartid, imageTitle) => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
       });
+      document.querySelectorAll('.download-span').forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.style.display = 'block';
+      });
+      document.querySelectorAll('.expand-span').forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.style.display = 'block';
+      });
     });
   }, 500);
 
@@ -51,11 +66,13 @@ const CardTab = ({
   showBarof,
   style,
   disableResetButton,
+  disableExpand,
   radioBtn,
   radioBtnProps,
   setShowBarChartBy,
   showBarChartBy,
   resetFilters,
+  badgeProp,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -72,6 +89,8 @@ const CardTab = ({
       ? 'Projects Timeline'
       : cardChartId === 'stackedWithInvestment'
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
+      : cardChartId === 'mfsBar'
+      ? 'Federal Wise Achievement Type'
       : '';
   const selectedChartId =
     cardChartId === 'groupedChart'
@@ -99,6 +118,28 @@ const CardTab = ({
                       </label>
                       <small>ON</small>
                     </div> */}
+            {badgeProp && (
+              <div className="partnership-tab" id="bar-tab-insurance">
+                <ul>
+                  <FilterBadge
+                    viewDataBy={showBarChartBy}
+                    onclick={() => {
+                      setShowBarChartBy(badgeProp[0]);
+                    }}
+                    dataTitle={badgeProp[0]}
+                    title={badgeProp[0]}
+                  />
+                  <FilterBadge
+                    viewDataBy={showBarChartBy}
+                    onclick={() => {
+                      setShowBarChartBy(badgeProp[1]);
+                    }}
+                    dataTitle={badgeProp[1]}
+                    title={badgeProp[1]}
+                  />
+                </ul>
+              </div>
+            )}
             {radioBtn && (
               <div className="card-switcher">
                 <small>{radioBtnProps[0]}</small>
@@ -125,7 +166,7 @@ const CardTab = ({
                     resetFunction();
                     resetFilters();
                   }}
-                  className="is-border common-button chart-reset"
+                  className="is-border common-button chart-reset download-span"
                 >
                   Reset
                 </button>
@@ -138,7 +179,7 @@ const CardTab = ({
                   resetFunction();
                   resetFilters();
                 }}
-                className="is-border common-button chart-reset"
+                className="is-border common-button chart-reset download-span"
               >
                 Reset
               </button>
@@ -150,7 +191,7 @@ const CardTab = ({
                   resetFunction();
                   resetFilters();
                 }}
-                className="is-border common-button chart-reset"
+                className="is-border common-button chart-reset download-span"
               >
                 Reset
               </button>
@@ -163,15 +204,26 @@ const CardTab = ({
                     resetFunction();
                     resetFilters();
                   }}
-                  className="is-border common-button chart-reset"
+                  className="is-border common-button chart-reset download-span"
                 >
                   Reset
                 </button>
               )
+            ) : cardChartId === 'mfsBar' ? (
+              <button
+                // id="chart-reset"
+                type="button"
+                onClick={() => {
+                  resetFunction();
+                }}
+                className="is-border common-button chart-reset download-span"
+              >
+                Reset
+              </button>
             ) : null}
             {cardChartId !== 'sunburst' && (
               <span
-                className=""
+                className="download-span"
                 onClick={() => {
                   downloadPng(cardChartId, modalHeader);
                 }}
@@ -184,22 +236,24 @@ const CardTab = ({
                 <img src={DownloadIcon} alt="open" />
               </span>
             )}
-            <span
-              role="tab"
-              tabIndex="0"
-              onClick={() => {
-                handleModal();
-                handleSelectedModal(cardChartId);
-              }}
-              onKeyDown={() => {
-                handleModal();
-                handleSelectedModal(cardChartId);
-              }}
-              className="zoom"
-              popup-link="graph-modal"
-            >
-              <img src={ExpandIcon} alt="open" />
-            </span>
+            {!disableExpand && (
+              <span
+                role="tab"
+                tabIndex="0"
+                onClick={() => {
+                  handleModal();
+                  handleSelectedModal(cardChartId);
+                }}
+                onKeyDown={() => {
+                  handleModal();
+                  handleSelectedModal(cardChartId);
+                }}
+                className="zoom expand-span"
+                popup-link="graph-modal"
+              >
+                <img src={ExpandIcon} alt="open" />
+              </span>
+            )}
           </div>
         </div>
         <div className="card-body" style={style} id={cardChartId}>

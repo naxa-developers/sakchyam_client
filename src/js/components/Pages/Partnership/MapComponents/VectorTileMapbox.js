@@ -32,7 +32,7 @@ function removeMarker() {
         a.remove();
       });
     global.markerList = [];
-    // console.log(global.markerList, 'globalMarkerlist VectorTile');
+    //
   }
 }
 const popup = new mapboxgl.Popup();
@@ -183,7 +183,7 @@ class Choropleth extends Component {
     //
     // eslint-disable-next-line array-callback-return
     grade.map((gradeitem, j) => {
-      // console.log(gradeitem, 'gradeitem');
+      //
       if (value > gradeitem) {
         color = legendColor[j];
       }
@@ -247,7 +247,7 @@ class Choropleth extends Component {
     this.setState({
       grade: fullRange.length > 0 ? fullRange : range,
     }); // add grade provided from props if available
-    // console.log('fulData Entered Change Grades');
+    //
     setTimeout(() => {
       this.ChangeLegendColors();
       this.setChoroplethStyle(fullData);
@@ -267,7 +267,7 @@ class Choropleth extends Component {
   }
 
   setChoroplethStyle(values) {
-    // console.log('values', values);
+    //
     //
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
@@ -291,10 +291,10 @@ class Choropleth extends Component {
     // Last value is the default, used where there is no data
     expression.push('rgba(0,0,0,0)');
 
-    // console.time();
+    //
     this.setState({ finalStyle: expression });
-    // console.timeEnd();
-    // console.log('setChoropleth Style');
+    //
+    //
     //
   }
 
@@ -332,7 +332,7 @@ class Choropleth extends Component {
     });
     FinalGeojson.features = myArrayFiltered;
 
-    // console.log(r, 'r');
+    //
     let singleData = {};
     let partnerList = [];
     let singleData2nd = {};
@@ -407,7 +407,7 @@ class Choropleth extends Component {
       const testElMain = document.createElement('div');
       testElMain.className = 'marker';
 
-      // console.log(singleData, 'singleDataProv');
+      //
       // const props = data.properties;
       // eslint-disable-next-line no-use-before-define
       const testEl = this.createDonutChart(
@@ -513,41 +513,7 @@ class Choropleth extends Component {
 
   createPieLegend = () => {
     const that = this;
-    const datas = [
-      {
-        type: 'Automation of MFIs',
-        // count: props['Automation of MFIs'],
-      },
-      {
-        type: 'Channel Innovations',
-        // count: props['Channel Innovations'],
-      },
-      {
-        type: 'Digital Financial Services',
-        // count: props['Digital Financial Services'],
-      },
-      {
-        type: 'Downscaling and Value Chain Financing By Banks',
-        // count:
-        // props['Downscaling and Value Chain Financing By Banks'],
-      },
-      {
-        type: 'Increased uptake of microinsurance',
-        // count: props['Increased uptake of microinsurance'],
-      },
-      {
-        type: 'Outreach Expansion',
-        // count: props['Outreach Expansion'],
-      },
-      {
-        type: 'Product Innovations',
-        // count: props['Product Innovations'],
-      },
-      {
-        type: 'SME Financing',
-        // count: props['SME Financing'],
-      },
-    ];
+    const datas = this.props.partnershipReducer.legendList;
     // select the svg area
     const SVG = d3.select(that.props.pieSquareLegend.current);
     // const firstLegend = d3.select(SVG);
@@ -557,7 +523,7 @@ class Choropleth extends Component {
     //   10,
     // );
     SVG.append('text')
-      .text('Investment Focus Quantify')
+      .text('Investment Focus')
       .attr('x', 10)
       .attr('y', 20)
       .style('font-size', '13px');
@@ -592,7 +558,7 @@ class Choropleth extends Component {
       .attr('height', '12px')
       .style('transform', `translate(0px, ${size + 5}px)`)
       .style('fill', function(d) {
-        return colorScale(d.type);
+        return colorScale(d);
       });
 
     // Add one dot in the legend for each name.
@@ -616,7 +582,7 @@ class Choropleth extends Component {
           return str.length > n ? `${str.substr(0, n - 1)}...` : str;
         }
 
-        return truncate(d.type, 22);
+        return truncate(d, 22);
       })
       .attr('text-anchor', 'left')
       .style('alignment-baseline', 'middle');
@@ -720,7 +686,13 @@ class Choropleth extends Component {
     mapViewDataBy,
     totalSum,
   ) => {
+    const that = this;
+    const legendDataArray = [];
+    const { legendList } = this.props.partnershipReducer;
     const div = document.createElement('div');
+    legendList.forEach(data => {
+      legendDataArray.push({ type: data, count: props[data] });
+    });
 
     const allCount = [];
     Object.values(props).forEach(data => {
@@ -733,42 +705,43 @@ class Choropleth extends Component {
     //   (maxValue - minValue)) *
     //   (30 - 10) +
     // 10,
-    const data = [
-      {
-        type: 'Automation of MFIs',
-        count: props['Automation of MFIs'],
-      },
-      {
-        type: 'Channel Innovations',
-        count: props['Channel Innovations'],
-      },
-      {
-        type: 'Digital Financial Services',
-        count: props['Digital Financial Services'],
-      },
-      {
-        type: 'Downscaling and Value Chain Financing By Banks',
-        count:
-          props['Downscaling and Value Chain Financing By Banks'],
-      },
-      {
-        type: 'Increased uptake of microinsurance',
-        count: props['Increased uptake of microinsurance'],
-      },
-      {
-        type: 'Outreach Expansion',
-        count: props['Outreach Expansion'],
-      },
-      {
-        type: 'Product Innovations',
-        count: props['Product Innovations'],
-      },
-      {
-        type: 'SME Financing',
-        count: props['SME Financing'],
-      },
-    ];
-
+    // const data = [
+    //   {
+    //     type: 'Automation of MFIs',
+    //     count: props['Automation of MFIs'],
+    //   },
+    //   {
+    //     type: 'Channel Innovations',
+    //     count: props['Channel Innovations'],
+    //   },
+    //   {
+    //     type: 'Digital Financial Services',
+    //     count: props['Digital Financial Services'],
+    //   },
+    //   {
+    //     type: 'Downscaling and Value Chain Financing By Banks',
+    //     count:
+    //       props['Downscaling and Value Chain Financing By Banks'],
+    //   },
+    //   {
+    //     type: 'Increased uptake of microinsurance',
+    //     count: props['Increased uptake of microinsurance'],
+    //   },
+    //   {
+    //     type: 'Outreach Expansion',
+    //     count: props['Outreach Expansion'],
+    //   },
+    //   {
+    //     type: 'Product Innovations',
+    //     count: props['Product Innovations'],
+    //   },
+    //   {
+    //     type: 'SME Financing',
+    //     count: props['SME Financing'],
+    //   },
+    // ];
+    //
+    const data = legendDataArray;
     const thickness = 10;
     // const scale = d3
     //   .scaleLinear()
@@ -863,27 +836,13 @@ class Choropleth extends Component {
       .attr('fill', d => colorScale(d.data.type))
       .on('click', function() {
         d3.event.stopPropagation();
-        // d.stopPropagation();
-        document
-          .querySelectorAll('.pie-mapbox-popup')
-          .forEach(function(el) {
-            // eslint-disable-next-line no-param-reassign
-            el.style.display = 'none';
-            // a.remove();
-          });
-        // const that = this;
+        that.props.setPopupData({
+          propsdata: props,
+          partners,
+          mapViewDataBy,
+        });
 
-        // console.log(props, 'props');
-        // if (document.querySelector('.federal-popup')) {
-        //   document.querySelector('.federal-popup').style.display =
-        //     'none';
-        // }
-        // popup.remove();
-        /* <div className="icons">
-        <i className="material-icons">tablet_mac</i>
-        <b>4</b></div> */
-        // <div className="icon-list">
-        //             </div>
+        // // d.stopPropagation();
         // document
         //   .querySelectorAll('.pie-mapbox-popup')
         //   .forEach(function(el) {
@@ -891,106 +850,126 @@ class Choropleth extends Component {
         //     el.style.display = 'none';
         //     // a.remove();
         //   });
-        let partnerContent = null;
-        // partnerList =
-        // eslint-disable-next-line no-restricted-syntax
-        partnerContent = partners
-          .map((partnerData, index) => {
-            const partnerList = partnerData.partnerlist
-              .map(singlepartner => {
-                return `
-                <li>
-                  <a>${singlepartner}</a>
-                </li>
-                `;
-              })
-              .join('');
-            return `
-          <div class="acc-list ${
-            index === 0 ? 'active' : ''
-          }" onclick="this.classList.toggle('active');">
-            <div class="acc-header">
-              <h5>${partnerData.partnerName}</h5>
-            </div>
-            <div class="acc-body">
-              <ul>
-              ${partnerList}
-              </ul>
-            </div>
-          </div>
-        `;
-          })
-          .join('');
+        // // const that = this;
 
-        // <h6>${props.federal_name}</h6>
-        tooltip.select('.popup-div').html(
-          `<div class="leaflet-popup-content" style="width: 100px;">
-            <div class="map-popup-view" style="${
-              mapViewDataBy === 'investment_focus'
-                ? 'height: 302px;'
-                : 'height: 10px'
-            }overflow-y: scroll;">
-              <div class="map-popup-view-header">
-                  <h5>${props.federal_name}</h5>
-                  <div class="icons">
-                    <i class="material-icons">${
-                      mapViewDataBy === 'allocated_beneficiary'
-                        ? 'people'
-                        : mapViewDataBy === 'allocated_budget'
-                        ? 'monetization_on'
-                        : 'payments'
-                    }</i><b>${totalSum}</b>
-                  </div>
-              </div>
-              <div class="acc is-after is-border">
-                  ${
-                    partnerContent !== undefined &&
-                    mapViewDataBy === 'investment_focus'
-                      ? partnerContent
-                      : ''
-                  }
-                  </div>
-                
-              <div class="map-view-footer">
-              </div>
-            </div>
-          </div>` /* eslint-disable-line */
-        );
+        // //
+        // // if (document.querySelector('.federal-popup')) {
+        // //   document.querySelector('.federal-popup').style.display =
+        // //     'none';
+        // // }
+        // // popup.remove();
+        // /* <div className="icons">
+        // <i className="material-icons">tablet_mac</i>
+        // <b>4</b></div> */
+        // // <div className="icon-list">
+        // //             </div>
+        // // document
+        // //   .querySelectorAll('.pie-mapbox-popup')
+        // //   .forEach(function(el) {
+        // //     // eslint-disable-next-line no-param-reassign
+        // //     el.style.display = 'none';
+        // //     // a.remove();
+        // //   });
+        // let partnerContent = null;
+        // // partnerList =
+        // // eslint-disable-next-line no-restricted-syntax
+        // partnerContent = partners
+        //   .map((partnerData, index) => {
+        //     const partnerList = partnerData.partnerlist
+        //       .map(singlepartner => {
+        //         return `
+        //         <li>
+        //           <a>${singlepartner}</a>
+        //         </li>
+        //         `;
+        //       })
+        //       .join('');
+        //     return `
+        //   <div class="acc-list ${
+        //     index === 0 ? 'active' : ''
+        //   }" onclick="this.classList.toggle('active');">
+        //     <div class="acc-header">
+        //       <h5>${partnerData.partnerName}</h5>
+        //     </div>
+        //     <div class="acc-body">
+        //       <ul>
+        //       ${partnerList}
+        //       </ul>
+        //     </div>
+        //   </div>
+        // `;
+        //   })
+        //   .join('');
 
-        // const t = document.querySelector('.acc-header');
-        // t.addEventListener('click', function(e) {
-        //   // console.log('test');
+        // // <h6>${props.federal_name}</h6>
+        // tooltip.select('.popup-div').html(
+        //   `<div class="leaflet-popup-content" style="width: 100px;">
+        //     <div class="map-popup-view" style="${
+        //       mapViewDataBy === 'investment_focus'
+        //         ? 'height: 302px;'
+        //         : 'height: 10px'
+        //     }overflow-y: scroll;">
+        //       <div class="map-popup-view-header">
+        //           <h5>${props.federal_name}</h5>
+        //           <div class="icons">
+        //             <i class="material-icons">${
+        //               mapViewDataBy === 'allocated_beneficiary'
+        //                 ? 'people'
+        //                 : mapViewDataBy === 'allocated_budget'
+        //                 ? 'monetization_on'
+        //                 : 'payments'
+        //             }</i><b>${Math.round(totalSum)}</b>
+        //           </div>
+        //       </div>
+        //       <div class="acc is-after is-border">
+        //           ${
+        //             partnerContent !== undefined &&
+        //             mapViewDataBy === 'investment_focus'
+        //               ? partnerContent
+        //               : ''
+        //           }
+        //           </div>
+
+        //       <div class="map-view-footer">
+        //       </div>
+        //     </div>
+        //   </div>` /* eslint-disable-line */
+        // );
+
+        // // const t = document.querySelector('.acc-header');
+        // // t.addEventListener('click', function(e) {
+        // //   //
+        // //   e.stopPropagation();
+        // //   alert('function');
+        // // });
+        // const mapPopup = document.querySelector('.map-popup-view');
+        // mapPopup.addEventListener('click', function(e) {
+        //   //
         //   e.stopPropagation();
-        //   alert('function');
-        // });
-        const mapPopup = document.querySelector('.map-popup-view');
-        mapPopup.addEventListener('click', function(e) {
-          // console.log('test');
-          e.stopPropagation();
-          // alert('function');
-        });
-        const Popupscroll = document.querySelector('.map-popup-view');
-        Popupscroll.addEventListener('wheel', function(e) {
-          e.stopPropagation();
-        });
-        // const accList = document.querySelector('.acc-list');
-        // accList.addEventListener('click', function(e) {
-        //   console.log(e, 'test');
-        //   // if (e.target.classList.includes('active')) {
-        //   this.classList.remove('active');
-        //   // } else {
-        //   // e.target.classList.add('active');
-        //   // }
-        //   // e.stopPropagation();
         //   // alert('function');
         // });
-        // .style('color', 'black');
-        // .style('background-color', 'white');
-        // tooltip.select('.count').html('Test');
-        // tooltip.select('.percent').html(`${34}%`);
+        // const Popupscroll = document.querySelector('.map-popup-view');
+        // Popupscroll.addEventListener('wheel', function(e) {
+        //   e.stopPropagation();
+        // });
+        // // const accList = document.querySelector('.acc-list');
+        // // accList.addEventListener('click', function(e) {
+        // //
+        // //   // if (e.target.classList.includes('active')) {
+        // //   this.classList.remove('active');
+        // //   // } else {
+        // //   // e.target.classList.add('active');
+        // //   // }
+        // //   // e.stopPropagation();
+        // //   // alert('function');
+        // // });
+        // // .style('color', 'black');
+        // // .style('background-color', 'white');
+        // // tooltip.select('.count').html('Test');
+        // // tooltip.select('.percent').html(`${34}%`);
 
-        tooltip.style('display', 'block');
-        tooltip.style('opacity', 2);
+        // tooltip.style('display', 'block');
+        // tooltip.style('opacity', 2);
       })
       .on('mouseover', function(d) {
         d3.select(this)
@@ -1018,7 +997,7 @@ class Choropleth extends Component {
                         : mapViewDataBy === 'allocated_budget'
                         ? 'monetization_on'
                         : 'payments'
-                    }</i><b>${d.data.count}</b>
+                    }</i><b>${Math.round(d.data.count)}</b>
                   </div>
               </div>
             </div>
@@ -1088,7 +1067,7 @@ class Choropleth extends Component {
 
     map.on('load', function() {
       const combinedBbox = [];
-      // console.log(selectedProvince, 'selectedProvine');
+      //
       const getBboxValue = getCenterBboxProvince([
         1,
         2,
@@ -1102,7 +1081,7 @@ class Choropleth extends Component {
         combinedBbox.push(data.bbox);
         return true;
       });
-      // console.log(combinedBbox, 'combineBbox');
+      //
       const extendedValue = extendBounds(combinedBbox);
       that.props.map.fitBounds(extendedValue);
       // Add Mapillary sequence layer.
@@ -1293,7 +1272,7 @@ class Choropleth extends Component {
         const federalCode = e.features[0].properties.code;
 
         if (that.props.mapViewBy === 'province') {
-          // console.log(e.features[0]);
+          //
           const getBbox = getCenterBboxProvince(federalCode);
           filterMapChoroplethPie(getBbox, federalCode);
         } else if (that.props.mapViewBy === 'district') {
@@ -1311,7 +1290,7 @@ class Choropleth extends Component {
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
-        // console.log(e.features[0]);
+        //
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
             return (
@@ -1519,35 +1498,33 @@ class Choropleth extends Component {
     // map.on('sourcedataloading', function(e) {
     //   that.setState({ loading: !map.isSourceLoaded('municipality') });
 
-    //   // console.log(e, 'SOURCE DATA LOADING ');
+    //   //
     // });
     // map.on('sourcedata', function(e) {
     //   // const that = this;
-    //   // console.log(e, 'SOURCE DATA');
-    //   // console.log('tile', map.isSourceLoaded('municipality'));
+    //   //
+    //   //
     //   that.setState({ loading: !map.isSourceLoaded('municipality') });
     // });
     map.on('style.load', () => {
       const waiting = () => {
         if (!map.isStyleLoaded()) {
           setTimeout(waiting, 200);
-          console.log('if');
         } else {
           this.setState(prevState => ({
             loading: !prevState.loading,
           }));
-          console.log('loadMyLayer');
         }
       };
       waiting();
     });
     // map.on('idle', () => {
-    //   console.log(map.isSourceLoaded('municipality'), 'idle');
+    //
     //   // map.getCanvas().toDataURL()
     // });
 
     // map.on('load', 'vector-tile-fill', function(e) {
-    //   console.log(e, 'e');
+    //
     //   alert('test');
     //   // if (e.sourceId === 'municipality') {
     //   //   if (e.isSourceLoaded) {
@@ -1557,7 +1534,7 @@ class Choropleth extends Component {
     //   // }
     // });
     // map.on('data', function(e) {
-    //   console.log(e, 'e');
+    //
     //   if (e.isSourceLoaded) {
     //     // Do something when the source has finished loading
     //   }
@@ -1646,9 +1623,9 @@ class Choropleth extends Component {
       //     'text-halo-blur': 1,
       //   },
       // });
-      // setInterval(console.time(), 250);
+      // setInterval(
       // const timerId = setInterval(
-      //   () => console.log('start Time'),
+      //   () => ,
       //   250,
       // );
       this.changeGrades();

@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable new-cap */
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
@@ -417,54 +418,6 @@ class MainAutomation extends Component {
       dataTypeLevel,
     } = this.state;
 
-    // if (prevState.dataTypeLevel !== dataTypeLevel) {
-    //   // eslint-disable-next-line react/no-did-update-set-state
-    //   // this.setState({
-    //   //   selectedProvince: [],
-    //   //   selectedDistrict: [],
-    //   //   selectedMunicipality: [],
-    //   //   selectedProvinceName: [],
-    //   //   selectedDistrictName: [],
-    //   //   selectedMunicipalityName: [],
-    //   //   selectedProvinceDropdown: [],
-    //   //   selectedDistrictDropdown: [],
-    //   //   selectedMunicipalityDropdown: [],
-    //   // });
-    //   if (dataTypeLevel === 'province') {
-    //     // eslint-disable-next-line react/no-did-update-set-state
-    //     this.setState({
-    //       vectorGridInputUrl:
-    //         'https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}',
-    //       vectorGridKey: '0',
-    //       color: '#55b110',
-    //     });
-    //     this.props.filterAutomationDataForVectorTiles(dataTypeLevel);
-    //   } else if (dataTypeLevel === 'district') {
-    //     // eslint-disable-next-line react/no-did-update-set-state
-    //     this.setState({
-    //       vectorGridInputUrl:
-    //         'https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}',
-    //       vectorGridKey: '1',
-    //       color: '#FF0000',
-    //     });
-    //     this.props.filterAutomationDataForVectorTiles(dataTypeLevel);
-    //   } else if (dataTypeLevel === 'municipality') {
-    //     // eslint-disable-next-line react/no-did-update-set-state
-    //     this.setState({
-    //       vectorGridInputUrl:
-    //         'https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}',
-    //       // 'https://geoserver.naxa.com.np/geoserver/gwc/service/tms/1.0.0/Bipad:Municipality@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
-    //       vectorGridKey: '2',
-    //       color: '#FF000',
-    //     });
-    //     this.props.filterAutomationDataForVectorTiles(dataTypeLevel);
-    //   }
-    // }
-    // if (activeOutreachButton && activeClickPartners.length <= 0) {
-    //   this.props.getAllAutomationDataByPartner();
-    //   // alert('tung');
-    //   // this.props.partnerSelectWithOutreach(activeClickPartners);
-    // }
     if (
       prevProps.automationReducer.automationRightSidePartnerData !==
       this.props.automationReducer.automationRightSidePartnerData
@@ -484,24 +437,6 @@ class MainAutomation extends Component {
             colors:
               automationRightSidePartnerData[0].tabletsGraphColor,
           },
-          // color: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-          // plotOptions: {
-          //   pie: {
-          //     donut: {
-          //       labels: {
-          //         ...tabletsDeployed.plotOptions.pie.donut.labels,
-          //         value: {
-          //           ...tabletsDeployed.plotOptions.pie.donut.labels
-          //             .value,
-          //           formatter(val) {
-          //             return automationRightSidePartnerData[0]
-          //               .total_branch;
-          //           },
-          //         },
-          //       },
-          //     },
-          //   },
-          // },
         },
         rightSideBarLoader: false,
       });
@@ -536,20 +471,9 @@ class MainAutomation extends Component {
       } else {
         // const { partnersData } = this.state;
         this.props.getSearchedPartners(this.state.searchText);
-        // const a =
-        //   this.props.automationReducer.automationDataByPartner &&
-        //   this.props.automationReducer.automationDataByPartner.filter(
-        //     data => {
-        //       return data.partners_name
-        //         .toUpperCase()
-        //         .includes(this.state.searchText.toUpperCase());
-        //     },
-        //   );
-        // // eslint-disable-next-line react/no-did-update-set-state
-        // this.setState({ partnersData: a });
       }
     }
-    // const { activeClickPartners } = this.state;
+
     if (prevState.activeClickPartners !== activeClickPartners) {
       const {
         selectedProvince,
@@ -558,84 +482,36 @@ class MainAutomation extends Component {
         mapType,
       } = this.state;
 
-      // const mapLayers = this.mapRef.current.leafletElement._layers;
-      // global.map = this.mapRef.current.leafletElement;
-      // console.log(mapLayers && mapLayers._url, 'layers');
-      // Object.entries(mapLayers).forEach(([key, value]) => {
-      //   // if (value._url) {
-      //   //   console.log(value._url);
-      //   //   // console.log(value.getFeatureId());
-      //   // }
-      // });
       if (activeClickPartners.length === 0) {
         if (mapType === 'branches') {
-          // global.migrationLayer.hide();
         }
         this.props.filterPartnerSelect(activeClickPartners);
-        // if (activeTableView) {
-        //   this.props.getTableDataByPartnerSelect(activeClickPartners);
-        // }
-        // Object.entries(mapLayers).forEach(([key, value]) => {
-        //   if (
-        //     value.options &&
-        //     value.options.properties &&
-        //     value.options.properties.partner_id
-        //   ) {
-        //     value.setIcon(allActive);
-        //     value.closePopup();
-        //   }
-        // });
       } else {
         const array = [];
         global.a = this.props.automationReducer.automationTableData;
-        // console.log(global.a, 'global a ');
 
         global.a.map(branch => {
-          // console.log('inside If ');
-          // eslint-disable-next-line no-param-reassign
-          // branch.s_lat = partner.lat;
-          // // eslint-disable-next-line no-param-reassign
-          // branch.s_long = partner.long;
-          // console.log(branch.municipality, 'branchLat0');
-          // console.log(
-          //   getCenterBboxMunicipality(branch.municipality.trim()),
-          //   'branchLat',
-          // );
           const trimelat = getCenterBboxMunicipality(
             branch.municipality_code,
           ).center;
           const trimelong = getCenterBboxMunicipality(
             branch.municipality_code,
           ).center;
-          // console.log(trimelong, 'trimmed');
-          // eslint-disable-next-line prefer-destructuring
           branch.des_long = trimelong ? trimelong[0] : null;
-          // console.log(trimelong[0], 'trim');
-          // console.log(timelong[0]);
-          // eslint-disable-next-line prefer-destructuring
           branch.des_lat = trimelong ? trimelong[1] : null;
           // }
           return true;
         });
-        // global.a = this.props.automationReducer.automationTableData;
-        // console.log(global.a, 'Array Before Data');
         const x = this.state.activeClickPartners.map(
           clickedPartners => {
-            // console.log(clickedPartners, 'clicked');
             global.a.map(data => {
-              // console.log(data);
               if (data.des_lat !== null) {
                 if (data.partner_id === clickedPartners) {
-                  // console.log('inside 2 if');
                   array.push({
                     origin: [data.longitude, data.latitude],
                     destination: [data.des_long, data.des_lat],
-                    // size: 2,
                     originName: data.partner,
                     destinationName: data.branch,
-                    // labels: [data.partner, data.branch],
-                    // color: '#ff3a31',
-                    // color: getPartnerColor(data.partner_id),
                     size: 2,
                   });
                 }
@@ -645,16 +521,9 @@ class MainAutomation extends Component {
             return true;
           },
         );
-        // console.log(array, 'array');
-        // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ migrationArray: array });
-        if (mapType === 'branches') {
-          // console.log(array, 'array Migration');
-          // global.migrationLayer.setData(array);
-          // global.migrationLayer.pause();
-          // global.migrationLayer.show();
-        }
-        // eslint-disable-next-line new-cap
+
+        
         if (
           selectedProvince.length > 0 ||
           selectedDistrict.length > 0 ||
@@ -671,52 +540,16 @@ class MainAutomation extends Component {
         } else {
           this.props.filterPartnerSelect(activeClickPartners);
         }
-        // if (activeTableView) {
-        //   this.props.getTableDataByPartnerSelect(activeClickPartners);
-        // }
-        // Object.entries(mapLayers).forEach(([key, value]) => {
-        //   if (
-        //     value.options &&
-        //     value.options.properties &&
-        //     value.options.properties.partner_id
-        //   ) {
-        //     value.setIcon(Inactive);
-        //   }
-        // });
       }
-      // activeClickPartners.map(data => {
-      //   Object.entries(mapLayers).forEach(([key, value]) => {
-      //     if (
-      //       value.options &&
-      //       value.options.properties &&
-      //       value.options.properties.partner_id &&
-      //       value.options.properties.partner_id === data
-      //     ) {
-      //       value.setIcon(allActive);
-      //       if (
-      //         selectedMunicipality.length < 1 &&
-      //         selectedDistrict.length < 1 &&
-      //         selectedProvince.length < 1
-      //       ) {
-      //         value.openPopup();
-      //       }
-      //     }
-      //   });
-      //   return true;
-      // });
     }
+
     const {
       automationReducer: {
         automationChoroplethData,
         automationDataByProvince,
       },
     } = this.props;
-    // if (
-    //   prevProps.automationReducer.automationDataByProvince !==
-    //   automationDataByProvince
-    // ) {
-    //   this.props.filterAutomationDataForVectorTiles();
-    // }
+
     if (
       prevProps.automationReducer.getAutomationDataByMunicipality !==
       this.props.automationReducer.getAutomationDataByMunicipality
@@ -1927,7 +1760,7 @@ class MainAutomation extends Component {
     } = this.props.automationReducer;
     return (
       <div className="page-wrap page-100">
-        <Header />
+        {/* <Header /> */}
         <div
           className={`automation-wrapper ${
             activeRightSideBar ? '' : 'expand-right-sidebar'

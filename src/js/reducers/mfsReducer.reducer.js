@@ -14,6 +14,7 @@ import {
   FILTER_MFS_CHART_DATA_BY_DISTRICT_ID,
   FILTER_MFS_CHART_DATA_BY_ACHIEVEMENT,
   FILTER_MFS_CHART_DATA_BY_PARTNER,
+  FILTER_MFS_CHART_DATA_BY_PARTNER_WITH_INNOVATION,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -71,10 +72,12 @@ const initialState = {
   mfsListAllData: [],
   mfsListLoading: false,
   achievementList: [],
+  legendAchievement: [],
   mfsOverviewData: {},
   partnerList: [],
   mfsChoroplethData: [],
   mfsChartData: {},
+  mfsChartDataByPartner: {},
   defaultMfsOverviewData: {},
   defaultMfsChoroplethData: [],
   defaultMfsChartData: {},
@@ -102,6 +105,7 @@ const getMfsAchievementList = (state, action) => {
   return {
     ...state,
     achievementList,
+    legendAchievement: achievementList,
   };
 };
 const getMfsInnovationList = (state, action) => {
@@ -157,45 +161,41 @@ const filterMfsOverviewData = (state, action) => {
     selectedAchievement,
   } = action.payload;
   const mfsData = [...state.mfsListAllData];
-  let filteredData = [];
-  if (selectedAchievement.length > 0) {
-    filteredData = mfsData.filter(data => {
-      return selectedAchievement.includes(data.achievement_type);
-    });
-  } else if (selectedInnovation.length > 0) {
-    filteredData = mfsData.filter(data => {
-      return selectedInnovation.includes(data.key_innovation);
-    });
-  } else if (selectedPartner.length > 0) {
-    filteredData = mfsData.filter(data => {
+  let dataFilter = mfsData;
+  if (selectedPartner.length > 0) {
+    dataFilter = dataFilter.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
-  } else {
-    filteredData = mfsData;
   }
-  // const filteredData = mfsData.filter(data => {
-  //   return selectedAchievement.includes(data.achievement_type);
-  // });
-  const mfsAchievedData = getUniqueValuesFromArray(
-    filteredData,
-    'achieved_number',
-  );
+  if (selectedInnovation.length > 0) {
+    dataFilter = dataFilter.filter(data => {
+      return selectedInnovation.includes(data.key_innovation);
+    });
+  }
+  if (selectedAchievement.length > 0) {
+    dataFilter = dataFilter.filter(data => {
+      return selectedAchievement.includes(data.achievement_type);
+    });
+  }
+
+  const filteredAchievedTotal = dataFilter.map(data => {
+    return data.achieved_number;
+  });
   const mfsInnovationLength = getUniqueValuesFromArray(
-    filteredData,
+    dataFilter,
     'key_innovation',
   );
   const mfsPartnerLength = getUniqueValuesFromArray(
-    filteredData,
+    dataFilter,
     'partner_id',
   );
 
-  const totalAchievedNumber = [...mfsAchievedData].reduce(function(
-    prev,
-    cur,
-  ) {
-    return prev + cur;
-  },
-  0);
+  const totalAchievedNumber = [...filteredAchievedTotal].reduce(
+    function(prev, cur) {
+      return prev + cur;
+    },
+    0,
+  );
 
   return {
     ...state,
@@ -281,11 +281,13 @@ const filterMfsChoroplethData = (state, action) => {
     filteredData = mfsData.filter(data => {
       return selectedAchievement.includes(data.achievement_type);
     });
-  } else if (selectedInnovation.length > 0) {
+  }
+  if (selectedInnovation.length > 0) {
     filteredData = mfsData.filter(data => {
       return selectedInnovation.includes(data.key_innovation);
     });
-  } else if (selectedPartner.length > 0) {
+  }
+  if (selectedPartner.length > 0) {
     filteredData = mfsData.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
@@ -366,134 +368,107 @@ const filterMfsChartDataByAchievement = (state, action) => {
     selectedProvince,
   } = action.payload;
   const mfsData = [...state.mfsListAllData];
-  let filteredData = [];
+  let filteredDatas = [];
   if (selectedAchievement.length > 0) {
-    filteredData = mfsData.filter(data => {
+    filteredDatas = mfsData.filter(data => {
       return selectedAchievement.includes(data.achievement_type);
     });
-  } else if (selectedInnovation.length > 0) {
-    filteredData = mfsData.filter(data => {
+  }
+  if (selectedInnovation.length > 0) {
+    filteredDatas = mfsData.filter(data => {
       return selectedInnovation.includes(data.key_innovation);
     });
-  } else if (selectedPartner.length > 0) {
-    filteredData = mfsData.filter(data => {
+  }
+  if (selectedPartner.length > 0) {
+    filteredDatas = mfsData.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
   } else {
-    filteredData = mfsData;
+    filteredDatas = mfsData;
   }
-  let filteredFederal = filteredData;
-
-  if (selectedDistrict && selectedDistrict.lengh > 0) {
-    // console.log('district');
-    filteredFederal = filteredData.filter(
-      elem =>
-        selectedDistrict.find(
-          ({ code }) => elem.district_code === code,
-        ) && elem,
-    );
-  } else if (selectedProvince && selectedProvince.length > 0) {
-    // console.log('province');
-    filteredFederal = filteredData.filter(
-      elem =>
-        selectedProvince.find(
-          ({ code }) => elem.province_code === code,
-        ) && elem,
-    );
-  }
-  const anotherArray = [...filteredFederal];
-  const federalKey =
-    mapViewBy === 'province' ? 'province_code' : 'district_code';
-
-  const byFederal = groupBy(anotherArray, it => it[federalKey]);
-  const byAchievementType = groupBy(
-    anotherArray,
-    it => it.achievement_type,
-  );
-  // console.log(byAchievementType, '1st ByAchievement');
-  // console.log(province, 'province');
-  // console.log(district, 'district');
-  let federalData = [];
-  if (mapViewBy === 'province') {
-    federalData = province.map(data => {
-      return {
-        code: data.FIRST_PROV,
-        name: data.prov_name,
-        count: 0,
-      };
-    });
-  } else {
-    federalData = district.map(data => {
-      return {
-        code: data.districtid,
-        name: data.name,
-        count: 0,
-      };
-    });
-  }
-  // console.log(federalData, 'federalData');
-  const labels = federalData.map(data => {
-    const name = data.name.toLowerCase();
-    const nameCapitalized =
-      name.charAt(0).toUpperCase() + name.slice(1);
-    return nameCapitalized;
-  });
-  // const output = Object.keys(byFederal).map((name, second) => {
-  //   const sum = byFederal[name].reduce(
-  //     (acc, it) => acc + it.achieved_number,
-  //     0,
-  //   );
-  //   return {
-  //     code: name,
-  //     // ZoneCount: Object.keys(byZone).length,
-  //     count: sum,
-  //   };
-  // });
-
-  const finalArray = [];
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(byAchievementType)) {
-    const groupByFed = groupBy(value, it => it[federalKey]);
-    // console.log(groupByFed, '1st GroupbyFed');
-    const final = Object.keys(groupByFed).map((name, second) => {
-      // console.log(byName[name][0], '1stname');
-      // console.log(name, 'name');
-      // console.log(second, 'second');
-      // const byZone = groupBy(byName[name], it => it.Zone);
-      const sum = groupByFed[name].reduce(
-        (acc, it) => acc + it.achieved_number,
+  // const filteredFederal = filteredData;
+  const data = filteredDatas;
+  // const data = require('./mfs.json');
+  const achievementType = [
+    ...new Set(data.map(item => item.achievement_type)),
+  ];
+  const provinceData = province;
+  const districtData = district;
+  const provinces = provinceData.map(item => ({
+    code: item.FIRST_PROV,
+    name: item.prov_name,
+  }));
+  const districts = districtData.map(item => ({
+    code: item.districtid,
+    name: item.name,
+  }));
+  function generateStackedBarData(datax) {
+    function getCount(achievement, { code, type }) {
+      const filteredData = datax.filter(item =>
+        type === 'province'
+          ? item.province_code === code &&
+            item.achievement_type === achievement
+          : item.district_code === code &&
+            item.achievement_type === achievement,
+      );
+      const count = filteredData.reduce(
+        (sum, item) => sum + item.achieved_number,
         0,
       );
-      return {
-        code: name,
-        // ZoneCount: Object.keys(byZone).length,
-        count: sum,
-      };
-    });
-    // console.log(final, '1stFinal');
-
-    const test = federalData.map(data => {
-      final.map(el => {
-        // console.log(data, 'data');
-        // console.log(el, 'el');
-        if (data.code === +el.code) {
-          // eslint-disable-next-line no-param-reassign
-          data.count = el.count;
-        }
+      return count;
+    }
+    function getData(achievement, type) {
+      const arr = [];
+      if (type === 'province') {
+        provinces.forEach(item => {
+          arr.push(getCount(achievement, { code: item.code, type }));
+        });
+      } else {
+        districts.forEach(item => {
+          arr.push(getCount(achievement, { code: item.code, type }));
+        });
+      }
+      return arr;
+    }
+    const provinceSeries = [];
+    const districtSeries = [];
+    const provinceLabel = provinces.map(item => item.name);
+    const districtLabel = districts.map(item => item.name);
+    // province series calculation
+    achievementType.forEach(achievement => {
+      provinceSeries.push({
+        name: achievement,
+        data: getData(achievement, 'province'),
       });
-      return data;
     });
-    const mappedCount = test.map(data => {
-      return data.count;
+    // district series calculation
+    achievementType.forEach(achievement => {
+      districtSeries.push({
+        name: achievement,
+        data: getData(achievement, 'district'),
+      });
     });
-    finalArray.push({ name: key, data: mappedCount });
+    return {
+      provinceSeries,
+      districtSeries,
+      provinceLabel,
+      districtLabel,
+    };
   }
-  // console.log(finalArray, '1stFinalArray');
+  const seriesData = generateStackedBarData(data);
+
+  // console.log(seriesData.districtSeries);
   return {
     ...state,
     mfsChartData: {
-      series: finalArray,
-      labels,
+      series:
+        mapViewBy === 'province'
+          ? seriesData.provinceSeries
+          : seriesData.districtSeries,
+      labels:
+        mapViewBy === 'province'
+          ? seriesData.provinceLabel
+          : seriesData.districtLabel,
     },
   };
 };
@@ -512,11 +487,13 @@ const filterMfsChartDataByPartner = (state, action) => {
     filteredData = mfsData.filter(data => {
       return selectedAchievement.includes(data.achievement_type);
     });
-  } else if (selectedInnovation.length > 0) {
+  }
+  if (selectedInnovation.length > 0) {
     filteredData = mfsData.filter(data => {
       return selectedInnovation.includes(data.key_innovation);
     });
-  } else if (selectedPartner.length > 0) {
+  }
+  if (selectedPartner.length > 0) {
     filteredData = mfsData.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
@@ -584,6 +561,100 @@ const filterMfsChartDataByPartner = (state, action) => {
     },
   };
 };
+const filterMfsChartDataByPartnerWithInnovation = (state, action) => {
+  const {
+    mapViewBy,
+    selectedPartner,
+    selectedInnovation,
+    selectedAchievement,
+    selectedDistrict,
+    selectedProvince,
+    clickedPartner,
+  } = action.payload;
+  const mfsData = [...state.mfsListAllData];
+  let filteredData = mfsData;
+  if (selectedAchievement.length > 0) {
+    filteredData = filteredData.filter(data => {
+      return selectedAchievement.includes(data.achievement_type);
+    });
+  }
+  if (selectedInnovation.length > 0) {
+    filteredData = filteredData.filter(data => {
+      return selectedInnovation.includes(data.key_innovation);
+    });
+  }
+  if (selectedPartner.length > 0) {
+    filteredData = filteredData.filter(data => {
+      return selectedPartner.includes(data.partner_name);
+    });
+  } else {
+    filteredData = filteredData.filter(data => {
+      return clickedPartner === data.partner_name;
+    });
+  }
+  let filteredFederal = filteredData;
+
+  if (selectedDistrict && selectedDistrict.lengh > 0) {
+    // console.log('district');
+    filteredFederal = filteredData.filter(
+      elem =>
+        selectedDistrict.find(
+          ({ code }) => elem.district_code === code,
+        ) && elem,
+    );
+  } else if (selectedProvince && selectedProvince.length > 0) {
+    // console.log('province');
+    filteredFederal = filteredData.filter(
+      elem =>
+        selectedProvince.find(
+          ({ code }) => elem.province_code === code,
+        ) && elem,
+    );
+  }
+  const anotherArray = [...filteredFederal];
+  function generateStackedBarData(data) {
+    const achievementType = [
+      ...new Set(data.map(item => item.achievement_type)),
+    ];
+    const innovation = [
+      ...new Set(data.map(item => item.key_innovation)),
+    ];
+    function getCount(achievement, innovations) {
+      const count = data
+        .filter(
+          item =>
+            item.key_innovation === innovations &&
+            item.achievement_type === achievement,
+        )
+        .map(item => item.achieved_number)
+        .reduce((sum, item) => sum + item, 0);
+      return count;
+    }
+    function getData(achievement) {
+      const arr = [];
+      innovation.forEach(item => {
+        arr.push(getCount(achievement, item));
+      });
+      return arr;
+    }
+    const series = [];
+    achievementType.forEach(achievement => {
+      series.push({
+        name: achievement,
+        data: getData(achievement),
+      });
+    });
+    return { series, label: innovation };
+  }
+  const finalData = generateStackedBarData(anotherArray);
+  return {
+    ...state,
+    mfsChartDataByPartner: {
+      series: finalData.series,
+      labels: finalData.label,
+    },
+  };
+};
 const filterMfsChartDataByDistrict = (state, action) => {
   const {
     mapViewBy,
@@ -592,301 +663,102 @@ const filterMfsChartDataByDistrict = (state, action) => {
     selectedInnovation,
     selectedAchievement,
   } = action.payload;
+  console.log(districtList, 'distList');
   const mfsData = [...state.mfsListAllData];
-  let filteredData = [];
+  let filteredDatas = [];
   if (selectedAchievement.length > 0) {
-    filteredData = mfsData.filter(data => {
+    filteredDatas = mfsData.filter(data => {
       return selectedAchievement.includes(data.achievement_type);
     });
-  } else if (selectedInnovation.length > 0) {
-    filteredData = mfsData.filter(data => {
+  }
+  if (selectedInnovation.length > 0) {
+    filteredDatas = mfsData.filter(data => {
       return selectedInnovation.includes(data.key_innovation);
     });
-  } else if (selectedPartner.length > 0) {
-    filteredData = mfsData.filter(data => {
+  }
+  if (selectedPartner.length > 0) {
+    filteredDatas = mfsData.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
   } else {
-    filteredData = mfsData;
+    filteredDatas = mfsData;
   }
-  const anotherArray = [...filteredData];
+  const anotherArray = [...filteredDatas];
   const federalKey =
     mapViewBy === 'province' ? 'province_code' : 'district_code';
 
-  const byFederal = groupBy(anotherArray, it => it[federalKey]);
-  const byAchievementType = groupBy(
-    anotherArray,
-    it => it.achievement_type,
-  );
-  // console.log(province, 'province');
-  // console.log(district, 'district');
-  let federalData = [];
-  if (mapViewBy === 'province') {
-    federalData = province.map(data => {
-      return {
-        code: data.FIRST_PROV,
-        name: data.prov_name,
-        count: 0,
-      };
-    });
-  } else {
-    federalData = district.map(data => {
-      return {
-        code: data.districtid,
-        name: data.name,
-        count: 0,
-      };
-    });
-  }
+  const federalData = [];
+
   console.log(federalData, 'federalData');
-  const filteredFederalDistrict = federalData.filter(data => {
-    return districtList.includes(data.code);
+  const filteredFederalDistrict = filteredDatas.filter(data => {
+    return districtList.includes(data.district_code);
   });
-  const labels = filteredFederalDistrict.map(data => {
-    const name = data.name.toLowerCase();
-    const nameCapitalized =
-      name.charAt(0).toUpperCase() + name.slice(1);
-    return nameCapitalized;
-  });
-  const output = Object.keys(byFederal).map((name, second) => {
-    const sum = byFederal[name].reduce(
-      (acc, it) => acc + it.achieved_number,
-      0,
-    );
-    return {
-      code: name,
-      // ZoneCount: Object.keys(byZone).length,
-      count: sum,
-    };
+  const data = filteredFederalDistrict;
+  const achievementType = [
+    ...new Set(data.map(item => item.achievement_type)),
+  ];
+  const districtData = district;
+  // const provinces = provinceData.map(item => ({
+  //   code: item.FIRST_PROV,
+  //   name: item.prov_name,
+  // }));
+  const districtx = districtData.map(item => ({
+    code: item.districtid,
+    name: item.name,
+  }));
+  const districts = districtx.filter(datas => {
+    console.log(datas, 'datas district');
+    return districtList.includes(datas.code);
   });
 
-  const finalArray = [];
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(byAchievementType)) {
-    const groupByFed = groupBy(value, it => it[federalKey]);
-    const final = Object.keys(groupByFed).map((name, second) => {
-      // console.log(byName[name][0], '1stname');
-      // console.log(name, 'name');
-      // console.log(second, 'second');
-      // const byZone = groupBy(byName[name], it => it.Zone);
-      const sum = groupByFed[name].reduce(
-        (acc, it) => acc + it.achieved_number,
+  function generateStackedBarData(datax) {
+    function getCount(achievement, { code, type }) {
+      const filteredData = datax.filter(
+        item =>
+          item.district_code === code &&
+          item.achievement_type === achievement,
+      );
+      const count = filteredData.reduce(
+        (sum, item) => sum + item.achieved_number,
         0,
       );
-      return {
-        code: name,
-        // ZoneCount: Object.keys(byZone).length,
-        count: sum,
-      };
-    });
-    const test = filteredFederalDistrict.map(data => {
-      final.map(el => {
-        // console.log(data, 'data');
-        // console.log(el, 'el');
-        if (data.code === +el.code) {
-          // eslint-disable-next-line no-param-reassign
-          data.count = el.count;
-        }
+      return count;
+    }
+    function getData(achievement, type) {
+      const arr = [];
+
+      districts.forEach(item => {
+        arr.push(getCount(achievement, { code: item.code, type }));
       });
-      return data;
+
+      return arr;
+    }
+    const districtSeries = [];
+    const districtLabel = districts.map(item => item.name);
+
+    // district series calculation
+    achievementType.forEach(achievement => {
+      districtSeries.push({
+        name: achievement,
+        data: getData(achievement, 'district'),
+      });
     });
-    const mappedCount = test.map(data => {
-      return data.count;
-    });
-    finalArray.push({ name: key, data: mappedCount });
+    return {
+      districtSeries,
+      districtLabel,
+    };
   }
-  console.log(finalArray, 'finalArray');
+  const seriesData = generateStackedBarData(data);
+
+  // console.log(seriesData.districtSeries);
   return {
     ...state,
     mfsChartData: {
-      series: finalArray,
-      labels,
+      series: seriesData.districtSeries,
+      labels: seriesData.districtLabel,
     },
   };
 };
-// const filterMfsMapPieData = (state, action) => {
-//   const {
-//     mapViewBy,
-//     selectedPartner,
-//     selectedInnovation,
-//     selectedAchievement,
-//   } = action.payload;
-//   const mfsData = [...state.mfsListAllData];
-//   let filteredData = [];
-//   if (selectedAchievement.length > 0) {
-//     filteredData = mfsData.filter(data => {
-//       return selectedAchievement.includes(data.achievement_type);
-//     });
-//   } else if (selectedInnovation.length > 0) {
-//     filteredData = mfsData.filter(data => {
-//       return selectedInnovation.includes(data.key_innovation);
-//     });
-//   } else if (selectedPartner.length > 0) {
-//     filteredData = mfsData.filter(data => {
-//       return selectedPartner.includes(data.partner_name);
-//     });
-//   } else {
-//     filteredData = mfsData;
-//   }
-//   const anotherArray = [...filteredData];
-//   const federalKey =
-//     mapViewBy === 'province' ? 'province_code' : 'district_code';
-//   // console.log(anotherArray, 'anotherArray');
-//   const groupByFeds = groupBy(anotherArray, it => it[federalKey]);
-//   // console.log(groupByFeds, 'groupByFeds');
-//   const FinalOutput = [];
-
-//   let federalData = [];
-//   if (mapViewBy === 'province') {
-//     federalData = province.map(data => {
-//       return {
-//         code: data.FIRST_PROV,
-//         name: data.prov_name,
-//         count: 0,
-//       };
-//     });
-//   } else {
-//     federalData = district.map(data => {
-//       return {
-//         code: data.districtid,
-//         name: data.name,
-//         count: 0,
-//       };
-//     });
-//   }
-//   console.log(groupByFeds, '1st groupByFeds');
-//   // eslint-disable-next-line
-//   for (const [key, value] of Object.entries(groupByFeds)) {
-//     const groupByFed = groupBy(value, it => it.achievement_type);
-//     console.log(groupByFed, '2nd groupByFed');
-//     // console.log(groupByFed, 'groupbyFed');
-//     const final = Object.keys(groupByFed).map((name, second) => {
-//       // console.log(byName[name][0], '1stname');
-//       // console.log(name, 'name');
-//       // console.log(second, 'second');
-//       // const byZone = groupBy(byName[name], it => it.Zone);
-//       const sum = groupByFed[name].reduce(
-//         (acc, it) => acc + it.achieved_number,
-//         0,
-//       );
-//       console.log(groupByFed[name][0][federalKey], '1st');
-//       return {
-//         fed_name: name,
-//         code: groupByFed[name][0][federalKey],
-//         // fed_code:
-//         // ZoneCount: Object.keys(byZone).length,
-//         count: sum,
-//       };
-//     });
-//     const groupByPartner = groupBy(value, it => it.partner_name);
-//     console.log(groupByPartner, 'groupByPartner');
-//     const final2nd = Object.keys(groupByPartner).map(
-//       (name, second) => {
-//         // console.log(byName[name][0], '1stname');
-//         console.log(name, 'name');
-//         console.log(second, 'second');
-//         // const byZone = groupBy(byName[name], it => it.Zone);
-//         // const sum = groupByFed[name].reduce(
-//         //   (acc, it) => acc + it.achieved_number,
-//         //   0,
-//         // );
-//         // // console.log(groupByFed[name][0][federalKey], '1st');
-//         // return {
-//         //   fed_name: name,
-//         //   code: groupByFed[name][0][federalKey],
-//         //   // fed_code:
-//         //   // ZoneCount: Object.keys(byZone).length,
-//         //   count: sum,
-//         // };
-//       },
-//     );
-//     console.log(final, 'final');
-//     console.log(key, 'key');
-//     federalData.forEach(test => {
-//       if (test.code === +key) {
-//         FinalOutput.push({ ...test, pie: final });
-//       }
-//     });
-//     // console.log(groupByFed, 'groupByFed');
-//     // console.log(key, 'key');
-//   }
-//   console.log(FinalOutput, 'finalOutput');
-//   // const byFederal = groupBy(anotherArray, it => it[federalKey]);
-//   // const byAchievementType = groupBy(
-//   //   anotherArray,
-//   //   it => it.achievement_type,
-//   // );
-//   // // console.log(province, 'province');
-//   // // console.log(district, 'district');
-
-//   // console.log(federalData, 'federalData');
-//   // const labels = federalData.map(data => {
-//   //   const name = data.name.toLowerCase();
-//   //   const nameCapitalized =
-//   //     name.charAt(0).toUpperCase() + name.slice(1);
-//   //   return nameCapitalized;
-//   // });
-//   // const output = Object.keys(byFederal).map((name, second) => {
-//   //   const sum = byFederal[name].reduce(
-//   //     (acc, it) => acc + it.achieved_number,
-//   //     0,
-//   //   );
-//   //   return {
-//   //     code: name,
-//   //     // ZoneCount: Object.keys(byZone).length,
-//   //     count: sum,
-//   //   };
-//   // });
-
-//   // const finalArray = [];
-//   // // eslint-disable-next-line no-restricted-syntax
-//   // for (const [key, value] of Object.entries(byAchievementType)) {
-//   //   const groupByFed = groupBy(value, it => it[federalKey]);
-//   //   // console.log(groupByFed, 'groupbyFed');
-//   //   const final = Object.keys(groupByFed).map((name, second) => {
-//   //     // console.log(byName[name][0], '1stname');
-//   //     // console.log(name, 'name');
-//   //     // console.log(second, 'second');
-//   //     // const byZone = groupBy(byName[name], it => it.Zone);
-//   //     const sum = groupByFed[name].reduce(
-//   //       (acc, it) => acc + it.achieved_number,
-//   //       0,
-//   //     );
-//   //     return {
-//   //       code: name,
-//   //       // ZoneCount: Object.keys(byZone).length,
-//   //       count: sum,
-//   //     };
-//   //   });
-
-//   //   const mappedCount = test.map(data => {
-//   //     return data.count;
-//   //   });
-//   //   finalArray.push({ name: key, data: mappedCount });
-//   //   console.log(finalArray, 'finalArray');
-
-//   //   // id(pin):1
-//   //   // name(pin):"Province 1"
-//   //   // code(pin):1
-//   //   // count(pin):24
-//   //   // pie:{
-//   //   //   investment_primary(pin):"Automation of MFIs"
-//   //   //   partner_count(pin):3
-//   //   //   partner_list:{
-//   //   //   0(pin):"Laxmi Laghubitta Bittiya Sanstha Ltd."
-//   //   //   1(pin):"Nepal Microfinance Bankers' Association"
-//   //   //   2(pin):"Chhimek Laghubitta"
-//   //   //   }
-//   //   //   total_beneficiary(pin):0
-//   //   //   allocated_budget(pin):0
-//   //   // }
-//   // }
-//   return {
-//     ...state,
-//     mfsPieData: FinalOutput,
-//     // mfsMapPieData: finalData,
-//   };
-// };
 const filterMfsMapPieData = (state, action) => {
   const {
     mapViewBy,
@@ -901,21 +773,21 @@ const filterMfsMapPieData = (state, action) => {
   const mfsData = [...state.mfsListAllData];
   const federalKey =
     mapViewBy === 'province' ? 'province_code' : 'district_code';
-  let dataFilter = [];
-  if (selectedAchievement.length > 0) {
-    dataFilter = mfsData.filter(data => {
-      return selectedAchievement.includes(data.achievement_type);
-    });
-  } else if (selectedInnovation.length > 0) {
-    dataFilter = mfsData.filter(data => {
-      return selectedInnovation.includes(data.key_innovation);
-    });
-  } else if (selectedPartner.length > 0) {
-    dataFilter = mfsData.filter(data => {
+  let dataFilter = mfsData;
+  if (selectedPartner.length > 0) {
+    dataFilter = dataFilter.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
-  } else {
-    dataFilter = mfsData;
+  }
+  if (selectedInnovation.length > 0) {
+    dataFilter = dataFilter.filter(data => {
+      return selectedInnovation.includes(data.key_innovation);
+    });
+  }
+  if (selectedAchievement.length > 0) {
+    dataFilter = dataFilter.filter(data => {
+      return selectedAchievement.includes(data.achievement_type);
+    });
   }
   let filteredFederal = dataFilter;
 
@@ -1095,6 +967,8 @@ export default function(state = initialState, action) {
       return filterMfsChartDataByAchievement(state, action);
     case FILTER_MFS_CHART_DATA_BY_PARTNER:
       return filterMfsChartDataByPartner(state, action);
+    case FILTER_MFS_CHART_DATA_BY_PARTNER_WITH_INNOVATION:
+      return filterMfsChartDataByPartnerWithInnovation(state, action);
     case FILTER_MFS_CHART_DATA_BY_DISTRICT_ID:
       return filterMfsChartDataByDistrict(state, action);
     case FILTER_MFS_MAP_PIE_DATA:

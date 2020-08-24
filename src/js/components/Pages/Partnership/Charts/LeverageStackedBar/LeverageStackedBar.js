@@ -15,10 +15,15 @@ class StackedBar extends Component {
     this.state = {
       series: [],
       options: {},
+      isBarClicked: false,
     };
   }
 
   plotChart = () => {
+    const {
+      isLeverageBarClicked,
+      handleLeverageBarClicked,
+    } = this.props;
     // console.log(this.props.partnershipReducer, 'partnershipReducer');
     const that = this;
     const series = [
@@ -38,7 +43,7 @@ class StackedBar extends Component {
       //   data: [20, 29, 37, 36, 44, 45, 50, 58],
       // },
     ];
-
+    console.log(this.state.isBarClicked, 'isBarClicked');
     const options = {
       chart: {
         height: 350,
@@ -49,8 +54,10 @@ class StackedBar extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            if (dataPointIndex >= 0)
+            if (dataPointIndex >= 0 && !isLeverageBarClicked) {
+              handleLeverageBarClicked(true);
               this.generateBarChartData(dataPointIndex);
+            }
           }.bind(this),
         },
         // events: {
@@ -243,7 +250,7 @@ class StackedBar extends Component {
     this.props.getLeverageData();
     const { activeModal } = this.props;
     if (activeModal) {
-      this.updateBarChart();
+      // this.updateBarChart();
     }
     // this.updateBarChart();
   }
@@ -252,6 +259,8 @@ class StackedBar extends Component {
     const that = this;
     const {
       partnershipReducer: { barDataByLeverage },
+      isLeverageBarClicked,
+      handleLeverageBarClicked,
     } = this.props;
     const series = [
       barDataByLeverage.scf.series[0],
@@ -283,8 +292,11 @@ class StackedBar extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            if (dataPointIndex >= 0)
+            console.log(dataPointIndex, 'dataPoint');
+            if (dataPointIndex >= 0 && !isLeverageBarClicked) {
+              this.props.handleLeverageBarClicked(true);
               this.generateBarChartData(dataPointIndex);
+            }
           }.bind(this),
         },
         // events: {

@@ -15,15 +15,20 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
       ? `.info-content-wrap`
       : `#${chartid}`,
   );
-  document.querySelector('.info-header-bottom').style.display =
-    'none';
+  const infoHeader = document.querySelector('.info-header-bottom');
+  if (infoHeader) {
+    infoHeader.style.display = 'none';
+  }
   document.querySelectorAll('.download-icon-image').forEach(el => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'none';
   });
-  document
-    .querySelector('.download-dropdown')
-    .classList.remove('active');
+  const downloadDropdown = document.querySelector(
+    '.download-dropdown',
+  );
+  if (downloadDropdown) {
+    downloadDropdown.classList.remove('active');
+  }
   // const titleEl = document.createElement('h6');
   // popupEl.appendChild(titleEl).textContent = 'spaghetti';
   // titleEl.setAttribute('class', 'popup_title');
@@ -48,8 +53,9 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
       });
-      document.querySelector('.info-header-bottom').style.display =
-        'block';
+      if (infoHeader) {
+        infoHeader.style.display = 'block';
+      }
       document
         .querySelectorAll('.download-icon-image')
         .forEach(el => {
@@ -73,6 +79,7 @@ const Modal = props => {
     resetFilters,
     headerTitle,
     groupedStackData,
+    handleShowBarOfInvestmentBudgetBenefBar,
   } = props;
   const selectedChartId =
     selectedModal === 'groupedChart'
@@ -189,7 +196,7 @@ const Modal = props => {
                 type="button"
                 onClick={() => {
                   resetFilters();
-                  // handleShowBarOf('Provinces');
+                  handleShowBarOf('Provinces');
                   // resetFunction();
                 }}
                 className="is-border common-button chart-reset"
@@ -224,7 +231,10 @@ const Modal = props => {
                 type="button"
                 onClick={() => {
                   resetFilters();
-                  handleShowBarOf('Provinces');
+                  // handleShowBarOf('Provinces');
+                  handleShowBarOfInvestmentBudgetBenefBar(
+                    'investmentFocus',
+                  );
                   // resetFunction();
                 }}
                 className="is-border common-button chart-reset"

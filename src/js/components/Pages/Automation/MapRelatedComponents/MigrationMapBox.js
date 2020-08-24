@@ -28,27 +28,19 @@ class MigrationLines extends Component {
   }
 
   plotMigration = (map, migrationData) => {
-    // console.log(migrationData, 'migdata');
-    // A simple line from origin to destination.
     const route = {
       type: 'FeatureCollection',
       features: [],
     };
 
-    // A single point that animates along the route.
-    // Coordinates are initially set to origin.
     const point = {
       type: 'FeatureCollection',
       features: [],
     };
 
-    // Number of steps to use in the arc and animation, more steps means
-    // a smoother arc and animation, but too many steps will result in a
-    // low frame rate
     const step = 500;
 
     migrationData.map((data, index) => {
-      // console.log(data, 'migrationdata');
       const originpoint = data.origin;
       const destinationpoint = data.destination;
 
@@ -73,15 +65,6 @@ class MigrationLines extends Component {
       route.features.push(singleLine);
 
       const arc = [];
-
-      // console.log(route.features[0])
-      // var line = turf.lineString([originpoint,destinationpoint]);
-      // var lineDistance = turf.length(line, {units: 'kilometers'});
-      // console.log(lineDistance)
-      // Calculate the distance in kilometers between route start/end point.
-      // var lineDistance = turf.length(route.features[0], {units: 'kilometers'});
-
-      // const lineD = lineDistance(route, {units: 'kilometers'});
       const mp = midpoint(originpoint, destinationpoint);
       const center = destination(
         mp,
@@ -94,15 +77,6 @@ class MigrationLines extends Component {
         bearing(center, destinationpoint),
         bearing(center, originpoint),
       );
-
-      // console.log(lA, "lalalala");
-
-      // var start = turf.point(originpoint);
-      // var end = turf.point(destinationpoint);
-
-      // var greatCircle = turf.greatCircle(start, end, {'name': 'Seattle to DC'});
-
-      // console.log(greatCircle, "greatcircle")
       const lineDistance = turf.length(lA, { units: 'kilometers' });
 
       // // Draw an arc between the `origin` & `destination` of the two points
@@ -117,18 +91,12 @@ class MigrationLines extends Component {
       return true;
     });
 
-    // console.log(route, 'route');
-    // console.log(point, "point")
-    // Used to increment the value of the point measurement against the route.
-
     this.setState({ counter: 0 });
     this.setState({ points: point });
     this.setState({ routes: route });
     this.setState({ steps: step });
     const that = this;
-    // map.on('load', function() {
-    // console.log(map, 'Migration Map Ref');
-    // Add a source and layer displaying a point which will be animated in a circle.
+
     map.addSource('route', {
       type: 'geojson',
       data: route,
@@ -173,18 +141,9 @@ class MigrationLines extends Component {
     const route = this.state.routes;
     const { map } = this.props;
     const step = this.state.steps;
-
-    // Update point geometry to a new position based on counter denoting
-    // the index to access the arc.
-    // console.log(map, "map again")
-    // console.log(points, 'points');
     point.features.map((data, index) => {
       data.geometry.coordinates =
         route.features[index].geometry.coordinates[count];
-      // console.log(count, "coordinates is required")
-      // Calculate the bearing to ensure the icon is rotated to match the route arc
-      // The bearing is calculate between the current point and the next point, except
-      // at the end of the arc use the previous point and the current point
       data.properties.bearing = turf.bearing(
         turf.point(
           route.features[index].geometry.coordinates[
@@ -198,16 +157,11 @@ class MigrationLines extends Component {
         ),
       );
 
-      // console.log(count, "count")
-      // Update the source with this new data.
       map.getSource('point').setData(point);
 
-      // Request the next frame of animation so long the end has not been reached.
       if (count <= step) {
-        // console.log("entered again")
         requestAnimationFrame(this.animate);
       }
-      // console.log(point, "point below")
 
       this.setState({ counter: count + 1 });
       this.setState({ points: point });
@@ -216,28 +170,6 @@ class MigrationLines extends Component {
     });
     // count = count - 1;
   };
-
-  //   animateMarker = () => {
-  //     // document.getElementById('replay').addEventListener('click', function() {
-  //     // Set the coordinates of the original point back to origin
-  //     const { counter } = this.state;
-  //     // point.features.map((data, index) =>{
-  //     data.geometry.coordinates =
-  //       route.features[index].geometry.coordinates[
-  //         route.features[index].geometry.coordinates.length - 1
-  //       ];
-
-  //     // Update the source layer
-  //     map.getSource('point').setData(point);
-
-  //     // Reset the counter
-  //     // counter = route.features[index].geometry.coordinates.length-1;
-
-  //     // Restart the animation.
-  //     animate(counter);
-  //     // })
-  //     // });
-  //   };
 
   componentDidMount() {
     // this.setState({ map });

@@ -265,8 +265,10 @@
     max-width: 322px;
     width: 188px;
     // display: flex;
-    height: 228px;
-    max-height: 262px;
+    // height: 228px;
+    // max-height: 262px;
+    height: 275px;
+    max-height: 275px;
     // width:100%;
     // height: initial;
     display: flex;
@@ -331,4 +333,12 @@
       }
     }
   }
+}
+.mapbox-popup-content{
+  position:absolute;
+  top:40px;
+  right: 2px;
+  z-index: 1011;
+  background-color: #fff;
+  padding:5px;
 }

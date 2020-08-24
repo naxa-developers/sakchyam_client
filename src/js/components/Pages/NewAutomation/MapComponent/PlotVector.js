@@ -1,3 +1,6 @@
+/* eslint-disable vars-on-top */
+/* eslint-disable no-var */
+/* eslint-disable prefer-const */
 /* eslint-disable no-else-return */
 /* eslint-disable react/no-did-update-set-state */
 /* eslint-disable no-unused-expressions */
@@ -8,6 +11,11 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl';
+import * as turf from '@turf/turf';
+import midpoint from '@turf/midpoint';
+import bearing from '@turf/bearing';
+import destination from '@turf/destination';
+import distance from '@turf/distance';
 import { connect } from 'react-redux';
 import {
   calculateRange,
@@ -15,7 +23,6 @@ import {
 } from '../../../common/Functions';
 import { removeDuplicates } from '../../../common/utilFunctions';
 import TimelineChart from '../Chart/TimelineChart';
-import { getCenterBboxProvince } from '../../../common/BBoxFunctionsMapBox/ProvinceFunction';
 
 const defaultData = [
   { id: '1', count: 0 },
@@ -42,6 +49,7 @@ class PlotVector extends Component {
       count: 0,
       minValue: '1/1/2015',
       maxValue: '1/1/2020',
+      timeline: false,
     };
   }
 
@@ -57,63 +65,64 @@ class PlotVector extends Component {
       choroplethData,
       activeClickPartners,
       allPartners,
-      inactiveMarkers,
-      activeMarkers,
       automationReducer,
       activeOutreachButton,
+      migrationArray,
+      showBranches,
     } = this.props;
     const that = this;
-    const { stateMarker, vectorTileInitialized } = this.state;
+    const { vectorTileInitialized, stateMarker } = this.state;
 
-    if (allPartners !== prevProps.allPartners) {
-      let { count } = this.state;
-      if (count === 0) {
-        count += 1;
-        this.setState({
-          activeMarkers: allPartners,
-          inactiveMarkers: '',
-          count,
-        });
+    if (activeOutreachButton !== prevProps.activeOutreachButton) {
+      if (activeOutreachButton) {
+        if (map.getLayer('route')) map.removeLayer('route');
+        if (map.getLayer('point')) map.removeLayer('point');
+
+        if (stateMarker.length > 0) {
+          stateMarker.map(marker => {
+            marker.remove();
+          });
+        }
+      } else {
         setTimeout(() => {
-          this.setMarkers(that);
-        }, 100);
+          this.setActiveInactiveMarkers();
+        }, 500);
       }
     }
 
     if (activeClickPartners !== prevProps.activeClickPartners) {
-      if (activeClickPartners.length > 0) {
-        const actives = [];
-        allPartners.map(partner => {
-          activeClickPartners.map(id => {
-            if (partner.partner_id === id) {
-              actives.push(partner);
-            }
-          });
-        });
-        let inactives = [];
-        let tempArray = allPartners;
-        activeClickPartners.map(id => {
-          inactives = tempArray.filter(
-            partner => partner.partner_id !== id,
-          );
-          tempArray = inactives;
-        });
-        const uniqueActives = removeDuplicates(actives, 'partner_id');
-        const uniqueInactives = removeDuplicates(
-          inactives,
-          'partner_id',
-        );
-        this.setState({
-          activeMarkers: uniqueActives,
-          inactiveMarkers: uniqueInactives,
-        });
-        setTimeout(() => {
-          this.setMarkers(that);
-        }, 100);
+      if (!activeOutreachButton) {
+        this.setActiveInactiveMarkers();
+      }
+    }
+
+    if (showBranches !== prevProps.showBranches) {
+      if (showBranches) {
+        this.plotMigration(map, migrationArray);
       } else {
+        if (map.getLayer('route')) map.removeLayer('route');
+        if (map.getLayer('point')) map.removeLayer('point');
+      }
+    }
+
+    if (migrationArray !== prevProps.migrationArray) {
+      if (showBranches) {
+        this.plotMigration(map, migrationArray);
+      } else {
+        if (map.getLayer('route')) map.removeLayer('route');
+        if (map.getLayer('point')) map.removeLayer('point');
+      }
+    }
+
+    if (
+      prevProps.automationReducer.automationLeftSidePartnerData !==
+      automationReducer.automationLeftSidePartnerData
+    ) {
+      if (!activeOutreachButton) {
         this.setState({
-          activeMarkers: allPartners,
-          inactiveMarkers: '',
+          timeline: true,
+          activeMarkers:
+            automationReducer.automationLeftSidePartnerData,
         });
         setTimeout(() => {
           this.setMarkers(that);
@@ -142,22 +151,53 @@ class PlotVector extends Component {
       map.setStyle(newStyle);
       this.plotVectorTile();
     }
-
-    if (!activeOutreachButton) {
-      if (
-        prevProps.automationReducer.automationLeftSidePartnerData !==
-        automationReducer.automationLeftSidePartnerData
-      ) {
-        this.setState({
-          activeMarkers:
-            automationReducer.automationLeftSidePartnerData,
-        });
-        setTimeout(() => {
-          this.setMarkers(that);
-        }, 100);
-      }
-    }
   }
+
+  setActiveInactiveMarkers = () => {
+    const { activeClickPartners, allPartners } = this.props;
+    const that = this;
+
+    if (activeClickPartners.length > 0) {
+      const actives = [];
+      allPartners.map(partner => {
+        activeClickPartners.map(id => {
+          if (partner.partner_id === id) {
+            actives.push(partner);
+          }
+        });
+      });
+      let inactives = [];
+      let tempArray = allPartners;
+      activeClickPartners.map(id => {
+        inactives = tempArray.filter(
+          partner => partner.partner_id !== id,
+        );
+        tempArray = inactives;
+      });
+      const uniqueActives = removeDuplicates(actives, 'partner_id');
+      const uniqueInactives = removeDuplicates(
+        inactives,
+        'partner_id',
+      );
+      this.setState({
+        activeMarkers: uniqueActives,
+        inactiveMarkers: uniqueInactives,
+        timeline: false,
+      });
+      setTimeout(() => {
+        this.setMarkers(that);
+      }, 100);
+    } else {
+      this.setState({
+        activeMarkers: allPartners,
+        inactiveMarkers: '',
+        timeline: false,
+      });
+      setTimeout(() => {
+        this.setMarkers(that);
+      }, 100);
+    }
+  };
 
   setMarkers = that => {
     const {
@@ -224,7 +264,7 @@ class PlotVector extends Component {
       el.addEventListener('mouseenter', () => Marker1.togglePopup());
       el.addEventListener('mouseleave', () => Marker1.togglePopup());
 
-      if (!that.props.activeOutreachButton) {
+      if (that.state.timeline) {
         Marker1.togglePopup();
         setTimeout(() => {
           Marker1.togglePopup();
@@ -337,6 +377,110 @@ class PlotVector extends Component {
     expression.push('rgba(0,0,0,0)');
     this.setState({ finalStyle: expression });
   }
+
+  plotMigration = (map, migrationData) => {
+    const route = {
+      type: 'FeatureCollection',
+      features: [],
+    };
+
+    const point = {
+      type: 'FeatureCollection',
+      features: [],
+    };
+
+    const step = 500;
+
+    migrationData.map((data, index) => {
+      const originpoint = data.origin;
+      const destinationpoint = data.destination;
+
+      const singleLine = {
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: [originpoint, destinationpoint],
+        },
+      };
+
+      const singlePoint = {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'Point',
+          coordinates: originpoint,
+        },
+      };
+
+      point.features.push(singlePoint);
+      route.features.push(singleLine);
+
+      const arc = [];
+      const mp = midpoint(originpoint, destinationpoint);
+      const center = destination(
+        mp,
+        400,
+        bearing(originpoint, destinationpoint) - 90,
+      );
+      const lA = turf.lineArc(
+        center,
+        distance(center, originpoint),
+        bearing(center, destinationpoint),
+        bearing(center, originpoint),
+      );
+      const lineDistance = turf.length(lA, { units: 'kilometers' });
+
+      for (let i1 = 0; i1 < lineDistance; i1 += lineDistance / step) {
+        const segment = turf.along(lA, i1, { units: 'kilometers' });
+        arc.unshift(segment.geometry.coordinates);
+      }
+      route.features[index].geometry.coordinates = arc;
+      return true;
+    });
+
+    this.setState({ counter: 0 });
+    this.setState({ points: point });
+    this.setState({ routes: route });
+    this.setState({ steps: step });
+    const that = this;
+
+    if (map.getLayer('route')) map.removeLayer('route');
+    if (map.getLayer('point')) map.removeLayer('point');
+    if (map.getSource('route')) map.removeSource('route');
+    if (map.getSource('point')) map.removeSource('point');
+
+    map.addSource('route', {
+      type: 'geojson',
+      data: route,
+    });
+
+    map.addSource('point', {
+      type: 'geojson',
+      data: point,
+    });
+
+    map.addLayer({
+      id: 'route',
+      source: 'route',
+      type: 'line',
+      paint: {
+        'line-width': 2,
+        'line-color': '#007cbf',
+      },
+    });
+
+    map.addLayer({
+      id: 'point',
+      source: 'point',
+      type: 'symbol',
+      layout: {
+        'icon-rotate': ['get', 'bearing'],
+        'icon-rotation-alignment': 'map',
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+      },
+    });
+  };
 
   plotVectorTile = () => {
     const { map } = this.props;

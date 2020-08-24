@@ -1420,9 +1420,9 @@ class MiddleChartSection extends Component {
   document
     .querySelector('.download-dropdown')
     .classList.remove('active');
-    const popupEl=document.querySelector('.info-content-wrap');
-    const useWidth = document.querySelector('.info-content-wrap').style.width;
-    const useHeight = document.querySelector('.info-content-wrap').style.height;
+    const popupEl=document.querySelector(chartid ? chartid :'.info-content-wrap');
+    const useWidth = document.querySelector(chartid ? chartid :'.info-content-wrap').style.width;
+    const useHeight = document.querySelector(chartid ? chartid :'.info-content-wrap').style.height;
     // const titleEl = document.createElement('h6');
     // popupEl.appendChild(titleEl).textContent = 'spaghetti';
     // titleEl.setAttribute('class', 'popup_title');
@@ -1522,124 +1522,60 @@ class MiddleChartSection extends Component {
   //   }, 500);
   
   // }
-  downloadPiePng = () => {
-    // console.log('test');
-    // const {
-    //   props: {
-    //     logFrameReducer: { filteredDynamicData },
-    //   },
-    // } = this;
-    // document.querySelector('.info-header-bottom').style.display =
-    //   'none';
-    //   if(document.querySelector('.multiple-bar')){
-    //     document.querySelector('.multiple-bar').style.display =
-    //     'none';
-    //   }
-    // document.querySelectorAll('.download-icon-image').forEach(el => {
-    //   // eslint-disable-next-line no-param-reassign
-    //   el.style.display = 'none';
-    // });
-    // document
-    //   .querySelector('.download-dropdown')
-    //   .classList.remove('active');
+  downloadPiePng = (imageTitle) => {
+  //   document.querySelector('.info-header-bottom').style.display =
+  //   'none';
+  //   if(document.querySelector('.multiple-bar')){
+  //     document.querySelector('.multiple-bar').style.display =
+  //     'none';
+  //   }
+  // document.querySelectorAll('.download-icon-image').forEach(el => {
+  //   // eslint-disable-next-line no-param-reassign
+  //   el.style.display = 'none';
+  // });
+  // document
+  //   .querySelector('.download-dropdown')
+  //   .classList.remove('active');
+    const popupEl=document.querySelector('.info-content-wrap');
+    console.log(popupEl,'popupel');
+  //   const useWidth = document.querySelector('.info-content-wrap').style.width;
+  //   const useHeight = document.querySelector('.info-content-wrap').style.height;
+    // const titleEl = document.createElement('h6');
+    // popupEl.appendChild(titleEl).textContent = 'spaghetti';
+    // titleEl.setAttribute('class', 'popup_title');
     setTimeout(() => {
-      html2canvas(document.querySelector(query), {
+      // document
+      //   .querySelector(`.${chartid}`)
+      //   .append(<label>Varun</label>);
+      html2canvas(popupEl, {
         // logging: true,
         // letterRendering: 1,
-        // allowTaint: true,
+        allowTaint: true,
         // scale: window.devicePixelRatio,
-        // windowWidth: window.innerWidth,
+        // windowWidth: window.innerWidth+120,
         // windowHeight: window.innerHeight + 120,
-        // x: 270,
+        // x: 20,
         // y: 70,
+        // width: useWidth,
+        // height: useHeight,
         // width: window.innerWidth + 40,
         // height: window.innerHeight + 40,
         // foreignObjectRendering: true,
         // useCORS: true,
-      }).then(function(canvas) {
-        // console.log(canvas, 'canvas');
-        // theCanvas = canvas;
-        // document.body.appendChild(canvas);
-
-        // Convert and download as image
-        Canvas2Image.saveAsPNG(canvas);
+      }).then(canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, `${imageTitle}.png`);
+        });
+        // document.querySelector('.info-header-bottom').style.display =
+        //   'block';
+        // document
+        //   .querySelectorAll('.download-icon-image')
+        //   .forEach(el => {
+        //     // eslint-disable-next-line no-param-reassign
+        //     el.style.display = 'block';
+        //   });
       });
-
-      // Clean up
-      // document.body.removeChild(canvas);
-    }, 500);
-
-    // function downloadURI(uri, name) {
-    //   const link = document.createElement('a');
-
-    //   link.download = name;
-    //   link.href = uri;
-    //   document.body.appendChild(link);
-    //   link.click();
-    //   // after creating link you should delete dynamic link
-    //   // clearDynamicLink(link);
-    // }
-    // function PrintDiv(div) {
-    //   html2canvas(div, {
-    //     onrendered(canvas) {
-    //       const theCanvas = canvas;
-    //       document.body.appendChild(canvas);
-
-    //       // Convert and download as image
-    //       console.log('print');
-    //       Canvas2Image.saveAsPNG(canvas);
-    //       div.append(canvas);
-    //       // Clean up
-    //       // document.body.removeChild(canvas);
-    //     },
-    //   });
-    //   // html2canvas(div, {
-    //   //   onrendered(canvas) {
-    //   //     const myImage = canvas.toDataURL();
-    //   //     downloadURI(myImage, 'MaSimulation.png');
-    //   //     document.querySelector(
-    //   //       '.info-header-bottom',
-    //   //     ).style.display = 'block';
-    //   //     document
-    //   //       .querySelectorAll('.download-icon-image')
-    //   //       .forEach(el => {
-    //   //         // eslint-disable-next-line no-param-reassign
-    //   //         el.style.display = 'block';
-    //   //       });
-    //   //   },
-    //   // });
-    // }
-    // PrintDiv(document.querySelector('.info-content-wrap'));
-
-    // setTimeout(() => {
-    //   html2canvas(document.querySelector('.info-content-wrap'), {
-    //     // logging: true,
-    //     // letterRendering: 1,
-    //     // allowTaint: true,
-    //     // scale: window.devicePixelRatio,
-    //     // windowWidth: window.innerWidth,
-    //     // windowHeight: window.innerHeight + 120,
-    //     // x: 270,
-    //     // y: 70,
-    //     // width: window.innerWidth + 40,
-    //     // height: window.innerHeight + 40,
-    //     // foreignObjectRendering: true,
-    //     // useCORS: true,
-    //   }).then(canvas => {
-    //     canvas.toBlob(function(blob) {
-    //       saveAs(blob, filteredDynamicData[0].category.title);
-    //     });
-    //     document.querySelector('.info-header-bottom').style.display =
-    //       'block';
-    //     document
-    //       .querySelectorAll('.download-icon-image')
-    //       .forEach(el => {
-    //         // eslint-disable-next-line no-param-reassign
-    //         el.style.display = 'block';
-    //       });
-    //   });
-    // }, 500);
-
+    }, 1000);
   };
 
   handle2ndPieFilter = e => {
@@ -2248,7 +2184,7 @@ class MiddleChartSection extends Component {
                   </div>
                   </div>
                   <div className="card mt-5">
-                  <div className="card-header">
+                  <div className="card-header" style={{display:'flex'}}>
                   <select
                   
                       style={{
@@ -2262,11 +2198,25 @@ class MiddleChartSection extends Component {
                         return <option value={data}>{data}</option>;
                       })}
                     </select>
+                    <h5 style={{marginLeft:"20px"}}>Ratio of men and women getting new access to financial Services</h5>
+                    <a
+                      role="tab"
+                      tabIndex="0"
+                      id="downloadDropdown"
+                      className="download-icon-image"
+                      // onClick={this.downloadPng}
+                      onClick={()=>{this.downloadPng('.secondpie','Ratio of men and women getting new access to financial Services')}}
+                      onKeyPress={()=>{this.downloadPng('.secondpie','Ratio of men and women getting new access to financial Services')}}
+                      style={{ right: '37px' }}
+                    >
+                      {/* <label>Download</label> */}
+                      <img src={saveAlt} alt="" />
+                      {/* <i className="fa fa-download" aria-hidden="true" /> */}
+                    </a>
                   </div>
                   <div className="card-body">
-                  
-                  <div className="row">
-                    
+                      
+                  <div className="row secondpie">
                     <div className="col-lg-6">
                       <DonutChart reducerDataProps="planned2ndPieData" />
                     </div>
