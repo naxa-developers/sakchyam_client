@@ -243,7 +243,7 @@ const DiagramSection = () => {
       getLeftToRightLinesAll(allConnections);
       getLeftLines(allConnections);
       getRightLinesAll(allConnections);
-    }, 400);
+    }, 500);
   }, []);
 
   useLayoutEffect(() => {
