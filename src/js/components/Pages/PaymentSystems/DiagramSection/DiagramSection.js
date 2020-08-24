@@ -1,4 +1,9 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, {
+  useState,
+  useRef,
+  useLayoutEffect,
+  useEffect,
+} from 'react';
 import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
 import PlotLines from './CreateLines/PlotLines';
@@ -51,7 +56,7 @@ const DiagramSection = () => {
   const [isLeftCardSelected, setIsLeftCardSelected] = useState(true);
   const [selectedCardRef, setSelectedCardRef] = useState(null);
   const [lineColor, setLineColor] = useState(defaultColor);
-  const [showAllLines, setShowAllLines] = useState(true);
+  const [showAllLines, setShowAllLines] = useState(false);
 
   const getMiddleLines = ({
     leftRefLinks,
@@ -234,9 +239,19 @@ const DiagramSection = () => {
   };
 
   useLayoutEffect(() => {
-    getLeftToRightLinesAll(allConnections);
-    getLeftLines(allConnections);
-    getRightLinesAll(allConnections);
+    setTimeout(() => {
+      getLeftToRightLinesAll(allConnections);
+      getLeftLines(allConnections);
+      getRightLinesAll(allConnections);
+    }, 400);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (showAllLines) {
+      getLeftToRightLinesAll(allConnections);
+      getLeftLines(allConnections);
+      getRightLinesAll(allConnections);
+    }
   }, [showAllLines]);
 
   useLayoutEffect(() => {
@@ -258,13 +273,15 @@ const DiagramSection = () => {
 
     if (isLeftCardSelected && ref === selectedCardRef) {
       setLineColor(defaultColor);
-      setShowAllLines(prev => !prev);
+      // setShowAllLines(prev => !prev);
+      setShowAllLines(true);
       setSelectedCardRef(null);
     } else {
       const newColor = color.leftRefs
         .filter(item => item.ref === ref)
         .map(item => item.color)[0];
 
+      setShowAllLines(false);
       setLineColor(newColor);
       setIsLeftCardSelected(true);
       setSelectedCardRef(ref);
@@ -276,13 +293,15 @@ const DiagramSection = () => {
 
     if (!isLeftCardSelected && ref === selectedCardRef) {
       setLineColor(defaultColor);
-      setShowAllLines(prev => !prev);
+      // setShowAllLines(prev => !prev);
+      setShowAllLines(true);
       setSelectedCardRef(null);
     } else {
       const newColor = color.rightRefs
         .filter(item => item.ref === ref)
         .map(item => item.color)[0];
 
+      setShowAllLines(false);
       setLineColor(newColor);
       setIsLeftCardSelected(false);
       setSelectedCardRef(ref);
