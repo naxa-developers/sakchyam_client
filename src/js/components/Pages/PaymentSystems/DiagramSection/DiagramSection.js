@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useLayoutEffect,
-  useEffect,
-} from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import LeftPortion from './LeftPortion';
 import RightPortion from './RightPortion';
 import PlotLines from './CreateLines/PlotLines';
@@ -18,7 +13,7 @@ import generateLeftToRightLinesAll from './CreateLines/generateLeftToRightLinesA
 import generateRightLinesAll from './CreateLines/generateRightLinesAll';
 
 const width = 235;
-const defaultColor = '#FF6D00';
+const defaultColor = '#C2002F';
 const color = {
   leftRefs: [
     { ref: 0, color: '#FF6D00' },
