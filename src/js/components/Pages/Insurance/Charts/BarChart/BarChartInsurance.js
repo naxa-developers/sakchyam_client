@@ -545,8 +545,8 @@ class BarChartInsurance extends Component {
                   options={chartData2.options}
                   series={
                     selectedTabBar === 'insurance-premium'
-                      ? chartData2.series1
-                      : chartData2.series2
+                      ? chartData2.series1 || []
+                      : chartData2.series2 || []
                   }
                   type="bar"
                   height={
