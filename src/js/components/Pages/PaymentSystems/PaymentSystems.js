@@ -8,8 +8,13 @@ import ContentSection from './ContentSection/ContentSection';
 import './custom-payment.scss';
 
 const downloadPng = chartid => {
+  const downloadIcon = document.querySelector(
+    '#payment-download-btn',
+  );
+  downloadIcon.style.display = 'none';
+
   setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {
+    html2canvas(document.querySelector(`.${chartid}`), {
       allowTaint: true,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
@@ -17,6 +22,10 @@ const downloadPng = chartid => {
       });
     });
   }, 500);
+
+  setTimeout(() => {
+    downloadIcon.style.display = 'block';
+  }, 600);
 };
 
 const PaymentSystems = () => {
@@ -30,8 +39,9 @@ const PaymentSystems = () => {
         <button
           type="button"
           className="common-button is-bg"
-          style={{ position: 'absolute', right: '30px' }}
-          onClick={() => downloadPng('payment-diagram')}
+          id="payment-download-btn"
+          style={{ position: 'absolute', right: '30px', top: '0px' }}
+          onClick={() => downloadPng('payment-body')}
         >
           Download
         </button>
