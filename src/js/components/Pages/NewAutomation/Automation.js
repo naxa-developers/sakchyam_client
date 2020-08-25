@@ -1297,9 +1297,7 @@ class MainAutomation extends Component {
               toggleTableViewButton={this.toggleTableViewButton}
               handleAdminSelects={this.handleAdminSelects}
               handleStateLevel={this.handleStateLevel}
-              refreshSelectedPartnerBtn={
-                this.refreshSelectedPartnerBtn
-              }
+              refreshSelectedPartnerBtn={this.resetAdminFiltersOnly}
             />
           </main>
           <RightSideBar
