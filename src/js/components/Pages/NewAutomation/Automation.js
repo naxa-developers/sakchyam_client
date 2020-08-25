@@ -378,8 +378,8 @@ class MainAutomation extends Component {
         );
       }
       this.setState({
-        selectedDistrict: '',
-        selectedMunicipality: '',
+        selectedDistrict: [],
+        selectedMunicipality: [],
         districtList: districts,
       });
     }
@@ -399,7 +399,7 @@ class MainAutomation extends Component {
         );
       }
       this.setState({
-        selectedMunicipality: '',
+        selectedMunicipality: [],
         municipalityList: municipality,
       });
     }
@@ -874,6 +874,9 @@ class MainAutomation extends Component {
       showBeneficiary,
       branchesCooperative,
       loading,
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
     } = this.state;
     const { tableDataLoading } = this.props.automationReducer;
 
@@ -944,6 +947,7 @@ class MainAutomation extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
+                            selectedItem={selectedProvince}
                             options={provinceList && provinceList}
                             onChange={selectedOptions => {
                               console.log(
@@ -963,6 +967,7 @@ class MainAutomation extends Component {
                             <Select
                               withCheckbox
                               name="Select District"
+                              selectedItem={selectedDistrict}
                               options={districtList && districtList}
                               onChange={selectedOptions => {
                                 this.setState({
@@ -978,6 +983,7 @@ class MainAutomation extends Component {
                             <Select
                               withCheckbox
                               name="Select Municipality"
+                              selectedItem={selectedMunicipality}
                               options={
                                 municipalityList && municipalityList
                               }

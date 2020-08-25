@@ -1000,46 +1000,46 @@ class MainMFS extends Component {
       selectedProvince,
     } = this.state;
 
-    if (selectedPartner === '') {
-      toast.warning('⚠ Please Select Partner!');
-    } else if (selectedInnovation === '') {
-      toast.warning('⚠ Please Select Innovation Type!');
-    } else if (selectedAchievement === '') {
-      toast.warning('⚠ Please Select Achievement!');
-    } else {
-      this.props.filterMfsChoroplethData(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-      );
-      this.props.filterMfsChartData(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-      );
-      this.props.filterMfsMapChartDataByPartner(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-      );
-      this.props.filterOverViewData(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-      );
-      this.props.filterMfsMapPieData(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-        // selectedDistrict,
-        // selectedProvince,
-      );
-    }
+    // if (selectedPartner === '') {
+    //   toast.warning('⚠ Please Select Partner!');
+    // } else if (selectedInnovation === '') {
+    //   toast.warning('⚠ Please Select Innovation Type!');
+    // } else if (selectedAchievement === '') {
+    //   toast.warning('⚠ Please Select Achievement!');
+    // } else {
+    this.props.filterMfsChoroplethData(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterMfsChartData(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterMfsMapChartDataByPartner(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterOverViewData(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterMfsMapPieData(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+      // selectedDistrict,
+      // selectedProvince,
+    );
+    // }
     // this.props.filterMapChoropleth(
     //   investmentFocusSelection,
     //   projectSelection,
@@ -1405,6 +1405,7 @@ class MainMFS extends Component {
               <div className="literacy-tab-content">
                 <div className="literacy-tab-item">
                   <div className="graph-view">
+                    {/* <div style={{ height: '800px', width: '500px' }}> */}
                     <CardTab
                       // resetFunction={() => {
                       //   this.props.resetBarDatas();
@@ -1446,6 +1447,7 @@ class MainMFS extends Component {
                         );
                       }}
                     />
+                    {/* </div> */}
                     <CardTab
                       resetFunction={() => {
                         this.resetFilters();

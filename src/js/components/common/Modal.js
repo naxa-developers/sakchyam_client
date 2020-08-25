@@ -136,111 +136,114 @@ const Modal = props => {
           <div className="popup-header no-flex">
             <h3>{modalHeader}</h3>
             {selectedModal === 'sunburst' ? (
-              // <span
-              //   style={{
-              //     position: 'absolute',
-              //     right: '140px',
-              //     top: '30px',
-              //     padding: '5px 6px',
-              //     // border: '1px solid #F0F0F0',
-              //     // borderColor: 'lightgrey',
-              //     cursor: 'pointer',
-              //   }}
-              //   onClick={
-              //     () => downloadPng(selectedChartId, modalHeader)
-              //     // eslint-disable-next-line react/jsx-curly-newline
-              //   }
-              //   onKeyDown={
-              //     () => downloadPng(selectedChartId, modalHeader)
-              //     // eslint-disable-next-line react/jsx-curly-newline
-              //   }
-              //   role="button"
-              //   tabIndex="-1"
-              // >
-              <button
-                // id="chart-reset"
-                type="button"
-                onClick={() => {
-                  props.resetRadialData();
-                  // resetFunction();
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '142px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
                 }}
-                className="is-border common-button chart-reset "
+                // onClick={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                // onKeyDown={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                role="button"
+                tabIndex="-1"
               >
-                Reset
-              </button>
+                <button
+                  // id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    props.resetRadialData();
+                    // resetFunction();
+                  }}
+                  className="is-border common-button chart-reset "
+                >
+                  Reset
+                </button>
+              </span>
             ) : // </span>
             selectedModal === 'groupedChart' ? (
-              // <span
-              //   style={{
-              //     position: 'absolute',
-              //     right: '140px',
-              //     top: '30px',
-              //     padding: '5px 6px',
-              //     // border: '1px solid #F0F0F0',
-              //     // borderColor: 'lightgrey',
-              //     cursor: 'pointer',
-              //   }}
-              //   onClick={
-              //     () => downloadPng(selectedChartId, modalHeader)
-              //     // eslint-disable-next-line react/jsx-curly-newline
-              //   }
-              //   onKeyDown={
-              //     () => downloadPng(selectedChartId, modalHeader)
-              //     // eslint-disable-next-line react/jsx-curly-newline
-              //   }
-              //   role="button"
-              //   tabIndex="-1"
-              // >
-              <button
-                // id="chart-reset"
-                type="button"
-                onClick={() => {
-                  resetFilters();
-                  handleShowBarOf('Provinces');
-                  // resetFunction();
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '142px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
                 }}
-                className="is-border common-button chart-reset"
+                // onClick={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                // onKeyDown={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                role="button"
+                tabIndex="-1"
               >
-                Reset
-              </button>
+                <button
+                  // id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    resetFilters();
+                    handleShowBarOf('Provinces');
+                    // resetFunction();
+                  }}
+                  className="is-border common-button chart-reset"
+                >
+                  Reset
+                </button>
+              </span>
             ) : // </span>
             selectedModal === 'stackedWithInvestment' ? (
-              // <span
-              //   style={{
-              //     position: 'absolute',
-              //     right: '140px',
-              //     top: '30px',
-              //     padding: '5px 6px',
-              //     // border: '1px solid #F0F0F0',
-              //     // borderColor: 'lightgrey',
-              //     cursor: 'pointer',
-              //   }}
-              //   onClick={
-              //     () => downloadPng(selectedChartId, modalHeader)
-              //     // eslint-disable-next-line react/jsx-curly-newline
-              //   }
-              //   onKeyDown={
-              //     () => downloadPng(selectedChartId, modalHeader)
-              //     // eslint-disable-next-line react/jsx-curly-newline
-              //   }
-              //   role="button"
-              //   tabIndex="-1"
-              // >
-              <button
-                // id="chart-reset"
-                type="button"
-                onClick={() => {
-                  resetFilters();
-                  // handleShowBarOf('Provinces');
-                  handleShowBarOfInvestmentBudgetBenefBar(
-                    'investmentFocus',
-                  );
-                  // resetFunction();
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '142px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
                 }}
-                className="is-border common-button chart-reset"
+                // onClick={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                // onKeyDown={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                role="button"
+                tabIndex="-1"
               >
-                Reset
-              </button>
+                <button
+                  // id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    resetFilters();
+                    // handleShowBarOf('Provinces');
+                    handleShowBarOfInvestmentBudgetBenefBar(
+                      'investmentFocus',
+                    );
+                    // resetFunction();
+                  }}
+                  className="is-border common-button chart-reset"
+                >
+                  Reset
+                </button>
+              </span>
             ) : null}
             {/* <span
               style={{
@@ -274,6 +277,7 @@ const Modal = props => {
                 Reset
               </button>
             </span> */}
+
             <span
               style={{
                 position: 'absolute',

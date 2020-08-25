@@ -1239,7 +1239,7 @@ class Choropleth extends Component {
         // }
       }
       map.on('click', function() {
-        alert('clicked Map');
+        // alert('clicked Map');
         document
           .querySelectorAll('.pie-mapbox-popup')
           .forEach(function(el) {

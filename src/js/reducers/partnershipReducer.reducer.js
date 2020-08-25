@@ -1475,6 +1475,11 @@ const filterMapdataChoropleth = (state, action) => {
 };
 const filterTimelineData = (state, action) => {
   const { min, max, fedtype } = action.payload;
+  console.log(min, 'min');
+  console.log(new Date(min), 'minfulldate');
+  console.log(max, 'max');
+  console.log(new Date(max), 'maxfullddate');
+  // console.log(max,'max');
   let timelineData = state.timelineData.provinceTimelineData;
   if (fedtype === 'province') {
     timelineData = state.timelineData.provinceTimelineData;
