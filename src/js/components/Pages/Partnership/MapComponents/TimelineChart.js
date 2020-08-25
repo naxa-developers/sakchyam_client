@@ -64,8 +64,8 @@ class TimelineChart extends Component {
   }
 
   plotChart = (seriesData, minVal, maxVal) => {
-    // console.log(minVal, 'minVal');
-    // console.log(maxVal, 'maxVal');
+    //
+    //
     const that = this;
     const optionsLine = {
       series: [
@@ -80,10 +80,10 @@ class TimelineChart extends Component {
         height: 100,
         events: {
           //   dataPointSelection(e, chart, opts) {
-          //     console.log(e, opts);
+          //
           //   },
           selection(chartContext, { xaxis, yaxis }) {
-            // // console.log(new Date(+selectedMin), 'selectedMin');
+            // //
             const minaxis = xaxis.min;
             const maxaxis = xaxis.max;
             const selectedMin = that.compareMinMax(minaxis);
@@ -96,12 +96,12 @@ class TimelineChart extends Component {
             }, 1000);
             // that.props.filterTimeline(xaxis.min, xaxis.max);
             that.setState({
-              minCurrent: xaxis.min,
-              maxCurrent: xaxis.max,
+              minCurrent: new Date(+selectedMin),
+              maxCurrent: new Date(+selectedMax),
             });
             that.props.filterTimelineData(
-              xaxis.min,
-              xaxis.max,
+              new Date(+selectedMin),
+              new Date(+selectedMax),
               that.props.mapViewBy,
             );
             // that.props.playBtn(xaxis.min, xaxis.max);
@@ -178,16 +178,16 @@ class TimelineChart extends Component {
     array.push(minValue);
     // const convertedMaxValue = new Date(maxValue);
     let temp = minValue;
-    // console.log(minValue);
-    // console.log(maxValue);
-    // console.log(new Date(temp).getTime(), 'tempGetTime');
-    // console.log(new Date(maxValue).getTime(), 'maxValueGetTime');
+    //
+    //
+    //
+    //
     while (new Date(temp).getTime() < new Date(maxValue).getTime()) {
       temp = this.getAddedMonth(temp);
-      // console.log(temp, 'temp');
+      //
       array.push(temp);
     }
-    // console.log(array, 'array');
+    //
     this.setState({ fourMonthArray: array });
   };
 
@@ -206,7 +206,7 @@ class TimelineChart extends Component {
 
     const dateStr = `${year}-${month}-${day}`;
     time = dateStr;
-    // console.log(time, 'time returns');
+    //
     // this.setState({ time: dateStr });
     return dateStr;
   };
@@ -215,39 +215,32 @@ class TimelineChart extends Component {
     const { fourMonthArray } = this.state;
     let returnedTime = '';
 
-    // console.log(fourMonthArray, 'fourMonthArray');
+    //
     fourMonthArray.forEach((data, i) => {
-      console.log(new Date(data).setHours(0, 0, 0), 'data 1ST');
-      console.log(new Date(value).setHours(0, 0, 0), 'value 1ST');
-      console.log(new Date(data).getTime(), 'data');
-      console.log(new Date(value).getTime(), 'value');
-      // console.log(new Date(data).getTime(), '1st');
-      // console.log(new Date(fourMonthArray[i + 1]).getTime(), '2nd');
+      //
+      //
       const firstIndexData = new Date(data).setHours(0, 0, 0);
       const secondIndexData = new Date(
         fourMonthArray[i + 1],
       ).setHours(0, 0, 0);
       const getTimeValue = new Date(value).setHours(0, 0, 0);
-      // console.log(firstIndexData, 'first');
-      // console.log(secondIndexData, 'second');
-      // console.log(getTimeValue, 'value');
-      // console.log(firstIndexData, '1stIndexData');
-      // console.log(secondIndexData, 'secondIndexData');
-      // console.log(getTimeValue, 'value');
+      //
+      //
+      //
+      //
+      //
+      //
       if (firstIndexData === getTimeValue) {
-        // console.log(firstIndexData.toString(), 'true1st');
+        //
         returnedTime = firstIndexData.toString();
-        console.log('if');
       } else if (
         firstIndexData < getTimeValue &&
         secondIndexData >= getTimeValue
       ) {
-        console.log('else');
         returnedTime = secondIndexData.toString();
       }
     });
-    console.log(returnedTime, 'returned Time');
-    console.log(new Date(+returnedTime), 'returned Time');
+
     return returnedTime;
   };
 
@@ -258,7 +251,7 @@ class TimelineChart extends Component {
     const { minValue } = this.props;
     const { maxValue } = this.props;
     this.createDateRange(minValue, maxValue);
-    // console.log(this.props.minValue, 'didmount min val');
+    //
     setTimeout(() => {
       // this.setState({
       //   data: githubdata.series,
@@ -298,7 +291,7 @@ class TimelineChart extends Component {
 
     const dateStr = `${year}-${month}-${day}`;
     time = dateStr;
-    // console.log(time, 'time returns');
+    //
     // this.setState({ time: dateStr });
     return dateStr;
   };
@@ -318,7 +311,7 @@ class TimelineChart extends Component {
 
     const dateStr = `${year}-${month}-${day}`;
     time = dateStr;
-    // console.log(time, 'time returns');
+    //
     // this.setState({ time: dateStr });
     return dateStr;
   };
@@ -327,15 +320,15 @@ class TimelineChart extends Component {
     const that = this;
     time = minValue;
     global.timerId = setInterval(() => {
-      // console.log(time, 'didupdate min val');
-      // console.log(new Date(time), 'didupdate min val');
-      // console.log(new Date(maxValue), 'didupdate max val');
-      // console.log('once');
+      //
+      //
+      //
+      //
       if (new Date(time).getTime() < new Date(maxValue).getTime()) {
         const minval = new Date(minValue).getTime();
         const maxval = new Date(this.getAddedYear(time)).getTime();
-        // console.log(new Date(minval));
-        // console.log(new Date(maxval));
+        //
+        //
         this.props.filterTimelineData(
           minval,
           maxval,
@@ -349,8 +342,8 @@ class TimelineChart extends Component {
               events: {
                 selection(chartContext, { xaxis, yaxis }) {
                   // that.props.playBtn(xaxis.min, xaxis.max);
-                  // console.log(xaxis.min, 'xaxis min');
-                  // console.log(xaxis.max, 'xaxis maz');
+                  //
+                  //
                 },
               },
               xaxis: {
@@ -361,7 +354,7 @@ class TimelineChart extends Component {
           },
         });
       } else {
-        // console.log('clear');
+        //
         clearInterval(global.timerId);
         this.setState({ playSelected: false });
       }
@@ -402,8 +395,8 @@ class TimelineChart extends Component {
     const minday = minCurr.getDate();
     const minmonth = minCurr.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
     const minyear = minCurr.getFullYear();
-    // console.log(this.props.minValue, 'minValue render');
-    // console.log(this.props.maxValue, 'maxValue Render');
+    //
+    //
     return (
       <div
         id="wrapper"
@@ -429,10 +422,10 @@ class TimelineChart extends Component {
         <a
           onClick={() => {
             time = '2015-1-1';
-            // console.log(new Date(minCurrent), 'onClick maxValue');
-            // console.log(new Date(this.props.minValue), ' Current min Value');
+            //
+            //
             // global.chart.render();
-            // console.log(this.props.minValue, 'onClick minValue');
+            //
             this.props.playBtn(minCurrent, maxCurrent);
             this.setState({ playSelected: true });
             setTimeout(() => {
@@ -446,10 +439,10 @@ class TimelineChart extends Component {
           }}
           onKeyDown={() => {
             time = '2015-1-1';
-            // console.log(new Date(minCurrent), 'onClick maxValue');
-            // console.log(new Date(this.props.minValue), ' Current min Value');
+            //
+            //
             // global.chart.render();
-            // console.log(this.props.minValue, 'onClick minValue');
+            //
             this.props.playBtn(minCurrent, maxCurrent);
             this.setState({ playSelected: true });
             setTimeout(() => {

@@ -301,7 +301,6 @@ class MainPartnership extends Component {
       this.props.filterPartnerListByPartnerType(partnerType);
     }
     if (prevState.selectedProvince !== selectedProvince) {
-      console.log('selected provicne changed', selectedProvince);
       this.props.filterDistrictListFromProvince(selectedProvince);
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
@@ -1502,6 +1501,11 @@ class MainPartnership extends Component {
       selectedMunicipality: [],
       partnerType: [],
     });
+    document.querySelectorAll('.fed_checkbox').forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.checked = false;
+    });
+    this.props.getProvinceData();
 
     if (activeView === 'visualization') {
       this.props.resetRadialData();
@@ -1721,11 +1725,13 @@ class MainPartnership extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
+                            selectedItem={selectedProvince}
                             options={
                               allProvinceList && allProvinceList
                             }
                             onChange={selectedOptions => {
                               this.setState({
+                                // eslint-disable-next-line react/no-unused-state
                                 selectedProvince: selectedOptions,
                               });
                               // eslint-disable-next-line react/jsx-curly-newline
@@ -1738,6 +1744,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select District"
+                              selectedItem={selectedDistrict}
                               options={
                                 allDistrictList && allDistrictList
                               }
@@ -1755,6 +1762,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select Municipality"
+                              selectedItem={selectedMunicipality}
                               options={
                                 allMunicipalityList &&
                                 allMunicipalityList

@@ -54,8 +54,7 @@ class SankeyChart extends Component {
     const {
       partnershipReducer: { sankeyChartData },
     } = this.props;
-    console.log(window.innerWidth, 'innerwidth');
-    console.log(activeOverview, 'activeOverview');
+
     return (
       <div
         id="sankey_chart"

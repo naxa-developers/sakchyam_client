@@ -1,6 +1,6 @@
 // /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import UKAidWhiteLogo from '../../img/uk-aid-white.png';
 import Logo from '../../img/logo.png';
 import WhiteLogo from '../../img/logo-white.png';
@@ -137,6 +137,7 @@ class Header extends Component {
   };
 
   render() {
+    console.log(this.props);
     const { activeProfileDropdown, permissions } = this.state;
     const { activePage } = this.props;
     const { headerTransparent } = this.props;
@@ -160,6 +161,7 @@ class Header extends Component {
               <ul className="link-wrap">
                 <li>
                   <select
+                    value="financial"
                     onChange={e => {
                       this.props.setActivePage(e.target.value);
                     }}
@@ -278,4 +280,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

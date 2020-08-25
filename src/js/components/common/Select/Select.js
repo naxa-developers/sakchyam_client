@@ -281,7 +281,7 @@ class Select extends PureComponent {
                   ? opt.label.replace(' ', '_') + idValue
                   : opt.label.replace(' ', '_')
               }
-              className={`check_${opt.code}`}
+              className={`check_${opt.code} fed_checkbox`}
               type="checkbox"
               value={opt.value}
               checked={opt.checked ? opt.checked : false}
@@ -361,7 +361,7 @@ class Select extends PureComponent {
   render() {
     const {
       state: { selectTitle, showList, searchText, selectedOptions },
-      props: { withSearchBar, style },
+      props: { withSearchBar, style, selectedItem },
       toggleListHandler,
       closeListHandler,
     } = this;
@@ -382,9 +382,10 @@ class Select extends PureComponent {
           role="tab"
           tabIndex="-1"
         >
-          {!searchText && selectedOptions.length < 1
+          {!searchText && selectedItem && selectedItem.length < 1
             ? selectTitle
-            : selectedOptions.map(data => {
+            : selectedItem &&
+              selectedItem.map(data => {
                 return data.label;
               })}
         </span>

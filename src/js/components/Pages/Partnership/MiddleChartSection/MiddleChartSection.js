@@ -69,7 +69,7 @@ class MiddleChartSection extends Component {
     // const that = this;
     const clickedName = e.data.name;
     this.props.resetLeftSideBarSelection();
-    // console.log(clickedName, 'clicked');
+    //
     // console.log(
     //   partnershipInvestmentFocus.filter(investment => {
     //     return investment.investment_primary === clickedName;
@@ -80,7 +80,7 @@ class MiddleChartSection extends Component {
     //     return investment.investment_primary === clickedName;
     //   })
     // ) {
-    // console.log('found if');
+    //
     if (clickedName === 'Partnership') {
       // alert('partnership');
       this.props.resetRadialData();
@@ -93,8 +93,8 @@ class MiddleChartSection extends Component {
       this.props.applyBtnClick();
     }
     // }
-    // console.log(this.props, 'partnership');
-    // console.log(e.data.name);
+    //
+    //
   };
 
   // sunburstColorFn = () => {
@@ -264,7 +264,7 @@ class MiddleChartSection extends Component {
     }
     //   'radialData',
     // );
-    // console.log(radialData && radialData, 'radialData');
+    //
     return (
       <div
         className="literacy-tab-item"
