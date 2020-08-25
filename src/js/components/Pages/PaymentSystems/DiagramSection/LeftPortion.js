@@ -55,6 +55,7 @@ const LeftPortion = ({
               }}
             />
             <li
+              id="card"
               className={
                 isLeftCardSelected && selectedCardRef === 0
                   ? 'red-light active'
@@ -67,6 +68,7 @@ const LeftPortion = ({
               </a>
             </li>
             <li
+              id="card"
               className={
                 isLeftCardSelected && selectedCardRef === 1
                   ? 'blue-light active'
@@ -79,6 +81,7 @@ const LeftPortion = ({
               </a>
             </li>
             <li
+              id="card"
               className={
                 isLeftCardSelected && selectedCardRef === 2
                   ? 'green-light active'

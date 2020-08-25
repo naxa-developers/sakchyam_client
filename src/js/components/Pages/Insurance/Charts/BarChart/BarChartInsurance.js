@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import SwitchComponent from '../../MiddleChartSection/SwitchComponent';
 import { getShortNumbers } from '../../../../common/utilFunctions';
+import { isArrayEmpty } from '../../../../utils/utilities';
+import BoxLoader from '../Loader/Loader';
 // import convert from '../../../../utils/convertNumbers';
 
 function convert(num) {
@@ -427,8 +429,8 @@ class BarChartInsurance extends Component {
   };
 
   render() {
-    const { chartData2 } = this.state;
-    const { isBarChartClicked } = this.props;
+    const { series1, chartData2 } = this.state;
+    const { isBarChartClicked, loading } = this.props;
 
     const {
       DownloadIcon,
@@ -499,71 +501,81 @@ class BarChartInsurance extends Component {
           )}
         </div>
         <div className="card-body">
-          <SwitchComponent
-            selectedTab={selectedTabBar}
-            setSelectedTab={this.props.setSelectedTabBar}
-          />
-          {!isBarChartClicked ? (
-            <ReactApexChart
-              options={this.state.options}
-              series={
-                // !isBarChartToggled
-                selectedTabBar === 'insurance-premium'
-                  ? this.state.series1
-                  : this.state.series2
-              }
-              type="bar"
-              height={
-                !activeModal
-                  ? 400
-                  : activeModal && window.innerWidth < 1400
-                  ? 450
-                  : 550
-              }
-              width={
-                activeModal && window.innerWidth < 1600
-                  ? 1400
-                  : activeModal && window.innerWidth > 1600
-                  ? 1750
-                  : showRightSidebar && window.innerWidth < 1600
-                  ? 780
-                  : showRightSidebar && window.innerWidth > 1600
-                  ? 1200
-                  : !showRightSidebar && window.innerWidth < 1600
-                  ? 1100
-                  : 1400
-              }
-            />
+          {loading ? (
+            <BoxLoader height={450} />
+          ) : series1[0] && !isArrayEmpty(series1[0].data) ? (
+            <>
+              <SwitchComponent
+                selectedTab={selectedTabBar}
+                setSelectedTab={this.props.setSelectedTabBar}
+              />
+              {!isBarChartClicked ? (
+                <ReactApexChart
+                  options={this.state.options}
+                  series={
+                    // !isBarChartToggled
+                    selectedTabBar === 'insurance-premium'
+                      ? this.state.series1
+                      : this.state.series2
+                  }
+                  type="bar"
+                  height={
+                    !activeModal
+                      ? 400
+                      : activeModal && window.innerWidth < 1400
+                      ? 450
+                      : 550
+                  }
+                  width={
+                    activeModal && window.innerWidth < 1600
+                      ? 1400
+                      : activeModal && window.innerWidth > 1600
+                      ? 1750
+                      : showRightSidebar && window.innerWidth < 1600
+                      ? 780
+                      : showRightSidebar && window.innerWidth > 1600
+                      ? 1200
+                      : !showRightSidebar && window.innerWidth < 1600
+                      ? 1100
+                      : 1400
+                  }
+                />
+              ) : (
+                <ReactApexChart
+                  options={chartData2.options}
+                  series={
+                    selectedTabBar === 'insurance-premium'
+                      ? chartData2.series1
+                      : chartData2.series2
+                  }
+                  type="bar"
+                  height={
+                    !activeModal
+                      ? 400
+                      : activeModal && window.innerWidth < 1400
+                      ? 450
+                      : 550
+                  }
+                  width={
+                    activeModal && window.innerWidth < 1600
+                      ? 1400
+                      : activeModal && window.innerWidth > 1600
+                      ? 1750
+                      : showRightSidebar && window.innerWidth < 1600
+                      ? 780
+                      : showRightSidebar && window.innerWidth > 1600
+                      ? 1200
+                      : !showRightSidebar && window.innerWidth < 1600
+                      ? 1100
+                      : 1400
+                  }
+                />
+              )}
+            </>
           ) : (
-            <ReactApexChart
-              options={chartData2.options}
-              series={
-                selectedTabBar === 'insurance-premium'
-                  ? chartData2.series1
-                  : chartData2.series2
-              }
-              type="bar"
-              height={
-                !activeModal
-                  ? 400
-                  : activeModal && window.innerWidth < 1400
-                  ? 450
-                  : 550
-              }
-              width={
-                activeModal && window.innerWidth < 1600
-                  ? 1400
-                  : activeModal && window.innerWidth > 1600
-                  ? 1750
-                  : showRightSidebar && window.innerWidth < 1600
-                  ? 780
-                  : showRightSidebar && window.innerWidth > 1600
-                  ? 1200
-                  : !showRightSidebar && window.innerWidth < 1600
-                  ? 1100
-                  : 1400
-              }
-            />
+            <div id="no-data">
+              <label>No data</label>
+            </div>
           )}
         </div>
       </>

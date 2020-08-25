@@ -24,7 +24,7 @@ const PlotLines = ({
         </marker>
       </defs>
 
-      {coordinates.map(item => (
+      {coordinates.map((item, index) => (
         <g
           fill="white"
           stroke={lineColor}
@@ -33,19 +33,23 @@ const PlotLines = ({
         >
           <line
             x1={9}
-            x2={width * 0.4}
+            // x2={width * 0.4}
+            x2={width * item.position}
             y1={item.y1}
             y2={item.y1}
             markerStart="url(#arrowhead)"
           />
           <line
-            x1={width * 0.4}
-            x2={width * 0.4}
+            // x1={width * 0.4}
+            x1={width * item.position}
+            // x2={width * 0.4}
+            x2={width * item.position}
             y1={item.y1}
             y2={item.y2}
           />
           <line
-            x1={width * 0.4}
+            // x1={width * 0.4}
+            x1={width * item.position}
             // x2={width}
             x2={175}
             y1={item.y2}
@@ -54,7 +58,6 @@ const PlotLines = ({
           />
         </g>
       ))}
-
       {leftToRightIndirectCoordinates.map(item => (
         <g
           fill="white"

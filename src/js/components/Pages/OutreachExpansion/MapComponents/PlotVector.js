@@ -253,7 +253,7 @@ class PlotVector extends Component {
   plotVectorTile = () => {
     const { map } = this.props;
     const that = this;
-    let hoveredStateId = null;
+    // let hoveredStateId = null;
     map.on('load', function() {
       map.addSource('municipality', {
         type: 'vector',
@@ -297,57 +297,60 @@ class PlotVector extends Component {
         },
       });
 
-      // map.on('click', 'vector-tile-fill', function(e) {
-      //   const getBbox = getCenterBboxProvince(
-      //     e.features[0].properties.code,
-      //   );
-      //   map.fitBounds(getBbox.bbox);
-      //   that.props.handleFederalClickOnMap(
-      //     'district',
-      //     e.features[0].properties.code,
-      //   );
-      //   that.props.setMapViewBy('district');
+      map.on('click', 'vector-tile-fill', function(e) {
+        // const getBbox = getCenterBboxProvince(
+        //   e.features[0].properties.code,
+        // );
+        // map.fitBounds(getBbox.bbox);
+        // that.props.handleFederalClickOnMap(
+        //   'district',
+        //   e.features[0].properties.code,
+        // );
+        // that.props.setMapViewBy('district');
+        if (that.props.mapViewDataBy === 'outreach_local_units') {
+          that.props.setHoveredMunicipalityId(e.features[0].id);
+        }
+      });
+
+      // map.on('mousemove', 'vector-tile-fill', function(e) {
+      //   if (e.features.length > 0) {
+      //     if (hoveredStateId) {
+      //       map.setFeatureState(
+      //         {
+      //           source: 'municipality',
+      //           sourceLayer: 'default',
+      //           id: hoveredStateId,
+      //         },
+      //         { hover: false },
+      //       );
+      //     }
+      //     hoveredStateId = e.features[0].id;
+      //     that.props.setHoveredMunicipalityId(e.features[0].id);
+      //     map.setFeatureState(
+      //       {
+      //         source: 'municipality',
+      //         sourceLayer: 'default',
+      //         id: hoveredStateId,
+      //       },
+      //       { hover: true },
+      //     );
+      //   }
       // });
 
-      map.on('mousemove', 'vector-tile-fill', function(e) {
-        if (e.features.length > 0) {
-          if (hoveredStateId) {
-            map.setFeatureState(
-              {
-                source: 'municipality',
-                sourceLayer: 'default',
-                id: hoveredStateId,
-              },
-              { hover: false },
-            );
-          }
-          hoveredStateId = e.features[0].id;
-          that.props.setHoveredMunicipalityId(e.features[0].id);
-          map.setFeatureState(
-            {
-              source: 'municipality',
-              sourceLayer: 'default',
-              id: hoveredStateId,
-            },
-            { hover: true },
-          );
-        }
-      });
-
-      map.on('mouseleave', 'vector-tile-fill', function() {
-        if (hoveredStateId) {
-          map.setFeatureState(
-            {
-              source: 'municipality',
-              sourceLayer: 'default',
-              id: hoveredStateId,
-            },
-            { hover: false },
-          );
-        }
-        hoveredStateId = null;
-        that.props.setHoveredMunicipalityId(0);
-      });
+      // map.on('mouseleave', 'vector-tile-fill', function() {
+      //   if (hoveredStateId) {
+      //     map.setFeatureState(
+      //       {
+      //         source: 'municipality',
+      //         sourceLayer: 'default',
+      //         id: hoveredStateId,
+      //       },
+      //       { hover: false },
+      //     );
+      //   }
+      //   hoveredStateId = null;
+      //   that.props.setHoveredMunicipalityId(0);
+      // });
     });
 
     map.on('style.load', () => {
@@ -479,7 +482,7 @@ class PlotVector extends Component {
 
           {!condition && (
             <div className="color-list marker-legend">
-              <h6>Marker Legend</h6>
+              {/* <h6>Marker Legend</h6> */}
               <ul
                 id="state-legend"
                 className="color-legend outreach-legend"

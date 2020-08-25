@@ -1,8 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 
 export default function MunicipalityPopUp(props) {
   const data = props.selectedMuni;
+  console.log('data===>', data);
 
   const mobileChceck =
     data.communication_mobile === 'Yes' ? true : false;
@@ -12,6 +16,10 @@ export default function MunicipalityPopUp(props) {
     data.communication_internet === 'Yes' ? true : false;
   const motherChceck =
     data.communication_internet_other === 'Yes' ? true : false;
+  const mainChceck =
+    data.available_electricity_maingrid === 'Yes' ? true : false;
+  const microChceck =
+    data.available_electricity_micro_hydro === 'Yes' ? true : false;
   return (
     <div className="map-popup">
       <div className="map-popup-container">
@@ -20,7 +28,10 @@ export default function MunicipalityPopUp(props) {
             <h3>{data.municipality_name}</h3>
             <h5>{data.district_name}</h5>
           </div>
-          <span className="close-icon">
+          <span
+            className="close-icon"
+            onClick={props.localPopUpClose}
+          >
             <i className="material-icons">close</i>
           </span>
           <div className="map-popup-content">
@@ -34,6 +45,10 @@ export default function MunicipalityPopUp(props) {
                 <b>{data.hdi}</b>
               </li>
               <li>
+                <p>Categorisation by Sakchyam</p>
+                <b>{data.categorisation_by_sakchyam}</b>
+              </li>
+              <li>
                 <p>Population in Local Unit</p>
                 <b>{data.population}</b>
               </li>
@@ -41,6 +56,7 @@ export default function MunicipalityPopUp(props) {
                 <p>Yearly Central Government Funding</p>
                 <b>Rs. {data.yearly_fund}</b>
               </li>
+
               <li>
                 <p>Social Security Recipients</p>
                 <b>{data.social_security_recipients}</b>
@@ -48,6 +64,22 @@ export default function MunicipalityPopUp(props) {
               <li>
                 <p>Yearly Social Security Payments</p>
                 <b>Rs. {data.yearly_social_security_payment}</b>
+              </li>
+              <li>
+                <p>Nearest Road Distance</p>
+                <b>
+                  {data.nearest_road_distance === -1
+                    ? 'N/A'
+                    : data.nearest_road_distance}
+                </b>
+              </li>
+              <li>
+                <p>Nearest Police Presence</p>
+                <b>
+                  {data.nearest_police_distance === -1
+                    ? 'N/A'
+                    : data.nearest_police_distance}
+                </b>
               </li>
               <li>
                 <p>
@@ -62,6 +94,7 @@ export default function MunicipalityPopUp(props) {
               </li>
             </ul>
           </div>
+
           <div className="map-popup-footer">
             <h5>Available Means of Communication</h5>
             <ul className="communication">
@@ -112,6 +145,36 @@ export default function MunicipalityPopUp(props) {
                   {motherChceck ? 'check_circle' : 'cancel'}
                 </i>
                 <span>other internet</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="map-popup-footer">
+            <h5>Available Means of Electricity</h5>
+            <ul className="communication">
+              <li>
+                <i
+                  className={
+                    mainChceck
+                      ? 'material-icons check'
+                      : 'material-icons cancel'
+                  }
+                >
+                  {mainChceck ? 'check_circle' : 'cancel'}
+                </i>
+                <span>Main Grid</span>
+              </li>
+              <li>
+                <i
+                  className={
+                    microChceck
+                      ? 'material-icons check'
+                      : 'material-icons cancel'
+                  }
+                >
+                  {microChceck ? 'check_circle' : 'cancel'}
+                </i>
+                <span>Micro Hydro</span>
               </li>
             </ul>
           </div>

@@ -1,6 +1,9 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import { ResponsiveSankey } from '@nivo/sankey';
+import { isArrayEmpty } from '../../../../utils/utilities';
+import BoxLoader from '../Loader/Loader';
 
 function numberWithCommas(x) {
   if (x !== null) {
@@ -149,7 +152,7 @@ class SankeyChartInsurance extends Component {
 
   render() {
     const { sankeyData } = this.state;
-    const { activeModal, showRightSidebar } = this.props;
+    const { activeModal, showRightSidebar, loading } = this.props;
 
     return (
       <div
@@ -158,86 +161,92 @@ class SankeyChartInsurance extends Component {
         }}
         id="insurance-sankey"
       >
-        {Object.entries(sankeyData).length !== 0 &&
-          sankeyData.nodes.length !== 0 && (
-            <ResponsiveSankey
-              data={sankeyData}
-              margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
-              width={
-                activeModal && window.innerWidth < 1600
-                  ? 1400
-                  : activeModal && window.innerWidth > 1600
-                  ? 1750
-                  : showRightSidebar && window.innerWidth < 1600
-                  ? 780
-                  : showRightSidebar && window.innerWidth > 1600
-                  ? 1200
-                  : !showRightSidebar && window.innerWidth < 1600
-                  ? 1100
-                  : 1400
-              }
-              label="name"
-              align="end"
-              colors={{ scheme: 'set2' }}
-              sort="descending"
-              nodeOpacity={1}
-              nodeThickness={14}
-              nodePaddingX={6}
-              nodeWidth={24}
-              nodeBorderWidth={0}
-              nodeInnerPadding={2}
-              nodeSpacing={18}
-              nodeBorderColor={{
-                from: 'color',
-                modifiers: [['darker', 0.8]],
-              }}
-              linkOpacity={1}
-              linkHoverOthersOpacity={0.1}
-              enableLinkGradient
-              colorBy={node => node.nodeColor}
-              linkBlendMode="normal"
-              labelPosition="inside"
-              labelOrientation="horizontal"
-              labelPadding={14}
-              labelTextColor={{
-                from: 'color',
-                modifiers: [['darker', 2]],
-              }}
-              theme={{
-                fontSize: '14px',
-                fontFamily: 'Avenir Book',
-              }}
-              animate
-              motionStiffness={140}
-              motionDamping={13}
-              tooltipFormat={value => numberWithCommas(value)}
-              nodeTooltip={node => (
-                <span style={{ display: 'flex' }}>
-                  <div
-                    style={{
-                      margin: '1px',
-                      marginRight: '5px',
-                      marginTop: '5px',
-                      height: '15px',
-                      width: '15px',
-                      backgroundColor: node.color,
-                    }}
-                  />
-                  <strong
-                    style={{
-                      // color: '#fff',
-                      textAlign: 'center',
-                      // margin: '0px 15px',
-                    }}
-                  >
-                    {node.name}
-                    <br />
-                    {numberWithCommas(node.value)}
-                  </strong>
-                </span>
-              )}
-            />
-          )}
+        {loading ? (
+          <BoxLoader height={450} />
+        ) : Object.entries(sankeyData).length !== 0 &&
+          sankeyData.nodes.length !== 0 ? (
+          <ResponsiveSankey
+            data={sankeyData}
+            margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
+            width={
+              activeModal && window.innerWidth < 1600
+                ? 1400
+                : activeModal && window.innerWidth > 1600
+                ? 1750
+                : showRightSidebar && window.innerWidth < 1600
+                ? 780
+                : showRightSidebar && window.innerWidth > 1600
+                ? 1200
+                : !showRightSidebar && window.innerWidth < 1600
+                ? 1100
+                : 1400
+            }
+            label="name"
+            align="end"
+            colors={{ scheme: 'set2' }}
+            sort="descending"
+            nodeOpacity={1}
+            nodeThickness={14}
+            nodePaddingX={6}
+            nodeWidth={24}
+            nodeBorderWidth={0}
+            nodeInnerPadding={2}
+            nodeSpacing={18}
+            nodeBorderColor={{
+              from: 'color',
+              modifiers: [['darker', 0.8]],
+            }}
+            linkOpacity={1}
+            linkHoverOthersOpacity={0.1}
+            enableLinkGradient
+            colorBy={node => node.nodeColor}
+            linkBlendMode="normal"
+            labelPosition="inside"
+            labelOrientation="horizontal"
+            labelPadding={14}
+            labelTextColor={{
+              from: 'color',
+              modifiers: [['darker', 2]],
+            }}
+            theme={{
+              fontSize: '14px',
+              fontFamily: 'Avenir Book',
+            }}
+            animate
+            motionStiffness={140}
+            motionDamping={13}
+            tooltipFormat={value => numberWithCommas(value)}
+            nodeTooltip={node => (
+              <span style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    margin: '1px',
+                    marginRight: '5px',
+                    marginTop: '5px',
+                    height: '15px',
+                    width: '15px',
+                    backgroundColor: node.color,
+                  }}
+                />
+                <strong
+                  style={{
+                    // color: '#fff',
+                    textAlign: 'center',
+                    // margin: '0px 15px',
+                  }}
+                >
+                  {node.name}
+                  <br />
+                  {numberWithCommas(node.value)}
+                </strong>
+              </span>
+            )}
+          />
+        ) : (
+          <div id="no-data">
+            <label>No data</label>
+          </div>
+        )}
       </div>
     );
   }

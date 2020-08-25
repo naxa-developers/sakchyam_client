@@ -79,4 +79,25 @@ export const lineData = [
   },
 ];
 
-export const allConnections = [{}];
+export const allConnections = {
+  leftToLeftLink: [
+    [0, 1],
+    [0, 2],
+  ],
+  leftToRightLink: [
+    { from: 0, to: [2, 3] },
+    { from: 1, to: [0] },
+    { from: 2, to: [4] },
+  ],
+  rightToRightLink: [
+    [
+      [1, 2],
+      [2, 3],
+    ],
+    [
+      [2, 3],
+      [3, 4],
+    ],
+  ],
+  // indirectLink: [2, 4],
+};

@@ -18,7 +18,6 @@ export const getProductProcessList = () => dispatch => {
     const response = axiosInstance
       .get('/api/v1/product-process/process/')
       .then(function(result) {
-        console.log('result', result.data);
         return dispatch({
           type: GET_PRODUCT_PROCESS_LIST_SUCCESS,
           payload: result.data,
