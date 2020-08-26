@@ -79,6 +79,7 @@ const Modal = props => {
     resetFilters,
     headerTitle,
     groupedStackData,
+    showBarChartBy,
     handleShowBarOfInvestmentBudgetBenefBar,
   } = props;
   const selectedChartId =
@@ -94,6 +95,8 @@ const Modal = props => {
       ? 'stackedWithInvestment'
       : selectedModal === 'logframe'
       ? 'logframe-chart'
+      : selectedModal === 'mfsBar'
+      ? 'scroller_card'
       : '';
   const modalHeader =
     selectedModal === 'sunburst'
@@ -111,7 +114,9 @@ const Modal = props => {
       : selectedModal === 'stackedWithInvestment'
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
       : selectedModal === 'logframe'
-      ? headerTitle
+      ? 'Investment Focus Wise Budget & Beneficiaries Count'
+      : selectedModal === 'mfsBar'
+      ? `${showBarChartBy} Wise Achievement Type`
       : '';
   return (
     <div

@@ -1494,6 +1494,7 @@ class Choropleth extends Component {
       //   },
       // });
       // }
+      map.setZoom(5.8);
     });
     // map.on('sourcedataloading', function(e) {
     //   that.setState({ loading: !map.isSourceLoaded('municipality') });

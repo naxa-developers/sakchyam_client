@@ -1001,7 +1001,7 @@ class Choropleth extends Component {
         tooltip2nd.select('.popup-div').html(
           `<div class="leaflet-popup-content" style="width: 100px;">
             <div class="map-popup-view">
-              <div class="map-popup-view-header">
+              <div class="map-popup-view-header" style="width: max-content;">
                   <h5>${d.data.type}</h5>
                   <div class="icons">
                     <i class="material-icons">${
@@ -1019,8 +1019,8 @@ class Choropleth extends Component {
       })
       .on('mousemove', function() {
         tooltip2nd
-          .style('top', `${d3.event.offsetY + 20}px`)
-          .style('left', `${d3.event.offsetX + 20}px`);
+          .style('top', `${d3.event.offsetY + 20 - 90}px`)
+          .style('left', `${d3.event.offsetX + 20 - 42}px`);
         tooltip
           .style('top', `${d3.event.offsetY + 20}px`)
           .style('left', `${d3.event.offsetX + 20}px`);
@@ -1508,6 +1508,7 @@ class Choropleth extends Component {
       //   },
       // });
       // }
+      map.setZoom(5.8);
     });
     // map.on('sourcedataloading', function(e) {
     //   that.setState({ loading: !map.isSourceLoaded('municipality') });

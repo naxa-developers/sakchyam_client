@@ -186,8 +186,8 @@ class Sunburst extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props._debug && this.props._log("Sunburst: componentWillUnmount()");
-    this._destroy_svg();
+    // this.props._debug && this.props._log("Sunburst: componentWillUnmount()");
+    // this._destroy_svg();
   }
 
   /**
