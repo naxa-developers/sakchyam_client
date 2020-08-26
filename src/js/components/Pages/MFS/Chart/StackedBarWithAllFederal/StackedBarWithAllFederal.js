@@ -41,14 +41,14 @@ const testoptions = {
   grid: {
     show: false,
   },
-  tooltip: {
-    fixed: {
-      enabled: true,
-      position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
-      // offsetY: 30,
-      // offsetX: 60,
-    },
-  },
+  // tooltip: {
+  //   fixed: {
+  //     enabled: true,
+  //     position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+  //     // offsetY: 30,
+  //     // offsetX: 60,
+  //   },
+  // },
   legend: {
     horizontalAlign: 'left',
     offsetX: 40,
@@ -181,14 +181,14 @@ class StackedBarWithAllFederal extends Component {
       grid: {
         show: false,
       },
-      tooltip: {
-        fixed: {
-          enabled: true,
-          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
-          // offsetY: 30,
-          // offsetX: 60,
-        },
-      },
+      // tooltip: {
+      //   fixed: {
+      //     enabled: true,
+      //     position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+      //     // offsetY: 30,
+      //     // offsetX: 60,
+      //   },
+      // },
       legend: {
         horizontalAlign: 'left',
         offsetX: 40,
@@ -352,14 +352,14 @@ class StackedBarWithAllFederal extends Component {
       grid: {
         show: false,
       },
-      tooltip: {
-        fixed: {
-          enabled: true,
-          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
-          // offsetY: 30,
-          // offsetX: 60,
-        },
-      },
+      // tooltip: {
+      //   fixed: {
+      //     enabled: true,
+      //     position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+      //     // offsetY: 30,
+      //     // offsetX: 60,
+      //   },
+      // },
       legend: {
         horizontalAlign: 'left',
         offsetX: 40,

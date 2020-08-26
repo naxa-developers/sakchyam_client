@@ -138,6 +138,7 @@ class Header extends Component {
 
   render() {
     console.log(this.props);
+    console.log(this.props.location.pathname.replace('/', ''));
     const { activeProfileDropdown, permissions } = this.state;
     const { activePage } = this.props;
     const { headerTransparent } = this.props;
@@ -161,7 +162,10 @@ class Header extends Component {
               <ul className="link-wrap">
                 <li>
                   <select
-                    value="financial"
+                    value={this.props.location.pathname.replace(
+                      '/',
+                      '',
+                    )}
                     onChange={e => {
                       this.props.setActivePage(e.target.value);
                     }}
@@ -173,12 +177,16 @@ class Header extends Component {
                       Financial Literacy
                     </option>
                     <option value="partnership">Partnership</option>
-                    <option value="outreach">
+                    <option value="outreachexpansion">
                       Outreach Expansion
                     </option>
                     <option value="insurance">Insurance</option>
-                    <option value="product">Product/Process</option>
-                    <option value="payment">Payment System</option>
+                    <option value="productprocess">
+                      Product/Process
+                    </option>
+                    <option value="paymentsystems">
+                      Payment System
+                    </option>
                     <option value="mfs">MFS</option>
                   </select>
                   {/* <a href="#/" className="span_heavy_15">

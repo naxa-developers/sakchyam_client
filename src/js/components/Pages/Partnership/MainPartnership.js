@@ -619,7 +619,8 @@ class MainPartnership extends Component {
       // style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
       style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
       center: [84.0, 27.5], // starting position [lng, lat]
-      zoom: 7, // starting zoom
+      zoom: 5.8,
+      // starting zoom
     });
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
@@ -1557,6 +1558,7 @@ class MainPartnership extends Component {
       map.fitBounds(extendedValue);
       map.setFilter('vector-tile-fill', null);
       map.setFilter('vector-tile-outline', null);
+      map.setZoom(5.8);
     }
   };
 

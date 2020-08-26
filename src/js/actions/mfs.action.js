@@ -171,6 +171,8 @@ export const filterMfsChartData = (
   selectedAchievement,
   selectedDistrict,
   selectedProvince,
+  showBarof,
+  showBarPartnerChartOf,
 ) => dispatch => {
   dispatch({
     type: FILTER_MFS_CHART_DATA_BY_ACHIEVEMENT,
@@ -181,6 +183,8 @@ export const filterMfsChartData = (
       selectedAchievement,
       selectedDistrict,
       selectedProvince,
+      showBarof,
+      showBarPartnerChartOf,
     },
   });
 };

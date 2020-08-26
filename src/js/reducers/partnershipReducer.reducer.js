@@ -42,6 +42,7 @@ import {
   FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
   GET_PARTNERSHIP_PARTNERSTYPE_LIST,
   GET_PARTNERSHIP_TIMELINE_DATA_API,
+  FILTER_RADIAL_DATA,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -748,16 +749,36 @@ const getRadialData = (state, action) => {
     // eslint-disable-next-line no-param-reassign
     data.color = colorPicker(i + 2);
   });
-  if (state.defaultRadialData.name) {
-    return {
-      ...state,
-      radialData: action.payload,
-    };
-  }
+  // if (state.defaultRadialData.name) {
+  //   return {
+  //     ...state,
+  //     radialData: action.payload,
+  //   };
+  // }
   return {
     ...state,
     radialData: action.payload,
     defaultRadialData: action.payload,
+  };
+};
+const filterRadialData = (state, action) => {
+  //
+  // eslint-disable-next-line array-callback-return
+  action.payload.children.map((data, i) => {
+    //
+    // eslint-disable-next-line no-param-reassign
+    data.color = colorPicker(i + 2);
+  });
+  // if (state.defaultRadialData.name) {
+  //   return {
+  //     ...state,
+  //     radialData: action.payload,
+  //   };
+  // }
+  return {
+    ...state,
+    radialData: action.payload,
+    // defaultRadialData: action.payload,
   };
 };
 const getSpiderChartData = (state, action) => {
@@ -1475,9 +1496,9 @@ const filterMapdataChoropleth = (state, action) => {
 };
 const filterTimelineData = (state, action) => {
   const { min, max, fedtype } = action.payload;
-  console.log(min, 'min');
+  console.log(new Date(min).getTime(), 'min');
   console.log(new Date(min), 'minfulldate');
-  console.log(max, 'max');
+  console.log(new Date(max).getTime(), 'max');
   console.log(new Date(max), 'maxfullddate');
   // console.log(max,'max');
   let timelineData = state.timelineData.provinceTimelineData;
@@ -1496,6 +1517,15 @@ const filterTimelineData = (state, action) => {
   //
 
   // if(timelineData.data.length > )
+  const filteredTimeLineData = timelineData.filter(data => {
+    // console.log(new Date(data.date).getTime(), 'apiDate');
+    // console.log(new Date(data.date), 'apiFullDate');
+    return (
+      new Date(max).getTime() >= new Date(data.date).getTime() &&
+      new Date(data.date).getTime() >= new Date(min).getTime()
+    );
+  });
+  console.log(filteredTimeLineData, 'filteredTimelIne Data');
   timelineData[timelineIndex].data.forEach(timeline => {
     return FilteredTimeline.push({
       id: timeline.code,
@@ -1657,6 +1687,8 @@ export default function(state = initialState, action) {
       return filterBarDataByInvestmentFocus(state, action);
     case GET_RADIAL_DATA:
       return getRadialData(state, action);
+    case FILTER_RADIAL_DATA:
+      return filterRadialData(state, action);
     case GET_SPIDERCHART_DATA:
       return getSpiderChartData(state, action);
     case GET_SANKEY_CHART_DATA:

@@ -2158,7 +2158,7 @@ class MiddleChartSection extends Component {
                   {/* <div className="card-header"></div> */}
                   <div className="card-body">
                   <div className="row">
-                  <a
+                  {/* <a
                     role="tab"
                     tabIndex="0"
                     id="downloadDropdown"
@@ -2168,10 +2168,8 @@ class MiddleChartSection extends Component {
                     onKeyPress={this.downloadPng}
                     style={{ right: '37px' }}
                   >
-                    {/* <label>Download</label> */}
                     <img src={saveAlt} alt="" />
-                    {/* <i className="fa fa-download" aria-hidden="true" /> */}
-                  </a>
+                  </a> */}
                     <div className="col-lg-6" >
                     <label>Planned</label>
                       <DonutChart reducerDataProps="planned1stPieData" />
@@ -2199,7 +2197,7 @@ class MiddleChartSection extends Component {
                       })}
                     </select>
                     <h5 style={{marginLeft:"20px"}}>Ratio of men and women getting new access to financial Services</h5>
-                    <a
+                    {/* <a
                       role="tab"
                       tabIndex="0"
                       id="downloadDropdown"
@@ -2209,10 +2207,8 @@ class MiddleChartSection extends Component {
                       onKeyPress={()=>{this.downloadPng('.secondpie','Ratio of men and women getting new access to financial Services')}}
                       style={{ right: '37px' }}
                     >
-                      {/* <label>Download</label> */}
                       <img src={saveAlt} alt="" />
-                      {/* <i className="fa fa-download" aria-hidden="true" /> */}
-                    </a>
+                    </a> */}
                   </div>
                   <div className="card-body">
                       

@@ -664,6 +664,12 @@
     height: 230px;
     overflow-y: scroll;
   }
+  .apexcharts-tooltip{
+    transform: translate(10px, -62px);
+  }
+}
+.apexcharts-legend-series {
+  pointer-events: none;
 }
 // .mfs-wrapper{
 //   .leaflet-popup-content{

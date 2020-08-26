@@ -33,6 +33,7 @@ import {
   muniByDistrict,
 } from '../../common/adminList';
 import { getDuplicateObjectCount } from '../../common/utilFunctions';
+import { selectChoroplethDataOfProvince } from '../../../actions/automation.actions';
 
 class MainPartnership extends Component {
   constructor() {
@@ -49,9 +50,9 @@ class MainPartnership extends Component {
       serviceType: [],
       G2PTypes: [],
       demonstrationType: [],
-      selectedProvince: '',
-      selectedDistrict: null,
-      selectedMunicipality: null,
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
       isAllInvestmentFocusSelected: false,
       isAllInstitutionSelected: false,
       activeFilter: false,
@@ -118,8 +119,8 @@ class MainPartnership extends Component {
         );
       }
       this.setState({
-        selectedDistrict: '',
-        selectedMunicipality: '',
+        selectedDistrict: [],
+        selectedMunicipality: [],
         districtList: districts,
       });
     }
@@ -140,7 +141,7 @@ class MainPartnership extends Component {
         );
       }
       this.setState({
-        selectedMunicipality: '',
+        selectedMunicipality: [],
         municipalityList: municipality,
       });
     }
@@ -225,8 +226,8 @@ class MainPartnership extends Component {
     this.setState({
       mapViewDataBy: selectedView,
       selectedProvince: provinceLists(),
-      selectedDistrict: '',
-      selectedMunicipality: '',
+      selectedDistrict: [],
+      selectedMunicipality: [],
     });
 
     if (selectedView === 'general_outreach') {
@@ -1052,8 +1053,8 @@ class MainPartnership extends Component {
   resetFilters = () => {
     const { mapViewDataBy, map } = this.state;
     this.setState({
-      selectedDistrict: '',
-      selectedMunicipality: 'null',
+      selectedDistrict: [],
+      selectedMunicipality: [],
       selectedProvince: provinceLists(),
     });
     const { primaryData } = this.props.outreachReducer;
@@ -1123,6 +1124,9 @@ class MainPartnership extends Component {
         institutionSelection,
         isAllInstitutionSelected,
         loading,
+        selectedProvince,
+        selectedDistrict,
+        selectedMunicipality,
       },
     } = this;
 
@@ -1194,6 +1198,7 @@ class MainPartnership extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
+                            selectedItem={selectedProvince}
                             options={provinceList && provinceList}
                             onChange={selectedOptions => {
                               this.setState({
@@ -1209,6 +1214,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select District"
+                              selectedItem={selectedDistrict}
                               options={districtList && districtList}
                               onChange={selectedOptions => {
                                 this.setState({
@@ -1224,6 +1230,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select Municipality"
+                              selectedItem={selectedMunicipality}
                               options={
                                 municipalityList && municipalityList
                               }
