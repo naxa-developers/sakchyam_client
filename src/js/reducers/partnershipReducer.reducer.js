@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   GET_PROJECT_LIST_DATA,
   GET_PARTNERSHIP_INVESTMENT_FOCUS,
@@ -51,7 +52,10 @@ import municipality from '../../data/municipality.json';
 import WebWorker from '../WebWorker/webWorker';
 import workerfile from '../WebWorker/worker';
 
-let timelineIndex = 0;
+function convertDateToTime(date) {
+  return new Date(date).getTime();
+}
+const timelineIndex = 0;
 function provinceCodeToName(code) {
   if (code === 1) return 'Province 1';
   if (code === 2) return 'Province 2';
@@ -1427,11 +1431,26 @@ const filterLeverageDataOnClick = (state, action) => {
   };
 };
 const getPartnershipAllData = (state, action) => {
+  const allData = action.payload.map(
+    ({
+      project_id,
+      start_date,
+      province_id,
+      district_id,
+      municipality_id,
+    }) => ({
+      project_id,
+      province_id,
+      district_id,
+      municipality_id,
+      date: convertDateToTime(start_date),
+    }),
+  );
   //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
-    partnershipAllData: action.payload,
+    partnershipAllData: allData,
   };
 };
 const resetBarData = (state, action) => {
@@ -1496,48 +1515,64 @@ const filterMapdataChoropleth = (state, action) => {
 };
 const filterTimelineData = (state, action) => {
   const { min, max, fedtype } = action.payload;
-  console.log(new Date(min).getTime(), 'min');
-  console.log(new Date(min), 'minfulldate');
-  console.log(new Date(max).getTime(), 'max');
-  console.log(new Date(max), 'maxfullddate');
+  // console.log(new Date(min).getTime(), 'min');
+  // console.log(new Date(min), 'minfulldate');
+  // console.log(new Date(max).getTime(), 'max');
+  // console.log(new Date(max), 'maxfullddate');
   // console.log(max,'max');
-  let timelineData = state.timelineData.provinceTimelineData;
-  if (fedtype === 'province') {
-    timelineData = state.timelineData.provinceTimelineData;
-  } else if (fedtype === 'district') {
-    timelineData = state.timelineData.districtTimelineData;
-  } else if (fedtype === 'municipality') {
-    timelineData = state.timelineData.municipalityTimelineData;
-  }
-  // const { timelineData } = state;
-  const FilteredTimeline = [];
-  //
-  //
-  //
-  //
+  const allData = state.partnershipAllData;
 
-  // if(timelineData.data.length > )
-  const filteredTimeLineData = timelineData.filter(data => {
-    // console.log(new Date(data.date).getTime(), 'apiDate');
-    // console.log(new Date(data.date), 'apiFullDate');
-    return (
-      new Date(max).getTime() >= new Date(data.date).getTime() &&
-      new Date(data.date).getTime() >= new Date(min).getTime()
-    );
-  });
-  console.log(filteredTimeLineData, 'filteredTimelIne Data');
-  timelineData[timelineIndex].data.forEach(timeline => {
-    return FilteredTimeline.push({
-      id: timeline.code,
-      code: timeline.code,
-      count: timeline.count,
-    });
-  });
-  timelineIndex += 1;
-  //
+  // const min = convertDateToTime('2015-01-01');
+  // const max = convertDateToTime('2015-02-01');
+  const timelineData = allData.filter(
+    item => item.date > min && item.date < max,
+  );
+  function getPartnerCount({ id, type }) {
+    const filteredData = timelineData
+      .filter(item => item[type] === id)
+      .map(item => item.project_id);
+
+    const count = [...new Set(filteredData)].length;
+
+    return count;
+  }
+  let fedData = [];
+  if (fedtype === 'municipality') {
+    const municipalityData = municipality.map(item => ({
+      id: item.munid,
+      name: item.lu_name,
+    }));
+    fedData = municipalityData.map(({ id, name }) => ({
+      id,
+      name,
+      count: getPartnerCount({ id, type: 'municipality_id' }),
+    }));
+  } else if (fedtype === 'district') {
+    const districts = district.map(item => ({
+      code: item.districtid,
+      name: item.name,
+    }));
+    fedData = districts.map(({ code, name }) => ({
+      code,
+      name,
+      count: getPartnerCount({ code, type: 'district_id' }),
+    }));
+  } else {
+    const provinces = province.map(item => ({
+      id: item.FIRST_PROV,
+      name: item.prov_name,
+    }));
+    fedData = provinces.map(({ id, name }) => ({
+      id,
+      name,
+      count: getPartnerCount({ id, type: 'province_id' }),
+    }));
+  }
+
+  console.log(fedData);
   return {
     ...state,
-    filteredMapData: FilteredTimeline,
+    filteredMapData: fedData,
   };
 };
 // const filterTimelineData = (state, action) => {

@@ -51,6 +51,7 @@ export const loadingTrue = () => dispatch =>
 export const getIndicatorsGraphData = (
   activeLayer,
   activeDate,
+  activeDataTypeFor14,
 ) => dispatch => {
   // const token = localStorage.getItem('userToken');
   try {
@@ -99,7 +100,11 @@ export const getIndicatorsGraphData = (
           }),
           dispatch({
             type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
-            payload: { activeLayer, activeDate },
+            payload: {
+              activeLayer,
+              activeDate,
+              activeDataType: activeDataTypeFor14,
+            },
           })
         );
       });
@@ -111,6 +116,7 @@ export const getIndicatorsGraphData = (
 export const getIndicatorsGraphDataIndividual = (
   activeLayer,
   activeDate,
+  activeDataTypeFor14,
 ) => dispatch => {
   // const token = localStorage.getItem('userToken');
   try {
@@ -141,7 +147,11 @@ export const getIndicatorsGraphDataIndividual = (
           }),
           dispatch({
             type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
-            payload: { activeLayer, activeDate },
+            payload: {
+              activeLayer,
+              activeDate,
+              activeDataType: activeDataTypeFor14,
+            },
           }),
           dispatch({
             type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
@@ -187,6 +197,7 @@ export const filterIndicatorGraphDataWithDate = (
   activeDate,
   activeDataType,
 ) => dispatch => {
+  console.log(activeDataType, 'test Active Data Type');
   return (
     dispatch({
       type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,

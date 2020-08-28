@@ -143,7 +143,7 @@ class Sunburst extends React.Component {
 
     this.hueDXScale = d3ScaleLinear().domain([0, 1]).range([0, 360]);
 
-    this.domId = this.props.domId || `sunburst-wrapper`;
+    this.domId = this.props.domId
     this.svg = null;
     //added line
     this.legend = null;
@@ -171,7 +171,8 @@ class Sunburst extends React.Component {
     if (shallowEqual(this.props.data, nextProps.data)) {
       return false;
     }
-    
+    console.log(this.props.data,'this.props;')
+    console.log(nextProps.data,'nextProps;')
     return true;
   }
 
