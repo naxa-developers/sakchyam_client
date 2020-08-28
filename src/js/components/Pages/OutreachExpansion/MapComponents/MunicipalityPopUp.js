@@ -34,7 +34,10 @@ export default function MunicipalityPopUp(props) {
           >
             <i className="material-icons">close</i>
           </span>
-          <div className="map-popup-content">
+          <div
+            className="map-popup-content"
+            style={{ height: '60vh' }}
+          >
             <ul className="map-popup-list">
               <li>
                 <p>Head-Quarter of the Local Unit</p>
@@ -93,90 +96,94 @@ export default function MunicipalityPopUp(props) {
                 </b>
               </li>
             </ul>
-          </div>
-
-          <div className="map-popup-footer">
-            <h5>Available Means of Communication</h5>
-            <ul className="communication">
-              <li>
-                <i
-                  className={
-                    landlineChceck
-                      ? 'material-icons check'
-                      : 'material-icons cancel'
-                  }
-                >
-                  {landlineChceck ? 'check_circle' : 'cancel'}
-                </i>
-                <span>Landline</span>
-              </li>
-              <li>
-                <i
-                  className={
-                    internetChceck
-                      ? 'material-icons check'
-                      : 'material-icons cancel'
-                  }
-                >
-                  {internetChceck ? 'check_circle' : 'cancel'}
-                </i>
-                <span>Internet</span>
-              </li>
-              <li>
-                <i
-                  className={
-                    mobileChceck
-                      ? 'material-icons check'
-                      : 'material-icons cancel'
-                  }
-                >
-                  {mobileChceck ? 'check_circle' : 'cancel'}
-                </i>
-                <span>Mobile</span>
-              </li>
-              <li>
-                <i
-                  className={
-                    motherChceck
-                      ? 'material-icons check'
-                      : 'material-icons cancel'
-                  }
-                >
-                  {motherChceck ? 'check_circle' : 'cancel'}
-                </i>
-                <span>other internet</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="map-popup-footer">
-            <h5>Available Means of Electricity</h5>
-            <ul className="communication">
-              <li>
-                <i
-                  className={
-                    mainChceck
-                      ? 'material-icons check'
-                      : 'material-icons cancel'
-                  }
-                >
-                  {mainChceck ? 'check_circle' : 'cancel'}
-                </i>
-                <span>Main Grid</span>
-              </li>
-              <li>
-                <i
-                  className={
-                    microChceck
-                      ? 'material-icons check'
-                      : 'material-icons cancel'
-                  }
-                >
-                  {microChceck ? 'check_circle' : 'cancel'}
-                </i>
-                <span>Micro Hydro</span>
-              </li>
-            </ul>
+            <div
+              className="map-popup-footer"
+              style={{ padding: '.6125rem 0 .6125rem 0' }}
+            >
+              <h5>Available Means of Communication</h5>
+              <ul className="communication">
+                <li>
+                  <i
+                    className={
+                      landlineChceck
+                        ? 'material-icons check'
+                        : 'material-icons cancel'
+                    }
+                  >
+                    {landlineChceck ? 'check_circle' : 'cancel'}
+                  </i>
+                  <span>Landline</span>
+                </li>
+                <li>
+                  <i
+                    className={
+                      internetChceck
+                        ? 'material-icons check'
+                        : 'material-icons cancel'
+                    }
+                  >
+                    {internetChceck ? 'check_circle' : 'cancel'}
+                  </i>
+                  <span>Internet</span>
+                </li>
+                <li>
+                  <i
+                    className={
+                      mobileChceck
+                        ? 'material-icons check'
+                        : 'material-icons cancel'
+                    }
+                  >
+                    {mobileChceck ? 'check_circle' : 'cancel'}
+                  </i>
+                  <span>Mobile</span>
+                </li>
+                <li>
+                  <i
+                    className={
+                      motherChceck
+                        ? 'material-icons check'
+                        : 'material-icons cancel'
+                    }
+                  >
+                    {motherChceck ? 'check_circle' : 'cancel'}
+                  </i>
+                  <span>other internet</span>
+                </li>
+              </ul>
+            </div>
+            <div
+              className="map-popup-footer"
+              style={{ padding: '0 0 .6125rem 0' }}
+            >
+              <h5>Available Means of Electricity</h5>
+              <ul className="communication">
+                <li>
+                  <i
+                    className={
+                      mainChceck
+                        ? 'material-icons check'
+                        : 'material-icons cancel'
+                    }
+                  >
+                    {mainChceck ? 'check_circle' : 'cancel'}
+                  </i>
+                  <span>Main Grid</span>
+                </li>
+                <li>
+                  <i
+                    className={
+                      microChceck
+                        ? 'material-icons check'
+                        : 'material-icons cancel'
+                    }
+                  >
+                    {microChceck ? 'check_circle' : 'cancel'}
+                  </i>
+                  <span>Micro Hydro</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

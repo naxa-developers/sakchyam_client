@@ -82,6 +82,7 @@
     "@turf/turf": "^5.1.6"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "@nivo/circle-packing": "^0.62.0",
     "@nivo/sankey": "^0.62.0",
     "@nivo/treemap": "^0.62.0",

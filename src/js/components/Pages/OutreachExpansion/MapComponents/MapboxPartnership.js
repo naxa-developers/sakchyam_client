@@ -121,6 +121,8 @@ class MapboxPartnership extends Component {
           this.setState({ filteredMapData });
         }, 100);
       }
+
+      this.setState({ markerOpen: false, localPopUp: false });
     }
 
     if (mapViewDataBy === 'general_outreach') {
@@ -237,18 +239,6 @@ class MapboxPartnership extends Component {
               count: muni.nearest_road_distance,
             }));
             choroplethData = filteredByNRADistance;
-            break;
-
-          case 'Nearest Road Access(TypeOfRoad)':
-            temp = data.map(d => ({ type: d.nearest_road_type }));
-            // console.log('temp value', temp);
-            // temp = data.filter(d => d.nearest_road_distance !== -1);
-            // const filteredByNRADistance = temp.map(muni => ({
-            //   id: muni.municipality_code,
-            //   code: muni.municipality_code,
-            //   count: muni.nearest_road_distance,
-            // }));
-            // choroplethData = filteredByNRADistance;
             break;
 
           case 'Available Means of Communication(Landline)':

@@ -208,7 +208,6 @@ class MainPartnership extends Component {
   };
 
   handleFederalClickOnMap = (statelevel, code) => {
-    // console.log(statelevel, code);
     const query = `code=${code}`;
     this.setState({
       vectorTileUrl: `https://vectortile.naxa.com.np/federal/${statelevel}.mvt/?tile={z}/{x}/{y}&${query}`,
@@ -232,9 +231,12 @@ class MainPartnership extends Component {
 
     if (selectedView === 'general_outreach') {
       this.setMapViewBy('province');
+      map.resize();
 
-      map.setCenter([84.5, 28.5]);
-      map.setZoom(5.8);
+      setTimeout(() => {
+        map.setCenter([85.5, 28.5]);
+        map.setZoom(5.8);
+      }, 100);
     } else {
       // this.setState({ localOutreachSelected: '' });
       setTimeout(() => {
@@ -249,8 +251,11 @@ class MainPartnership extends Component {
       );
       this.changeMapTiles(filteredList);
 
-      map.setCenter([80.5, 29.5]);
-      map.setZoom(6.2);
+      map.setCenter([81.5, 29.5]);
+      map.setZoom(6.5);
+      setTimeout(() => {
+        map.resize();
+      }, 1);
     }
   };
 
@@ -431,8 +436,6 @@ class MainPartnership extends Component {
       filteredData = tempCollection.concat(clickedValue);
     }
 
-    // console.log('filtereddata in handeler', filteredData);
-
     switch (type) {
       case 1:
         this.setState({ serviceType: filteredData });
@@ -450,124 +453,6 @@ class MainPartnership extends Component {
         tempCollection = '';
     }
   };
-
-  // leftApplyHandler = () => {
-  //   const {
-  //     G2PTypes,
-  //     demonstrationType,
-  //     serviceType,
-  //     expsnsionSelection,
-  //     partnerSelection,
-  //     institutionSelection,
-  //     dataByAdmin,
-  //     filterDataByAdmin,
-  //   } = this.state;
-  //   let filteredData = [];
-  //   let { primaryData } = this.props.outreachReducer;
-  //   if (filterDataByAdmin) {
-  //     primaryData = dataByAdmin;
-  //   }
-
-  //   if (
-  //     G2PTypes.length === 0 &&
-  //     demonstrationType.length === 0 &&
-  //     serviceType.length === 0 &&
-  //     expsnsionSelection.length === 0 &&
-  //     expsnsionSelection.length === 0 &&
-  //     institutionSelection.length === 0
-  //   ) {
-  //     filteredData = primaryData;
-  //   }
-
-  //   if (serviceType.length > 0) {
-  //     const value =
-  //       filteredData.length > 0 ? filteredData : primaryData;
-  //     filteredData = [];
-  //     serviceType.map(type => {
-  //       value.map(data => {
-  //         if (type === data.point_service) {
-  //           filteredData.push(data);
-  //         }
-  //       });
-  //     });
-  //   }
-
-  //   if (G2PTypes.length > 0) {
-  //     const value =
-  //       filteredData.length > 0 ? filteredData : primaryData;
-  //     filteredData = [];
-  //     G2PTypes.map(type => {
-  //       value.map(data => {
-  //         if (type === data.g2p_payment) {
-  //           filteredData.push(data);
-  //         }
-  //       });
-  //     });
-  //   }
-
-  //   if (demonstrationType.length > 0) {
-  //     const value =
-  //       filteredData.length > 0 ? filteredData : primaryData;
-  //     filteredData = [];
-  //     demonstrationType.map(type => {
-  //       value.map(data => {
-  //         if (type === data.demonstration_effect) {
-  //           filteredData.push(data);
-  //         }
-  //       });
-  //     });
-  //   }
-
-  //   // console.log('filter after demonstrationType', filteredData);
-
-  //   if (expsnsionSelection.length > 0) {
-  //     const value =
-  //       filteredData.length > 0 ? filteredData : primaryData;
-  //     filteredData = [];
-  //     expsnsionSelection.map(type => {
-  //       value.map(data => {
-  //         if (type === data.expansion_driven_by) {
-  //           filteredData.push(data);
-  //         }
-  //       });
-  //     });
-  //   }
-  //   if (partnerSelection.length > 0) {
-  //     const value =
-  //       filteredData.length > 0 ? filteredData : primaryData;
-  //     filteredData = [];
-  //     partnerSelection.map(type => {
-  //       value.map(data => {
-  //         if (type === data.partner_type) {
-  //           filteredData.push(data);
-  //         }
-  //       });
-  //     });
-  //   }
-
-  //   if (institutionSelection.length > 0) {
-  //     const value =
-  //       filteredData.length > 0 ? filteredData : primaryData;
-  //     filteredData = [];
-  //     institutionSelection.map(type => {
-  //       value.map(data => {
-  //         if (type === data.partner) {
-  //           filteredData.push(data);
-  //         }
-  //       });
-  //     });
-  //   }
-
-  //   const filteredByLeftData =
-  //     JSON.stringify(primaryData) === JSON.stringify(filteredData);
-
-  //   this.setAdminChoropleth(filteredData);
-  //   this.setState({
-  //     primaryData: filteredData,
-  //     filteredByLeftData: !filteredByLeftData,
-  //     dataByLeft: filteredData,
-  //   });
-  // };
 
   setAdminChoropleth = filteredData => {
     const provinceList = [];
@@ -654,8 +539,6 @@ class MainPartnership extends Component {
             }
           });
         });
-
-        // console.log('filtered list', filteredList);
       } else if (provinceCheck) {
         filteredList = this.provinceListByMunnicipalityTiles(
           selectedProvince,
@@ -910,8 +793,8 @@ class MainPartnership extends Component {
       this.setState({
         primaryData: filteredData,
       });
-      map.setZoom(5.8);
-      map.setCenter([84.5, 28.5]);
+      // map.setZoom(5.6);
+      // map.setCenter([84.5, 28.5]);
       if (mapViewBy === 'municipality') {
         this.changeMapTiles(municipalityLists());
       } else if (mapViewBy === 'district') {
@@ -1138,33 +1021,36 @@ class MainPartnership extends Component {
             activeOverview ? 'expand-right-sidebar' : ''
           }`}
         >
-          <LeftSideBar
-            mapViewDataBy={mapViewDataBy}
-            expsnsionSelection={expsnsionSelection}
-            partnerSelection={partnerSelection}
-            G2PTypes={G2PTypes}
-            serviceType={serviceType}
-            demonstrationType={demonstrationType}
-            institutionSelection={institutionSelection}
-            isAllInstitutionSelected={isAllInstitutionSelected}
-            handleInstitutionParentCheckbox={
-              this.handleInstitutionParentCheckbox
-            }
-            handleInstitutionSelectionCheckbox={
-              this.handleInstitutionSelectionCheckbox
-            }
-            isAllInvestmentFocusSelected={
-              isAllInvestmentFocusSelected
-            }
-            handelExpansionCheckbox={this.handelExpansionCheckbox}
-            handelExpansionParentCheckbox={
-              this.handelExpansionParentCheckbox
-            }
-            handelMultiChoice={this.handelMultiChoice}
-            resetFilters={this.resetFilters}
-            applyBtnClick={this.handleApplyFederalFilter}
-            loading={loading}
-          />
+          {mapViewDataBy === 'general_outreach' && (
+            <LeftSideBar
+              mapViewDataBy={mapViewDataBy}
+              expsnsionSelection={expsnsionSelection}
+              partnerSelection={partnerSelection}
+              G2PTypes={G2PTypes}
+              serviceType={serviceType}
+              demonstrationType={demonstrationType}
+              institutionSelection={institutionSelection}
+              isAllInstitutionSelected={isAllInstitutionSelected}
+              handleInstitutionParentCheckbox={
+                this.handleInstitutionParentCheckbox
+              }
+              handleInstitutionSelectionCheckbox={
+                this.handleInstitutionSelectionCheckbox
+              }
+              isAllInvestmentFocusSelected={
+                isAllInvestmentFocusSelected
+              }
+              handelExpansionCheckbox={this.handelExpansionCheckbox}
+              handelExpansionParentCheckbox={
+                this.handelExpansionParentCheckbox
+              }
+              handelMultiChoice={this.handelMultiChoice}
+              resetFilters={this.resetFilters}
+              applyBtnClick={this.handleApplyFederalFilter}
+              loading={loading}
+            />
+          )}
+
           <main className="main">
             <div className="main-card literacy-main-card">
               {/* <Loading loaderState={loading} top="50%" left="46%" /> */}
