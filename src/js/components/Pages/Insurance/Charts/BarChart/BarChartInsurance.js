@@ -20,14 +20,6 @@ function convert(num) {
   return num;
 }
 
-function getBarChartLabels(data, name) {
-  return [...new Set(data.map(item => item[name]))];
-}
-
-function getCount(data, name) {
-  return data.reduce((sum, item) => sum + item[name], 0);
-}
-
 const colors = {
   red: '#E11D3F',
   yellow: '#FFCD00',
@@ -42,63 +34,10 @@ class BarChartInsurance extends Component {
       series2: [],
       options: {},
       chartData1: {},
-      chartData2: { series1: [], series2: [], options: {} },
       chartData3: {},
       // isBarChartClicked: false,
     };
   }
-
-  generateBarChartData2 = i => {
-    const clickedInnovation = this.state.options.labels[i];
-    const { insuranceData } = this.props;
-
-    const data = insuranceData.filter(
-      item => item.partner_name === clickedInnovation,
-    );
-    const labels = getBarChartLabels(data, 'product');
-    const columnData = [];
-    const lineData = [];
-    labels.forEach(item => {
-      const filteredData = data.filter(x => x.product === item);
-      const amountOfInsurance = getCount(
-        filteredData,
-        'amount_of_insurance',
-      );
-      const amountOfSumInsuranced = getCount(
-        filteredData,
-        'amount_of_sum_insuranced',
-      );
-      columnData.push(amountOfInsurance);
-      lineData.push(amountOfSumInsuranced);
-    });
-
-    const series1 = [];
-    const series2 = [];
-
-    series1.push({
-      name: 'Amount of Insurance',
-      data: columnData,
-    });
-    series2.push({
-      name: 'Amount of Sum Insuranced',
-      data: lineData,
-    });
-
-    this.setState(
-      prevState => ({
-        chartData2: {
-          series1,
-          series2,
-          options: {
-            ...prevState.options,
-            labels,
-          },
-        },
-        // isBarChartClicked: true,
-      }),
-      () => this.props.handleBarChartClick(),
-    );
-  };
 
   // generateBarChartData1 = i => {
   //   const clickedPartner = this.state.chartData1.options.labels[i];
@@ -180,7 +119,10 @@ class BarChartInsurance extends Component {
               // }
               if (!that.props.isBarChartClicked) {
                 // that.props.handleBarChartClick();
-                that.generateBarChartData2(dataPointIndex);
+                that.props.generateBarChartData2(
+                  dataPointIndex,
+                  that.state.options,
+                );
               }
             }
           },
@@ -414,11 +356,11 @@ class BarChartInsurance extends Component {
       options: { ...prev.options, labels },
       data: array,
       chartData1: { series1, options: { ...prev.options } },
-      chartData2: { options },
+      // chartData2: { options },
       // isBarChartClicked: false,
     }));
 
-    this.props.resetBarChartClick();
+    if (!this.props.activeModal) this.props.resetBarChartClick();
   };
 
   handleBarChartBackBtn = () => {
@@ -429,8 +371,10 @@ class BarChartInsurance extends Component {
   };
 
   render() {
-    const { series1, chartData2 } = this.state;
-    const { isBarChartClicked, loading } = this.props;
+    const { series1 } = this.state;
+    const { isBarChartClicked, loading, chartData2 } = this.props;
+
+    console.log(chartData2, 'chartdata2');
 
     const {
       DownloadIcon,

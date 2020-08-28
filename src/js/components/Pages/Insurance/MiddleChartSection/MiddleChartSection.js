@@ -22,6 +22,15 @@ function formatData(fulldata) {
     datum.size = Math.round(datum.size);
   });
 }
+
+function getBarChartLabels(data, name) {
+  return [...new Set(data.map(item => item[name]))];
+}
+
+function getCount(data, name) {
+  return data.reduce((sum, item) => sum + item[name], 0);
+}
+
 class MiddleChartSection extends Component {
   constructor(props) {
     super(props);
@@ -31,6 +40,7 @@ class MiddleChartSection extends Component {
       selectedTab: 'innovation',
       selectedTabBar: 'insurance-premium',
       modalHeader: '',
+      chartData2: { series1: [], series2: [], options: {} },
     };
   }
 
@@ -58,6 +68,70 @@ class MiddleChartSection extends Component {
     this.setState(prevState => ({
       activeModal: !prevState.activeModal,
     }));
+  };
+
+  generateBarChartData2 = (i, options) => {
+    const clickedInnovation = options.labels[i];
+    const { insuranceData } = this.props;
+
+    const data = insuranceData.filter(
+      item => item.partner_name === clickedInnovation,
+    );
+    const labels = getBarChartLabels(data, 'product');
+    const columnData = [];
+    const lineData = [];
+    labels.forEach(item => {
+      const filteredData = data.filter(x => x.product === item);
+      const amountOfInsurance = getCount(
+        filteredData,
+        'amount_of_insurance',
+      );
+      const amountOfSumInsuranced = getCount(
+        filteredData,
+        'amount_of_sum_insuranced',
+      );
+      columnData.push(amountOfInsurance);
+      lineData.push(amountOfSumInsuranced);
+    });
+
+    const series1 = [];
+    const series2 = [];
+
+    series1.push({
+      name: 'Amount of Insurance',
+      data: columnData,
+    });
+    series2.push({
+      name: 'Amount of Sum Insuranced',
+      data: lineData,
+    });
+
+    this.setState({
+      chartData2: {
+        series1,
+        series2,
+        options: {
+          ...options,
+          labels,
+        },
+      },
+      isBarChartClicked: true,
+    });
+
+    // this.setState(
+    //   prevState => ({
+    //     chartData2: {
+    //       series1,
+    //       series2,
+    //       options: {
+    //         ...options,
+    //         labels,
+    //       },
+    //     },
+    //     // isBarChartClicked: true,
+    //   }),
+    //   // () => this.props.handleBarChartClick(),
+    // );
   };
 
   handleSelectedModal = value => {
@@ -160,6 +234,8 @@ class MiddleChartSection extends Component {
             isBarChartClicked={isBarChartClicked}
             handleBarChartClick={this.handleBarChartClick}
             resetBarChartClick={this.resetBarChartClick}
+            generateBarChartData2={this.generateBarChartData2}
+            chartData2={this.state.chartData2}
           />
         );
 
@@ -294,6 +370,8 @@ class MiddleChartSection extends Component {
                   isBarChartClicked={isBarChartClicked}
                   handleBarChartClick={this.handleBarChartClick}
                   resetBarChartClick={this.resetBarChartClick}
+                  generateBarChartData2={this.generateBarChartData2}
+                  chartData2={this.state.chartData2}
                 />
               </div>
             </div>
