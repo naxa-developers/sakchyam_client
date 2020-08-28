@@ -90,7 +90,7 @@ const Modal = props => {
       : selectedModal === 'sankey'
       ? 'sankey_chart'
       : selectedModal === 'sunburst'
-      ? 'sunburst-wrapper'
+      ? 'test2'
       : selectedModal === 'stackedWithInvestment'
       ? 'stackedWithInvestment'
       : selectedModal === 'logframe'
@@ -166,7 +166,8 @@ const Modal = props => {
                   // id="chart-reset"
                   type="button"
                   onClick={() => {
-                    props.resetRadialData();
+                    resetFilters();
+                    // props.resetRadialData();
                     // resetFunction();
                   }}
                   className="is-border common-button chart-reset "

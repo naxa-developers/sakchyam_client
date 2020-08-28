@@ -217,7 +217,6 @@ const initialState = {
         offsetY: -5,
         rotate: 0,
         formatter: value => {
-          console.log(value, 'value');
           // if (value === 0) {
           //   return value;
           // }
@@ -228,10 +227,10 @@ const initialState = {
           //   return value.toFixed(1);
           // }
 
-          // // console.log(value, 'v');
+          // //
           // // const roundNumber = Math.round(value);
-          // // console.log(convert(roundNumber));
-          // //   console.log(convert(roundNumber));
+          // //
+          // //
           // if (value % 1 !== 0) {
           //   return convert(Math.round(value * 10) / 10);
           // }
@@ -249,7 +248,7 @@ const initialState = {
       intersect: false,
       y: {
         formatter(y) {
-          // console.log(y, 'y');
+          //
           if (typeof y !== 'undefined') {
             return `${y.toFixed(2)} £`;
           }
@@ -261,26 +260,26 @@ const initialState = {
 };
 const filterIndicatorGraphData = (state, action) => {
   const activeLayer = action.payload;
-  // console.log('gilterindicatorgraphdata ');
-  // console.log(action);
+  //
+  //
   // const a = 'Output Indicator 2.5';
-  // console.log(state.logDataGraph, 'red logdata');
+  //
   const filtered = state.logDataGraph.filter(result => {
     //   if (result.category === 'IMPACT') {
-    //   console.log(a);
+    //
     return result.sub_category.name === action.payload;
     //   }
   });
   // this.setState({ filteredDynamicData: filtered });
-  // console.log(filtered, 'filtered');
+  //
   // const { dataType } = filtered[0];
   const dataType = filtered[0].data_type;
   const dataUnit = filtered[0].unit;
 
   let unit = '';
   let type = '';
-  // console.log(dataUnit, 'dataUnit');
-  // console.log(dataType, 'dataType');
+  //
+  //
   if (dataType === 'percentage') {
     type = '%';
   } else if (dataUnit === 'pound') {
@@ -297,15 +296,15 @@ const filterIndicatorGraphData = (state, action) => {
     return `${el.achieved}`;
   });
   const label = filtered.map(el => {
-    //   console.log(el, 'elLabel');
+    //
     return el.year.name;
   });
   const category = filtered.map(el => {
-    //   console.log(el, 'elLabel');
+    //
     return el.year.name;
   });
   const totalDateList = filtered.map(el => {
-    // console.log(el, 'elLabel');
+    //
     return el.year;
   });
   const totalRangeDate = totalDateList.map(data => {
@@ -314,10 +313,10 @@ const filterIndicatorGraphData = (state, action) => {
   const totalRangeDateName = totalDateList.map(data => {
     return data.name;
   });
-  console.log(totalRangeDate, 'rrrr');
-  // console.log(category, 'cat');
-  // console.log(label, 'label');
-  // console.log(achieved, 'achieved');
+
+  //
+  //
+  //
   const series = [
     {
       name: 'Target',
@@ -340,7 +339,7 @@ const filterIndicatorGraphData = (state, action) => {
       data: achieved,
     },
   ];
-  // console.log(series, 'se');
+  //
   // const { getDateRange } = this.props;
   // getDateRange(totalDateList);
 
@@ -427,7 +426,7 @@ const filterIndicatorGraphData = (state, action) => {
             //         )}%)`
             //       : ''
             //     : '';
-            // console.log(y.toLocaleString(), 'y');
+            //
             if (typeof y !== 'undefined') {
               // return `${unit} ${y.toFixed(0)}${type}`;
               return `${unit} ${
@@ -516,8 +515,8 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   console.log(activeLayer, 'activeLayer');
   console.log(activeDate, 'activeDate');
   console.log(activeDataType, 'activeDataType');
-  // console.log(`[${activeLayer}]`, 'activeLayer');
-  // console.log(activeDate, 'activeYear');
+  //
+  //
   const activeDateClone = activeDate;
   let activeDates = [];
   if (activeLayer === 'Output Indicator 1.5') {
@@ -529,7 +528,6 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     activeDates = activeDateClone.filter(
       date => date === '2020' || date === '2019' || date === '2018',
     );
-    console.log(activeDates, 'activeDateClone');
   } else if (activeLayer === 'Output Indicator 1.4') {
     // activeDate = activeDate.map(data => {
     //   if (data === '2020') {
@@ -537,7 +535,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     //   }
     // });
     activeDates = activeDateClone.filter(date => date < '2019');
-    // console.log(activeDates, 'activeDateClone');
+    //
   } else {
     activeDates = activeDate;
   }
@@ -564,9 +562,8 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   let type = '';
   let plannedPercent = [];
   let achievedPercent = [];
-  console.log(dataUnit, 'dataUnit');
-  console.log(dataType, 'dataType');
-  // console.log(dataUnit, 'dataUnit');
+
+  //
   if (dataType !== undefined && dataType !== null) {
     if (dataType === 'Percent') {
       type = '%';
@@ -605,10 +602,10 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     return `${el.achieved}`;
   });
   plannedPercent = planned.map((x, y) => {
-    // console.log(x, 'x');
-    // console.log(y, 'y');
-    // console.log(planned[y - 1], 'old');
-    // console.log(planned[y], 'new');
+    //
+    //
+    //
+    //
     const oldValue =
       planned[y - 1] === undefined ? 0 : planned[y - 1];
     return getPercentageChange(oldValue, x) === Infinity
@@ -617,10 +614,10 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     // return planned[y - 1];
   });
   achievedPercent = planned.map((x, y) => {
-    // console.log(x, 'x');
-    // console.log(y, 'y');
-    // console.log(achieved[y - 1], 'old');
-    // console.log(achieved[y], 'new');
+    //
+    //
+    //
+    //
     const oldValue =
       achieved[y - 1] === undefined ? 0 : achieved[y - 1];
     return getPercentageChange(oldValue, x) === Infinity
@@ -629,28 +626,24 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     // return planned[y - 1];
   });
   // const plannedPercent = planned.reduce((x, y, z) => {
-  //   // console.log(x, 'x');
-  //   // console.log(y, 'y');
-  //   // console.log(z, 'z');
+  //   //
+  //   //
+  //   //
   //   return parseInt(x, 10) + parseInt(y, 10);
   // });
-  console.log(plannedPercent, 'plannedPercent');
-  console.log(achievedPercent, 'achievedPercent');
 
-  // console.log(planned, 'comma planned');
+  //
 
   const label = filtered.map(el => {
-    //   console.log(el, 'elLabel');
+    //
     return el.year.name;
   });
   const category = filtered.map(el => {
-    //   console.log(el, 'elLabel');
+    //
     return [el.year.range];
   });
-  console.log(activeLayer, 'activeLayer1st');
 
   const returnedFormat = (x, y) => {
-    console.log(activeLayer, 'activeLayer2nd');
     let Output41 = '';
     if (
       activeLayer === 'Output Indicator 4.1' &&
@@ -690,7 +683,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
           ? `(${achievedPercent[x.dataPointIndex].toFixed(2)}%)`
           : ''
         : '';
-    // console.log(y.toLocaleString(), 'y');
+    //
     if (typeof y !== 'undefined') {
       // return `${unit} ${y.toFixed(0)}${type}`;
       return `${unit} ${
@@ -701,9 +694,9 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     }
     return y;
   };
-  // console.log(category, 'cat');
-  // console.log(label, 'label');
-  // console.log(achieved, 'achieved');
+  //
+  //
+  //
   const series = [
     {
       name: 'Target',
@@ -727,7 +720,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     },
   ];
 
-  // console.log(series, 'se');
+  //
   // const { getDateRange } = this.props;
   // getDateRange(totalDateList);
 
@@ -774,8 +767,6 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
           offsetY: -5,
           rotate: 0,
           formatter: value => {
-            console.log(value, 'value');
-            console.log(activeLayer, 'label MAIN ACTIVELAYER');
             if (value === 0) {
               return value;
             }
@@ -786,10 +777,10 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
               return value.toFixed(2);
             }
 
-            // console.log(value, 'v');
+            //
             // const roundNumber = Math.round(value);
-            // console.log(convert(roundNumber));
-            //   console.log(convert(roundNumber));
+            //
+            //
             if (value % 1 !== 0) {
               return convert(value.toFixed(2));
             }
@@ -835,8 +826,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
 const filterOutputIndicatorForPercentOrNumber = (state, action) => {
   // const dataTypePayload = action.payload;
   const { activeLayer, activeDate, dataTypePayload } = action.payload;
-  console.log(`[${activeLayer}]`, 'activeLayer');
-  console.log(activeDate, 'activeYear');
+
   const activeDateClone = activeDate;
   let activeDates = [];
   if (dataTypePayload === 'percent') {
@@ -846,7 +836,6 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
     //   }
     // });
     activeDates = activeDateClone.filter(date => date < '2019');
-    console.log(activeDates, 'activeDateClone');
   } else if (dataTypePayload === 'number') {
     activeDates = activeDateClone.filter(date => date >= '2019');
   } else {
@@ -872,9 +861,8 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
 
   let unit = '';
   let type = '';
-  console.log(dataUnit, 'dataUnit');
-  console.log(dataType, 'dataType');
-  // console.log(dataUnit, 'dataUnit');
+
+  //
   if (dataType === 'Percent') {
     type = '%';
   } else if (dataUnit === 'GBP') {
@@ -890,21 +878,21 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
   const planned = filtered.map(el => {
     return `${el.planned_afp}`;
   });
-  // console.log(planned, 'comma planned');
+  //
   const achieved = filtered.map(el => {
     return `${el.achieved}`;
   });
   const label = filtered.map(el => {
-    //   console.log(el, 'elLabel');
+    //
     return el.year.name;
   });
   const category = filtered.map(el => {
-    //   console.log(el, 'elLabel');
+    //
     return [el.year.range];
   });
-  // console.log(category, 'cat');
-  // console.log(label, 'label');
-  // console.log(achieved, 'achieved');
+  //
+  //
+  //
   const series = [
     {
       name: 'Target',
@@ -927,7 +915,7 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
       data: achieved,
     },
   ];
-  // console.log(series, 'se');
+  //
   // const { getDateRange } = this.props;
   // getDateRange(totalDateList);
   const { defaultdateRange } = state;
@@ -979,7 +967,6 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
           offsetY: -5,
           rotate: 0,
           formatter: value => {
-            console.log(value, 'value');
             if (value === 0) {
               return value;
             }
@@ -990,10 +977,10 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
               return value.toFixed(1);
             }
 
-            // console.log(value, 'v');
+            //
             // const roundNumber = Math.round(value);
-            // console.log(convert(roundNumber));
-            //   console.log(convert(roundNumber));
+            //
+            //
             if (value % 1 !== 0) {
               return convert(Math.round(value * 10) / 10);
             }
@@ -1032,8 +1019,7 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
         intersect: false,
         y: {
           formatter(y) {
-            console.log(y, 'y');
-            // console.log(y.toLocaleString(), 'y');
+            //
             if (typeof y !== 'undefined') {
               // return `${unit} ${y.toFixed(0)}${type}`;
               return `${unit} ${y.toLocaleString()}${type}`;
@@ -1051,9 +1037,9 @@ const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
   const filteredDataByCategory = totalData.filter(data => {
     return data.sub_category.name === 'Outcome Indicator 4';
   });
-  // console.log(activeYear, 'activeYear');
+  //
   const filteredData = filteredDataByCategory.filter(data => {
-    // console.log(data, 'data');
+    //
     if (activeYear.length > 0) {
       return activeYear.includes(data.year.range);
     }
@@ -1062,9 +1048,9 @@ const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
   const labelForPiechart = filteredData.map(filtered => {
     return filtered.year.name;
   });
-  // console.log(filteredData, 'filteredData');
+  //
   const plannedData = filteredData.map(filtered => {
-    // console.log(filtered.planned_afp, 'afp');
+    //
     const splitted = filtered.planned_afp.toString().includes(',')
       ? filtered.planned_afp.split(',')
       : filtered.planned_afp;
@@ -1094,14 +1080,13 @@ const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
   //   const calculatedPercent = (data / totalAchievedSum) * 100;
   //   return calculatedPercent;
   // });
-  // console.log(totalPlannedSum, 'plannedSum');
-  // console.log(plannedPercents, 'plannedSum');
-  // console.log(achievedPercents, 'achievedPercents');
-  // console.log(totalAchievedSum, 'achievedSum');
-  console.log(plannedData, 'plannedData');
-  console.log(achievedData, 'achievedData');
-  // // console.log(filteredData, 'filteredData');
-  // console.log(action.payload, 'payload');
+  //
+  //
+  //
+  //
+
+  // //
+  //
 
   return {
     ...state,
@@ -1117,7 +1102,7 @@ const getPlannedAchievedDataFor1stPieCharts = (state, action) => {
 };
 const getPlannedAchievedDataFor2ndPieCharts = (state, action) => {
   const { selectedMilestone } = action.payload;
-  console.log(selectedMilestone, 'state');
+
   const totalData = [...state.logDataGraph];
   const filteredData = totalData.filter(data => {
     return data.sub_category.name === 'Outcome Indicator 4';
@@ -1125,7 +1110,7 @@ const getPlannedAchievedDataFor2ndPieCharts = (state, action) => {
   const milestoneWiseFilter = filteredData.filter(data => {
     return data.year.name === selectedMilestone;
   });
-  console.log(milestoneWiseFilter, 'milestone');
+
   const plannedData = milestoneWiseFilter.map(filtered => {
     const splitted = filtered.planned_afp.split(',');
     return +splitted[1];
@@ -1137,7 +1122,7 @@ const getPlannedAchievedDataFor2ndPieCharts = (state, action) => {
     return +splitted[1];
   });
   achievedData.push(100 - +achievedData[0]);
-  console.log(plannedData, 'plan');
+
   return {
     ...state,
     planned2ndPieData: {

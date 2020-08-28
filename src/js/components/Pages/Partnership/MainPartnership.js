@@ -1335,6 +1335,7 @@ class MainPartnership extends Component {
       selectedMunicipality,
       selectedDistrict,
       selectedProvince,
+      mapViewBy,
     } = this.state;
     if (activeView === 'visualization') {
       this.handleShowBarOf('Provinces');
@@ -1394,11 +1395,18 @@ class MainPartnership extends Component {
         partnerSelection,
         projectStatus,
       );
+
       this.props.filterLeverageData(
         investmentFocusSelection,
         projectSelection,
       );
     } else {
+      this.props.filterOverviewData(
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+      );
       this.props.filterMapChoropleth(
         investmentFocusSelection,
         projectSelection,
@@ -1406,6 +1414,7 @@ class MainPartnership extends Component {
         partnerType,
         partnerSelection,
         { selectedMunicipality, selectedDistrict, selectedProvince },
+        mapViewBy,
       );
     }
   };

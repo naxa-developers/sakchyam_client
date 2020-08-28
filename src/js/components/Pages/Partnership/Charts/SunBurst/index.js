@@ -5,6 +5,7 @@ export default function SunburstContainer(props) {
   return (
     <>
       <Sunburst
+        domId={props.domId}
         data={props.data}
         height={props.height}
         width={props.width}

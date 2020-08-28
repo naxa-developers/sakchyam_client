@@ -1754,6 +1754,7 @@ export const filterMapChoropleth = (
   selectedPartnerType,
   selectedPartnerId,
   selectedFederalList,
+  mapViewBy,
 ) => dispatch => {
   const investmentFilter =
     selectedInvestmentFocus.length > 0
@@ -1800,7 +1801,11 @@ export const filterMapChoropleth = (
             return prov.code;
           },
         )}`
-      : 'province_id=0';
+      : mapViewBy === 'province'
+      ? 'province_id=0'
+      : mapViewBy === 'district'
+      ? 'district_id=0'
+      : 'municipality_id=0';
   // console.log(investmentFocusSelection, 'investm');
   try {
     axiosInstance

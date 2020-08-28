@@ -554,7 +554,12 @@ class MainComponent extends Component {
         'apexcharts-menu-icon',
       )[0].title = 'Export';
     }
-    const { activeLayer, activeDate, activeDataType } = this.state;
+    const {
+      activeLayer,
+      activeDate,
+      activeDataType,
+      output14firstState,
+    } = this.state;
     if (prevState.activeLayer !== activeLayer) {
       // eslint-disable-next-line react/no-did-update-set-state
       // this.setState({
@@ -575,6 +580,7 @@ class MainComponent extends Component {
         this.props.filterIndicatorGraphDataWithDate(
           activeLayer,
           activeDate,
+          output14firstState,
           activeDataType,
         );
       }
@@ -606,7 +612,8 @@ class MainComponent extends Component {
       this.props.filterIndicatorGraphDataWithDate(
         activeLayer,
         activeDate,
-        activeDataType,
+        output14firstState,
+        // activeDataType,
       );
     }
     if (prevState.activeDataType !== activeDataType) {
@@ -621,24 +628,35 @@ class MainComponent extends Component {
       //   activeTimeGraph: true,
       // });
       // console.log(activeDataType, 'change datatype');
+
       if (activeDataType === 'Individual') {
         if (activeDate.length === 0) {
           this.props.getIndicatorsGraphDataIndividual(
             activeLayer,
             false,
+            output14firstState,
           );
         } else {
           this.props.getIndicatorsGraphDataIndividual(
             activeLayer,
             activeDate,
+            output14firstState,
           );
         }
         // this.filterDataWithLayer();
       } else if (activeDate.length === 0) {
         // if (activeDate.length === 0) {
-        this.props.getIndicatorsGraphData(activeLayer, false);
+        this.props.getIndicatorsGraphData(
+          activeLayer,
+          false,
+          output14firstState,
+        );
       } else {
-        this.props.getIndicatorsGraphData(activeLayer, activeDate);
+        this.props.getIndicatorsGraphData(
+          activeLayer,
+          activeDate,
+          output14firstState,
+        );
       }
       // } else {
       //   this.props.getIndicatorsGraphData(activeLayer, activeDate);
@@ -646,6 +664,14 @@ class MainComponent extends Component {
       // this.props.getIndicatorsGraphData(activeLayer, activeDate);
       // this.filterDataWithLayer();
       // }
+      if (
+        activeLayer === 'Output Indicator 1.4' &&
+        output14firstState === false
+      ) {
+        setTimeout(() => {
+          document.querySelector('.second-btn').click();
+        }, 2000);
+      }
     }
     const {
       logFrameReducer: { indicatorCategory },

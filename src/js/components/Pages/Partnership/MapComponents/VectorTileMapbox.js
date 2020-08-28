@@ -1636,7 +1636,7 @@ class Choropleth extends Component {
           'fill-color',
           this.state.finalStyle,
         );
-      }, 100);
+      }, 1500);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
       //

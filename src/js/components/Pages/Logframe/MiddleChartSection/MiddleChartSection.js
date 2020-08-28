@@ -2021,7 +2021,7 @@ class MiddleChartSection extends Component {
                   );
                 }}
                 type="button"
-                className="common-button is-border"
+                className="first-btn common-button is-border"
               >
                 Milestone Year 15-18 Percent
               </button>
@@ -2035,7 +2035,7 @@ class MiddleChartSection extends Component {
                   );
                 }}
                 type="button"
-                className="common-button is-border"
+                className="second-btn common-button is-border"
               >
                 Milestone Year 19-so on Number
               </button>
