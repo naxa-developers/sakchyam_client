@@ -6,6 +6,7 @@ import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
 import domtoimage from 'dom-to-image';
 
+
 // import Canvas2Image, {
 //   saveAsPNG,
 // } from '../../../../../library/canvas2image';
@@ -1457,6 +1458,10 @@ class MiddleChartSection extends Component {
             // eslint-disable-next-line no-param-reassign
             el.style.display = 'block';
           });
+        if(document.querySelector('.multiple-bar')){
+          document.querySelector('.multiple-bar').style.display =
+          'flex';
+        }
       });
     }, 500);
   

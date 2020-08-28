@@ -667,6 +667,9 @@ class MainPartnership extends Component {
   setActiveView = selectedView => {
     this.setState({
       activeView: selectedView,
+      selectedProvince: [],
+      selectedDistrict: [],
+      selectedMunicipality: [],
     });
   };
 
@@ -1436,15 +1439,15 @@ class MainPartnership extends Component {
       map,
     } = this.state;
     if (activeView === 'visualization') {
-      this.props.filterFinancialDataWithAllFiltersAndFederal(
-        { selectedMunicipality, selectedDistrict, selectedProvince },
-        investmentFocusSelection,
-        viewDataBy,
-        partnerType,
-        partnerSelection,
-        projectSelection,
-        projectStatus,
-      );
+      // this.props.filterFinancialDataWithAllFiltersAndFederal(
+      //   { selectedMunicipality, selectedDistrict, selectedProvince },
+      //   investmentFocusSelection,
+      //   viewDataBy,
+      //   partnerType,
+      //   partnerSelection,
+      //   projectSelection,
+      //   projectStatus,
+      // );
       this.props.filterOverviewData(
         investmentFocusSelection,
         projectSelection,
@@ -1732,60 +1735,123 @@ class MainPartnership extends Component {
                     </div>
                     <div className="filter-row">
                       <div className="filter-list">
-                        <div className="form-group province">
-                          <Select
-                            withCheckbox
-                            name="Select Province"
-                            selectedItem={selectedProvince}
-                            options={
-                              allProvinceList && allProvinceList
-                            }
-                            onChange={selectedOptions => {
-                              this.setState({
-                                // eslint-disable-next-line react/no-unused-state
-                                selectedProvince: selectedOptions,
-                              });
-                              // eslint-disable-next-line react/jsx-curly-newline
-                            }}
-                          />
-                        </div>
-                        {mapViewBy === 'municipality' ||
-                        mapViewBy === 'district' ? (
-                          <div className="form-group district">
-                            <Select
-                              withCheckbox
-                              name="Select District"
-                              selectedItem={selectedDistrict}
-                              options={
-                                allDistrictList && allDistrictList
-                              }
-                              onChange={selectedOptions => {
-                                this.setState({
-                                  selectedDistrict: selectedOptions,
-                                });
-                                // eslint-disable-next-line react/jsx-curly-newline
-                              }}
-                            />
-                          </div>
-                        ) : null}
-                        {mapViewBy === 'municipality' && (
-                          <div className="form-group municipality">
-                            <Select
-                              withCheckbox
-                              name="Select Municipality"
-                              selectedItem={selectedMunicipality}
-                              options={
-                                allMunicipalityList &&
-                                allMunicipalityList
-                              }
-                              onChange={selectedOptions => {
-                                this.setState({
-                                  selectedMunicipality: selectedOptions,
-                                });
-                                // eslint-disable-next-line react/jsx-curly-newline
-                              }}
-                            />
-                          </div>
+                        {activeView === 'visualization' ? (
+                          <>
+                            <div className="form-group province">
+                              <Select
+                                withCheckbox
+                                inputClassname="province_check"
+                                name="Select Province"
+                                selectedItem={selectedProvince}
+                                options={
+                                  allProvinceList && allProvinceList
+                                }
+                                onChange={selectedOptions => {
+                                  this.setState({
+                                    // eslint-disable-next-line react/no-unused-state
+                                    selectedProvince: selectedOptions,
+                                  });
+                                  // eslint-disable-next-line react/jsx-curly-newline
+                                }}
+                              />
+                            </div>
+                            <div className="form-group district">
+                              <Select
+                                withCheckbox
+                                inputClassname="district_check"
+                                name="Select District"
+                                selectedItem={selectedDistrict}
+                                options={
+                                  allDistrictList && allDistrictList
+                                }
+                                onChange={selectedOptions => {
+                                  this.setState({
+                                    selectedDistrict: selectedOptions,
+                                  });
+                                  // eslint-disable-next-line react/jsx-curly-newline
+                                }}
+                              />
+                            </div>
+                            <div className="form-group municipality">
+                              <Select
+                                withCheckbox
+                                inputClassname="mun_check"
+                                name="Select Municipality"
+                                selectedItem={selectedMunicipality}
+                                options={
+                                  allMunicipalityList &&
+                                  allMunicipalityList
+                                }
+                                onChange={selectedOptions => {
+                                  this.setState({
+                                    selectedMunicipality: selectedOptions,
+                                  });
+                                  // eslint-disable-next-line react/jsx-curly-newline
+                                }}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="form-group province">
+                              <Select
+                                withCheckbox
+                                inputClassname="province_check"
+                                name="Select Province"
+                                selectedItem={selectedProvince}
+                                options={
+                                  allProvinceList && allProvinceList
+                                }
+                                onChange={selectedOptions => {
+                                  this.setState({
+                                    // eslint-disable-next-line react/no-unused-state
+                                    selectedProvince: selectedOptions,
+                                  });
+                                  // eslint-disable-next-line react/jsx-curly-newline
+                                }}
+                              />
+                            </div>
+                            {mapViewBy === 'municipality' ||
+                            mapViewBy === 'district' ? (
+                              <div className="form-group district">
+                                <Select
+                                  withCheckbox
+                                  inputClassname="district_check"
+                                  name="Select District"
+                                  selectedItem={selectedDistrict}
+                                  options={
+                                    allDistrictList && allDistrictList
+                                  }
+                                  onChange={selectedOptions => {
+                                    this.setState({
+                                      selectedDistrict: selectedOptions,
+                                    });
+                                    // eslint-disable-next-line react/jsx-curly-newline
+                                  }}
+                                />
+                              </div>
+                            ) : null}
+                            {mapViewBy === 'municipality' && (
+                              <div className="form-group municipality">
+                                <Select
+                                  withCheckbox
+                                  inputClassname="mun_check"
+                                  name="Select Municipality"
+                                  selectedItem={selectedMunicipality}
+                                  options={
+                                    allMunicipalityList &&
+                                    allMunicipalityList
+                                  }
+                                  onChange={selectedOptions => {
+                                    this.setState({
+                                      selectedMunicipality: selectedOptions,
+                                    });
+                                    // eslint-disable-next-line react/jsx-curly-newline
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                       <div className="buttons is-end">
@@ -1799,7 +1865,7 @@ class MainPartnership extends Component {
                         <button
                           onClick={this.handleApplyFederalFilter}
                           type="button"
-                          className="common-button is-clear"
+                          className="apply-btn common-button is-clear"
                         >
                           Apply
                         </button>

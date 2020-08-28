@@ -223,8 +223,9 @@ class Select extends PureComponent {
 
   renderList = filteredOptions => {
     const {
-      props: { withCheckbox, disabled, loader },
+      props: { withCheckbox, disabled, loader, inputClassname },
       getId,
+
       checkboxHandler,
       onClickHandler,
     } = this;
@@ -281,7 +282,7 @@ class Select extends PureComponent {
                   ? opt.label.replace(' ', '_') + idValue
                   : opt.label.replace(' ', '_')
               }
-              className={`check_${opt.code} fed_checkbox`}
+              className={`${inputClassname} check_${opt.code} fed_checkbox`}
               type="checkbox"
               value={opt.value}
               checked={opt.checked ? opt.checked : false}

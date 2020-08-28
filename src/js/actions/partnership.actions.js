@@ -1557,7 +1557,7 @@ export const getSankeyChartData = selectedView => dispatch => {
   const selected =
     selectedView === 'allocated_budget'
       ? 'allocated_budget'
-      : 'total_beneficiary';
+      : 'allocated_beneficiary';
   // let data = selectedInvestmentFocus;
   // if (
   //   selectedInvestmentFocus === undefined ||
@@ -1592,7 +1592,7 @@ export const filterSankeyChartData = (
   const selected =
     selectedViewDataBy === 'allocated_budget'
       ? 'allocated_budget'
-      : 'total_beneficiary';
+      : 'allocated_beneficiary';
   console.log(selectedProjectStatus, 'projectStatus');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
