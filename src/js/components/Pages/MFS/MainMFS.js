@@ -347,6 +347,7 @@ class MainMFS extends Component {
       case 'mfsBar':
         return (
           <div
+            id="scroller_card"
             className="scroller_card"
             style={
               mapViewBy === 'district' && window.innerWidth > 1400
@@ -417,7 +418,7 @@ class MainMFS extends Component {
       // style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
       style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
       center: [84.0, 27.5], // starting position [lng, lat]
-      zoom: 7, // starting zoom
+      zoom: 5.8, // starting zoom
       preserveDrawingBuffer: true,
     });
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
@@ -461,6 +462,8 @@ class MainMFS extends Component {
       selectedAchievement,
       selectedDistrict,
       selectedProvince,
+      showBarof,
+      showBarPartnerChartOf,
     } = this.state;
     this.setState({
       mapViewBy: selectedMapView,
@@ -476,6 +479,10 @@ class MainMFS extends Component {
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
+      showBarof,
+      showBarPartnerChartOf,
     );
     this.props.filterMfsMapPieData(
       selectedMapView,
@@ -1000,46 +1007,46 @@ class MainMFS extends Component {
       selectedProvince,
     } = this.state;
 
-    if (selectedPartner === '') {
-      toast.warning('⚠ Please Select Partner!');
-    } else if (selectedInnovation === '') {
-      toast.warning('⚠ Please Select Innovation Type!');
-    } else if (selectedAchievement === '') {
-      toast.warning('⚠ Please Select Achievement!');
-    } else {
-      this.props.filterMfsChoroplethData(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-      );
-      this.props.filterMfsChartData(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-      );
-      this.props.filterMfsMapChartDataByPartner(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-      );
-      this.props.filterOverViewData(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-      );
-      this.props.filterMfsMapPieData(
-        mapViewBy,
-        selectedPartner,
-        selectedInnovation,
-        selectedAchievement,
-        // selectedDistrict,
-        // selectedProvince,
-      );
-    }
+    // if (selectedPartner === '') {
+    //   toast.warning('⚠ Please Select Partner!');
+    // } else if (selectedInnovation === '') {
+    //   toast.warning('⚠ Please Select Innovation Type!');
+    // } else if (selectedAchievement === '') {
+    //   toast.warning('⚠ Please Select Achievement!');
+    // } else {
+    this.props.filterMfsChoroplethData(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterMfsChartData(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterMfsMapChartDataByPartner(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterOverViewData(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+    );
+    this.props.filterMfsMapPieData(
+      mapViewBy,
+      selectedPartner,
+      selectedInnovation,
+      selectedAchievement,
+      // selectedDistrict,
+      // selectedProvince,
+    );
+    // }
     // this.props.filterMapChoropleth(
     //   investmentFocusSelection,
     //   projectSelection,
@@ -1059,6 +1066,8 @@ class MainMFS extends Component {
       selectedDistrict,
       selectedProvince,
       mapViewBy,
+      showBarof,
+      showBarPartnerChartOf,
     } = this.state;
     // if (activeView === 'visualization') {
     //   this.props.filterOverviewData(
@@ -1092,6 +1101,8 @@ class MainMFS extends Component {
       selectedAchievement,
       selectedDistrict,
       selectedProvince,
+      showBarof,
+      showBarPartnerChartOf,
     );
     this.props.filterMfsMapChartDataByPartner(
       mapViewBy,
@@ -1228,6 +1239,7 @@ class MainMFS extends Component {
             <Modal
               // visible={selectedModal === 'bar' ? true : false}
               // modalHeader="Sakchyam Investment Focus"
+              showBarChartBy={showBarChartBy}
               activeModal={activeModal}
               showBarof={showBarof}
               selectedModal={selectedModal}
@@ -1341,6 +1353,7 @@ class MainMFS extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
+                            selectedItem={selectedProvince}
                             options={provinceList}
                             onChange={selectedOptions => {
                               this.setState({
@@ -1356,6 +1369,7 @@ class MainMFS extends Component {
                             <Select
                               withCheckbox
                               name="Select District"
+                              selectedItem={selectedDistrict}
                               options={districtList}
                               onChange={selectedOptions => {
                                 this.setState({
@@ -1371,6 +1385,7 @@ class MainMFS extends Component {
                             <Select
                               withCheckbox
                               name="Select Municipality"
+                              selectedItem={selectedMunicipality}
                               options={municipalityList}
                               onChange={selectedOptions => {
                                 this.setState({
@@ -1405,6 +1420,7 @@ class MainMFS extends Component {
               <div className="literacy-tab-content">
                 <div className="literacy-tab-item">
                   <div className="graph-view">
+                    {/* <div style={{ height: '800px', width: '500px' }}> */}
                     <CardTab
                       // resetFunction={() => {
                       //   this.props.resetBarDatas();
@@ -1412,7 +1428,7 @@ class MainMFS extends Component {
                       // }}
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
-                      cardTitle={`${mapViewBy} Wise Achievement Type`}
+                      cardTitle="Federal Wise Achievement Type"
                       style={{ position: 'relative' }}
                       cardClass="col-xl-12"
                       cardChartId="groupedChart"
@@ -1446,13 +1462,14 @@ class MainMFS extends Component {
                         );
                       }}
                     />
+                    {/* </div> */}
                     <CardTab
                       resetFunction={() => {
                         this.resetFilters();
                       }}
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
-                      cardTitle={`${mapViewBy} Wise Achievement Type`}
+                      cardTitle={`${showBarChartBy} Wise Achievement Type`}
                       showBarChartBy={showBarChartBy}
                       setShowBarChartBy={this.setShowBarChartBy}
                       cardClass="col-xl-12"

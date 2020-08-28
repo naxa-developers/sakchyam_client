@@ -47,7 +47,7 @@ class TableViewComponent extends Component {
       provinceListT: provinceLists(),
       districtListT: districtLists(),
       municipalityListT: municipalityLists(),
-      selectedProvinceT: '',
+      selectedProvinceT: [],
       selectedDistrictT: [],
       selectedMunicipalityT: [],
       tableDataTypeLevel: 'municipality',
@@ -206,7 +206,12 @@ class TableViewComponent extends Component {
   };
 
   render() {
-    const { tableDataTypeLevel } = this.state;
+    const {
+      tableDataTypeLevel,
+      selectedProvinceT,
+      selectedDistrictT,
+      selectedMunicipalityT,
+    } = this.state;
 
     const {
       provinceList,
@@ -230,7 +235,15 @@ class TableViewComponent extends Component {
               tabIndex="0"
               onClick={toggleTableViewButton}
               onKeyDown={toggleTableViewButton}
-              style={{ cursor: 'pointer' }}
+              style={{
+                fontSize: '.8125rem',
+                color: 'white',
+                backgroundColor: '#F4A535',
+                borderColor: '#F4A535',
+                padding: ' .25rem 1rem',
+                cursor: 'pointer',
+                borderRadius: '5px',
+              }}
             >
               View on map
             </a>
@@ -243,7 +256,8 @@ class TableViewComponent extends Component {
                   <Select
                     idValue="table_view"
                     withCheckbox
-                    name="Select Province Table"
+                    selectedItem={selectedProvinceT}
+                    name="Select Province"
                     options={provinceList && provinceList}
                     onChange={selectedOptions => {
                       this.props.handleAdminSelects(
@@ -260,7 +274,8 @@ class TableViewComponent extends Component {
                     <Select
                       idValue="table_view"
                       withCheckbox
-                      name="Select District Table"
+                      selectedItem={selectedDistrictT}
+                      name="Select District"
                       options={districtList && districtList}
                       onChange={selectedOptions => {
                         this.props.handleAdminSelects(
@@ -276,7 +291,8 @@ class TableViewComponent extends Component {
                     <Select
                       idValue="table_view"
                       withCheckbox
-                      name="Select Municipality Table"
+                      selectedItem={selectedMunicipalityT}
+                      name="Select Municipality"
                       options={municipalityList && municipalityList}
                       onChange={selectedOptions => {
                         this.props.handleAdminSelects(

@@ -301,7 +301,6 @@ class MainPartnership extends Component {
       this.props.filterPartnerListByPartnerType(partnerType);
     }
     if (prevState.selectedProvince !== selectedProvince) {
-      console.log('selected provicne changed', selectedProvince);
       this.props.filterDistrictListFromProvince(selectedProvince);
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
@@ -620,7 +619,8 @@ class MainPartnership extends Component {
       // style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
       style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
       center: [84.0, 27.5], // starting position [lng, lat]
-      zoom: 7, // starting zoom
+      zoom: 5.8,
+      // starting zoom
     });
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
@@ -1335,6 +1335,7 @@ class MainPartnership extends Component {
       selectedMunicipality,
       selectedDistrict,
       selectedProvince,
+      mapViewBy,
     } = this.state;
     if (activeView === 'visualization') {
       this.handleShowBarOf('Provinces');
@@ -1394,11 +1395,18 @@ class MainPartnership extends Component {
         partnerSelection,
         projectStatus,
       );
+
       this.props.filterLeverageData(
         investmentFocusSelection,
         projectSelection,
       );
     } else {
+      this.props.filterOverviewData(
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+      );
       this.props.filterMapChoropleth(
         investmentFocusSelection,
         projectSelection,
@@ -1406,6 +1414,7 @@ class MainPartnership extends Component {
         partnerType,
         partnerSelection,
         { selectedMunicipality, selectedDistrict, selectedProvince },
+        mapViewBy,
       );
     }
   };
@@ -1502,6 +1511,11 @@ class MainPartnership extends Component {
       selectedMunicipality: [],
       partnerType: [],
     });
+    document.querySelectorAll('.fed_checkbox').forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.checked = false;
+    });
+    this.props.getProvinceData();
 
     if (activeView === 'visualization') {
       this.props.resetRadialData();
@@ -1553,6 +1567,7 @@ class MainPartnership extends Component {
       map.fitBounds(extendedValue);
       map.setFilter('vector-tile-fill', null);
       map.setFilter('vector-tile-outline', null);
+      map.setZoom(5.8);
     }
   };
 
@@ -1721,11 +1736,13 @@ class MainPartnership extends Component {
                           <Select
                             withCheckbox
                             name="Select Province"
+                            selectedItem={selectedProvince}
                             options={
                               allProvinceList && allProvinceList
                             }
                             onChange={selectedOptions => {
                               this.setState({
+                                // eslint-disable-next-line react/no-unused-state
                                 selectedProvince: selectedOptions,
                               });
                               // eslint-disable-next-line react/jsx-curly-newline
@@ -1738,6 +1755,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select District"
+                              selectedItem={selectedDistrict}
                               options={
                                 allDistrictList && allDistrictList
                               }
@@ -1755,6 +1773,7 @@ class MainPartnership extends Component {
                             <Select
                               withCheckbox
                               name="Select Municipality"
+                              selectedItem={selectedMunicipality}
                               options={
                                 allMunicipalityList &&
                                 allMunicipalityList

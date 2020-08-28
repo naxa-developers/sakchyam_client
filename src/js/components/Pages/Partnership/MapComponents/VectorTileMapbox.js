@@ -1494,6 +1494,7 @@ class Choropleth extends Component {
       //   },
       // });
       // }
+      map.setZoom(5.8);
     });
     // map.on('sourcedataloading', function(e) {
     //   that.setState({ loading: !map.isSourceLoaded('municipality') });
@@ -1635,7 +1636,7 @@ class Choropleth extends Component {
           'fill-color',
           this.state.finalStyle,
         );
-      }, 100);
+      }, 1500);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
       //

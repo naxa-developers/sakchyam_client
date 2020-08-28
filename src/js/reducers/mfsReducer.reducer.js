@@ -366,6 +366,8 @@ const filterMfsChartDataByAchievement = (state, action) => {
     selectedAchievement,
     selectedDistrict,
     selectedProvince,
+    showBarof,
+    showBarPartnerChartOf,
   } = action.payload;
   const mfsData = [...state.mfsListAllData];
   let filteredDatas = [];
@@ -394,14 +396,35 @@ const filterMfsChartDataByAchievement = (state, action) => {
   ];
   const provinceData = province;
   const districtData = district;
-  const provinces = provinceData.map(item => ({
+  const allProvinces = provinceData.map(item => ({
     code: item.FIRST_PROV,
     name: item.prov_name,
   }));
-  const districts = districtData.map(item => ({
+  const allDistricts = districtData.map(item => ({
     code: item.districtid,
     name: item.name,
   }));
+  console.log(selectedProvince, 'selecprov');
+  const selectedProvinceCode =
+    selectedProvince &&
+    selectedProvince.length > 0 &&
+    selectedProvince.map(prov => prov.code);
+  const provinces =
+    selectedProvinceCode && selectedProvinceCode.length > 0
+      ? allProvinces.filter(singleprov =>
+          selectedProvinceCode.includes(singleprov.code),
+        )
+      : allProvinces;
+  const selectedDistrictCode =
+    selectedDistrict &&
+    selectedDistrict.length > 0 &&
+    selectedDistrict.map(dist => dist.code);
+  const districts =
+    selectedDistrictCode && selectedDistrictCode.length > 0
+      ? allDistricts.filter(singledist =>
+          selectedDistrictCode.includes(singledist.code),
+        )
+      : allDistricts;
   function generateStackedBarData(datax) {
     function getCount(achievement, { code, type }) {
       const filteredData = datax.filter(item =>

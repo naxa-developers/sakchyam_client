@@ -46,6 +46,7 @@ import {
   FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
   GET_PARTNERSHIP_PARTNERSTYPE_LIST,
   GET_PARTNERSHIP_TIMELINE_DATA_API,
+  FILTER_RADIAL_DATA,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 import { districtLists } from '../components/common/adminList';
@@ -685,7 +686,7 @@ export const filterRadialData = (
         // console.log(result, 'result');
 
         return dispatch({
-          type: GET_RADIAL_DATA,
+          type: FILTER_RADIAL_DATA,
           payload: result.data,
         });
       });
@@ -1725,6 +1726,10 @@ export const filterOverviewData = (
         )}`
       : '';
   // console.log(investmentFocusSelection, 'investm');
+  console.log(
+    `/api/v1/partnership/overview/?${investmentFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}`,
+    'JSON',
+  );
   try {
     axiosInstance
       .get(
@@ -1749,6 +1754,7 @@ export const filterMapChoropleth = (
   selectedPartnerType,
   selectedPartnerId,
   selectedFederalList,
+  mapViewBy,
 ) => dispatch => {
   const investmentFilter =
     selectedInvestmentFocus.length > 0
@@ -1795,7 +1801,11 @@ export const filterMapChoropleth = (
             return prov.code;
           },
         )}`
-      : 'province_id=0';
+      : mapViewBy === 'province'
+      ? 'province_id=0'
+      : mapViewBy === 'district'
+      ? 'district_id=0'
+      : 'municipality_id=0';
   // console.log(investmentFocusSelection, 'investm');
   try {
     axiosInstance

@@ -69,7 +69,7 @@ class MiddleChartSection extends Component {
     // const that = this;
     const clickedName = e.data.name;
     this.props.resetLeftSideBarSelection();
-    // console.log(clickedName, 'clicked');
+    //
     // console.log(
     //   partnershipInvestmentFocus.filter(investment => {
     //     return investment.investment_primary === clickedName;
@@ -80,7 +80,7 @@ class MiddleChartSection extends Component {
     //     return investment.investment_primary === clickedName;
     //   })
     // ) {
-    // console.log('found if');
+    //
     if (clickedName === 'Partnership') {
       // alert('partnership');
       this.props.resetRadialData();
@@ -93,8 +93,8 @@ class MiddleChartSection extends Component {
       this.props.applyBtnClick();
     }
     // }
-    // console.log(this.props, 'partnership');
-    // console.log(e.data.name);
+    //
+    //
   };
 
   // sunburstColorFn = () => {
@@ -129,6 +129,7 @@ class MiddleChartSection extends Component {
       case 'sunburst':
         return (
           <SunburstContainer
+            domId="test1"
             data={radialData}
             height={window.innerWidth < 1400 ? 410 : 700}
             width={900}
@@ -264,7 +265,7 @@ class MiddleChartSection extends Component {
     }
     //   'radialData',
     // );
-    // console.log(radialData && radialData, 'radialData');
+    //
     return (
       <div
         className="literacy-tab-item"
@@ -309,6 +310,7 @@ class MiddleChartSection extends Component {
               renderChartComponent={() => {
                 return (
                   <SunburstContainer
+                    domId="test2"
                     data={radialData}
                     height={400}
                     width={690}
@@ -474,7 +476,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'
@@ -496,7 +498,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

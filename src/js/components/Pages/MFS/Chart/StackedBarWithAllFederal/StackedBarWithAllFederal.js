@@ -7,6 +7,7 @@ import {
   filterMfsMapChartDataByPartner,
   filterMfsMapChartDataByPartnerWithInnovation,
 } from '../../../../../actions/mfs.action';
+import Achart from './Achart';
 
 class StackedBarWithAllFederal extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class StackedBarWithAllFederal extends Component {
       chart: {
         height: 350,
         width: 2000,
-        type: 'line',
+        type: 'bar',
         stacked: true,
         events: {
           click(
@@ -112,7 +113,7 @@ class StackedBarWithAllFederal extends Component {
       },
       plotOptions: {
         bar: {
-          columnWidth: '40%',
+          columnWidth: '20%',
         },
       },
       dataLabels: {
@@ -135,14 +136,14 @@ class StackedBarWithAllFederal extends Component {
       grid: {
         show: false,
       },
-      tooltip: {
-        fixed: {
-          enabled: true,
-          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
-          // offsetY: 30,
-          // offsetX: 60,
-        },
-      },
+      // tooltip: {
+      //   fixed: {
+      //     enabled: true,
+      //     position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+      //     // offsetY: 30,
+      //     // offsetX: 60,
+      //   },
+      // },
       legend: {
         horizontalAlign: 'left',
         offsetX: 40,
@@ -176,34 +177,6 @@ class StackedBarWithAllFederal extends Component {
       showBarChartBy,
     } = this.props;
     const { mapViewBy } = this.props;
-    // console.log(barDatas, 'barDatas');
-    // // alert('test');
-    // const newArray = barDatas.series[0].data.map(
-    //   (e, i) => e + barDatas.series[1].data[i],
-    // );
-    // console.log(newArray, 'newArray');
-    // console.log(Math.max(...newArray));
-    // const maxValue = Math.max(...newArray);
-    // console.log(maxValue, 'maxValue');
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
-    // const series = [
-    //   {
-    //     name: 'PRODUCT A',
-    //     data: [44, 55, 41, 67, 22, 43],
-    //   },
-    //   {
-    //     name: 'PRODUCT B',
-    //     data: [13, 23, 20, 8, 13, 27],
-    //   },
-    //   {
-    //     name: 'PRODUCT C',
-    //     data: [11, 17, 15, 15, 21, 14],
-    //   },
-    //   {
-    //     name: 'PRODUCT D',
-    //     data: [21, 7, 25, 13, 22, 8],
-    //   },
-    // ];
     const options = {
       chart: {
         height: 350,
@@ -220,11 +193,6 @@ class StackedBarWithAllFederal extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            // console.log(seriesIndex, 'seriesIndex');
-            // console.log(event, 'event');
-            // console.log(chartContext, 'chartContext');
-            // console.log(dataPointIndex, 'dataPointIndex');
-            // console.log(config, 'config');
             const {
               selectedPartner,
               selectedInnovation,
@@ -301,14 +269,15 @@ class StackedBarWithAllFederal extends Component {
       },
       plotOptions: {
         bar: {
-          columnWidth: '40%',
+          horizontal: false,
+          columnWidth: '20%',
         },
       },
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        width: [1],
+        width: [0],
       },
       // title: {
       //   text: 'XYZ - Stock Analysis (2009 - 2016)',
@@ -339,14 +308,14 @@ class StackedBarWithAllFederal extends Component {
       grid: {
         show: false,
       },
-      tooltip: {
-        fixed: {
-          enabled: true,
-          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
-          // offsetY: 30,
-          // offsetX: 60,
-        },
-      },
+      // tooltip: {
+      //   fixed: {
+      //     enabled: true,
+      //     position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+      //     // offsetY: 30,
+      //     // offsetX: 60,
+      //   },
+      // },
       legend: {
         horizontalAlign: 'left',
         offsetX: 40,
@@ -373,6 +342,8 @@ class StackedBarWithAllFederal extends Component {
       mfsChartDataByPartner
     ) {
       // alert('test');
+      // eslint-disable-next-line react/no-did-update-set-state
+      // this.setState({ test: true });
       this.updateBarChart();
     }
 
@@ -423,21 +394,23 @@ class StackedBarWithAllFederal extends Component {
 
   render() {
     console.log(window.innerWidth);
-    const { options, Fedseries, Partnerseries } = this.state;
+    const { options, Fedseries, Partnerseries, test } = this.state;
     const { activeModal, mapViewBy, showBarChartBy } = this.props;
     const {
       mfsReducer: { mfsChartDataByPartner, mfsChartData },
     } = this.props;
+    console.log(Partnerseries, 'partnerseries');
+    console.log(Fedseries, 'fedseries');
     return (
       <div
         id="stacked_chart"
         style={mapViewBy === 'district' ? { width: '2500px' } : {}}
       >
         {showBarChartBy === 'Partner' ? (
-          <ReactApexChart
-            key={Partnerseries}
+          <Achart
+            // key={Partnerseries}
             options={options}
-            series={Partnerseries}
+            series={Partnerseries || []}
             type="bar"
             height={
               activeModal && window.innerWidth < 1400 ? 450 : 500
@@ -448,10 +421,10 @@ class StackedBarWithAllFederal extends Component {
             // width={activeModal === true ? 1600 : '100%'}
           />
         ) : (
-          <ReactApexChart
-            key={Fedseries}
+          <Achart
+            // key={Fedseries}
             options={options}
-            series={Fedseries}
+            series={Fedseries || []}
             type="bar"
             height={
               activeModal && window.innerWidth < 1400 ? 450 : 500

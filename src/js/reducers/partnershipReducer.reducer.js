@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   GET_PROJECT_LIST_DATA,
   GET_PARTNERSHIP_INVESTMENT_FOCUS,
@@ -42,6 +43,7 @@ import {
   FILTER_BARDATA_BY_BENEF_BUDGET_WITH_PROVINCE_ONLY,
   GET_PARTNERSHIP_PARTNERSTYPE_LIST,
   GET_PARTNERSHIP_TIMELINE_DATA_API,
+  FILTER_RADIAL_DATA,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -50,7 +52,10 @@ import municipality from '../../data/municipality.json';
 import WebWorker from '../WebWorker/webWorker';
 import workerfile from '../WebWorker/worker';
 
-let timelineIndex = 0;
+function convertDateToTime(date) {
+  return new Date(date).getTime();
+}
+const timelineIndex = 0;
 function provinceCodeToName(code) {
   if (code === 1) return 'Province 1';
   if (code === 2) return 'Province 2';
@@ -748,16 +753,36 @@ const getRadialData = (state, action) => {
     // eslint-disable-next-line no-param-reassign
     data.color = colorPicker(i + 2);
   });
-  if (state.defaultRadialData.name) {
-    return {
-      ...state,
-      radialData: action.payload,
-    };
-  }
+  // if (state.defaultRadialData.name) {
+  //   return {
+  //     ...state,
+  //     radialData: action.payload,
+  //   };
+  // }
   return {
     ...state,
     radialData: action.payload,
     defaultRadialData: action.payload,
+  };
+};
+const filterRadialData = (state, action) => {
+  //
+  // eslint-disable-next-line array-callback-return
+  action.payload.children.map((data, i) => {
+    //
+    // eslint-disable-next-line no-param-reassign
+    data.color = colorPicker(i + 2);
+  });
+  // if (state.defaultRadialData.name) {
+  //   return {
+  //     ...state,
+  //     radialData: action.payload,
+  //   };
+  // }
+  return {
+    ...state,
+    radialData: action.payload,
+    // defaultRadialData: action.payload,
   };
 };
 const getSpiderChartData = (state, action) => {
@@ -1406,11 +1431,26 @@ const filterLeverageDataOnClick = (state, action) => {
   };
 };
 const getPartnershipAllData = (state, action) => {
+  const allData = action.payload.map(
+    ({
+      project_id,
+      start_date,
+      province_id,
+      district_id,
+      municipality_id,
+    }) => ({
+      project_id,
+      province_id,
+      district_id,
+      municipality_id,
+      date: convertDateToTime(start_date),
+    }),
+  );
   //
   // const filteredLeverage = filterLeverageChart(action.payload);
   return {
     ...state,
-    partnershipAllData: action.payload,
+    partnershipAllData: allData,
   };
 };
 const resetBarData = (state, action) => {
@@ -1475,34 +1515,64 @@ const filterMapdataChoropleth = (state, action) => {
 };
 const filterTimelineData = (state, action) => {
   const { min, max, fedtype } = action.payload;
-  let timelineData = state.timelineData.provinceTimelineData;
-  if (fedtype === 'province') {
-    timelineData = state.timelineData.provinceTimelineData;
-  } else if (fedtype === 'district') {
-    timelineData = state.timelineData.districtTimelineData;
-  } else if (fedtype === 'municipality') {
-    timelineData = state.timelineData.municipalityTimelineData;
-  }
-  // const { timelineData } = state;
-  const FilteredTimeline = [];
-  //
-  //
-  //
-  //
+  // console.log(new Date(min).getTime(), 'min');
+  // console.log(new Date(min), 'minfulldate');
+  // console.log(new Date(max).getTime(), 'max');
+  // console.log(new Date(max), 'maxfullddate');
+  // console.log(max,'max');
+  const allData = state.partnershipAllData;
 
-  // if(timelineData.data.length > )
-  timelineData[timelineIndex].data.forEach(timeline => {
-    return FilteredTimeline.push({
-      id: timeline.code,
-      code: timeline.code,
-      count: timeline.count,
-    });
-  });
-  timelineIndex += 1;
-  //
+  // const min = convertDateToTime('2015-01-01');
+  // const max = convertDateToTime('2015-02-01');
+  const timelineData = allData.filter(
+    item => item.date > min && item.date < max,
+  );
+  function getPartnerCount({ id, type }) {
+    const filteredData = timelineData
+      .filter(item => item[type] === id)
+      .map(item => item.project_id);
+
+    const count = [...new Set(filteredData)].length;
+
+    return count;
+  }
+  let fedData = [];
+  if (fedtype === 'municipality') {
+    const municipalityData = municipality.map(item => ({
+      id: item.munid,
+      name: item.lu_name,
+    }));
+    fedData = municipalityData.map(({ id, name }) => ({
+      id,
+      name,
+      count: getPartnerCount({ id, type: 'municipality_id' }),
+    }));
+  } else if (fedtype === 'district') {
+    const districts = district.map(item => ({
+      code: item.districtid,
+      name: item.name,
+    }));
+    fedData = districts.map(({ code, name }) => ({
+      code,
+      name,
+      count: getPartnerCount({ code, type: 'district_id' }),
+    }));
+  } else {
+    const provinces = province.map(item => ({
+      id: item.FIRST_PROV,
+      name: item.prov_name,
+    }));
+    fedData = provinces.map(({ id, name }) => ({
+      id,
+      name,
+      count: getPartnerCount({ id, type: 'province_id' }),
+    }));
+  }
+
+  console.log(fedData);
   return {
     ...state,
-    filteredMapData: FilteredTimeline,
+    filteredMapData: fedData,
   };
 };
 // const filterTimelineData = (state, action) => {
@@ -1652,6 +1722,8 @@ export default function(state = initialState, action) {
       return filterBarDataByInvestmentFocus(state, action);
     case GET_RADIAL_DATA:
       return getRadialData(state, action);
+    case FILTER_RADIAL_DATA:
+      return filterRadialData(state, action);
     case GET_SPIDERCHART_DATA:
       return getSpiderChartData(state, action);
     case GET_SANKEY_CHART_DATA:

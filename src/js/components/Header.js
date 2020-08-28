@@ -1,6 +1,6 @@
 // /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import UKAidWhiteLogo from '../../img/uk-aid-white.png';
 import Logo from '../../img/logo.png';
 import WhiteLogo from '../../img/logo-white.png';
@@ -160,6 +160,10 @@ class Header extends Component {
               <ul className="link-wrap">
                 <li>
                   <select
+                    value={this.props.location.pathname.replace(
+                      '/',
+                      '',
+                    )}
                     onChange={e => {
                       this.props.setActivePage(e.target.value);
                     }}
@@ -171,12 +175,16 @@ class Header extends Component {
                       Financial Literacy
                     </option>
                     <option value="partnership">Partnership</option>
-                    <option value="outreach">
+                    <option value="outreachexpansion">
                       Outreach Expansion
                     </option>
                     <option value="insurance">Insurance</option>
-                    <option value="product">Product/Process</option>
-                    <option value="payment">Payment System</option>
+                    <option value="productprocess">
+                      Product/Process
+                    </option>
+                    <option value="paymentsystems">
+                      Payment System
+                    </option>
                     <option value="mfs">MFS</option>
                   </select>
                   {/* <a href="#/" className="span_heavy_15">
@@ -278,4 +286,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

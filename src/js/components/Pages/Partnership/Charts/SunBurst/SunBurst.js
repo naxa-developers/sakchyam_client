@@ -143,7 +143,7 @@ class Sunburst extends React.Component {
 
     this.hueDXScale = d3ScaleLinear().domain([0, 1]).range([0, 360]);
 
-    this.domId = this.props.domId || `sunburst-wrapper`;
+    this.domId = this.props.domId
     this.svg = null;
     //added line
     this.legend = null;
@@ -171,7 +171,8 @@ class Sunburst extends React.Component {
     if (shallowEqual(this.props.data, nextProps.data)) {
       return false;
     }
-    
+    console.log(this.props.data,'this.props;')
+    console.log(nextProps.data,'nextProps;')
     return true;
   }
 
@@ -186,8 +187,8 @@ class Sunburst extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props._debug && this.props._log("Sunburst: componentWillUnmount()");
-    this._destroy_svg();
+    // this.props._debug && this.props._log("Sunburst: componentWillUnmount()");
+    // this._destroy_svg();
   }
 
   /**
@@ -208,8 +209,8 @@ class Sunburst extends React.Component {
   }
 
   _onClick(node) {
-    // this.props._debug && this.props._log("Sunburst: _onClick(node)");
-    // this._last_click = node;
+    this.props._debug && this.props._log("Sunburst: _onClick(node)");
+    this._last_click = node;
   }
 
   /**
@@ -335,9 +336,9 @@ class Sunburst extends React.Component {
           function (node) {
             // console.log('onClick ')
             // console.log(node,'node');
-            // this._onClick(node);
+            this._onClick(node);
             this.props.onClick && this.props.onClick(node);
-            // this._update(node);
+            this._update(node);
           }.bind(this)
         );
 
