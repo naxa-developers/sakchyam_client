@@ -48,10 +48,13 @@ class PlotVector extends Component {
       inactiveMarkers: [],
       count: 0,
       minValue: '1/1/2015',
-      maxValue: '1/1/2020',
+      maxValue: '2/2/2020',
       timeline: false,
       timelineMarkers: [],
       timelinePartnersPlotted: [],
+      provinceLegendData: '',
+      districtLegendData: '',
+      municipalityLegendData: '',
     };
   }
 
@@ -79,6 +82,40 @@ class PlotVector extends Component {
       stateMarker,
       timeline,
     } = this.state;
+
+    if (
+      prevProps.automationReducer.provinceLegendData !==
+      automationReducer.provinceLegendData
+    ) {
+      this.setState({
+        provinceLegendData: automationReducer.provinceLegendData,
+      });
+    }
+
+    if (
+      prevProps.automationReducer.districtLegendData !==
+      automationReducer.districtLegendData
+    ) {
+      this.setState({
+        districtLegendData: automationReducer.districtLegendData,
+      });
+    }
+
+    if (
+      prevProps.automationReducer.municipalityLegendData !==
+      automationReducer.municipalityLegendData
+    ) {
+      this.setState({
+        municipalityLegendData:
+          automationReducer.municipalityLegendData,
+      });
+      // console.log(
+      //   'choropleth value has changed',
+      //   automationReducer.provinceLegendData,
+      //   automationReducer.districtLegendData,
+      //   automationReducer.municipalityLegendData,
+      // );
+    }
 
     if (activeOutreachButton !== prevProps.activeOutreachButton) {
       if (activeOutreachButton) {
@@ -134,14 +171,13 @@ class PlotVector extends Component {
     }
 
     if (
-      prevProps.automationReducer.automationLeftSidePartnerData !==
-      automationReducer.automationLeftSidePartnerData
+      prevProps.automationReducer.timelineFilteredData !==
+      automationReducer.timelineFilteredData
     ) {
       if (!activeOutreachButton && timeline) {
         this.setState({
           inactiveMarkers: [],
-          activeMarkers:
-            automationReducer.automationLeftSidePartnerData,
+          activeMarkers: automationReducer.timelineFilteredData,
         });
         setTimeout(() => {
           this.settimelineMarkers(that);
@@ -424,9 +460,15 @@ class PlotVector extends Component {
 
   changeGrades() {
     let range = [];
-    const data = [];
+
     const gradeCount = 7;
     const fullRange = [];
+    const { mapViewBy } = this.props;
+    const {
+      provinceLegendData,
+      districtLegendData,
+      municipalityLegendData,
+    } = this.state;
 
     const fullData =
       this.props.choroplethData != null &&
@@ -434,21 +476,44 @@ class PlotVector extends Component {
         ? this.props.choroplethData
         : defaultData;
 
-    if (
-      this.props.choroplethData != null &&
-      this.props.choroplethData.length > 0
-    ) {
-      this.props.choroplethData.forEach(data1 => {
-        data.push(data1.count);
+    // const data = [];
+    // if (
+    //   this.props.choroplethData != null &&
+    //   this.props.choroplethData.length > 0
+    // ) {
+    //   this.props.choroplethData.forEach(data1 => {
+    //     data.push(data1.count);
+    //   });
+    // } else {
+    //   defaultData.forEach(data1 => {
+    //     data.push(data1.count);
+    //   });
+    // }
+
+    let legendData;
+    let tempData = [];
+
+    if (mapViewBy === 'municipality') {
+      legendData = municipalityLegendData.result;
+      console.log('legend value', legendData);
+    } else if (mapViewBy === 'district') {
+      legendData = districtLegendData.result;
+    } else {
+      legendData = provinceLegendData.result;
+    }
+
+    if (legendData != null && legendData.length > 0) {
+      legendData.forEach(data1 => {
+        tempData.push(data1.tablets_deployed);
       });
     } else {
       defaultData.forEach(data1 => {
-        data.push(data1.count);
+        tempData.push(data1.count);
       });
     }
 
-    const max = Math.max.apply(null, Object.values(data));
-    const min = Math.min.apply(null, Object.values(data));
+    const max = Math.max.apply(null, Object.values(tempData));
+    const min = 1;
 
     range =
       (max - min) / (gradeCount - 1) < 1

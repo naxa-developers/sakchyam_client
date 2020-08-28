@@ -24,6 +24,10 @@ import {
   SELECT_AUTOMATION_DATA_BY_MUNICIPALITY,
   GET_TIMELINE_DATA,
   TIMELINE_FILTER,
+  GET_AUTOMATION_DATA_FOR_TIMELINE,
+  AUTOMATION_MUNICIPALITY_LEGEND,
+  AUTOMATION_PROVINCE_LEGEND,
+  AUTOMATION_DISTRICT_LEGEND,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -46,6 +50,11 @@ const initialState = {
   filteredMapBoundaryData: [],
   timeLineData: [],
   popupData: [],
+  timelineFilteredData: [],
+  newTimelineData: [],
+  provinceLegendData: '',
+  districtLegendData: '',
+  municipalityLegendData: '',
 };
 
 function getPartnerColor(i) {
@@ -82,11 +91,6 @@ const partnerForChoropleth = (state, action) => {
     // names must be equal
     return 0;
   });
-  // console.log(leftsideData);
-  // const choroplethData = action.payload.map(data => {
-  //   allData.push({ id: data.id, count: data.num_tablet_deployed });
-  //   return true;
-  // });
   let partnerData = action.payload[0].partner_data.map(data => {
     return data.tablets_deployed;
   });
@@ -113,17 +117,31 @@ const partnerForChoropleth = (state, action) => {
     },
   };
 };
-// const partnerForChoropleth = (state, action) => {
-//   const allData = [];
-//   const choroplethData = action.payload.map(data => {
-//     allData.push({ id: data.id, count: data.num_tablet_deployed });
-//     return true;
-//   });
-//   return {
-//     ...state,
-//     automationAllDataByPartner: allData,
-//   };
-// };
+
+const setTimelineData = (state, action) => {
+  return { ...state, newTimelineData: action.payload };
+};
+
+const timeLineFilter = (state, action) => {
+  const minRange = action.payload.min;
+  const maxRange = action.payload.max;
+  const markerData = state.newTimelineData;
+
+  const filteredDataByYear =
+    markerData &&
+    markerData[0] &&
+    markerData[0].partner_data.filter(data => {
+      const dataDate = new Date(`${data.full_data}`).getTime();
+      return dataDate >= minRange && dataDate <= maxRange;
+    });
+
+  return {
+    ...state,
+    automationLeftSidePartnerData: filteredDataByYear,
+    timelineFilteredData: filteredDataByYear,
+  };
+};
+
 const partnerByProvinceForChoropleth = (state, action) => {
   // console.log(action.payload, 'payload');
   const fullData = [];
@@ -480,19 +498,7 @@ const filterPartnerByFederalwithClickedPartners = (state, action) => {
     },
   };
 };
-// const filterPartnerByFederalwithClickedPartners = (state, action) => {
-//   const a = action.payload.map(data => {
-//     return { id: data.code, count: data.tablets_deployed };
-//   });
-//   // console.log(a, 'a');
-//   return {
-//     ...state,
-//     filteredMapBoundaryData: action.payload,
-//     automationChoroplethData: a,
-//     // automationTableData: action.payload,
-//     // tableDataLoading: false,
-//   };
-// };
+
 const partnerSelectWithOutreachGetPartnerChoropleth = (
   state,
   action,
@@ -583,25 +589,6 @@ const getTimelineData = (state, action) => {
     timeLineData: action.payload,
   };
 };
-const timeLineFilter = (state, action) => {
-  const minRange = action.payload.min;
-  const maxRange = action.payload.max;
-  const markerData = state.automationAllDataByPartner;
-  const filteredDataByYear =
-    markerData &&
-    markerData[0] &&
-    markerData[0].partner_data.filter(data => {
-      // console.log(data, 'data');
-      const dataDate = new Date(`${data.full_data}`).getTime();
-      // console.log(dataDate, 'timelineData');
-      return dataDate >= minRange && dataDate <= maxRange;
-    });
-  // console.log(a, 'a');
-  return {
-    ...state,
-    automationLeftSidePartnerData: filteredDataByYear,
-  };
-};
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -663,8 +650,23 @@ export default function(state = initialState, action) {
       return getTimelineData(state, action);
     case TIMELINE_FILTER:
       return timeLineFilter(state, action);
-    // case TOGGLE_NULL_SUBMISSIONS_ANSWER:
-    //   return toggleNullSubmission(state);
+    case GET_AUTOMATION_DATA_FOR_TIMELINE:
+      return setTimelineData(state, action);
+    case AUTOMATION_MUNICIPALITY_LEGEND:
+      return {
+        ...state,
+        municipalityLegendData: action.payload,
+      };
+    case AUTOMATION_DISTRICT_LEGEND:
+      return {
+        ...state,
+        districtLegendData: action.payload,
+      };
+    case AUTOMATION_PROVINCE_LEGEND:
+      return {
+        ...state,
+        provinceLegendData: action.payload,
+      };
     default:
       return state;
   }
