@@ -104,7 +104,13 @@ class MiddleChartSection extends Component {
   };
 
   getModalContent = contentType => {
-    const { activeModal, selectedTab, selectedTabBar } = this.state;
+    const {
+      activeModal,
+      selectedTab,
+      selectedTabBar,
+      isBarChartClicked,
+      barTitle,
+    } = this.state;
 
     const {
       props: {
@@ -126,18 +132,34 @@ class MiddleChartSection extends Component {
     } = this;
     const {
       partnershipReducer: { radialData },
+      loading,
     } = this.props;
     switch (contentType) {
       case 'bar':
         return (
           <BarChartInsurance
-            activeModal={this.state.activeModal}
+            // activeModal={this.state.activeModal}
+            // insuranceData={insuranceData}
+            // selectedTabBar={selectedTabBar}
+            // setSelectedTabBar={this.setSelectedTabBar}
+            // resetBarChartClick={this.resetBarChartClick}
+            // isBarChartClicked={this.state.isBarChartClicked}
+            // handleBarChartClick={this.handleBarChartClick}
+            loading={loading}
             insuranceData={insuranceData}
+            showRightSidebar={!activeOverview}
+            activeModal={activeModal}
+            barTitle={barTitle}
+            DownloadIcon={DownloadIcon}
+            ExpandIcon={ExpandIcon}
+            downloadPng={this.downloadPng}
+            handleModal={this.handleModal}
+            handleSelectedModal={this.handleSelectedModal}
             selectedTabBar={selectedTabBar}
             setSelectedTabBar={this.setSelectedTabBar}
-            resetBarChartClick={this.resetBarChartClick}
-            isBarChartClicked={this.state.isBarChartClicked}
+            isBarChartClicked={isBarChartClicked}
             handleBarChartClick={this.handleBarChartClick}
+            resetBarChartClick={this.resetBarChartClick}
           />
         );
 

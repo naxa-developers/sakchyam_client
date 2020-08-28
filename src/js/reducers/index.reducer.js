@@ -9,6 +9,7 @@ import outreachReducer from './outreach.reducer';
 import mfsReducer from './mfsReducer.reducer';
 import commonReducer from './commom.reducer';
 import insuranceReducer from './insurance.reducer';
+import paymentSystemsReducer from './paymentSystems.reducer';
 
 export default combineReducers({
   authenticationReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   mfsReducer,
   commonReducer,
   insuranceReducer,
+  paymentSystemsReducer,
 });
