@@ -11,6 +11,7 @@ import generateIndirectLines from './CreateLines/generateIndirectLines';
 import generateLeftToRightIndirectLines from './CreateLines/generateLeftToRightIndirectLines';
 import generateLeftToRightLinesAll from './CreateLines/generateLeftToRightLinesAll';
 import generateRightLinesAll from './CreateLines/generateRightLinesAll';
+import ContentSection from '../ContentSection/ContentSection';
 
 const width = 235;
 const defaultColor = '#C2002F'; // #0055A5
@@ -29,7 +30,7 @@ const color = {
   ],
 };
 
-const DiagramSection = () => {
+const DiagramSection = ({ contentData }) => {
   const containerRef = useRef();
   const leftCardRefs = useRef({});
   const rightCardRefs = useRef({});
@@ -304,49 +305,59 @@ const DiagramSection = () => {
   };
 
   return (
-    <main
-      id="payment-diagram"
-      className="payment-system"
-      ref={containerRef}
-      style={{ zIndex: 0 }}
-    >
-      <LeftPortion
-        leftCardRefs={leftCardRefs}
-        leftSideContainerRef={leftSideContainerRef}
-        leftSVGContainerRef={leftSVGContainerRef}
-        coordinates={leftCoordinates}
-        onLeftCardClick={onLeftCardClick}
-        lineColor={lineColor}
-        selectedCardRef={selectedCardRef}
-        isLeftCardSelected={isLeftCardSelected}
-      />
-      <div
-        style={{
-          width: '235px',
-          height: '675px',
-          alignSelf: 'flex-start',
-          zIndex: 1,
-        }}
-        ref={middleSVGContainerRef}
+    <div className="payment-wrapper">
+      {/* <DiagramSection /> */}
+
+      <main
+        id="payment-diagram"
+        className="payment-system"
+        ref={containerRef}
+        style={{ zIndex: 0 }}
       >
-        <PlotLines
+        <LeftPortion
+          leftCardRefs={leftCardRefs}
+          leftSideContainerRef={leftSideContainerRef}
+          leftSVGContainerRef={leftSVGContainerRef}
+          coordinates={leftCoordinates}
+          onLeftCardClick={onLeftCardClick}
           lineColor={lineColor}
-          coordinates={leftToRightCoordinates}
-          rightCoordinates={rightCoordinates}
-          indirectCoordinates={indirectCoordinates}
-          leftToRightIndirectCoordinates={
-            leftToRightIndirectCoordinates
-          }
-          width={width}
+          selectedCardRef={selectedCardRef}
+          isLeftCardSelected={isLeftCardSelected}
         />
-      </div>
-      <RightPortion
-        rightCardRefs={rightCardRefs}
-        onRightCardClick={onRightCardClick}
-        selectedCardRef={selectedCardRef}
+        <div
+          style={{
+            width: '235px',
+            height: '675px',
+            alignSelf: 'flex-start',
+            zIndex: 1,
+          }}
+          ref={middleSVGContainerRef}
+        >
+          <PlotLines
+            lineColor={lineColor}
+            coordinates={leftToRightCoordinates}
+            rightCoordinates={rightCoordinates}
+            indirectCoordinates={indirectCoordinates}
+            leftToRightIndirectCoordinates={
+              leftToRightIndirectCoordinates
+            }
+            width={width}
+          />
+        </div>
+        <RightPortion
+          rightCardRefs={rightCardRefs}
+          onRightCardClick={onRightCardClick}
+          selectedCardRef={selectedCardRef}
+          isLeftCardSelected={isLeftCardSelected}
+        />
+      </main>
+
+      <ContentSection
+        contentData={contentData}
         isLeftCardSelected={isLeftCardSelected}
+        selectedCardRef={selectedCardRef}
       />
-    </main>
+    </div>
   );
 };
 

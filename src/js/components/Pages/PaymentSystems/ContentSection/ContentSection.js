@@ -1,13 +1,51 @@
-import React from 'react';
+/* eslint-disable react/no-danger */
+import React, { useState, useEffect } from 'react';
 
-const ContentSection = () => {
+const defaultContent = {
+  component: 'Payment Systems',
+  component_value: '',
+  description: 'N/A',
+};
+
+const ContentSection = ({
+  contentData,
+  isLeftCardSelected,
+  selectedCardRef,
+}) => {
+  const [content, setContent] = useState({});
+
+  useEffect(() => {
+    const filteredData = contentData
+      ? contentData.filter(
+          ({ ref, isLeftCard }) =>
+            ref === selectedCardRef &&
+            isLeftCard === isLeftCardSelected,
+        )
+      : [];
+    setContent(filteredData[0] ? filteredData[0] : defaultContent);
+  }, [isLeftCardSelected, selectedCardRef, contentData]);
+
+  const {
+    component: title,
+    component_value: subTitle,
+    description,
+  } = content;
+
   return (
     <aside className="payement-content">
       <div className="payment-content-header">
-        <h5>RTGS (Real Time Gross Settlement) System</h5>
-        <h6>Nepal Rastriya Bank</h6>
+        {/* <h5>RTGS (Real Time Gross Settlement) System</h5> */}
+        <h5>{title}</h5>
+        {/* <h6>Nepal Rastriya Bank</h6> */}
+        <h6>{subTitle}</h6>
       </div>
       <div className="payment-content-body">
+        {/* {description} */}
+
+        <div dangerouslySetInnerHTML={{ __html: description }} />
+      </div>
+
+      {/* <div className="payment-content-body">
         <p>
           Nationwide high value payment infrastructure deployed and
           implemented by Sakchyam at Nepal Rastra Bank with
@@ -34,7 +72,7 @@ const ContentSection = () => {
           RTGS in the same time was NPR 1006.37 billion (GBP 6.71
           billion @150).
         </p>
-      </div>
+      </div> */}
     </aside>
   );
 };

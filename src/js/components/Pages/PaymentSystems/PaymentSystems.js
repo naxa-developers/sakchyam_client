@@ -1,8 +1,11 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/no-unused-state */
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import Header from '../../Header';
+
+import getPaymentSystemsData from '../../../actions/paymentSystems.actions';
 import DiagramSection from './DiagramSection/DiagramSection';
 import ContentSection from './ContentSection/ContentSection';
 import './custom-payment.scss';
@@ -28,10 +31,17 @@ const downloadPng = chartid => {
   }, 600);
 };
 
-const PaymentSystems = () => {
+const PaymentSystems = ({
+  getPaymentSystemsData,
+  paymentData,
+  contentData,
+}) => {
+  useEffect(() => {
+    getPaymentSystemsData();
+  }, []);
+
   return (
     <>
-      {/* <Header /> */}
       <div className="payment-body">
         <button type="button" className="common-button is-bg">
           Payment system
@@ -45,14 +55,24 @@ const PaymentSystems = () => {
         >
           Download
         </button>
-        <div className="payment-wrapper">
+
+        <DiagramSection contentData={contentData} />
+
+        {/* <div className="payment-wrapper">
           <DiagramSection />
 
-          <ContentSection />
-        </div>
+          <ContentSection contentData={contentData} />
+        </div> */}
       </div>
     </>
   );
 };
 
-export default PaymentSystems;
+const mapStateToProps = ({ paymentSystemsReducer }) => ({
+  paymentData: paymentSystemsReducer.paymentData,
+  contentData: paymentSystemsReducer.contentData,
+});
+
+export default connect(mapStateToProps, { getPaymentSystemsData })(
+  PaymentSystems,
+);
