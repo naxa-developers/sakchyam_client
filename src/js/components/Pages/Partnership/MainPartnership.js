@@ -55,7 +55,7 @@ import FilterBadge from './common/FilterBadge';
 import { getCenterBboxProvince } from './common/ProvinceFunction';
 import { getCenterBboxDistrict } from './common/DistrictFunction';
 import { getCenterBboxMunicipality } from './common/MunicipalityFunction';
-import { extendBounds } from '../Automation/MapRelatedComponents/extendBbox';
+import { extendBounds } from '../../common/extendBbox';
 
 global.markerList = [];
 function removeMarker() {

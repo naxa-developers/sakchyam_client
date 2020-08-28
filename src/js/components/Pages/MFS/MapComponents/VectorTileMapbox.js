@@ -16,7 +16,7 @@ import { getCenterBboxProvince } from '../common/ProvinceFunction';
 import { getCenterBboxDistrict } from '../common/DistrictFunction';
 import { getCenterBboxMunicipality } from '../common/MunicipalityFunction';
 
-import { extendBounds } from '../../Automation/MapRelatedComponents/extendBbox';
+import { extendBounds } from '../../../common/extendBbox';
 import Loading from '../../../common/Loading';
 
 global.markerList = [];
@@ -385,7 +385,7 @@ class Choropleth extends Component {
       total.push(singleData.count);
       const radiusRange =
         // eslint-disable-next-line prettier/prettier
-      (data.total_sum - min) / (max - min) *(30 - 10) + 10;
+        ((data.total_sum - min) / (max - min)) * (30 - 10) + 10;
       const testElMain = document.createElement('div');
       testElMain.className = 'marker';
 
@@ -1014,7 +1014,7 @@ class Choropleth extends Component {
                   </div>
               </div>
             </div>
-          </div>` /* eslint-disable-line */
+          </div>` /* eslint-disable-line */,
         );
       })
       .on('mousemove', function() {

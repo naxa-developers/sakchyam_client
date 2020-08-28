@@ -8,8 +8,6 @@ import Select from '../../../common/Select/Select';
 import {
   getBranchesTableDataByFed,
   getBranchesTableData,
-  getDistrictDataFromProvince,
-  getMunicipalityDataFromDistrict,
   getTableDataByPartnerSelect,
 } from '../../../../actions/automation.actions';
 import TableViewSkeleton from '../../../common/TableViewSkeleton';
@@ -437,6 +435,4 @@ export default connect(mapStateToProps, {
   getBranchesTableDataByFed,
   getTableDataByPartnerSelect,
   getBranchesTableData,
-  getDistrictDataFromProvince,
-  getMunicipalityDataFromDistrict,
 })(TableViewComponent);

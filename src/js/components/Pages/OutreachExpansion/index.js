@@ -15,7 +15,7 @@ import Select from '../../common/Select/Select';
 import { getCenterBboxMunicipality } from '../../common/BBoxFunctionsMapBox/MunicipalityFunction';
 import { getCenterBboxDistrict } from '../../common/BBoxFunctionsMapBox/DistrictFunction';
 import { getCenterBboxProvince } from '../../common/BBoxFunctionsMapBox/ProvinceFunction';
-import { extendBounds } from '../Automation/MapRelatedComponents/extendBbox';
+import { extendBounds } from '../../common/extendBbox';
 import MapFilter from './MapFilter';
 import {
   fetchOutreachSecondaryData,

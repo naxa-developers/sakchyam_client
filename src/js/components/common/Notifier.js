@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-import zIndex from '@material-ui/core/styles/zIndex';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     },
     zIndex: 100000,
     position: 'fixed',
-    top: '10vh',
+    top: '12vh',
     right: '5vw',
   },
 }));
