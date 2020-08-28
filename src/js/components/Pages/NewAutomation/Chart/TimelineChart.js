@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 // import { githubdata } from './data';
 import playIcon from '../../../../../img/play-black.png';
 import pauseIcon from '../../../../../img/pause.png';
-import {
-  filterTimeline,
-  selectChoroplethDataOfMunicipality,
-} from '../../../../actions/automation.actions';
+import { filterTimeline } from '../../../../actions/automation.actions';
 
 let time = '1/1/2015';
 
@@ -15,42 +12,30 @@ class TimelineChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // data: [],
       playSelected: false,
-      // time: '1/1/2015',
       minCurrent: '',
       maxCurrent: '',
       githubdata: {
         series: [
           {
             x: new Date('2015-1-1').getTime(),
-            // a: 306,
-            // d: 33,
             y: 13,
           },
 
           {
             x: new Date('2016-1-1').getTime(),
-            // a: 25,
-            // d: 16,
             y: 10,
           },
           {
             x: new Date('2017-1-1').getTime(),
-            // a: 55,
-            // d: 86,
             y: 12,
           },
           {
             x: new Date('2018-1-1').getTime(),
-            // a: 47,
-            // d: 24,
             y: 36,
           },
           {
             x: new Date('2019-1-1').getTime(),
-            // a: 78,
-            // d: 98,
             y: 21,
           },
           {
@@ -59,13 +44,10 @@ class TimelineChart extends Component {
           },
         ],
       },
-      // categories: [],
     };
   }
 
   plotChart = (seriesData, minVal, maxVal) => {
-    // console.log(minVal, 'minVal');
-    // console.log(maxVal, 'maxVal');
     const that = this;
     const optionsLine = {
       series: [
@@ -79,16 +61,12 @@ class TimelineChart extends Component {
         type: 'area',
         height: 100,
         events: {
-          //   dataPointSelection(e, chart, opts) {
-          //     console.log(e, opts);
-          //   },
           selection(chartContext, { xaxis, yaxis }) {
             that.props.filterTimeline(xaxis.min, xaxis.max);
             that.setState({
               minCurrent: xaxis.min,
               maxCurrent: xaxis.max,
             });
-            // that.props.playBtn(xaxis.min, xaxis.max);
           },
         },
         toolbar: {
@@ -131,14 +109,8 @@ class TimelineChart extends Component {
         tickPlacement: 'between',
         labels: {
           rotate: -45,
-          // hideOverlappingLabels: true,
-          // showDuplicates: true,
-          // trim: true,
           datetimeFormatter: {
-            // year: 'yyyy',
             month: 'MM',
-            // day: 'dd MMM',
-            // hour: 'HH:mm',
           },
           style: {
             colors: [],
@@ -172,10 +144,7 @@ class TimelineChart extends Component {
         options,
       );
       global.chart.render();
-      global.chart.addEventListener('click', function() {
-        // alert('selected');
-        // this.setState({});
-      });
+      global.chart.addEventListener('click', function() {});
     }, 500);
   }
 
@@ -183,36 +152,25 @@ class TimelineChart extends Component {
     const d = new Date(minDate);
 
     const day = d.getDate();
-    const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
+    const month = d.getMonth() + 1;
     const year = d.getFullYear() + 1;
 
     const dateStr = `${month}/${day}/${year}`;
     time = dateStr;
-    // console.log(time, 'time returns');
-    // this.setState({ time: dateStr });
     return dateStr;
   };
 
   updateChart = (minValue, maxValue) => {
     time = minValue;
     global.timerId = setInterval(() => {
-      // console.log(time, 'didupdate min val');
-      // console.log(new Date(time), 'didupdate min val');
-      // console.log(new Date(maxValue), 'didupdate max val');
-      // console.log('once');
       if (new Date(time).getTime() < new Date(maxValue).getTime()) {
         const minval = new Date(minValue).getTime();
         const maxval = new Date(this.getAddedYear(time)).getTime();
-        // console.log(minval, maxval);
         ApexCharts.exec('chart1', 'updateOptions', {
-          // global.chart.updateOptions({
           chart: {
             selection: {
-              // enabled: false,
               events: {
-                selection(chartContext, { xaxis, yaxis }) {
-                  // that.props.playBtn(xaxis.min, xaxis.max);
-                },
+                selection(chartContext, { xaxis, yaxis }) {},
               },
               xaxis: {
                 min: minval,
@@ -222,21 +180,11 @@ class TimelineChart extends Component {
           },
         });
       } else {
-        // console.log('clear');
         clearInterval(global.timerId);
         this.setState({ playSelected: false });
       }
     }, 1200);
   };
-
-  componentDidUpdate(prevProps, prevStates) {
-    if (
-      prevProps.minValue !== this.props.minValue ||
-      prevProps.maxValue !== this.props.maxValue
-    ) {
-      // this.updateChart(this.props.minValue, this.props.maxValue);
-    }
-  } // componentdidupdate
 
   pauseBtn = () => {
     clearInterval(global.timerId);
@@ -267,8 +215,6 @@ class TimelineChart extends Component {
                 this.props.maxValue,
               );
             }, 200);
-
-            // this.setState({ key: Math.random() });
           }}
           onKeyDown={() => {
             time = '1/1/2015';
@@ -280,12 +226,9 @@ class TimelineChart extends Component {
                 this.props.maxValue,
               );
             }, 200);
-
-            // this.setState({ key: Math.random() });
           }}
           role="tab"
           tabIndex="0"
-          // key={this.props.key}
           className="play-btn"
           title="Play"
           style={
@@ -325,5 +268,4 @@ const mapStateToProps = ({ automationReducer }) => ({
 });
 export default connect(mapStateToProps, {
   filterTimeline,
-  selectChoroplethDataOfMunicipality,
 })(TimelineChart);

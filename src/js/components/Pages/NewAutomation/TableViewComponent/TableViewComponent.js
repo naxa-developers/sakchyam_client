@@ -8,8 +8,6 @@ import Select from '../../../common/Select/Select';
 import {
   getBranchesTableDataByFed,
   getBranchesTableData,
-  getDistrictDataFromProvince,
-  getMunicipalityDataFromDistrict,
   getTableDataByPartnerSelect,
 } from '../../../../actions/automation.actions';
 import TableViewSkeleton from '../../../common/TableViewSkeleton';
@@ -235,7 +233,15 @@ class TableViewComponent extends Component {
               tabIndex="0"
               onClick={toggleTableViewButton}
               onKeyDown={toggleTableViewButton}
-              style={{ cursor: 'pointer' }}
+              style={{
+                fontSize: '.8125rem',
+                color: 'white',
+                backgroundColor: '#F4A535',
+                borderColor: '#F4A535',
+                padding: ' .25rem 1rem',
+                cursor: 'pointer',
+                borderRadius: '5px',
+              }}
             >
               View on map
             </a>
@@ -429,6 +435,4 @@ export default connect(mapStateToProps, {
   getBranchesTableDataByFed,
   getTableDataByPartnerSelect,
   getBranchesTableData,
-  getDistrictDataFromProvince,
-  getMunicipalityDataFromDistrict,
 })(TableViewComponent);

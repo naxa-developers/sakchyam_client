@@ -137,8 +137,6 @@ class Header extends Component {
   };
 
   render() {
-    console.log(this.props);
-    console.log(this.props.location.pathname.replace('/', ''));
     const { activeProfileDropdown, permissions } = this.state;
     const { activePage } = this.props;
     const { headerTransparent } = this.props;

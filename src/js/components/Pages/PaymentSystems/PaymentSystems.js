@@ -1,15 +1,23 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/no-unused-state */
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import Header from '../../Header';
+
+import getPaymentSystemsData from '../../../actions/paymentSystems.actions';
 import DiagramSection from './DiagramSection/DiagramSection';
 import ContentSection from './ContentSection/ContentSection';
 import './custom-payment.scss';
 
 const downloadPng = chartid => {
+  const downloadIcon = document.querySelector(
+    '#payment-download-btn',
+  );
+  downloadIcon.style.display = 'none';
+
   setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {
+    html2canvas(document.querySelector(`.${chartid}`), {
       allowTaint: true,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
@@ -17,12 +25,23 @@ const downloadPng = chartid => {
       });
     });
   }, 500);
+
+  setTimeout(() => {
+    downloadIcon.style.display = 'block';
+  }, 600);
 };
 
-const PaymentSystems = () => {
+const PaymentSystems = ({
+  getPaymentSystemsData,
+  paymentData,
+  contentData,
+}) => {
+  useEffect(() => {
+    getPaymentSystemsData();
+  }, []);
+
   return (
     <>
-      {/* <Header /> */}
       <div className="payment-body">
         <button type="button" className="common-button is-bg">
           Payment system
@@ -30,19 +49,30 @@ const PaymentSystems = () => {
         <button
           type="button"
           className="common-button is-bg"
-          style={{ position: 'absolute', right: '30px' }}
-          onClick={() => downloadPng('payment-diagram')}
+          id="payment-download-btn"
+          style={{ position: 'absolute', right: '30px', top: '0px' }}
+          onClick={() => downloadPng('payment-body')}
         >
           Download
         </button>
-        <div className="payment-wrapper">
+
+        <DiagramSection contentData={contentData} />
+
+        {/* <div className="payment-wrapper">
           <DiagramSection />
 
-          <ContentSection />
-        </div>
+          <ContentSection contentData={contentData} />
+        </div> */}
       </div>
     </>
   );
 };
 
-export default PaymentSystems;
+const mapStateToProps = ({ paymentSystemsReducer }) => ({
+  paymentData: paymentSystemsReducer.paymentData,
+  contentData: paymentSystemsReducer.contentData,
+});
+
+export default connect(mapStateToProps, { getPaymentSystemsData })(
+  PaymentSystems,
+);

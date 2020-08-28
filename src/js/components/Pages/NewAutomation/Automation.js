@@ -20,27 +20,16 @@ import Select from '../../common/Select/Select';
 import {
   getBranchesTableDataByFed,
   getAllAutomationDataByPartner,
-  getAutomationDataByProvince,
-  getAutomationDataByDistrict,
   getAutomationDataByMunicipality,
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
-  filterAutomationDataForVectorTiles,
   filterPartnerSelect,
-  getSearchedPartners,
-  getDistrictDataFromProvince,
-  getMunicipalityDataFromDistrict,
   getFilteredPartnersByFederal,
   getBranchesTableData,
   getTableDataByPartnerSelect,
   getFilteredPartnersByFederalWithClickedPartners,
   partnerSelectWithOutreach,
-  selectChoroplethDataOfProvince,
-  selectChoroplethDataOfDistrict,
-  selectChoroplethDataOfMunicipality,
   getTimelineData,
-  filterAutomationByState,
+  getAllDataForTimeline,
+  setLegendValues,
 } from '../../../actions/automation.actions';
 import {
   provinceLists,
@@ -49,11 +38,11 @@ import {
   districtListByProvince,
   muniByDistrict,
 } from '../../common/adminList';
-import Header from '../../Header';
 import LeftSideBar from './LeftSideBar/LeftSideBar';
 import RightSideBar from './RightSideBar/RightSideBar';
 import TableViewComponent from './TableViewComponent/TableViewComponent';
 import { extendBounds } from './MapRelatedComponents/extendBbox';
+import Notifier from '../../common/Notifier';
 
 let total = '';
 
@@ -279,14 +268,13 @@ class MainAutomation extends Component {
           },
         },
       },
+      message: '',
     };
 
     this.mapRef = React.createRef();
   }
 
   componentDidMount() {
-    const token = localStorage.getItem('userToken');
-    console.log('token hai', token);
     const filterBar = document.getElementsByClassName(
       'filter-bar',
     )[0];
@@ -300,6 +288,8 @@ class MainAutomation extends Component {
       }
     });
     this.props.getAllAutomationDataByPartner([]);
+    this.props.setLegendValues();
+    this.props.getAllDataForTimeline();
     this.props.filterPartnerSelect([]);
     this.props.getAutomationDataByMunicipality();
     this.props.getBranchesTableData();
@@ -529,8 +519,10 @@ class MainAutomation extends Component {
     }
     if (prevState.selectedDistrict !== selectedDistrict) {
       let municipality;
+
       if (
         (selectedDistrict &&
+          selectedDistrict.length === 78 &&
           selectedDistrict[0] &&
           selectedDistrict[0].value === 'all') ||
         selectedDistrict.length === 0
@@ -565,7 +557,6 @@ class MainAutomation extends Component {
       });
 
       activeClickPartners.map((clickedPartners, i) => {
-        console.log('index ,i', i);
         const partnerColor = this.makeRandomColor();
         tableData.map(data => {
           if (data.partner_id === clickedPartners) {
@@ -665,7 +656,6 @@ class MainAutomation extends Component {
   };
 
   handleActiveClickPartners = id => {
-    console.log('id check', id);
     let { activeClickPartners } = this.state;
     const { mapViewBy, activeTableView } = this.state;
 
@@ -691,6 +681,10 @@ class MainAutomation extends Component {
     }, 100);
   };
 
+  clearNotification = () => {
+    this.setState({ message: '' });
+  };
+
   handleStateLevel = () => {
     const {
       map,
@@ -713,6 +707,19 @@ class MainAutomation extends Component {
       selectedDistrict && selectedDistrict.length > 0;
     const muniCheck =
       selectedMunicipality && selectedMunicipality.length > 0;
+
+    if (selectedMunicipality && selectedMunicipality.length > 150) {
+      if (selectedMunicipality.length !== 776) {
+        this.setState({
+          message:
+            'Either select all or select less than 150 Municiplaities!',
+        });
+        setTimeout(() => {
+          this.clearNotification();
+        }, 3000);
+        return;
+      }
+    }
 
     if (provinceCheck || districtCheck || muniCheck) {
       if (mapViewBy === 'municipality') {
@@ -755,11 +762,6 @@ class MainAutomation extends Component {
           });
           this.changeMapTiles(filteredMunFromDist);
         } else if (provinceCheck) {
-          console.log(
-            'mapViewBy === municipality provinceCheck ',
-            selectedProvince,
-            municipalityList,
-          );
           const filteredList = this.provinceListByMunnicipalityTiles(
             selectedProvince,
             municipalityList,
@@ -828,7 +830,6 @@ class MainAutomation extends Component {
           selectedMunicipality.length === 776 ||
           selectedDistrict.length === 78
         ) {
-          console.log('automation all case');
           this.props.getAllAutomationDataByPartner([]);
         } else {
           this.props.getFilteredPartnersByFederal({
@@ -892,24 +893,6 @@ class MainAutomation extends Component {
     } else {
       return [];
     }
-  };
-
-  filterMarkers = (array, type) => {
-    // const { finalPartnerList } = this.state;
-    // const filteredArrayOne = array.filter(
-    //   data => data.value !== 'all',
-    // );
-    // const filteredArray = [];
-    // if (type === 'province') {
-    //   finalPartnerList.forEach(partner => {
-    //     filteredArrayOne.forEach(item => {
-    //       if (partner.province_covered === item.code) {
-    //         filteredArray.push(partner);
-    //       }
-    //     });
-    //   });
-    // }
-    // console.log('filtered arrays ', filteredArray);
   };
 
   provinceListByMunnicipalityTiles = (
@@ -1029,39 +1012,6 @@ class MainAutomation extends Component {
     }
   };
 
-  refreshSelectedPartnerBtn = () => {
-    // const {
-    //   activeTableView,
-    //   activeClickPartners,
-    //   selectedMunicipality,
-    //   map,
-    // } = this.state;
-    // this.setState({
-    //   activeClickPartners: [],
-    //   activeOutreachButton: true,
-    //   provinceList: provinceLists(),
-    //   districtList: districtLists(),
-    //   municipalityList: municipalityLists(),
-    //   selectedProvince: provinceLists(),
-    //   selectedDistrict: [],
-    //   selectedMunicipality: municipalityLists(),
-    //   searchText: '',
-    // });
-    // if (activeClickPartners.length > 0) {
-    //   this.props.filterPartnerSelect([]);
-    // }
-    // this.props.getBranchesTableData();
-    // map.setZoom(5.8);
-    // map.setCenter([84, 28.5]);
-    // setTimeout(() => {
-    //   this.setMapViewBy('municipality');
-    // }, 500);
-    // const allMunis = municipalityLists();
-    // setTimeout(() => {
-    //   this.changeMapTiles(allMunis);
-    // }, 1000);
-  };
-
   // change set time out value once migration lines issues is resolved
   resetPartnersOnly = () => {
     const { mapViewBy } = this.state;
@@ -1125,7 +1075,7 @@ class MainAutomation extends Component {
       municipalityList,
       tabletsDeployed,
       activeClickPartners,
-      allPartners,
+      message,
       finalPartnerList,
       branchesCountOptions,
       areaChartOptions,
@@ -1146,11 +1096,8 @@ class MainAutomation extends Component {
     } = this.state;
     const { tableDataLoading } = this.props.automationReducer;
 
-    // console.log('migrationArray', migrationArray);
-
     return (
       <div className="page-wrap page-100">
-        {/* <Header /> */}
         <div
           className={`automation-wrapper ${
             activeRightSideBar ? '' : 'expand-right-sidebar'
@@ -1220,10 +1167,6 @@ class MainAutomation extends Component {
                             selectedItem={selectedProvince}
                             options={provinceList && provinceList}
                             onChange={selectedOptions => {
-                              console.log(
-                                'automation main',
-                                selectedOptions,
-                              );
                               this.setState({
                                 selectedProvince: selectedOptions,
                               });
@@ -1297,9 +1240,7 @@ class MainAutomation extends Component {
               toggleTableViewButton={this.toggleTableViewButton}
               handleAdminSelects={this.handleAdminSelects}
               handleStateLevel={this.handleStateLevel}
-              refreshSelectedPartnerBtn={
-                this.refreshSelectedPartnerBtn
-              }
+              refreshSelectedPartnerBtn={this.resetAdminFiltersOnly}
             />
           </main>
           <RightSideBar
@@ -1317,6 +1258,7 @@ class MainAutomation extends Component {
             toggleTableViewButton={this.toggleTableViewButton}
             loading={loading}
           />
+          {message && <Notifier case="warning" message={message} />}
         </div>
       </div>
     );
@@ -1328,25 +1270,14 @@ const mapStateToProps = ({ automationReducer }) => ({
 export default connect(mapStateToProps, {
   getBranchesTableDataByFed,
   getAllAutomationDataByPartner,
-  getAutomationDataByProvince,
-  getAutomationDataByDistrict,
   getAutomationDataByMunicipality,
-  filterAutomationDataForVectorTiles,
-  getProvinceData,
-  getDistrictData,
-  getMunicipalityData,
   filterPartnerSelect,
-  getSearchedPartners,
-  getDistrictDataFromProvince,
-  getMunicipalityDataFromDistrict,
   getFilteredPartnersByFederal,
   getBranchesTableData,
   getTableDataByPartnerSelect,
   getFilteredPartnersByFederalWithClickedPartners,
   partnerSelectWithOutreach,
-  selectChoroplethDataOfProvince,
-  selectChoroplethDataOfDistrict,
-  selectChoroplethDataOfMunicipality,
   getTimelineData,
-  filterAutomationByState,
+  getAllDataForTimeline,
+  setLegendValues,
 })(MainAutomation);

@@ -206,8 +206,6 @@ class PlotVector extends Component {
       range = [0, 1];
     }
 
-    console.log('max and min', max, min, range);
-
     this.setState({
       grade: fullRange.length > 0 ? fullRange : range,
     });

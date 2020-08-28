@@ -48,8 +48,13 @@ class PlotVector extends Component {
       inactiveMarkers: [],
       count: 0,
       minValue: '1/1/2015',
-      maxValue: '1/1/2020',
+      maxValue: '2/2/2020',
       timeline: false,
+      timelineMarkers: [],
+      timelinePartnersPlotted: [],
+      provinceLegendData: '',
+      districtLegendData: '',
+      municipalityLegendData: '',
     };
   }
 
@@ -71,7 +76,46 @@ class PlotVector extends Component {
       showBranches,
     } = this.props;
     const that = this;
-    const { vectorTileInitialized, stateMarker } = this.state;
+    const {
+      vectorTileInitialized,
+      timelineMarkers,
+      stateMarker,
+      timeline,
+    } = this.state;
+
+    if (
+      prevProps.automationReducer.provinceLegendData !==
+      automationReducer.provinceLegendData
+    ) {
+      this.setState({
+        provinceLegendData: automationReducer.provinceLegendData,
+      });
+    }
+
+    if (
+      prevProps.automationReducer.districtLegendData !==
+      automationReducer.districtLegendData
+    ) {
+      this.setState({
+        districtLegendData: automationReducer.districtLegendData,
+      });
+    }
+
+    if (
+      prevProps.automationReducer.municipalityLegendData !==
+      automationReducer.municipalityLegendData
+    ) {
+      this.setState({
+        municipalityLegendData:
+          automationReducer.municipalityLegendData,
+      });
+      // console.log(
+      //   'choropleth value has changed',
+      //   automationReducer.provinceLegendData,
+      //   automationReducer.districtLegendData,
+      //   automationReducer.municipalityLegendData,
+      // );
+    }
 
     if (activeOutreachButton !== prevProps.activeOutreachButton) {
       if (activeOutreachButton) {
@@ -83,6 +127,18 @@ class PlotVector extends Component {
             marker.remove();
           });
         }
+
+        if (timelineMarkers && timelineMarkers.length > 0) {
+          timelineMarkers.map(marker => {
+            marker.remove();
+          });
+        }
+
+        this.setState({
+          timeline: false,
+          timelineMarkers: [],
+          timelinePartnersPlotted: [],
+        });
       } else {
         setTimeout(() => {
           this.setActiveInactiveMarkers();
@@ -115,17 +171,16 @@ class PlotVector extends Component {
     }
 
     if (
-      prevProps.automationReducer.automationLeftSidePartnerData !==
-      automationReducer.automationLeftSidePartnerData
+      prevProps.automationReducer.timelineFilteredData !==
+      automationReducer.timelineFilteredData
     ) {
-      if (!activeOutreachButton) {
+      if (!activeOutreachButton && timeline) {
         this.setState({
-          timeline: true,
-          activeMarkers:
-            automationReducer.automationLeftSidePartnerData,
+          inactiveMarkers: [],
+          activeMarkers: automationReducer.timelineFilteredData,
         });
         setTimeout(() => {
-          this.setMarkers(that);
+          this.settimelineMarkers(that);
         }, 100);
       }
     }
@@ -156,6 +211,19 @@ class PlotVector extends Component {
   setActiveInactiveMarkers = () => {
     const { activeClickPartners, allPartners } = this.props;
     const that = this;
+
+    const { timelineMarkers } = this.state;
+
+    if (timelineMarkers && timelineMarkers.length > 0) {
+      timelineMarkers.map(marker => {
+        marker.remove();
+      });
+    }
+    this.setState({
+      timeline: false,
+      timelineMarkers: [],
+      timelinePartnersPlotted: [],
+    });
 
     if (activeClickPartners.length > 0) {
       const actives = [];
@@ -199,7 +267,95 @@ class PlotVector extends Component {
     }
   };
 
+  settimelineMarkers = that => {
+    const {
+      stateMarker,
+      activeMarkers,
+      timelinePartnersPlotted,
+      timeline,
+      timelineMarkers,
+    } = this.state;
+    const { map } = that.props;
+
+    // console.log(
+    //   'active values',
+    //   activeMarkers,
+    //   timelinePartnersPlotted,
+    // );
+
+    if (timeline) {
+      if (stateMarker.length > 0) {
+        // console.log('stateMarker', stateMarker);
+        stateMarker.map(marker => {
+          marker.remove();
+        });
+      }
+
+      const featuresArrayActive = activeMarkers.map(data => ({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [data.long, data.lat],
+        },
+        properties: {
+          ...data,
+        },
+      }));
+
+      const tempActive = {
+        type: 'FeatureCollection',
+        features: featuresArrayActive,
+      };
+
+      const markerCollection = timelineMarkers;
+      tempActive.features.forEach(function(marker) {
+        const popup = new mapboxgl.Popup({
+          offset: 25,
+          closeButton: false,
+        }).setText(`${marker.properties.partner_name}`);
+
+        if (
+          !timelinePartnersPlotted.includes(
+            marker.properties.partner_id,
+          )
+        ) {
+          timelinePartnersPlotted.push(marker.properties.partner_id);
+          const el = document.createElement('div');
+
+          el.className = 'marker-outreach-branch';
+
+          const Marker1 = new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(popup)
+            .addTo(map);
+
+          el.addEventListener('mouseenter', () =>
+            Marker1.togglePopup(),
+          );
+          el.addEventListener('mouseleave', () =>
+            Marker1.togglePopup(),
+          );
+
+          if (that.state.timeline) {
+            Marker1.togglePopup();
+            setTimeout(() => {
+              Marker1.togglePopup();
+            }, 1000);
+          }
+
+          markerCollection.push(Marker1);
+        }
+      });
+
+      this.setState({
+        timelineMarkers: markerCollection,
+        timelinePartnersPlotted,
+      });
+    }
+  };
+
   setMarkers = that => {
+    console.log('set markers is being called');
     const {
       stateMarker,
       activeMarkers,
@@ -264,12 +420,12 @@ class PlotVector extends Component {
       el.addEventListener('mouseenter', () => Marker1.togglePopup());
       el.addEventListener('mouseleave', () => Marker1.togglePopup());
 
-      if (that.state.timeline) {
-        Marker1.togglePopup();
-        setTimeout(() => {
-          Marker1.togglePopup();
-        }, 2000);
-      }
+      // if (that.state.timeline) {
+      //   Marker1.togglePopup();
+      //   setTimeout(() => {
+      //     Marker1.togglePopup();
+      //   }, 2000);
+      // }
 
       markerCollection.push(Marker1);
     });
@@ -304,9 +460,15 @@ class PlotVector extends Component {
 
   changeGrades() {
     let range = [];
-    const data = [];
+
     const gradeCount = 7;
     const fullRange = [];
+    const { mapViewBy } = this.props;
+    const {
+      provinceLegendData,
+      districtLegendData,
+      municipalityLegendData,
+    } = this.state;
 
     const fullData =
       this.props.choroplethData != null &&
@@ -314,21 +476,44 @@ class PlotVector extends Component {
         ? this.props.choroplethData
         : defaultData;
 
-    if (
-      this.props.choroplethData != null &&
-      this.props.choroplethData.length > 0
-    ) {
-      this.props.choroplethData.forEach(data1 => {
-        data.push(data1.count);
+    // const data = [];
+    // if (
+    //   this.props.choroplethData != null &&
+    //   this.props.choroplethData.length > 0
+    // ) {
+    //   this.props.choroplethData.forEach(data1 => {
+    //     data.push(data1.count);
+    //   });
+    // } else {
+    //   defaultData.forEach(data1 => {
+    //     data.push(data1.count);
+    //   });
+    // }
+
+    let legendData;
+    let tempData = [];
+
+    if (mapViewBy === 'municipality') {
+      legendData = municipalityLegendData.result;
+      console.log('legend value', legendData);
+    } else if (mapViewBy === 'district') {
+      legendData = districtLegendData.result;
+    } else {
+      legendData = provinceLegendData.result;
+    }
+
+    if (legendData != null && legendData.length > 0) {
+      legendData.forEach(data1 => {
+        tempData.push(data1.tablets_deployed);
       });
     } else {
       defaultData.forEach(data1 => {
-        data.push(data1.count);
+        tempData.push(data1.count);
       });
     }
 
-    const max = Math.max.apply(null, Object.values(data));
-    const min = Math.min.apply(null, Object.values(data));
+    const max = Math.max.apply(null, Object.values(tempData));
+    const min = 1;
 
     range =
       (max - min) / (gradeCount - 1) < 1
@@ -618,11 +803,22 @@ class PlotVector extends Component {
   };
 
   playBtn = (min, max) => {
+    const { timelineMarkers } = this.state;
+
+    if (timelineMarkers.length > 0) {
+      timelineMarkers.map(marker => {
+        marker.remove();
+      });
+    }
+
     this.setState({
       minValue: this.getYear(min),
       maxValue: this.getYear(max),
+      timelineMarkers: [],
+      timelinePartnersPlotted: [],
       key: i,
       playClick: true,
+      timeline: true,
     });
     i += 1;
   };
@@ -644,6 +840,7 @@ class PlotVector extends Component {
       localOutreachSelected,
       YesNo,
       mapViewDataBy,
+
       activeOutreachButton,
     } = this.props;
 

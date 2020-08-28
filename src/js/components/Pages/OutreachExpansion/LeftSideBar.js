@@ -9,7 +9,6 @@ class LeftSideBar extends Component {
     super(props);
     this.state = {
       expansionList: '',
-      fiList: '',
       partnerList: '',
     };
   }
@@ -18,34 +17,40 @@ class LeftSideBar extends Component {
     const { primaryData } = this.props.outreachReducer;
 
     if (prevProps.outreachReducer.primaryData !== primaryData) {
-      const expList = primaryData.map(item => ({
-        id: item.id,
-        expansion_driven_by: item.expansion_driven_by,
-      }));
-      const expansionList = removeDuplicates(
-        expList,
-        'expansion_driven_by',
-      );
-
-      const finanList = primaryData.map(item => ({
-        id: item.id,
-        partner_type: item.partner_type,
-      }));
-      const fiList = removeDuplicates(finanList, 'partner_type');
-
-      const partList = primaryData.map(item => ({
-        id: item.id,
-        partner: item.partner,
-      }));
-      const partnerList = removeDuplicates(partList, 'partner');
-
-      this.setState({ expansionList, fiList, partnerList });
+      this.setListValues();
     }
   }
 
+  componentDidMount() {
+    const { primaryData } = this.props.outreachReducer;
+    if (primaryData) {
+      this.setListValues();
+    }
+  }
+
+  setListValues = () => {
+    const { primaryData } = this.props.outreachReducer;
+    const expList = primaryData.map(item => ({
+      id: item.id,
+      expansion_driven_by: item.expansion_driven_by,
+    }));
+    const expansionList = removeDuplicates(
+      expList,
+      'expansion_driven_by',
+    );
+
+    const partList = primaryData.map(item => ({
+      id: item.id,
+      partner: item.partner,
+    }));
+    const partnerList = removeDuplicates(partList, 'partner');
+
+    this.setState({ expansionList, partnerList });
+  };
+
   render() {
     const {
-      state: { expansionList, fiList, partnerList },
+      state: { expansionList, partnerList },
       props: {
         mapViewDataBy,
         partnerSelection,
