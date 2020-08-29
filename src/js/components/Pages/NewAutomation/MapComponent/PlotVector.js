@@ -109,12 +109,9 @@ class PlotVector extends Component {
         municipalityLegendData:
           automationReducer.municipalityLegendData,
       });
-      // console.log(
-      //   'choropleth value has changed',
-      //   automationReducer.provinceLegendData,
-      //   automationReducer.districtLegendData,
-      //   automationReducer.municipalityLegendData,
-      // );
+      setTimeout(() => {
+        this.changeGrades();
+      }, 1000);
     }
 
     if (activeOutreachButton !== prevProps.activeOutreachButton) {
@@ -277,12 +274,6 @@ class PlotVector extends Component {
     } = this.state;
     const { map } = that.props;
 
-    // console.log(
-    //   'active values',
-    //   activeMarkers,
-    //   timelinePartnersPlotted,
-    // );
-
     if (timeline) {
       if (stateMarker.length > 0) {
         // console.log('stateMarker', stateMarker);
@@ -355,7 +346,6 @@ class PlotVector extends Component {
   };
 
   setMarkers = that => {
-    console.log('set markers is being called');
     const {
       stateMarker,
       activeMarkers,
@@ -495,7 +485,6 @@ class PlotVector extends Component {
 
     if (mapViewBy === 'municipality') {
       legendData = municipalityLegendData.result;
-      console.log('legend value', legendData);
     } else if (mapViewBy === 'district') {
       legendData = districtLegendData.result;
     } else {

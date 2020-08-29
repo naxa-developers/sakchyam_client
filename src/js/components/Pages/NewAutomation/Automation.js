@@ -43,6 +43,7 @@ import RightSideBar from './RightSideBar/RightSideBar';
 import TableViewComponent from './TableViewComponent/TableViewComponent';
 import { extendBounds } from './MapRelatedComponents/extendBbox';
 import Notifier from '../../common/Notifier';
+import Modal from './Modal';
 
 let total = '';
 
@@ -269,6 +270,7 @@ class MainAutomation extends Component {
         },
       },
       message: '',
+      activeModal: false,
     };
 
     this.mapRef = React.createRef();
@@ -324,6 +326,16 @@ class MainAutomation extends Component {
       prevProps.automationReducer.automationRightSidePartnerData !==
       automationReducer.automationRightSidePartnerData
     ) {
+      // console.log(
+      //   'automationReducer.automationRightSidePartnerData',
+      //   automationReducer.automationRightSidePartnerData[0]
+      //     .partner_data,
+      // );
+      this.setState({
+        allPartners:
+          automationReducer.automationRightSidePartnerData[0]
+            .partner_data,
+      });
       const { tabletsDeployed } = this.state;
       const {
         automationRightSidePartnerData,
@@ -1064,6 +1076,13 @@ class MainAutomation extends Component {
     }, 500);
   };
 
+  modalHandler = () => {
+    console.log('pressed');
+    this.setState(prevState => ({
+      activeModal: !prevState.activeModal,
+    }));
+  };
+
   render() {
     const {
       map,
@@ -1093,6 +1112,8 @@ class MainAutomation extends Component {
       selectedDistrict,
       selectedMunicipality,
       migrationArray,
+      activeModal,
+      allPartners,
     } = this.state;
     const { tableDataLoading } = this.props.automationReducer;
 
@@ -1257,8 +1278,17 @@ class MainAutomation extends Component {
             toggleRightSideBarButton={this.toggleRightSideBarButton}
             toggleTableViewButton={this.toggleTableViewButton}
             loading={loading}
+            modalHandler={this.modalHandler}
           />
           {message && <Notifier case="warning" message={message} />}
+          {activeModal && (
+            <Modal
+              handleModal={this.modalHandler}
+              activeModal={activeModal}
+              tabletsDeployed={tabletsDeployed}
+              allPartners={allPartners}
+            />
+          )}
         </div>
       </div>
     );
