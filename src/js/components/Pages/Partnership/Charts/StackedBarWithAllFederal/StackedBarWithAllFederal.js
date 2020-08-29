@@ -361,8 +361,16 @@ class StackedBarWithAllFederal extends Component {
                 );
                 // console.log(finalDistrictId, 'finalDistrtic');
                 const districtIdList = finalDistrictId.map(data => {
+                  document
+                    .querySelector(
+                      `.district_check.check_${data.n_code}`,
+                    )
+                    .click();
                   return data.n_code;
                 });
+                document.querySelector(`.apply-btn`).click();
+                console.log(districtIdList, 'districtList');
+                // document.querySelector(`check_${}`)
                 that.props.handleShowBarOf('Districts');
                 // console.log(districtIdList, 'distrList');
                 // console.log(districtIdList, 'districtIdList');
@@ -395,9 +403,14 @@ class StackedBarWithAllFederal extends Component {
                 // console.log(finalMunicipalityId, 'finalMunicipalityId');
                 const districtIdList = finalMunicipalityId.map(
                   data => {
+                    document
+                      .querySelector(`.mun_check.check_${data.code}`)
+                      .click();
                     return data.code;
                   },
                 );
+                document.querySelector(`.apply-btn`).click();
+
                 that.props.handleShowBarOf('Municipality');
                 // console.log(districtIdList, 'districtIdList');
                 that.props.filterFinancialDataOfMunicipalityFromDistrict(
