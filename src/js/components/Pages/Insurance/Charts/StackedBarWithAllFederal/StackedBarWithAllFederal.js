@@ -18,7 +18,7 @@ class StackedBarWithAllFederal extends Component {
   }
 
   plotChart = () => {
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+    //
     const that = this;
     const {
       partnershipReducer: { barDatas },
@@ -52,11 +52,11 @@ class StackedBarWithAllFederal extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            // console.log(seriesIndex, 'seriesIndex');
-            // console.log(event, 'event');
-            // console.log(chartContext, 'chartContext');
-            // console.log(dataPointIndex, 'dataPointIndex');
-            // console.log(config, 'config');
+            //
+            //
+            //
+            //
+            //
             // console.log(
             //   config.xaxis.categories[dataPointIndex],
             //   'dataPointIndex Calc',
@@ -75,18 +75,18 @@ class StackedBarWithAllFederal extends Component {
                 );
               },
             );
-            // console.log(filteredProvinceId, 'filteredProvinceId');
+            //
             const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
               data => {
                 return data.province_id === filteredProvinceId[0].id;
               },
             );
-            // console.log(finalDistrictId, 'finalDistrtic');
+            //
             const districtIdList = finalDistrictId.map(data => {
               return data.n_code;
             });
             that.props.handleShowBarOf('district');
-            // console.log(districtIdList, 'districtIdList');
+            //
             that.props.filterFinancialDataOfDistrictFromProvince(
               that.props.viewDataBy,
               districtIdList,
@@ -130,11 +130,11 @@ class StackedBarWithAllFederal extends Component {
           //   const newArray = barDatas.series[0].data.map(
           //     (e, i) => e + barDatas.series[1].data[i],
           //   );
-          //   // console.log(newArray, 'newArray');
-          //   // console.log(Math.max(...newArray));
+          //   //
+          //   //
           //   global.maxValue = Math.max(...newArray);
-          //   // console.log(max, 'max');
-          //   // // console.log(that.props.showBarof, 'showBarof');
+          //   //
+          //   // //
           //   // if (that.props.showBarof === 'Provinces') {
           //   //   return 600000;
           //   // }
@@ -159,7 +159,7 @@ class StackedBarWithAllFederal extends Component {
               colors: '#008FFB',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              //
               return convert(value);
             },
           },
@@ -194,7 +194,7 @@ class StackedBarWithAllFederal extends Component {
               colors: '#00E396',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              //
               return convert(value);
             },
           },
@@ -222,7 +222,7 @@ class StackedBarWithAllFederal extends Component {
               colors: '#FEB019',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              //
               return convert(value);
             },
           },
@@ -275,16 +275,16 @@ class StackedBarWithAllFederal extends Component {
     const {
       partnershipReducer: { barDatas },
     } = this.props;
-    console.log(barDatas, 'barDatas');
+
     // alert('test');
     const newArray = barDatas.series[0].data.map(
       (e, i) => e + barDatas.series[1].data[i],
     );
-    // console.log(newArray, 'newArray');
-    // console.log(Math.max(...newArray));
+    //
+    //
     const maxValue = Math.max(...newArray);
-    console.log(maxValue, 'maxValue');
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+
+    //
     // const series = [
     //   {
     //     name: 'PRODUCT A',
@@ -318,11 +318,11 @@ class StackedBarWithAllFederal extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            // console.log(seriesIndex, 'seriesIndex');
-            // console.log(event, 'event');
-            // console.log(chartContext, 'chartContext');
-            // console.log(dataPointIndex, 'dataPointIndex');
-            // console.log(config, 'config');
+            //
+            //
+            //
+            //
+            //
 
             const clicked = config.xaxis.categories[dataPointIndex];
             if (clicked !== undefined) {
@@ -334,12 +334,12 @@ class StackedBarWithAllFederal extends Component {
                 projectStatus,
                 showBarof,
               } = that.props;
-              // console.log(showBarof, 'showBarOf');
+              //
               if (showBarof === 'Provinces') {
-                // console.log(clicked, 'clicked');
+                //
                 const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
                   data => {
-                    // console.log(data, 'data');
+                    //
                     // return (
                     //   data.code ===
                     //   config.xaxis.categories[dataPointIndex]
@@ -349,7 +349,7 @@ class StackedBarWithAllFederal extends Component {
                     );
                   },
                 );
-                console.log(filteredProvinceId, 'filteredProvinceId');
+
                 const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
                   data => {
                     return (
@@ -358,13 +358,13 @@ class StackedBarWithAllFederal extends Component {
                     );
                   },
                 );
-                // console.log(finalDistrictId, 'finalDistrtic');
+                //
                 const districtIdList = finalDistrictId.map(data => {
                   return data.n_code;
                 });
                 that.props.handleShowBarOf('Districts');
-                console.log(districtIdList, 'distrList');
-                // console.log(districtIdList, 'districtIdList');
+
+                //
                 that.props.filterFinancialDataOfDistrictFromProvince(
                   that.props.viewDataBy,
                   districtIdList,
@@ -382,7 +382,7 @@ class StackedBarWithAllFederal extends Component {
                     );
                   },
                 );
-                // console.log(filteredProvinceId, 'filteredProvinceId');
+                //
                 const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
                   data => {
                     return (
@@ -391,14 +391,14 @@ class StackedBarWithAllFederal extends Component {
                     );
                   },
                 );
-                // console.log(finalMunicipalityId, 'finalMunicipalityId');
+                //
                 const districtIdList = finalMunicipalityId.map(
                   data => {
                     return data.code;
                   },
                 );
                 that.props.handleShowBarOf('Municipality');
-                // console.log(districtIdList, 'districtIdList');
+                //
                 that.props.filterFinancialDataOfMunicipalityFromDistrict(
                   that.props.viewDataBy,
                   districtIdList,
@@ -439,15 +439,15 @@ class StackedBarWithAllFederal extends Component {
           // min: 0,
           max(max) {
             // alert('inside max');
-            // console.log(barDatas, 'barDatas');
+            //
             // const newArray = barDatas.series[0].data.map(
             //   (e, i) => e + barDatas.series[1].data[i],
             // );
-            // // console.log(newArray, 'newArray');
-            // // console.log(Math.max(...newArray));
+            // //
+            // //
             // const maxValue = Math.max(...newArray);
-            // console.log(maxValue, 'maxValue');
-            // // console.log(that.props.showBarof, 'showBarof');
+            //
+            // //
             // if (that.props.showBarof === 'Provinces') {
             //   return 600000;
             // }
@@ -457,7 +457,7 @@ class StackedBarWithAllFederal extends Component {
 
             // return 10000;
             // global.totalMaxValue = max / 120;
-            // console.log(maxValue, 'yaxis Maxvalue');
+            //
             return maxValue;
           },
           axisTicks: {
@@ -491,17 +491,17 @@ class StackedBarWithAllFederal extends Component {
         {
           // min: 0,
           max(max) {
-            // console.log(barDatas, 'barDatas');
+            //
             // const newArray = barDatas.series[0].data.map(
             //   (e, i) => e + barDatas.series[1].data[i],
             // );
-            // // console.log(newArray, 'newArray');
-            // // console.log(Math.max(...newArray));
+            // //
+            // //
             // const maxValue = Math.max(...newArray);
-            // console.log(maxValue, 'maxValue');
+            //
 
-            // console.log(max, '2ndmax');
-            // // console.log(that.props.showBarof, 'showBarof');
+            //
+            // //
             // if (that.props.showBarof === 'Provinces') {
             //   return 600000;
             // }
@@ -559,7 +559,7 @@ class StackedBarWithAllFederal extends Component {
               colors: '#FEB019',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              //
               return convert(value);
             },
           },
@@ -591,7 +591,7 @@ class StackedBarWithAllFederal extends Component {
           show: true,
           // format: 'dd MMM',
           formatter(x) {
-            // console.log(x, 'x');
+            //
             // if (x.toString().includes('Province')) {
             //   return `Province ${x}`;
             // }
@@ -604,7 +604,7 @@ class StackedBarWithAllFederal extends Component {
         offsetX: 40,
       },
     };
-    // console.log(barDatas.series, 'bardataxx');
+    //
     this.setState({ options, series: barDatas.series });
   };
 

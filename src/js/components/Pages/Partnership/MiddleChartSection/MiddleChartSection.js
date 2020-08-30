@@ -476,7 +476,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            {/* <CardTab
+            <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'
@@ -498,7 +498,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            /> */}
+            />
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

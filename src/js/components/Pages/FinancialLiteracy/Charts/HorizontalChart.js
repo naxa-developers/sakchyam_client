@@ -219,7 +219,7 @@ class HorizontalChart extends Component {
               //       ),
               //     'timestamp',
               //   );
-              //   // console.log(index, 'index');
+              //   //
               //   return value === 'Other Initiatives' &&
               //     timestamp.w &&
               //     timestamp.w.config.xaxis.categories
@@ -457,7 +457,7 @@ class HorizontalChart extends Component {
               // labels: {
               //   ...preState.options.xaxis.labels,
               //   formatter(value, timestamp, index) {
-              //     console.log(timestamp, 'timestamp');
+              //
               //     return value === 'Other Initiatives'
               //       ? 'hello'
               //       : value;
@@ -533,7 +533,7 @@ class HorizontalChart extends Component {
                 // labels: {
                 //   ...preState.options.xaxis.labels,
                 //   formatter(value, timestamp, index) {
-                //     console.log(timestamp, 'timestamp');
+                //
                 //     return value === 'Other Initiatives'
                 //       ? 'hello'
                 //       : value;
@@ -580,7 +580,7 @@ class HorizontalChart extends Component {
             //   labels: {
             //     ...preState.options.xaxis.labels,
             //     formatter(value, timestamp, index) {
-            //       console.log(timestamp, 'timestamp');
+            //
             //       return value === 'Other Initiatives'
             //         ? 'hello'
             //         : value;
@@ -626,7 +626,7 @@ class HorizontalChart extends Component {
             //   labels: {
             //     ...preState.options.xaxis.labels,
             //     formatter(value, timestamp, index) {
-            //       console.log(value, 'timestamp');
+            //
             //       return value === 'Chhimek' ? 'hello' : value;
             //     },
             //   },
@@ -648,8 +648,8 @@ class HorizontalChart extends Component {
               y: {
                 // title: {
                 //   formatter: (seriesName, i, j) => {
-                //     console.log(seriesName, 'series');
-                //     console.log(i, 'i');
+                //
+                //
                 //     return `hello ${seriesName}`;
                 //   },
                 // },
@@ -694,7 +694,7 @@ class HorizontalChart extends Component {
             //     labels: {
             //       ...preState.options.xaxis.labels,
             //       formatter(value, timestamp, index) {
-            //         console.log(timestamp, 'timestamp');
+            //
             //         return value === 'Other Initiatives'
             //           ? 'hello'
             //           : value;

@@ -276,7 +276,7 @@ class PlotVector extends Component {
 
     if (timeline) {
       if (stateMarker.length > 0) {
-        // console.log('stateMarker', stateMarker);
+        //
         stateMarker.map(marker => {
           marker.remove();
         });
@@ -444,7 +444,7 @@ class PlotVector extends Component {
 
         markerCollection.push(Marker1);
       });
-    // console.log('marker collection', markerCollection);
+    //
     this.setState({ stateMarker: markerCollection });
   };
 

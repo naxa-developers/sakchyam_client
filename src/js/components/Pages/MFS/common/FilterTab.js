@@ -66,7 +66,7 @@ class FilterTab extends Component {
       ) {
         districts = districtLists();
       } else {
-        // console.log('else condition', selectedProvince);
+        //
         districts = districtListByProvince(
           selectedProvince,
           districtList,

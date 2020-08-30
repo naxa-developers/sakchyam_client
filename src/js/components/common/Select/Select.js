@@ -316,7 +316,7 @@ class Select extends PureComponent {
     // // const downloadDropdown = document.getElementById(
     // //   'downloadDropdown',
     // // );
-    // // console.log(specifiedElement, 'ss');
+    // //
     // document.addEventListener('click', async event => {
     //   const isClickInside = timeDropdownEl.contains(event.target);
     //   if (!isClickInside) {
@@ -366,9 +366,9 @@ class Select extends PureComponent {
       toggleListHandler,
       closeListHandler,
     } = this;
-    // console.log(showList, 'showList');
-    // console.log(selectTitle, 'selectTitle');
-    // console.log(searchText, 'searchText');
+    //
+    //
+    //
     return (
       <div
         className="select-dropdown"

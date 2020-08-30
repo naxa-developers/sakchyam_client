@@ -20,12 +20,12 @@ class Header extends Component {
   //   const profileDropdownEl = document.getElementById(
   //     'profile_dropdown',
   //   );
-  //   // console.log(specifiedElement, 'ss');
+  //   //
   //   document.addEventListener('click', async event => {
   //     const isClickInside = profileDropdownEl.contains(event.target);
 
   //     if (!isClickInside) {
-  //       console.log('clickoutside');
+  //
   //       this.setState({
   //         activeProfileDropdown: false,
   //         // searchDropdown: false,
@@ -51,7 +51,7 @@ class Header extends Component {
     const permissionData = localStorage.getItem('userPermission');
     const permissionObject = JSON.parse(permissionData);
     this.setState({ permissions: permissionObject });
-    // console.log(permissionObject, 'permission');
+    //
     if (this.props.disableScroll) {
       // this.headerUpdate();
 
@@ -60,13 +60,13 @@ class Header extends Component {
       // const profileDropdownEl = document.getElementById(
       //   'profile_dropdown',
       // );
-      // // console.log(specifiedElement, 'ss');
+      // //
       // document.addEventListener('click', async event => {
       //   const isClickInside = profileDropdownEl.contains(
       //     event.target,
       //   );
       //   if (!isClickInside) {
-      //     console.log('clickoutside');
+      //
       //     this.setState({
       //       activeProfileDropdown: false,
       //       // searchDropdown: false,

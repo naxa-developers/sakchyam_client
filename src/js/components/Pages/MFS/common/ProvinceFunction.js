@@ -8,7 +8,7 @@ export const getCenterBboxProvince = id => {
       id.map(provid => {
         if (provid === data.FIRST_PROV) {
           const bboxArray = data.BBOX.split(',');
-          // console.log(bboxArray,'bboxaray')
+          //
           const a = bboxArray.map(datas => {
             return parseFloat(datas);
           });
@@ -23,10 +23,10 @@ export const getCenterBboxProvince = id => {
         return true;
       });
 
-      // console.log(munData,'munData');
+      //
     } else if (parseInt(id, 10) === data.FIRST_PROV) {
       const bboxArray = data.BBOX.split(',');
-      // console.log(bboxArray,'bboxaray')
+      //
       const a = bboxArray.map(datas => {
         return parseFloat(datas);
       });
@@ -41,7 +41,7 @@ export const getCenterBboxProvince = id => {
     }
     return true;
   });
-  // console.log(munData,'munData');
+  //
   return munData;
 };
 

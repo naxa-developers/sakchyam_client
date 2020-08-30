@@ -24,7 +24,7 @@ class StackedBar extends Component {
       isLeverageBarClicked,
       handleLeverageBarClicked,
     } = this.props;
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+    //
     const that = this;
     const series = [
       // {
@@ -43,7 +43,7 @@ class StackedBar extends Component {
       //   data: [20, 29, 37, 36, 44, 45, 50, 58],
       // },
     ];
-    console.log(this.state.isBarClicked, 'isBarClicked');
+
     const options = {
       chart: {
         height: 350,
@@ -66,11 +66,11 @@ class StackedBar extends Component {
         //     chartContext,
         //     { seriesIndex, dataPointIndex, config },
         //   ) {
-        //     // console.log(seriesIndex, 'seriesIndex');
-        //     // console.log(event, 'event');
-        //     // console.log(chartContext, 'chartContext');
-        //     // console.log(dataPointIndex, 'dataPointIndex');
-        //     // console.log(config, 'config');
+        //     //
+        //     //
+        //     //
+        //     //
+        //     //
         //     console.log(
         //       config.xaxis.categories[dataPointIndex],
         //       'dataPointIndex Calc',
@@ -89,18 +89,18 @@ class StackedBar extends Component {
         //         );
         //       },
         //     );
-        //     // console.log(filteredProvinceId, 'filteredProvinceId');
+        //     //
         //     const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
         //       data => {
         //         return data.province_id === filteredProvinceId[0].id;
         //       },
         //     );
-        //     // console.log(finalDistrictId, 'finalDistrtic');
+        //     //
         //     const districtIdList = finalDistrictId.map(data => {
         //       return data.n_code;
         //     });
         //     that.props.handleShowBarOf('district');
-        //     // console.log(districtIdList, 'districtIdList');
+        //     //
         //     that.props.filterFinancialDataOfDistrictFromProvince(
         //       that.props.viewDataBy,
         //       districtIdList,
@@ -292,7 +292,6 @@ class StackedBar extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            console.log(dataPointIndex, 'dataPoint');
             if (dataPointIndex >= 0 && !isLeverageBarClicked) {
               this.props.handleLeverageBarClicked(true);
               this.generateBarChartData(dataPointIndex);
@@ -305,11 +304,11 @@ class StackedBar extends Component {
         //     chartContext,
         //     { seriesIndex, dataPointIndex, config },
         //   ) {
-        //     // console.log(seriesIndex, 'seriesIndex');
-        //     // console.log(event, 'event');
-        //     // console.log(chartContext, 'chartContext');
-        //     // console.log(dataPointIndex, 'dataPointIndex');
-        //     // console.log(config, 'config');
+        //     //
+        //     //
+        //     //
+        //     //
+        //     //
         //     // console.log(
         //     //   config.xaxis.categories[dataPointIndex],
         //     //   'dataPointIndex Calc',
@@ -320,9 +319,9 @@ class StackedBar extends Component {
         //       projectStatus,
         //       showBarof,
         //     } = that.props;
-        //     // console.log(showBarof, 'showBarOf');
+        //     //
         //     if (showBarof === 'Provinces') {
-        //       // console.log(showBarof, 'inside showBarOf');
+        //       //
         //       const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
         //         data => {
         //           return data.label.includes(
@@ -330,7 +329,7 @@ class StackedBar extends Component {
         //           );
         //         },
         //       );
-        //       // console.log(filteredProvinceId, 'filteredProvinceId');
+        //       //
         //       const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
         //         data => {
         //           return (
@@ -338,12 +337,12 @@ class StackedBar extends Component {
         //           );
         //         },
         //       );
-        //       // console.log(finalDistrictId, 'finalDistrtic');
+        //       //
         //       const districtIdList = finalDistrictId.map(data => {
         //         return data.n_code;
         //       });
         //       that.props.handleShowBarOf('Districts');
-        //       // console.log(districtIdList, 'districtIdList');
+        //       //
         //       that.props.filterFinancialDataOfDistrictFromProvince(
         //         that.props.viewDataBy,
         //         districtIdList,
@@ -359,7 +358,7 @@ class StackedBar extends Component {
         //           );
         //         },
         //       );
-        //       // console.log(filteredProvinceId, 'filteredProvinceId');
+        //       //
         //       const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
         //         data => {
         //           return (
@@ -367,12 +366,12 @@ class StackedBar extends Component {
         //           );
         //         },
         //       );
-        //       // console.log(finalMunicipalityId, 'finalMunicipalityId');
+        //       //
         //       const districtIdList = finalMunicipalityId.map(data => {
         //         return data.code;
         //       });
         //       that.props.handleShowBarOf('Municipality');
-        //       // console.log(districtIdList, 'districtIdList');
+        //       //
         //       that.props.filterFinancialDataOfMunicipalityFromDistrict(
         //         that.props.viewDataBy,
         //         districtIdList,
@@ -424,7 +423,7 @@ class StackedBar extends Component {
               colors: '#008FFB',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              //
               return convert(value);
             },
           },
@@ -480,7 +479,7 @@ class StackedBar extends Component {
               colors: '#5ae7a6',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              //
               return convert(value);
             },
           },
@@ -525,13 +524,12 @@ class StackedBar extends Component {
       prevProps.partnershipReducer.barDataByLeverage !==
       barDataByLeverage
     ) {
-      console.log(barDataByLeverage, 'projectList');
       this.updateBarChart();
     }
   }
 
   render() {
-    const { options, series } = this.state;
+    const { options, series, isBarClicked } = this.state;
     const { activeModal, viewDataBy, cardTitle } = this.props;
     return (
       <div

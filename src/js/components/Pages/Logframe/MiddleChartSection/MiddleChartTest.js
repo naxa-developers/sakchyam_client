@@ -89,26 +89,26 @@ class MiddleChartSection extends Component {
           events: {
             // eslint-disable-next-line object-shorthand
             legendClick: function(chartContext, seriesIndex, config) {
-              // console.log('a');
+              //
               // console.log(
               //   currentComponent.state.activeBar1,
               //   'activeBar1',
               // );
-              // console.log(seriesIndex, 'serieIndex');
+              //
               // if (seriesIndex === 0) {
-              //   console.log('seriesIndex 0 Inside');
+              //
               // }
             },
           },
           // events: {
           //   // eslint-disable-next-line object-shorthand
           //   legendClick: function(chartContext, seriesIndex, config) {
-          //     console.log('legendClick');
+          //
           //   },
           //   // eslint-disable-next-line object-shorthand
           //   click: function(event, chartContext, config) {
           //     // ...
-          //     // console.log('chart Click');
+          //     //
           //   },
           // },
         },
@@ -130,11 +130,11 @@ class MiddleChartSection extends Component {
           horizontalAlign: 'right',
           // markers: {
           //   onClick(chart, seriesIndex, opts) {
-          //     console.log(`series- ${seriesIndex}'s marker was clicked`);
+          //
           //   },
           // },
           // onItemClick: e => {
-          //   console.log(e, 'a');
+          //
           // },
         },
         stroke: {
@@ -252,10 +252,10 @@ class MiddleChartSection extends Component {
               if (value <= 1) {
                 return value.toFixed(1);
               }
-              // console.log(value, 'v');
+              //
               const roundNumber = Math.round(value);
-              // console.log(convert(roundNumber));
-              //   console.log(convert(roundNumber));
+              //
+              //
               return convert(roundNumber);
             },
           },
@@ -289,7 +289,7 @@ class MiddleChartSection extends Component {
           intersect: false,
           y: {
             formatter(y) {
-              // console.log(y, 'y');
+              //
               if (typeof y !== 'undefined') {
                 return `${y.toFixed(0)} £`;
               }
@@ -387,21 +387,21 @@ class MiddleChartSection extends Component {
   //   //       }
   //   //       // Examine the text in the response
   //   //       response.json().then(function(data) {
-  //   //         console.log(data, 'data');
+  //   //
   //   //         that.setState({ statsData: data }, () => {
   //   // const { statsData } = this.state;
   //   const {
   //     logFrameReducer: { logDataGraph },
   //   } = this.props;
-  //   console.log(logDataGraph, 'logdata');
+  //
   //   const filtered = logDataGraph.filter(result => {
   //     //   if (result.category === 'IMPACT') {
-  //     //   console.log(a);
+  //     //
   //     return result.sub_category.name === a;
   //     //   }
   //   });
   //   this.setState({ filteredDynamicData: filtered });
-  //   // console.log(filtered, 'filtered');
+  //   //
   //   // const { dataType } = filtered[0];
   //   const dataType = filtered[0].data_type;
   //   const dataUnit = filtered[0].unit;
@@ -413,20 +413,20 @@ class MiddleChartSection extends Component {
   //     return el.achieved;
   //   });
   //   const label = filtered.map(el => {
-  //     //   console.log(el, 'elLabel');
+  //     //
   //     return el.year.name;
   //   });
   //   const category = filtered.map(el => {
-  //     //   console.log(el, 'elLabel');
+  //     //
   //     return el.year.name;
   //   });
   //   const totalDateList = filtered.map(el => {
-  //     // console.log(el, 'elLabel');
+  //     //
   //     return el.year;
   //   });
-  //   // console.log(category, 'cat');
-  //   // console.log(label, 'label');
-  //   // console.log(achieved, 'achieved');
+  //   //
+  //   //
+  //   //
   //   const series = [
   //     {
   //       name: 'Planned As per AFP contract Budget Bar',
@@ -449,7 +449,7 @@ class MiddleChartSection extends Component {
   //       data: achieved,
   //     },
   //   ];
-  //   // console.log(series, 'se');
+  //   //
   //   const { getDateRange } = this.props;
   //   getDateRange(totalDateList);
   //   this.setState(prevState => ({
@@ -477,7 +477,7 @@ class MiddleChartSection extends Component {
   };
 
   // handleClickOnLegend = () => {
-  //   console.log('clicked');
+  //
   // };
 
   componentDidMount() {
@@ -495,7 +495,7 @@ class MiddleChartSection extends Component {
     //   //   'apexcharts-legend-series',
     //   // )[3];
     //   firstLegend.addEventListener('change', event => {
-    //     console.log('clicked firstlegend');
+    //
     //     this.setState(prevState => ({
     //       firstPlannedSelected: !prevState.firstPlannedSelected,
     //     }));
@@ -515,7 +515,7 @@ class MiddleChartSection extends Component {
     //   //   'apexcharts-legend-series',
     //   // )[3];
     //   secondLegend.addEventListener('change', event => {
-    //     console.log('clicked secondlegend');
+    //
     //     this.setState(prevState => ({
     //       secondAchievedSelected: !prevState.secondAchievedSelected,
     //     }));
@@ -527,7 +527,7 @@ class MiddleChartSection extends Component {
 
     const timeDropdownEl = document.getElementById('duration_id');
     const dataDropdownEl = document.getElementById('data_id');
-    // console.log(specifiedElement, 'ss');
+    //
     document.addEventListener('click', async event => {
       const isClickInside = timeDropdownEl.contains(event.target);
 
@@ -552,7 +552,7 @@ class MiddleChartSection extends Component {
     });
 
     // setTimeout(() => {
-    //   console.log('s');
+    //
     //   this.props.handleOneTimeLayerChange();
     // }, 1000);
   }
@@ -829,8 +829,8 @@ class MiddleChartSection extends Component {
       prevProps.logFrameReducer.options !==
       this.props.logFrameReducer.options
     ) {
-      // console.log(prevProps.logFrameReducer.options);
-      // console.log(this.props.logFrameReducer.options);
+      //
+      //
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         options: { ...this.props.logFrameReducer.options },
@@ -857,7 +857,7 @@ class MiddleChartSection extends Component {
         });
         return true;
       });
-      // console.log(b);
+      //
       this.allIndicatorCategorySetState(b);
       // this.props.filterIndicatorGraphData(activeLayer);
     }
@@ -876,10 +876,10 @@ class MiddleChartSection extends Component {
       });
       // this.filterDataWithLayer();
       if (activeDate.length === 0) {
-        // console.log('if active layer changed');
+        //
         this.props.filterIndicatorGraphData(activeLayer);
       } else {
-        // console.log('else active layer changed');
+        //
 
         this.props.filterIndicatorGraphDataWithDate(
           activeLayer,
@@ -887,10 +887,10 @@ class MiddleChartSection extends Component {
         );
       }
 
-      // console.log('xxxss');
+      //
       // setTimeout(function() {
 
-      //   console.log('setTimeout');
+      //
       // }, 3000);
     }
     const { activeDataType } = this.props;
@@ -935,7 +935,7 @@ class MiddleChartSection extends Component {
         activeBar: true,
         activeTimeGraph: true,
       });
-      // console.log(activeDataType, 'change datatype');
+      //
       if (activeDataType === 'Individual') {
         if (activeDate.length === 0) {
           this.props.getIndicatorsGraphDataIndividual(
@@ -968,10 +968,10 @@ class MiddleChartSection extends Component {
     const secondLegend = document.getElementsByClassName(
       'apexcharts-legend-series',
     )[3];
-    // console.log(firstLegend, 'firsttt');
-    // console.log(secondLegend, 'second');
+    //
+    //
     // firstLegend.addEventListener('click', async event => {
-    //   console.log('clicked firstlegend');
+    //
     //   this.chartRef.chart.toggleSeries(
     //     'Planned As per AFP contract Budget Bar',
     //   );
@@ -980,7 +980,7 @@ class MiddleChartSection extends Component {
     //   );
     // });
     // secondLegend.addEventListener('click', async event => {
-    //   console.log('clicked 2ndlegend');
+    //
     //   this.chartRef.chart.toggleSeries('Achieved ');
     //   this.chartRef.chart.toggleSeries('Achieved Line');
     // });
@@ -1102,10 +1102,10 @@ class MiddleChartSection extends Component {
         this.setState({ activeLine2: true });
       }
     }
-    // console.log(this.state.activeTimeGraph, 'a');
-    // console.log(this.state.activeBar, 'b');
+    //
+    //
     // if (this.state.activeTimeGraph && !this.state.activeBar) {
-    //   console.log('xiryo');
+    //
     //   this.setState({
     //     activeBar: true,
     //     activeTimeGraph: true,
@@ -1149,12 +1149,12 @@ class MiddleChartSection extends Component {
       this.props.activeLayer,
     );
     const totalNumberofIndex = this.state.allIndicatorCategory.length;
-    // console.log(totalNumberofIndex, 'totalnumberindex');
+    //
     const addedNumberIndex = activeLayerIndex + 1;
     if (addedNumberIndex < totalNumberofIndex) {
-      // console.log(totalNumberofIndex, 'totalNumber index if');
-      // console.log(addedNumberIndex, 'activeLayer + 1 index if');
-      // console.log('error');
+      //
+      //
+      //
       this.props.handleActiveLayer(
         this.state.allIndicatorCategory[addedNumberIndex],
       );
@@ -1171,11 +1171,11 @@ class MiddleChartSection extends Component {
       //     });
       //   },
       // );
-      // console.log(b, 'bbbb');
+      //
       // } else if (addedNumberIndex >= totalNumberofIndex) {
     } else {
-      // console.log(totalNumberofIndex, 'totalNumber index else if');
-      // console.log(addedNumberIndex, 'activeLayer + 1 index else if');
+      //
+      //
       this.props.handleActiveLayer(
         this.state.allIndicatorCategory[0],
       );
@@ -1226,7 +1226,7 @@ class MiddleChartSection extends Component {
   };
 
   handleChange = selectedOption => {
-    // console.log('selectedOption', selectedOption);
+    //
     this.setState({ selectedOption });
   };
 
@@ -1310,12 +1310,12 @@ class MiddleChartSection extends Component {
     //   slidesToShow: 1,
     //   slidesToScroll: 1,
     //   afterChange(i) {
-    //     // console.log(i, 'aft');
-    //     // console.log('after change');
+    //     //
+    //     //
     //   },
     //   beforeChange(j) {
-    //     // console.log(j, 'bef');
-    //     // console.log('before change');
+    //     //
+    //     //
     //   },
     // };
     const {
@@ -1347,12 +1347,12 @@ class MiddleChartSection extends Component {
       slidesToScroll: 1,
       initialSlide: 0,
       // beforeChange: (current, next) => {
-      //   console.log('currentbefore', current);
-      //   console.log('nextbefore', current);
+      //
+      //
       // },
       // afterChange: (current, next) => {
-      //   console.log('currentafter', current);
-      //   console.log('nextafter', next);
+      //
+      //
       // },
       responsive: [
         {

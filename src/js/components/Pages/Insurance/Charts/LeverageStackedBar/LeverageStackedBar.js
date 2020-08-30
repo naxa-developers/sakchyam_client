@@ -19,7 +19,7 @@ class StackedBar extends Component {
   }
 
   plotChart = () => {
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+    //
     const that = this;
     const series = [
       // {
@@ -59,11 +59,11 @@ class StackedBar extends Component {
         //     chartContext,
         //     { seriesIndex, dataPointIndex, config },
         //   ) {
-        //     // console.log(seriesIndex, 'seriesIndex');
-        //     // console.log(event, 'event');
-        //     // console.log(chartContext, 'chartContext');
-        //     // console.log(dataPointIndex, 'dataPointIndex');
-        //     // console.log(config, 'config');
+        //     //
+        //     //
+        //     //
+        //     //
+        //     //
         //     console.log(
         //       config.xaxis.categories[dataPointIndex],
         //       'dataPointIndex Calc',
@@ -82,18 +82,18 @@ class StackedBar extends Component {
         //         );
         //       },
         //     );
-        //     // console.log(filteredProvinceId, 'filteredProvinceId');
+        //     //
         //     const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
         //       data => {
         //         return data.province_id === filteredProvinceId[0].id;
         //       },
         //     );
-        //     // console.log(finalDistrictId, 'finalDistrtic');
+        //     //
         //     const districtIdList = finalDistrictId.map(data => {
         //       return data.n_code;
         //     });
         //     that.props.handleShowBarOf('district');
-        //     // console.log(districtIdList, 'districtIdList');
+        //     //
         //     that.props.filterFinancialDataOfDistrictFromProvince(
         //       that.props.viewDataBy,
         //       districtIdList,
@@ -293,11 +293,11 @@ class StackedBar extends Component {
         //     chartContext,
         //     { seriesIndex, dataPointIndex, config },
         //   ) {
-        //     // console.log(seriesIndex, 'seriesIndex');
-        //     // console.log(event, 'event');
-        //     // console.log(chartContext, 'chartContext');
-        //     // console.log(dataPointIndex, 'dataPointIndex');
-        //     // console.log(config, 'config');
+        //     //
+        //     //
+        //     //
+        //     //
+        //     //
         //     // console.log(
         //     //   config.xaxis.categories[dataPointIndex],
         //     //   'dataPointIndex Calc',
@@ -308,9 +308,9 @@ class StackedBar extends Component {
         //       projectStatus,
         //       showBarof,
         //     } = that.props;
-        //     // console.log(showBarof, 'showBarOf');
+        //     //
         //     if (showBarof === 'Provinces') {
-        //       // console.log(showBarof, 'inside showBarOf');
+        //       //
         //       const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
         //         data => {
         //           return data.label.includes(
@@ -318,7 +318,7 @@ class StackedBar extends Component {
         //           );
         //         },
         //       );
-        //       // console.log(filteredProvinceId, 'filteredProvinceId');
+        //       //
         //       const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
         //         data => {
         //           return (
@@ -326,12 +326,12 @@ class StackedBar extends Component {
         //           );
         //         },
         //       );
-        //       // console.log(finalDistrictId, 'finalDistrtic');
+        //       //
         //       const districtIdList = finalDistrictId.map(data => {
         //         return data.n_code;
         //       });
         //       that.props.handleShowBarOf('Districts');
-        //       // console.log(districtIdList, 'districtIdList');
+        //       //
         //       that.props.filterFinancialDataOfDistrictFromProvince(
         //         that.props.viewDataBy,
         //         districtIdList,
@@ -347,7 +347,7 @@ class StackedBar extends Component {
         //           );
         //         },
         //       );
-        //       // console.log(filteredProvinceId, 'filteredProvinceId');
+        //       //
         //       const finalMunicipalityId = that.props.partnershipReducer.allMunicipalityList.filter(
         //         data => {
         //           return (
@@ -355,12 +355,12 @@ class StackedBar extends Component {
         //           );
         //         },
         //       );
-        //       // console.log(finalMunicipalityId, 'finalMunicipalityId');
+        //       //
         //       const districtIdList = finalMunicipalityId.map(data => {
         //         return data.code;
         //       });
         //       that.props.handleShowBarOf('Municipality');
-        //       // console.log(districtIdList, 'districtIdList');
+        //       //
         //       that.props.filterFinancialDataOfMunicipalityFromDistrict(
         //         that.props.viewDataBy,
         //         districtIdList,
@@ -412,7 +412,7 @@ class StackedBar extends Component {
               colors: '#008FFB',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              //
               return convert(value);
             },
           },
@@ -468,7 +468,7 @@ class StackedBar extends Component {
               colors: '#5ae7a6',
             },
             formatter: value => {
-              // console.log(value, 'value');
+              //
               return convert(value);
             },
           },
@@ -513,7 +513,6 @@ class StackedBar extends Component {
       prevProps.partnershipReducer.barDataByLeverage !==
       barDataByLeverage
     ) {
-      console.log(barDataByLeverage, 'projectList');
       this.updateBarChart();
     }
   }

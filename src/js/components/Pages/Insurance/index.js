@@ -90,7 +90,7 @@ class MainPartnership extends Component {
     } = this.state;
 
     if (isAllInstitutionSelected) {
-      // console.log('if case should be false');
+      //
       const allInvestmentElement = document.getElementsByClassName(
         'investment_checkbox',
       );
@@ -103,7 +103,7 @@ class MainPartnership extends Component {
         isAllInstitutionSelected: false,
       });
     } else {
-      // console.log('else case should be true');
+      //
       this.setState({
         isAllInstitutionSelected: true,
       });
@@ -130,7 +130,7 @@ class MainPartnership extends Component {
     } = this.state;
 
     if (isAllInnovationSelected) {
-      // console.log('if case should be false');
+      //
       const allInvestmentElement = document.getElementsByClassName(
         'project_checkbox',
       );
@@ -143,7 +143,7 @@ class MainPartnership extends Component {
         isAllInnovationSelected: false,
       });
     } else {
-      // console.log('else case should be true');
+      //
       this.setState({
         isAllInnovationSelected: true,
       });
@@ -167,7 +167,7 @@ class MainPartnership extends Component {
     const { productSelection, isAllProductSelected } = this.state;
 
     if (isAllProductSelected) {
-      // console.log('if case should be false');
+      //
       const allInvestmentElement = document.getElementsByClassName(
         'product_checkbox',
       );
@@ -180,7 +180,7 @@ class MainPartnership extends Component {
         isAllProductSelected: false,
       });
     } else {
-      // console.log('else case should be true');
+      //
       this.setState({
         isAllProductSelected: true,
       });
@@ -207,7 +207,7 @@ class MainPartnership extends Component {
     const {
       target: { name, checked, value },
     } = e;
-    // console.log(value);
+    //
     this.setState(preState => {
       if (checked) {
         return {
@@ -238,7 +238,7 @@ class MainPartnership extends Component {
     const {
       target: { name, checked, value },
     } = e;
-    // console.log(value);
+    //
     this.setState(preState => {
       if (checked) {
         return {

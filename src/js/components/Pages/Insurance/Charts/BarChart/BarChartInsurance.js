@@ -374,8 +374,6 @@ class BarChartInsurance extends Component {
     const { series1 } = this.state;
     const { isBarChartClicked, loading, chartData2 } = this.props;
 
-    console.log(chartData2, 'chartdata2');
-
     const {
       DownloadIcon,
       ExpandIcon,

@@ -77,7 +77,7 @@ class MapboxPartnership extends Component {
           code: item.id,
           count: item.count,
         }));
-        // console.log('map view by province', provinceData);
+        //
         this.setState({ filteredMapData: provinceData });
       }
 
@@ -133,7 +133,7 @@ class MapboxPartnership extends Component {
   }
 
   setHoveredMunicipalityId = id => {
-    // console.log('id oh region', id);
+    //
     const { tableData } = this.state;
     const { mapViewBy, activeOutreachButton } = this.props;
     let data;
@@ -183,7 +183,6 @@ class MapboxPartnership extends Component {
           0,
         );
 
-        console.log('value of pro', province);
         if (province.length > 0) {
           if (activeOutreachButton) {
             data = {
