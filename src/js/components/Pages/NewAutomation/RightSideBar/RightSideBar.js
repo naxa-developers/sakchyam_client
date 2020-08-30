@@ -1,9 +1,13 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import Loading from '../../../common/Loading';
+import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
+import { numberWithCommas } from '../../../common/utilFunctions';
 
 function getClassName(i) {
   if (i % 12 === 0) return 'is-color1';
@@ -23,14 +27,6 @@ function getClassName(i) {
   return 'is-green';
 }
 
-function numberWithCommas(x) {
-  if (x !== null) {
-    const parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-  }
-  return x;
-}
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -62,7 +58,7 @@ class RightSideBar extends Component {
     const {
       automationReducer: { automationLeftSidePartnerData },
     } = this.props;
-    const { automationReducer } = this.props;
+    const { automationReducer, modalHandler } = this.props;
     const {
       tabletsDeployed,
       branchesCountOptions,
@@ -134,10 +130,17 @@ class RightSideBar extends Component {
                     <div className="widget-content">
                       <h6>Tablets Deployed</h6>
                     </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">tablet_mac</i>
-                      </span>
+
+                    <div
+                      className="widget-icon"
+                      onClick={() => {
+                        modalHandler();
+                      }}
+                    >
+                      <img
+                        src={ExpandIcon}
+                        style={{ height: '18px', width: '18px' }}
+                      />
                     </div>
                   </li>
                 </ul>

@@ -109,12 +109,9 @@ class PlotVector extends Component {
         municipalityLegendData:
           automationReducer.municipalityLegendData,
       });
-      // console.log(
-      //   'choropleth value has changed',
-      //   automationReducer.provinceLegendData,
-      //   automationReducer.districtLegendData,
-      //   automationReducer.municipalityLegendData,
-      // );
+      setTimeout(() => {
+        this.changeGrades();
+      }, 1000);
     }
 
     if (activeOutreachButton !== prevProps.activeOutreachButton) {
@@ -276,12 +273,6 @@ class PlotVector extends Component {
       timelineMarkers,
     } = this.state;
     const { map } = that.props;
-
-    // console.log(
-    //   'active values',
-    //   activeMarkers,
-    //   timelinePartnersPlotted,
-    // );
 
     if (timeline) {
       if (stateMarker.length > 0) {
