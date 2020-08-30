@@ -142,7 +142,7 @@ class MarkerPieChart extends Component {
   //     .text(function(d, i) {
   //       return data[i].label;
   //     });
-  //   console.log(this.pieRef.current, 'createPiechar curent');
+  //
   // };
 
   // componentDidMount() {

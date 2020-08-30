@@ -23,8 +23,6 @@ export const getMfsAllData = () => dispatch => {
   dispatch({ type: GET_MFS_LIST_REQUEST });
   try {
     axiosInstance.get('/api/v1/mfs/mfs-data/').then(function(result) {
-      // console.log(result, 'result');
-
       return (
         dispatch({
           type: GET_MFS_LIST_SUCCESS,

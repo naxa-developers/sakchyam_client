@@ -18,8 +18,6 @@ export const getIndicatorsCategory = () => dispatch => {
     const response = axiosInstance
       .get('/api/v1/logframe/log-category')
       .then(function(result) {
-        // console.log(result, 'result');
-
         return dispatch({
           type: GET_INDICATORS_CATEGORY,
           payload: result.data,
@@ -58,7 +56,6 @@ export const getIndicatorsGraphData = (
     const response = axiosInstance
       .get('/api/v1/logframe/logFrame-data')
       .then(function(result) {
-        // console.log(result, 'result');
         if (activeDate === false) {
           return (
             dispatch({
@@ -123,7 +120,6 @@ export const getIndicatorsGraphDataIndividual = (
     const response = axiosInstance
       .get('/api/v1/logframe/logFrameSingle-data')
       .then(function(result) {
-        // console.log(result, 'result individual');
         if (activeDate === false) {
           return (
             dispatch({
@@ -197,7 +193,6 @@ export const filterIndicatorGraphDataWithDate = (
   activeDate,
   activeDataType,
 ) => dispatch => {
-  console.log(activeDataType, 'test Active Data Type');
   return (
     dispatch({
       type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
@@ -214,7 +209,6 @@ export const filterOuputIndicatorWithPercentOrNumber = (
   activeDate,
   dataTypePayload,
 ) => dispatch => {
-  console.log(dataTypePayload, 'Dataatatata');
   dispatch({
     type: FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
     payload: { activeLayer, activeDate, dataTypePayload },

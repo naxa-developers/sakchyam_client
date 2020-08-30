@@ -6,7 +6,7 @@ import React from 'react';
 // import HospitalIcon from './Icons/HealthFacilityIcon';
 
 export const choroplethColorArray = (stops, color, firstColor) => {
-  // console.log(color, "color func")
+  // 
   var gradient = gradStop({
     stops: stops,
     inputFormat: 'hex',
@@ -45,7 +45,7 @@ export const getProvinceCircleSize = (count, max, min) => {
         ? count >= range[i] && count < range[i + 1]
         : count == range[i]
     ) {
-      // console.log(sizes[i], "size");
+      // 
       size = sizes[i];
     }
   });
@@ -68,7 +68,7 @@ export const label_Vector_Tiles = (
   provinceCounts,
 ) => {
   var name = '';
-  // console.log(provinceCounts, "functions")
+  // 
   var lat = feature.properties.Centroid_Y;
   var long = feature.properties.Centroid_X;
   if (feature.properties.hasOwnProperty('PROV_NAME')) {
@@ -82,7 +82,7 @@ export const label_Vector_Tiles = (
     name = getProvinceName(feature.properties.id + 1);
     var marginLeft =
       size >= 35 ? -(size / 5) + 'px' : -(size / 15) + 'px';
-    // console.log(name, "functions name")
+    // 
     var divIconP = L.divIcon({
       html:
         "<div align='center' class='circle' id = 'circle" +
@@ -152,7 +152,7 @@ export const calculateRange = (start, end1, step) => {
   var typeofEnd = typeof end;
 
   if (step === 0) {
-    console.log('Step cannot be zero.');
+    
     // throw TypeError("Step cannot be zero.");
   }
 
@@ -169,12 +169,12 @@ export const calculateRange = (start, end1, step) => {
   }
 
   if (typeofStart == 'number') {
-    // console.log("start is number", end)
+    // 
     while (step > 0 ? end >= start : end <= start) {
       if (end <= 10) {
         range.push(start.toFixed(2));
       } else {
-        // console.log("start math round", start)
+        // 
         range.push(Math.round(start));
       }
 
@@ -231,10 +231,10 @@ export const getProvinceName = (id, language) => {
 };
 
 export const countEqual = (oo, pp, labelcount) => {
-  // console.log(oo, "oo")
+  // 
   var singleloopend = 0;
   Object.keys(oo).map(key => {
-    // console.log(oo[key], "data i")
+    // 
     if (singleloopend == 0) {
       labelcount = 0;
     }
@@ -247,17 +247,17 @@ export const countEqual = (oo, pp, labelcount) => {
 
     singleloopend++;
   });
-  // console.log(labelcount, "labelcount")
+  // 
   return labelcount;
 };
 
 export const handleMarkerZoom = (map, layers) => {
   var zoom = map.getZoom();
-  // console.log(map.getBounds(), "bounds")
+  // 
   layers.length > 0
     ? layers.map(layer => {
         if ((zoom <= 5 || zoom > 7.5) && window[layer]) {
-          // console.log("zoom <=5 or zoom>7")
+          // 
           map.addLayer(window[layer]);
         } else {
           map.removeLayer(window[layer]);
@@ -270,7 +270,7 @@ export const handleMarkerZoom = (map, layers) => {
 
 export const handleZoom = (map, province, vt_label_province) => {
   var zoom = map.getZoom();
-  // console.log(map.getBounds(), "bounds")
+  // 
   if (zoom <= 5 || zoom > 7.5) {
     map.removeLayer(vt_label_province);
   } else if (zoom <= 7.5 && map.hasLayer(province)) {
@@ -282,7 +282,7 @@ export const getCenterBboxDistrict = (id, multiple_id) => {
   const a = districtData.map(data => {
     if (id === data.name) {
       var bboxArray = data.bbox.split(',');
-      // console.log(bboxArray,'bboxaray')
+      // 
       const a = bboxArray.map(data => {
         return parseFloat(data);
       });

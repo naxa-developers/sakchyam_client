@@ -9,7 +9,7 @@ export const getCenterBboxMunicipality = id => {
       id.map(mid => {
         if (mid === data.munid) {
           const bboxArray = data.bbox.split(',');
-          // console.log(bboxArray,'bboxaray')
+          //
           const a = bboxArray.map(datas => {
             return parseFloat(datas);
           });
@@ -24,10 +24,10 @@ export const getCenterBboxMunicipality = id => {
         return true;
       });
 
-      // console.log(munData,'munData');
+      //
     } else if (id === data.munid) {
       const bboxArray = data.bbox.split(',');
-      // console.log(bboxArray,'bboxaray')
+      //
       const a = bboxArray.map(datas => {
         return parseFloat(datas);
       });
@@ -42,7 +42,7 @@ export const getCenterBboxMunicipality = id => {
     }
     return true;
   });
-  // console.log(munData,'munData');
+  //
   return munData;
 };
 

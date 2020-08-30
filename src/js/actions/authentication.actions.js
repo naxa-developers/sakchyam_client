@@ -13,8 +13,8 @@ export const loginUser = data => dispatch => {
         const expireTime = new Date();
         expireTime.setHours(expireTime.getHours() + 24);
         const today = new Date();
-        // console.log(today.valueOf());
-        // console.log(expireTime.valueOf());
+        //
+        //
         localStorage.setItem('loginTime', today);
         localStorage.setItem('expirationTime', expireTime);
         axiosInstance.defaults.headers.Authorization = `Bearer ${result.data.access}`;
@@ -56,7 +56,7 @@ export const loginUser = data => dispatch => {
   //     headers: { 'Content-Type': 'application/json' },
   //   })
   //   .then(res => {
-  //     console.log(res.data);
+  //
   //     localStorage.setItem('userToken', res.data.access);
   //     localStorage.setItem('refreshToken', res.data.refresh);
   //     dispatch({
@@ -71,7 +71,7 @@ export const getUserPermissions = () => dispatch => {
     const response = axiosInstance
       .get('/api/v1/token/user-permission/')
       .then(function(result) {
-        // console.log(result, 'result');
+        //
 
         return dispatch({
           type: USER_PERMISSIONS,

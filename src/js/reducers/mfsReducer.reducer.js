@@ -96,7 +96,7 @@ const getMfsListRequest = (state, action) => {
   };
 };
 const getMfsAchievementList = (state, action) => {
-  //   console.log(action.payload, 'achievement');
+  //
   const mfsData = [...action.payload];
   const achievementList = getUniqueValuesFromArray(
     mfsData,
@@ -121,7 +121,7 @@ const getMfsInnovationList = (state, action) => {
 };
 const getMfsOverviewData = (state, action) => {
   const mfsData = [...action.payload];
-  console.log(mfsData, 'mfsData');
+
   // const mfsAchievedData = getUniqueValuesFromArray(
   //   mfsData,
   //   'achieved_number',
@@ -274,7 +274,7 @@ const filterMfsChoroplethData = (state, action) => {
     selectedDistrict,
     selectedProvince,
   } = action.payload;
-  console.log(action, 'action');
+
   const mfsData = [...state.mfsListAllData];
   let filteredData = [];
   if (selectedAchievement.length > 0) {
@@ -297,7 +297,7 @@ const filterMfsChoroplethData = (state, action) => {
   let filteredFederal = filteredData;
 
   if (selectedDistrict && selectedDistrict.lengh > 0) {
-    // console.log('district');
+    //
     filteredFederal = filteredData.filter(
       elem =>
         selectedDistrict.find(
@@ -305,7 +305,7 @@ const filterMfsChoroplethData = (state, action) => {
         ) && elem,
     );
   } else if (selectedProvince && selectedProvince.length > 0) {
-    // console.log('province');
+    //
     filteredFederal = filteredData.filter(
       elem =>
         selectedProvince.find(
@@ -319,7 +319,7 @@ const filterMfsChoroplethData = (state, action) => {
   // const filteredChoroplethData = filteredByInnovation.filter(data => {
   //   return selectedAchievement.includes(data.achievement_type);
   // });
-  // console.log(filteredByPartner, 'filteredByPartner');
+  //
 
   const anotherArray = [...filteredFederal];
   const federalKey =
@@ -330,17 +330,17 @@ const filterMfsChoroplethData = (state, action) => {
     anotherArray,
     it => it.achievement_type,
   );
-  // console.log(province, 'province');
-  // console.log(district, 'district');
+  //
+  //
   const provinceData = province.map(data => {
     return { code: data.FIRST_PROV, name: data.prov_name, count: 0 };
   });
-  console.log(provinceData, 'provinceData');
-  // console.log(byName, 'byName');
+
+  //
   const output = Object.keys(byFederal).map((name, second) => {
-    // console.log(byName[name][0], '1stname');
-    // console.log(name, 'name');
-    // console.log(second, 'second');
+    //
+    //
+    //
     // const byZone = groupBy(byName[name], it => it.Zone);
     const sum = byFederal[name].reduce(
       (acc, it) => acc + it.achieved_number,
@@ -404,7 +404,7 @@ const filterMfsChartDataByAchievement = (state, action) => {
     code: item.districtid,
     name: item.name,
   }));
-  console.log(selectedProvince, 'selecprov');
+
   const selectedProvinceCode =
     selectedProvince &&
     selectedProvince.length > 0 &&
@@ -480,7 +480,7 @@ const filterMfsChartDataByAchievement = (state, action) => {
   }
   const seriesData = generateStackedBarData(data);
 
-  // console.log(seriesData.districtSeries);
+  //
   return {
     ...state,
     mfsChartData: {
@@ -526,7 +526,7 @@ const filterMfsChartDataByPartner = (state, action) => {
   let filteredFederal = filteredData;
 
   if (selectedDistrict && selectedDistrict.lengh > 0) {
-    // console.log('district');
+    //
     filteredFederal = filteredData.filter(
       elem =>
         selectedDistrict.find(
@@ -534,7 +534,7 @@ const filterMfsChartDataByPartner = (state, action) => {
         ) && elem,
     );
   } else if (selectedProvince && selectedProvince.length > 0) {
-    // console.log('province');
+    //
     filteredFederal = filteredData.filter(
       elem =>
         selectedProvince.find(
@@ -618,7 +618,7 @@ const filterMfsChartDataByPartnerWithInnovation = (state, action) => {
   let filteredFederal = filteredData;
 
   if (selectedDistrict && selectedDistrict.lengh > 0) {
-    // console.log('district');
+    //
     filteredFederal = filteredData.filter(
       elem =>
         selectedDistrict.find(
@@ -626,7 +626,7 @@ const filterMfsChartDataByPartnerWithInnovation = (state, action) => {
         ) && elem,
     );
   } else if (selectedProvince && selectedProvince.length > 0) {
-    // console.log('province');
+    //
     filteredFederal = filteredData.filter(
       elem =>
         selectedProvince.find(
@@ -686,7 +686,7 @@ const filterMfsChartDataByDistrict = (state, action) => {
     selectedInnovation,
     selectedAchievement,
   } = action.payload;
-  console.log(districtList, 'distList');
+
   const mfsData = [...state.mfsListAllData];
   let filteredDatas = [];
   if (selectedAchievement.length > 0) {
@@ -712,7 +712,6 @@ const filterMfsChartDataByDistrict = (state, action) => {
 
   const federalData = [];
 
-  console.log(federalData, 'federalData');
   const filteredFederalDistrict = filteredDatas.filter(data => {
     return districtList.includes(data.district_code);
   });
@@ -730,7 +729,6 @@ const filterMfsChartDataByDistrict = (state, action) => {
     name: item.name,
   }));
   const districts = districtx.filter(datas => {
-    console.log(datas, 'datas district');
     return districtList.includes(datas.code);
   });
 
@@ -773,7 +771,7 @@ const filterMfsChartDataByDistrict = (state, action) => {
   }
   const seriesData = generateStackedBarData(data);
 
-  // console.log(seriesData.districtSeries);
+  //
   return {
     ...state,
     mfsChartData: {
@@ -791,8 +789,8 @@ const filterMfsMapPieData = (state, action) => {
     selectedProvince,
     selectedDistrict,
   } = action.payload;
-  // console.log(selectedProvince, 'selectedProvince');
-  // console.log(selectedDistrict, 'selectedDistrict');
+  //
+  //
   const mfsData = [...state.mfsListAllData];
   const federalKey =
     mapViewBy === 'province' ? 'province_code' : 'district_code';
@@ -815,7 +813,7 @@ const filterMfsMapPieData = (state, action) => {
   let filteredFederal = dataFilter;
 
   if (selectedDistrict && selectedDistrict.lengh > 0) {
-    // console.log('district');
+    //
     filteredFederal = dataFilter.filter(
       elem =>
         selectedDistrict.find(
@@ -823,7 +821,7 @@ const filterMfsMapPieData = (state, action) => {
         ) && elem,
     );
   } else if (selectedProvince && selectedProvince.length > 0) {
-    // console.log('province');
+    //
     filteredFederal = dataFilter.filter(
       elem =>
         selectedProvince.find(
@@ -831,7 +829,7 @@ const filterMfsMapPieData = (state, action) => {
         ) && elem,
     );
   }
-  // console.log(filteredFederal, 'filteredFederal');
+  //
   const datass = [...filteredFederal];
   // const data = require('./mfs.json');
   const provinceData = [...province];
@@ -852,7 +850,6 @@ const filterMfsMapPieData = (state, action) => {
           elem,
       );
     }
-    console.log(federal, 'federal');
   } else if (mapViewBy === 'district') {
     districtData.forEach(item => {
       federal.push({ code: item.districtid, name: item.name });
@@ -956,8 +953,8 @@ const filterMfsMapPieData = (state, action) => {
     });
   }
 
-  // console.log(provinceArr, 'provinceArr');
-  // console.log(districtArr, 'districtArr');
+  //
+  //
   return {
     ...state,
     mfsPieData: federalArr,

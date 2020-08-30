@@ -6,7 +6,7 @@ import React from "react";
 // import HospitalIcon from './Icons/HealthFacilityIcon';
 
 export const choroplethColorArray = (stops, color) =>{
-    // console.log(color, "color func")
+    // 
     var gradient = gradStop({
         stops: stops,
         inputFormat: 'hex',
@@ -32,7 +32,7 @@ export const getProvinceCircleSize = (count, max, min) => {
     var range  = calculateRange(min, max, (max-min)/4)
     range.map((data, i) => {
         if(i<4? count>=range[i] && count<range[i+1]: count==range[i]){
-            // console.log(sizes[i], "size");
+            // 
             size = sizes[i];
         }
     });
@@ -50,7 +50,7 @@ export const setProvinceCircleSize = (counts) => {
 
 export const label_Vector_Tiles = (feature, vt_label_province, labelcount, provinceCounts) => { 
     var name = "";
-    // console.log(provinceCounts, "functions")
+    // 
     var lat = feature.properties.Centroid_Y;
     var long = feature.properties.Centroid_X;
     if (feature.properties.hasOwnProperty('PROV_NAME')) {
@@ -59,7 +59,7 @@ export const label_Vector_Tiles = (feature, vt_label_province, labelcount, provi
         var size = getProvinceCircleSize(provinceCounts[feature.properties.id], max, min);
         name = getProvinceName(feature.properties.id+1);
         var marginLeft = size>=35?-(size/5)+"px":-(size/15)+"px";
-        // console.log(name, "functions name")
+        // 
         var divIconP = L.divIcon({
             html: "<div align='center' class='circle' id = 'circle"+feature.properties.id+"' style='width:"+size+"px !important; height:"+size+"px !important; margin-left:"+marginLeft+"'><span id= 'provinceCount"+feature.properties.id+"' class='text_circle' style ='margin-left:-2px; line-height:"+size+"px;'>"+provinceCounts[feature.properties.id]+"</span></div><text class='fed_labelText' style='color:#383838; font-size: 10px; margin-left: -10px;'>" + name + "</text>",
             // html: "<div align='center' class='circle' id = 'circle"+feature.properties.id+"' style='width:"+size+"px !important; height:"+size+"px !important; margin-left:"+marginLeft+"'>"+ReactDOMServer.renderToString(<HospitalIcon/>)+"<span id= 'provinceCount"+feature.properties.id+"' class='text_circle' style ='margin-left:-2px; line-height:"+size+"px;'>"+provinceCounts[feature.properties.id]+"</span></div><text class='fed_labelText' style='color:#383838; font-size: 10px; margin-left: -10px;'>" + name + "</text>",
@@ -104,7 +104,7 @@ export const calculateRange = (start, end1, step) => {
     var typeofEnd = typeof end;
 
     if (step === 0) {
-        console.log("Step cannot be zero.");
+        
         // throw TypeError("Step cannot be zero.");
     }
 
@@ -121,12 +121,12 @@ export const calculateRange = (start, end1, step) => {
     }
 
     if (typeofStart == "number") {
-        // console.log("start is number", end)
+        // 
         while (step > 0 ? end >= start : end <= start) {
             if (end <= 10) {
                 range.push(start.toFixed(2));
             } else {
-                // console.log("start math round", start)
+                // 
                 range.push(Math.round(start));
             }
 
@@ -184,10 +184,10 @@ export const getProvinceName = (id, language) => {
 }
 
 export const countEqual = (oo, pp, labelcount) => {
-    // console.log(oo, "oo")
+    // 
     var singleloopend = 0;
     Object.keys(oo).map((key) => {
-        // console.log(oo[key], "data i")
+        // 
         if (singleloopend == 0) {
             labelcount = 0;
         }
@@ -197,16 +197,16 @@ export const countEqual = (oo, pp, labelcount) => {
 
         singleloopend++;
     });
-    // console.log(labelcount, "labelcount")
+    // 
     return labelcount;
 } 
 
 export const handleMarkerZoom = (map, layers) => {
     var zoom = map.getZoom();
-    // console.log(map.getBounds(), "bounds")
+    // 
     layers.length>0 ? layers.map(layer =>{
         if((zoom<=5 || zoom > 7.5) && window[layer]){
-            // console.log("zoom <=5 or zoom>7")
+            // 
             map.addLayer(window[layer]);
         }
         else{
@@ -217,7 +217,7 @@ export const handleMarkerZoom = (map, layers) => {
 
 export const handleZoom = (map, province, vt_label_province) => {
         var zoom = map.getZoom();
-        // console.log(map.getBounds(), "bounds")
+        // 
         if ((zoom<=5 || zoom > 7.5)) {
             map.removeLayer(vt_label_province);
         } else if (zoom <= 7.5 && map.hasLayer(province)) {
@@ -229,7 +229,7 @@ export const getCenterBboxDistrict=(id,multiple_id)=>{
     const a = districtData.map(data=>{
         if(id === data.name){
             var bboxArray= data.bbox.split(",");
-                // console.log(bboxArray,'bboxaray')
+                // 
             const a = bboxArray.map(data=>{return parseFloat(data)});
             const b = [a[1],a[0],a[3],a[2]];
             return {name:data.name,center:[data.centroid_x,data.centroid_y],bbox:b}

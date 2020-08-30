@@ -23,14 +23,14 @@ class ChangePassword extends Component {
     }
   
     updateWindowDimensions = () => {
-      console.log(screen.height, 'screen');
-      console.log(window.innerHeight, 'windowheight');
+      
+      
       if (window.innerHeight === screen.height) {
         const loginWrapper = document.getElementsByClassName(
           'login-wrapper',
         )[0];
         loginWrapper.style.height = `${screen.height}px`;
-        console.log(loginWrapper, 'if loginwrapper');
+        
   
         // $('.banner').css('height', y);
         // $('.login-wrapper ').css('height', y);
@@ -44,7 +44,7 @@ class ChangePassword extends Component {
           'login-wrapper',
         )[0];
         loginWrapper.style.height = `${window.innerHeight}px`;
-        console.log('else loginwrapper');
+        
   
         // $('.banner').css('height', x);
         // $('.login-wrapper').css('height', x);

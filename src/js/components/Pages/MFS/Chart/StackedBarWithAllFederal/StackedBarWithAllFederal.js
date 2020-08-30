@@ -20,7 +20,7 @@ class StackedBarWithAllFederal extends Component {
   }
 
   plotChart = () => {
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+    //
     const that = this;
     const { showBarChartBy } = this.props;
     // const {
@@ -58,11 +58,11 @@ class StackedBarWithAllFederal extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            // console.log(seriesIndex, 'seriesIndex');
-            // console.log(event, 'event');
-            // console.log(chartContext, 'chartContext');
-            // console.log(dataPointIndex, 'dataPointIndex');
-            // console.log(config, 'config');
+            //
+            //
+            //
+            //
+            //
             // console.log(
             //   config.xaxis.categories[dataPointIndex],
             //   'dataPointIndex Calc',
@@ -83,7 +83,7 @@ class StackedBarWithAllFederal extends Component {
                   );
                 },
               );
-              // console.log(filteredProvinceId, 'filteredProvinceId');
+              //
               const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
                 data => {
                   return (
@@ -91,12 +91,12 @@ class StackedBarWithAllFederal extends Component {
                   );
                 },
               );
-              // console.log(finalDistrictId, 'finalDistrtic');
+              //
               const districtIdList = finalDistrictId.map(data => {
                 return data.n_code;
               });
               that.props.handleShowBarOf('district');
-              // console.log(districtIdList, 'districtIdList');
+              //
               that.props.filterMfsChartDataByDistrict(
                 that.props.viewDataBy,
                 districtIdList,
@@ -105,9 +105,8 @@ class StackedBarWithAllFederal extends Component {
                 projectStatus,
               );
             }
-            if (showBarChartBy === 'Partner') {
-              console.log(clicked);
-            }
+            // if (showBarChartBy === 'Partner') {
+            // }
           },
         },
       },
@@ -203,12 +202,11 @@ class StackedBarWithAllFederal extends Component {
             const clicked = config.xaxis.categories[dataPointIndex];
             if (that.props.showBarChartBy === 'Federal') {
               if (clicked !== undefined) {
-                console.log(showBarof, 'showBarOf');
                 if (showBarof === 'Provinces') {
-                  // console.log(clicked, 'clicked');
+                  //
                   const filteredProvinceId = that.props.provinceList.filter(
                     data => {
-                      // console.log(data.label, 'data');
+                      //
                       // return (
                       //   data.code ===
                       //   config.xaxis.categories[dataPointIndex]
@@ -232,13 +230,13 @@ class StackedBarWithAllFederal extends Component {
                       );
                     },
                   );
-                  // console.log(finalDistrictId, 'finalDistrtic');
+                  //
                   const districtIdList = finalDistrictId.map(data => {
                     return data.n_code;
                   });
                   that.props.handleShowBarOf('Districts');
-                  console.log(districtIdList, 'distrList');
-                  // console.log(districtIdList, 'districtIdList');
+
+                  //
                   that.props.filterMfsChartDataByDistrict(
                     'district',
                     districtIdList,
@@ -250,7 +248,6 @@ class StackedBarWithAllFederal extends Component {
               }
             }
             if (that.props.showBarChartBy === 'Partner') {
-              console.log(clicked);
               if (showBarPartnerChartOf === 'Partner') {
                 that.props.filterMfsMapChartDataByPartnerWithInnovation(
                   mapViewBy,
@@ -321,7 +318,7 @@ class StackedBarWithAllFederal extends Component {
         offsetX: 40,
       },
     };
-    // console.log(barDatas.series, 'bardataxx');
+    //
     this.setState({
       options,
       Fedseries: mfsChartData.series,
@@ -393,14 +390,12 @@ class StackedBarWithAllFederal extends Component {
   }
 
   render() {
-    console.log(window.innerWidth);
     const { options, Fedseries, Partnerseries, test } = this.state;
     const { activeModal, mapViewBy, showBarChartBy } = this.props;
     const {
       mfsReducer: { mfsChartDataByPartner, mfsChartData },
     } = this.props;
-    console.log(Partnerseries, 'partnerseries');
-    console.log(Fedseries, 'fedseries');
+
     return (
       <div
         id="stacked_chart"

@@ -18,7 +18,7 @@ class TableData extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { searchKeyword } = this.state;
     if (prevState.searchKeyword !== searchKeyword) {
-      // console.log(this.state.searchKeyword, 'keyword');
+      // 
       this.props.getSearchedDataOnTable(searchKeyword);
     }
   }
@@ -100,7 +100,7 @@ class TableData extends Component {
     const tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
     const FullDate = new Date();
     const date = `${FullDate.getFullYear()}/${FullDate.getDay()}/${FullDate.getMonth()}`;
-    // console.log(date, 'date');
+    // 
     // Specify file name
     const filename = `financialData${date}.xls`;
 

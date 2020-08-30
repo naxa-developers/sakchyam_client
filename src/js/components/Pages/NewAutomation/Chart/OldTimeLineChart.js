@@ -39,10 +39,10 @@ class TimelineChart extends React.Component {
       //     },
       //     events: {
       //       dataPointSelection(e, chart, opts) {
-      //         console.log(e, opts);
+      //
       //       },
       //       selection(chartContext, { xaxis, yaxis }) {
-      //         console.log('sss');
+      //
       //       },
       //       mounted(chart) {
       //         const commitsEl = document.querySelector(
@@ -100,9 +100,7 @@ class TimelineChart extends React.Component {
       optionsYears: {
         chart: {
           events: {
-            dataPointSelection(e, chart, opts) {
-              console.log(e, opts);
-            },
+            dataPointSelection(e, chart, opts) {},
             selection(chartContext, { xaxis, yaxis }) {},
           },
           toolbar: {
@@ -178,9 +176,7 @@ class TimelineChart extends React.Component {
       optionsYears: {
         chart: {
           events: {
-            dataPointSelection(e, chart, opts) {
-              console.log(e, opts);
-            },
+            dataPointSelection(e, chart, opts) {},
             selection(chartContext, { xaxis, yaxis }) {
               that.props.filterTimeline(xaxis.min, xaxis.max);
               // that.setState({
@@ -276,16 +272,13 @@ class TimelineChart extends React.Component {
 
   componentDidUpdate(prevProps, previousState) {
     if (prevProps.minValue !== this.props.minValue) {
-      console.log('didupdate');
       const { time } = this.state;
       global.timerId = setInterval(() => {
         // const { time, endDate } = this.props;
         if (time < this.props.maxValue) {
-          console.log(this.props.minValue, 'minValue');
-          console.log(this.props.maxValue, 'maxVal');
-          // console.log('inside if');
-          // console.log(time, 'time');
-          // console.log(endDate, 'endDate');
+          //
+          //
+          //
           this.setState(prevState => ({
             optionsYears: {
               ...prevState.optionsYears,
@@ -303,7 +296,6 @@ class TimelineChart extends React.Component {
             },
           }));
         } else {
-          console.log('clear');
           clearInterval(global.timerId);
           this.setState({ playSelected: false });
         }
@@ -312,7 +304,6 @@ class TimelineChart extends React.Component {
   }
 
   render() {
-    console.log(githubdata, 'data');
     const { playSelected, key, minDate, maxDate, time } = this.state;
     return (
       <div

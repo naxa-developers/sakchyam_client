@@ -171,8 +171,8 @@ class Sunburst extends React.Component {
     if (shallowEqual(this.props.data, nextProps.data)) {
       return false;
     }
-    console.log(this.props.data,'this.props;')
-    console.log(nextProps.data,'nextProps;')
+    
+    
     return true;
   }
 
@@ -269,9 +269,9 @@ class Sunburst extends React.Component {
       //added block start
       if (this.props.isLegend) {
         this.legend = el.append("svg");
-        // console.log(data,"sunburstData");
+        // 
         data[0].children && data[0].children.sort() 
-        // console.log(data[0].children && data[0].children.sort((a,b) => b.value - a.value),"sunburstDataSort");
+        // 
         this.legend
           .attr("class", "sunbrust-legend")
           .attr("x","100px") 
@@ -334,8 +334,8 @@ class Sunburst extends React.Component {
         .on(
           "click",
           function (node) {
-            // console.log('onClick ')
-            // console.log(node,'node');
+            // 
+            // 
             this._onClick(node);
             this.props.onClick && this.props.onClick(node);
             this._update(node);
@@ -512,7 +512,7 @@ class Sunburst extends React.Component {
     // .on(
     //   'click',
     //   function(d) {
-    //     console.log(d);
+    //     
     //     // this.props.tooltip &&
     //     //   this.tooltipDom
     //     //     .transition()

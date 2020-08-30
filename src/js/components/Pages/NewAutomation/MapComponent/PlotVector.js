@@ -285,7 +285,7 @@ class PlotVector extends Component {
 
     if (timeline) {
       if (stateMarker.length > 0) {
-        // console.log('stateMarker', stateMarker);
+        //
         stateMarker.map(marker => {
           marker.remove();
         });
@@ -355,7 +355,6 @@ class PlotVector extends Component {
   };
 
   setMarkers = that => {
-    console.log('set markers is being called');
     const {
       stateMarker,
       activeMarkers,
@@ -454,7 +453,7 @@ class PlotVector extends Component {
 
         markerCollection.push(Marker1);
       });
-    // console.log('marker collection', markerCollection);
+    //
     this.setState({ stateMarker: markerCollection });
   };
 
@@ -495,7 +494,6 @@ class PlotVector extends Component {
 
     if (mapViewBy === 'municipality') {
       legendData = municipalityLegendData.result;
-      console.log('legend value', legendData);
     } else if (mapViewBy === 'district') {
       legendData = districtLegendData.result;
     } else {

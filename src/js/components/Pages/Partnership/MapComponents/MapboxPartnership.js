@@ -38,7 +38,7 @@ class MapboxPartnership extends Component {
   //   });
   //   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
-  //   // console.log(map, 'map');
+  //   //
   //   this.setState({ map });
   // };
 
@@ -89,7 +89,7 @@ class MapboxPartnership extends Component {
       );
     }
     // if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
-    //   // console.log(this.props.vectorTileUrl,'vectorTIleUrl');
+    //   //
     //   // this.changeGrades();
     //   this.props.filterMapDataOfCircleMarkerWithViewDataBy(
     //     this.props.mapViewDataBy,

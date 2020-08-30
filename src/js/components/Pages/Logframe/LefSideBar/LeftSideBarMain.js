@@ -28,12 +28,12 @@ class LeftSidebarMain extends Component {
     const b = [];
     const a = indicatorCategory.map(data => {
       data.subcat.map(subdata => {
-        // console.log(subdata.name);
+        //
         return b.push(subdata.name);
       });
       return true;
     });
-    // console.log(b);
+    //
   }
 
   render() {
@@ -115,7 +115,6 @@ class LeftSidebarMain extends Component {
               </div>
               <ul>
                 {activeListFilteredData[0].subcat.map(data => {
-                  console.log(data, 'data');
                   // const regex = /[+-]?\d+(?:\.\d+)?/g;
                   // const indicatorNumber = regex.exec(data.name)[0];
                   const indicatorNumber =

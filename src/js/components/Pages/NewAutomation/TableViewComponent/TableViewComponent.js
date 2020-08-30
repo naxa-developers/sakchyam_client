@@ -177,7 +177,7 @@ class TableViewComponent extends Component {
     const tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
     const FullDate = new Date();
     const date = `${FullDate.getFullYear()}/${FullDate.getDay()}/${FullDate.getMonth()}`;
-    // console.log(date, 'date');
+    //
     // Specify file name
     const filename = `automationData${date}.xls`;
 

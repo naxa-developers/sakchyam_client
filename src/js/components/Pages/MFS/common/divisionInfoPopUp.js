@@ -5,14 +5,13 @@
 import React from 'react';
 
 function clickHandler(e) {
-  console.log(this);
   e.target.classList.toggle('active');
 }
 export default function divisionInfoPopUp(props) {
   const {
     data: { popupData, fulldata },
   } = props;
-  console.log(props, 'popup PROPS');
+
   return fulldata && fulldata.props ? (
     <div className="mapbox-popup-content">
       <div

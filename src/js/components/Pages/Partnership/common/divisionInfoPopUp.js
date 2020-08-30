@@ -6,7 +6,7 @@
 import React from 'react';
 
 // function clickHandler() {
-//   console.log(this);
+//   
 //   // e.target.classList.toggle('active');
 // }
 export default function divisionInfoPopUp(props) {
@@ -29,7 +29,7 @@ export default function divisionInfoPopUp(props) {
           return (
             <div
               className={`acc-list ${index === 0 ? 'active' : ''}`}
-              // onClick={(e)=>{console.log(e.target);e.stopPropagation();e.target.classList.toggle('active')}}
+              // onClick={(e)=>{}}
               // onKeyUp={(e)=>{e.classList.toggle('active')}}
               // onKeyDown={()=>{this.classList.toggle('active')}}
             >
@@ -59,7 +59,7 @@ export default function divisionInfoPopUp(props) {
           // alert('function');
         });
       }
-  // console.log(props, 'popup PROPS');
+  // 
   return propsdata && propsdata ? (
     <div className="mapbox-popup-content">
       <div

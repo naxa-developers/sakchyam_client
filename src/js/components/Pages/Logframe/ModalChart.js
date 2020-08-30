@@ -47,7 +47,7 @@ export default class CustomChart extends Component {
   //   //   'apexcharts-legend-series',
   //   // )[3];
   //   firstLegend.addEventListener('click', async event => {
-  //     console.log('clicked firstlegend');
+  //
   //   });
   // }
   // componentDidUpdate(prevProps, prevState) {

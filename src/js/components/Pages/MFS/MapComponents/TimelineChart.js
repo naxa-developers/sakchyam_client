@@ -61,8 +61,8 @@ class TimelineChart extends Component {
   }
 
   plotChart = (seriesData, minVal, maxVal) => {
-    // console.log(minVal, 'minVal');
-    // console.log(maxVal, 'maxVal');
+    //
+    //
     const that = this;
     const optionsLine = {
       series: [
@@ -77,7 +77,7 @@ class TimelineChart extends Component {
         height: 100,
         events: {
           //   dataPointSelection(e, chart, opts) {
-          //     console.log(e, opts);
+          //
           //   },
           selection(chartContext, { xaxis, yaxis }) {
             // that.props.filterTimeline(xaxis.min, xaxis.max);
@@ -163,7 +163,7 @@ class TimelineChart extends Component {
   componentWillMount() {} // componentwillmount
 
   componentDidMount() {
-    // console.log(this.props.minValue, 'didmount min val');
+    //
     setTimeout(() => {
       // this.setState({
       //   data: githubdata.series,
@@ -203,7 +203,7 @@ class TimelineChart extends Component {
 
     const dateStr = `${year}-${month}-${day}`;
     time = dateStr;
-    console.log(time, 'time returns');
+
     // this.setState({ time: dateStr });
     return dateStr;
   };
@@ -212,15 +212,14 @@ class TimelineChart extends Component {
     const that = this;
     time = minValue;
     global.timerId = setInterval(() => {
-      // console.log(time, 'didupdate min val');
-      // console.log(new Date(time), 'didupdate min val');
-      // console.log(new Date(maxValue), 'didupdate max val');
-      // console.log('once');
+      //
+      //
+      //
+      //
       if (new Date(time).getTime() < new Date(maxValue).getTime()) {
         const minval = new Date(minValue).getTime();
         const maxval = new Date(this.getAddedYear(time)).getTime();
-        console.log(new Date(minval));
-        console.log(new Date(maxval));
+
         this.props.filterTimelineData(
           minval,
           maxval,
@@ -234,8 +233,8 @@ class TimelineChart extends Component {
               events: {
                 selection(chartContext, { xaxis, yaxis }) {
                   // that.props.playBtn(xaxis.min, xaxis.max);
-                  // console.log(xaxis.min, 'xaxis min');
-                  // console.log(xaxis.max, 'xaxis maz');
+                  //
+                  //
                 },
               },
               xaxis: {
@@ -246,7 +245,7 @@ class TimelineChart extends Component {
           },
         });
       } else {
-        // console.log('clear');
+        //
         clearInterval(global.timerId);
         this.setState({ playSelected: false });
       }
@@ -274,8 +273,8 @@ class TimelineChart extends Component {
     const day = d.getDate();
     const month = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
     const year = d.getFullYear();
-    // console.log(this.props.minValue, 'minValue render');
-    // console.log(this.props.maxValue, 'maxValue Render');
+    //
+    //
     return (
       <div
         id="wrapper"
@@ -295,10 +294,10 @@ class TimelineChart extends Component {
         <a
           onClick={() => {
             time = '2015-1-1';
-            // console.log(new Date(minCurrent), 'onClick maxValue');
-            // console.log(new Date(this.props.minValue), ' Current min Value');
+            //
+            //
             // global.chart.render();
-            // console.log(this.props.minValue, 'onClick minValue');
+            //
             this.props.playBtn(minCurrent, maxCurrent);
             this.setState({ playSelected: true });
             setTimeout(() => {
@@ -312,10 +311,10 @@ class TimelineChart extends Component {
           }}
           onKeyDown={() => {
             time = '2015-1-1';
-            // console.log(new Date(minCurrent), 'onClick maxValue');
-            // console.log(new Date(this.props.minValue), ' Current min Value');
+            //
+            //
             // global.chart.render();
-            // console.log(this.props.minValue, 'onClick minValue');
+            //
             this.props.playBtn(minCurrent, maxCurrent);
             this.setState({ playSelected: true });
             setTimeout(() => {
