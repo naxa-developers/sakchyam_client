@@ -4,7 +4,6 @@ import { select } from 'd3';
 
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/src/css/mapbox-gl.css';
-import { ToastContainer, toast } from 'react-toastify';
 import MapboxPartnership from './MapComponents/MapboxPartnership';
 import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
@@ -38,7 +37,6 @@ import {
   filterDistrictListFromProvince,
   filterMunListFromDistrict,
 } from '../../../actions/common.actions';
-import 'react-toastify/dist/ReactToastify.css';
 import CardTab from '../Partnership/common/CardTab';
 import StackedBarWithAllFederal from './Chart/StackedBarWithAllFederal/StackedBarWithAllFederal';
 import Modal from '../../common/Modal';
@@ -56,7 +54,6 @@ function removeMarker() {
         a.remove();
       });
     global.markerList = [];
-    console.log(global.markerList, 'globalMarkerlist');
   }
 }
 
@@ -121,7 +118,7 @@ class MainMFS extends Component {
     if (prevState.mapViewBy !== mapViewBy) {
       const filteredList = [];
       removeMarker();
-      // console.log(filteredList, 'beforefilter');
+      //
       if (mapViewBy === 'province') {
         if (selectedProvince && selectedProvince.length > 0) {
           const provinceSelection = selectedProvince.filter(data => {
@@ -178,16 +175,16 @@ class MainMFS extends Component {
           // alert('province Selection on district');
           // eslint-disable-next-line array-callback-return
           selectedProvince.map(province => {
-            // console.log(province, 'prv1');
+            //
             // eslint-disable-next-line array-callback-return
             districtList.map(district => {
-              // console.log(district, 'district');
+              //
               if (province.code === district.province_code) {
-                // console.log(district, 'true');
+                //
                 filteredList.push(district);
               }
             });
-            // console.log(filtered, 'test filtered');
+            //
           });
 
           map.setFilter('vector-tile-fill', [
@@ -211,25 +208,25 @@ class MainMFS extends Component {
             ],
           ]);
 
-          // console.log(intersection, 'filteredDistrictList');
+          //
         }
       }
       // } else if (mapViewBy === 'municipality') {
       //   if (selectedProvince && selectedProvince.length > 0) {
       //     // eslint-disable-next-line array-callback-return
       //     selectedProvince.map(province => {
-      //       // console.log(province, 'prv1');
+      //       //
       //       // eslint-disable-next-line array-callback-return
       //       municipalityList.map(district => {
-      //         // console.log(district, 'dist');
+      //         //
       //         if (province.code === district.province_code) {
-      //           // console.log(district, 'true');
+      //           //
       //           filteredList.push(district);
       //         }
       //       });
       //     });
-      //     // console.log(filteredList, 'test filtered');
-      //     // console.log(filteredList, 'dist2 ');
+      //     //
+      //     //
       //     map.setFilter('vector-tile-fill', [
       //       'in',
       //       ['get', 'code'],
@@ -252,24 +249,24 @@ class MainMFS extends Component {
       //     ]);
       //   }
       //   if (selectedDistrict && selectedDistrict.length > 0) {
-      //     // console.log(selectedProvince);
+      //     //
       //     // let filtered = null;
       //     // const intersection = districtList.filter(element =>
       //     //   selectedProvince.includes(element.province_id),
       //     // );
       //     // eslint-disable-next-line array-callback-return
       //     selectedDistrict.map(province => {
-      //       // console.log(province, 'prv1');
+      //       //
       //       // eslint-disable-next-line array-callback-return
       //       municipalityList.map(district => {
-      //         // console.log(district, 'dist');
+      //         //
       //         if (province.code === district.district_code) {
       //           filteredList.push(district);
       //         }
       //       });
       //     });
-      //     // console.log(filteredList, 'test filtered');
-      //     // console.log(filteredList, 'dist2 ');
+      //     //
+      //     //
       //     map.setFilter('vector-tile-fill', [
       //       'in',
       //       ['get', 'code'],
@@ -290,7 +287,7 @@ class MainMFS extends Component {
       //         }),
       //       ],
       //     ]);
-      //     // console.log(intersection, 'filteredDistrictList');
+      //     //
       //   }
       // }
     }
@@ -423,7 +420,7 @@ class MainMFS extends Component {
     });
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-    // console.log(map, 'map');
+    //
     this.setState({ map });
   };
 
@@ -455,7 +452,7 @@ class MainMFS extends Component {
   };
 
   setMapViewBy = selectedMapView => {
-    // console.log('setMapView By Function');
+    //
     const {
       selectedPartner,
       selectedInnovation,
@@ -510,8 +507,8 @@ class MainMFS extends Component {
     // const {
     //   partnershipReducer: { municipalityList, districtList },
     // } = this.props;
-    console.log(clickedValue, 'clickedValue');
-    // console.log(e.target.value, 'target value');
+
+    //
     const {
       dataTypeLevel,
       activeClickPartners,
@@ -536,19 +533,19 @@ class MainMFS extends Component {
 
         if (selectedDistrict && selectedDistrict.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedDistrict, 'selectedDistrict');
+          //
           const getBboxValue = getCenterBboxDistrict(
             selectedDistrict.map(data => {
               return data.code;
             }),
           );
-          // console.log(getBboxValue, 'bboxValue');
+          //
           getBboxValue.map(data => {
             combinedBbox.push(data.bbox);
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
+          //
           map.fitBounds(extendedValue);
           // const query = selectedDistrict
           //   .map(data => {
@@ -585,7 +582,7 @@ class MainMFS extends Component {
           ]);
         } else if (selectedProvince && selectedProvince.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
+          //
           const getBboxValue = getCenterBboxProvince(
             selectedProvince.map(data => {
               return data.code;
@@ -596,22 +593,22 @@ class MainMFS extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
+          //
           map.fitBounds(extendedValue);
           const filteredList = [];
           selectedProvince.forEach(province => {
-            // console.log(province, 'prv1');
+            //
             // eslint-disable-next-line array-callback-return
             municipalityList.forEach(district => {
-              // console.log(district, 'district');
+              //
               if (province.code === district.province_code) {
-                // console.log(district, 'true');
+                //
                 filteredList.push(district);
               }
             });
-            // console.log(filtered, 'test filtered');
+            //
           });
-          // console.log(filteredList, 'dist2 ');
+          //
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
@@ -648,19 +645,19 @@ class MainMFS extends Component {
         // } else
         if (selectedDistrict && selectedDistrict.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedDistrict, 'selectedDistrict');
+          //
           const getBboxValue = getCenterBboxDistrict(
             selectedDistrict.map(data => {
               return data.code;
             }),
           );
-          // console.log(getBboxValue, 'bboxValue');
+          //
           getBboxValue.map(data => {
             combinedBbox.push(data.bbox);
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
+          //
           map.fitBounds(extendedValue);
           const query = selectedDistrict
             .map(data => {
@@ -689,7 +686,7 @@ class MainMFS extends Component {
           ]);
         } else if (selectedProvince && selectedProvince.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
+          //
           const getBboxValue = getCenterBboxProvince(
             selectedProvince.map(data => {
               return data.code;
@@ -700,20 +697,20 @@ class MainMFS extends Component {
             return true;
           });
           const extendedValue = extendBounds(combinedBbox);
-          // console.log(extendedValue, 'bbox');
+          //
           map.fitBounds(extendedValue);
           const filteredList = [];
           selectedProvince.forEach(province => {
-            // console.log(province, 'prv1');
+            //
             // eslint-disable-next-line array-callback-return
             districtList.forEach(district => {
-              // console.log(district, 'district');
+              //
               if (province.code === district.province_code) {
-                // console.log(district, 'true');
+                //
                 filteredList.push(district);
               }
             });
-            // console.log(filtered, 'test filtered');
+            //
           });
           map.setFilter('vector-tile-fill', [
             'in',
@@ -739,7 +736,7 @@ class MainMFS extends Component {
       } else if (clickedValue === 'province') {
         if (selectedProvince && selectedProvince.length > 0) {
           const combinedBbox = [];
-          // console.log(selectedProvince, 'selectedProvine');
+          //
           const getBboxValue = getCenterBboxProvince(
             selectedProvince.map(data => {
               return data.code;
@@ -790,7 +787,7 @@ class MainMFS extends Component {
   };
 
   handleProvinceClick = (code, name) => {
-    // console.log(id, 'asasa');
+    //
     const { mapViewBy } = this.state;
     if (mapViewBy === 'municipality') {
       document.querySelector(`.municipality .check_${code}`).click();
@@ -1143,7 +1140,7 @@ class MainMFS extends Component {
   };
 
   resetFilters = () => {
-    // console.log('resertfiles');
+    //
     const { mapViewBy, activeView, map } = this.state;
     this.resetLeftSideBarSelection();
     this.setState({
@@ -1174,7 +1171,7 @@ class MainMFS extends Component {
     });
 
     const combinedBbox = [];
-    // console.log(selectedProvince, 'selectedProvine');
+    //
     const getBboxValue = getCenterBboxProvince([1, 2, 3, 4, 5, 6, 7]);
     getBboxValue.map(data => {
       combinedBbox.push(data.bbox);
@@ -1247,21 +1244,6 @@ class MainMFS extends Component {
               component={() => this.getModalContent(selectedModal)}
             />
           )}
-          <ToastContainer
-            style={{
-              fontFamily: 'Avenir Heavy',
-              fontSize: '.9125rem',
-              color: 'black',
-            }}
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
           <LeftSideBar
             resetFilters={this.resetFilters}
             applyBtnClick={this.applyBtnClick}

@@ -84,7 +84,7 @@ class MainComponent extends Component {
   }
 
   handleActiveListItem = clickedValue => {
-    // console.log(clickedValue);
+    //
 
     this.setState({ activeListItem: clickedValue });
   };
@@ -150,7 +150,7 @@ class MainComponent extends Component {
       activeBar: active ? (activeTimegraph ? false : true) : true,
     });
     if (this.state.activeBar) {
-      // console.log('if activeBar');
+      //
       // true === false
       // this.setState({ activeBar1: false, activeBar2: false });
       // this.setState({ activeBar1: false, activeBar2: false });
@@ -158,7 +158,7 @@ class MainComponent extends Component {
         this.setState({ activeBar1: false, activeBar2: false });
       }
     } else {
-      // console.log('else activeBar');
+      //
 
       // false === true
       if (this.state.activeBar1 || this.state.activeLine1) {
@@ -196,8 +196,8 @@ class MainComponent extends Component {
         this.setState({ activeLine2: true });
       }
     }
-    // console.log(this.state.activeTimeGraph, 'a');
-    // console.log(this.state.activeBar, 'b');
+    //
+    //
   };
 
   handleActiveDate = (value, e, item) => {
@@ -207,8 +207,8 @@ class MainComponent extends Component {
       totalRangeDateName,
     } = this.props.logFrameReducer;
     const { activeDate, activeDateValues } = this.state;
-    // console.log(item);
-    // console.log(value, 'value');
+    //
+    //
     dateArray = [];
     dateArrayValues = [];
     if (value === 'All') {
@@ -290,7 +290,7 @@ class MainComponent extends Component {
   // handleActiveDate = (e, element) => {
   //   const { dateRange } = this.props.logFrameReducer;
   //   const { updateChart } = this.state;
-  //   console.log(element.target.checked, 'checked');
+  //
   //   if (e === 'All' && element.target.checked === true) {
   //     const {
   //       logFrameReducer: { totalRangeDate, totalRangeDateName },
@@ -306,7 +306,7 @@ class MainComponent extends Component {
   //     dateArray.push('All');
   //     this.setState({ updateChart: !updateChart });
 
-  //     // console.log(this.props.logFrameReducer.totalDateRange);
+  //     //
   //     // return this.setState({
   //     //   activeDate: totalRangeDate,
   //     //   activeDateValues: totalRangeDateName,
@@ -320,18 +320,18 @@ class MainComponent extends Component {
   //     alert('else');
   //     // dateArray = [];
   //     // dateArrayValues = [];
-  //     console.log('false check');
+  //
   //     console.log(
   //       this.props.logFrameReducer.totalRangeDateName.length,
   //       '1props',
   //     );
-  //     console.log(dateArrayValues.length, '2state');
+  //
   //     const totalLengthOfRangeDateName = dateArrayValues + 1;
   //     // if (dateArray.includes('All')) {
   //     //   dateArray = dateArray.filter(f => f !== 'All');
   //     // } else
   //     if (totalLengthOfRangeDateName === dateArrayValues.length) {
-  //       console.log('push ALl if equal');
+  //
   //       dateArray.push('All');
   //     } else if (dateArray.includes('All')) {
   //       dateArray = dateArray.filter(f => f !== 'All');
@@ -359,7 +359,7 @@ class MainComponent extends Component {
   //     // dateArrayValues.sort();
   //     dateArrayValues.sort(collator.compare);
   //     if (dateArray.length === 0) {
-  //       // console.log(dateRange);
+  //       //
   //       dateRange.map(data => {
   //         dateArray.push(data.range);
   //         dateArrayValues.push(data.name);
@@ -367,7 +367,7 @@ class MainComponent extends Component {
   //       });
   //       dateArray.push('All');
 
-  //       // console.log(allDateRange);
+  //       //
   //     }
   //   }
   //   this.setState({
@@ -412,7 +412,7 @@ class MainComponent extends Component {
     //   document.querySelector('body').classList.remove('scroll-event');
     // }
     // const $contetntY = $('.content').offset().top;
-    // console.log($contetntY);
+    //
     // if ($contetntY > 0) {
     //   $('body').addClass('scroll-event');
     // } else {
@@ -426,11 +426,11 @@ class MainComponent extends Component {
     } else {
       document.querySelector('body').classList.remove('scroll-event');
     }
-    // console.log(contentEl, 'contentoffset');
+    //
   };
 
   componentDidMount() {
-    // console.log(document.getElementsByClassName('apexcharts-menu-icon')[0].title =
+    // [0].title =
     //   'Export';
     this.updateWindowDimensions();
 
@@ -450,7 +450,7 @@ class MainComponent extends Component {
   };
 
   handleModal = clicked => {
-    // console.log('statemodal', this.state.activeModal);
+    //
     // if (!clicked) {
     this.setState(prevState => ({
       expandMore: !prevState.expandMore,
@@ -486,14 +486,14 @@ class MainComponent extends Component {
     // document.getElementsByClassName(
     //   'apexcharts-legend-series',
     // )[2].style.display = 'none';
-    // console.log(screen.height, 'screen');
-    // console.log(window.height, 'windowheight');
+    //
+    //
     // this.setState({
     //   width: window.innerWidth,
     //   height: window.innerHeight,
     // });
-    // console.log(window.innerWidth, 'width');
-    // console.log(window.innerHeight, 'height');
+    //
+    //
     // console.log(
     //   (document.getElementsByClassName(
     //     'banner',
@@ -506,8 +506,8 @@ class MainComponent extends Component {
     // const footer = document.getElementsByClassName('main-footer');
     // const content = document.getElementsByClassName('main');
     // const banner = window.innerHeight - header[0].offsetHeight;
-    // console.log(banner, 'banner');
-    // console.log(footer, 'footer');
+    //
+    //
     // const height = window.innerHeight - header[0].offsetHeight;
     // content[0].style.minHeight = banner;
     // console.log(
@@ -516,7 +516,7 @@ class MainComponent extends Component {
     //   )[0].style.minHeight = banner),
     //   'banner-content',
     // );
-    // console.log(height, 'height');
+    //
   };
 
   // eslint-disable-next-line camelcase
@@ -524,25 +524,25 @@ class MainComponent extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { activeListItem, activeListFilteredData } = this.state;
     if (prevState.activeListItem !== activeListItem) {
-      // console.log(activeListItem, 'change active List');
+      //
       const { indicatorCategory } = this.props.logFrameReducer;
       const filteredData = indicatorCategory.filter(
         data => data.name === activeListItem,
       );
-      // console.log(filteredData[0]);
+      //
       if (filteredData && filteredData[0]) {
         filteredData[0].subcat.sort(compare);
       }
-      // console.log(filteredData[0].subcat.sort(compare));
+      //
       // const collator = new Intl.Collator(undefined, {
       //   numeric: true,
       //   sensitivity: 'base',
       // });
-      // console.log(filteredData[0].subcat.sort(collator.compare));
+      //
       // console.log(
       //   filteredData[0].subcat.sort(function(a, b) {
-      //     console.log(a.name);
-      //     console.log(b.name);
+      //
+      //
       //     return a.name - b.name;
       //   }),
       // );
@@ -572,10 +572,10 @@ class MainComponent extends Component {
       // });
       // this.filterDataWithLayer();
       if (activeDate.length === 0) {
-        // console.log('if active layer changed');
+        //
         this.props.filterIndicatorGraphData(activeLayer);
       } else {
-        // console.log('else active layer changed');
+        //
 
         this.props.filterIndicatorGraphDataWithDate(
           activeLayer,
@@ -585,10 +585,10 @@ class MainComponent extends Component {
         );
       }
 
-      // console.log('xxxss');
+      //
       // setTimeout(function() {
 
-      //   console.log('setTimeout');
+      //
       // }, 3000);
     }
     // const { activeDataType } = this.state;
@@ -627,7 +627,7 @@ class MainComponent extends Component {
       //   activeBar: true,
       //   activeTimeGraph: true,
       // });
-      // console.log(activeDataType, 'change datatype');
+      //
 
       if (activeDataType === 'Individual') {
         if (activeDate.length === 0) {
@@ -693,7 +693,7 @@ class MainComponent extends Component {
         sensitivity: 'base',
       });
       b.sort(collator.compare);
-      // console.log(b);
+      //
       this.allIndicatorCategorySetState(b);
       // this.props.filterIndicatorGraphData(activeLayer);
     }
@@ -720,12 +720,12 @@ class MainComponent extends Component {
       this.state.activeLayer,
     );
     const totalNumberofIndex = this.state.allIndicatorCategory.length;
-    // console.log(totalNumberofIndex, 'totalnumberindex');
+    //
     const addedNumberIndex = activeLayerIndex + 1;
     if (addedNumberIndex < totalNumberofIndex) {
-      // console.log(totalNumberofIndex, 'totalNumber index if');
-      // console.log(addedNumberIndex, 'activeLayer + 1 index if');
-      // console.log('error');
+      //
+      //
+      //
       this.handleActiveLayer(
         this.state.allIndicatorCategory[addedNumberIndex],
       );
@@ -742,11 +742,11 @@ class MainComponent extends Component {
       //     });
       //   },
       // );
-      // console.log(b, 'bbbb');
+      //
       // } else if (addedNumberIndex >= totalNumberofIndex) {
     } else {
-      // console.log(totalNumberofIndex, 'totalNumber index else if');
-      // console.log(addedNumberIndex, 'activeLayer + 1 index else if');
+      //
+      //
       this.handleActiveLayer(this.state.allIndicatorCategory[0]);
       this.handleMainCategorySlide(
         this.state.allIndicatorCategory[0],

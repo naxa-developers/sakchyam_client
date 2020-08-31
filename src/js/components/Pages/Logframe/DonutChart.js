@@ -26,7 +26,7 @@ class DonutChart extends Component {
     const that = this;
     const { reducerDataProps } = that.props;
     const { label } = that.props.logFrameReducer[reducerDataProps];
-    console.log(that.props.logFrameReducer);
+
     const series = [50, 120];
     const options = {
       chart: {
@@ -196,7 +196,7 @@ class DonutChart extends Component {
   //     this.props.financialReducer.pieData
   //   ) {
   //     // this.getDonutChartData();
-  //     // console.log(label, 'label');
+  //     //
   //     this.setState(preState => ({
   //       options: {
   //         ...preState.options,
@@ -211,7 +211,7 @@ class DonutChart extends Component {
     const { series, label } = this.props.logFrameReducer[
       reducerDataProps
     ];
-    // console.log(series, 'series');
+    //
     const { options, height } = this.state;
     const Total = series && series[1] + series[0];
     const microPercent = series && (series[1] * 100) / Total;

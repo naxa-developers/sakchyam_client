@@ -60,7 +60,6 @@ class GroupedCheckbox extends Component {
       return null;
     }
     return checkboxes.map((aCheckbox, index) => {
-      console.log(aCheckbox, 'acheckboix');
       return (
         <CheckboxItem
           // key={m}

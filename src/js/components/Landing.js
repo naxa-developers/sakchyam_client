@@ -38,15 +38,15 @@ class Landing extends Component {
   };
 
   componentDidMount() {
-    // console.log(process.env.PLATFORM,'env');
+    // 
     const today = localStorage.getItem('loginTime');
     const currentTime = new Date().valueOf();
-    // console.log(currentTime,'cuirren  ')
+    // 
     const expireTime = localStorage.getItem('expirationTime');
-    // console.log(Date.parse(expireTime),'expireTime  ')
-    // console.log(currentTime <= expireTime && expireTime.valueOf());
+    // 
+    // 
     if (currentTime >= Date.parse(expireTime)) {
-      // console.log('correct');
+      // 
       localStorage.removeItem('userToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('loginTime');
@@ -56,12 +56,12 @@ class Landing extends Component {
     } else {
       // alert('else')
       // window.location.reload()
-      // console.log('incorrect');
+      // 
     }
     const permissionData = localStorage.getItem('userPermission');
     permissionObject = JSON.parse(permissionData);
     this.setState({ permissions: permissionObject });
-    // console.log(permissionObject, '======permission');
+    // 
     this.updateWindowDimensions();
 
     window.addEventListener('resize', this.updateWindowDimensions);

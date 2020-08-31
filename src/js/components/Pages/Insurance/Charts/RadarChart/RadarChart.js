@@ -79,7 +79,7 @@ class RadarChart extends Component {
     const {
       partnershipReducer: { spiderChartData },
     } = this.props;
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+    //
     // const series = [
     //   {
     //     name: 'PRODUCT A',

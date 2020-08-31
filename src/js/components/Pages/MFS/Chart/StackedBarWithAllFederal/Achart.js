@@ -2,7 +2,6 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 export default function Achart(props) {
-  console.log(props, 'propsseries');
   return props.series.length === 0 ? null : (
     <ReactApexChart
       // key={Partnerseries}

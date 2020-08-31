@@ -1,4 +1,3 @@
-import { marker } from 'leaflet';
 import {
   GET_AUTOMATION_DATA_BY_PARTNER,
   GET_AUTOMATION_DATA_BY_PROVINCE,
@@ -75,7 +74,7 @@ function getPartnerColor(i) {
   return 'green';
 }
 const partnerForChoropleth = (state, action) => {
-  // console.log(action.payload, 'payload');
+  //
   // const allData = [];
   const leftsideData = action.payload[0].partner_data;
   leftsideData.sort(function(a, b) {
@@ -143,10 +142,10 @@ const timeLineFilter = (state, action) => {
 };
 
 const partnerByProvinceForChoropleth = (state, action) => {
-  // console.log(action.payload, 'payload');
+  //
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
-    // console.log(data, '12st');
+    //
     fullData.push({
       id: data.code,
       count:
@@ -154,11 +153,11 @@ const partnerByProvinceForChoropleth = (state, action) => {
     });
     return true;
   });
-  // console.log(fullData, 'without Sort');
+  //
   fullData.sort(function(a, b) {
     return a.id - b.id;
   });
-  // console.log(fullData, 'sortedFull');
+  //
   return {
     ...state,
     automationDataByProvince: fullData,
@@ -166,8 +165,8 @@ const partnerByProvinceForChoropleth = (state, action) => {
   };
 };
 const partnerByDistrictForChoropleth = (state, action) => {
-  // console.log('partnerDistrict GET');
-  //   console.log(action.payload, 'payload');
+  //
+  //
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({
@@ -177,11 +176,11 @@ const partnerByDistrictForChoropleth = (state, action) => {
     });
     return true;
   });
-  // console.log(fullData, 'without Sort');
+  //
   fullData.sort(function(a, b) {
     return a.id - b.id;
   });
-  // console.log(fullData, 'sortedFull');
+  //
   return {
     ...state,
     automationDataByDistrict: fullData,
@@ -217,7 +216,7 @@ const filterAutomationDataForVectorTile = (state, action) => {
   } = state;
 
   if (stateLevel === 'province') {
-    // console.log('province reducer');
+    //
     return {
       ...state,
       automationChoroplethData: automationDataByProvince,
@@ -225,7 +224,7 @@ const filterAutomationDataForVectorTile = (state, action) => {
     };
   }
   if (stateLevel === 'district') {
-    // console.log('district reducer');
+    //
     return {
       ...state,
       automationChoroplethData: automationDataByDistrict,
@@ -233,14 +232,14 @@ const filterAutomationDataForVectorTile = (state, action) => {
     };
   }
   if (stateLevel === 'municipality') {
-    // console.log('municiplaity reducer');
+    //
     return {
       ...state,
       automationChoroplethData: automationDataByMunicipality,
       dataLoading: false,
     };
   }
-  // console.log('province  reducer');
+  //
   return {
     ...state,
     automationChoroplethData: automationDataByMunicipality,
@@ -248,8 +247,8 @@ const filterAutomationDataForVectorTile = (state, action) => {
   };
 };
 const filterDistrictFromProvinceColor = (state, action) => {
-  // console.log(action.payload, 'payload');
-  // console.log('Color Reducer Filter');
+  //
+  //
   const fullData = [];
   const choroplethProvinceData = action.payload.map(data => {
     fullData.push({
@@ -259,11 +258,11 @@ const filterDistrictFromProvinceColor = (state, action) => {
     });
     return true;
   });
-  // console.log(fullData, 'without Sort');
+  //
   fullData.sort(function(a, b) {
     return a.id - b.id;
   });
-  // console.log(fullData, 'sortedFull');
+  //
   return {
     ...state,
     automationChoroplethData: fullData,
@@ -272,7 +271,7 @@ const filterDistrictFromProvinceColor = (state, action) => {
 };
 
 const filterPartnerSelect = (state, action) => {
-  // console.log(action.payload, 'filterPartnerSelect');
+  //
   const { automationRightSidePartnerData } = state;
   action.payload[0].partner_data.sort(function(a, b) {
     const nameA = a.partner_name.toUpperCase(); // ignore upper and lowercase
@@ -341,7 +340,7 @@ const getProvinceData = (state, action) => {
       return 0;
     };
   }
-  // console.log(action.payload);
+  //
   action.payload.sort(GetSortOrder('code'));
   return {
     ...state,

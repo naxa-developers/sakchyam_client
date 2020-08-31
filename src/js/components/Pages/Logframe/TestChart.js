@@ -13,7 +13,6 @@ class StackedBarWithProvince extends Component {
   }
 
   plotChart = () => {
-    console.log(this.props.partnershipReducer, 'partnershipReducer');
     const that = this;
     const {
       logFrameReducer: { series },
@@ -105,16 +104,16 @@ class StackedBarWithProvince extends Component {
     const {
       logFrameReducer: { series },
     } = that.props;
-    // console.log(barDatasOfProvinceOnly, 'barDatas');
+    //
     // alert('test');
     // const newArray = barDatasOfProvinceOnly.series[0].data.map(
     //   (e, i) => e + barDatasOfProvinceOnly.series[1].data[i],
     // );
-    // console.log(newArray, 'newArray');
-    // console.log(Math.max(...newArray));
+    //
+    //
     // const maxValue = Math.max(...newArray);
-    // console.log(maxValue, 'maxValue');
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+    //
+    //
     // const series = [
     //   {
     //     name: 'PRODUCT A',
@@ -188,7 +187,7 @@ class StackedBarWithProvince extends Component {
           show: true,
           // format: 'dd MMM',
           formatter(x) {
-            // console.log(x, 'x');
+            //
             // if (x.toString().includes('Province')) {
             //   return `Province ${x}`;
             // }
@@ -201,7 +200,7 @@ class StackedBarWithProvince extends Component {
         offsetX: 40,
       },
     };
-    // console.log(barDatas.series, 'bardataxx');
+    //
     this.setState({ options, series });
   };
 

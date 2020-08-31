@@ -32,7 +32,7 @@ function removeMarker() {
         a.remove();
       });
     global.markerList = [];
-    // console.log(global.markerList, 'globalMarkerlist VectorTile');
+    //
   }
 }
 const popup = new mapboxgl.Popup();
@@ -168,7 +168,7 @@ class Choropleth extends Component {
     //
     // eslint-disable-next-line array-callback-return
     grade.map((gradeitem, j) => {
-      // console.log(gradeitem, 'gradeitem');
+      //
       if (value > gradeitem) {
         color = legendColor[j];
       }
@@ -246,7 +246,7 @@ class Choropleth extends Component {
   }
 
   setChoroplethStyle(values) {
-    // console.log('values', values);
+    //
     //
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
@@ -290,7 +290,7 @@ class Choropleth extends Component {
         : fullGeojsonProvince;
     removeMarker();
     const FinalGeojson = { ...FederalData };
-    console.log(FinalGeojson, 'finalGeojson');
+
     FinalGeojson.features.forEach((item, index) => {
       circleMarkerData.forEach(p => {
         if (p.code === item.properties.code) {
@@ -307,10 +307,10 @@ class Choropleth extends Component {
       });
     });
     const legendNameList = [];
-    // console.log(FinalGeojson, 'finalGeojson');
+    //
     FinalGeojson.features = myArrayFiltered;
 
-    // console.log(r, 'r');
+    //
     let singleData = {};
     let partnerList = [];
     let singleData2nd = {};
@@ -323,11 +323,10 @@ class Choropleth extends Component {
       };
       if (data.properties.pie) {
         data.properties.pie.forEach(piedata => {
-          // console.log(piedata, 'piedata');
+          //
           singleData2nd[`${piedata.name}`] = piedata.count;
           singleData2nd.count += piedata.count;
         });
-        console.log(singleData2nd.count, 'totalCount');
       }
       total2nd.push(singleData2nd.count);
       const allCount = [];
@@ -356,7 +355,7 @@ class Choropleth extends Component {
     const max = Math.max.apply(null, totalSumList);
     FinalGeojson.features.forEach(data => {
       const FullnameList = [];
-      // console.log(data, 'data');
+      //
       partnerList = [];
       singleData = {
         count: 0,
@@ -364,7 +363,7 @@ class Choropleth extends Component {
       };
       if (data.properties.pie) {
         data.properties.pie.forEach(piedata => {
-          // console.log(piedata, 'piedata');
+          //
           FullnameList.push({
             type: piedata.name,
             count: piedata.count,
@@ -389,15 +388,8 @@ class Choropleth extends Component {
       const testElMain = document.createElement('div');
       testElMain.className = 'marker';
 
-      console.log(singleData, 'singleDataProv');
       // const props = data.properties;
-      console.log(singleData, 'singleData');
-      console.log(total2nd, 'total2nd');
-      console.log(radiusRange, 'radiusRange');
-      console.log(partnerList, 'partnerList');
-      console.log(mapViewDataBy, 'mapViewDataBy');
-      console.log(data.total_sum, 'data.total_sum');
-      console.log(FullnameList, 'fullNamelist');
+
       FullnameList.forEach(x => {
         legendNameList.push(x.type);
       });
@@ -419,11 +411,11 @@ class Choropleth extends Component {
         .addTo(map);
       global.markerList.push(marker);
     });
-    // console.log(legendNameList, 'nameListArray');
+    //
     const uniqueLegendNameList = [
       ...new Set(legendNameList.map(item => item)),
     ];
-    console.log(uniqueLegendNameList, 'uniqueLegendNameList');
+
     if (
       this.props.pieSquareLegend &&
       this.props.pieSquareLegend.current &&
@@ -520,8 +512,6 @@ class Choropleth extends Component {
   // }
 
   createPieLegend = datas => {
-    console.log(this.props, 'props');
-    console.log('PIE FUNCTION');
     const colorScale = d3
       .scaleOrdinal()
       .domain(this.props.mfsReducer.legendAchievement)
@@ -736,7 +726,6 @@ class Choropleth extends Component {
     FullnameList,
     popupData,
   ) => {
-    console.log('test');
     const that = this;
     const div = document.createElement('div');
     const colorScaleForPie = d3
@@ -856,7 +845,7 @@ class Choropleth extends Component {
         //   });
         // // const that = this;
 
-        // // console.log(props, 'props');
+        // //
         // // if (document.querySelector('.federal-popup')) {
         // //   document.querySelector('.federal-popup').style.display =
         // //     'none';
@@ -877,7 +866,7 @@ class Choropleth extends Component {
         // let partnerContent = null;
         // // partnerList =
         // // eslint-disable-next-line no-restricted-syntax
-        // console.log(props, 'props');
+        //
         // partnerContent = popupData
         //   .map((partnerData, index) => {
         //     const partnerList = partnerData.achievementType
@@ -951,13 +940,13 @@ class Choropleth extends Component {
 
         // // const t = document.querySelector('.acc-header');
         // // t.addEventListener('click', function(e) {
-        // //   // console.log('test');
+        // //   //
         // //   e.stopPropagation();
         // //   alert('function');
         // // });
         // const mapPopup = document.querySelector('.map-popup-view');
         // mapPopup.addEventListener('click', function(e) {
-        //   // console.log('test');
+        //   //
         //   e.stopPropagation();
         //   // alert('function');
         // });
@@ -967,7 +956,7 @@ class Choropleth extends Component {
         // });
         // // const accList = document.querySelector('.acc-list');
         // // accList.addEventListener('click', function(e) {
-        // //   console.log(e, 'test');
+        // //
         // //   // if (e.target.classList.includes('active')) {
         // //   this.classList.remove('active');
         // //   // } else {
@@ -1080,7 +1069,7 @@ class Choropleth extends Component {
 
     map.on('load', function() {
       const combinedBbox = [];
-      // console.log(selectedProvince, 'selectedProvine');
+      //
       const getBboxValue = getCenterBboxProvince([
         1,
         2,
@@ -1094,7 +1083,7 @@ class Choropleth extends Component {
         combinedBbox.push(data.bbox);
         return true;
       });
-      // console.log(combinedBbox, 'combineBbox');
+      //
       const extendedValue = extendBounds(combinedBbox);
       that.props.map.fitBounds(extendedValue);
       // Add Mapillary sequence layer.
@@ -1281,12 +1270,12 @@ class Choropleth extends Component {
             ['literal', [federalCode.toString()]],
           ]);
         };
-        console.log(global.markerList, 'markerList');
+
         e.preventDefault();
         const federalCode = e.features[0].properties.code;
 
         if (that.props.mapViewBy === 'province') {
-          // console.log(e.features[0]);
+          //
           const getBbox = getCenterBboxProvince(federalCode);
           filterMapChoroplethPie(getBbox, federalCode);
         } else if (that.props.mapViewBy === 'district') {
@@ -1304,7 +1293,7 @@ class Choropleth extends Component {
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
-        // console.log(e.features[0]);
+        //
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
             return (
@@ -1513,35 +1502,33 @@ class Choropleth extends Component {
     // map.on('sourcedataloading', function(e) {
     //   that.setState({ loading: !map.isSourceLoaded('municipality') });
 
-    //   // console.log(e, 'SOURCE DATA LOADING ');
+    //   //
     // });
     // map.on('sourcedata', function(e) {
     //   // const that = this;
-    //   // console.log(e, 'SOURCE DATA');
-    //   // console.log('tile', map.isSourceLoaded('municipality'));
+    //   //
+    //   //
     //   that.setState({ loading: !map.isSourceLoaded('municipality') });
     // });
     map.on('style.load', () => {
       const waiting = () => {
         if (!map.isStyleLoaded()) {
           setTimeout(waiting, 200);
-          console.log('if');
         } else {
           this.setState(prevState => ({
             loading: !prevState.loading,
           }));
-          console.log('loadMyLayer');
         }
       };
       waiting();
     });
     // map.on('idle', () => {
-    //   console.log(map.isSourceLoaded('municipality'), 'idle');
+    //
     //   // map.getCanvas().toDataURL()
     // });
 
     // map.on('load', 'vector-tile-fill', function(e) {
-    //   console.log(e, 'e');
+    //
     //   alert('test');
     //   // if (e.sourceId === 'municipality') {
     //   //   if (e.isSourceLoaded) {
@@ -1551,7 +1538,7 @@ class Choropleth extends Component {
     //   // }
     // });
     // map.on('data', function(e) {
-    //   console.log(e, 'e');
+    //
     //   if (e.isSourceLoaded) {
     //     // Do something when the source has finished loading
     //   }
@@ -1573,7 +1560,6 @@ class Choropleth extends Component {
     } = this.props;
 
     if (prevProps.circleMarkerData !== circleMarkerData) {
-      console.log(circleMarkerData, 'circleMarkerData');
       // alert(`dataChanged ${mapViewBy} `);
       // removeMarker();
       if (

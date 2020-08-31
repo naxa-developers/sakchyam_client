@@ -795,7 +795,8 @@ const getSpiderChartData = (state, action) => {
 const filterPartnersListByPartner = (state, action) => {
   return {
     ...state,
-    filteredPartnerList: action.payload,
+    filteredPartnerList:
+      action.payload.length > 0 ? action.payload : state.partnersList,
   };
 };
 const filterFinancialDataOfDistrictFromProvince = (state, action) => {
@@ -1515,11 +1516,11 @@ const filterMapdataChoropleth = (state, action) => {
 };
 const filterTimelineData = (state, action) => {
   const { min, max, fedtype } = action.payload;
-  // console.log(new Date(min).getTime(), 'min');
-  // console.log(new Date(min), 'minfulldate');
-  // console.log(new Date(max).getTime(), 'max');
-  // console.log(new Date(max), 'maxfullddate');
-  // console.log(max,'max');
+  //
+  //
+  //
+  //
+  //
   const allData = state.partnershipAllData;
 
   // const min = convertDateToTime('2015-01-01');
@@ -1569,7 +1570,6 @@ const filterTimelineData = (state, action) => {
     }));
   }
 
-  console.log(fedData);
   return {
     ...state,
     filteredMapData: fedData,

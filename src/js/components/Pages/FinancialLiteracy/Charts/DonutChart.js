@@ -201,7 +201,7 @@ class DonutChart extends Component {
 
   render() {
     const { series, label } = this.props.financialReducer.pieData;
-    // console.log(series, 'series');
+    //
     const { options, height } = this.state;
     const Total = series && series[1] + series[0];
     const microPercent = series && (series[1] * 100) / Total;

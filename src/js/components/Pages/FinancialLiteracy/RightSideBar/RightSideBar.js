@@ -496,8 +496,6 @@ class RightSideBar extends Component {
       return true;
     });
 
-    console.log(arr, 'timelinedata');
-
     setTimeout(() => {
       const x = document.getElementById(`${years[0]}`);
       x.style.display = 'block';

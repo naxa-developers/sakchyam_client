@@ -13,7 +13,7 @@ class GroupedBar extends Component {
   }
 
   plotChart = () => {
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+    //
     const that = this;
     const series = [
       // {
@@ -43,11 +43,11 @@ class GroupedBar extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
-            // console.log(seriesIndex, 'seriesIndex');
-            // console.log(event, 'event');
-            // console.log(chartContext, 'chartContext');
-            // console.log(dataPointIndex, 'dataPointIndex');
-            // console.log(config, 'config');
+            //
+            //
+            //
+            //
+            //
             console.log(
               config.xaxis.categories[dataPointIndex],
               'dataPointIndex Calc',
@@ -66,18 +66,18 @@ class GroupedBar extends Component {
                 );
               },
             );
-            // console.log(filteredProvinceId, 'filteredProvinceId');
+            //
             const finalDistrictId = that.props.partnershipReducer.allDistrictList.filter(
               data => {
                 return data.province_id === filteredProvinceId[0].id;
               },
             );
-            // console.log(finalDistrictId, 'finalDistrtic');
+            //
             const districtIdList = finalDistrictId.map(data => {
               return data.n_code;
             });
             that.props.handleShowBarOf('district');
-            // console.log(districtIdList, 'districtIdList');
+            //
             that.props.filterFinancialDataOfDistrictFromProvince(
               that.props.viewDataBy,
               districtIdList,
@@ -153,7 +153,7 @@ class GroupedBar extends Component {
     const {
       partnershipReducer: { barDatas },
     } = this.props;
-    // console.log(this.props.partnershipReducer, 'partnershipReducer');
+    //
     // const series = [
     //   {
     //     name: 'PRODUCT A',

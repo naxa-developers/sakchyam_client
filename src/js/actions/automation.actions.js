@@ -28,8 +28,6 @@ export const getAllAutomationDataByPartner = () => dispatch => {
     const response = axiosInstance
       .get('/api/v1/automation/automation-all/')
       .then(function(result) {
-        // console.log(result, 'result');
-
         return dispatch({
           type: GET_AUTOMATION_DATA_BY_PARTNER,
           payload: result.data,
@@ -60,7 +58,6 @@ export const getAutomationDataByMunicipality = () => dispatch => {
     const response = axiosInstance
       .get('api/v1/automation/map-data/?partner=0&municipality_id=0')
       .then(function(result) {
-        // console.log(result, 'result');
         return dispatch({
           type: GET_AUTOMATION_DATA_BY_MUNICIPALITY,
           payload: result.data,
@@ -77,8 +74,6 @@ export const filterPartnerSelect = partners => dispatch => {
       const response = axiosInstance
         .get(`/api/v1/automation/automation-all/`)
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_SELECT,
             payload: result.data,
@@ -93,15 +88,12 @@ export const filterPartnerSelect = partners => dispatch => {
         return `partner=${data}`;
       })
       .join('&');
-    // console.log(query);
     try {
       const response = axiosInstance
         .get(
           `/api/v1/automation/automation-partner/?filter_type=partner&${query}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_SELECT,
             payload: result.data,
@@ -136,10 +128,6 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
       return `municipality=${data}`;
     })
     .join('&');
-  // console.log(federalSelect, 'fedSelect');
-  // console.log(provinceSelect, 'prov');
-  // console.log(districtSelect, 'dist');
-  // console.log(municipalitySelect, 'munic');
   if (federalSelect.municipality.length > 0) {
     try {
       const response = axiosInstance
@@ -147,8 +135,6 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
           `api/v1/automation/automation-partner/?filter_type=fed&${municipalitySelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_BY_FEDERAL,
             payload: result.data,
@@ -164,8 +150,6 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
           `api/v1/automation/automation-partner/?filter_type=fed&${districtSelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_BY_FEDERAL,
             payload: result.data,
@@ -181,8 +165,6 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
           `api/v1/automation/automation-partner/?filter_type=fed&${provinceSelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_BY_FEDERAL,
             payload: result.data,
@@ -199,8 +181,6 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
           // `api/v1/automation/automation-partner/?filter_type=fed&province=0,`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_BY_FEDERAL,
             payload: result.data,
@@ -239,10 +219,6 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
       return `municipality=${data}`;
     })
     .join('&');
-  // console.log(federalSelect, 'fedSelect');
-  // console.log(provinceSelect, 'prov');
-  // console.log(districtSelect, 'dist');
-  // console.log(municipalitySelect, 'munic');
   if (federalSelect.municipality.length > 0) {
     try {
       const response = axiosInstance
@@ -251,8 +227,6 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
           `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${municipalitySelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
             payload: result.data,
@@ -268,8 +242,6 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
           `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${districtSelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
             payload: result.data,
@@ -285,8 +257,6 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
           `/api/v1/automation/automation-partner/?filter_type=partner&${partnerSelect}&${provinceSelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS,
             payload: result.data,
@@ -310,7 +280,6 @@ export const getTableDataByPartnerSelect = clickedPartner => dispatch => {
     const response = axiosInstance
       .get(`api/v1/automation/table-data/?${query}`)
       .then(function(result) {
-        // console.log(result, 'result');
         return dispatch({
           type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_PARTNER,
           payload: result.data,
@@ -327,7 +296,6 @@ export const getBranchesTableData = statelevel => dispatch => {
       const response = axiosInstance
         .get(`api/v1/automation/table-data/`)
         .then(function(result) {
-          // console.log(result, 'result');
           return dispatch({
             type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
             payload: result.data,
@@ -341,7 +309,6 @@ export const getBranchesTableData = statelevel => dispatch => {
       const response = axiosInstance
         .get(`api/v1/automation/table-data/`)
         .then(function(result) {
-          // console.log(result, 'result');
           return dispatch({
             type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
             payload: result.data,
@@ -355,7 +322,6 @@ export const getBranchesTableData = statelevel => dispatch => {
       const response = axiosInstance
         .get(`api/v1/automation/table-data/`)
         .then(function(result) {
-          // console.log(result, 'result');
           return dispatch({
             type: GET_AUTOMATION_BRANCHES_TABLE_DATA,
             payload: result.data,
@@ -381,7 +347,6 @@ export const partnerSelectWithOutreach = (
       const response = axiosInstance
         .get(`api/v1/automation/map-data/?${query}&province_id=0`)
         .then(function(result) {
-          // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
             payload: {
@@ -399,7 +364,6 @@ export const partnerSelectWithOutreach = (
       const response = axiosInstance
         .get(`api/v1/automation/map-data/?${query}&district_id=0`)
         .then(function(result) {
-          // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
             payload: {
@@ -417,7 +381,6 @@ export const partnerSelectWithOutreach = (
       const response = axiosInstance
         .get(`api/v1/automation/map-data/?${query}&municipality_id=0`)
         .then(function(result) {
-          // console.log(result, 'result');
           return dispatch({
             type: PARTNER_SELECT_WITH_OUTREACH_GET_PARTNER_CHOROPLETHDATA,
             payload: {
@@ -484,8 +447,6 @@ export const getBranchesTableDataByFed = (
   federalSelect,
   partnerSelect,
 ) => dispatch => {
-  // console.log(federalSelect, 'fedselect');
-  console.log(partnerSelect, 'partnersekle');
   let partners = '';
   let provinceSelect = 'province_id=0';
   let districtSelect = 'district_id=0';
@@ -504,10 +465,6 @@ export const getBranchesTableDataByFed = (
   if (federalSelect.municipality.length > 0) {
     municipalitySelect = `municipality_id=${federalSelect.municipality}`;
   }
-  // console.log(federalSelect, 'fedSelect');
-  // console.log(provinceSelect, 'prov');
-  // console.log(districtSelect, 'dist');
-  // console.log(municipalitySelect, 'munic');
   if (federalSelect.municipality.length > 0) {
     try {
       const response = axiosInstance
@@ -515,8 +472,6 @@ export const getBranchesTableDataByFed = (
           `api/v1/automation/table-data/?${partners}&${municipalitySelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
             payload: result.data,
@@ -532,8 +487,6 @@ export const getBranchesTableDataByFed = (
           `api/v1/automation/table-data/?${partners}&${districtSelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
             payload: result.data,
@@ -549,8 +502,6 @@ export const getBranchesTableDataByFed = (
           `api/v1/automation/table-data/?${partners}&${provinceSelect}`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
             payload: result.data,
@@ -566,8 +517,6 @@ export const getBranchesTableDataByFed = (
           `api/v1/automation/table-data/?${partners}&province_id=0`,
         )
         .then(function(result) {
-          // console.log(result, 'result');
-
           return dispatch({
             type: GET_AUTOMATION_BRANCHES_TABLE_DATA_BY_FEDERAL,
             payload: result.data,
@@ -595,7 +544,6 @@ export const getTimelineData = () => dispatch => {
     const response = axiosInstance
       .get(`api/v1/automation/timeline/`)
       .then(function(result) {
-        // console.log(result, 'result');
         return dispatch({
           type: GET_TIMELINE_DATA,
           payload: result.data,
