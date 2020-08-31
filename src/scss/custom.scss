@@ -680,7 +680,7 @@
     height: 230px;
     overflow-y: scroll;
   }
-  .apexcharts-tooltip{
+  .apexcharts-tooltip {
     transform: translate(10px, -62px);
   }
 }
@@ -777,4 +777,10 @@
 #no-data {
   height: 400px;
   text-align: center;
+}
+
+#insurance-donut {
+  .apexcharts-legend {
+    align-items: flex-start;
+  }
 }

@@ -250,7 +250,13 @@ class DonutChart extends Component {
                 </div>
               </div>
               <div className="legend-list">
-                <h5>
+                <h5
+                  style={
+                    {
+                      // display: 'contents'
+                    }
+                  }
+                >
                   <small style={{ backgroundColor: '#13a8be' }} />
                   <span>
                     <strong style={{ fontSize: '12px' }}>
