@@ -6,6 +6,11 @@ import saveAs from 'file-saver';
 import DownloadIcon from '../../../../img/get_app.png';
 
 const downloadPng = (chartid, filename) => {
+  const closeIcon = document.querySelector('.close-icon');
+  closeIcon.style.display = 'none';
+  const downloadIcon = document.querySelector('#download-icon-popup');
+  downloadIcon.style.display = 'none';
+
   setTimeout(() => {
     html2canvas(document.querySelector(`#${chartid}`), {}).then(
       canvas => {
@@ -14,7 +19,12 @@ const downloadPng = (chartid, filename) => {
         });
       },
     );
-  }, 10);
+  }, 500);
+
+  setTimeout(() => {
+    closeIcon.style.display = 'block';
+    downloadIcon.style.display = 'block';
+  }, 600);
 };
 
 const Modal = props => {
@@ -67,7 +77,8 @@ const Modal = props => {
                 // borderColor: 'lightgrey',
                 cursor: 'pointer',
               }}
-              onClick={() => downloadPng('modal-content', header)}
+              id="download-icon-popup"
+              onClick={() => downloadPng('popup-body', header)}
             >
               <img src={DownloadIcon} alt="open" />
             </span>
