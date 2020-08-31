@@ -7,15 +7,6 @@ import { ResponsiveBubble } from '@nivo/circle-packing';
 import { getProductProcessList } from '../../../../../actions/productProcess.actions';
 import BubbleLegend from './BubbleLegend';
 
-const commonProperties = {
-  width: 900,
-  height: 500,
-  identity: 'name',
-  value: 'loc',
-  label: 'name',
-  labelSkipRadius: 16,
-};
-
 class BubbleChart extends React.Component {
   constructor(props) {
     super(props);
@@ -107,7 +98,11 @@ class BubbleChart extends React.Component {
         <div
           style={{
             // height: !activeModal ? '400px' : '665px',
-            height,
+            height: !activeModal
+              ? 400
+              : activeModal && window.innerWidth < 1400
+              ? 480
+              : 700,
             width: 'auto',
           }}
         >

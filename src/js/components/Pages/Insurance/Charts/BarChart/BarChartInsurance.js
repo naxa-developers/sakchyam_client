@@ -9,6 +9,19 @@ import BoxLoader from '../Loader/Loader';
 
 function convert(num) {
   if (num > 999 && num < 1000000) {
+    return `${(num / 1000000).toFixed(0)}M`; // convert to K for number from > 1000 < 1 million
+  }
+  if (num > 1000000) {
+    return `${(num / 1000000).toFixed(0)}M`; // convert to M for number from > 1 million
+  }
+  if (num < 900) {
+    return num.toFixed(0); // if value < 1000, nothing to do
+  }
+  return num.toFixed(0);
+}
+
+function convert1(num) {
+  if (num > 999 && num < 1000000) {
     return `${(num / 1000000).toFixed(2)}M`; // convert to K for number from > 1000 < 1 million
   }
   if (num > 1000000) {
@@ -214,6 +227,9 @@ class BarChartInsurance extends Component {
       tooltip: {
         marker: {
           show: false,
+        },
+        y: {
+          formatter: val => convert1(val),
         },
       },
     };
@@ -465,20 +481,20 @@ class BarChartInsurance extends Component {
                     !activeModal
                       ? 400
                       : activeModal && window.innerWidth < 1400
-                      ? 450
-                      : 550
+                      ? 400
+                      : 700
                   }
                   width={
                     activeModal && window.innerWidth < 1600
-                      ? 1400
+                      ? 1200
                       : activeModal && window.innerWidth > 1600
-                      ? 1750
+                      ? 1800
                       : showRightSidebar && window.innerWidth < 1600
                       ? 780
                       : showRightSidebar && window.innerWidth > 1600
                       ? 1200
                       : !showRightSidebar && window.innerWidth < 1600
-                      ? 1100
+                      ? 1050
                       : 1400
                   }
                 />
@@ -495,20 +511,20 @@ class BarChartInsurance extends Component {
                     !activeModal
                       ? 400
                       : activeModal && window.innerWidth < 1400
-                      ? 450
-                      : 550
+                      ? 400
+                      : 700
                   }
                   width={
                     activeModal && window.innerWidth < 1600
-                      ? 1400
+                      ? 1200
                       : activeModal && window.innerWidth > 1600
-                      ? 1750
+                      ? 1800
                       : showRightSidebar && window.innerWidth < 1600
                       ? 780
                       : showRightSidebar && window.innerWidth > 1600
                       ? 1200
                       : !showRightSidebar && window.innerWidth < 1600
-                      ? 1100
+                      ? 1050
                       : 1400
                   }
                 />
