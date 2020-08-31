@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable react/no-did-update-set-state */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable prefer-template */
@@ -11,9 +12,11 @@ import {
   calculateRange,
   choroplethColorArray,
 } from '../../../common/Functions';
-
 import Branch from '../../../../../img/Group5084.svg';
 import Others from '../../../../../img/Group5086.svg';
+import Bother from '../../../../../img/Group5084.png';
+import Bblb from '../../../../../img/Group5086.png';
+import Bbank from '../../../../../img/Group5085.png';
 import { getShortNumbers } from '../../../common/utilFunctions';
 
 const defaultData = [
@@ -36,6 +39,7 @@ class PlotVector extends Component {
       stateMarker: '',
       vectorTileInitialized: false,
       legendTitle: 'Points of Service',
+      loading: true,
     };
   }
 
@@ -54,7 +58,11 @@ class PlotVector extends Component {
       localOutreachSelected,
     } = this.props;
     const that = this;
-    const { stateMarker, vectorTileInitialized } = this.state;
+    const {
+      stateMarker,
+      vectorTileInitialized,
+      loading,
+    } = this.state;
 
     if (prevProps.mapViewDataBy !== mapViewDataBy) {
       if (mapViewDataBy === 'outreach_local_units') {
@@ -64,8 +72,10 @@ class PlotVector extends Component {
           });
         }
         this.setState({ legendTitle: localOutreachSelected });
+        this.removeMarkers();
       } else {
-        this.setMarkers(that);
+        // console.log('mapViewDataBy data different');
+        // this.setCluster(that);
         this.setState({ legendTitle: 'Points of Service' });
       }
     }
@@ -96,12 +106,234 @@ class PlotVector extends Component {
       this.plotVectorTile();
     }
 
-    if (mapViewDataBy === 'general_outreach') {
-      if (prevProps.primaryData !== primaryData) {
-        this.setMarkers(that);
+    if (prevProps.primaryData !== primaryData) {
+      if (mapViewDataBy === 'general_outreach') {
+        console.log('primary data different');
+        this.removeMarkers();
+        setTimeout(() => {
+          this.setCluster(that);
+        }, 100);
+      }
+    }
+
+    if (prevState.loading !== loading) {
+      if (loading === false) {
+        this.removeMarkers();
+        setTimeout(() => {
+          this.setCluster();
+        }, 100);
       }
     }
   }
+
+  removeMarkers = () => {
+    const { map } = this.props;
+    if (map.getLayer('clusters')) {
+      map.removeLayer('clusters');
+    }
+    if (map.getLayer('cluster-count')) {
+      map.removeLayer('cluster-count');
+    }
+    if (map.getLayer('unclustered-point-bank')) {
+      map.removeLayer('unclustered-point-bank');
+    }
+    if (map.getLayer('unclustered-point-blb')) {
+      map.removeLayer('unclustered-point-blb');
+    }
+    if (map.getLayer('unclustered-point-others')) {
+      map.removeLayer('unclustered-point-others');
+    }
+    if (map.getSource('earthquakes')) {
+      map.removeSource('earthquakes');
+    }
+  };
+
+  setCluster = that => {
+    const { map, primaryData } = this.props;
+
+    const featuresArray = primaryData.map(data => ({
+      type: 'Feature',
+      properties: {
+        ...data,
+        mag: 2.3,
+        time: 1507425650893,
+        felt: null,
+        tsunami: 0,
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [
+          parseFloat(
+            data.gps_point.substring(
+              data.gps_point.indexOf(',') + 1,
+              data && data.gps_point && data.gps_point.length,
+            ),
+          ),
+          parseFloat(
+            data.gps_point.substring(0, data.gps_point.indexOf(',')),
+          ),
+        ],
+      },
+    }));
+
+    console.log('primaryDAta', featuresArray);
+
+    const comparision = {
+      type: 'FeatureCollection',
+      crs: {
+        type: 'name',
+        properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' },
+      },
+      features: featuresArray,
+    };
+
+    // map.on('load', function() {
+    map.addSource('earthquakes', {
+      type: 'geojson',
+      data: comparision,
+      cluster: true,
+      clusterMaxZoom: 14,
+      clusterRadius: 20,
+    });
+
+    map.addLayer({
+      id: 'clusters',
+      type: 'circle',
+      source: 'earthquakes',
+      filter: ['has', 'point_count'],
+      paint: {
+        'circle-color': [
+          'step',
+          ['get', 'point_count'],
+          '#51bbd6',
+          5,
+          '#f1f075',
+          10,
+          '#f28cb1',
+        ],
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          20,
+          5,
+          30,
+          10,
+          40,
+        ],
+      },
+    });
+
+    map.addLayer({
+      id: 'cluster-count',
+      type: 'symbol',
+      source: 'earthquakes',
+      filter: ['has', 'point_count'],
+      layout: {
+        'text-field': '{point_count_abbreviated}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12,
+      },
+    });
+
+    map.loadImage(Bbank, function(error, image) {
+      if (error) throw error;
+      map.addImage('custom-marker-bank', image);
+    });
+
+    map.addLayer({
+      id: 'unclustered-point-bank',
+      source: 'earthquakes',
+      filter: [
+        'all',
+        ['!has', 'point_count'],
+        ['==', 'point_service', 'Branch'],
+        ['==', 'partner_type', 'Commercial Bank'],
+      ],
+      type: 'symbol',
+      layout: {
+        'icon-image': 'custom-marker-bank',
+        'icon-size': 0.8,
+        'icon-allow-overlap': true,
+      },
+    });
+
+    map.loadImage(Bblb, function(error, image) {
+      if (error) throw error;
+      map.addImage('custom-marker-blb', image);
+    });
+
+    map.addLayer({
+      id: 'unclustered-point-blb',
+      source: 'earthquakes',
+      filter: [
+        'all',
+        ['!has', 'point_count'],
+        ['==', 'point_service', 'BLB'],
+      ],
+      type: 'symbol',
+      layout: {
+        'icon-image': 'custom-marker-blb',
+        'icon-size': 0.8,
+        'icon-allow-overlap': true,
+      },
+    });
+
+    map.loadImage(Bother, function(error, image) {
+      if (error) throw error;
+      map.addImage('custom-marker-other', image);
+    });
+
+    map.addLayer({
+      id: 'unclustered-point-others',
+      source: 'earthquakes',
+      filter: [
+        'all',
+        ['!has', 'point_count'],
+        ['!=', 'partner_type', 'Commercial Bank'],
+      ],
+      type: 'symbol',
+      layout: {
+        'icon-image': 'custom-marker-other',
+        'icon-size': 0.8,
+        'icon-allow-overlap': true,
+      },
+    });
+
+    map.on('click', 'clusters', function(e) {
+      const features = map.queryRenderedFeatures(e.point, {
+        layers: ['clusters'],
+      });
+      const clusterId = features[0].properties.cluster_id;
+      map
+        .getSource('earthquakes')
+        .getClusterExpansionZoom(clusterId, function(err, zoom) {
+          if (err) return;
+
+          map.easeTo({
+            center: features[0].geometry.coordinates,
+            zoom,
+          });
+        });
+    });
+
+    map.on('click', 'unclustered-point-bank', function(e) {
+      that.props.markerEventHandler(e.features[0].properties);
+    });
+    map.on('click', 'unclustered-point-blb', function(e) {
+      that.props.markerEventHandler(e.features[0].properties);
+    });
+    map.on('click', 'unclustered-point-others', function(e) {
+      that.props.markerEventHandler(e.features[0].properties);
+    });
+
+    map.on('mouseenter', 'clusters', function() {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'clusters', function() {
+      map.getCanvas().style.cursor = '';
+    });
+    // });
+  };
 
   setMarkers = that => {
     const { stateMarker } = this.state;
@@ -356,8 +588,10 @@ class PlotVector extends Component {
         if (!map.isStyleLoaded()) {
           setTimeout(waiting, 200);
           that.props.loadingHandler(1);
+          this.setState({ loading: true });
         } else {
           that.props.loadingHandler(2);
+          this.setState({ loading: false });
         }
       };
       waiting();

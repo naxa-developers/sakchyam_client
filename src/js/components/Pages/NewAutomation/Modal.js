@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -50,16 +51,14 @@ const Modal = props => {
       return data.branch;
     });
 
-  const totalBranches = allPartners.reduce(
-    (total, i) => total + i.branch,
-    0,
-  );
+  const totalBranches =
+    allPartners &&
+    allPartners.reduce((total, i) => total + i.branch, 0);
 
-  const totalBeneficieries = allPartners.reduce(
-    (total, i) => total + i.beneficiary,
-    0,
-  );
-  const totalPartners = allPartners.length;
+  const totalBeneficieries =
+    allPartners &&
+    allPartners.reduce((total, i) => total + i.beneficiary, 0);
+  const totalPartners = allPartners && allPartners.length;
 
   const maxBranchValue = a && Math.max(...a);
   return (
@@ -78,6 +77,9 @@ const Modal = props => {
             </i>
           </span>
           <div className="popup-header no-flex">
+            <h3 style={{ color: '#C2002F' }}>
+              Automation(Tablet Deployed)
+            </h3>
             <span
               style={{
                 position: 'absolute',
@@ -88,7 +90,12 @@ const Modal = props => {
                 // borderColor: 'lightgrey',
                 cursor: 'pointer',
               }}
-              onClick={() => downloadPng('pie-content', 'chart')}
+              onClick={() =>
+                downloadPng(
+                  'pie-content',
+                  'Automation Partner Infographics',
+                )
+              }
             >
               <img src={DownloadIcon} alt="open" />
             </span>
@@ -172,7 +179,12 @@ const Modal = props => {
                           fontSize: '15px',
                         }}
                       >
-                        {`${data.partner_name}   Branch Count:${data.branch}   Tablets Deployed:${data.tablets_deployed}`}
+                        <span>{data.partner_name} </span>
+                        <span>{`Branch Count:${data.branch}`} </span>
+                        <span>
+                          {`Tablets Deployed:${data.tablets_deployed}`}{' '}
+                        </span>
+                        {/* {`${data.partner_name}   Branch Count:${data.branch}   Tablets Deployed:${data.tablets_deployed}`} */}
                       </div>
                     </div>
                   );
