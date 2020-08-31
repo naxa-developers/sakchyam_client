@@ -147,15 +147,26 @@ class RadarChart extends React.Component {
         // height: {!activeModal ? '434px' : height},
         // width: {width}
         // }
-        style={{ height: !activeModal && 434 }}
+        style={{
+          // height: !activeModal && 434
+          height: !activeModal
+            ? 434
+            : activeModal && window.innerWidth < 1400
+            ? 520
+            : 800,
+        }}
       >
         <ReactApexChart
           options={options}
           series={series}
           type="radar"
-          // height={!activeModal ? 425 : 685}
-          height={height}
-          // width={width}
+          height={
+            !activeModal
+              ? 434
+              : activeModal && window.innerWidth < 1400
+              ? 500
+              : 700
+          }
         />
       </div>
     );

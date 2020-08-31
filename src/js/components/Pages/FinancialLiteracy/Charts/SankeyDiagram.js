@@ -69,24 +69,47 @@ class SankeyDiagram extends Component {
     const { showRightSidebar } = this.props;
     const width = window.innerWidth;
     return (
-      <div id="sankey-chart" style={{ height: '750px' }}>
+      <div
+        id="sankey-chart"
+        style={{
+          // height: '750px'
+          height: !activeModal
+            ? 600
+            : activeModal && window.innerWidth < 1400
+            ? 530
+            : 800,
+        }}
+      >
         {Object.entries(sankeyData).length !== 0 ? (
           sankeyData.nodes.length !== 0 ? (
             <ResponsiveSankey
               data={sankeyData}
-              margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
+              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+              // width={
+              //   activeModal && window.innerWidth < 1600
+              //     ? 780
+              //     : activeModal && window.innerWidth > 1600
+              //     ? 1400
+              //     : showRightSidebar && window.innerWidth < 1600
+              //     ? 780
+              //     : showRightSidebar && window.innerWidth > 1600
+              //     ? 1100
+              //     : !showRightSidebar && window.innerWidth < 1600
+              //     ? 1100
+              //     : 1400
+              // }
               width={
                 activeModal && window.innerWidth < 1600
-                  ? 780
+                  ? 1200
                   : activeModal && window.innerWidth > 1600
-                  ? 1400
+                  ? 1800
                   : showRightSidebar && window.innerWidth < 1600
-                  ? 780
+                  ? 850
                   : showRightSidebar && window.innerWidth > 1600
-                  ? 1100
+                  ? 1130
                   : !showRightSidebar && window.innerWidth < 1600
-                  ? 1100
-                  : 1400
+                  ? 1080
+                  : 1530
               }
               // width={780}
               align="justify"

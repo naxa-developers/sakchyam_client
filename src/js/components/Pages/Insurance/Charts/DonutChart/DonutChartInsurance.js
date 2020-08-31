@@ -359,7 +359,16 @@ class DonutChartInsurance extends Component {
             />
             <div
               id="insurance-donut"
-              style={{ height: !activeModal ? '347px' : '500px' }}
+              // style={{ height: !activeModal ? '347px' : '500px' }}
+              style={{
+                height: !activeModal
+                  ? 400
+                  : activeModal && window.innerWidth < 1400
+                  ? 500
+                  : 700,
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
               <ReactApexChart
                 options={
@@ -377,18 +386,27 @@ class DonutChartInsurance extends Component {
                     : partnerSeries
                 }
                 type="donut"
-                height={!activeModal ? 337 : 437}
+                // height={!activeModal ? 337 : 437}
+                height={
+                  !activeModal && window.innerWidth < 1400
+                    ? 320
+                    : !activeModal
+                    ? 400
+                    : activeModal && window.innerWidth < 1400
+                    ? 400
+                    : 500
+                }
                 width={
                   activeModal && window.innerWidth < 1600
-                    ? 1400
+                    ? 1200
                     : activeModal && window.innerWidth > 1600
-                    ? 1750
+                    ? 1800
                     : showRightSidebar && window.innerWidth < 1600
                     ? 780
                     : showRightSidebar && window.innerWidth > 1600
                     ? 1200
                     : !showRightSidebar && window.innerWidth < 1600
-                    ? 1100
+                    ? 1050
                     : 1400
                 }
               />

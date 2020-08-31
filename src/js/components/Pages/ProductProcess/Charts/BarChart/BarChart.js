@@ -336,27 +336,56 @@ class BarChart extends Component {
               options={options}
               series={series}
               type="bar"
-              // height={!activeModal ? 450 : 685}
-              width={width}
-              // width={
-              //   showRightSidebar && window.innerWidth < 1600
-              //     ? 780
-              //     : showRightSidebar && window.innerWidth > 1600
-              //     ? 1100
-              //     : !showRightSidebar && window.innerWidth < 1600
-              //     ? 1100
-              //     : 1400
-              // }
-              height={height}
-              // width={width}
+              height={
+                !activeModal && window.innerHeight < 1400
+                  ? 420
+                  : !activeModal && window.innerHeight > 1600
+                  ? 700
+                  : activeModal && window.innerWidth < 1400
+                  ? 420
+                  : 700
+              }
+              width={
+                activeModal && window.innerWidth < 1600
+                  ? 1200
+                  : activeModal && window.innerWidth > 1600
+                  ? 1700
+                  : showRightSidebar && window.innerWidth < 1600
+                  ? 820
+                  : showRightSidebar && window.innerWidth > 1600
+                  ? 1130
+                  : !showRightSidebar && window.innerWidth < 1600
+                  ? 1050
+                  : 1500
+              }
             />
           ) : (
             <ReactApexChart
               options={chartData2.options}
               series={chartData2.series}
               type="bar"
-              width={width}
-              height={height}
+              height={
+                !activeModal && window.innerHeight < 1400
+                  ? 420
+                  : !activeModal && window.innerHeight > 1600
+                  ? 700
+                  : activeModal && window.innerWidth < 1400
+                  ? 420
+                  : 700
+              }
+              width={
+                activeModal && window.innerWidth < 1600
+                  ? 1200
+                  : activeModal && window.innerWidth > 1600
+                  ? 1800
+                  : showRightSidebar && window.innerWidth < 1600
+                  ? 820
+                  : showRightSidebar && window.innerWidth > 1600
+                  ? 1200
+                  : !showRightSidebar && window.innerWidth < 1600
+                  ? 1050
+                  : 1500
+              }
             />
           )}
           {/* </div> */}

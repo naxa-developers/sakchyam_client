@@ -157,7 +157,12 @@ class SankeyChartInsurance extends Component {
     return (
       <div
         style={{
-          height: window.innerHeight < 1400 ? '600px' : '750px',
+          // height: window.innerHeight < 1400 ? '600px' : '750px',
+          height: !activeModal
+            ? 600
+            : activeModal && window.innerWidth < 1400
+            ? 520
+            : 800,
         }}
         id="insurance-sankey"
       >
@@ -167,19 +172,26 @@ class SankeyChartInsurance extends Component {
           sankeyData.nodes.length !== 0 ? (
           <ResponsiveSankey
             data={sankeyData}
-            margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            // height={
+            //   !activeModal
+            //     ? 400
+            //     : activeModal && window.innerWidth < 1400
+            //     ? 400
+            //     : 700
+            // }
             width={
               activeModal && window.innerWidth < 1600
-                ? 1400
+                ? 1200
                 : activeModal && window.innerWidth > 1600
-                ? 1750
+                ? 1800
                 : showRightSidebar && window.innerWidth < 1600
-                ? 780
+                ? 850
                 : showRightSidebar && window.innerWidth > 1600
                 ? 1200
                 : !showRightSidebar && window.innerWidth < 1600
-                ? 1100
-                : 1400
+                ? 1080
+                : 1530
             }
             label="name"
             align="end"

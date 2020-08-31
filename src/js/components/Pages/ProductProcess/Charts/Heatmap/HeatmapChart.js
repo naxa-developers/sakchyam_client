@@ -437,17 +437,26 @@ class HeatmapChart extends React.Component {
           options={options}
           series={series}
           type="heatmap"
-          // height={!activeModal ? 550 : 650}
-          height={height}
-          width={width}
-          // showRightSidebar && window.innerWidth < 1600
-          //   ? 780
-          //   : showRightSidebar && window.innerWidth > 1600
-          //   ? 1100
-          //   : !showRightSidebar && window.innerWidth < 1600
-          //   ? 1100
-          //   : 1400
-          // }
+          height={
+            !activeModal
+              ? 650
+              : activeModal && window.innerWidth < 1400
+              ? 600
+              : 800
+          }
+          width={
+            activeModal && window.innerWidth < 1600
+              ? 1200
+              : activeModal && window.innerWidth > 1600
+              ? 1800
+              : showRightSidebar && window.innerWidth < 1600
+              ? 820
+              : showRightSidebar && window.innerWidth > 1600
+              ? 1130
+              : !showRightSidebar && window.innerWidth < 1600
+              ? 1050
+              : 1500
+          }
         />
       </div>
     );
