@@ -243,7 +243,7 @@ class BubbleChart extends React.Component {
         <div
           className="pie-legend"
           style={{
-            // display: 'flex',
+            display: activeModal ? 'flex' : '',
             justifyContent: 'center',
           }}
         >
