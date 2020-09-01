@@ -444,18 +444,31 @@ class HeatmapChart extends React.Component {
               ? 600
               : 800
           }
+          // width={
+          //   activeModal && window.innerWidth < 1600
+          //     ? 1200
+          //     : activeModal && window.innerWidth > 1600
+          //     ? 1800
+          //     : showRightSidebar && window.innerWidth < 1600
+          //     ? 820
+          //     : showRightSidebar && window.innerWidth > 1600
+          //     ? 1130
+          //     : !showRightSidebar && window.innerWidth < 1600
+          //     ? 1050
+          //     : 1500
+          // }
           width={
             activeModal && window.innerWidth < 1600
               ? 1200
               : activeModal && window.innerWidth > 1600
               ? 1800
               : showRightSidebar && window.innerWidth < 1600
-              ? 820
+              ? 780
               : showRightSidebar && window.innerWidth > 1600
-              ? 1130
+              ? 1200
               : !showRightSidebar && window.innerWidth < 1600
-              ? 1050
-              : 1500
+              ? 950
+              : 1400
           }
         />
       </div>

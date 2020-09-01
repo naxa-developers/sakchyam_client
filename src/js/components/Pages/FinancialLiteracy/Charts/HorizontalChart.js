@@ -872,18 +872,31 @@ class HorizontalChart extends Component {
                     ? 400
                     : 700
                 }
+                // width={
+                //   activeModal && window.innerWidth < 1600
+                //     ? 1200
+                //     : activeModal && window.innerWidth > 1600
+                //     ? 1800
+                //     : showRightSidebar && window.innerWidth < 1600
+                //     ? 830
+                //     : showRightSidebar && window.innerWidth > 1600
+                //     ? 1130
+                //     : !showRightSidebar && window.innerWidth < 1600
+                //     ? 950
+                //     : 1500
+                // }
                 width={
                   activeModal && window.innerWidth < 1600
                     ? 1200
                     : activeModal && window.innerWidth > 1600
                     ? 1800
                     : showRightSidebar && window.innerWidth < 1600
-                    ? 830
+                    ? 780
                     : showRightSidebar && window.innerWidth > 1600
-                    ? 1130
+                    ? 1200
                     : !showRightSidebar && window.innerWidth < 1600
-                    ? 1050
-                    : 1500
+                    ? 950
+                    : 1400
                 }
               />
             ) : isToggled &&

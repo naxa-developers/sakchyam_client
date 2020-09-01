@@ -98,19 +98,19 @@ class SankeyDiagram extends Component {
               //     ? 1100
               //     : 1400
               // }
-              width={
-                activeModal && window.innerWidth < 1600
-                  ? 1200
-                  : activeModal && window.innerWidth > 1600
-                  ? 1800
-                  : showRightSidebar && window.innerWidth < 1600
-                  ? 850
-                  : showRightSidebar && window.innerWidth > 1600
-                  ? 1130
-                  : !showRightSidebar && window.innerWidth < 1600
-                  ? 1080
-                  : 1530
-              }
+              // width={
+              //   activeModal && window.innerWidth < 1600
+              //     ? 1200
+              //     : activeModal && window.innerWidth > 1600
+              //     ? 1800
+              //     : showRightSidebar && window.innerWidth < 1600
+              //     ? 850
+              //     : showRightSidebar && window.innerWidth > 1600
+              //     ? 1130
+              //     : !showRightSidebar && window.innerWidth < 1600
+              //     ? 1080
+              //     : 1530
+              // }
               // width={780}
               align="justify"
               // colors={{ scheme: 'nivo' }}

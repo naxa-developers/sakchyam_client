@@ -151,7 +151,7 @@ class MiddleChartSection extends Component {
         ? barTitle
         : value === 'donut'
         ? 'Ratio of number of insurance policies sold'
-        : 'Sankey chart based on number of insurance policies sold';
+        : ' Number of insurance policies sold';
 
     this.setState({
       selectedModal: value,
@@ -187,22 +187,7 @@ class MiddleChartSection extends Component {
     } = this.state;
 
     const {
-      props: {
-        activeView,
-        activeOverview,
-        sankeyChartwidth,
-        viewDataBy,
-        investmentFocusSelection,
-        partnerSelection,
-        partnerTypeSelection,
-        projectSelection,
-        projectStatus,
-        showBarof,
-        handleShowBarOf,
-        showBarofInvestmentBudgetBenef,
-        handleShowBarOfInvestmentBudgetBenefBar,
-        insuranceData,
-      },
+      props: { activeOverview, insuranceData },
     } = this;
     const {
       partnershipReducer: { radialData },

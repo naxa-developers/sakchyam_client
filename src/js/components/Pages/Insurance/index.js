@@ -447,7 +447,10 @@ class MainPartnership extends Component {
                 left="46%"
               /> */}
 
-              <div className="literacy-tab-content">
+              <div
+                className="literacy-tab-content"
+                style={{ width: activeOverview ? '79vw' : '63vw' }}
+              >
                 <MiddleChartSection
                   insuranceData={insuranceData}
                   activeOverview={activeOverview}

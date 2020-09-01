@@ -31,15 +31,6 @@ import TreeMapDiagram from './Charts/TreeMapDiagram';
 import TableData from './TableData/TableData';
 import Modal from './Modal';
 
-function numberWithCommas(x) {
-  if (x !== null) {
-    const parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-  }
-  return x;
-}
-
 function convertLabelName(name) {
   const nameArr = name.split(' ');
   let firstElement;
@@ -618,7 +609,12 @@ class FinancialLiteracy extends Component {
                 </div>
               </div>
 
-              <div className="literacy-tab-content">
+              <div
+                className="literacy-tab-content"
+                style={{
+                  width: showRightSidebar ? '63vw' : '79vw',
+                }}
+              >
                 <div className="literacy-tab-item">
                   <div
                     className="graph-view"

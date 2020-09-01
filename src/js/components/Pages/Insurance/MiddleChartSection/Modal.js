@@ -62,8 +62,7 @@ const Modal = props => {
       ? 'Product wise ratio of number of insurance policies sold'
       : 'Partner wise ratio of number of insurance policies sold';
 
-  const sankeyTitle =
-    'Sankey chart based on number of insurance policies sold';
+  const sankeyTitle = 'Number of insurance policies sold';
 
   switch (selectedModal) {
     case 'bar':

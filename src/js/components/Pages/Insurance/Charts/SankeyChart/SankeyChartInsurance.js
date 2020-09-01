@@ -180,19 +180,20 @@ class SankeyChartInsurance extends Component {
             //     ? 400
             //     : 700
             // }
-            width={
-              activeModal && window.innerWidth < 1600
-                ? 1200
-                : activeModal && window.innerWidth > 1600
-                ? 1800
-                : showRightSidebar && window.innerWidth < 1600
-                ? 850
-                : showRightSidebar && window.innerWidth > 1600
-                ? 1200
-                : !showRightSidebar && window.innerWidth < 1600
-                ? 1080
-                : 1530
-            }
+            // width={600}
+            // {
+            //   activeModal && window.innerWidth < 1600
+            //     ? 1200
+            //     : activeModal && window.innerWidth > 1600
+            //     ? 1800
+            //     : showRightSidebar && window.innerWidth < 1600
+            //     ? 850
+            //     : showRightSidebar && window.innerWidth > 1600
+            //     ? 1200
+            //     : !showRightSidebar && window.innerWidth < 1600
+            //     ? 1080
+            //     : 1530
+            // }
             label="name"
             align="end"
             colors={{ scheme: 'set2' }}

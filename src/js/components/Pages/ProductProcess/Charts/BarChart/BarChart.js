@@ -345,18 +345,31 @@ class BarChart extends Component {
                   ? 420
                   : 700
               }
+              // width={
+              //   activeModal && window.innerWidth < 1600
+              //     ? 1200
+              //     : activeModal && window.innerWidth > 1600
+              //     ? 1700
+              //     : showRightSidebar && window.innerWidth < 1600
+              //     ? 820
+              //     : showRightSidebar && window.innerWidth > 1600
+              //     ? 1130
+              //     : !showRightSidebar && window.innerWidth < 1600
+              //     ? 1050
+              //     : 1500
+              // }
               width={
                 activeModal && window.innerWidth < 1600
                   ? 1200
                   : activeModal && window.innerWidth > 1600
-                  ? 1700
+                  ? 1800
                   : showRightSidebar && window.innerWidth < 1600
-                  ? 820
+                  ? 750
                   : showRightSidebar && window.innerWidth > 1600
-                  ? 1130
+                  ? 1200
                   : !showRightSidebar && window.innerWidth < 1600
-                  ? 1050
-                  : 1500
+                  ? 950
+                  : 1400
               }
             />
           ) : (
@@ -373,18 +386,32 @@ class BarChart extends Component {
                   ? 420
                   : 700
               }
+              // width={
+              //   activeModal && window.innerWidth < 1600
+              //     ? 1200
+              //     : activeModal && window.innerWidth > 1600
+              //     ? 1800
+              //     : showRightSidebar && window.innerWidth < 1600
+              //     ? 820
+              //     : showRightSidebar && window.innerWidth > 1600
+              //     ? 1200
+              //     : !showRightSidebar && window.innerWidth < 1600
+              //     ? 1050
+              //     : 1500
+              // }
+
               width={
                 activeModal && window.innerWidth < 1600
                   ? 1200
                   : activeModal && window.innerWidth > 1600
                   ? 1800
                   : showRightSidebar && window.innerWidth < 1600
-                  ? 820
+                  ? 750
                   : showRightSidebar && window.innerWidth > 1600
                   ? 1200
                   : !showRightSidebar && window.innerWidth < 1600
-                  ? 1050
-                  : 1500
+                  ? 950
+                  : 1400
               }
             />
           )}

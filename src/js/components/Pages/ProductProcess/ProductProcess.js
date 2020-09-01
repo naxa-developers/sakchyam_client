@@ -630,7 +630,12 @@ class ProductProcess extends React.Component {
           <main className="main">
             <div className="main-card map-card" />
             <div className="main-card literacy-main-card product-process-custom">
-              <div className="literacy-tab-content">
+              <div
+                className="literacy-tab-content"
+                style={{
+                  width: showRightSidebar ? '63vw' : '79vw',
+                }}
+              >
                 <div className="literacy-tab-item">
                   {activeModal && (
                     <Modal
