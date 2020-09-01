@@ -5,48 +5,44 @@ export default function divisionInfoPopUp(props) {
   const code = props.data;
   return (
     <div className="mapbox-popup-content">
-      {/* <div
-      className="mapbox-popup-content"
-      style={{
-        top: '6vh',
-        position: 'relative',
-        float: 'right',
-        backgroundColor: 'white',
-        zIndex: '1000',
-      }}
-    > */}
       <div
         className="map-popup-view"
         style={{ marginBottom: '0 !important' }}
       >
         <div className="map-popup-view-header">
           <h5>{code.name}</h5>
-          <div className="icons">
-            <i className="material-icons">tablet_mac</i>
-            <b>{code.totalCount}</b>
-          </div>
+          {code.totalCount && (
+            <div className="icons">
+              <i className="material-icons">tablet_mac</i>
+              <b>{code.totalCount}</b>
+            </div>
+          )}
         </div>
-        <ul style={{ height: '100%', fontSize: '10px' }}>
-          {code.uniqueData &&
-            code.uniqueData.map(data => {
-              return (
-                <li style={{ marginBottom: '0 !important' }}>
-                  <div className="organization-icon" />
-                  <div className="organization-content">
-                    <div className="org-header">
-                      <>{data.partner}</>
-                      <div className="icon-list">
-                        <div className="icons">
-                          <i className="material-icons">tablet_mac</i>
-                          <>{data.count}</>
+        {code.uniqueData && (
+          <ul style={{ height: '100%', fontSize: '10px' }}>
+            {code.uniqueData &&
+              code.uniqueData.map(data => {
+                return (
+                  <li style={{ marginBottom: '0 !important' }}>
+                    <div className="organization-icon" />
+                    <div className="organization-content">
+                      <div className="org-header">
+                        <>{data.partner}</>
+                        <div className="icon-list">
+                          <div className="icons">
+                            <i className="material-icons">
+                              tablet_mac
+                            </i>
+                            <>{data.count}</>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              );
-            })}
-        </ul>
+                  </li>
+                );
+              })}
+          </ul>
+        )}
       </div>
     </div>
   );

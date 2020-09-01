@@ -306,7 +306,27 @@ class RightSideBar extends Component {
               </div>
             </div>
             <div className="sidebar-widget">
-              <h5>branches Count</h5>
+              <div style={{ display: 'flex' }}>
+                <h5 style={{ flex: 5 }}>branches Count</h5>
+                <div
+                  className="widget-icon"
+                  onClick={() => {
+                    modalHandler();
+                  }}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <img
+                    src={ExpandIcon}
+                    style={{ height: '18px', width: '18px' }}
+                  />
+                </div>
+              </div>
+
               <div className="widget-body">
                 {/* <div id="normal-chart">
                   <ReactApexChart

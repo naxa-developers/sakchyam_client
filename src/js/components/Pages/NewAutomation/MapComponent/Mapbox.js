@@ -16,6 +16,11 @@ import {
   removeDuplicates,
   aggregateCounts,
 } from '../../../common/utilFunctions';
+import {
+  provinceLists,
+  districtLists,
+  municipalityLists,
+} from '../../../common/adminList';
 
 const MyLoader = () => (
   <ContentLoader
@@ -133,7 +138,7 @@ class MapboxPartnership extends Component {
   }
 
   setHoveredMunicipalityId = id => {
-    //
+    console.log('in hover id', id);
     const { tableData } = this.state;
     const { mapViewBy, activeOutreachButton } = this.props;
     let data;
@@ -166,7 +171,17 @@ class MapboxPartnership extends Component {
             this.setState({ popUpData: data });
           }
         } else {
-          this.setState({ hoveredId: '' });
+          const proList = provinceLists();
+          proList.unshift();
+          const name = proList.filter(
+            dist => parseInt(dist.code) === parseInt(id),
+          );
+          data = {
+            name: name[0].name,
+          };
+          if (activeOutreachButton) {
+            this.setState({ popUpData: data });
+          }
         }
       }
       if (mapViewBy === 'district') {
@@ -193,7 +208,17 @@ class MapboxPartnership extends Component {
             this.setState({ popUpData: data });
           }
         } else {
-          this.setState({ hoveredId: '' });
+          const distList = districtLists();
+          distList.unshift();
+          const name = distList.filter(
+            dist => parseInt(dist.code) === parseInt(id),
+          );
+          data = {
+            name: name[0].name,
+          };
+          if (activeOutreachButton) {
+            this.setState({ popUpData: data });
+          }
         }
       }
       if (mapViewBy === 'municipality') {
@@ -223,7 +248,17 @@ class MapboxPartnership extends Component {
             this.setState({ popUpData: data });
           }
         } else {
-          this.setState({ hoveredId: '' });
+          const muniList = municipalityLists();
+          muniList.unshift();
+          const name = muniList.filter(
+            muni => parseInt(muni.code) === parseInt(id),
+          );
+          data = {
+            name: name[0].name,
+          };
+          if (activeOutreachButton) {
+            this.setState({ popUpData: data });
+          }
         }
       }
     } else {

@@ -4,8 +4,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import html2canvas from 'html2canvas';
-import ReactApexChart from 'react-apexcharts';
 import saveAs from 'file-saver';
+import ReactApexChart from 'react-apexcharts';
 import DownloadIcon from '../../../../img/get_app.png';
 import { numberWithCommas } from '../../common/utilFunctions';
 
@@ -179,10 +179,18 @@ const Modal = props => {
                           fontSize: '15px',
                         }}
                       >
-                        <span>{data.partner_name} </span>
-                        <span>{`Branch Count:${data.branch}`} </span>
+                        <span>{data.partner_name}, </span>
                         <span>
-                          {`Tablets Deployed:${data.tablets_deployed}`}{' '}
+                          <span style={{ color: '#C2002F' }}>
+                            Branch Count:
+                          </span>
+                          <span> {data.branch},</span>{' '}
+                        </span>
+                        <span>
+                          <span style={{ color: '#C2002F' }}>
+                            Tablets Deployed:
+                          </span>
+                          <span> {data.tablets_deployed}</span>{' '}
                         </span>
                         {/* {`${data.partner_name}   Branch Count:${data.branch}   Tablets Deployed:${data.tablets_deployed}`} */}
                       </div>

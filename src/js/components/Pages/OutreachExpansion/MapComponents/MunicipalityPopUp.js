@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
+import { numberWithCommas } from '../../../common/utilFunctions';
 
 export default function MunicipalityPopUp(props) {
   const data = props.selectedMuni;
@@ -53,20 +54,27 @@ export default function MunicipalityPopUp(props) {
               </li>
               <li>
                 <p>Population in Local Unit</p>
-                <b>{data.population}</b>
+                <b>{numberWithCommas(data.population)}</b>
               </li>
               <li>
                 <p>Yearly Central Government Funding</p>
-                <b>Rs. {data.yearly_fund}</b>
+                <b>Rs. {numberWithCommas(data.yearly_fund)}</b>
               </li>
 
               <li>
                 <p>Social Security Recipients</p>
-                <b>{data.social_security_recipients}</b>
+                <b>
+                  {numberWithCommas(data.social_security_recipients)}
+                </b>
               </li>
               <li>
                 <p>Yearly Social Security Payments</p>
-                <b>Rs. {data.yearly_social_security_payment}</b>
+                <b>
+                  Rs.{' '}
+                  {numberWithCommas(
+                    data.yearly_social_security_payment,
+                  )}
+                </b>
               </li>
               <li>
                 <p>Nearest Road Distance</p>
