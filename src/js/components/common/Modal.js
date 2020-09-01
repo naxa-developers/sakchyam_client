@@ -33,23 +33,28 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
   // popupEl.appendChild(titleEl).textContent = 'spaghetti';
   // titleEl.setAttribute('class', 'popup_title');
   setTimeout(() => {
+    const options =
+      chartid === 'test2'
+        ? { allowTaint: true }
+        : {
+            // logging: true,
+            // letterRendering: 1,
+            scale: 5,
+            allowTaint: true,
+            // scale: window.devicePixelRatio,
+            // windowWidth: window.innerWidth,
+            // windowHeight: window.innerHeight + 120,
+            // x: 20,
+            // y: 70,
+            // width: window.innerWidth + 40,
+            // height: window.innerHeight + 40,
+            // foreignObjectRendering: true,
+            // useCORS: true,
+          };
     // document
     //   .querySelector(`.${chartid}`)
     //   .append(<label>Varun</label>);
-    html2canvas(popupEl, {
-      // logging: true,
-      // letterRendering: 1,
-      allowTaint: true,
-      // scale: window.devicePixelRatio,
-      // windowWidth: window.innerWidth,
-      // windowHeight: window.innerHeight + 120,
-      // x: 20,
-      // y: 70,
-      // width: window.innerWidth + 40,
-      // height: window.innerHeight + 40,
-      // foreignObjectRendering: true,
-      // useCORS: true,
-    }).then(canvas => {
+    html2canvas(popupEl, options).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
       });

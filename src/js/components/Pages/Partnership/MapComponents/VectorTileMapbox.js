@@ -18,6 +18,7 @@ import { getCenterBboxMunicipality } from '../common/MunicipalityFunction';
 
 import { extendBounds } from '../../../common/extendBbox';
 import Loading from '../../../common/Loading';
+import { numberWithCommas } from '../../../common/utilFunctions';
 
 global.markerList = [];
 function removeMarker() {
@@ -995,9 +996,11 @@ class Choropleth extends Component {
                       mapViewDataBy === 'allocated_beneficiary'
                         ? 'people'
                         : mapViewDataBy === 'allocated_budget'
-                        ? 'monetization_on'
+                        ? 'euro_symbol'
                         : 'payments'
-                    }</i><b>${Math.round(d.data.count)}</b>
+                    }</i><b>${numberWithCommas(
+            Math.round(d.data.count),
+          )}</b>
                   </div>
               </div>
             </div>
@@ -1234,6 +1237,9 @@ class Choropleth extends Component {
             el.style.display = 'none';
             // a.remove();
           });
+        that.props.setPopupData({
+          propsdata: undefined,
+        });
       });
 
       // map.on('click', function(e) {

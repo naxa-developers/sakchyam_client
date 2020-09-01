@@ -13,8 +13,20 @@ class Header extends Component {
     this.state = {
       activeProfileDropdown: false,
       permissions: null,
+      activePage: '',
     };
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.activePage !== this.state.activePage) {
+      window.location.href = `#/${this.state.activePage}`;
+      // <Redirect to="/" />;
+    }
+  }
+
+  setActivePage = selectedPage => {
+    this.setState({ activePage: selectedPage });
+  };
 
   // componentDidMount() {
   //   const profileDropdownEl = document.getElementById(
@@ -165,7 +177,7 @@ class Header extends Component {
                       '',
                     )}
                     onChange={e => {
-                      this.props.setActivePage(e.target.value);
+                      this.setActivePage(e.target.value);
                     }}
                   >
                     <option value="">Select Visualisation</option>

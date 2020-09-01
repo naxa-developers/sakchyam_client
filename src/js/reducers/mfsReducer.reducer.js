@@ -19,6 +19,14 @@ import {
 import province from '../../data/province.json';
 import district from '../../data/district.json';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 function groupBy(a, keyFunction) {
   const groups = {};
   a.forEach(function(el) {

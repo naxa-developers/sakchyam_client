@@ -24,31 +24,13 @@ import Header from './Header';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activePage: '',
-    };
-  }
-
-  setActivePage = selectedPage => {
-    this.setState({ activePage: selectedPage });
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.activePage !== this.state.activePage) {
-      window.location.href = `#/${this.state.activePage}`;
-      // <Redirect to="/" />;
-    }
+    this.state = {};
   }
 
   render() {
-    const { activePage } = this.state;
     return (
       <Router>
-        <Header
-          disableScroll
-          activePage={activePage}
-          setActivePage={this.setActivePage}
-        />
+        <Header disableScroll />
         <Switch>
           <Route path="/login" component={Login} />
 

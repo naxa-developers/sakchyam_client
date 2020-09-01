@@ -4,6 +4,14 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 function clickHandler(e) {
   e.target.classList.toggle('active');
 }
@@ -22,7 +30,9 @@ export default function divisionInfoPopUp(props) {
           <h5>{fulldata && fulldata.props.federal_name}</h5>
           <div className="icons">
             <i className="material-icons">payments</i>
-            <b>{fulldata && fulldata.props.count}</b>
+            <b>
+              {fulldata && numberWithCommas(fulldata.props.count)}
+            </b>
           </div>
         </div>
         <div className="acc is-after is-border">
@@ -47,7 +57,9 @@ export default function divisionInfoPopUp(props) {
                         return (
                           <li>
                             <a>{achievement.name}</a>
-                            <a>{achievement.count}</a>
+                            <a>
+                              {numberWithCommas(achievement.count)}
+                            </a>
                           </li>
                         );
                       })}
