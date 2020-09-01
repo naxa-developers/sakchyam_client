@@ -483,7 +483,7 @@ class PlotVector extends Component {
   plotVectorTile = () => {
     const { map } = this.props;
     const that = this;
-    // let hoveredStateId = null;
+    let hoveredStateId = null;
     map.on('load', function() {
       map.addSource('municipality', {
         type: 'vector',
@@ -542,45 +542,45 @@ class PlotVector extends Component {
         }
       });
 
-      // map.on('mousemove', 'vector-tile-fill', function(e) {
-      //   if (e.features.length > 0) {
-      //     if (hoveredStateId) {
-      //       map.setFeatureState(
-      //         {
-      //           source: 'municipality',
-      //           sourceLayer: 'default',
-      //           id: hoveredStateId,
-      //         },
-      //         { hover: false },
-      //       );
-      //     }
-      //     hoveredStateId = e.features[0].id;
-      //     that.props.setHoveredMunicipalityId(e.features[0].id);
-      //     map.setFeatureState(
-      //       {
-      //         source: 'municipality',
-      //         sourceLayer: 'default',
-      //         id: hoveredStateId,
-      //       },
-      //       { hover: true },
-      //     );
-      //   }
-      // });
+      map.on('mousemove', 'vector-tile-fill', function(e) {
+        if (e.features.length > 0) {
+          if (hoveredStateId) {
+            map.setFeatureState(
+              {
+                source: 'municipality',
+                sourceLayer: 'default',
+                id: hoveredStateId,
+              },
+              { hover: false },
+            );
+          }
+          hoveredStateId = e.features[0].id;
+          that.props.setOnHoveredDivisionId(e.features[0].id);
+          map.setFeatureState(
+            {
+              source: 'municipality',
+              sourceLayer: 'default',
+              id: hoveredStateId,
+            },
+            { hover: true },
+          );
+        }
+      });
 
-      // map.on('mouseleave', 'vector-tile-fill', function() {
-      //   if (hoveredStateId) {
-      //     map.setFeatureState(
-      //       {
-      //         source: 'municipality',
-      //         sourceLayer: 'default',
-      //         id: hoveredStateId,
-      //       },
-      //       { hover: false },
-      //     );
-      //   }
-      //   hoveredStateId = null;
-      //   that.props.setHoveredMunicipalityId(0);
-      // });
+      map.on('mouseleave', 'vector-tile-fill', function() {
+        if (hoveredStateId) {
+          map.setFeatureState(
+            {
+              source: 'municipality',
+              sourceLayer: 'default',
+              id: hoveredStateId,
+            },
+            { hover: false },
+          );
+        }
+        hoveredStateId = null;
+        that.props.setOnHoveredDivisionId(0);
+      });
     });
 
     map.on('style.load', () => {

@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable react/no-did-update-set-state */
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unused-state */
@@ -7,6 +8,12 @@ import { connect } from 'react-redux';
 import PlotVector from './PlotVector';
 import MunicipalityPopUp from './MunicipalityPopUp';
 import MarkerPopup from './MarkerPopUp';
+import {
+  provinceLists,
+  districtLists,
+  municipalityLists,
+} from '../../../common/adminList';
+import LocalUnitNamePopUp from './divisionInfoPopUp';
 
 const MyLoader = () => (
   <ContentLoader
@@ -32,6 +39,8 @@ class MapboxPartnership extends Component {
       markerData: '',
       markerOpen: false,
       localPopUp: false,
+      hoveredId: '',
+      popUpData: '',
     };
     this.markerRef = React.createRef();
     this.keyRef = React.createRef();
@@ -330,6 +339,90 @@ class MapboxPartnership extends Component {
     }
   };
 
+  setOnHoveredDivisionId = id => {
+    console.log('in hover id', this.state.filteredMapData);
+    const { filteredMapData } = this.state;
+    const { mapViewBy } = this.props;
+    let data;
+    if (id !== 0) {
+      this.setState({ hoveredId: id });
+
+      if (mapViewBy === 'province') {
+        const proList = provinceLists();
+        proList.unshift();
+        const name = proList.filter(
+          dist => parseInt(dist.code) === parseInt(id),
+        );
+        const filteredProvince = filteredMapData.filter(
+          pro => pro.id === parseInt(id),
+        );
+
+        if (filteredProvince.length > 0) {
+          data = {
+            name: name[0].name,
+            totalCount: filteredProvince[0].count,
+          };
+        } else {
+          data = {
+            name: name[0].name,
+          };
+        }
+
+        this.setState({ popUpData: data });
+      }
+      if (mapViewBy === 'district') {
+        const distList = districtLists();
+        distList.unshift();
+        const name = distList.filter(
+          dist => parseInt(dist.code) === parseInt(id),
+        );
+        const filteredProvince = filteredMapData.filter(
+          pro => pro.id === parseInt(id),
+        );
+
+        if (filteredProvince.length > 0) {
+          data = {
+            name: name[0].name,
+            totalCount: filteredProvince[0].count,
+          };
+        } else {
+          data = {
+            name: name[0].name,
+          };
+        }
+
+        this.setState({ popUpData: data });
+      }
+      if (mapViewBy === 'municipality') {
+        const muniList = municipalityLists();
+        muniList.unshift();
+        const name = muniList.filter(
+          muni => parseInt(muni.code) === parseInt(id),
+        );
+        const filteredProvince = filteredMapData.filter(
+          pro => pro.id === parseInt(id),
+        );
+
+        if (filteredProvince.length > 0) {
+          data = {
+            name: name[0].name,
+            totalCount: filteredProvince[0].count,
+          };
+        } else {
+          data = {
+            name: name[0].name,
+          };
+        }
+
+        this.setState({ popUpData: data });
+      }
+    } else {
+      this.setState({ hoveredId: '' });
+      data = {};
+    }
+    return data;
+  };
+
   markerEventHandler = e => {
     this.setState({ markerOpen: true, markerData: e });
   };
@@ -351,6 +444,8 @@ class MapboxPartnership extends Component {
       markerOpen,
       markerData,
       localPopUp,
+      hoveredId,
+      popUpData,
     } = this.state;
     const { map, loading } = this.props;
 
@@ -370,9 +465,10 @@ class MapboxPartnership extends Component {
                 setHoveredMunicipalityId={
                   this.setHoveredMunicipalityId
                 }
+                setOnHoveredDivisionId={this.setOnHoveredDivisionId}
                 markerEventHandler={this.markerEventHandler}
               />
-
+              {hoveredId && <LocalUnitNamePopUp data={popUpData} />}
               {hoveredMunicipalityId !== 0 && localPopUp && (
                 <MunicipalityPopUp
                   selectedMuni={selectedMuni}
