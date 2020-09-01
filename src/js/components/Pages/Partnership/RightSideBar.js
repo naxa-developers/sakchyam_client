@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import OutreachTab from './common/OutreachTab';
 import { getOverviewData } from '../../../actions/partnership.actions';
+import DownloadIcon from '../../../../img/get_app.png';
+import downloadOverviewSection from '../../utils/overviewDownload';
 
 const outreachTabTitle = [
   'Investment Focus',
@@ -52,6 +55,25 @@ class RightSideBar extends Component {
         <div className="sidebar-in">
           <div className="right-sidebar-header">
             <h5>Overview</h5>
+            <span
+              className="download-span"
+              onClick={() => {
+                downloadOverviewSection(
+                  '.overview-section',
+                  'Partnership Overview',
+                );
+              }}
+              onKeyDown={() => {
+                downloadOverviewSection(
+                  '.overview-section',
+                  'Partnership Overview',
+                );
+              }}
+              role="button"
+              tabIndex="-1"
+            >
+              <img src={DownloadIcon} alt="open" />
+            </span>
             {/* {activeView === 'visualization' ? (
               <a
                 onClick={() => {
@@ -82,7 +104,7 @@ class RightSideBar extends Component {
             )} */}
           </div>
           <div className="aside-body">
-            <div className="sidebar-widget">
+            <div className="sidebar-widget overview-section">
               <div className="widget-body">
                 <ul className="widget-list">
                   <OutreachTab
@@ -112,7 +134,7 @@ class RightSideBar extends Component {
                     number={numberWithCommas(
                       Math.round(overviewData.total_budget),
                     )}
-                    iconTitle="monetization_on"
+                    iconTitle="euro_symbol"
                   />
                   <OutreachTab
                     title="New Physical Branches Established"

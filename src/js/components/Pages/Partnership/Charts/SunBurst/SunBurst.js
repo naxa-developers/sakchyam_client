@@ -15,7 +15,14 @@ import {
 import { arc as d3Arc } from "d3-shape";
 import { path as d3Path } from "d3-path";
 import { interpolate as d3Interpolate } from "d3-interpolate";
-
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 // We have to import this event though we dont use it
 import { transition as d3Transition } from "d3-transition";
 
@@ -96,7 +103,7 @@ class Sunburst extends React.Component {
     isLegend: true,
     colorizeLegendText: false,
     tooltip: true,
-    tooltipFunc: (d) => `${d.data.name}<br>${d.value}`,
+    tooltipFunc: (d) => `${d.data.name}<br>${numberWithCommas(d.value)}`,
     labelFunc: (node) => node.data.name,
     radianCutoff: 0.0001,
     transitionDuration: 500,
@@ -254,7 +261,7 @@ class Sunburst extends React.Component {
       const h = this.props.height;
       const el = d3Select(`#${this.domId}`);
 
-      this.svg = el.append("svg");
+      this.svg = el.append("svg").attr('class','sunburst-svg');
       this.svg
         .style("class", "sunburst-svg")
         .style("width", w + "px")

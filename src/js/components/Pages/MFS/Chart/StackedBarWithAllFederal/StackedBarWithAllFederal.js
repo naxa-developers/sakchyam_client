@@ -9,6 +9,14 @@ import {
 } from '../../../../../actions/mfs.action';
 import Achart from './Achart';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 class StackedBarWithAllFederal extends Component {
   constructor(props) {
     super(props);
@@ -313,6 +321,12 @@ class StackedBarWithAllFederal extends Component {
       //     // offsetX: 60,
       //   },
       // },
+      tooltip: {
+        y: {
+          show: true,
+          formatter: data => `${numberWithCommas(data)}`,
+        },
+      },
       legend: {
         horizontalAlign: 'left',
         offsetX: 40,

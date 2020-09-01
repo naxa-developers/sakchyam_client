@@ -19,6 +19,14 @@ import { getCenterBboxMunicipality } from '../common/MunicipalityFunction';
 import { extendBounds } from '../../../common/extendBbox';
 import Loading from '../../../common/Loading';
 
+function numberWithCommas(x) {
+  if (x !== null) {
+    const parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+  return x;
+}
 global.markerList = [];
 function removeMarker() {
   if (global.markerList !== null) {
@@ -974,6 +982,8 @@ class Choropleth extends Component {
         // tooltip.style('opacity', 2);
       })
       .on('mouseover', function(d) {
+        // d3.event.stopPropagation();
+
         d3.select(this)
           .transition()
           .duration('50')
@@ -997,14 +1007,15 @@ class Choropleth extends Component {
                       mapViewDataBy === 'allocated_beneficiary'
                         ? 'people'
                         : mapViewDataBy === 'allocated_budget'
-                        ? 'monetization_on'
+                        ? 'euro_symbol'
                         : 'payments'
-                    }</i><b>${d.data.count}</b>
+                    }</i><b>${numberWithCommas(d.data.count)}</b>
                   </div>
               </div>
             </div>
           </div>` /* eslint-disable-line */,
         );
+        popup.remove();
       })
       .on('mousemove', function() {
         tooltip2nd
@@ -1293,7 +1304,9 @@ class Choropleth extends Component {
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
-        //
+        // e.preventDefault();
+        // e.stopPropagation();
+        // 0
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
             return (
@@ -1302,25 +1315,23 @@ class Choropleth extends Component {
             );
           },
         );
-        // popup
-        //   .setLngLat(e.lngLat)
-        //   .setHTML(
-        //     `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
-        //       <div class="map-popup-view">
-        //           <div class="map-popup-view-header">
-        //               <h5>${e.features[0].properties.name}</h5>
-        //               <h5>Code:${e.features[0].properties.code}</h5>
-        //               <h5>ID:${e.features[0].properties.id}</h5>
-        //               <div class="icons">
-        //               <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
-        //               </div>
-        //           </div>
-        //           <div class="map-view-footer">
-        //           </div>
-        //               </div>
-        //           </div>`,
-        //   )
-        //   .addTo(map);
+        // <h5>Code:${e.features[0].properties.code}</h5>
+        // <h5>ID:${e.features[0].properties.id}</h5>
+        popup.setLngLat(e.lngLat).setHTML(
+          `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
+              <div class="map-popup-view">
+                  <div class="map-popup-view-header">
+                      <h5>${e.features[0].properties.name}</h5>
+                      <div class="icons">
+                      <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
+                      </div>
+                  </div>
+                  <div class="map-view-footer">
+                  </div>
+                      </div>
+                  </div>`,
+        );
+        // .addTo(map);
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
         if (e.features.length > 0) {

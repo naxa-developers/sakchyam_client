@@ -60,6 +60,9 @@ class MapboxPartnership extends Component {
     // }
     // if (prevProps.mapViewBy !== this.props.mapViewBy) {
     if (prevProps.mapViewDataBy !== this.props.mapViewDataBy) {
+      this.setPopupData({
+        propsdata: undefined,
+      });
       let view = 'investment';
       if (this.props.mapViewDataBy === 'allocated_beneficiary') {
         view = 'total_beneficiary';

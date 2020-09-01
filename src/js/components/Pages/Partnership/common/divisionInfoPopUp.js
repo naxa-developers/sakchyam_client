@@ -74,7 +74,7 @@ export default function divisionInfoPopUp(props) {
                       mapViewDataBy === 'allocated_beneficiary'
                         ? 'people'
                         : mapViewDataBy === 'allocated_budget'
-                        ? 'monetization_on'
+                        ? 'euro_symbol'
                         : 'payments'
                     }
             </i><b>{Math.round(9)}</b>

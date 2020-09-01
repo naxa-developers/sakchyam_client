@@ -1410,7 +1410,7 @@ class MainMFS extends Component {
                       // }}
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
-                      cardTitle="Federal Wise Achievement Type"
+                      cardTitle="Province/District Wise Achievement Type"
                       style={{ position: 'relative' }}
                       cardClass="col-xl-12"
                       cardChartId="groupedChart"
@@ -1451,7 +1451,7 @@ class MainMFS extends Component {
                       }}
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
-                      cardTitle={`${showBarChartBy} Wise Achievement Type`}
+                      cardTitle="Province/District Wise Achievement Type"
                       showBarChartBy={showBarChartBy}
                       setShowBarChartBy={this.setShowBarChartBy}
                       cardClass="col-xl-12"
