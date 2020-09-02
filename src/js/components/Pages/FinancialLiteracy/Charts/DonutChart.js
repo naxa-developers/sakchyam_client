@@ -250,21 +250,23 @@ class DonutChart extends Component {
                 </div>
               </div>
               <div className="legend-list">
-                <h5
-                  style={
-                    {
-                      // display: 'contents'
-                    }
-                  }
-                >
-                  <small style={{ backgroundColor: '#13a8be' }} />
-                  <span>
-                    <strong style={{ fontSize: '12px' }}>
-                      Commercial Banks and Mobile Network Operators
-                    </strong>
-                  </span>
-                </h5>
-                <div
+                <span>
+                  {' '}
+                  <h5>
+                    <small style={{ backgroundColor: '#13a8be' }} />
+                    <span>
+                      <strong style={{ fontSize: '12px' }}>
+                        Commercial Banks and Mobile Network Operators
+                      </strong>
+                    </span>
+                  </h5>
+                </span>
+              </div>
+              <div
+                className="legend-list"
+                style={{ paddingLeft: '1.5vw' }}
+              >
+                <span
                   className="legend-count"
                   style={{ fontSize: '12px' }}
                 >
@@ -274,7 +276,7 @@ class DonutChart extends Component {
                   <b className="percent">
                     {`${commPercent.toFixed(2)}%`}
                   </b>
-                </div>
+                </span>
               </div>
             </div>
           </>
