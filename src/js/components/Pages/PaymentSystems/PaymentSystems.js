@@ -14,7 +14,11 @@ const downloadPng = chartid => {
   const downloadIcon = document.querySelector(
     '#payment-download-btn',
   );
+  const LeftCardZIndex = document.querySelector(
+    '.payment-sidebar-cover',
+  );
   downloadIcon.style.display = 'none';
+  LeftCardZIndex.style.zIndex = '-1';
 
   setTimeout(() => {
     html2canvas(document.querySelector(`.${chartid}`), {
@@ -28,6 +32,7 @@ const downloadPng = chartid => {
 
   setTimeout(() => {
     downloadIcon.style.display = 'block';
+    LeftCardZIndex.style.zIndex = '0';
   }, 600);
 };
 
