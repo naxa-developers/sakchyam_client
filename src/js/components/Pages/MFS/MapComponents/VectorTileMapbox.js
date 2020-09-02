@@ -1627,6 +1627,8 @@ class Choropleth extends Component {
       // const test = this.createDonutChart(a, b);
     }
     if (prevProps.choroplethData !== this.props.choroplethData) {
+      console.log(prevProps.choroplethData, 'previousChoropleth');
+      console.log(this.props.choroplethData, 'newChoropleth');
       // map.addLayer({
       //   id: 'circle-tile-label',
       //   type: 'symbol',
