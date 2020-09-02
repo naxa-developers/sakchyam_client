@@ -569,7 +569,7 @@ class Choropleth extends Component {
     //   10,
     // );
     SVG.append('text')
-      .text('Investment Focus')
+      .text('Achievement Type')
       .attr('x', 10)
       .attr('y', 20)
       .style('font-size', '13px');
