@@ -569,7 +569,7 @@ class Choropleth extends Component {
     //   10,
     // );
     SVG.append('text')
-      .text('Investment Focus')
+      .text('Achievement Type')
       .attr('x', 10)
       .attr('y', 20)
       .style('font-size', '13px');
@@ -1627,6 +1627,8 @@ class Choropleth extends Component {
       // const test = this.createDonutChart(a, b);
     }
     if (prevProps.choroplethData !== this.props.choroplethData) {
+      console.log(prevProps.choroplethData, 'previousChoropleth');
+      console.log(this.props.choroplethData, 'newChoropleth');
       // map.addLayer({
       //   id: 'circle-tile-label',
       //   type: 'symbol',
