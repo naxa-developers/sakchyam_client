@@ -1150,8 +1150,8 @@ class MainMFS extends Component {
     });
     this.handleShowBarOf('Provinces');
     this.handleShowBarPartnerChartOf('Partner');
-    this.props.filterMfsChoroplethData('province', [], [], []);
-    this.props.filterMfsChartData('province', [], [], [], [], []);
+    this.props.filterMfsChoroplethData(mapViewBy, [], [], []);
+    this.props.filterMfsChartData(mapViewBy, [], [], [], [], []);
     this.props.filterMfsMapChartDataByPartner(
       'district',
       [],
@@ -1161,7 +1161,7 @@ class MainMFS extends Component {
       [],
     );
     this.props.filterOverViewData('province', [], [], []);
-    this.props.filterMfsMapPieData('province', [], [], [], [], []);
+    this.props.filterMfsMapPieData(mapViewBy, [], [], [], [], []);
     // this.handleShowBarOf('Provinces');
 
     // this.props.resetOverviewData();
