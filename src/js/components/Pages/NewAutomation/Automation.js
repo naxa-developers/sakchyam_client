@@ -720,18 +720,18 @@ class MainAutomation extends Component {
     const muniCheck =
       selectedMunicipality && selectedMunicipality.length > 0;
 
-    if (selectedMunicipality && selectedMunicipality.length > 150) {
-      if (selectedMunicipality.length !== 776) {
-        this.setState({
-          message:
-            'Either select all or select less than 150 Municiplaities!',
-        });
-        setTimeout(() => {
-          this.clearNotification();
-        }, 3000);
-        return;
-      }
-    }
+    // if (selectedMunicipality && selectedMunicipality.length > 150) {
+    //   if (selectedMunicipality.length !== 776) {
+    //     this.setState({
+    //       message:
+    //         'Either select all or select less than 150 Municiplaities!',
+    //     });
+    //     setTimeout(() => {
+    //       this.clearNotification();
+    //     }, 3000);
+    //     return;
+    //   }
+    // }
 
     if (provinceCheck || districtCheck || muniCheck) {
       if (mapViewBy === 'municipality') {
