@@ -327,7 +327,7 @@ class RightSideBar extends Component {
       return true;
     });
 
-    console.log('obj value check', filteredData);
+    // console.log('obj value check', filteredData);
 
     let maxValue = 0;
     filteredData.map(item => {

@@ -58,6 +58,7 @@ class MainAutomation extends Component {
       selectedDistrict: [],
       selectedMunicipality: [],
       map: '',
+      modalType: '',
       mapViewBy: 'municipality',
       activeView: 'map',
       activeFilter: false,
@@ -693,10 +694,6 @@ class MainAutomation extends Component {
     }, 100);
   };
 
-  clearNotification = () => {
-    this.setState({ message: '' });
-  };
-
   handleStateLevel = () => {
     const {
       map,
@@ -1076,11 +1073,27 @@ class MainAutomation extends Component {
     }, 500);
   };
 
-  modalHandler = () => {
+  modalHandler = type => {
     console.log('pressed');
     this.setState(prevState => ({
       activeModal: !prevState.activeModal,
+      modalType: type,
     }));
+  };
+
+  clearNotification = () => {
+    setTimeout(() => {
+      this.setState({ message: '' });
+    }, 3000);
+  };
+
+  notifyHandler = message => {
+    console.log('message is', message);
+    this.setState({
+      message,
+    });
+
+    this.clearNotification();
   };
 
   render() {
@@ -1114,6 +1127,7 @@ class MainAutomation extends Component {
       migrationArray,
       activeModal,
       allPartners,
+      modalType,
     } = this.state;
     const { tableDataLoading } = this.props.automationReducer;
 
@@ -1279,6 +1293,7 @@ class MainAutomation extends Component {
             toggleTableViewButton={this.toggleTableViewButton}
             loading={loading}
             modalHandler={this.modalHandler}
+            notifyHandler={this.notifyHandler}
           />
           {message && <Notifier case="warning" message={message} />}
           {activeModal && (
@@ -1287,6 +1302,8 @@ class MainAutomation extends Component {
               activeModal={activeModal}
               tabletsDeployed={tabletsDeployed}
               allPartners={allPartners}
+              modalType={modalType}
+              notifyHandler={this.notifyHandler}
             />
           )}
         </div>

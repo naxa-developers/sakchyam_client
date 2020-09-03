@@ -28,6 +28,10 @@ export default function MunicipalityPopUp(props) {
           <div className="map-popup-content">
             <ul className="map-popup-list">
               <li>
+                <p>Expansion Driven By</p>
+                <b>{data.expansion_driven_by}</b>
+              </li>
+              <li>
                 <p>Point of Service</p>
                 <b>{data.point_service}</b>
               </li>
@@ -58,7 +62,6 @@ export default function MunicipalityPopUp(props) {
             </ul>
           </div>
           <div className="map-popup-footer">
-            <h5>Expansion Driven By:{data.expansion_driven_by}</h5>
             <ul className="communication">
               <li>
                 <i

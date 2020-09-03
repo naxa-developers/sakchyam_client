@@ -670,7 +670,7 @@ class FinancialLiteracy extends Component {
                           />
                         </div>
                       </div>
-                      <div className="col-xl-6">
+                      <div className="col-xl-12">
                         <div className="card" id="chart-donut">
                           <div className="card-header">
                             <h5>
@@ -734,7 +734,7 @@ class FinancialLiteracy extends Component {
                         </div>
                       </div>
 
-                      <div className="col-xl-6">
+                      <div className="col-xl-12">
                         <div className="card" id="chart-treemap">
                           <TreeMapDiagram
                             // isTreeMapClicked={

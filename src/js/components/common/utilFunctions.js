@@ -4,6 +4,9 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-array-constructor */
 // eslint-disable-next-line import/prefer-default-export
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
+
 export const removeDuplicates = (array, keyValue) => {
   const obj = {};
   for (let i = 0, len = array.length; i < len; i++) {
@@ -96,4 +99,17 @@ export const aggregateCounts = array => {
   });
 
   return arrayNew;
+};
+
+export const downloadPng = (chartid, filename) => {
+  console.log('called');
+  setTimeout(() => {
+    html2canvas(document.querySelector(`#${chartid}`), {}).then(
+      canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, `${filename}.png`);
+        });
+      },
+    );
+  }, 10);
 };
