@@ -632,7 +632,11 @@
 .mapboxgl-ctrl-top-right {
   top: 40px;
 }
-
+.pie-mapbox-popup {
+  width: 275px;
+  overflow: hidden;
+  // max-width: 234px;
+}
 #heatmap-chart {
   .apexcharts-xaxistooltip-text {
     min-width: 0 !important;
