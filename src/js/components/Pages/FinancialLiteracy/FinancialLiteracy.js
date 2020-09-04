@@ -387,6 +387,7 @@ class FinancialLiteracy extends Component {
     setTimeout(() => {
       html2canvas(document.querySelector(`#${chartid}`), {
         allowTaint: true,
+        scale: 5,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${name}.png`);

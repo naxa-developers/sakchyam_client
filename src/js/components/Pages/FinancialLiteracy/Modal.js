@@ -12,13 +12,13 @@ const downloadPng = (chartid, filename) => {
   downloadIcon.style.display = 'none';
 
   setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {}).then(
-      canvas => {
-        canvas.toBlob(function(blob) {
-          saveAs(blob, `${filename}.png`);
-        });
-      },
-    );
+    html2canvas(document.querySelector(`#${chartid}`), {
+      scale: 5,
+    }).then(canvas => {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, `${filename}.png`);
+      });
+    });
   }, 500);
 
   setTimeout(() => {

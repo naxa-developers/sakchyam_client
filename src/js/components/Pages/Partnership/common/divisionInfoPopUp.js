@@ -13,9 +13,8 @@ export default function divisionInfoPopUp(props) {
   const {
     propsdata, partners, mapViewDataBy
   } = props.data;
+  console.log(props.data,'data');
   let partnerContent = null;
-  // partnerContent=
-        // partnerList =
         // eslint-disable-next-line no-restricted-syntax
         const index=0
         partnerContent = partners && partners.map(data=>{
@@ -34,7 +33,12 @@ export default function divisionInfoPopUp(props) {
               // onKeyDown={()=>{this.classList.toggle('active')}}
             >
               <div className="acc-header">
-                <h5>{data.partnerName}</h5>
+                {mapViewDataBy === 'investment_focus'?
+                (<h5>{data.partnerName}</h5>):(
+                  <div>
+                    <label>{data.partnerName}</label>
+                    <label>{Math.round(data.totalCount)}</label>
+                  </div>)}
               </div>
               <div className="acc-body">
                 <ul>
@@ -49,14 +53,6 @@ export default function divisionInfoPopUp(props) {
         accList.addEventListener('click', function(e) {
           // e.stopPropagation();
           e.target.classList.toggle("active");
-
-          // if (e.target.classList.includes('active')) {
-          // e.target.classList.remove('active');
-          // } else {
-          // e.target.classList.add('active');
-          // }
-          // e.stopPropagation();
-          // alert('function');
         });
       }
   // 
@@ -74,16 +70,15 @@ export default function divisionInfoPopUp(props) {
                       mapViewDataBy === 'allocated_beneficiary'
                         ? 'people'
                         : mapViewDataBy === 'allocated_budget'
-                        ? 'euro_symbol'
+                        ? 'payments'
                         : 'payments'
                     }
-            </i><b>{Math.round(9)}</b>
+            </i><b>{Math.round(propsdata.point_count)}</b>
           </div>
         </div>
         <div className="acc is-after is-border">
           {
-          partnerContent !== undefined &&
-                    mapViewDataBy === 'investment_focus'
+          partnerContent !== undefined
                       ? partnerContent
                       : ''
                   }

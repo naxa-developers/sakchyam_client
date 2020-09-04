@@ -12,13 +12,13 @@ import { numberWithCommas } from '../../common/utilFunctions';
 const downloadPng = (chartid, filename) => {
   console.log('called');
   setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {}).then(
-      canvas => {
-        canvas.toBlob(function(blob) {
-          saveAs(blob, `${filename}.png`);
-        });
-      },
-    );
+    html2canvas(document.querySelector(`#${chartid}`), {
+      scale: 5,
+    }).then(canvas => {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, `${filename}.png`);
+      });
+    });
   }, 10);
 };
 

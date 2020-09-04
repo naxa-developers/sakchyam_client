@@ -76,6 +76,7 @@ function removeMarker() {
 class MainPartnership extends Component {
   constructor() {
     super();
+    this.timeOutId = null;
     this.state = {
       // Event Handle Section
       investmentFocusSelection: [],
@@ -142,68 +143,6 @@ class MainPartnership extends Component {
     this.props.getMunicipalityData();
     this.props.getPartnerTypeList();
     this.props.getTimelineData();
-    const filterBar = document.getElementsByClassName(
-      'filter-bar',
-    )[0];
-    const provinceList = document.getElementsByClassName(
-      'filter-bar',
-    )[0];
-    const districtList = document.getElementsByClassName(
-      'filter-bar',
-    )[0];
-    const munList = document.getElementsByClassName('filter-bar')[0];
-    //
-    document.addEventListener('click', async event => {
-      const isClickInside = filterBar.contains(event.target);
-
-      if (!isClickInside) {
-        this.setState({
-          activeFilter: false,
-          // searchDropdown: false,
-        });
-        // the click was outside the specifiedElement, do something
-      }
-    });
-    // const provinceEl = document.getElementById(
-    //   'filter_dropdown_province',
-    // );
-    // const districtEl = document.getElementById(
-    //   'filter_dropdown_district',
-    // );
-    // const municipalityEl = document.getElementById(
-    //   'filter_dropdown_municipality',
-    // );
-    // //
-    // document.addEventListener('click', async event => {
-    //   const isClickInside = provinceEl.contains(event.target);
-    //   if (!isClickInside) {
-    //     this.setState({
-    //       activeProvince: false,
-    //       // searchDropdown: false,
-    //     });
-    //     // the click was outside the specifiedElement, do something
-    //   }
-    // });
-    // document.addEventListener('click', async event => {
-    //   const isClickInside = districtEl.contains(event.target);
-    //   if (!isClickInside) {
-    //     this.setState({
-    //       activeDistrict: false,
-    //       // searchDropdown: false,
-    //     });
-    //     // the click was outside the specifiedElement, do something
-    //   }
-    // });
-    // document.addEventListener('click', async event => {
-    //   const isClickInside = municipalityEl.contains(event.target);
-    //   if (!isClickInside) {
-    //     this.setState({
-    //       activeMunicipality: false,
-    //       // searchDropdown: false,
-    //     });
-    //     // the click was outside the specifiedElement, do something
-    //   }
-    // });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -636,6 +575,18 @@ class MainPartnership extends Component {
     // document.querySelectorAll('.select-dropdown ul').forEach(el => {
     //   el.classList.remove('active');
     // });
+  };
+
+  onFilterBlurHandler = () => {
+    this.timeOutId = setTimeout(() => {
+      this.setState({
+        activeFilter: false,
+      });
+    });
+  };
+
+  onFilterFocusHandler = () => {
+    clearTimeout(this.timeOutId);
   };
 
   setActiveOverview = () => {
@@ -1468,6 +1419,15 @@ class MainPartnership extends Component {
         investmentFocusSelection,
         { selectedMunicipality, selectedDistrict, selectedProvince },
       );
+      this.props.filterSankeyChartData(
+        viewDataBy,
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+        projectStatus,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
+      );
       this.handleLeverageBarClicked(false);
     } else {
       this.props.filterOverviewData(
@@ -1567,6 +1527,23 @@ class MainPartnership extends Component {
     }
   };
 
+  componentWillUnmount() {
+    const filterBar = document.getElementsByClassName(
+      'filter-bar',
+    )[0];
+    document.removeEventListener('click', async event => {
+      const isClickInside = filterBar.contains(event.target);
+
+      if (!isClickInside) {
+        this.setState({
+          activeFilter: false,
+          // searchDropdown: false,
+        });
+        // the click was outside the specifiedElement, do something
+      }
+    });
+  }
+
   render() {
     const {
       state: {
@@ -1655,6 +1632,8 @@ class MainPartnership extends Component {
                   className={`filter-bar ${
                     activeFilter ? 'active' : ''
                   }`}
+                  onBlur={this.onFilterBlurHandler}
+                  onFocus={this.onFilterFocusHandler}
                 >
                   <button
                     type="button"

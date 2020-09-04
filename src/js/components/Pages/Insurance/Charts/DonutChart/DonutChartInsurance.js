@@ -404,7 +404,7 @@ class DonutChartInsurance extends Component {
                     : showRightSidebar && window.innerWidth < 1600
                     ? 780
                     : showRightSidebar && window.innerWidth > 1600
-                    ? 1200
+                    ? 1100
                     : !showRightSidebar && window.innerWidth < 1600
                     ? 950
                     : 1400

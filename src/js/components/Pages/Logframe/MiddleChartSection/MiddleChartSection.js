@@ -346,9 +346,6 @@ class MiddleChartSection extends Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.plotChart();
-    // window.addEventListener('resize', this.checkTooltip());
-
-    // window.removeEventListener('resize', this.handleClickOnLegend);
   }
 
   plotChart = () => {
@@ -992,50 +989,7 @@ class MiddleChartSection extends Component {
   componentDidMount() {
     this.checkTooltip();
     window.addEventListener('resize', this.checkTooltip);
-    // document
-    //   .getElementsByClassName('exportPNG')[0]
-    //   .addEventListener('click', this.downloadPng);
-
-    // setTimeout(() => {
-    //   const firstLegend = document.getElementsByClassName(
-    //     'apexcharts-legend-series',
-    //   )[0];
-    //   // firstLegend.addEventListener('click', function() {
-    //   //   alert('clicked First Legend');
-    //   // });
-    //   // const firstLegend = document.getElementsByClassName(
-    //   //   'apexcharts-legend-series',
-    //   // )[0];
-    //   // const secondLegend = document.getElementsByClassName(
-    //   //   'apexcharts-legend-series',
-    //   // )[3];
-    //   firstLegend.addEventListener('change', event => {
-    //     console.log('clicked firstlegend');
-    //     this.setState(prevState => ({
-    //       firstPlannedSelected: !prevState.firstPlannedSelected,
-    //     }));
-    //   });
-    // }, 2000);
-    // setTimeout(() => {
-    //   const secondLegend = document.getElementsByClassName(
-    //     'apexcharts-legend-series',
-    //   )[3];
-    //   // firstLegend.addEventListener('click', function() {
-    //   //   alert('clicked First Legend');
-    //   // });
-    //   // const firstLegend = document.getElementsByClassName(
-    //   //   'apexcharts-legend-series',
-    //   // )[0];
-    //   // const secondLegend = document.getElementsByClassName(
-    //   //   'apexcharts-legend-series',
-    //   // )[3];
-    //   secondLegend.addEventListener('change', event => {
-    //     console.log('clicked secondlegend');
-    //     this.setState(prevState => ({
-    //       secondAchievedSelected: !prevState.secondAchievedSelected,
-    //     }));
-    //   });
-    // }, 2000);
+   
     const { activeLayer, activeDate } = this.props;
     this.props.getIndicatorsGraphData(activeLayer, false);
 
@@ -1434,6 +1388,7 @@ class MiddleChartSection extends Component {
       html2canvas(popupEl, {
         // logging: true,
         // letterRendering: 1,
+        scale: 5,
         allowTaint: true,
         // scale: window.devicePixelRatio,
         // windowWidth: window.innerWidth+120,
