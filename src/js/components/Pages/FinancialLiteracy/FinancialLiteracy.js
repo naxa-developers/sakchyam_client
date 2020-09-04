@@ -32,6 +32,15 @@ import TableData from './TableData/TableData';
 import Modal from './Modal';
 import AlertComponent from '../../common/Notifier';
 
+const getInitials = title => {
+  const initials = title
+    .split(' ')
+    .map(word => word[0])
+    .join('');
+
+  return initials;
+};
+
 function convertLabelName(name) {
   const nameArr = name.split(' ');
   let firstElement;
@@ -107,6 +116,8 @@ class FinancialLiteracy extends Component {
       isBarChartClicked: false,
       chartData2: {},
       alertMessage: '',
+      isTreeMapClicked: false,
+      treeMapData2: {},
     };
     this.sankeyRef = React.createRef();
   }
@@ -129,6 +140,72 @@ class FinancialLiteracy extends Component {
       this.setState({ checkedPartnerItems: [] });
     }
   }
+
+  handleTreeMapClick = () => {
+    this.setState(prev => ({
+      isTreeMapClicked: !prev.isTreeMapClicked,
+    }));
+  };
+
+  resetTreeMapClick = () => {
+    this.setState({
+      isTreeMapClicked: false,
+    });
+  };
+
+  generateTreeMapData = id => {
+    console.log(id, 'generateTreeMapData');
+    const arr = [];
+    const {
+      financialReducer: { financialData },
+    } = this.props;
+
+    financialData.map(item => {
+      if (id === item.program_name) {
+        if (this.state.checkedPartnerItems.length === 0) {
+          arr.push({
+            id: item.partner_id,
+            name: item.partner_name,
+            name1: getInitials(item.partner_name),
+            loc: item.value,
+          });
+        } else {
+          this.state.checkedPartnerItems.map(i => {
+            if (item.partner_id === i) {
+              arr.push({
+                id: item.partner_id,
+                name: item.partner_name,
+                name1: getInitials(item.partner_name),
+                loc: item.value,
+              });
+            }
+            return true;
+          });
+        }
+      }
+      return true;
+    });
+
+    // CALCULATE PERCENTAGE
+    let total = 0;
+
+    arr.map(item => {
+      total += item.loc;
+      return true;
+    });
+
+    arr.map((item, index) => {
+      arr[index].percent = `${((item.loc / total) * 100).toFixed(
+        1,
+      )}%`;
+      return true;
+    });
+
+    const updatedTreeMapData = { name: 'program1', children: arr };
+    this.setState({
+      treeMapData2: updatedTreeMapData,
+    });
+  };
 
   notificationHandler = () => {
     this.setState({
@@ -484,16 +561,19 @@ class FinancialLiteracy extends Component {
         return (
           <TreeMapDiagram
             activeModal={activeModal}
-            // isTreeMapClicked={this.state.isTreeMapClicked}
+            isTreeMapClicked={this.state.isTreeMapClicked}
+            resetTreeMapClick={this.resetTreeMapClick}
+            handleTreeMapClick={this.handleTreeMapClick}
             // handleTreeMapBackBtn={this.handleTreeMapBackBtn}
             // setTreeMapBackBtnFalse={this.setTreeMapBackBtnFalse}
-            // generateTreeMapData={this.generateTreeMapData}
+            generateTreeMapData={this.generateTreeMapData}
             DownloadIcon={DownloadIcon}
             ExpandIcon={ExpandIcon}
             downloadPng={this.downloadPng}
             handleModal={this.handleModal}
             handleSelectedModal={this.handleSelectedModal}
             checkedPartnerItems={this.state.checkedPartnerItems}
+            treeMapData2={this.state.treeMapData2}
           />
         );
       case 'bar':
@@ -752,18 +832,21 @@ class FinancialLiteracy extends Component {
                       <div className="col-xl-12">
                         <div className="card" id="chart-treemap">
                           <TreeMapDiagram
-                            // isTreeMapClicked={
-                            //   this.state.isTreeMapClicked
-                            // }
-                            // handleTreeMapBackBtn={
-                            //   this.handleTreeMapBackBtn
-                            // }
+                            isTreeMapClicked={
+                              this.state.isTreeMapClicked
+                            }
+                            resetTreeMapClick={this.resetTreeMapClick}
+                            handleTreemap={this.resetTreeMapClick}
+                            handleTreeMapClick={
+                              this.handleTreeMapClick
+                            }
+                            treeMapData2={this.state.treeMapData2}
                             // setTreeMapBackBtnFalse={
                             //   this.setTreeMapBackBtnFalse
                             // }
-                            // generateTreeMapData={
-                            //   this.generateTreeMapData
-                            // }
+                            generateTreeMapData={
+                              this.generateTreeMapData
+                            }
                             isDownloading={isDownloading}
                             DownloadIcon={DownloadIcon}
                             ExpandIcon={ExpandIcon}
