@@ -248,6 +248,7 @@ class MiddleChartSection extends Component {
   };
 
   downloadPng = (chartid, filename) => {
+    this.props.notificationHandler();
     this.setState({ isDownloading: true });
     const name = filename ? filename : 'chart';
     const icons = document.querySelector('.header-icons');
@@ -334,6 +335,7 @@ class MiddleChartSection extends Component {
             selectedTabBar={selectedTabBar}
             selectedTab={selectedTab}
             isBarChartClicked={isBarChartClicked}
+            {...this.props}
           />
         )}
         <div className="graph-view">

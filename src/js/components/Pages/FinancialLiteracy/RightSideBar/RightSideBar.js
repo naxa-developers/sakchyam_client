@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -9,6 +10,11 @@ import {
   WidgetCardLoader,
   WidgetBodyLoader,
 } from '../Loader/RightSidebarLoaderFL';
+import {
+  numberWithCommas,
+  downloadPng,
+} from '../../../common/utilFunctions';
+import DownloadIcon from '../../../../../img/get_app.png';
 
 function colorPicker(i) {
   if (i % 20 === 0) return '#91664E';
@@ -35,14 +41,6 @@ function colorPicker(i) {
   return '#FFD400';
 }
 
-function numberWithCommas(x) {
-  if (x !== null) {
-    const parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-  }
-  return x;
-}
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -552,8 +550,7 @@ class RightSideBar extends Component {
     const {
       showRightSidebar,
       handleRightSidebarShow,
-      selectedProgram,
-      checkedPartnerItems,
+      handelAlerts,
     } = this.props;
 
     const {
@@ -571,118 +568,153 @@ class RightSideBar extends Component {
       <aside className="sidebar right-sidebar literacy-right-sidebar">
         <div className="sidebar-in">
           <div className="right-sidebar-header">
-            <h5>Overview</h5>
-          </div>
-          <div className="aside-body">
-            <div className="sidebar-widget">
+            <div style={{ display: 'flex', width: '100%' }}>
+              <div style={{ flex: 1 }}>
+                <h5>Overview</h5>
+              </div>
               <div
-                className="widget-body"
-                style={{ backgroundColor: '#f7f7f7' }}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
               >
-                {loading ? (
-                  <WidgetCardLoader />
-                ) : (
-                  <ul className="widget-list">
-                    <li>
-                      <div className="widget-content">
-                        <h6>Total Beneficiaries</h6>
-                        <span>
-                          {numberWithCommas(totalBeneficiaries)}
-                        </span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">people</i>
-                        </span>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="widget-content">
-                        <h6>Partner Institutions</h6>
-                        <span>{partnerCount}</span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">
-                            location_city
-                          </i>
-                        </span>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="widget-content">
-                        <h6>Financial Literacy Initiative</h6>
-                        <span>{programCount}</span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">business</i>
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                )}
+                <div
+                  className="widget-icon"
+                  onClick={() => {
+                    handelAlerts();
+                    downloadPng(
+                      'download-id',
+                      'Financial Literacy Overview ',
+                    );
+                  }}
+                  style={{ paddingRight: '10px', cursor: 'pointer' }}
+                >
+                  <img
+                    alt="cat"
+                    src={DownloadIcon}
+                    style={{ height: '18px', width: '18px' }}
+                  />
+                </div>
               </div>
             </div>
-            <div className="sidebar-widget program-widget">
-              {loading ? (
-                <WidgetBodyLoader />
-              ) : (
-                <>
-                  <h5>Beneficiaries and Partner Count</h5>
-                  <div className="widget-body">
-                    {filteredData &&
-                      filteredData.map(item => {
-                        if (item.value !== 0) {
-                          const width = (item.value * 100) / maxValue;
+          </div>
+          <div className="aside-body">
+            <div id="download-id">
+              <div className="sidebar-widget">
+                <div
+                  className="widget-body"
+                  style={{ backgroundColor: '#f7f7f7' }}
+                >
+                  {loading ? (
+                    <WidgetCardLoader />
+                  ) : (
+                    <ul className="widget-list">
+                      <li>
+                        <div className="widget-content">
+                          <h6>Total Beneficiaries</h6>
+                          <span>
+                            {numberWithCommas(totalBeneficiaries)}
+                          </span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">people</i>
+                          </span>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="widget-content">
+                          <h6>Partner Institutions</h6>
+                          <span>{partnerCount}</span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">
+                              location_city
+                            </i>
+                          </span>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="widget-content">
+                          <h6>Financial Literacy Initiative</h6>
+                          <span>{programCount}</span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">business</i>
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              </div>
+              <div className="sidebar-widget program-widget">
+                {loading ? (
+                  <WidgetBodyLoader />
+                ) : (
+                  <>
+                    <h5>Beneficiaries and Partner Count</h5>
+                    <div className="widget-body">
+                      {filteredData &&
+                        filteredData.map(item => {
+                          if (item.value !== 0) {
+                            const width =
+                              (item.value * 100) / maxValue;
 
-                          return (
-                            <div
-                              className="program-list"
-                              key={item.program_id}
-                            >
-                              <div className="program-info">
-                                <div className="info-in">
-                                  <h6 style={{ fontSize: '12px' }}>
-                                    {item.program_name}
-                                  </h6>
+                            return (
+                              <div
+                                className="program-list"
+                                key={item.program_id}
+                              >
+                                <div className="program-info">
+                                  <div className="info-in">
+                                    <h6 style={{ fontSize: '12px' }}>
+                                      {item.program_name}
+                                    </h6>
 
-                                  <div className="program-text">
-                                    <i className="material-icons">
-                                      location_city
-                                    </i>
+                                    <div className="program-text">
+                                      <i className="material-icons">
+                                        location_city
+                                      </i>
 
-                                    <span>{item.count}</span>
-                                    {/* <span>{item.code}</span> */}
+                                      <span>{item.count}</span>
+                                      {/* <span>{item.code}</span> */}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="program">
+                                  <div
+                                    className="program-bar"
+                                    tooltip={`${
+                                      item.program_name
+                                    }: ${numberWithCommas(
+                                      item.value,
+                                    )}`}
+                                    flow="down"
+                                    style={{
+                                      width: `${width}%`,
+                                      backgroundColor: colorPicker(
+                                        item.program_id,
+                                      ),
+                                    }}
+                                  >
+                                    {/* {numberWithCommas(item.value)} */}
                                   </div>
                                 </div>
                               </div>
-                              <div className="program">
-                                <div
-                                  className="program-bar"
-                                  tooltip={`${
-                                    item.program_name
-                                  }: ${numberWithCommas(item.value)}`}
-                                  flow="down"
-                                  style={{
-                                    width: `${width}%`,
-                                    backgroundColor: colorPicker(
-                                      item.program_id,
-                                    ),
-                                  }}
-                                >
-                                  {/* {numberWithCommas(item.value)} */}
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        }
-                        return true;
-                      })}
-                  </div>
-                </>
-              )}
+                            );
+                          }
+                          return true;
+                        })}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
+
             <div className="sidebar-widget timeline-widget">
               <h5 style={{ marginBottom: 0 }}>Initiative Timeline</h5>
               <div className="widget-body">

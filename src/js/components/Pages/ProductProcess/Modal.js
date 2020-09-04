@@ -35,6 +35,7 @@ const Modal = props => {
     modalHeader,
     activeModal,
     resetFilters,
+    notificationHandler,
   } = props;
 
   const selectedChartId =
@@ -104,11 +105,17 @@ const Modal = props => {
               }}
               onClick={
                 // () => downloadPng(selectedChartId, modalHeader)
-                () => downloadPng('popup-body', modalHeader)
+                () => {
+                  notificationHandler();
+                  downloadPng('popup-body', modalHeader);
+                }
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               onKeyDown={
-                () => downloadPng('popup-body', modalHeader)
+                () => {
+                  notificationHandler();
+                  downloadPng('popup-body', modalHeader);
+                }
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               id="download-icon-popup"

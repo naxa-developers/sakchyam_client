@@ -13,6 +13,7 @@ import {
   getIndicatorsGraphDataIndividual,
   getIndicatorsGraphData,
 } from '../../../actions/logFrame.actions';
+import AlertComponent from '../../common/Notifier';
 
 let dateArray = [];
 let dateArrayValues = [];
@@ -80,8 +81,19 @@ class MainComponent extends Component {
       activeBar: true,
       options: null,
       output14firstState: true,
+      alertMessage: '',
     };
   }
+
+  notificationHandler = () => {
+    this.setState({
+      alertMessage: 'The infographics will be downloaded shortly.',
+    });
+
+    setTimeout(() => {
+      this.setState({ alertMessage: '' });
+    }, 3000);
+  };
 
   handleActiveListItem = clickedValue => {
     //
@@ -879,6 +891,7 @@ class MainComponent extends Component {
       activeListFilteredData,
       expandMore,
       output14firstState,
+      alertMessage,
     } = this.state;
     const {
       props: {
@@ -986,7 +999,11 @@ class MainComponent extends Component {
               handleModal={this.handleModal}
               handleSelectedDataType={this.handleSelectedDataType}
               handleActiveIndicator={this.handleActiveIndicator}
+              notificationHandler={this.notificationHandler}
             />
+            {alertMessage && (
+              <AlertComponent message={alertMessage} case="warning" />
+            )}
           </section>
         </main>
       </>
