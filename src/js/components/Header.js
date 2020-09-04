@@ -68,24 +68,6 @@ class Header extends Component {
       // this.headerUpdate();
 
       window.addEventListener('scroll', this.headerUpdate);
-    } else {
-      // const profileDropdownEl = document.getElementById(
-      //   'profile_dropdown',
-      // );
-      // //
-      // document.addEventListener('click', async event => {
-      //   const isClickInside = profileDropdownEl.contains(
-      //     event.target,
-      //   );
-      //   if (!isClickInside) {
-      //
-      //     this.setState({
-      //       activeProfileDropdown: false,
-      //       // searchDropdown: false,
-      //     });
-      //     // the click was outside the specifiedElement, do something
-      //   }
-      // });
     }
   }
 

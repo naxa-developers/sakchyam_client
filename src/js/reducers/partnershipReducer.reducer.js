@@ -1550,13 +1550,13 @@ const filterTimelineData = (state, action) => {
     }));
   } else if (fedtype === 'district') {
     const districts = district.map(item => ({
-      code: item.districtid,
+      id: item.districtid,
       name: item.name,
     }));
-    fedData = districts.map(({ code, name }) => ({
-      code,
+    fedData = districts.map(({ id, name }) => ({
+      id,
       name,
-      count: getPartnerCount({ code, type: 'district_id' }),
+      count: getPartnerCount({ id, type: 'district_id' }),
     }));
   } else {
     const provinces = province.map(item => ({
@@ -1569,7 +1569,7 @@ const filterTimelineData = (state, action) => {
       count: getPartnerCount({ id, type: 'province_id' }),
     }));
   }
-
+  console.log(fedData, 'filteredTimelineData');
   return {
     ...state,
     filteredMapData: fedData,

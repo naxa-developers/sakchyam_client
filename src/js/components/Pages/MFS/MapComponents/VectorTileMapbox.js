@@ -1660,21 +1660,25 @@ class Choropleth extends Component {
           'fill-color',
           this.state.finalStyle,
         );
-      }, 2000);
+      }, 500);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
       //
       // this.changeGrades();
-
-      const newStyle = map.getStyle();
-      newStyle.sources.municipality.tiles = [
-        this.props.vectorTileUrl,
-      ];
-      map.setStyle(newStyle);
+      setTimeout(() => {
+        // this.plotVectorTile();
+        const newStyle = map.getStyle();
+        newStyle.sources.municipality.tiles = [
+          this.props.vectorTileUrl,
+        ];
+        map.setStyle(newStyle);
+      }, 500);
     }
     if (prevProps.vectorTileUrl !== vectorTileUrl) {
       // this.changeGrades();
-      this.plotVectorTile();
+      setTimeout(() => {
+        this.plotVectorTile();
+      }, 500);
     }
     // if (prevState.finalStyle !== this.state.finalStyle) {
     // }

@@ -19,6 +19,7 @@ const downloadPng = (chartid, imageTitle) => {
     html2canvas(document.querySelector(`#${chartid}`), {
       // logging: true,
       // letterRendering: 1,
+      scale: 5,
       allowTaint: true,
       // scale: window.devicePixelRatio,
       // windowWidth: window.innerWidth,

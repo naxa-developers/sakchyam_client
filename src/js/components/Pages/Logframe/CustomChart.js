@@ -27,35 +27,7 @@ export default class CustomChart extends Component {
         this.setState({ keyRandom: Math.random() });
       }
     }
-    // if (prevProps.activeModal !== this.props.activeModal) {
-    //   if (this.props.activeModal) {
-    //     this.setState({ keyRandom: Math.random() });
-    //   }
-    // }
   }
-  // componentDidMount() {
-  //   const firstLegend = document.getElementsByClassName(
-  //     'apexcharts-legend-series',
-  //   )[0];
-  //   // firstLegend.addEventListener('click', function() {
-  //   //   alert('clicked First Legend');
-  //   // });
-  //   // const firstLegend = document.getElementsByClassName(
-  //   //   'apexcharts-legend-series',
-  //   // )[0];
-  //   // const secondLegend = document.getElementsByClassName(
-  //   //   'apexcharts-legend-series',
-  //   // )[3];
-  //   firstLegend.addEventListener('click', async event => {
-  //
-  //   });
-  // }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.activeModal !== this.props.activeModal) {
-  //     // eslint-disable-next-line
-  //     this.setState({modal:this.props.activeModal});
-  //   }
-  // }
 
   render() {
     const { modal, keyRandom } = this.state;

@@ -68,7 +68,7 @@ class MiddleChartSection extends Component {
     } = this.props.partnershipReducer;
     // const that = this;
     const clickedName = e.data.name;
-    this.props.resetLeftSideBarSelection();
+    // this.props.resetLeftSideBarSelection();
     //
     // console.log(
     //   partnershipInvestmentFocus.filter(investment => {

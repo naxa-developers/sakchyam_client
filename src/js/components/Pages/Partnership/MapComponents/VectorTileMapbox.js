@@ -252,7 +252,7 @@ class Choropleth extends Component {
     setTimeout(() => {
       this.ChangeLegendColors();
       this.setChoroplethStyle(fullData);
-    }, 200);
+    }, 500);
   }
 
   ChangeLegendColors() {
@@ -396,6 +396,7 @@ class Choropleth extends Component {
             partnerList.push({
               partnerName: piedata.investment_primary,
               partnerlist: piedata.partner_list,
+              totalCount: piedata[`${viewBy}`],
             });
           }
           singleData.point_count += piedata[`${viewBy}`];
@@ -1653,11 +1654,13 @@ class Choropleth extends Component {
       // );
       this.changeGrades();
       setTimeout(() => {
-        map.setPaintProperty(
-          'vector-tile-fill',
-          'fill-color',
-          this.state.finalStyle,
-        );
+        if (map.getLayer('vector-tile-fill')) {
+          map.setPaintProperty(
+            'vector-tile-fill',
+            'fill-color',
+            this.state.finalStyle,
+          );
+        }
       }, 1500);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
