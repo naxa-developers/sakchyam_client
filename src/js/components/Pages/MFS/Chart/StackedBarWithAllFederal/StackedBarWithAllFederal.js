@@ -409,11 +409,22 @@ class StackedBarWithAllFederal extends Component {
     const {
       mfsReducer: { mfsChartDataByPartner, mfsChartData },
     } = this.props;
-
+    console.log(Partnerseries, 'partnerSeries');
+    console.log(
+      Fedseries && Fedseries[0] && Fedseries[0].data.length,
+      'Fedseries',
+    );
     return (
       <div
         id="stacked_chart"
-        style={mapViewBy === 'district' ? { width: '2500px' } : {}}
+        style={
+          mapViewBy === 'district' &&
+          Fedseries &&
+          Fedseries[0] &&
+          Fedseries[0].data.length > 10
+            ? { width: '2500px' }
+            : {}
+        }
       >
         {showBarChartBy === 'Partner' ? (
           <Achart

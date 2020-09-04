@@ -634,7 +634,7 @@
 }
 .pie-mapbox-popup {
   width: 275px;
-  z-index: 9999;
+  overflow: hidden;
   // max-width: 234px;
 }
 #heatmap-chart {
@@ -790,5 +790,5 @@
   position: relative;
 }
 .mapboxgl-marker{
-  z-index: 10000;
+  z-index: 99;
 }

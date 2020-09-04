@@ -349,12 +349,12 @@ class MainMFS extends Component {
             style={
               mapViewBy === 'district' && window.innerWidth > 1400
                 ? {
-                    width: '1200px',
+                    width: '1800px',
                     overflowX: 'scroll',
                   }
                 : mapViewBy === 'district' && window.innerWidth < 1400
                 ? {
-                    width: '800px',
+                    width: '1350px',
                     overflowX: 'scroll',
                   }
                 : {}
