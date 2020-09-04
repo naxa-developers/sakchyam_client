@@ -5,7 +5,7 @@ import { select } from 'd3';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/src/css/mapbox-gl.css';
 import MapboxPartnership from './MapComponents/MapboxPartnership';
-import Headers from '../../Header';
+import AlertComponent from '../../common/Notifier';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
 import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
@@ -92,7 +92,7 @@ class MainPartnership extends Component {
       isAllInvestmentFocusSelected: false,
       showBarof: 'Provinces',
       showBarofInvestmentBudgetBenef: 'investmentFocus',
-      // UI Section
+      alertMessage: '',
       activeFilter: false,
       activeOverview: false,
       viewDataBy: 'allocated_beneficiary',
@@ -1544,6 +1544,16 @@ class MainPartnership extends Component {
     });
   }
 
+  notificationHandler = () => {
+    this.setState({
+      alertMessage: 'The infographics will be downloaded shortly.',
+    });
+
+    setTimeout(() => {
+      this.setState({ alertMessage: '' });
+    }, 3000);
+  };
+
   render() {
     const {
       state: {
@@ -1566,6 +1576,7 @@ class MainPartnership extends Component {
         selectedDistrict,
         selectedMunicipality,
         isLeverageBarClicked,
+        alertMessage,
       },
       // props: {},
     } = this;
@@ -2071,6 +2082,7 @@ class MainPartnership extends Component {
                     this.handleShowBarOfInvestmentBudgetBenefBar
                   }
                   applyBtnClick={this.applyBtnClick}
+                  notificationHandler={this.notificationHandler}
                 />
                 <div
                   className="literacy-tab-item"
@@ -2135,7 +2147,11 @@ class MainPartnership extends Component {
             activeView={activeView}
             setActiveOverview={this.setActiveOverview}
             setActiveView={this.setActiveView}
+            handelAlerts={this.notificationHandler}
           />
+          {alertMessage && (
+            <AlertComponent message={alertMessage} case="warning" />
+          )}
         </div>
         {/* <MapboxPartnership /> */}
       </>

@@ -15,7 +15,7 @@ import {
   downloadPng,
 } from '../../common/utilFunctions';
 import DownloadIcon from '../../../../img/get_app.png';
-
+import AlertComponent from '../../common/Notifier';
 import { CaretUp, CaretDown } from '../../common/Caret';
 
 class RightSideBar extends Component {
@@ -33,8 +33,19 @@ class RightSideBar extends Component {
       totalPartners: '',
       yearArray: '',
       filteredPrimaryData: '',
+      message: '',
     };
   }
+
+  handelAlerts = () => {
+    this.setState({
+      message: 'The infographics will be downloaded shortly.',
+    });
+
+    setTimeout(() => {
+      this.setState({ message: '' });
+    }, 3000);
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { outreachReducer, primaryData } = this.props;
@@ -179,10 +190,9 @@ class RightSideBar extends Component {
       totalBranch,
       totalBLB,
       totalPartners,
-      yearArray,
-      filteredPrimaryData,
       timelineData,
       hoverID,
+      message,
     } = this.state;
     return (
       <aside
@@ -206,17 +216,15 @@ class RightSideBar extends Component {
                 <div
                   className="widget-icon"
                   onClick={() => {
+                    this.handelAlerts();
                     downloadPng(
                       mapViewDataBy === 'general_outreach'
                         ? 'download-id'
                         : 'download-id-one',
                       'Outreach Overview Download',
                     );
-                    // notifyHandler(
-                    //   'The infographics will be downloaded shortly.',
-                    // );
                   }}
-                  style={{ paddingRight: '10px' }}
+                  style={{ paddingRight: '10px', cursor: 'pointer' }}
                 >
                   <img
                     alt="cat"
@@ -437,6 +445,7 @@ class RightSideBar extends Component {
             <i className="material-icons">chevron_right</i>
           </button>
         </div>
+        {message && <AlertComponent message={message} case="alert" />}
       </aside>
     );
   }

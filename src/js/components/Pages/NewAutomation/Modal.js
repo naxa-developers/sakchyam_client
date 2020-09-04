@@ -85,12 +85,12 @@ const Modal = props => {
                 cursor: 'pointer',
               }}
               onClick={() => {
+                notifyHandler(
+                  'The infographics will be downloaded shortly.',
+                );
                 downloadPng(
                   'pie-content',
                   'Automation Partner Infographics',
-                );
-                notifyHandler(
-                  'The infographics will be downloaded shortly.',
                 );
               }}
             >

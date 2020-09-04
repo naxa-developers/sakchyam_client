@@ -30,6 +30,7 @@ import SankeyDiagram from './Charts/SankeyDiagram';
 import TreeMapDiagram from './Charts/TreeMapDiagram';
 import TableData from './TableData/TableData';
 import Modal from './Modal';
+import AlertComponent from '../../common/Notifier';
 
 function convertLabelName(name) {
   const nameArr = name.split(' ');
@@ -105,6 +106,7 @@ class FinancialLiteracy extends Component {
       clickedPartnerName: '',
       isBarChartClicked: false,
       chartData2: {},
+      alertMessage: '',
     };
     this.sankeyRef = React.createRef();
   }
@@ -127,6 +129,16 @@ class FinancialLiteracy extends Component {
       this.setState({ checkedPartnerItems: [] });
     }
   }
+
+  notificationHandler = () => {
+    this.setState({
+      alertMessage: 'The infographics will be downloaded shortly.',
+    });
+
+    setTimeout(() => {
+      this.setState({ alertMessage: '' });
+    }, 3000);
+  };
 
   handleBarChartReset = () => {
     this.setState(prev => ({
@@ -382,6 +394,7 @@ class FinancialLiteracy extends Component {
   };
 
   downloadPng = (chartid, filename) => {
+    this.notificationHandler();
     this.setState({ isDownloading: true });
     const name = filename ? filename : 'chart';
     setTimeout(() => {
@@ -527,6 +540,7 @@ class FinancialLiteracy extends Component {
         selectedModal,
         modalHeader,
         isDownloading,
+        alertMessage,
       },
     } = this;
     return (
@@ -869,6 +883,7 @@ class FinancialLiteracy extends Component {
               activeModal={activeModal}
               header={modalHeader}
               component={() => this.getModalContent(selectedModal)}
+              notificationHandler={this.notificationHandler}
             />
           )}
           {/* ) : ( */}
@@ -909,7 +924,12 @@ class FinancialLiteracy extends Component {
             checkedPartnerItems={checkedPartnerItems1}
             handleRightSidebarShow={this.handleRightSidebarShow}
             partnerType={partnerType}
+            handelAlerts={this.notificationHandler}
           />
+
+          {alertMessage && (
+            <AlertComponent message={alertMessage} case="warning" />
+          )}
         </div>
       </>
     );

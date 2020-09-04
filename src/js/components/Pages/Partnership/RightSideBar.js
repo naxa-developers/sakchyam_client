@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -5,6 +7,10 @@ import OutreachTab from './common/OutreachTab';
 import { getOverviewData } from '../../../actions/partnership.actions';
 import DownloadIcon from '../../../../img/get_app.png';
 import downloadOverviewSection from '../../utils/overviewDownload';
+import {
+  numberWithCommas,
+  downloadPng,
+} from '../../common/utilFunctions';
 
 const outreachTabTitle = [
   'Investment Focus',
@@ -17,14 +23,7 @@ const outreachTabTitle = [
   'Number of Tablet Banking Points',
   'Innovative Products Introduced',
 ];
-function numberWithCommas(x) {
-  if (x !== null) {
-    const parts = x.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
-  }
-  return x;
-}
+
 class RightSideBar extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +37,7 @@ class RightSideBar extends Component {
   render() {
     const {
       props: {
-        activeView,
+        handelAlerts,
         activeOverview,
         setActiveView,
         setActiveOverview,
@@ -54,58 +53,40 @@ class RightSideBar extends Component {
       >
         <div className="sidebar-in">
           <div className="right-sidebar-header">
-            <h5>Overview</h5>
-            <span
-              className="download-span"
-              onClick={() => {
-                downloadOverviewSection(
-                  '.overview-section',
-                  'Partnership Overview',
-                );
-              }}
-              onKeyDown={() => {
-                downloadOverviewSection(
-                  '.overview-section',
-                  'Partnership Overview',
-                );
-              }}
-              role="button"
-              tabIndex="-1"
-            >
-              <img src={DownloadIcon} alt="open" />
-            </span>
-            {/* {activeView === 'visualization' ? (
-              <a
-                onClick={() => {
-                  setActiveView('map');
+            <div style={{ display: 'flex', width: '100%' }}>
+              <div style={{ flex: 1 }}>
+                <h5>Overview</h5>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
                 }}
-                onKeyUp={() => {
-                  setActiveView('map');
-                }}
-                role="tab"
-                tabIndex="0"
               >
-                View on map
-              </a>
-            ) : (
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-              <a
-                onClick={() => {
-                  setActiveView('visualization');
-                }}
-                // onKeyDown={() => {
-                //   setActiveView('visualization');
-                // }}
-                role="tab"
-                tabIndex="0"
-              >
-                Back to Visualization
-              </a>
-            )} */}
+                <div
+                  className="widget-icon"
+                  onClick={() => {
+                    handelAlerts();
+                    downloadPng(
+                      'download-id',
+                      'Partnership Overview ',
+                    );
+                  }}
+                  style={{ paddingRight: '10px', cursor: 'pointer' }}
+                >
+                  <img
+                    alt="cat"
+                    src={DownloadIcon}
+                    style={{ height: '18px', width: '18px' }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div className="aside-body">
             <div className="sidebar-widget overview-section">
-              <div className="widget-body">
+              <div className="widget-body" id="download-id">
                 <ul className="widget-list">
                   <OutreachTab
                     title="Investment Focus"
