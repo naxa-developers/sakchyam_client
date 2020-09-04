@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-var */
@@ -11,22 +12,11 @@ import OutreachTab from '../../common/overviewTab';
 import {
   removeDuplicates,
   numberWithCommas,
-  getFormattedDate,
+  downloadPng,
 } from '../../common/utilFunctions';
-
+import DownloadIcon from '../../../../img/get_app.png';
+import AlertComponent from '../../common/Notifier';
 import { CaretUp, CaretDown } from '../../common/Caret';
-
-const outreachTabTitle = [
-  'Investment Focus',
-  'Projects Implemented',
-  'Partner Institutions',
-  'Total Beneficiaries Reached',
-  'Sakchyam Investment (GBP)',
-  'New Physical Branches Established',
-  'New BLBs Established',
-  'Number of Tablet Banking Points',
-  'Innovative Products Introduced',
-];
 
 class RightSideBar extends Component {
   constructor(props) {
@@ -43,8 +33,19 @@ class RightSideBar extends Component {
       totalPartners: '',
       yearArray: '',
       filteredPrimaryData: '',
+      message: '',
     };
   }
+
+  handelAlerts = () => {
+    this.setState({
+      message: 'The infographics will be downloaded shortly.',
+    });
+
+    setTimeout(() => {
+      this.setState({ message: '' });
+    }, 3000);
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { outreachReducer, primaryData } = this.props;
@@ -189,10 +190,9 @@ class RightSideBar extends Component {
       totalBranch,
       totalBLB,
       totalPartners,
-      yearArray,
-      filteredPrimaryData,
       timelineData,
       hoverID,
+      message,
     } = this.state;
     return (
       <aside
@@ -200,29 +200,45 @@ class RightSideBar extends Component {
         style={{ maxWidth: '345px' }}
       >
         <div className="sidebar-in">
+          {/* <div id="download-id"></div> */}
           <div className="right-sidebar-header">
-            <h5>Overview</h5>
-            {activeView === 'visualization' ? (
-              <a
-                onClick={() => {
-                  setActiveView('map');
+            <div style={{ display: 'flex', width: '100%' }}>
+              <div style={{ flex: 1 }}>
+                <h5>Overview</h5>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
                 }}
-                onKeyUp={() => {
-                  setActiveView('map');
-                }}
-                role="tab"
-                tabIndex="0"
               >
-                View on map
-              </a>
-            ) : (
-              <></>
-            )}
+                <div
+                  className="widget-icon"
+                  onClick={() => {
+                    this.handelAlerts();
+                    downloadPng(
+                      mapViewDataBy === 'general_outreach'
+                        ? 'download-id'
+                        : 'download-id-one',
+                      'Outreach Overview Download',
+                    );
+                  }}
+                  style={{ paddingRight: '10px', cursor: 'pointer' }}
+                >
+                  <img
+                    alt="cat"
+                    src={DownloadIcon}
+                    style={{ height: '18px', width: '18px' }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div className="aside-body">
             {mapViewDataBy === 'general_outreach' ? (
               <div className="sidebar-widget">
-                <div className="widget-body">
+                <div className="widget-body" id="download-id">
                   <ul className="widget-list">
                     <li>
                       <div className="widget-content">
@@ -264,7 +280,7 @@ class RightSideBar extends Component {
               </div>
             ) : (
               <div className="sidebar-widget">
-                <div className="widget-body">
+                <div className="widget-body" id="download-id-one">
                   <ul className="widget-list">
                     <OutreachTab
                       title="Population in the Local Unit"
@@ -429,6 +445,7 @@ class RightSideBar extends Component {
             <i className="material-icons">chevron_right</i>
           </button>
         </div>
+        {message && <AlertComponent message={message} case="alert" />}
       </aside>
     );
   }

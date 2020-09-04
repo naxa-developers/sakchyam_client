@@ -569,7 +569,7 @@ class Choropleth extends Component {
     //   10,
     // );
     SVG.append('text')
-      .text('Investment Focus')
+      .text('Achievement Type')
       .attr('x', 10)
       .attr('y', 20)
       .style('font-size', '13px');
@@ -1627,6 +1627,8 @@ class Choropleth extends Component {
       // const test = this.createDonutChart(a, b);
     }
     if (prevProps.choroplethData !== this.props.choroplethData) {
+      console.log(prevProps.choroplethData, 'previousChoropleth');
+      console.log(this.props.choroplethData, 'newChoropleth');
       // map.addLayer({
       //   id: 'circle-tile-label',
       //   type: 'symbol',
@@ -1658,21 +1660,25 @@ class Choropleth extends Component {
           'fill-color',
           this.state.finalStyle,
         );
-      }, 2000);
+      }, 500);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {
       //
       // this.changeGrades();
-
-      const newStyle = map.getStyle();
-      newStyle.sources.municipality.tiles = [
-        this.props.vectorTileUrl,
-      ];
-      map.setStyle(newStyle);
+      setTimeout(() => {
+        // this.plotVectorTile();
+        const newStyle = map.getStyle();
+        newStyle.sources.municipality.tiles = [
+          this.props.vectorTileUrl,
+        ];
+        map.setStyle(newStyle);
+      }, 500);
     }
     if (prevProps.vectorTileUrl !== vectorTileUrl) {
       // this.changeGrades();
-      this.plotVectorTile();
+      setTimeout(() => {
+        this.plotVectorTile();
+      }, 500);
     }
     // if (prevState.finalStyle !== this.state.finalStyle) {
     // }

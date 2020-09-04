@@ -1,9 +1,13 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable radix */
 import React, { Component } from 'react';
 import {
   removeDuplicates,
   numberWithCommas,
+  downloadPng,
 } from '../../common/utilFunctions';
+import DownloadIcon from '../../../../img/get_app.png';
 import OverviewTab from '../../common/overviewTab';
 import RightSidebarLoader from './Charts/Loader/RightSidebarLoaderI';
 
@@ -82,7 +86,12 @@ class RightSideBar extends Component {
 
   render() {
     const {
-      props: { activeOverview, setActiveOverview, loading },
+      props: {
+        activeOverview,
+        setActiveOverview,
+        loading,
+        notificationHandler,
+      },
       state: {
         partners,
         products,
@@ -102,10 +111,36 @@ class RightSideBar extends Component {
       >
         <div className="sidebar-in">
           <div className="right-sidebar-header">
-            <h5>Overview</h5>
+            <div style={{ display: 'flex', width: '100%' }}>
+              <div style={{ flex: 1 }}>
+                <h5>Overview</h5>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <div
+                  className="widget-icon"
+                  onClick={() => {
+                    notificationHandler();
+                    downloadPng('download-id', 'Insurance Overview ');
+                  }}
+                  style={{ paddingRight: '10px', cursor: 'pointer' }}
+                >
+                  <img
+                    alt="cat"
+                    src={DownloadIcon}
+                    style={{ height: '18px', width: '18px' }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div className="aside-body">
-            <div className="sidebar-widget">
+            <div className="sidebar-widget" id="download-id">
               <div
                 className="widget-body"
                 style={{ backgroundColor: '#f7f7f7' }}

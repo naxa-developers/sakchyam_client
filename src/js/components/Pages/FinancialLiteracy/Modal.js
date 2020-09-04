@@ -12,13 +12,13 @@ const downloadPng = (chartid, filename) => {
   downloadIcon.style.display = 'none';
 
   setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {}).then(
-      canvas => {
-        canvas.toBlob(function(blob) {
-          saveAs(blob, `${filename}.png`);
-        });
-      },
-    );
+    html2canvas(document.querySelector(`#${chartid}`), {
+      scale: 5,
+    }).then(canvas => {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, `${filename}.png`);
+      });
+    });
   }, 500);
 
   setTimeout(() => {
@@ -34,6 +34,7 @@ const Modal = props => {
     selectedModal,
     header,
     isBarChartToggled,
+    notificationHandler,
   } = props;
   const selectedChartId =
     selectedModal === 'bar'
@@ -78,7 +79,10 @@ const Modal = props => {
                 cursor: 'pointer',
               }}
               id="download-icon-popup"
-              onClick={() => downloadPng('popup-body', header)}
+              onClick={() => {
+                notificationHandler();
+                downloadPng('popup-body', header);
+              }}
             >
               <img src={DownloadIcon} alt="open" />
             </span>

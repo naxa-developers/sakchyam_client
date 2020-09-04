@@ -6,9 +6,8 @@ import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
 import MiddleChartSection from './MiddleChartSection/MiddleChartSection';
-
+import AlertComponent from '../../common/Notifier';
 import { fetchInsuranceData } from '../../../actions/insurance.actions';
-import Loading from '../../common/Loading';
 
 class MainPartnership extends Component {
   constructor() {
@@ -24,6 +23,7 @@ class MainPartnership extends Component {
       investmentFocusSelection: [],
       isAllInvestmentFocusSelected: false,
       activeOverview: false,
+      alertMessage: '',
     };
   }
 
@@ -388,6 +388,16 @@ class MainPartnership extends Component {
     });
   };
 
+  notificationHandler = () => {
+    this.setState({
+      alertMessage: 'The infographics will be downloaded shortly.',
+    });
+
+    setTimeout(() => {
+      this.setState({ alertMessage: '' });
+    }, 3000);
+  };
+
   render() {
     const {
       state: {
@@ -399,6 +409,7 @@ class MainPartnership extends Component {
         isAllInstitutionSelected,
         productSelection,
         insuranceData,
+        alertMessage,
       },
     } = this;
 
@@ -455,6 +466,7 @@ class MainPartnership extends Component {
                   insuranceData={insuranceData}
                   activeOverview={activeOverview}
                   loading={loading}
+                  notificationHandler={this.notificationHandler}
                 />
               </div>
             </div>
@@ -491,7 +503,12 @@ class MainPartnership extends Component {
             activeOverview={activeOverview}
             setActiveOverview={this.setActiveOverview}
             insuranceData={insuranceData}
+            notificationHandler={this.notificationHandler}
           />
+
+          {alertMessage && (
+            <AlertComponent message={alertMessage} case="warning" />
+          )}
         </div>
       </>
     );

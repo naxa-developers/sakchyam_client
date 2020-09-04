@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -23,6 +24,7 @@ import RadarChart from './Charts/Radar/RadarChart';
 import BarChart from './Charts/BarChart/BarChart';
 import DownloadIcon from '../../../../img/get_app.png';
 import ExpandIcon from '../../../../img/open_in_full-black-18dp.png';
+import AlertComponent from '../../common/Notifier';
 
 // CHART CARD TITLES
 const chartTitles = {
@@ -30,7 +32,7 @@ const chartTitles = {
   radarTitle: 'Number of products in Innovation Area by Partner Type',
   barTitle: 'Number of products by Innovation Area',
   heatmapTitle:
-    'Number of products by Market Failure and Innovation Area',
+    'Number of products by Market Failure/Missing Markets and Innovation Area',
 };
 
 class ProductProcess extends React.Component {
@@ -55,6 +57,7 @@ class ProductProcess extends React.Component {
       selectedModal: '',
       modalHeader: '',
       isDownloading: false,
+      alertMessage: '',
     };
   }
 
@@ -88,10 +91,12 @@ class ProductProcess extends React.Component {
   }
 
   downloadPng = (chartid, imageTitle) => {
+    this.notificationHandler();
     this.setState({ isDownloading: true });
     setTimeout(() => {
       html2canvas(document.querySelector(`#${chartid}`), {
         allowTaint: true,
+        scale: 5,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${imageTitle}.png`);
@@ -539,6 +544,16 @@ class ProductProcess extends React.Component {
     this.props.resetAllChartPP();
   };
 
+  notificationHandler = () => {
+    this.setState({
+      alertMessage: 'The infographics will be downloaded shortly.',
+    });
+
+    setTimeout(() => {
+      this.setState({ alertMessage: '' });
+    }, 3000);
+  };
+
   render() {
     const {
       showRightSidebar,
@@ -548,7 +563,7 @@ class ProductProcess extends React.Component {
       partnerNameSelection,
       marketFailureSelection,
       partnerTypeSelection,
-
+      alertMessage,
       activeModal,
       selectedModal,
       modalHeader,
@@ -639,16 +654,13 @@ class ProductProcess extends React.Component {
                 <div className="literacy-tab-item">
                   {activeModal && (
                     <Modal
-                      // visible={selectedModal === 'bar' ? true : false}
+                      notificationHandler={this.notificationHandler}
                       modalHeader={modalHeader}
-                      // handleShowBarOf={handleShowBarOf}
-                      // resetFilters={resetFilters}
                       selectedModal={selectedModal}
                       handleModal={this.handleModal}
                       activeModal={activeModal}
-                      component={
-                        () => this.getModalContent(selectedModal)
-                        // eslint-disable-next-line react/jsx-curly-newline
+                      component={() =>
+                        this.getModalContent(selectedModal)
                       }
                     />
                   )}
@@ -863,7 +875,11 @@ class ProductProcess extends React.Component {
           <RightSideBar
             showRightSidebar={showRightSidebar}
             handleRightSidebarShow={this.handleRightSidebarShow}
+            notificationHandler={this.notificationHandler}
           />
+          {alertMessage && (
+            <AlertComponent message={alertMessage} case="warning" />
+          )}
         </div>
       </>
     );

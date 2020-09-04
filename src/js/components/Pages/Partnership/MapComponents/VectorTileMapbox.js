@@ -252,7 +252,7 @@ class Choropleth extends Component {
     setTimeout(() => {
       this.ChangeLegendColors();
       this.setChoroplethStyle(fullData);
-    }, 200);
+    }, 500);
   }
 
   ChangeLegendColors() {
@@ -396,6 +396,7 @@ class Choropleth extends Component {
             partnerList.push({
               partnerName: piedata.investment_primary,
               partnerlist: piedata.partner_list,
+              totalCount: piedata[`${viewBy}`],
             });
           }
           singleData.point_count += piedata[`${viewBy}`];
@@ -759,6 +760,7 @@ class Choropleth extends Component {
       .select(div)
       .append('svg')
       .attr('class', 'pie')
+      .style('z-index', '9')
       .attr('width', radius * 2)
       .attr('height', radius * 2);
     //
@@ -977,6 +979,7 @@ class Choropleth extends Component {
           .transition()
           .duration('50')
           .attr('opacity', '.65')
+          .style('z-index', '1000')
           .attr(
             'd',
             d3
@@ -1549,8 +1552,22 @@ class Choropleth extends Component {
   };
 
   componentDidMount() {
-    this.changeGrades();
-    this.plotVectorTile();
+    const { map } = this.props;
+    if (map) {
+      if (map.getLayer('vector-tile-fill')) {
+        map.removeLayer('vector-tile-fill');
+      }
+      if (map.getLayer('vector-tile-outline')) {
+        map.removeLayer('vector-tile-outline');
+      }
+      if (map.getSource('municipality')) {
+        map.removeSource('municipality');
+      }
+    }
+    setTimeout(() => {
+      this.changeGrades();
+      this.plotVectorTile();
+    }, 10);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -1637,11 +1654,13 @@ class Choropleth extends Component {
       // );
       this.changeGrades();
       setTimeout(() => {
-        map.setPaintProperty(
-          'vector-tile-fill',
-          'fill-color',
-          this.state.finalStyle,
-        );
+        if (map.getLayer('vector-tile-fill')) {
+          map.setPaintProperty(
+            'vector-tile-fill',
+            'fill-color',
+            this.state.finalStyle,
+          );
+        }
       }, 1500);
     }
     if (prevProps.vectorTileUrl !== this.props.vectorTileUrl) {

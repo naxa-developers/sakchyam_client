@@ -176,8 +176,6 @@ class PlotVector extends Component {
       },
     }));
 
-    console.log('primaryDAta', featuresArray);
-
     const comparision = {
       type: 'FeatureCollection',
       crs: {
@@ -730,6 +728,12 @@ class PlotVector extends Component {
                     <img src={Others} />
                   </div>
                   <p>BLB</p>
+                </li>
+                <li>
+                  <div>
+                    <img src={Bbank} />
+                  </div>
+                  <p>Commercial Bank Branch</p>
                 </li>
               </ul>
             </div>

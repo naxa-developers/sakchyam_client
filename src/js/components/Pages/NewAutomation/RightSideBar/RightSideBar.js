@@ -7,7 +7,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
-import { numberWithCommas } from '../../../common/utilFunctions';
+import DownloadIcon from '../../../../../img/get_app.png';
+import {
+  numberWithCommas,
+  downloadPng,
+} from '../../../common/utilFunctions';
 
 function getClassName(i) {
   if (i % 12 === 0) return 'is-color1';
@@ -58,7 +62,11 @@ class RightSideBar extends Component {
     const {
       automationReducer: { automationLeftSidePartnerData },
     } = this.props;
-    const { automationReducer, modalHandler } = this.props;
+    const {
+      automationReducer,
+      modalHandler,
+      notifyHandler,
+    } = this.props;
     const {
       tabletsDeployed,
       branchesCountOptions,
@@ -123,201 +131,264 @@ class RightSideBar extends Component {
             )}
           </div>
           <div className="aside-body">
-            <div className="sidebar-widget">
-              <div className="widget-body">
-                <ul className="widget-list is-clear">
-                  <li>
-                    <div className="widget-content">
-                      <h6>Tablets Deployed</h6>
-                    </div>
-
-                    <div
-                      className="widget-icon"
-                      onClick={() => {
-                        modalHandler();
-                      }}
-                    >
-                      <img
-                        src={ExpandIcon}
-                        style={{ height: '18px', width: '18px' }}
-                      />
-                    </div>
-                  </li>
-                </ul>
-                <div id="motivation-pie">
-                  {tabletsDeployed.total_branch === 0 ? (
-                    0
-                  ) : (
-                    <ReactApexChart
-                      options={tabletsDeployed}
-                      series={tabletsDeployed.series}
-                      type="donut"
-                      height="140"
-                    />
-                  )}
-                </div>
-                <ul className="widget-list">
-                  {/* <Loading loaderState={loading} /> */}
-                  <li>
-                    <div className="widget-content">
-                      <h6>
-                        {automationReducer.automationRightSidePartnerData &&
-                        automationReducer
-                          .automationRightSidePartnerData[0] &&
-                        automationReducer
-                          .automationRightSidePartnerData[0]
-                          .total_partner > 1
-                          ? 'Partner Institutions'
-                          : 'Partner Institution'}
-                      </h6>
-                      <span>
-                        {automationReducer.automationRightSidePartnerData &&
-                          automationReducer
-                            .automationRightSidePartnerData[0] &&
-                          automationReducer
-                            .automationRightSidePartnerData[0]
-                            .total_partner}
-                      </span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">
-                          location_city
-                        </i>
-                      </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="widget-content">
-                      <h6>{cooperativeHeader}</h6>
-                      <span>
-                        {automationReducer.automationRightSidePartnerData &&
-                          automationReducer
-                            .automationRightSidePartnerData[0] &&
-                          automationReducer
-                            .automationRightSidePartnerData[0]
-                            .total_branch}
-                      </span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">business</i>
-                      </span>
-                    </div>
-                  </li>
-                  <li
-                    style={
-                      showBeneficiary === true
-                        ? { display: 'flex' }
-                        : { display: 'none' }
-                    }
-                  >
-                    <div className="widget-content">
-                      <h6>Beneficiaries</h6>
-                      <span>
-                        {tabletsDeployed.total_beneficiary
-                          ? numberWithCommas(
-                              tabletsDeployed.total_beneficiary,
-                            )
-                          : 'N/A'}
-                      </span>
-                    </div>
-                    <div className="widget-icon">
-                      <span>
-                        <i className="material-icons">people</i>
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="sidebar-widget">
-              <h5>
-                {selectedList && selectedList.length > 1
-                  ? 'Selected Partners'
-                  : 'Selected Partner'}
-              </h5>
-              <div className="widget-body">
-                {selectedList &&
-                  selectedList.length === 0 &&
-                  'No Partner Selected'}
-                {selectedList &&
-                  selectedList.map((data, i) => {
-                    let initials =
-                      data.partner_name.match(/\b\w/g) || [];
-                    initials = (
-                      (initials.shift() || '') +
-                      (initials.pop() || '')
-                    ).toUpperCase();
-                    return (
-                      <li
-                        key={data.id}
-                        role="tab"
-                        className="selectedPartner"
+            <div id="partner-tablet-count">
+              <div className="sidebar-widget">
+                <div className="widget-body">
+                  <ul className="widget-list is-clear">
+                    <li>
+                      <div className="widget-content">
+                        <h6>Tablets Deployed</h6>
+                      </div>
+                      <div
+                        className="widget-icon"
+                        onClick={() => {
+                          notifyHandler(
+                            'The infographics will be downloaded shortly.',
+                          );
+                          downloadPng(
+                            'partner-tablet-count',
+                            'Automation Partner Tablets Deployed',
+                          );
+                        }}
+                        style={{
+                          paddingRight: '10px',
+                          cursor: 'pointer',
+                        }}
                       >
-                        <div
-                          className={`organization-icon ${getClassName(
-                            data.id,
-                          )}`}
+                        <img
+                          src={DownloadIcon}
+                          style={{ height: '18px', width: '18px' }}
+                        />
+                      </div>
+
+                      <div
+                        className="widget-icon"
+                        onClick={() => {
+                          modalHandler('tablets');
+                        }}
+                      >
+                        <img
+                          src={ExpandIcon}
+                          style={{
+                            height: '18px',
+                            width: '18px',
+                            cursor: 'pointer',
+                          }}
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                  <div id="motivation-pie">
+                    {tabletsDeployed.total_branch === 0 ? (
+                      0
+                    ) : (
+                      <ReactApexChart
+                        options={tabletsDeployed}
+                        series={tabletsDeployed.series}
+                        type="donut"
+                        height="140"
+                      />
+                    )}
+                  </div>
+                  <ul className="widget-list">
+                    {/* <Loading loaderState={loading} /> */}
+                    <li>
+                      <div className="widget-content">
+                        <h6>
+                          {automationReducer.automationRightSidePartnerData &&
+                          automationReducer
+                            .automationRightSidePartnerData[0] &&
+                          automationReducer
+                            .automationRightSidePartnerData[0]
+                            .total_partner > 1
+                            ? 'Partner Institutions'
+                            : 'Partner Institution'}
+                        </h6>
+                        <span>
+                          {automationReducer.automationRightSidePartnerData &&
+                            automationReducer
+                              .automationRightSidePartnerData[0] &&
+                            automationReducer
+                              .automationRightSidePartnerData[0]
+                              .total_partner}
+                        </span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">
+                            location_city
+                          </i>
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="widget-content">
+                        <h6>{cooperativeHeader}</h6>
+                        <span>
+                          {automationReducer.automationRightSidePartnerData &&
+                            automationReducer
+                              .automationRightSidePartnerData[0] &&
+                            automationReducer
+                              .automationRightSidePartnerData[0]
+                              .total_branch}
+                        </span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">business</i>
+                        </span>
+                      </div>
+                    </li>
+                    <li
+                      style={
+                        showBeneficiary === true
+                          ? { display: 'flex' }
+                          : { display: 'none' }
+                      }
+                    >
+                      <div className="widget-content">
+                        <h6>Beneficiaries</h6>
+                        <span>
+                          {tabletsDeployed.total_beneficiary
+                            ? numberWithCommas(
+                                tabletsDeployed.total_beneficiary,
+                              )
+                            : 'N/A'}
+                        </span>
+                      </div>
+                      <div className="widget-icon">
+                        <span>
+                          <i className="material-icons">people</i>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="sidebar-widget">
+                <h5>
+                  {selectedList && selectedList.length > 1
+                    ? 'Selected Partners'
+                    : 'Selected Partner'}
+                </h5>
+                <div className="widget-body">
+                  {selectedList &&
+                    selectedList.length === 0 &&
+                    'No Partner Selected'}
+                  {selectedList &&
+                    selectedList.map((data, i) => {
+                      let initials =
+                        data.partner_name.match(/\b\w/g) || [];
+                      initials = (
+                        (initials.shift() || '') +
+                        (initials.pop() || '')
+                      ).toUpperCase();
+                      return (
+                        <li
+                          key={data.id}
+                          role="tab"
+                          className="selectedPartner"
                         >
-                          <span>{initials}</span>
-                        </div>
-                        <div className="organization-content">
-                          <h5>{data.partner_name}</h5>
-                          <div className="icon-list">
-                            <div className="icons">
-                              <i className="material-icons">
-                                tablet_mac
-                              </i>
-                              <b>{data.tablets_deployed}</b>
+                          <div
+                            className={`organization-icon ${getClassName(
+                              data.id,
+                            )}`}
+                          >
+                            <span>{initials}</span>
+                          </div>
+                          <div className="organization-content">
+                            <h5>{data.partner_name}</h5>
+                            <div className="icon-list">
+                              <div className="icons">
+                                <i className="material-icons">
+                                  tablet_mac
+                                </i>
+                                <b>{data.tablets_deployed}</b>
+                              </div>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  business
+                                </i>
+                                <b>{data.branch}</b>
+                              </div>
+                              <div className="icons">
+                                <i className="material-icons">
+                                  people
+                                </i>
+                                <b>
+                                  {data.beneficiary &&
+                                    numberWithCommas(
+                                      data.beneficiary,
+                                    )}
+                                </b>
+                              </div>
                             </div>
-                            <div className="icons">
-                              <i className="material-icons">
-                                business
-                              </i>
-                              <b>{data.branch}</b>
-                            </div>
-                            <div className="icons">
-                              <i className="material-icons">people</i>
-                              <b>
-                                {data.beneficiary &&
-                                  numberWithCommas(data.beneficiary)}
-                              </b>
+                            <div className="orgnization-info">
+                              <a>
+                                Province
+                                <span>{data.province_covered}</span>
+                              </a>
+                              <a>
+                                District
+                                <span>{data.district_covered}</span>
+                              </a>
+                              <a>
+                                Local units
+                                <span>
+                                  {data.municipality_covered}
+                                </span>
+                              </a>
                             </div>
                           </div>
-                          <div className="orgnization-info">
-                            <a>
-                              Province
-                              <span>{data.province_covered}</span>
-                            </a>
-                            <a>
-                              District
-                              <span>{data.district_covered}</span>
-                            </a>
-                            <a>
-                              Local units
-                              <span>{data.municipality_covered}</span>
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })}
+                        </li>
+                      );
+                    })}
+                </div>
               </div>
             </div>
-            <div className="sidebar-widget">
+
+            <div
+              className="sidebar-widget"
+              style={{ paddingTop: '15px' }}
+              id="partners-branch-count"
+            >
               <div style={{ display: 'flex' }}>
                 <h5 style={{ flex: 5 }}>branches Count</h5>
                 <div
                   className="widget-icon"
                   onClick={() => {
-                    modalHandler();
+                    notifyHandler(
+                      'The infographics will be downloaded shortly.',
+                    );
+                    downloadPng(
+                      'partners-branch-count',
+                      'Automation Partner Branch Count',
+                    );
                   }}
                   style={{
                     flex: 1,
                     display: 'flex',
                     alignItems: 'flex-start',
                     justifyContent: 'flex-end',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <img
+                    src={DownloadIcon}
+                    style={{ height: '18px', width: '18px' }}
+                  />
+                </div>
+                <div
+                  className="widget-icon"
+                  onClick={() => {
+                    modalHandler('branches');
+                  }}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-end',
+                    cursor: 'pointer',
                   }}
                 >
                   <img
@@ -328,14 +399,6 @@ class RightSideBar extends Component {
               </div>
 
               <div className="widget-body">
-                {/* <div id="normal-chart">
-                  <ReactApexChart
-                    options={branchesCountOptions}
-                    series={branchesCountOptions.series}
-                    type="bar"
-                    height="130"
-                  />
-                </div> */}
                 <div className="branch-list">
                   {automationReducer.automationRightSidePartnerData &&
                     automationReducer

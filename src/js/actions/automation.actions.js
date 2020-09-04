@@ -68,6 +68,13 @@ export const getAutomationDataByMunicipality = () => dispatch => {
   }
 };
 
+export const getSearchedPartners = keyword => dispatch => {
+  return dispatch({
+    type: GET_SEARCHED_PARTNERS,
+    payload: keyword,
+  });
+};
+
 export const filterPartnerSelect = partners => dispatch => {
   if (partners.length === 0) {
     try {
@@ -83,15 +90,11 @@ export const filterPartnerSelect = partners => dispatch => {
       console.error(err);
     }
   } else {
-    const query = partners
-      .map(data => {
-        return `partner=${data}`;
-      })
-      .join('&');
+    const queryNew = `partner=${partners}`;
     try {
       const response = axiosInstance
         .get(
-          `/api/v1/automation/automation-partner/?filter_type=partner&${query}`,
+          `/api/v1/automation/automation-partner/?filter_type=partner&${queryNew}`,
         )
         .then(function(result) {
           return dispatch({
@@ -105,29 +108,28 @@ export const filterPartnerSelect = partners => dispatch => {
   }
 };
 
-export const getSearchedPartners = keyword => dispatch => {
-  return dispatch({
-    type: GET_SEARCHED_PARTNERS,
-    payload: keyword,
-  });
-};
-
 export const getFilteredPartnersByFederal = federalSelect => dispatch => {
-  const provinceSelect = federalSelect.province
-    .map(data => {
-      return `province=${data}`;
-    })
-    .join('&');
-  const districtSelect = federalSelect.district
-    .map(data => {
-      return `district=${data}`;
-    })
-    .join('&');
-  const municipalitySelect = federalSelect.municipality
-    .map(data => {
-      return `municipality=${data}`;
-    })
-    .join('&');
+  const provinceSelect = `province=${federalSelect.province}`;
+  const districtSelect = `district=${federalSelect.district}`;
+  const municipalitySelect = `municipality=${federalSelect.municipality}`;
+  // const provinceSelect = federalSelect.province
+  //   .map(data => {
+  //     return `province=${data}`;
+  //   })
+  //   .join('&');
+
+  // const districtSelect = federalSelect.district
+  //   .map(data => {
+  //     return `district=${data}`;
+  //   })
+  //   .join('&');
+
+  // const municipalitySelect = federalSelect.municipality
+  //   .map(data => {
+  //     return `municipality=${data}`;
+  //   })
+  //   .join('&');
+
   if (federalSelect.municipality.length > 0) {
     try {
       const response = axiosInstance
@@ -198,27 +200,32 @@ export const getFilteredPartnersByFederalWithClickedPartners = (
 ) => dispatch => {
   let partnerSelect = 'partner=0';
   if (clickedPartner.length > 0) {
-    partnerSelect = clickedPartner
-      .map(data => {
-        return `partner=${data}`;
-      })
-      .join('&');
+    // partnerSelect = clickedPartner
+    //   .map(data => {
+    //     return `partner=${data}`;
+    //   })
+    //   .join('&');
+    partnerSelect = `partner=${clickedPartner}`;
   }
-  const provinceSelect = federalSelect.province
-    .map(data => {
-      return `province=${data}`;
-    })
-    .join('&');
-  const districtSelect = federalSelect.district
-    .map(data => {
-      return `district=${data}`;
-    })
-    .join('&');
-  const municipalitySelect = federalSelect.municipality
-    .map(data => {
-      return `municipality=${data}`;
-    })
-    .join('&');
+  // const provinceSelect = federalSelect.province
+  //   .map(data => {
+  //     return `province=${data}`;
+  //   })
+  //   .join('&');
+  // const districtSelect = federalSelect.district
+  //   .map(data => {
+  //     return `district=${data}`;
+  //   })
+  //   .join('&');
+  // const municipalitySelect = federalSelect.municipality
+  //   .map(data => {
+  //     return `municipality=${data}`;
+  //   })
+  //   .join('&');
+
+  const provinceSelect = `province=${federalSelect.province}`;
+  const districtSelect = `district=${federalSelect.district}`;
+  const municipalitySelect = `municipality=${federalSelect.municipality}`;
   if (federalSelect.municipality.length > 0) {
     try {
       const response = axiosInstance
@@ -396,53 +403,6 @@ export const partnerSelectWithOutreach = (
   }
 };
 
-export const setLegendValues = () => dispatch => {
-  try {
-    axiosInstance
-      .get(`api/v1/automation/map-data/?partner=0&province_id=0`)
-      .then(function(result) {
-        return dispatch({
-          type: AUTOMATION_PROVINCE_LEGEND,
-          payload: {
-            result: result.data,
-          },
-        });
-      });
-  } catch (err) {
-    console.error(err);
-  }
-
-  try {
-    axiosInstance
-      .get(`api/v1/automation/map-data/?partner=0&district_id=0`)
-      .then(function(result) {
-        return dispatch({
-          type: AUTOMATION_DISTRICT_LEGEND,
-          payload: {
-            result: result.data,
-          },
-        });
-      });
-  } catch (err) {
-    console.error(err);
-  }
-
-  try {
-    axiosInstance
-      .get(`api/v1/automation/map-data/?partner=0&municipality_id=0`)
-      .then(function(result) {
-        return dispatch({
-          type: AUTOMATION_MUNICIPALITY_LEGEND,
-          payload: {
-            result: result.data,
-          },
-        });
-      });
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 export const getBranchesTableDataByFed = (
   federalSelect,
   partnerSelect,
@@ -558,4 +518,51 @@ export const filterTimeline = (min, max) => dispatch => {
     type: TIMELINE_FILTER,
     payload: { min, max },
   });
+};
+
+export const setLegendValues = () => dispatch => {
+  try {
+    axiosInstance
+      .get(`api/v1/automation/map-data/?partner=0&province_id=0`)
+      .then(function(result) {
+        return dispatch({
+          type: AUTOMATION_PROVINCE_LEGEND,
+          payload: {
+            result: result.data,
+          },
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+
+  try {
+    axiosInstance
+      .get(`api/v1/automation/map-data/?partner=0&district_id=0`)
+      .then(function(result) {
+        return dispatch({
+          type: AUTOMATION_DISTRICT_LEGEND,
+          payload: {
+            result: result.data,
+          },
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
+
+  try {
+    axiosInstance
+      .get(`api/v1/automation/map-data/?partner=0&municipality_id=0`)
+      .then(function(result) {
+        return dispatch({
+          type: AUTOMATION_MUNICIPALITY_LEGEND,
+          payload: {
+            result: result.data,
+          },
+        });
+      });
+  } catch (err) {
+    console.error(err);
+  }
 };

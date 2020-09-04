@@ -366,7 +366,7 @@ class BarChart extends Component {
                   : showRightSidebar && window.innerWidth < 1600
                   ? 750
                   : showRightSidebar && window.innerWidth > 1600
-                  ? 1200
+                  ? 1100
                   : !showRightSidebar && window.innerWidth < 1600
                   ? 950
                   : 1400
@@ -408,7 +408,7 @@ class BarChart extends Component {
                   : showRightSidebar && window.innerWidth < 1600
                   ? 750
                   : showRightSidebar && window.innerWidth > 1600
-                  ? 1200
+                  ? 1100
                   : !showRightSidebar && window.innerWidth < 1600
                   ? 950
                   : 1400
