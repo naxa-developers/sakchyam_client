@@ -142,15 +142,18 @@ class RightSideBar extends Component {
                       <div
                         className="widget-icon"
                         onClick={() => {
+                          notifyHandler(
+                            'The infographics will be downloaded shortly.',
+                          );
                           downloadPng(
                             'partner-tablet-count',
                             'Automation Partner Tablets Deployed',
                           );
-                          notifyHandler(
-                            'The infographics will be downloaded shortly.',
-                          );
                         }}
-                        style={{ paddingRight: '10px' }}
+                        style={{
+                          paddingRight: '10px',
+                          cursor: 'pointer',
+                        }}
                       >
                         <img
                           src={DownloadIcon}
@@ -166,7 +169,11 @@ class RightSideBar extends Component {
                       >
                         <img
                           src={ExpandIcon}
-                          style={{ height: '18px', width: '18px' }}
+                          style={{
+                            height: '18px',
+                            width: '18px',
+                            cursor: 'pointer',
+                          }}
                         />
                       </div>
                     </li>
@@ -350,12 +357,12 @@ class RightSideBar extends Component {
                 <div
                   className="widget-icon"
                   onClick={() => {
+                    notifyHandler(
+                      'The infographics will be downloaded shortly.',
+                    );
                     downloadPng(
                       'partners-branch-count',
                       'Automation Partner Branch Count',
-                    );
-                    notifyHandler(
-                      'The infographics will be downloaded shortly.',
                     );
                   }}
                   style={{
@@ -363,6 +370,7 @@ class RightSideBar extends Component {
                     display: 'flex',
                     alignItems: 'flex-start',
                     justifyContent: 'flex-end',
+                    cursor: 'pointer',
                   }}
                 >
                   <img
@@ -380,6 +388,7 @@ class RightSideBar extends Component {
                     display: 'flex',
                     alignItems: 'flex-start',
                     justifyContent: 'flex-end',
+                    cursor: 'pointer',
                   }}
                 >
                   <img

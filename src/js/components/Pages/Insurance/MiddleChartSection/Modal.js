@@ -44,6 +44,7 @@ const Modal = props => {
     selectedTabBar,
     selectedTab,
     isBarChartClicked,
+    notificationHandler,
   } = props;
 
   let modalTitle = '';
@@ -141,17 +142,14 @@ const Modal = props => {
                 border: '1px solid #F0F0F0',
                 cursor: 'pointer',
               }}
-              onClick={
-                // () => downloadPng(selectedChartId, modalHeader)
-                // () => downloadPng('modal-content', modalHeader)
-                () => downloadPng('popup-body', modalHeader)
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
-              onKeyDown={
-                // () => downloadPng('modal-content', modalHeader)
-                () => downloadPng('popup-body', modalHeader)
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
+              onClick={() => {
+                notificationHandler();
+                downloadPng('popup-body', modalHeader);
+              }}
+              onKeyDown={() => {
+                notificationHandler();
+                downloadPng('popup-body', modalHeader);
+              }}
               id="download-icon-popup"
               role="button"
               tabIndex="-1"
