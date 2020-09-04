@@ -340,9 +340,12 @@ class MapboxPartnership extends Component {
   };
 
   setOnHoveredDivisionId = id => {
-    console.log('in hover id', this.state.filteredMapData);
     const { filteredMapData } = this.state;
-    const { mapViewBy } = this.props;
+    const {
+      mapViewBy,
+      outreachReducer: { primaryData },
+    } = this.props;
+    console.log('in hover id', primaryData);
     let data;
     if (id !== 0) {
       this.setState({ hoveredId: id });
@@ -357,10 +360,16 @@ class MapboxPartnership extends Component {
           pro => pro.id === parseInt(id),
         );
 
+        const values = this.getAllInstitutionCount(primaryData, id);
+        console.log('in hover id', values);
+
         if (filteredProvince.length > 0) {
           data = {
             name: name[0].name,
             totalCount: filteredProvince[0].count,
+            cBank: values[0].length,
+            oBank: values[1].length,
+            cBlb: values[2].length,
           };
         } else {
           data = {
@@ -423,6 +432,29 @@ class MapboxPartnership extends Component {
     return data;
   };
 
+  getAllInstitutionCount = (primaryData, id) => {
+    const withSameId = primaryData.filter(
+      item => item.province_code === parseInt(id),
+    );
+    const cBank = withSameId.filter(
+      cbank =>
+        cbank.partner_type === 'Commercial Bank' &&
+        cbank.point_service === 'Branch',
+    );
+    const oBank = withSameId.filter(
+      cbank => cbank.partner_type !== 'Commercial Bank',
+    );
+    const cBlb = withSameId.filter(
+      cbank =>
+        cbank.partner_type === 'Commercial Bank' &&
+        cbank.point_service === 'BLB',
+    );
+
+    const institutionCount = [cBank, oBank, cBlb];
+
+    return institutionCount;
+  };
+
   markerEventHandler = e => {
     this.setState({ markerOpen: true, markerData: e });
   };
@@ -446,6 +478,7 @@ class MapboxPartnership extends Component {
       localPopUp,
       hoveredId,
       popUpData,
+      mapViewDataBy,
     } = this.state;
     const { map, loading } = this.props;
 
@@ -468,7 +501,12 @@ class MapboxPartnership extends Component {
                 setOnHoveredDivisionId={this.setOnHoveredDivisionId}
                 markerEventHandler={this.markerEventHandler}
               />
-              {hoveredId && <LocalUnitNamePopUp data={popUpData} />}
+              {hoveredId && (
+                <LocalUnitNamePopUp
+                  data={popUpData}
+                  mapViewDataBy={mapViewDataBy}
+                />
+              )}
               {hoveredMunicipalityId !== 0 && localPopUp && (
                 <MunicipalityPopUp
                   selectedMuni={selectedMuni}

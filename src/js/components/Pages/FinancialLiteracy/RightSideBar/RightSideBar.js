@@ -238,7 +238,7 @@ class RightSideBar extends Component {
                 program_id: item.program_id,
                 program_name: item.program_name,
                 value: item.value,
-                count: 1,
+                count: item.value !== 0 ? 1 : 0,
               });
             } else {
               const objIndex = filteredData.findIndex(
@@ -264,7 +264,7 @@ class RightSideBar extends Component {
                     program_id: item.program_id,
                     program_name: item.program_name,
                     value: item.value,
-                    count: 1,
+                    count: item.value !== 0 ? 1 : 0,
                   });
                 } else {
                   const objIndex = filteredData.findIndex(
@@ -306,13 +306,15 @@ class RightSideBar extends Component {
       const obj = filteredData.find(
         x => x.program_id === item.program_id,
       );
+
       if (!obj) {
+        console.log('this runs', item);
         filteredData.push({
           program_code: item.program_code,
           program_id: item.program_id,
           program_name: item.program_name,
           value: item.value,
-          count: 1,
+          count: item.value !== 0 ? 1 : 0,
         });
       } else {
         const objIndex = filteredData.findIndex(
@@ -324,6 +326,8 @@ class RightSideBar extends Component {
 
       return true;
     });
+
+    // console.log('obj value check', filteredData);
 
     let maxValue = 0;
     filteredData.map(item => {

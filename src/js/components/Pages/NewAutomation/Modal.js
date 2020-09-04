@@ -3,24 +3,12 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import html2canvas from 'html2canvas';
-import saveAs from 'file-saver';
 import ReactApexChart from 'react-apexcharts';
 import DownloadIcon from '../../../../img/get_app.png';
-import { numberWithCommas } from '../../common/utilFunctions';
-
-const downloadPng = (chartid, filename) => {
-  console.log('called');
-  setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {
-      scale: 5,
-    }).then(canvas => {
-      canvas.toBlob(function(blob) {
-        saveAs(blob, `${filename}.png`);
-      });
-    });
-  }, 10);
-};
+import {
+  numberWithCommas,
+  downloadPng,
+} from '../../common/utilFunctions';
 
 function getClassName(i) {
   if (i % 12 === 0) return 'is-color1';
@@ -41,7 +29,13 @@ function getClassName(i) {
 }
 
 const Modal = props => {
-  const { handleModal, tabletsDeployed, allPartners } = props;
+  const {
+    handleModal,
+    tabletsDeployed,
+    allPartners,
+    modalType,
+    notifyHandler,
+  } = props;
 
   console.log('chart data', allPartners);
 
@@ -90,12 +84,15 @@ const Modal = props => {
                 // borderColor: 'lightgrey',
                 cursor: 'pointer',
               }}
-              onClick={() =>
+              onClick={() => {
                 downloadPng(
                   'pie-content',
                   'Automation Partner Infographics',
-                )
-              }
+                );
+                notifyHandler(
+                  'The infographics will be downloaded shortly.',
+                );
+              }}
             >
               <img src={DownloadIcon} alt="open" />
             </span>
@@ -104,57 +101,108 @@ const Modal = props => {
             className="popup-content"
             id="pie-content"
             style={{
-              marginTop: '7vh',
               display: 'flex',
-              marginBottom: '2vh',
+              marginBottom: '3vh',
             }}
           >
-            <div
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                fontWeight: 'bold',
-                fontSize: '15px',
-              }}
-            >
-              <div style={{ flex: 8 }}>
-                {tabletsDeployed.total_branch === 0 ? (
-                  0
-                ) : (
-                  <ReactApexChart
-                    options={tabletsDeployed}
-                    series={tabletsDeployed.series}
-                    type="donut"
-                    height="350"
-                  />
-                )}
+            {modalType === 'tablets' && (
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  fontWeight: 'bold',
+                  fontSize: '15px',
+                  marginTop: '7vh',
+                }}
+              >
+                <div style={{ flex: 8 }}>
+                  {tabletsDeployed.total_branch === 0 ? (
+                    0
+                  ) : (
+                    <ReactApexChart
+                      options={tabletsDeployed}
+                      series={tabletsDeployed.series}
+                      type="donut"
+                      height="350"
+                    />
+                  )}
+                </div>
+                <div style={{ flex: 1 }}>
+                  {`Partner Institutions: ${totalPartners}`}
+                </div>
+                <div style={{ flex: 1 }}>
+                  {`Total Branch Count: ${totalBranches}`}
+                </div>
+                <div style={{ flex: 1 }}>
+                  {`Beneficiaries: ${numberWithCommas(
+                    totalBeneficieries,
+                  )}`}
+                </div>
               </div>
-              <div style={{ flex: 1 }}>
-                {`Partner Institutions: ${totalPartners}`}
+            )}
+
+            {modalType === 'branches' && (
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  fontWeight: 'bold',
+                  fontSize: '15px',
+                  marginTop: '7vh',
+                  paddingRight: '2vw',
+                  paddingBottom: '1vh',
+                }}
+              >
+                <div className="widget-body">
+                  <div className="branch-list">
+                    {allPartners.map((data, i) => {
+                      const singlebranchValue = data.branch;
+                      const BranchpercentCalculate =
+                        (singlebranchValue / maxBranchValue) * 100;
+                      const branchPercent = Math.round(
+                        BranchpercentCalculate,
+                      );
+                      let initials =
+                        data.partner_name.match(/\b\w/g) || [];
+                      initials = (
+                        (initials.shift() || '') +
+                        (initials.pop() || '')
+                      ).toUpperCase();
+                      return (
+                        <div
+                          key={data.id}
+                          className="branch"
+                          style={{ marginBottom: '0.9vh' }}
+                        >
+                          <div
+                            className={`branch-icon ${getClassName(
+                              data.id,
+                            )}`}
+                          >
+                            <span>{initials}</span>
+                          </div>
+                          <div
+                            className="branch-bar"
+                            tooltip={`${data.partner_name}:${data.branch}`}
+                            flow="up"
+                            style={{ width: `${branchPercent}%` }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
-              <div style={{ flex: 1 }}>
-                {`Total Branch Count: ${totalBranches}`}
-              </div>
-              <div style={{ flex: 1 }}>
-                {`Beneficiaries: ${numberWithCommas(
-                  totalBeneficieries,
-                )}`}
-              </div>
-            </div>
+            )}
 
             <div style={{ flex: 1, marginBottom: '2vh' }}>
               <div
                 className="branch-list"
-                style={{ marginTop: '5vh' }}
+                style={{ marginTop: '7vh' }}
               >
                 {allPartners.map((data, i) => {
-                  // const singlebranchValue = data.branch;
-                  // const BranchpercentCalculate =
-                  //   (singlebranchValue / maxBranchValue) * 100;
-                  // const branchPercent = Math.round(
-                  //   BranchpercentCalculate,
-                  // );
                   let initials =
                     data.partner_name.match(/\b\w/g) || [];
                   initials = (
@@ -192,7 +240,6 @@ const Modal = props => {
                           </span>
                           <span> {data.tablets_deployed}</span>{' '}
                         </span>
-                        {/* {`${data.partner_name}   Branch Count:${data.branch}   Tablets Deployed:${data.tablets_deployed}`} */}
                       </div>
                     </div>
                   );

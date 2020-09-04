@@ -30,7 +30,7 @@ const chartTitles = {
   radarTitle: 'Number of products in Innovation Area by Partner Type',
   barTitle: 'Number of products by Innovation Area',
   heatmapTitle:
-    'Number of products by Market Failure and Innovation Area',
+    'Number of products by Market Failure/Missing Markets and Innovation Area',
 };
 
 class ProductProcess extends React.Component {

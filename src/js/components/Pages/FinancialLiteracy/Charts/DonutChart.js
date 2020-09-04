@@ -214,72 +214,80 @@ class DonutChart extends Component {
     return (
       <div
         id="donut-chart"
-        style={{ height: this.props.activeModal ? '500px' : '340px' }}
+        style={{ height: this.props.activeModal ? '500px' : '400px' }}
       >
         {series && series && (
-          <>
-            <ReactApexChart
-              options={options}
-              series={series && series}
-              type="donut"
-              height={this.props.activeModal ? '400' : '250'}
-            />
-            <div
-              className="pie-legend"
-              style={{ padding: '20px 12px' }}
+          <span
+            style={{
+              display: 'flex',
+              width: '100%',
+              flexDirection: 'column',
+            }}
+          >
+            <span style={{ flex: 3.5 }}>
+              {' '}
+              <ReactApexChart
+                options={options}
+                series={series && series}
+                type="donut"
+                height={this.props.activeModal ? '350' : '350'}
+              />
+            </span>
+            <span
+              style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                paddingBottom: '10px',
+              }}
             >
-              <div className="legend-list">
-                <h5>
-                  <small style={{ backgroundColor: '#e11d3f' }} />
-                  <span>
-                    <strong style={{ fontSize: '12px' }}>
-                      Microfinance/Cooperative
-                    </strong>
-                  </span>
-                </h5>
-                <div
-                  className="legend-count"
-                  style={{ fontSize: '12px' }}
-                >
-                  <b className="numeric">
-                    {numberWithCommas(series[1])}
-                  </b>
-                  <b className="percent">
-                    {`${microPercent.toFixed(2)}%`}
-                  </b>
+              <div className="pie-legend">
+                <div className="legend-list">
+                  <h5>
+                    <small style={{ backgroundColor: '#e11d3f' }} />
+                    <span>
+                      <strong style={{ fontSize: '14px' }}>
+                        Microfinance/Cooperative
+                      </strong>
+                    </span>
+                  </h5>
+                  <div
+                    className="legend-count"
+                    style={{ fontSize: '14px' }}
+                  >
+                    <b className="numeric">
+                      {numberWithCommas(series[1])}
+                    </b>
+                    <b className="percent">
+                      {`${microPercent.toFixed(2)}%`}
+                    </b>
+                  </div>
                 </div>
-              </div>
-              <div className="legend-list">
-                <span>
-                  {' '}
+                <div className="legend-list">
                   <h5>
                     <small style={{ backgroundColor: '#13a8be' }} />
                     <span>
-                      <strong style={{ fontSize: '12px' }}>
+                      <strong style={{ fontSize: '14px' }}>
                         Commercial Banks and Mobile Network Operators
                       </strong>
                     </span>
                   </h5>
-                </span>
+                  <div
+                    className="legend-count"
+                    style={{ fontSize: '14px' }}
+                  >
+                    <b className="numeric">
+                      {numberWithCommas(series[0])}
+                    </b>
+                    <b className="percent">
+                      {`${commPercent.toFixed(2)}%`}
+                    </b>
+                  </div>
+                </div>
               </div>
-              <div
-                className="legend-list"
-                style={{ paddingLeft: '1.5vw' }}
-              >
-                <span
-                  className="legend-count"
-                  style={{ fontSize: '12px' }}
-                >
-                  <b className="numeric">
-                    {numberWithCommas(series[0])}
-                  </b>
-                  <b className="percent">
-                    {`${commPercent.toFixed(2)}%`}
-                  </b>
-                </span>
-              </div>
-            </div>
-          </>
+            </span>
+          </span>
         )}
       </div>
     );

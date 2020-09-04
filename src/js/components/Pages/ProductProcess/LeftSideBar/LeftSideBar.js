@@ -262,7 +262,9 @@ class LeftSideBar extends Component {
             </div>
 
             <div className="sidebar-widget partner-institue">
-              <h6 className="title">Market Failures</h6>
+              <h6 className="title">
+                Market Failure/Missing Markets
+              </h6>
               <div className="widget-body">
                 <div className="checklist-group">
                   <div className="checklist-header">
