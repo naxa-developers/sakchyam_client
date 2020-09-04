@@ -52,6 +52,15 @@ function convertLabelName(name) {
   return newName;
 }
 
+function convertLabelName2(word) {
+  const wordArr = word.split(' ');
+  const word1 = wordArr.slice(0, 3).join(' ');
+  const word2 = wordArr.slice(3, 6).join(' ');
+  const word3 = wordArr.slice(6).join(' ');
+
+  return [word1, word2, word3];
+}
+
 function getSelectedOptions(state, options) {
   const {
     innovationAreaList,
@@ -372,10 +381,15 @@ const generateHeatMapData = dataa => {
     return count;
   }
 
+  // console.log(marketFailure, 'marketfailure');
+
   function getData(innovation_area) {
     const arr = [];
     marketFailure.forEach(i => {
-      arr.push({ x: i, y: getCount(innovation_area, i) });
+      arr.push({
+        x: convertLabelName2(i),
+        y: getCount(innovation_area, i),
+      });
     });
     return arr;
   }

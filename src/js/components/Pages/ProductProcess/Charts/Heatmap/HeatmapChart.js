@@ -144,9 +144,11 @@ class HeatmapChart extends React.Component {
       },
       xaxis: {
         labels: {
-          // show: false,
-          trim: true,
+          show: true,
+          // trim: true,
           hideOverlappingLabels: false,
+          minHeight: 180,
+          maxHeight: 400,
         },
       },
       legend: {
@@ -341,7 +343,7 @@ class HeatmapChart extends React.Component {
       xaxis: {
         labels: {
           // show: false,
-          trim: true,
+          // trim: true,
           hideOverlappingLabels: false,
         },
       },
