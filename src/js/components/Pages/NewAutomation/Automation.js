@@ -57,9 +57,10 @@ class MainAutomation extends Component {
       selectedProvince: [],
       selectedDistrict: [],
       selectedMunicipality: [],
+      mapViewBy: 'municipality',
       map: '',
       modalType: '',
-      mapViewBy: 'municipality',
+
       activeView: 'map',
       activeFilter: false,
       vectorTileUrl:
@@ -1143,12 +1144,16 @@ class MainAutomation extends Component {
             searchText={searchText}
             activeOutreachButton={activeOutreachButton}
             activeClickPartners={activeClickPartners}
+            loading={loading}
+            selectedProvince={selectedProvince}
+            selectedDistrict={selectedDistrict}
+            selectedMunicipality={selectedMunicipality}
+            mapViewBy={mapViewBy}
             handleSearchTextChange={this.handleSearchTextChange}
             handleActiveClickPartners={this.handleActiveClickPartners}
             toggleOutreachButton={this.toggleOutreachButton}
             refreshSelectedPartnerBtn={this.resetPartnersOnly}
             toogleBranches={this.toggleOutreachButton}
-            loading={loading}
           />
 
           <main className="main">

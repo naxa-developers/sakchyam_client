@@ -6,6 +6,7 @@ const initialState = {
   districtData: '',
   municipalityData: '',
   primaryData: '',
+  dataReceived: true,
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -14,6 +15,7 @@ export default function(state = initialState, { type, payload }) {
       return {
         ...state,
         primaryData: payload,
+        dataReceived: false,
       };
     case 'GET_OUTREACH_SECONDARY_DATA':
       return {

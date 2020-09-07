@@ -70,6 +70,7 @@ class LeftSideBar extends Component {
         handleInstitutionParentCheckbox,
         handleInstitutionSelectionCheckbox,
         loading,
+        outreachReducer: { dataReceived },
       },
     } = this;
     return (
@@ -87,7 +88,7 @@ class LeftSideBar extends Component {
             <div className="aside-body outreach-body">
               <div className="sidebar-widget partner-institue">
                 <h6 className="title">Expansion Driven by </h6>
-                {loading ? (
+                {dataReceived ? (
                   <ResponsiveLoader />
                 ) : (
                   <div className="widget-body">
@@ -136,7 +137,7 @@ class LeftSideBar extends Component {
 
               <div className="sidebar-widget">
                 <h6 className="title">TYPE OF FI</h6>
-                {loading ? (
+                {dataReceived ? (
                   <ResponsiveLoader />
                 ) : (
                   <div className="widget-body">
@@ -207,7 +208,7 @@ class LeftSideBar extends Component {
                 style={{ marginTop: '2vh' }}
               >
                 <h6 className="title">Partner Institution</h6>
-                {loading ? (
+                {dataReceived ? (
                   <ResponsiveLoader />
                 ) : (
                   <div className="widget-body">
