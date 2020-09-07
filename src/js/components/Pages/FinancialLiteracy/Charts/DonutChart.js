@@ -23,13 +23,14 @@ class DonutChart extends Component {
   }
 
   plotChart = () => {
-    const series = [50, 120];
+    const { label } = this.props.financialReducer.pieData;
     const options = {
       chart: {
         width: 150,
         type: 'donut',
       },
       //   labels: ['a', 'b'],
+      labels: label ? label : [],
       plotOptions: {
         pie: {
           customScale: 0.8,

@@ -100,15 +100,6 @@ function numberWithCommas(x) {
   return x;
 }
 
-const getInitials = title => {
-  const initials = title
-    .split(' ')
-    .map(word => word[0])
-    .join('');
-
-  return initials;
-};
-
 // const getInitials = name => {
 //   let initials = name.match(/\b\w/g) || [];
 //   initials = (
@@ -122,7 +113,7 @@ class TreeMapDiagram extends Component {
     this.state = {
       // financialData: [],
       // checkedPartnerItems: [],
-      isTreeMapClicked: false,
+      // isTreeMapClicked: false,
     };
   }
 
@@ -139,7 +130,7 @@ class TreeMapDiagram extends Component {
 
       this.setState({
         treeMapData1: treeMapData,
-        financialData,
+        // financialData,
         checkedPartnerItems,
       });
     }
@@ -148,7 +139,7 @@ class TreeMapDiagram extends Component {
   componentDidUpdate(prevProps, prevState) {
     const {
       treeMapData,
-      financialData,
+      // financialData,
       checkedPartnerItems,
     } = this.props.financialReducer;
     if (
@@ -158,14 +149,15 @@ class TreeMapDiagram extends Component {
       // this.props.setTreeMapBackBtnFalse();
       this.setState({
         treeMapData1: treeMapData,
-        isTreeMapClicked: false,
+        // isTreeMapClicked: false,
       });
+      this.props.resetTreeMapClick();
     }
     if (
       prevProps.financialReducer.financialData !==
       this.props.financialReducer.financialData
     ) {
-      this.setState({ financialData });
+      // this.setState({ financialData });
     }
     if (
       prevProps.financialReducer.checkedPartnerItems !==
@@ -177,64 +169,23 @@ class TreeMapDiagram extends Component {
     return true;
   }
 
-  generateTreeMapData = id => {
-    const arr = [];
-
-    this.state.financialData.map(item => {
-      if (id === item.program_name) {
-        if (this.props.checkedPartnerItems.length === 0) {
-          arr.push({
-            id: item.partner_id,
-            name: item.partner_name,
-            name1: getInitials(item.partner_name),
-            loc: item.value,
-          });
-        } else {
-          this.props.checkedPartnerItems.map(i => {
-            if (item.partner_id === i) {
-              arr.push({
-                id: item.partner_id,
-                name: item.partner_name,
-                name1: getInitials(item.partner_name),
-                loc: item.value,
-              });
-            }
-            return true;
-          });
-        }
-      }
-      return true;
-    });
-
-    // CALCULATE PERCENTAGE
-    let total = 0;
-
-    arr.map(item => {
-      total += item.loc;
-      return true;
-    });
-
-    arr.map((item, index) => {
-      arr[index].percent = `${((item.loc / total) * 100).toFixed(
-        1,
-      )}%`;
-      return true;
-    });
-
-    return { name: 'program1', children: arr };
-  };
-
   onProgramClick = e => {
-    const updatedTreeMapData = this.generateTreeMapData(e.data.id);
+    // const updatedTreeMapData = this.props.generateTreeMapData(
+    //   e.data.id,
+    // );
+    this.props.generateTreeMapData(e.data.id);
     // this.props.handleTreeMapBackBtn();
+    this.props.handleTreeMapClick();
+
     this.setState(prevState => ({
-      treeMapData2: updatedTreeMapData,
-      isTreeMapClicked: !prevState.isTreeMapClicked,
+      // treeMapData2: updatedTreeMapData,
+      // isTreeMapClicked: !prevState.isTreeMapClicked,
     }));
   };
 
   gradientFunction = i => {
-    const { treeMapData1, treeMapData2 } = this.state;
+    const { treeMapData1 } = this.state;
+    const { treeMapData2 } = this.props;
     const arr = [];
     const data = i === 1 ? treeMapData1 : treeMapData2;
 
@@ -256,7 +207,8 @@ class TreeMapDiagram extends Component {
   };
 
   fillFunction = i => {
-    const { treeMapData1, treeMapData2 } = this.state;
+    const { treeMapData1 } = this.state;
+    const { treeMapData2 } = this.props;
     const arr = [];
     const data = i === 1 ? treeMapData1 : treeMapData2;
 
@@ -268,18 +220,19 @@ class TreeMapDiagram extends Component {
   };
 
   handleTreeMapBackBtn = () => {
-    this.setState(prevState => ({
-      isTreeMapClicked: !prevState.isTreeMapClicked,
-    }));
+    this.props.resetTreeMapClick();
+    // this.setState(prevState => ({
+    //   isTreeMapClicked: !prevState.isTreeMapClicked,
+    // }));
   };
 
   render() {
     // const { treeMapData } = this.props.financialReducer;
     const {
       treeMapData1,
-      treeMapData2,
+      // treeMapData2,
       checkedPartnerItems,
-      isTreeMapClicked,
+      // isTreeMapClicked,
     } = this.state;
 
     const {
@@ -290,7 +243,8 @@ class TreeMapDiagram extends Component {
       handleSelectedModal,
       activeModal,
       isDownloading,
-      // isTreeMapClicked,
+      isTreeMapClicked,
+      treeMapData2,
     } = this.props;
 
     const screenSize = window.innerWidth;
@@ -299,10 +253,10 @@ class TreeMapDiagram extends Component {
 
     if (screenSize < 1600) {
       if (activeModal) treeHeight = '490px';
-      else treeHeight = '340px';
+      else treeHeight = '400px';
     } else if (screenSize >= 1600) {
       if (activeModal) treeHeight = '600px';
-      else treeHeight = '340px';
+      else treeHeight = '400px';
     }
 
     return (
@@ -370,12 +324,17 @@ class TreeMapDiagram extends Component {
                     tabIndex="0"
                     onClick={() => {
                       // eslint-disable-next-line no-unused-expressions
-                      !isTreeMapClicked && handleModal();
-                      !isTreeMapClicked &&
-                        handleSelectedModal(
-                          'tree',
-                          'Contribution of Financial Literacy Initiatives',
-                        );
+                      handleModal();
+                      handleSelectedModal(
+                        'tree',
+                        'Contribution of Financial Literacy Initiatives',
+                      );
+                      // !isTreeMapClicked && handleModal();
+                      // !isTreeMapClicked &&
+                      //   handleSelectedModal(
+                      //     'tree',
+                      //     'Contribution of Financial Literacy Initiatives',
+                      //   );
                     }}
                     onKeyDown={() => {
                       handleModal();
