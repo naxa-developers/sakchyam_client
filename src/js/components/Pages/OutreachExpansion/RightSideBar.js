@@ -17,6 +17,7 @@ import {
 import DownloadIcon from '../../../../img/get_app.png';
 import AlertComponent from '../../common/Notifier';
 import { CaretUp, CaretDown } from '../../common/Caret';
+import { ResponsiveLoader } from '../../common/Loaders';
 
 class RightSideBar extends Component {
   constructor(props) {
@@ -179,6 +180,7 @@ class RightSideBar extends Component {
         setActiveView,
         setActiveOverview,
         mapViewDataBy,
+        loading,
       },
     } = this;
 
@@ -238,45 +240,49 @@ class RightSideBar extends Component {
           <div className="aside-body">
             {mapViewDataBy === 'general_outreach' ? (
               <div className="sidebar-widget">
-                <div className="widget-body" id="download-id">
-                  <ul className="widget-list">
-                    <li>
-                      <div className="widget-content">
-                        <h6>Branches</h6>
-                        <span>{totalBranch}</span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">business</i>
-                        </span>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="widget-content">
-                        <h6>BLB</h6>
-                        <span>{totalBLB}</span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">flag</i>
-                        </span>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="widget-content">
-                        <h6>Partner Institutions</h6>
-                        <span>{totalPartners}</span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">
-                            location_city
-                          </i>
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                {loading ? (
+                  <ResponsiveLoader />
+                ) : (
+                  <div className="widget-body" id="download-id">
+                    <ul className="widget-list">
+                      <li>
+                        <div className="widget-content">
+                          <h6>Branches</h6>
+                          <span>{totalBranch}</span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">business</i>
+                          </span>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="widget-content">
+                          <h6>BLB</h6>
+                          <span>{totalBLB}</span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">flag</i>
+                          </span>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="widget-content">
+                          <h6>Partner Institutions</h6>
+                          <span>{totalPartners}</span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">
+                              location_city
+                            </i>
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="sidebar-widget">
@@ -312,122 +318,128 @@ class RightSideBar extends Component {
             {mapViewDataBy === 'general_outreach' && (
               <div className="sidebar-widget timeline-widget">
                 <h5>Timeline of Establishment</h5>
-                <div
-                  className="widget-body"
-                  style={{ paddingTop: '0' }}
-                >
-                  <div className="timeline">
-                    {timelineData &&
-                      timelineData.map(item => {
-                        return (
-                          <ul className="year">
-                            <div
-                              className="date-time"
-                              id="timeline-id"
-                            >
+                {loading ? (
+                  <ResponsiveLoader height="50vh" />
+                ) : (
+                  <div
+                    className="widget-body"
+                    style={{ paddingTop: '0' }}
+                  >
+                    <div className="timeline">
+                      {timelineData &&
+                        timelineData.map(item => {
+                          return (
+                            <ul className="year">
                               <div
-                                style={{
-                                  // display: 'inline-flex',
-                                  background: '#f7f7f7',
-                                  width: 'inherit',
-                                }}
+                                className="date-time"
+                                id="timeline-id"
                               >
-                                <time
-                                  onClick={
-                                    () =>
-                                      this.handleTimelineToggle(
-                                        item.year,
-                                      )
-                                    // eslint-disable-next-line react/jsx-curly-newline
-                                  }
+                                <div
                                   style={{
-                                    cursor: 'pointer',
-                                    display: 'flex',
+                                    // display: 'inline-flex',
+                                    background: '#f7f7f7',
+                                    width: 'inherit',
                                   }}
                                 >
-                                  {item.year}
-                                  <div style={{ height: 'auto' }}>
-                                    {this.state[item.year] ? (
-                                      <CaretUp />
-                                    ) : (
-                                      <CaretDown />
-                                    )}
-                                  </div>
-                                </time>
+                                  <time
+                                    onClick={
+                                      () =>
+                                        this.handleTimelineToggle(
+                                          item.year,
+                                        )
+                                      // eslint-disable-next-line react/jsx-curly-newline
+                                    }
+                                    style={{
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                    }}
+                                  >
+                                    {item.year}
+                                    <div style={{ height: 'auto' }}>
+                                      {this.state[item.year] ? (
+                                        <CaretUp />
+                                      ) : (
+                                        <CaretDown />
+                                      )}
+                                    </div>
+                                  </time>
+                                </div>
                               </div>
-                            </div>
-                            <div
-                              id={item.year}
-                              className="timeline-display"
-                              style={{ display: 'none' }}
-                            >
-                              {item.program.map((list, index) => {
-                                const date = new Date(list.date);
-                                const dateNumber = date.getDate();
-                                const monthName = date
-                                  .toDateString()
-                                  .split(' ')[1];
+                              <div
+                                id={item.year}
+                                className="timeline-display"
+                                style={{ display: 'none' }}
+                              >
+                                {item.program.map((list, index) => {
+                                  const date = new Date(list.date);
+                                  const dateNumber = date.getDate();
+                                  const monthName = date
+                                    .toDateString()
+                                    .split(' ')[1];
 
-                                let temp = '';
-                                if (
-                                  Object.entries(list).length !== 0
-                                ) {
-                                  temp = (
-                                    <li
-                                      // key={item.id}
-                                      className={
-                                        hoverID === index
-                                          ? 'active'
-                                          : ''
-                                      }
-                                    >
-                                      <div className="timeline-content ">
-                                        <div
-                                          onMouseEnter={() => {
-                                            this.handleHover(index);
-                                          }}
-                                          onMouseLeave={() => {
-                                            this.handleUnhover(index);
-                                          }}
-                                          className="timeline-text"
-                                        >
-                                          <span>
-                                            {`${monthName}
+                                  let temp = '';
+                                  if (
+                                    Object.entries(list).length !== 0
+                                  ) {
+                                    temp = (
+                                      <li
+                                        // key={item.id}
+                                        className={
+                                          hoverID === index
+                                            ? 'active'
+                                            : ''
+                                        }
+                                      >
+                                        <div className="timeline-content ">
+                                          <div
+                                            onMouseEnter={() => {
+                                              this.handleHover(index);
+                                            }}
+                                            onMouseLeave={() => {
+                                              this.handleUnhover(
+                                                index,
+                                              );
+                                            }}
+                                            className="timeline-text"
+                                          >
+                                            <span>
+                                              {`${monthName}
                                    ${item.year}`}
-                                          </span>
-                                          {/* <p>
+                                            </span>
+                                            {/* <p>
                                             {list.partner} at
                                             {list.market_name}
                                           </p> */}
-                                          <ul>
-                                            {list.name.map(nam => (
-                                              <li
-                                                style={{
-                                                  listStyle: 'disc',
-                                                }}
-                                              >
-                                                <p>
-                                                  {nam.partner} at{' '}
-                                                  {nam.market_name}
-                                                </p>
-                                              </li>
-                                            ))}
-                                          </ul>
+                                            <ul>
+                                              {list.name.map(nam => (
+                                                <li
+                                                  style={{
+                                                    listStyle: 'disc',
+                                                  }}
+                                                >
+                                                  <p>
+                                                    {nam.partner} at{' '}
+                                                    {nam.market_name}
+                                                  </p>
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </li>
-                                  );
-                                } else {
-                                  temp = <li className="blank" />;
-                                }
-                                return temp;
-                              })}
-                            </div>
-                          </ul>
-                        );
-                      })}
+                                      </li>
+                                    );
+                                  } else {
+                                    temp = <li className="blank" />;
+                                  }
+                                  return temp;
+                                })}
+                              </div>
+                            </ul>
+                          );
+                        })}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
           </div>
