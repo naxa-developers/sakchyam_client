@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
 import FinancialLeftCard from '../../common/FinancialLeftCard';
 import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
+import BadgeLoader from '../MFS/SkeletonLoader/BadgeLoader';
+import BadgesLoader from '../../common/SkeletonLoader/BadgesLoader';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -61,47 +63,51 @@ class LeftSideBar extends Component {
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Investment Focus</h6>
               <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="Initiative1"
-                        className="allCheckbox"
-                        type="checkbox"
-                        name="Initiative1"
-                        value="all"
-                        onChange={handleInvestmentParentCheckbox}
-                      />
-                      <label htmlFor="Initiative1">All</label>
+                {partnershipInvestmentFocus.length < 1 ? (
+                  <BadgeLoader />
+                ) : (
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="Initiative1"
+                          className="allCheckbox"
+                          type="checkbox"
+                          name="Initiative1"
+                          value="all"
+                          onChange={handleInvestmentParentCheckbox}
+                        />
+                        <label htmlFor="Initiative1">All</label>
+                      </div>
                     </div>
+                    <ul className="checkbox-list">
+                      {partnershipInvestmentFocus &&
+                        partnershipInvestmentFocus.map(
+                          partnershipFocus => {
+                            return (
+                              <CheckBox
+                                id={partnershipFocus.id}
+                                className="investment_checkbox"
+                                key={partnershipFocus.id}
+                                label={
+                                  partnershipFocus.investment_primary
+                                }
+                                name={
+                                  partnershipFocus.investment_primary
+                                }
+                                changeHandler={
+                                  handleInvestmentFocusCheckbox
+                                }
+                                checked={investmentFocusSelection.includes(
+                                  partnershipFocus.investment_primary,
+                                )}
+                              />
+                            );
+                          },
+                        )}
+                    </ul>
                   </div>
-                  <ul className="checkbox-list">
-                    {partnershipInvestmentFocus &&
-                      partnershipInvestmentFocus.map(
-                        partnershipFocus => {
-                          return (
-                            <CheckBox
-                              id={partnershipFocus.id}
-                              className="investment_checkbox"
-                              key={partnershipFocus.id}
-                              label={
-                                partnershipFocus.investment_primary
-                              }
-                              name={
-                                partnershipFocus.investment_primary
-                              }
-                              changeHandler={
-                                handleInvestmentFocusCheckbox
-                              }
-                              checked={investmentFocusSelection.includes(
-                                partnershipFocus.investment_primary,
-                              )}
-                            />
-                          );
-                        },
-                      )}
-                  </ul>
-                </div>
+                )}
               </div>
             </div>
             {/* <div className="sidebar-widget">
@@ -148,137 +154,124 @@ class LeftSideBar extends Component {
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Projects</h6>
               <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="Initiative7"
-                        className="allCheckbox"
-                        type="checkbox"
-                        name="Initiative7"
-                        onChange={handleProjectParentCheckbox}
-                      />
-                      <label htmlFor="Initiative7">All</label>
+                {projectLists.length < 1 ? (
+                  <BadgeLoader />
+                ) : (
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="Initiative7"
+                          className="allCheckbox"
+                          type="checkbox"
+                          name="Initiative7"
+                          onChange={handleProjectParentCheckbox}
+                        />
+                        <label htmlFor="Initiative7">All</label>
+                      </div>
                     </div>
-                  </div>
-                  <ul className="checkbox-list">
-                    {/* <GroupCheckedbox
+                    <ul className="checkbox-list">
+                      {/* <GroupCheckedbox
                       checkboxes={projectLists}
                       onCheckboxGroupChange={
                         this.handleCheckboxgroupChange
                       }
                     /> */}
-                    {projectLists &&
-                      projectLists.map(project => {
-                        return (
-                          <CheckBox
-                            id={project.id}
-                            className="project_checkbox"
-                            key={project.id}
-                            label={project.name}
-                            name={project.id}
-                            changeHandler={
-                              handleProjectSelectionCheckbox
-                            }
-                            checked={projectSelection.includes(
-                              project.id,
-                            )}
-                          />
-                        );
-                      })}
-                  </ul>
-                </div>
+                      {projectLists &&
+                        projectLists.map(project => {
+                          return (
+                            <CheckBox
+                              id={project.id}
+                              className="project_checkbox"
+                              key={project.id}
+                              label={project.name}
+                              name={project.id}
+                              changeHandler={
+                                handleProjectSelectionCheckbox
+                              }
+                              checked={projectSelection.includes(
+                                project.id,
+                              )}
+                            />
+                          );
+                        })}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
             <div className="sidebar-widget">
               <h6 className="title">Partner Type</h6>
               <div className="widget-body">
-                <div className="widget-tag partner-tag">
-                  {partnerTypeList.map(data => {
-                    return (
-                      <a
-                        data-label={data}
-                        className={
-                          partnerType.includes(data) ? 'active' : ''
-                        }
-                        role="tab"
-                        tabIndex="-1"
-                        onClick={() => {
-                          handlePartnerType(data);
-                        }}
-                        onKeyUp={() => {
-                          handlePartnerType(data);
-                        }}
-                      >
-                        <span>{data}</span>
-                      </a>
-                    );
-                  })}
-
-                  {/* <a
-                    data-label="Commercial Bank and Other Partners"
-                    className={
-                      partnerType.includes(
-                        'Commercial Bank and Other Partners',
-                      )
-                        ? 'active'
-                        : ''
-                    }
-                    role="tab"
-                    tabIndex="-1"
-                    onClick={() => {
-                      handlePartnerType(
-                        'Commercial Bank and Other Partners',
+                {partnerTypeList.length < 1 ? (
+                  <BadgesLoader />
+                ) : (
+                  <div className="widget-tag partner-tag">
+                    {partnerTypeList.map(data => {
+                      return (
+                        <a
+                          data-label={data}
+                          className={
+                            partnerType.includes(data) ? 'active' : ''
+                          }
+                          role="tab"
+                          tabIndex="-1"
+                          onClick={() => {
+                            handlePartnerType(data);
+                          }}
+                          onKeyUp={() => {
+                            handlePartnerType(data);
+                          }}
+                        >
+                          <span>{data}</span>
+                        </a>
                       );
-                    }}
-                    onKeyUp={() => {
-                      handlePartnerType(
-                        'Commercial Bank and Other Partners',
-                      );
-                    }}
-                  >
-                    <span>Commercial Bank</span>
-                  </a> */}
-                </div>
+                    })}
+                  </div>
+                )}
               </div>
             </div>
             <div className="sidebar-widget partner-institue">
               <h6 className="title">Partner Institution</h6>
               <div className="widget-body">
-                <div className="checklist-group">
-                  <div className="checklist-header">
-                    <div className="custom-checkbox">
-                      <input
-                        id="Initiative14"
-                        className="allCheckbox"
-                        type="checkbox"
-                        name="Initiative14"
-                        onChange={handlePartnerParentCheckbox}
-                      />
-                      <label htmlFor="Initiative14">All</label>
+                {filteredPartnerList.length < 1 ? (
+                  <BadgeLoader />
+                ) : (
+                  <div className="checklist-group">
+                    <div className="checklist-header">
+                      <div className="custom-checkbox">
+                        <input
+                          id="Initiative14"
+                          className="allCheckbox"
+                          type="checkbox"
+                          name="Initiative14"
+                          onChange={handlePartnerParentCheckbox}
+                        />
+                        <label htmlFor="Initiative14">All</label>
+                      </div>
                     </div>
+                    <ul className="checkbox-list">
+                      {filteredPartnerList &&
+                        filteredPartnerList.map(partner => {
+                          return (
+                            <CheckBox
+                              id={partner.id}
+                              className="partner_checkbox"
+                              key={partner.id}
+                              label={partner.name}
+                              name={partner.code}
+                              changeHandler={
+                                handlePartnerSelectionCheckbox
+                              }
+                              checked={partnerSelection.includes(
+                                partner.code,
+                              )}
+                            />
+                          );
+                        })}
+                    </ul>
                   </div>
-                  <ul className="checkbox-list">
-                    {filteredPartnerList &&
-                      filteredPartnerList.map(partner => {
-                        return (
-                          <CheckBox
-                            id={partner.id}
-                            className="partner_checkbox"
-                            key={partner.id}
-                            label={partner.name}
-                            name={partner.code}
-                            changeHandler={
-                              handlePartnerSelectionCheckbox
-                            }
-                            checked={partnerSelection.includes(
-                              partner.code,
-                            )}
-                          />
-                        );
-                      })}
-                  </ul>
-                </div>
+                )}
               </div>
             </div>
             <div className="apply-buttons buttons end">

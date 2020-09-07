@@ -11,6 +11,7 @@ import {
   numberWithCommas,
   downloadPng,
 } from '../../common/utilFunctions';
+import OverviewLoader from '../../common/SkeletonLoader/OverviewLoader';
 
 const outreachTabTitle = [
   'Investment Focus',
@@ -86,64 +87,68 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget overview-section">
-              <div className="widget-body" id="download-id">
-                <ul className="widget-list">
-                  <OutreachTab
-                    title="Investment Focus"
-                    number={overviewData.investment_focus}
-                    iconTitle="payments"
-                  />
-                  <OutreachTab
-                    title="Projects Implemented"
-                    number={overviewData.project}
-                    iconTitle="assignment"
-                  />
-                  {/* <OutreachTab
+              {!overviewData.investment_focus ? (
+                <OverviewLoader />
+              ) : (
+                <div className="widget-body" id="download-id">
+                  <ul className="widget-list">
+                    <OutreachTab
+                      title="Investment Focus"
+                      number={overviewData.investment_focus}
+                      iconTitle="payments"
+                    />
+                    <OutreachTab
+                      title="Projects Implemented"
+                      number={overviewData.project}
+                      iconTitle="assignment"
+                    />
+                    {/* <OutreachTab
                     title="Partner Institutions"
                     number={112}
                     iconTitle="location_city"
                   /> */}
-                  <OutreachTab
-                    title="Total Beneficiaries Reached"
-                    number={numberWithCommas(
-                      parseInt(overviewData.beneficiary, 10),
-                    )}
-                    iconTitle="people"
-                  />
-                  <OutreachTab
-                    title="Sakchyam Investment(GBP)"
-                    number={numberWithCommas(
-                      Math.round(overviewData.total_budget),
-                    )}
-                    iconTitle="euro_symbol"
-                  />
-                  <OutreachTab
-                    title="New Physical Branches Established"
-                    number={overviewData.branch}
-                    iconTitle="store"
-                  />
-                  <OutreachTab
-                    title="New BLBs Established"
-                    number={overviewData.blb}
-                    iconTitle="account_balance"
-                  />
-                  {/* <OutreachTab
+                    <OutreachTab
+                      title="Total Beneficiaries Reached"
+                      number={numberWithCommas(
+                        parseInt(overviewData.beneficiary, 10),
+                      )}
+                      iconTitle="people"
+                    />
+                    <OutreachTab
+                      title="Sakchyam Investment(GBP)"
+                      number={numberWithCommas(
+                        Math.round(overviewData.total_budget),
+                      )}
+                      iconTitle="euro_symbol"
+                    />
+                    <OutreachTab
+                      title="New Physical Branches Established"
+                      number={overviewData.branch}
+                      iconTitle="store"
+                    />
+                    <OutreachTab
+                      title="New BLBs Established"
+                      number={overviewData.blb}
+                      iconTitle="account_balance"
+                    />
+                    {/* <OutreachTab
                     title="Extension Counter"
                     number={112}
                     iconTitle="local_convenience_store"
                   /> */}
-                  <OutreachTab
-                    title="Number of Tablet Banking Points"
-                    number={overviewData.tablet}
-                    iconTitle="tablet_mac"
-                  />
-                  {/* <OutreachTab
+                    <OutreachTab
+                      title="Number of Tablet Banking Points"
+                      number={overviewData.tablet}
+                      iconTitle="tablet_mac"
+                    />
+                    {/* <OutreachTab
                     title="Innovative Products Introduced"
                     number={overviewData.other_products}
                     iconTitle="local_offer"
                   /> */}
-                </ul>
-              </div>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { select } from 'd3';
 
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/src/css/mapbox-gl.css';
 import MapboxPartnership from './MapComponents/MapboxPartnership';
-import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
 
-import Loading from '../../common/Loading';
 import Select from '../../common/Select/Select';
 import FilterBadge from './common/FilterBadge';
 import { getCenterBboxProvince } from './common/ProvinceFunction';
@@ -21,7 +18,6 @@ import {
   districtLists,
   municipalityLists,
   districtListByProvince,
-  muniByDistrict,
 } from '../../common/adminList';
 import {
   getMfsAllData,
