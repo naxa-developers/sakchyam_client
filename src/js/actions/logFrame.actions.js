@@ -56,6 +56,34 @@ export const getIndicatorsGraphData = (
     const response = axiosInstance
       .get('/api/v1/logframe/logFrame-data')
       .then(function(result) {
+        if (
+          activeLayer === 'Output Indicator 1.4' &&
+          activeDataTypeFor14 === false
+        ) {
+          // alert('o1.4 percent');
+          return (
+            dispatch({
+              type: GET_INDICATORS_GRAPHDATA,
+              payload: result.data,
+            }),
+            dispatch({
+              type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,
+              payload: {
+                activeLayer,
+                activeDate,
+                activeDataType: activeDataTypeFor14,
+              },
+            }),
+            dispatch({
+              type: FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
+              payload: {
+                activeLayer,
+                activeDate,
+                dataTypePayload: 'number',
+              },
+            })
+          );
+        }
         if (activeDate === false) {
           return (
             dispatch({
@@ -79,6 +107,7 @@ export const getIndicatorsGraphData = (
             })
           );
         }
+
         return (
           dispatch({
             type: GET_INDICATORS_GRAPHDATA,
@@ -115,6 +144,7 @@ export const getIndicatorsGraphDataIndividual = (
   activeDate,
   activeDataTypeFor14,
 ) => dispatch => {
+  console.log(activeDataTypeFor14, 'dataTYpe');
   // const token = localStorage.getItem('userToken');
   try {
     const response = axiosInstance
@@ -129,6 +159,54 @@ export const getIndicatorsGraphDataIndividual = (
             dispatch({
               type: FILTER_INDICATOR_GRAPH_DATA,
               payload: activeLayer,
+            }),
+            dispatch({
+              type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+              payload: { activeYear: [] },
+            })
+          );
+        }
+        if (
+          activeLayer === 'Output Indicator 1.4' &&
+          activeDataTypeFor14 === true
+        ) {
+          // alert('o1.4 percent');
+          return (
+            dispatch({
+              type: GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
+              payload: result.data,
+            }),
+            dispatch({
+              type: FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
+              payload: {
+                activeLayer,
+                activeDate,
+                dataTypePayload: 'percent',
+              },
+            }),
+            dispatch({
+              type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
+              payload: { activeYear: [] },
+            })
+          );
+        }
+        if (
+          activeLayer === 'Output Indicator 1.4' &&
+          activeDataTypeFor14 === false
+        ) {
+          // alert('o1.4 number');
+          return (
+            dispatch({
+              type: GET_INDICATORS_GRAPHDATA_INDIVIDUAL,
+              payload: result.data,
+            }),
+            dispatch({
+              type: FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
+              payload: {
+                activeLayer,
+                activeDate,
+                dataTypePayload: 'number',
+              },
             }),
             dispatch({
               type: GET_PLANNED_ACHIEVED_DATA_FOR_1STPIECHARTS,
@@ -193,6 +271,21 @@ export const filterIndicatorGraphDataWithDate = (
   activeDate,
   activeDataType,
 ) => dispatch => {
+  // false is Number //true is Percent
+  if (
+    activeLayer === 'Output Indicator 1.4' &&
+    activeDataType === false
+  ) {
+    // alert('o1.4 number');
+    return dispatch({
+      type: FILTER_OUTPUT_INDICATOR_WITH_PERCENT_OR_NUMBER,
+      payload: {
+        activeLayer,
+        activeDate,
+        dataTypePayload: 'number',
+      },
+    });
+  }
   return (
     dispatch({
       type: FILTER_INDICATOR_GRAPH_DATA_WITH_DATE,

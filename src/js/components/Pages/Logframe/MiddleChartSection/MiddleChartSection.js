@@ -1427,29 +1427,14 @@ class MiddleChartSection extends Component {
     const useHeight = document.querySelector(
       chartid ? chartid : '.info-content-wrap',
     ).style.height;
-    // const titleEl = document.createElement('h6');
-    // popupEl.appendChild(titleEl).textContent = 'spaghetti';
-    // titleEl.setAttribute('class', 'popup_title');
     setTimeout(() => {
       // document
       //   .querySelector(`.${chartid}`)
       //   .append(<label>Varun</label>);
       html2canvas(popupEl, {
-        // logging: true,
-        // letterRendering: 1,
         scale: 5,
         allowTaint: true,
-        // scale: window.devicePixelRatio,
-        // windowWidth: window.innerWidth+120,
-        // windowHeight: window.innerHeight + 120,
-        // x: 20,
-        // y: 70,
-        // width: useWidth,
-        // height: useHeight,
-        // width: window.innerWidth + 40,
-        // height: window.innerHeight + 40,
-        // foreignObjectRendering: true,
-        // useCORS: true,
+      
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${imageTitle}.png`);
@@ -2022,7 +2007,7 @@ class MiddleChartSection extends Component {
             >
               <button
                 onClick={() => {
-                  setOutput14firstState();
+                  setOutput14firstState(true);
                   this.props.filterOuputIndicatorWithPercentOrNumber(
                     activeLayer,
                     activeDate,
@@ -2036,7 +2021,7 @@ class MiddleChartSection extends Component {
               </button>
               <button
                 onClick={() => {
-                  setOutput14firstState();
+                  setOutput14firstState(false);
                   this.props.filterOuputIndicatorWithPercentOrNumber(
                     activeLayer,
                     activeDate,
@@ -2227,7 +2212,7 @@ class MiddleChartSection extends Component {
                       id="downloadDropdown"
                       className="download-icon-image"
                       // onClick={this.downloadPng}
-                      onClick={()=>{this.downloadPng('.secondpie','Ratio of men and women getting new access to financial Services')}}
+                      onClick={()=>{this.downloadPng()}}
                       onKeyPress={()=>{this.downloadPng('.secondpie','Ratio of men and women getting new access to financial Services')}}
                       style={{ right: '37px' }}
                     >

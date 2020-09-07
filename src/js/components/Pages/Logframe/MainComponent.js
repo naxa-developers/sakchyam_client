@@ -455,9 +455,9 @@ class MainComponent extends Component {
     window.removeEventListener('scroll', this.updateScrollResponsive);
   }
 
-  setOutput14firstState = () => {
+  setOutput14firstState = clicked => {
     this.setState(prevState => ({
-      output14firstState: !prevState.output14firstState,
+      output14firstState: clicked,
     }));
   };
 
@@ -676,14 +676,14 @@ class MainComponent extends Component {
       // this.props.getIndicatorsGraphData(activeLayer, activeDate);
       // this.filterDataWithLayer();
       // }
-      if (
-        activeLayer === 'Output Indicator 1.4' &&
-        output14firstState === false
-      ) {
-        setTimeout(() => {
-          document.querySelector('.second-btn').click();
-        }, 2000);
-      }
+      // if (
+      //   activeLayer === 'Output Indicator 1.4' &&
+      //   output14firstState === false
+      // ) {
+      //   setTimeout(() => {
+      //     document.querySelector('.second-btn').click();
+      //   }, 2000);
+      // }
     }
     const {
       logFrameReducer: { indicatorCategory },

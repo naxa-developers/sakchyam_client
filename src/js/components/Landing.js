@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 // import AutomationImg from '../../img/Automation.svg';
 import BG from '../../img/BG.jpg';
 import Main from '../../img/Main.png';
@@ -75,6 +75,10 @@ class Landing extends Component {
 
   render() {
     const { permissions } = this.state;
+    console.log(permissions,'permission')
+    if(permissions === null){
+      return <Redirect to="/login" />
+    }
     return (
       <>
         {/* <Header headerTransparent disableScroll /> */}

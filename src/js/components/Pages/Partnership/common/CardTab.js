@@ -74,6 +74,7 @@ const CardTab = ({
   showBarChartBy,
   resetFilters,
   badgeProp,
+  notificationHandler,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -226,9 +227,11 @@ const CardTab = ({
               <span
                 className="download-span"
                 onClick={() => {
+                  notificationHandler();
                   downloadPng(cardChartId, modalHeader);
                 }}
                 onKeyDown={() => {
+                  notificationHandler();
                   downloadPng(cardChartId, modalHeader);
                 }}
                 role="button"

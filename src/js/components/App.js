@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import {
   HashRouter as Router,
   Switch,
   Route,
+  withRouter,
   // Redirect,
 } from 'react-router-dom';
 
@@ -28,9 +29,12 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
-      <Router>
-        <Header disableScroll />
+      // <Suspense fallback={<div>Loading...</div>}>
+      <>
+        {this.props.location.pathname !== '/login' && <Header />}
+        {/* <Header disableScroll /> */}
         <Switch>
           <Route path="/login" component={Login} />
 
@@ -72,9 +76,9 @@ class App extends Component {
           <Route path="/" component={Landing} />
           <Route component={Landing} />
         </Switch>
-      </Router>
+      </>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
