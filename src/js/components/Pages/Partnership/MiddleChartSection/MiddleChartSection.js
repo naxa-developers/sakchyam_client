@@ -253,6 +253,7 @@ class MiddleChartSection extends Component {
         groupedStackData,
         isLeverageBarClicked,
         handleLeverageBarClicked,
+        notificationHandler,
       },
     } = this;
     const {
@@ -279,6 +280,7 @@ class MiddleChartSection extends Component {
           <Modal
             // visible={selectedModal === 'bar' ? true : false}
             // modalHeader="Sakchyam Investment Focus"
+            notificationHandler={notificationHandler}
             groupedStackData={groupedStackData}
             showBarof={showBarof}
             handleShowBarOf={handleShowBarOf}
@@ -295,6 +297,7 @@ class MiddleChartSection extends Component {
         <div className="graph-view">
           <div className="row">
             <CardTab
+              notificationHandler={notificationHandler}
               resetFunction={() => {
                 // this.props.resetLeftSideBarSelection();
                 this.props.resetRadialData();
@@ -325,6 +328,7 @@ class MiddleChartSection extends Component {
               }}
             />
             <CardTab
+              notificationHandler={notificationHandler}
               resetFunction={() => {
                 this.props.resetBarDatas();
                 this.props.handleShowBarOf('Provinces');
@@ -373,6 +377,7 @@ class MiddleChartSection extends Component {
             />
             {viewDataBy !== 'Leverage' && (
               <CardTab
+                notificationHandler={notificationHandler}
                 resetFunction={() => {
                   this.props.resetBarDataByInvestmentFocus();
                   this.props.handleShowBarOfInvestmentBudgetBenefBar(
@@ -418,6 +423,7 @@ class MiddleChartSection extends Component {
             )}
             {viewDataBy === 'Leverage' && (
               <CardTab
+                notificationHandler={notificationHandler}
                 resetFunction={() => {
                   this.props.resetLeverageData();
                   this.props.resetFilters();
@@ -477,6 +483,7 @@ class MiddleChartSection extends Component {
               }}
             /> */}
             <CardTab
+              notificationHandler={notificationHandler}
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
                 viewDataBy === 'allocated_budget'

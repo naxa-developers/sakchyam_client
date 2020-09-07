@@ -86,6 +86,7 @@ const Modal = props => {
     groupedStackData,
     showBarChartBy,
     handleShowBarOfInvestmentBudgetBenefBar,
+    notificationHandler,
   } = props;
   const selectedChartId =
     selectedModal === 'groupedChart'
@@ -301,6 +302,7 @@ const Modal = props => {
               }}
               onClick={
                 () => {
+                  notificationHandler();
                   downloadPng(
                     selectedChartId,
                     modalHeader,
@@ -311,12 +313,14 @@ const Modal = props => {
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               onKeyDown={
-                () =>
+                () => {
+                  notificationHandler();
                   downloadPng(
                     selectedChartId,
                     modalHeader,
                     selectedModal,
-                  )
+                  );
+                }
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               role="button"
