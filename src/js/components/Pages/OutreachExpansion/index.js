@@ -1200,6 +1200,7 @@ class MainPartnership extends Component {
             setActiveView={this.setActiveView}
             mapViewDataBy={mapViewDataBy}
             primaryData={primaryData}
+            loading={loading}
           />
         </div>
         {/* <MapboxPartnership /> */}
