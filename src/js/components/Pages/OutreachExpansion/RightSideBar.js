@@ -181,21 +181,24 @@ class RightSideBar extends Component {
         setActiveOverview,
         mapViewDataBy,
         loading,
+        outreachReducer: { dataReceived },
+      },
+      state: {
+        totalPopulation,
+        totalFunding,
+        totalReceipients,
+        totalPayments,
+        totalBranch,
+        totalBLB,
+        totalPartners,
+        timelineData,
+        hoverID,
+        message,
       },
     } = this;
 
-    const {
-      totalPopulation,
-      totalFunding,
-      totalReceipients,
-      totalPayments,
-      totalBranch,
-      totalBLB,
-      totalPartners,
-      timelineData,
-      hoverID,
-      message,
-    } = this.state;
+    // const {dataReceived}=this.props.
+
     return (
       <aside
         className="sidebar right-sidebar literacy-right-sidebar"
@@ -240,7 +243,7 @@ class RightSideBar extends Component {
           <div className="aside-body">
             {mapViewDataBy === 'general_outreach' ? (
               <div className="sidebar-widget">
-                {loading ? (
+                {dataReceived ? (
                   <ResponsiveLoader />
                 ) : (
                   <div className="widget-body" id="download-id">
@@ -318,7 +321,7 @@ class RightSideBar extends Component {
             {mapViewDataBy === 'general_outreach' && (
               <div className="sidebar-widget timeline-widget">
                 <h5>Timeline of Establishment</h5>
-                {loading ? (
+                {dataReceived ? (
                   <ResponsiveLoader height="50vh" />
                 ) : (
                   <div

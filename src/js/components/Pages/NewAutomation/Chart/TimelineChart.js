@@ -21,7 +21,6 @@ class TimelineChart extends Component {
             x: new Date('2015-1-1').getTime(),
             y: 13,
           },
-
           {
             x: new Date('2016-1-1').getTime(),
             y: 10,
@@ -183,7 +182,7 @@ class TimelineChart extends Component {
         clearInterval(global.timerId);
         this.setState({ playSelected: false });
       }
-    }, 1200);
+    }, 2000);
   };
 
   pauseBtn = () => {

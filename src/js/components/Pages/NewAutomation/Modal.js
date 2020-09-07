@@ -55,6 +55,11 @@ const Modal = props => {
   const totalPartners = allPartners && allPartners.length;
 
   const maxBranchValue = a && Math.max(...a);
+
+  const modalHeader =
+    modalType === 'tablets'
+      ? 'Automation(Tablets Deployed)'
+      : 'Automation(Branch Count)';
   return (
     <div className="popup open" id="graph-modal">
       <div className="popup-container full-popup">
@@ -71,9 +76,7 @@ const Modal = props => {
             </i>
           </span>
           <div className="popup-header no-flex">
-            <h3 style={{ color: '#C2002F' }}>
-              Automation(Tablet Deployed)
-            </h3>
+            <h3 style={{ color: '#C2002F' }}>{modalHeader}</h3>
             <span
               style={{
                 position: 'absolute',

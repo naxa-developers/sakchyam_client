@@ -39,3 +39,30 @@ export function ResponsiveLoader(props) {
     </ContentLoader>
   );
 }
+
+export function ResponsiveListLoader(props) {
+  const heightValue = props.height ? props.height : '100%';
+  return (
+    <ContentLoader
+      speed={2}
+      width="100%"
+      height="100%"
+      viewBox="0 0 100% 100%"
+      backgroundColor="#f3f3f3"
+      foregroundColor="#ecebeb"
+      {...props}
+    >
+      {/* <rect
+        x="0"
+        y="0"
+        rx="0"
+        ry="0"
+        width="100%"
+        height={heightValue}
+      /> */}
+
+      <rect x="4vw" y="0" width="85%" height={heightValue} />
+      <circle cx="20" cy="20" r="20" />
+    </ContentLoader>
+  );
+}
