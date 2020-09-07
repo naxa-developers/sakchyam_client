@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
 import { removeDuplicates } from '../../common/utilFunctions';
+import { ResponsiveLoader } from '../../common/Loaders';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -81,124 +82,124 @@ class LeftSideBar extends Component {
             >
               outreach expansion
             </button>
-            {/* <div className="search-bar mb-10">
-              <div className="search-wrap">
-                <span className="search-icon">
-                  <i className="material-icons">search</i>
-                </span>
-                <input
-                  type="search"
-                  className="form-control"
-                  placeholder="search"
-                />
-              </div>
-            </div> */}
           </div>
           {mapViewDataBy === 'general_outreach' && (
             <div className="aside-body outreach-body">
               <div className="sidebar-widget partner-institue">
                 <h6 className="title">Expansion Driven by </h6>
-                <div className="widget-body">
-                  <div className="checklist-group">
-                    <div className="checklist-header">
-                      <div className="custom-checkbox">
-                        <input
-                          id="Initiative1"
-                          type="checkbox"
-                          name="Initiative1"
-                          value="all"
-                          onChange={handelExpansionParentCheckbox}
-                          checked={isAllInvestmentFocusSelected}
-                        />
-                        <label htmlFor="Initiative1">All</label>
+                {loading ? (
+                  <ResponsiveLoader />
+                ) : (
+                  <div className="widget-body">
+                    <div className="checklist-group">
+                      <div className="checklist-header">
+                        <div className="custom-checkbox">
+                          <input
+                            id="Initiative1"
+                            type="checkbox"
+                            name="Initiative1"
+                            value="all"
+                            onChange={handelExpansionParentCheckbox}
+                            checked={isAllInvestmentFocusSelected}
+                          />
+                          <label htmlFor="Initiative1">All</label>
+                        </div>
                       </div>
+                      <ul className="checkbox-list">
+                        {expansionList &&
+                          expansionList.map(partnershipFocus => {
+                            return (
+                              <CheckBox
+                                id={partnershipFocus.id}
+                                className="investment_checkbox"
+                                key={partnershipFocus.id}
+                                label={
+                                  partnershipFocus.expansion_driven_by
+                                }
+                                name={
+                                  partnershipFocus.expansion_driven_by
+                                }
+                                changeHandler={
+                                  handelExpansionCheckbox
+                                }
+                                checked={expsnsionSelection.includes(
+                                  partnershipFocus.expansion_driven_by,
+                                )}
+                              />
+                            );
+                          })}
+                      </ul>
                     </div>
-                    <ul className="checkbox-list">
-                      {expansionList &&
-                        expansionList.map(partnershipFocus => {
-                          return (
-                            <CheckBox
-                              id={partnershipFocus.id}
-                              className="investment_checkbox"
-                              key={partnershipFocus.id}
-                              label={
-                                partnershipFocus.expansion_driven_by
-                              }
-                              name={
-                                partnershipFocus.expansion_driven_by
-                              }
-                              changeHandler={handelExpansionCheckbox}
-                              checked={expsnsionSelection.includes(
-                                partnershipFocus.expansion_driven_by,
-                              )}
-                            />
-                          );
-                        })}
-                    </ul>
                   </div>
-                </div>
+                )}
               </div>
 
               <div className="sidebar-widget">
                 <h6 className="title">TYPE OF FI</h6>
-                <div className="widget-body">
-                  <div className="widget-tag partner-tag">
-                    <a
-                      data-label="Microfinance Institutions/Cooperatives"
-                      className={
-                        partnerSelection.includes('Commercial Bank')
-                          ? 'active'
-                          : ''
-                      }
-                      role="tab"
-                      tabIndex="-1"
-                      onClick={() => {
-                        handelMultiChoice('Commercial Bank', 4);
-                      }}
-                      onKeyUp={() => {
-                        handelMultiChoice('Commercial Bank', 4);
-                      }}
-                    >
-                      <span>Commercial Bank</span>
-                    </a>
-                    <a
-                      data-label="Microfinance Institutions/Cooperatives"
-                      className={
-                        partnerSelection.includes('Apex Organization')
-                          ? 'active'
-                          : ''
-                      }
-                      role="tab"
-                      tabIndex="-1"
-                      onClick={() => {
-                        handelMultiChoice('Apex Organization', 4);
-                      }}
-                      onKeyUp={() => {
-                        handelMultiChoice('Apex Organization', 4);
-                      }}
-                    >
-                      <span>Apex Organization</span>
-                    </a>
-                    <a
-                      data-label="Commercial Bank and Other Partners"
-                      className={
-                        partnerSelection.includes('Cooperative')
-                          ? 'active'
-                          : ''
-                      }
-                      role="tab"
-                      tabIndex="-1"
-                      onClick={() => {
-                        handelMultiChoice('Cooperative', 4);
-                      }}
-                      onKeyUp={() => {
-                        handelMultiChoice('Cooperative', 4);
-                      }}
-                    >
-                      <span>Cooperative</span>
-                    </a>
+                {loading ? (
+                  <ResponsiveLoader />
+                ) : (
+                  <div className="widget-body">
+                    <div className="widget-tag partner-tag">
+                      <a
+                        data-label="Microfinance Institutions/Cooperatives"
+                        className={
+                          partnerSelection.includes('Commercial Bank')
+                            ? 'active'
+                            : ''
+                        }
+                        role="tab"
+                        tabIndex="-1"
+                        onClick={() => {
+                          handelMultiChoice('Commercial Bank', 4);
+                        }}
+                        onKeyUp={() => {
+                          handelMultiChoice('Commercial Bank', 4);
+                        }}
+                      >
+                        <span>Commercial Bank</span>
+                      </a>
+                      <a
+                        data-label="Microfinance Institutions/Cooperatives"
+                        className={
+                          partnerSelection.includes(
+                            'Apex Organization',
+                          )
+                            ? 'active'
+                            : ''
+                        }
+                        role="tab"
+                        tabIndex="-1"
+                        onClick={() => {
+                          handelMultiChoice('Apex Organization', 4);
+                        }}
+                        onKeyUp={() => {
+                          handelMultiChoice('Apex Organization', 4);
+                        }}
+                      >
+                        <span>Apex Organization</span>
+                      </a>
+                      <a
+                        data-label="Commercial Bank and Other Partners"
+                        className={
+                          partnerSelection.includes('Cooperative')
+                            ? 'active'
+                            : ''
+                        }
+                        role="tab"
+                        tabIndex="-1"
+                        onClick={() => {
+                          handelMultiChoice('Cooperative', 4);
+                        }}
+                        onKeyUp={() => {
+                          handelMultiChoice('Cooperative', 4);
+                        }}
+                      >
+                        <span>Cooperative</span>
+                      </a>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               <div
@@ -206,42 +207,46 @@ class LeftSideBar extends Component {
                 style={{ marginTop: '2vh' }}
               >
                 <h6 className="title">Partner Institution</h6>
-                <div className="widget-body">
-                  <div className="checklist-group">
-                    <div className="checklist-header">
-                      <div className="custom-checkbox">
-                        <input
-                          id="Initiative15"
-                          type="checkbox"
-                          name="Initiative15"
-                          onChange={handleInstitutionParentCheckbox}
-                          checked={isAllInstitutionSelected}
-                        />
-                        <label htmlFor="Initiative15">All</label>
+                {loading ? (
+                  <ResponsiveLoader />
+                ) : (
+                  <div className="widget-body">
+                    <div className="checklist-group">
+                      <div className="checklist-header">
+                        <div className="custom-checkbox">
+                          <input
+                            id="Initiative15"
+                            type="checkbox"
+                            name="Initiative15"
+                            onChange={handleInstitutionParentCheckbox}
+                            checked={isAllInstitutionSelected}
+                          />
+                          <label htmlFor="Initiative15">All</label>
+                        </div>
                       </div>
+                      <ul className="checkbox-list">
+                        {partnerList &&
+                          partnerList.map(partner => {
+                            return (
+                              <CheckBox
+                                id={partner.id}
+                                className="institution_checkbox"
+                                key={partner.id}
+                                label={partner.partner}
+                                name={partner.partner}
+                                changeHandler={
+                                  handleInstitutionSelectionCheckbox
+                                }
+                                checked={institutionSelection.includes(
+                                  partner.partner,
+                                )}
+                              />
+                            );
+                          })}
+                      </ul>
                     </div>
-                    <ul className="checkbox-list">
-                      {partnerList &&
-                        partnerList.map(partner => {
-                          return (
-                            <CheckBox
-                              id={partner.id}
-                              className="institution_checkbox"
-                              key={partner.id}
-                              label={partner.partner}
-                              name={partner.partner}
-                              changeHandler={
-                                handleInstitutionSelectionCheckbox
-                              }
-                              checked={institutionSelection.includes(
-                                partner.partner,
-                              )}
-                            />
-                          );
-                        })}
-                    </ul>
                   </div>
-                </div>
+                )}
               </div>
 
               <div
