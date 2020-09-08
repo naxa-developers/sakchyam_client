@@ -171,6 +171,7 @@ class Choropleth extends Component {
       loading: false,
       isTimeline: false,
     };
+    this.markerPiePopupRef = React.createRef();
   }
 
   getLegendColor(value) {
@@ -794,20 +795,6 @@ class Choropleth extends Component {
     //     ×
     //   </a>
     //     </div>;
-    const tooltip = d3
-      .select(div)
-      .append('div')
-      .attr('class', 'pie-mapbox-popup')
-      .style('opacity', 0);
-
-    tooltip.append('div').attr('class', 'popup-div');
-    const tooltip2nd = d3
-      .select(div)
-      .append('div')
-      .attr('class', 'pie-mapbox-popup')
-      .style('opacity', 0);
-
-    tooltip2nd.append('div').attr('class', 'popup-div');
 
     // tooltip
     //   .select('.popup-div')
@@ -829,6 +816,18 @@ class Choropleth extends Component {
       .pie()
       .value(d => d.count)
       .sort(null);
+    const tooltip = d3
+      .select(div)
+      .append('div')
+      .attr('class', 'pie-mapbox-popup')
+      .style('opacity', 0);
+
+    tooltip.append('div').attr('class', 'popup-div');
+    const tooltip2nd = d3
+      .select(div)
+      .append('div')
+      .attr('class', 'pie-mapbox-popup')
+      .style('opacity', 0);
 
     const path = g
       .selectAll('path')
@@ -975,6 +974,7 @@ class Choropleth extends Component {
         // tooltip.style('opacity', 2);
       })
       .on('mouseover', function(d) {
+        tooltip2nd.append('div').attr('class', 'popup-div');
         d3.select(this)
           .transition()
           .duration('50')
@@ -1066,7 +1066,7 @@ class Choropleth extends Component {
   };
 
   plotVectorTile = () => {
-    const { map } = this.props;
+    const { map, setLeftPopupData } = this.props;
     const that = this;
     //
     let hoveredStateId = null;
@@ -1308,6 +1308,12 @@ class Choropleth extends Component {
             );
           },
         );
+        setLeftPopupData({
+          name: e.features[0].properties.name,
+          code: e.features[0].properties.code,
+          id: e.features[0].properties.id,
+          count: filteredCodeData[0].count,
+        });
         // popup
         //   .setLngLat(e.lngLat)
         //   .setHTML(
@@ -1376,6 +1382,7 @@ class Choropleth extends Component {
         // }
         // hoveredStateId = null;
         popup.remove();
+        setLeftPopupData({});
       });
 
       // fullGeojsonProvince.features.forEach((item, index) => {
@@ -1781,6 +1788,7 @@ class Choropleth extends Component {
             </ul>
           </div>
         </div>
+        <div ref={this.markerPiePopupRef} />
         <TimelineChart
           minValue={minValue}
           maxValue={maxValue}

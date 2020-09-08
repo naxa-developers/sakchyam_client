@@ -158,6 +158,12 @@ class BarChart extends Component {
           minWidth: 45,
           maxWidth: 300,
           formatter(value) {
+            if (value < 2 && value !== 0) {
+              return value.toFixed(1);
+            }
+            if (value === 0.0) {
+              return 0;
+            }
             return value;
           },
         },
@@ -165,12 +171,60 @@ class BarChart extends Component {
       grid: {
         show: false,
       },
+      // tooltip: {
+      //   marker: {
+      //     show: false,
+      //   },
+      //   y: {
+      //     formatter: undefined,
+      //     title: {
+      //       formatter: seriesName => `s${seriesName}`,
+      //     },
+      //   },
+      // },
       tooltip: {
         marker: {
           show: false,
         },
+        custom({ series, seriesIndex, dataPointIndex, w }) {
+          console.log(series, 'series');
+          console.log(seriesIndex, 'seriesIndex');
+          console.log(dataPointIndex, 'dataPointIndex');
+          console.log(w, 'w');
+          return ` <div
+          class="apexcharts-tooltip-title"
+          style="font-family: Helvetica, Arial, sans-serif; font-size: 12px"
+        >
+          ${w.config.xaxis.categories[dataPointIndex]}
+        </div>
+        <div
+          class="apexcharts-tooltip-series-group apexcharts-active"
+          style="display: flex"
+        >
+          <span
+            class="apexcharts-tooltip-marker"
+            style="background-color: rgb(225, 29, 63)"
+          ></span>
+          <div
+            class="apexcharts-tooltip-text"
+            style="font-family: Helvetica, Arial, sans-serif; font-size: 12px"
+          >
+            <div class="apexcharts-tooltip-y-group">
+              <span class="apexcharts-tooltip-text-label">${w.config.yaxis[0].title.text}: </span
+              ><span class="apexcharts-tooltip-text-value">${series[seriesIndex][dataPointIndex]}</span>
+            </div>
+            
+          </div>
+          
+        </div>`;
+        },
       },
-
+      //   <div class="partner-list-apexchart">
+      //   <ul>
+      //     <li>Test</li>
+      //     <li>Test2</li>
+      //   </ul>
+      // </div>
       // tooltip: {
       //   fixed: {
       //     enabled: true,

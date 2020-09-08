@@ -178,7 +178,7 @@ class RightSideBar extends Component {
                       </div>
                     </li>
                   </ul>
-                  <div id="motivation-pie">
+                  <div className="motivation-pie">
                     {tabletsDeployed.total_branch === 0 ? (
                       0
                     ) : (

@@ -13,12 +13,14 @@ import {
   getPartnershipAllData,
 } from '../../../../actions/partnership.actions';
 import PopUp from '../common/divisionInfoPopUp';
+import DivisionInfoPopUpLeft from '../common/divisionInfoPopupLeft';
 
 class MapboxPartnership extends Component {
   constructor(props) {
     super(props);
     this.state = {
       popupData: [],
+      leftPopupData: [],
       // map: null,
     };
     this.markerRef = React.createRef();
@@ -63,6 +65,9 @@ class MapboxPartnership extends Component {
       this.setPopupData({
         propsdata: undefined,
       });
+      this.setPopupData({
+        leftPopupData: undefined,
+      });
       let view = 'investment';
       if (this.props.mapViewDataBy === 'allocated_beneficiary') {
         view = 'total_beneficiary';
@@ -105,6 +110,10 @@ class MapboxPartnership extends Component {
     this.setState({ popupData: data });
   };
 
+  setLeftPopupData = data => {
+    this.setState({ leftPopupData: data });
+  };
+
   render() {
     const { mapViewBy, setMapViewBy } = this.props;
     const inputDivisions =
@@ -116,7 +125,7 @@ class MapboxPartnership extends Component {
         ? [1, 7, 12, 18, 23]
         : [0, 2, 4, 6, 8, 10, 12, 14, 20];
     const {
-      state: { popupData },
+      state: { popupData, leftPopupData },
       props: { vectorTileUrl, mapViewDataBy, map },
     } = this;
     const {
@@ -146,6 +155,7 @@ class MapboxPartnership extends Component {
                 vectorTileUrl={vectorTileUrl}
                 map={map}
                 setPopupData={this.setPopupData}
+                setLeftPopupData={this.setLeftPopupData}
                 divisions={inputDivisions}
                 label
                 color="#007078"
@@ -181,7 +191,7 @@ class MapboxPartnership extends Component {
                 </div>
               )}
               <PopUp data={popupData} mapViewBy={mapViewBy} />
-
+              <DivisionInfoPopUpLeft data={leftPopupData} />
               {/* <MarkerCluster
               filteredByPartner={filteredByPartner}
               handleActiveClickPartners={handleActiveClickPartners}
