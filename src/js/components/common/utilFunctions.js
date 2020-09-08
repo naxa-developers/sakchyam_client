@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable radix */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-syntax */
@@ -112,4 +113,12 @@ export const downloadPng = (chartid, filename) => {
       },
     );
   }, 10);
+};
+
+export const getCodes = array => {
+  if (array.length > 0) {
+    const filteredArray = array.filter(data => data.value !== 'all');
+    const codeList = filteredArray.map(item => item.code);
+    return codeList;
+  }
 };

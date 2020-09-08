@@ -12,6 +12,7 @@ import {
   numberWithCommas,
   downloadPng,
 } from '../../../common/utilFunctions';
+import { ResponsiveLoader } from '../../../common/Loaders';
 
 function getClassName(i) {
   if (i % 12 === 0) return 'is-color1';
@@ -36,6 +37,7 @@ class RightSideBar extends Component {
     super(props);
     this.state = {
       selectedList: [],
+      dataReceived: false,
     };
   }
 
@@ -55,32 +57,42 @@ class RightSideBar extends Component {
         this.setState({ selectedList: [] });
       }
     }
+
+    if (
+      prevProps.automationReducer.automationAllDataByPartner !==
+      automationReducer.automationAllDataByPartner
+    ) {
+      if (
+        automationReducer.automationAllDataByPartner[0].partner_data
+          .length > 0
+      ) {
+        this.setState({ dataReceived: true });
+      }
+    }
   }
 
   render() {
-    const { selectedList } = this.state;
     const {
-      automationReducer: { automationLeftSidePartnerData },
-    } = this.props;
-    const {
-      automationReducer,
-      modalHandler,
-      notifyHandler,
-    } = this.props;
-    const {
-      tabletsDeployed,
-      branchesCountOptions,
-      areaChartOptions,
-      toggleRightSideBarButton,
-      toggleTableViewButton,
-      activeRightSideBar,
-      activeClickPartners,
-      rightSideBarLoader,
-      tableDataLoading,
-      showBeneficiary,
-      branchesCooperative,
-      loading,
-    } = this.props;
+      state: { selectedList, dataReceived },
+      props: {
+        automationReducer,
+        modalHandler,
+        notifyHandler,
+        tabletsDeployed,
+        toggleRightSideBarButton,
+        toggleTableViewButton,
+        activeRightSideBar,
+        activeClickPartners,
+        showBeneficiary,
+        loading,
+        automationReducer: { automationLeftSidePartnerData },
+      },
+    } = this;
+    // const { selectedList, dataReceived } = this.state;
+
+    // const {
+
+    // } = this.props;
     const a =
       automationReducer.automationRightSidePartnerData &&
       automationReducer.automationRightSidePartnerData[0] &&
@@ -133,137 +145,141 @@ class RightSideBar extends Component {
           <div className="aside-body">
             <div id="partner-tablet-count">
               <div className="sidebar-widget">
-                <div className="widget-body">
-                  <ul className="widget-list is-clear">
-                    <li>
-                      <div className="widget-content">
-                        <h6>Tablets Deployed</h6>
-                      </div>
-                      <div
-                        className="widget-icon"
-                        onClick={() => {
-                          notifyHandler(
-                            'The infographics will be downloaded shortly.',
-                          );
-                          downloadPng(
-                            'partner-tablet-count',
-                            'Automation Partner Tablets Deployed',
-                          );
-                        }}
-                        style={{
-                          paddingRight: '10px',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <img
-                          src={DownloadIcon}
-                          style={{ height: '18px', width: '18px' }}
-                        />
-                      </div>
-
-                      <div
-                        className="widget-icon"
-                        onClick={() => {
-                          modalHandler('tablets');
-                        }}
-                      >
-                        <img
-                          src={ExpandIcon}
+                {!dataReceived ? (
+                  <ResponsiveLoader height="50vh" />
+                ) : (
+                  <div className="widget-body">
+                    <ul className="widget-list is-clear">
+                      <li>
+                        <div className="widget-content">
+                          <h6>Tablets Deployed</h6>
+                        </div>
+                        <div
+                          className="widget-icon"
+                          onClick={() => {
+                            notifyHandler(
+                              'The infographics will be downloaded shortly.',
+                            );
+                            downloadPng(
+                              'partner-tablet-count',
+                              'Automation Partner Tablets Deployed',
+                            );
+                          }}
                           style={{
-                            height: '18px',
-                            width: '18px',
+                            paddingRight: '10px',
                             cursor: 'pointer',
                           }}
+                        >
+                          <img
+                            src={DownloadIcon}
+                            style={{ height: '18px', width: '18px' }}
+                          />
+                        </div>
+
+                        <div
+                          className="widget-icon"
+                          onClick={() => {
+                            modalHandler('tablets');
+                          }}
+                        >
+                          <img
+                            src={ExpandIcon}
+                            style={{
+                              height: '18px',
+                              width: '18px',
+                              cursor: 'pointer',
+                            }}
+                          />
+                        </div>
+                      </li>
+                    </ul>
+                    <div className="motivation-pie">
+                      {tabletsDeployed.total_branch === 0 ? (
+                        0
+                      ) : (
+                        <ReactApexChart
+                          options={tabletsDeployed}
+                          series={tabletsDeployed.series}
+                          type="donut"
+                          height="140"
                         />
-                      </div>
-                    </li>
-                  </ul>
-                  <div className="motivation-pie">
-                    {tabletsDeployed.total_branch === 0 ? (
-                      0
-                    ) : (
-                      <ReactApexChart
-                        options={tabletsDeployed}
-                        series={tabletsDeployed.series}
-                        type="donut"
-                        height="140"
-                      />
-                    )}
+                      )}
+                    </div>
+                    <ul className="widget-list">
+                      {/* <Loading loaderState={loading} /> */}
+                      <li>
+                        <div className="widget-content">
+                          <h6>
+                            {automationReducer.automationRightSidePartnerData &&
+                            automationReducer
+                              .automationRightSidePartnerData[0] &&
+                            automationReducer
+                              .automationRightSidePartnerData[0]
+                              .total_partner > 1
+                              ? 'Partner Institutions'
+                              : 'Partner Institution'}
+                          </h6>
+                          <span>
+                            {automationReducer.automationRightSidePartnerData &&
+                              automationReducer
+                                .automationRightSidePartnerData[0] &&
+                              automationReducer
+                                .automationRightSidePartnerData[0]
+                                .total_partner}
+                          </span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">
+                              location_city
+                            </i>
+                          </span>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="widget-content">
+                          <h6>{cooperativeHeader}</h6>
+                          <span>
+                            {automationReducer.automationRightSidePartnerData &&
+                              automationReducer
+                                .automationRightSidePartnerData[0] &&
+                              automationReducer
+                                .automationRightSidePartnerData[0]
+                                .total_branch}
+                          </span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">business</i>
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        style={
+                          showBeneficiary === true
+                            ? { display: 'flex' }
+                            : { display: 'none' }
+                        }
+                      >
+                        <div className="widget-content">
+                          <h6>Beneficiaries</h6>
+                          <span>
+                            {tabletsDeployed.total_beneficiary
+                              ? numberWithCommas(
+                                  tabletsDeployed.total_beneficiary,
+                                )
+                              : 'N/A'}
+                          </span>
+                        </div>
+                        <div className="widget-icon">
+                          <span>
+                            <i className="material-icons">people</i>
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
                   </div>
-                  <ul className="widget-list">
-                    {/* <Loading loaderState={loading} /> */}
-                    <li>
-                      <div className="widget-content">
-                        <h6>
-                          {automationReducer.automationRightSidePartnerData &&
-                          automationReducer
-                            .automationRightSidePartnerData[0] &&
-                          automationReducer
-                            .automationRightSidePartnerData[0]
-                            .total_partner > 1
-                            ? 'Partner Institutions'
-                            : 'Partner Institution'}
-                        </h6>
-                        <span>
-                          {automationReducer.automationRightSidePartnerData &&
-                            automationReducer
-                              .automationRightSidePartnerData[0] &&
-                            automationReducer
-                              .automationRightSidePartnerData[0]
-                              .total_partner}
-                        </span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">
-                            location_city
-                          </i>
-                        </span>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="widget-content">
-                        <h6>{cooperativeHeader}</h6>
-                        <span>
-                          {automationReducer.automationRightSidePartnerData &&
-                            automationReducer
-                              .automationRightSidePartnerData[0] &&
-                            automationReducer
-                              .automationRightSidePartnerData[0]
-                              .total_branch}
-                        </span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">business</i>
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      style={
-                        showBeneficiary === true
-                          ? { display: 'flex' }
-                          : { display: 'none' }
-                      }
-                    >
-                      <div className="widget-content">
-                        <h6>Beneficiaries</h6>
-                        <span>
-                          {tabletsDeployed.total_beneficiary
-                            ? numberWithCommas(
-                                tabletsDeployed.total_beneficiary,
-                              )
-                            : 'N/A'}
-                        </span>
-                      </div>
-                      <div className="widget-icon">
-                        <span>
-                          <i className="material-icons">people</i>
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                )}
               </div>
               <div className="sidebar-widget">
                 <h5>
@@ -271,6 +287,7 @@ class RightSideBar extends Component {
                     ? 'Selected Partners'
                     : 'Selected Partner'}
                 </h5>
+
                 <div className="widget-body">
                   {selectedList &&
                     selectedList.length === 0 &&
@@ -397,51 +414,55 @@ class RightSideBar extends Component {
                   />
                 </div>
               </div>
-
-              <div className="widget-body">
-                <div className="branch-list">
-                  {automationReducer.automationRightSidePartnerData &&
-                    automationReducer
-                      .automationRightSidePartnerData[0] &&
-                    automationReducer.automationRightSidePartnerData[0].partner_data.map(
-                      (data, i) => {
-                        const totalBranch =
-                          automationReducer
-                            .automationRightSidePartnerData[0]
-                            .total_branch;
-                        const singlebranchValue = data.branch;
-                        const BranchpercentCalculate =
-                          (singlebranchValue / maxBranchValue) * 100;
-                        const branchPercent = Math.round(
-                          BranchpercentCalculate,
-                        );
-                        let initials =
-                          data.partner_name.match(/\b\w/g) || [];
-                        initials = (
-                          (initials.shift() || '') +
-                          (initials.pop() || '')
-                        ).toUpperCase();
-                        return (
-                          <div key={data.id} className="branch">
-                            <div
-                              className={`branch-icon ${getClassName(
-                                data.id,
-                              )}`}
-                            >
-                              <span>{initials}</span>
+              {!dataReceived ? (
+                <ResponsiveLoader />
+              ) : (
+                <div className="widget-body">
+                  <div className="branch-list">
+                    {automationReducer.automationRightSidePartnerData &&
+                      automationReducer
+                        .automationRightSidePartnerData[0] &&
+                      automationReducer.automationRightSidePartnerData[0].partner_data.map(
+                        (data, i) => {
+                          const totalBranch =
+                            automationReducer
+                              .automationRightSidePartnerData[0]
+                              .total_branch;
+                          const singlebranchValue = data.branch;
+                          const BranchpercentCalculate =
+                            (singlebranchValue / maxBranchValue) *
+                            100;
+                          const branchPercent = Math.round(
+                            BranchpercentCalculate,
+                          );
+                          let initials =
+                            data.partner_name.match(/\b\w/g) || [];
+                          initials = (
+                            (initials.shift() || '') +
+                            (initials.pop() || '')
+                          ).toUpperCase();
+                          return (
+                            <div key={data.id} className="branch">
+                              <div
+                                className={`branch-icon ${getClassName(
+                                  data.id,
+                                )}`}
+                              >
+                                <span>{initials}</span>
+                              </div>
+                              <div
+                                className="branch-bar"
+                                tooltip={`${data.partner_name}:${data.branch}`}
+                                flow="up"
+                                style={{ width: `${branchPercent}%` }}
+                              />
                             </div>
-                            <div
-                              className="branch-bar"
-                              tooltip={`${data.partner_name}:${data.branch}`}
-                              flow="up"
-                              style={{ width: `${branchPercent}%` }}
-                            />
-                          </div>
-                        );
-                      },
-                    )}
+                          );
+                        },
+                      )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

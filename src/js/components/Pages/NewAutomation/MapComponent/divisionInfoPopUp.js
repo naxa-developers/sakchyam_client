@@ -23,7 +23,12 @@ export default function divisionInfoPopUp(props) {
             {code.uniqueData &&
               code.uniqueData.map(data => {
                 return (
-                  <li style={{ marginBottom: '0 !important' }}>
+                  <li
+                    style={{
+                      marginBottom: '0 !important',
+                      fontFamily: 'Avenir Heavy',
+                    }}
+                  >
                     <div className="organization-icon" />
                     <div className="organization-content">
                       <div className="org-header">

@@ -138,7 +138,6 @@ class MapboxPartnership extends Component {
   }
 
   setHoveredMunicipalityId = id => {
-    console.log('in hover id', id);
     const { tableData } = this.state;
     const { mapViewBy, activeOutreachButton } = this.props;
     let data;

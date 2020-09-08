@@ -1,7 +1,14 @@
+/* eslint-disable radix */
+/* eslint-disable consistent-return */
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LeftSideAutomationLoader from '../../../common/SkeletonLoading';
+import LeftSideAutomationLoader from '../Loader';
+import { ResponsiveListLoader } from '../../../common/Loaders';
+import {
+  getCodes,
+  removeDuplicates,
+} from '../../../common/utilFunctions';
 
 function getClassName(i) {
   if (i % 12 === 0) return 'is-color1';
@@ -29,21 +36,155 @@ class LeftSideBar extends Component {
       dataLoading: true,
       count: 0,
       finalList: '',
+      partnersByDivision: '',
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { automationReducer, searchText } = this.props;
-    const { count, finalList } = this.state;
+    const {
+      automationReducer,
+      searchText,
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
+      automationReducer: { automationTableData },
+    } = this.props;
+    const { count, finalList, partnersByDivision } = this.state;
+
+    if (
+      automationTableData !==
+      prevProps.automationReducer.automationTableData
+    ) {
+      if (selectedProvince.length > 0) {
+        const codes = getCodes(selectedProvince);
+        const filteredList = [];
+        const partnerList = [];
+
+        codes.forEach(province => {
+          automationTableData.forEach(partner => {
+            if (
+              parseInt(province) === parseInt(partner.province_code)
+            ) {
+              filteredList.push(partner);
+            }
+          });
+        });
+
+        const uniquePartners = removeDuplicates(
+          filteredList,
+          'partner_id',
+        );
+
+        uniquePartners.forEach(parts => {
+          finalList.forEach(fParts => {
+            if (
+              parseInt(parts.partner_id) ===
+              parseInt(fParts.partner_id)
+            ) {
+              partnerList.push(fParts);
+            }
+          });
+        });
+
+        this.setState({
+          partnerList,
+          partnersByDivision: partnerList,
+        });
+
+        // console.log('automation tablet data', automationTableData);
+      }
+
+      if (selectedDistrict.length > 0) {
+        const codes = getCodes(selectedDistrict);
+        const filteredList = [];
+        const partnerList = [];
+
+        codes.forEach(province => {
+          automationTableData.forEach(partner => {
+            if (
+              parseInt(province) === parseInt(partner.district_code)
+            ) {
+              filteredList.push(partner);
+            }
+          });
+        });
+
+        const uniquePartners = removeDuplicates(
+          filteredList,
+          'partner_id',
+        );
+
+        uniquePartners.forEach(parts => {
+          finalList.forEach(fParts => {
+            if (
+              parseInt(parts.partner_id) ===
+              parseInt(fParts.partner_id)
+            ) {
+              partnerList.push(fParts);
+            }
+          });
+        });
+
+        this.setState({
+          partnerList,
+          partnersByDivision: partnerList,
+        });
+      }
+
+      if (selectedMunicipality.length > 0) {
+        const codes = getCodes(selectedMunicipality);
+        const filteredList = [];
+        const partnerList = [];
+
+        codes.forEach(province => {
+          automationTableData.forEach(partner => {
+            if (
+              parseInt(province) ===
+              parseInt(partner.municipality_code)
+            ) {
+              filteredList.push(partner);
+            }
+          });
+        });
+
+        const uniquePartners = removeDuplicates(
+          filteredList,
+          'partner_id',
+        );
+
+        uniquePartners.forEach(parts => {
+          finalList.forEach(fParts => {
+            if (
+              parseInt(parts.partner_id) ===
+              parseInt(fParts.partner_id)
+            ) {
+              partnerList.push(fParts);
+            }
+          });
+        });
+
+        this.setState({
+          partnerList,
+          partnersByDivision: partnerList,
+        });
+      }
+
+      if (
+        selectedDistrict.length === 0 &&
+        selectedMunicipality.length === 0 &&
+        selectedProvince.length === 0
+      ) {
+        this.setState({
+          partnerList: finalList,
+          partnersByDivision: '',
+        });
+      }
+    }
+
     if (
       automationReducer.automationRightSidePartnerData !==
       prevProps.automationReducer.automationRightSidePartnerData
     ) {
-      // console.log(
-      //   'data',
-      //   automationReducer.automationRightSidePartnerData[0]
-      //     .partner_data,
-      // );
       if (count === 0) {
         this.setState({
           partnerList:
@@ -57,15 +198,18 @@ class LeftSideBar extends Component {
         });
       }
     }
+
     if (prevProps.searchText !== searchText) {
       if (searchText.length === 0) {
         this.setState({
           partnerList: finalList,
-          // automationReducer.automationRightSidePartnerData[0]
-          //   .partner_data,
         });
       } else {
-        const tempArray = finalList.filter(partner =>
+        const list =
+          partnersByDivision.length > 0
+            ? partnersByDivision
+            : finalList;
+        const tempArray = list.filter(partner =>
           partner.partner_name
             .toUpperCase()
             .includes(searchText.toUpperCase()),
@@ -88,9 +232,10 @@ class LeftSideBar extends Component {
       refreshSelectedPartnerBtn,
       handleSearchTextChange,
       activeTableView,
-      loading,
       searchText,
     } = this.props;
+
+    console.log('partners list', partnerList);
 
     return (
       <aside className="sidebar left-sidebar">
@@ -152,8 +297,10 @@ class LeftSideBar extends Component {
             </div>
           </div>
           <div className="aside-body">
-            {dataLoading || loading ? (
-              <LeftSideAutomationLoader />
+            {dataLoading ? (
+              <>
+                <LeftSideAutomationLoader />
+              </>
             ) : (
               <ul className="table-ranking-list">
                 {partnerList && partnerList.length < 1 ? (
