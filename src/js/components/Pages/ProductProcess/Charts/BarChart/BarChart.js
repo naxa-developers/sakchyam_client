@@ -217,7 +217,12 @@ class BarChart extends Component {
           } = that.props.productProcessReducer;
           const hoveredText =
             w.config.xaxis.categories[dataPointIndex];
-          const filteredText = `${hoveredText[0]} ${hoveredText[1]}`;
+          console.log(hoveredText, 'hoveredText');
+          const filteredText = `${
+            hoveredText[1] && hoveredText[1] !== ''
+              ? `${hoveredText[0]} ${hoveredText[1]}`
+              : hoveredText[0]
+          }`;
           that.props.filterBarPopup(firstClickedState, filteredText);
           const partnerList = hoveredPopupData
             .map(data => {

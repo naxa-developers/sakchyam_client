@@ -119,7 +119,7 @@ class RightSideBar extends Component {
                       number={numberWithCommas(
                         Math.round(overviewData.total_budget),
                       )}
-                      iconTitle="euro_symbol"
+                      iconTitle="british"
                     />
                     <OutreachTab
                       title="New Physical Branches Established"

@@ -155,6 +155,9 @@ class StackedBarWithAllFederal extends Component {
         horizontalAlign: 'left',
         offsetX: 40,
       },
+      title: {
+        text: 'Province/District Wise Achievement Type',
+      },
     };
     this.setState({ options, Fedseries: series });
   };
@@ -211,7 +214,6 @@ class StackedBarWithAllFederal extends Component {
             if (that.props.showBarChartBy === 'Federal') {
               if (clicked !== undefined) {
                 if (showBarof === 'Provinces') {
-                  //
                   const filteredProvinceId = that.props.provinceList.filter(
                     data => {
                       //
@@ -243,7 +245,7 @@ class StackedBarWithAllFederal extends Component {
                     return data.n_code;
                   });
                   that.props.handleShowBarOf('Districts');
-
+                  that.props.setClickedBarDistrict(districtIdList);
                   //
                   that.props.filterMfsChartDataByDistrict(
                     'district',
@@ -330,6 +332,10 @@ class StackedBarWithAllFederal extends Component {
       legend: {
         horizontalAlign: 'left',
         offsetX: 40,
+      },
+      title: {
+        text: 'Province/District Wise Achievement Type',
+        align: 'center  ',
       },
     };
     //

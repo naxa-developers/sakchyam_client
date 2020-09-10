@@ -13,7 +13,7 @@ export default function DivisionInfoPopUpLeft(props) {
   const {
     data: { name, id, code, count },
   } = props;
-  console.log(props.data, 'data');
+  
   //   let partnerContent = null;
   //         // eslint-disable-next-line no-restricted-syntax
   //         const index=0

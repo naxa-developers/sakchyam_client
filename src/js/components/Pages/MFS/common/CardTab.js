@@ -8,8 +8,14 @@ import { resetBarDatas } from '../../../../actions/partnership.actions';
 import FilterTab from './FilterTab';
 
 const downloadPng = (chartid, imageTitle) => {
-  // document.querySelector('.info-header-bottom').style.display =
-  //   'none';
+  document.querySelectorAll('.download-span').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'none';
+  });
+  document.querySelectorAll('.expand-span').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'none';
+  });
   // document
   //   .querySelector('.download-dropdown')
   //   .classList.remove('active');
@@ -35,6 +41,14 @@ const downloadPng = (chartid, imageTitle) => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
       });
+      document.querySelectorAll('.download-span').forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.style.display = 'block';
+      });
+      document.querySelectorAll('.expand-span').forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.style.display = 'block';
+      });
     });
   }, 500);
 
@@ -50,6 +64,16 @@ const CardTab = ({
   handleSelectedModal,
   renderChartComponent,
   showBarof,
+  style,
+  disableResetButton,
+  disableExpand,
+  radioBtn,
+  radioBtnProps,
+  setShowBarChartBy,
+  showBarChartBy,
+  resetFilters,
+  badgeProp,
+  notificationHandler,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -66,6 +90,8 @@ const CardTab = ({
       ? 'Projects Timeline'
       : cardChartId === 'stackedWithInvestment'
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
+      : cardChartId === 'mfsBar'
+      ? 'Federal Wise Achievement Type'
       : '';
   const selectedChartId =
     cardChartId === 'groupedChart'
@@ -93,7 +119,24 @@ const CardTab = ({
                       </label>
                       <small>ON</small>
                     </div> */}
-            {cardChartId === 'groupedChart' ? (
+
+            {radioBtn && (
+              <div className="card-switcher">
+                <small>{radioBtnProps[0]}</small>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={showBarChartBy}
+                    onChange={() => {
+                      setShowBarChartBy(!showBarChartBy);
+                    }}
+                  />
+                  <span className="slider" />
+                </label>
+                <small>{radioBtnProps[1]}</small>
+              </div>
+            )}
+            {!disableResetButton && cardChartId === 'groupedChart' ? (
               showBarof !== 'Provinces' && (
                 <button
                   // id="chart-reset"
@@ -101,8 +144,9 @@ const CardTab = ({
                   onClick={() => {
                     handleShowBarOf('Provinces');
                     resetFunction();
+                    resetFilters();
                   }}
-                  className="is-border common-button chart-reset"
+                  className="is-border common-button chart-reset download-span"
                 >
                   Reset
                 </button>
@@ -113,8 +157,9 @@ const CardTab = ({
                 type="button"
                 onClick={() => {
                   resetFunction();
+                  resetFilters();
                 }}
-                className="is-border common-button chart-reset"
+                className="is-border common-button chart-reset download-span"
               >
                 Reset
               </button>
@@ -124,8 +169,9 @@ const CardTab = ({
                 type="button"
                 onClick={() => {
                   resetFunction();
+                  resetFilters();
                 }}
-                className="is-border common-button chart-reset"
+                className="is-border common-button chart-reset download-span"
               >
                 Reset
               </button>
@@ -136,45 +182,67 @@ const CardTab = ({
                   type="button"
                   onClick={() => {
                     resetFunction();
+                    resetFilters();
                   }}
-                  className="is-border common-button chart-reset"
+                  className="is-border common-button chart-reset download-span"
                 >
                   Reset
                 </button>
               )
+            ) : cardChartId === 'mfsBar' ? (
+              <button
+                // id="chart-reset"
+                type="button"
+                onClick={() => {
+                  resetFunction();
+                }}
+                className="is-border common-button chart-reset download-span"
+              >
+                Reset
+              </button>
             ) : null}
-            <span
-              className=""
-              onClick={() => {
-                downloadPng(selectedChartId, modalHeader);
-              }}
-              onKeyDown={() => {
-                downloadPng(selectedChartId, modalHeader);
-              }}
-              role="button"
-              tabIndex="-1"
-            >
-              <img src={DownloadIcon} alt="open" />
-            </span>
-            <span
-              role="tab"
-              tabIndex="0"
-              onClick={() => {
-                handleModal();
-                handleSelectedModal(cardChartId);
-              }}
-              onKeyDown={() => {
-                handleModal();
-                handleSelectedModal(cardChartId);
-              }}
-              className="zoom"
-              popup-link="graph-modal"
-            >
-              <img src={ExpandIcon} alt="open" />
-            </span>
+            {cardChartId !== 'sunburst' && (
+              <span
+                className="download-span"
+                onClick={() => {
+                  notificationHandler();
+                  downloadPng(cardChartId, modalHeader);
+                }}
+                onKeyDown={() => {
+                  notificationHandler();
+                  downloadPng(cardChartId, modalHeader);
+                }}
+                role="button"
+                tabIndex="-1"
+              >
+                <img src={DownloadIcon} alt="open" />
+              </span>
+            )}
+            {!disableExpand && (
+              <span
+                role="tab"
+                tabIndex="0"
+                onClick={() => {
+                  handleModal();
+                  handleSelectedModal(cardChartId);
+                }}
+                onKeyDown={() => {
+                  handleModal();
+                  handleSelectedModal(cardChartId);
+                }}
+                className="zoom expand-span"
+                popup-link="graph-modal"
+              >
+                <img src={ExpandIcon} alt="open" />
+              </span>
+            )}
           </div>
         </div>
-        <div className="card-body" id={cardChartId}>
+        <div
+          className="card-body"
+          style={style}
+          id={cardChartId === 'stacked_chart' ? '' : cardChartId}
+        >
           {renderChartComponent()}
         </div>
       </div>

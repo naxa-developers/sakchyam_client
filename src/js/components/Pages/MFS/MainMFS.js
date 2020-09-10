@@ -28,12 +28,13 @@ import {
   filterMfsChartData,
   filterMfsMapPieData,
   filterMfsMapChartDataByPartner,
+  filterMfsChartDataByDistrict,
 } from '../../../actions/mfs.action';
 import {
   filterDistrictListFromProvince,
   filterMunListFromDistrict,
 } from '../../../actions/common.actions';
-import CardTab from '../Partnership/common/CardTab';
+import CardTab from './common/CardTab';
 import StackedBarWithAllFederal from './Chart/StackedBarWithAllFederal/StackedBarWithAllFederal';
 import Modal from '../../common/Modal';
 
@@ -70,6 +71,7 @@ class MainMFS extends Component {
       selectedDistrict: [],
       selectedMunicipality: [],
       showBarof: 'Provinces',
+      clickedBarDistrict: [],
       // UI Section
       activeFilter: false,
       activeOverview: false,
@@ -328,6 +330,12 @@ class MainMFS extends Component {
   handleSelectedModal = value => {
     this.setState({
       selectedModal: value,
+    });
+  };
+
+  setClickedBarDistrict = selectedDistrict => {
+    this.setState({
+      clickedBarDistrict: selectedDistrict,
     });
   };
 
@@ -1009,6 +1017,7 @@ class MainMFS extends Component {
       mapViewBy,
       selectedDistrict,
       selectedProvince,
+      clickedBarDistrict,
     } = this.state;
 
     // if (selectedPartner === '') {
@@ -1024,12 +1033,22 @@ class MainMFS extends Component {
       selectedInnovation,
       selectedAchievement,
     );
-    this.props.filterMfsChartData(
-      mapViewBy,
-      selectedPartner,
-      selectedInnovation,
-      selectedAchievement,
-    );
+    if (clickedBarDistrict.length > 0) {
+      this.props.filterMfsChartDataByDistrict(
+        'district',
+        clickedBarDistrict,
+        selectedPartner,
+        selectedInnovation,
+        selectedAchievement,
+      );
+    } else {
+      this.props.filterMfsChartData(
+        mapViewBy,
+        selectedPartner,
+        selectedInnovation,
+        selectedAchievement,
+      );
+    }
     this.props.filterMfsMapChartDataByPartner(
       mapViewBy,
       selectedPartner,
@@ -1144,6 +1163,10 @@ class MainMFS extends Component {
       isAllAchievementSelected: false,
       isAllInnovationSelected: false,
     });
+    document.querySelectorAll('.allCheckbox').forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.checked = false;
+    });
   };
 
   resetFilters = () => {
@@ -1154,7 +1177,13 @@ class MainMFS extends Component {
       selectedProvince: [],
       selectedDistrict: [],
       selectedMunicipality: [],
+      clickedBarDistrict: [],
     });
+    document.querySelectorAll('.fed_checkbox').forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.checked = false;
+    });
+
     this.handleShowBarOf('Provinces');
     this.handleShowBarPartnerChartOf('Partner');
     this.props.filterMfsChoroplethData(mapViewBy, [], [], []);
@@ -1224,6 +1253,7 @@ class MainMFS extends Component {
         activeModal,
         showBarPartnerChartOf,
         alertMessage,
+        clickedBarDistrict,
       },
       // props: {},
     } = this;
@@ -1346,9 +1376,10 @@ class MainMFS extends Component {
                         <div className="form-group province">
                           <Select
                             withCheckbox
+                            inputClassname="province_check"
                             name="Select Province"
                             selectedItem={selectedProvince}
-                            options={provinceList}
+                            options={provinceList && provinceList}
                             onChange={selectedOptions => {
                               this.setState({
                                 selectedProvince: selectedOptions,
@@ -1362,9 +1393,10 @@ class MainMFS extends Component {
                           <div className="form-group district">
                             <Select
                               withCheckbox
+                              inputClassname="district_check"
                               name="Select District"
                               selectedItem={selectedDistrict}
-                              options={districtList}
+                              options={districtList && districtList}
                               onChange={selectedOptions => {
                                 this.setState({
                                   selectedDistrict: selectedOptions,
@@ -1497,6 +1529,10 @@ class MainMFS extends Component {
                             }
                           >
                             <StackedBarWithAllFederal
+                              setClickedBarDistrict={
+                                this.setClickedBarDistrict
+                              }
+                              handleStateLevel={this.setMapViewBy}
                               barData={barData}
                               showBarChartBy={showBarChartBy}
                               mapViewBy={mapViewBy}
@@ -1598,4 +1634,5 @@ export default connect(mapStateToProps, {
   filterMfsChartData,
   filterMfsMapChartDataByPartner,
   filterMfsMapPieData,
+  filterMfsChartDataByDistrict,
 })(MainMFS);

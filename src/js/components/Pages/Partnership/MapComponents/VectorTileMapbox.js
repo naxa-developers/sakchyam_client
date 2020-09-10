@@ -171,7 +171,7 @@ class Choropleth extends Component {
       loading: false,
       isTimeline: false,
     };
-    this.markerPiePopupRef = React.createRef();
+    // this.markerPiePopupRef = React.createRef();
   }
 
   getLegendColor(value) {
@@ -427,92 +427,6 @@ class Choropleth extends Component {
       global.markerList.push(marker);
     });
   }
-  // setCircleMarkerRadius(values, viewdataBy) {
-  //
-  //   // const expression = ['match', ['get', 'code']];
-  //   values.forEach(value => {
-  //     //
-  //     // console.log(
-  //     //   value.properties.allocated_beneficiary,
-  //     //   'all benef',
-  //     // );
-  //     //
-  //     const color = this.getLegendColor(
-  //       value.properties.allocated_beneficiary,
-  //     );
-  //     // expression.push(value.properties.id.toString(), color);
-  //   });
-  //   // eslint-disable-next-line prefer-spread
-  //   const maxValue = Math.max.apply(
-  //     Math,
-  //     // eslint-disable-next-line array-callback-return
-  //     values.map(feature => {
-  //       feature.properties.pie.map(o => {
-  //         return viewdataBy === 'allocated_beneficiary'
-  //           ? o.total_beneficiary
-  //           : o.allocated_budget;
-  //       });
-  //     }),
-  //   );
-  //   // eslint-disable-next-line prefer-spread
-  //   const minValue = Math.min.apply(
-  //     Math,
-  //     // eslint-disable-next-line array-callback-return
-  //     values.map(feature => {
-  //       feature.properties.pie.map(o => {
-  //         return viewdataBy === 'allocated_beneficiary'
-  //           ? o.total_beneficiary
-  //           : o.allocated_budget;
-  //       });
-  //     }),
-  //   );
-  //   //
-  //   //
-  //   // New Value=(( Old Value - Old minimum value) / (old maximum value - old minimum value))*(New maximum value- New minimum Value) + New minimum value
-  //   const a = values.map(data => {
-  //     const b = data.properties.map(x => {
-  //       return {
-  //         ...data,
-  //         properties: {
-  //           ...data.properties,
-  //           pie: {
-  //             ...data.properties.pie,
-  //             radiusRange:
-  //               ((viewdataBy === 'allocated_beneficiary'
-  //                 ? data.properties.pie.total_beneficiary
-  //                 : data.properties.pie.total_beneficiary -
-  //                   minValue) /
-  //                 (maxValue - minValue)) *
-  //                 (30 - 10) +
-  //               10,
-  //           },
-  //         },
-  //       };
-  //     });
-  //     return b;
-  //   });
-  //
-  //   return a;
-  //   //
-  //   // const data = this.props.choroplethData;
-  //   // const maxValue = this.props.maxValue;
-  //   // // Calculate color for each state based on the unemployment rate
-  //   // data.forEach(function(row) {
-  //   //
-  //   //     var red = "";
-  //   //     var green = "";
-  //   //     var blue = "";
-  //   //     green = (row['count'] / maxValue) * 255;
-  //   //     var color = 'rgba(' + green + ', ' + 0 + ', ' + 0 + ', 1)';
-  //   //     expression.push(row['code'], color);
-  //   // });
-
-  //   // Last value is the default, used where there is no data
-  //   // expression.push('rgba(0,0,0,0)');
-  //   //
-  //   // this.setState({ circleMarkerRadius: expression });
-  //   //
-  // }
 
   createPieLegend = () => {
     const that = this;
@@ -591,96 +505,6 @@ class Choropleth extends Component {
       .style('alignment-baseline', 'middle');
   };
 
-  // createCircleLegend = datas => {
-  //   const pieCountArray = [];
-  //   datas.forEach(feature => {
-  //     feature.properties.pie.forEach(singlePie => {
-  //       return pieCountArray.push(singlePie.partner_count);
-  //     });
-  //   });
-  //
-  //   const min = Math.min.apply(null, pieCountArray);
-  //   const max = Math.max.apply(null, pieCountArray);
-  //
-
-  //   // append the svg object to the body of the page
-  //   const height = 300;
-  //   const width = 300;
-  //   const svg = d3
-  //     .select(this.props.circleLegendRef.current)
-  //     .append('svg')
-  //     .attr('width', width)
-  //     .attr('height', height);
-  //   // .style('transform', 'translate(-44px, -73px)');
-  //   // .attr('transform', 'translate (-42px,-34px)');
-
-  //   // The scale you use for bubble size
-  //   const size = d3
-  //     .scaleSqrt()
-  //     .domain([1, 50]) // What's in the data, let's say it is percentage
-  //     .range([1, 50]); // Size in pixel
-
-  //   // Add legend: circles
-  //   // const valuesToShow = [10, 50, 100];
-  //   const valuesToShow = calculateRange(
-  //     min,
-  //     max,
-  //     (max - min) / (3 - 1),
-  //   );
-  //   const xCircle = 60;
-  //   const xLabel = 210;
-  //   const yCircle = 160;
-  //   svg
-  //     .selectAll('legend')
-  //     .data(valuesToShow)
-  //     .enter()
-  //     .append('circle')
-  //     .attr('cx', xCircle)
-  //     .attr('cy', function(d) {
-  //       return yCircle - size(d);
-  //     })
-  //     .attr('r', function(d) {
-  //       return size(d);
-  //     })
-  //     .style('fill', 'none')
-  //     .attr('stroke', 'black');
-
-  //   // Add legend: segments
-  //   svg
-  //     .selectAll('legend')
-  //     .data(valuesToShow)
-  //     .enter()
-  //     .append('line')
-  //     .attr('x1', function(d) {
-  //       return xCircle + size(d);
-  //     })
-  //     .attr('x2', xLabel - 60)
-  //     .attr('y1', function(d) {
-  //       return yCircle - size(d);
-  //     })
-  //     .attr('y2', function(d) {
-  //       return yCircle - size(d);
-  //     })
-  //     .attr('stroke', 'black')
-  //     .style('stroke-dasharray', '2,2');
-
-  //   // Add legend: labels
-  //   svg
-  //     .selectAll('legend')
-  //     .data(valuesToShow)
-  //     .enter()
-  //     .append('text')
-  //     .attr('x', xLabel - 60)
-  //     .attr('y', function(d) {
-  //       return yCircle - size(d);
-  //     })
-  //     .text(function(d) {
-  //       return d;
-  //     })
-  //     .style('font-size', 10)
-  //     .attr('alignment-baseline', 'middle');
-  // };
-
   createDonutChart = (
     props,
     totals,
@@ -702,67 +526,18 @@ class Choropleth extends Component {
       //
       allCount.push(data);
     });
-    // const maxValue=
-    //     const getRadius = data.properties.pie.total_beneficiary -
-    //     minValue) /
-    //   (maxValue - minValue)) *
-    //   (30 - 10) +
-    // 10,
-    // const data = [
-    //   {
-    //     type: 'Automation of MFIs',
-    //     count: props['Automation of MFIs'],
-    //   },
-    //   {
-    //     type: 'Channel Innovations',
-    //     count: props['Channel Innovations'],
-    //   },
-    //   {
-    //     type: 'Digital Financial Services',
-    //     count: props['Digital Financial Services'],
-    //   },
-    //   {
-    //     type: 'Downscaling and Value Chain Financing By Banks',
-    //     count:
-    //       props['Downscaling and Value Chain Financing By Banks'],
-    //   },
-    //   {
-    //     type: 'Increased uptake of microinsurance',
-    //     count: props['Increased uptake of microinsurance'],
-    //   },
-    //   {
-    //     type: 'Outreach Expansion',
-    //     count: props['Outreach Expansion'],
-    //   },
-    //   {
-    //     type: 'Product Innovations',
-    //     count: props['Product Innovations'],
-    //   },
-    //   {
-    //     type: 'SME Financing',
-    //     count: props['SME Financing'],
-    //   },
-    // ];
-    //
+
     const data = legendDataArray;
     const thickness = 10;
-    // const scale = d3
-    //   .scaleLinear()
-    //   .domain([d3.min(totals), d3.max(totals)])
-    //   .range([d3.min(totals), d3.max(totals)]);
 
-    // const radius = scale(props.point_count);
     const radius = radiusValue ? radiusValue : 30;
 
-    // const radius = scale(props.point_count - 10);
-    // const circleRadius = radius - thickness;
-    // const circleRadius = radiusValue;
     const tooltip2nd = d3
-      .select(div)
-      .append('div')
-      .attr('class', 'pie-mapbox-popup')
+      .select(this.props.markerPiePopupRef.current)
+      // .append('div')
+      // .attr('class', 'pie-mapbox-popup')
       .style('opacity', 0);
-    tooltip2nd.append('div').attr('class', 'popup-div');
+    // tooltip2nd.append('div').attr('class', 'popup-div');
     const svg = d3
       .select(div)
       .append('svg')
@@ -775,43 +550,6 @@ class Choropleth extends Component {
     const g = svg
       .append('g')
       .attr('transform', `translate(${radius}, ${radius})`);
-
-    // <div
-    //       className="leaflet-popup  leaflet-zoom-animated"
-    //       style="opacity: 1; transform: translate3d(116px, 282px, 0px); bottom: -7px; left: -141px;"
-    //     >
-    //       <div className="leaflet-popup-content-wrapper">
-    //     <div className="leaflet-popup-content" style="width: 281px;">
-    //           <ul>
-    //         <li>
-    //               <div className="organization-icon">
-    //             <span>CH</span>
-    //           </div>
-    //               <div className="organization-content">
-    //             <h5>Kisan Microfinance</h5>
-    //           </div>
-    //             </li>
-    //       </ul>
-    //         </div>
-    //   </div>
-    //       <div className="leaflet-popup-tip-container">
-    //     <div className="leaflet-popup-tip" />
-    //   </div>
-    //       <a className="leaflet-popup-close-button" href="#close">
-    //     ×
-    //   </a>
-    //     </div>;
-
-    // tooltip
-    //   .select('.popup-div')
-    //   .append('ul')
-    //   .attr('class', 'mapbox-popup-content');
-    // .style('width', '281px');
-
-    // tooltip
-    //   .select('.leaflet-popup-content')
-    //   .append('div')
-    //   .attr('class', 'organization-content');
 
     const arc = d3
       .arc()
@@ -844,140 +582,9 @@ class Choropleth extends Component {
           partners,
           mapViewDataBy,
         });
-
-        // // d.stopPropagation();
-        // document
-        //   .querySelectorAll('.pie-mapbox-popup')
-        //   .forEach(function(el) {
-        //     // eslint-disable-next-line no-param-reassign
-        //     el.style.display = 'none';
-        //     // a.remove();
-        //   });
-        // // const that = this;
-
-        // //
-        // // if (document.querySelector('.federal-popup')) {
-        // //   document.querySelector('.federal-popup').style.display =
-        // //     'none';
-        // // }
-        // // popup.remove();
-        // /* <div className="icons">
-        // <i className="material-icons">tablet_mac</i>
-        // <b>4</b></div> */
-        // // <div className="icon-list">
-        // //             </div>
-        // // document
-        // //   .querySelectorAll('.pie-mapbox-popup')
-        // //   .forEach(function(el) {
-        // //     // eslint-disable-next-line no-param-reassign
-        // //     el.style.display = 'none';
-        // //     // a.remove();
-        // //   });
-        // let partnerContent = null;
-        // // partnerList =
-        // // eslint-disable-next-line no-restricted-syntax
-        // partnerContent = partners
-        //   .map((partnerData, index) => {
-        //     const partnerList = partnerData.partnerlist
-        //       .map(singlepartner => {
-        //         return `
-        //         <li>
-        //           <a>${singlepartner}</a>
-        //         </li>
-        //         `;
-        //       })
-        //       .join('');
-        //     return `
-        //   <div class="acc-list ${
-        //     index === 0 ? 'active' : ''
-        //   }" onclick="this.classList.toggle('active');">
-        //     <div class="acc-header">
-        //       <h5>${partnerData.partnerName}</h5>
-        //     </div>
-        //     <div class="acc-body">
-        //       <ul>
-        //       ${partnerList}
-        //       </ul>
-        //     </div>
-        //   </div>
-        // `;
-        //   })
-        //   .join('');
-
-        // // <h6>${props.federal_name}</h6>
-        // tooltip.select('.popup-div').html(
-        //   `<div class="leaflet-popup-content" style="width: 100px;">
-        //     <div class="map-popup-view" style="${
-        //       mapViewDataBy === 'investment_focus'
-        //         ? 'height: 302px;'
-        //         : 'height: 10px'
-        //     }overflow-y: scroll;">
-        //       <div class="map-popup-view-header">
-        //           <h5>${props.federal_name}</h5>
-        //           <div class="icons">
-        //             <i class="material-icons">${
-        //               mapViewDataBy === 'allocated_beneficiary'
-        //                 ? 'people'
-        //                 : mapViewDataBy === 'allocated_budget'
-        //                 ? 'monetization_on'
-        //                 : 'payments'
-        //             }</i><b>${Math.round(totalSum)}</b>
-        //           </div>
-        //       </div>
-        //       <div class="acc is-after is-border">
-        //           ${
-        //             partnerContent !== undefined &&
-        //             mapViewDataBy === 'investment_focus'
-        //               ? partnerContent
-        //               : ''
-        //           }
-        //           </div>
-
-        //       <div class="map-view-footer">
-        //       </div>
-        //     </div>
-        //   </div>` /* eslint-disable-line */
-        // );
-
-        // // const t = document.querySelector('.acc-header');
-        // // t.addEventListener('click', function(e) {
-        // //   //
-        // //   e.stopPropagation();
-        // //   alert('function');
-        // // });
-        // const mapPopup = document.querySelector('.map-popup-view');
-        // mapPopup.addEventListener('click', function(e) {
-        //   //
-        //   e.stopPropagation();
-        //   // alert('function');
-        // });
-        // const Popupscroll = document.querySelector('.map-popup-view');
-        // Popupscroll.addEventListener('wheel', function(e) {
-        //   e.stopPropagation();
-        // });
-        // // const accList = document.querySelector('.acc-list');
-        // // accList.addEventListener('click', function(e) {
-        // //
-        // //   // if (e.target.classList.includes('active')) {
-        // //   this.classList.remove('active');
-        // //   // } else {
-        // //   // e.target.classList.add('active');
-        // //   // }
-        // //   // e.stopPropagation();
-        // //   // alert('function');
-        // // });
-        // // .style('color', 'black');
-        // // .style('background-color', 'white');
-        // // tooltip.select('.count').html('Test');
-        // // tooltip.select('.percent').html(`${34}%`);
-
-        // tooltip.style('display', 'block');
-        // tooltip.style('opacity', 2);
       })
       .on('mouseover', function(d) {
         svg.selectAll('path').sort(function(a, b) {
-          console.log(a, 'a');
-          console.log(d, 'd');
           // select the parent and sort the path's
           if (a.id !== d.id) return -1;
           // a is not the hovered element, send "a" to the back
@@ -997,21 +604,23 @@ class Choropleth extends Component {
           );
         tooltip2nd.style('display', 'block');
         tooltip2nd.style('opacity', 1);
-        tooltip2nd.select('.popup-div').html(
+        const classValue =
+          mapViewDataBy === 'allocated_budget'
+        ? `${'fas fa-pound-sign'}` // eslint-disable-line prettier/prettier
+            : 'material-icons';
+        tooltip2nd.html(
           `<div class="leaflet-popup-content" style="width: 100px;">
             <div class="map-popup-view">
               <div class="map-popup-view-header">
                   <h5>${d.data.type}</h5>
                   <div class="icons">
-                    <i class="material-icons">${
-                      mapViewDataBy === 'allocated_beneficiary'
-                        ? 'people'
-                        : mapViewDataBy === 'allocated_budget'
-                        ? 'euro_symbol'
-                        : 'payments'
-                    }</i><b>${numberWithCommas(
-            Math.round(d.data.count),
-          )}</b>
+                    <i class=${classValue}>${
+            mapViewDataBy === 'allocated_beneficiary'
+              ? 'people'
+              : mapViewDataBy === 'allocated_budget'
+              ? ''
+              : 'payments'
+          }</i><b>${numberWithCommas(Math.round(d.data.count))}</b>
                   </div>
               </div>
             </div>
@@ -1020,11 +629,11 @@ class Choropleth extends Component {
       })
       .on('mousemove', function() {
         tooltip2nd
-          .style('top', `${d3.event.offsetY + 20}px`)
-          .style('left', `${d3.event.offsetX + 20}px`);
+          .style('top', `${d3.event.pageY - 160}px`)
+          .style('left', `${d3.event.pageX - 380}px`);
         tooltip
           .style('top', `${d3.event.offsetY + 20}px`)
-          .style('left', `${d3.event.offsetX + 20}px`);
+          .style('left', `${d3.event.offsetX + 200}px`);
       })
       .on('mouseout', function() {
         tooltip2nd.style('display', 'none');
@@ -1142,103 +751,8 @@ class Choropleth extends Component {
       });
       global.mapGlobal = map;
 
-      // filters for classifying earthquakes into five categories based on magnitude
-
-      //
-      //
-      // PieChart in Marker Start
-
-      // PieChart in Marker End
-
-      // fullGeojsonProvince.features.forEach((item, index) => {
-      //   this.props.choroplethData.forEach(p => {
-      //     if (p.code === item.properties.code) {
-      //       fullGeojsonProvince.features[index].properties = {
-      //         ...item.properties,
-      //         ...p,
-      //       };
-      //     }
-      //   });
-      // });
-      // map.addSource('fullGeojsonProvince', {
-      //   type: 'geojson',
-      //   data: fullGeojsonProvince,
-      // });
-      // map.addLayer({
-      //   id: 'circles1',
-      //   source: 'fullGeojsonProvince',
-      //   type: 'circle',
-      //   // 'source-layer': 'default',
-      //   paint: {
-      //     'circle-radius': ['get', 'count'],
-      //     'circle-color': '#007cbf',
-      //     'circle-opacity': 0.5,
-      //     'circle-stroke-width': 0,
-      //   },
-      //   // filter: ['==', 'modelId', 1],
-      // });
-      // map.addLayer({
-      //   id: 'singles-count',
-      //   type: 'symbol',
-      //   source: 'fullGeojsonProvince',
-      //   // filter: ["has", "singles_count"],
-      //   layout: {
-      //     'text-field': ['get', 'count'],
-      //     'text-allow-overlap': true,
-      //     'text-font': [
-      //       'DIN Offc Pro Medium',
-      //       'Arial Unicode MS Bold',
-      //     ],
-      //     'text-size': 12,
-      //     'text-ignore-placement': true,
-      //   },
-      //   paint: {
-      //     'text-color': '#000000',
-      //     'text-halo-color': 'rgba(255,255,255,0.95)',
-      //     'text-halo-width': 1.5,
-      //     'text-halo-blur': 1,
-      //   },
-      // });
-      if (that.props.label) {
-        // map.addLayer({
-        //   id: 'vector-tile-outline',
-        //   type: 'line',
-        //   source: 'municipality',
-        //   'source-layer': 'default',
-        //   paint: {
-        //     'line-color': 'rgba(255, 0, 0, 1)',
-        //     'line-width': [
-        //       'case',
-        //       ['boolean', ['feature-state', 'hover'], false],
-        //       5,
-        //       1,
-        //     ],
-        //   },
-        // });
-        // if (that.props.label) {
-        //   map.addLayer({
-        //     id: 'vector-tile-label',
-        //     type: 'symbol',
-        //     source: 'municipality',
-        //     'source-layer': 'default',
-        //     layout: {
-        //       'text-field': ['get', 'name'],
-        //       'icon-image': ['concat', ['get', 'icon'], '-15'],
-        //       'text-anchor': 'center',
-        //       'text-offset': [0, 0],
-        //       'symbol-placement': 'point',
-        //       'text-justify': 'center',
-        //       'text-size': 10,
-        //     },
-        //     paint: {
-        //       'text-color': '#666',
-        //       'text-halo-color': 'rgba(255,255,255,0.95)',
-        //       'text-halo-width': 1.5,
-        //       'text-halo-blur': 1,
-        //     },
-        //   });
-        // }
-      }
+      // if (that.props.label) {
+      // }
       map.on('click', function() {
         // alert('clicked Map');
         document
@@ -1286,7 +800,7 @@ class Choropleth extends Component {
         };
 
         e.preventDefault();
-        console.log(e, 'e');
+
         const federalCode = e.features[0].properties.code;
 
         if (that.props.mapViewBy === 'province') {
@@ -1308,7 +822,6 @@ class Choropleth extends Component {
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
-        console.log(e);
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
             return (
@@ -1317,7 +830,7 @@ class Choropleth extends Component {
             );
           },
         );
-        console.log(filteredCodeData, 'filter');
+
         setLeftPopupData({
           name: e.features[0].properties.name,
           code: e.features[0].properties.code,
@@ -1395,144 +908,9 @@ class Choropleth extends Component {
         setLeftPopupData({});
       });
 
-      // fullGeojsonProvince.features.forEach((item, index) => {
-      //   that.props.choroplethData.forEach(p => {
-      //     if (p.code === item.properties.code) {
-      //       fullGeojsonProvince.features[index].properties = {
-      //         ...item.properties,
-      //         ...p,
-      //       };
-      //     }
-      //   });
-      // });
-      //
-      // // const testEl = createDonutChart(a,b);
-      // let singleData = {};
-      // let singleData2nd = {};
-      // const total = [];
-      // const total2nd = [];
-
-      // // const getPointCount = features => {
-      // //   features.forEach(f => {
-      // //     if (f.properties.cluster) {
-      // //       total.push(f.properties.point_count);
-      // //     }
-      // //   });
-
-      // //   return total;
-      // // };
-      // fullGeojsonProvince.features.forEach(data => {
-      //   //
-      //   singleData2nd = {
-      //     point_count: 0,
-      //   };
-      //   data.properties.pie.forEach(piedata => {
-      //     //
-      //     singleData2nd[`${piedata.investment_primary}`] =
-      //       piedata.partner_count;
-      //     singleData2nd.point_count += piedata.partner_count;
-      //   });
-      //   total2nd.push(singleData2nd.point_count);
-      // });
-      // //
-      // fullGeojsonProvince.features.forEach(data => {
-      //   //
-      //   singleData = {
-      //     point_count: 0,
-      //   };
-      //   data.properties.pie.forEach(piedata => {
-      //     //
-      //     singleData[`${piedata.investment_primary}`] =
-      //       piedata.partner_count;
-      //     singleData.point_count += piedata.partner_count;
-      //   });
-      //   total.push(singleData.point_count);
-      //   //
-      //   //
-      //   const testElMain = document.createElement('div');
-      //   testElMain.className = 'marker';
-      //   const props = data.properties;
-      //   // eslint-disable-next-line no-use-before-define
-      //   const testEl = that.createDonutChart(singleData, total2nd);
-
-      //   const marker = new mapboxgl.Marker({ element: testEl })
-      //     .setLngLat(data.geometry.coordinates)
-      //     .addTo(map);
-      //   global.markerList.push(marker);
-      // });
-      // // global.marker.remove();
-      // const withRadius = that.setCircleMarkerRadius(
-      //   fullGeojsonProvince.features,
-      //   that.props.mapViewDataBy,
-      // );
-      // that.createCircleLegend(fullGeojsonProvince.features);
-      // that.createPieLegend();
-      // fullGeojsonProvince.features = withRadius;
-      //
-      // const test = createDonutChart(a,b);
-      //
-      //
-
-      // if (map.getSource('fullGeojsonProvince')) {
-      //   map
-      //     .getSource('fullGeojsonProvince')
-      //     .setData(fullGeojsonProvince);
-      // } else {
-      //   map.addSource('fullGeojsonProvince', {
-      //     type: 'geojson',
-      //     data: fullGeojsonProvince,
-      //   });
-      //   map.addLayer({
-      //     id: 'circles1',
-      //     source: 'fullGeojsonProvince',
-      //     type: 'circle',
-      //     // 'source-layer': 'default',
-      //     paint: {
-      //       'circle-radius': ['get', 'radiusRange'],
-      //       // 'circle-radius': 20,
-      //       'circle-color': '#FFE300',
-      //       'circle-opacity': 0.5,
-      //       'circle-stroke-width': 0,
-      //     },
-      //     // filter: ['==', 'modelId', 1],
-      //   });
-
-      // map.addLayer({
-      //   id: 'singles-count',
-      //   type: 'symbol',
-      //   source: 'fullGeojsonProvince',
-      //   // filter: ["has", "singles_count"],
-      //   layout: {
-      //     'text-field': ['get', 'allocated_beneficiary'],
-      //     'text-allow-overlap': true,
-      //     'text-font': [
-      //       'DIN Offc Pro Medium',
-      //       'Arial Unicode MS Bold',
-      //     ],
-      //     'text-size': 12,
-      //     'text-ignore-placement': true,
-      //   },
-      //   paint: {
-      //     'text-color': '#000000',
-      //     'text-halo-color': 'rgba(255,255,255,0.95)',
-      //     'text-halo-width': 1.5,
-      //     'text-halo-blur': 1,
-      //   },
-      // });
-      // }
       map.setZoom(5.8);
     });
-    // map.on('sourcedataloading', function(e) {
-    //   that.setState({ loading: !map.isSourceLoaded('municipality') });
 
-    //   //
-    // });
-    // map.on('sourcedata', function(e) {
-    //   // const that = this;
-    //   //
-    //   //
-    //   that.setState({ loading: !map.isSourceLoaded('municipality') });
-    // });
     map.on('style.load', () => {
       const waiting = () => {
         if (!map.isStyleLoaded()) {
@@ -1545,27 +923,6 @@ class Choropleth extends Component {
       };
       waiting();
     });
-    // map.on('idle', () => {
-    //
-    //   // map.getCanvas().toDataURL()
-    // });
-
-    // map.on('load', 'vector-tile-fill', function(e) {
-    //
-    //   alert('test');
-    //   // if (e.sourceId === 'municipality') {
-    //   //   if (e.isSourceLoaded) {
-    //   //     // alert('test');
-    //   //     // Do something when the source has finished loading
-    //   //   }
-    //   // }
-    // });
-    // map.on('data', function(e) {
-    //
-    //   if (e.isSourceLoaded) {
-    //     // Do something when the source has finished loading
-    //   }
-    // });
   };
 
   componentDidMount() {
@@ -1798,7 +1155,7 @@ class Choropleth extends Component {
             </ul>
           </div>
         </div>
-        <div ref={this.markerPiePopupRef} />
+
         <TimelineChart
           minValue={minValue}
           maxValue={maxValue}
