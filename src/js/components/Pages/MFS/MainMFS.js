@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { select } from 'd3';
 
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/src/css/mapbox-gl.css';
 import MapboxPartnership from './MapComponents/MapboxPartnership';
-import Headers from '../../Header';
 import LeftSideBar from './LeftSideBar';
 import RightSideBar from './RightSideBar';
-
-import Loading from '../../common/Loading';
+import AlertComponent from '../../common/Notifier';
 import Select from '../../common/Select/Select';
 import FilterBadge from './common/FilterBadge';
 import { getCenterBboxProvince } from './common/ProvinceFunction';
@@ -21,7 +18,6 @@ import {
   districtLists,
   municipalityLists,
   districtListByProvince,
-  muniByDistrict,
 } from '../../common/adminList';
 import {
   getMfsAllData,
@@ -89,6 +85,7 @@ class MainMFS extends Component {
       activeModal: false,
       selectedModal: '',
       showBarPartnerChartOf: 'Partner',
+      alertMessage: '',
     };
   }
 
@@ -311,6 +308,16 @@ class MainMFS extends Component {
       }
     }
   }
+
+  notificationHandler = () => {
+    this.setState({
+      alertMessage: 'The infographics will be downloaded shortly.',
+    });
+
+    setTimeout(() => {
+      this.setState({ alertMessage: '' });
+    }, 3000);
+  };
 
   handleModal = () => {
     this.setState(prevState => ({
@@ -1216,6 +1223,7 @@ class MainMFS extends Component {
         selectedModal,
         activeModal,
         showBarPartnerChartOf,
+        alertMessage,
       },
       // props: {},
     } = this;
@@ -1232,6 +1240,9 @@ class MainMFS extends Component {
             activeOverview ? 'expand-right-sidebar' : ''
           }`}
         >
+          {alertMessage && (
+            <AlertComponent message={alertMessage} case="warning" />
+          )}
           {activeModal && (
             <Modal
               // visible={selectedModal === 'bar' ? true : false}
@@ -1242,6 +1253,7 @@ class MainMFS extends Component {
               selectedModal={selectedModal}
               handleModal={this.handleModal}
               component={() => this.getModalContent(selectedModal)}
+              notificationHandler={this.notificationHandler}
             />
           )}
           <LeftSideBar
@@ -1418,6 +1430,7 @@ class MainMFS extends Component {
                       handleSelectedModal={() => {
                         this.handleSelectedModal('groupedChart');
                       }}
+                      notificationHandler={this.notificationHandler}
                       disableResetButton
                       disableExpand
                       renderChartComponent={() => {
@@ -1455,11 +1468,12 @@ class MainMFS extends Component {
                       showBarChartBy={showBarChartBy}
                       setShowBarChartBy={this.setShowBarChartBy}
                       cardClass="col-xl-12"
-                      cardChartId="mfsBar"
+                      cardChartId="stacked_chart"
                       handleModal={this.handleModal}
                       handleSelectedModal={() => {
-                        this.handleSelectedModal('mfsBar');
+                        this.handleSelectedModal('stacked_chart');
                       }}
+                      notificationHandler={this.notificationHandler}
                       badgeProp={['Partner', 'Federal']}
                       renderChartComponent={() => {
                         return (

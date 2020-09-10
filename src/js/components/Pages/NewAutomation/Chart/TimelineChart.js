@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import playIcon from '../../../../../img/play-black.png';
 import pauseIcon from '../../../../../img/pause.png';
 import { filterTimeline } from '../../../../actions/automation.actions';
+import convertDate from '../../../utils/convertDate';
 
 let time = '1/1/2015';
 
@@ -151,8 +152,14 @@ class TimelineChart extends Component {
     const d = new Date(minDate);
 
     const day = d.getDate();
-    const month = d.getMonth() + 1;
-    const year = d.getFullYear() + 1;
+    let month = d.getMonth() + 4; // Since getMonth() returns month from 0-11 not 1-12
+    let year = d.getFullYear();
+    if (month === 13) {
+      month = 1;
+      year = d.getFullYear() + 1;
+    } else {
+      month = d.getMonth() + 4;
+    }
 
     const dateStr = `${month}/${day}/${year}`;
     time = dateStr;
@@ -203,6 +210,19 @@ class TimelineChart extends Component {
             : { background: 'white', display: 'block' }
         }
       >
+        <div className="timeline-date start-date">
+          {/* <time>Date:1 December 2019</time> */}
+          <time>
+            From:
+            {`${convertDate(minCurrent)}`}
+            {/* {`${minyear}-${minmonth}-${minday}`} */}
+          </time>
+          <time style={{ marginLeft: '43px' }}>
+            To:
+            {`${convertDate(maxCurrent)}`}
+            {/* {`${year}-${month}-${day}`} */}
+          </time>
+        </div>
         <a
           onClick={() => {
             time = '1/1/2015';

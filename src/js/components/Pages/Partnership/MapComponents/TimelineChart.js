@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import playIcon from '../../../../../img/play-black.png';
 import pauseIcon from '../../../../../img/pause.png';
 import { filterTimelineData } from '../../../../actions/partnership.actions';
+import convertDate from '../../../utils/convertDate';
 
 let time = '2015-1-1';
 
@@ -276,6 +277,19 @@ class TimelineChart extends Component {
         className="chart-timeline"
         style={{ background: 'white' }}
       >
+        <div className="timeline-date start-date">
+          {/* <time>Date:1 December 2019</time> */}
+          <time>
+            From:
+            {`${convertDate(minCurrent)}`}
+            {/* {`${minyear}-${minmonth}-${minday}`} */}
+          </time>
+          <time style={{ marginLeft: '43px' }}>
+            To:
+            {`${convertDate(maxCurrent)}`}
+            {/* {`${year}-${month}-${day}`} */}
+          </time>
+        </div>
         <a
           onClick={() => {
             time = '2015-1-1';

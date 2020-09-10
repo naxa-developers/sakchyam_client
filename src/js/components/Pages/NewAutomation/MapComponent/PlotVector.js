@@ -300,10 +300,13 @@ class PlotVector extends Component {
 
       const markerCollection = timelineMarkers;
       tempActive.features.forEach(function(marker) {
+        // console.log(marker, 'marker');
         const popup = new mapboxgl.Popup({
           offset: 25,
           closeButton: false,
-        }).setText(`${marker.properties.partner_name}`);
+        }).setText(
+          `${marker.properties.partner_name} (${marker.properties.full_data})`,
+        );
 
         if (
           !timelinePartnersPlotted.includes(
@@ -323,9 +326,9 @@ class PlotVector extends Component {
           el.addEventListener('mouseenter', () =>
             Marker1.togglePopup(),
           );
-          el.addEventListener('mouseleave', () =>
-            Marker1.togglePopup(),
-          );
+          // el.addEventListener('mouseleave', () =>
+          //   Marker1.togglePopup(),
+          // );
 
           if (that.state.timeline) {
             Marker1.togglePopup();
@@ -394,10 +397,13 @@ class PlotVector extends Component {
 
     const markerCollection = [];
     tempActive.features.forEach(function(marker) {
+      console.log(marker, 'marekr ');
       const popup = new mapboxgl.Popup({
         offset: 25,
         closeButton: false,
-      }).setText(`${marker.properties.partner_name}`);
+      }).setText(
+        `${marker.properties.partner_name} (${marker.properties.full_data})`,
+      );
       const el = document.createElement('div');
 
       el.className = 'marker-outreach-branch';
@@ -425,7 +431,9 @@ class PlotVector extends Component {
         const popup = new mapboxgl.Popup({
           offset: 25,
           closeButton: false,
-        }).setText(`${marker.properties.partner_name}`);
+        }).setText(
+          `${marker.properties.partner_name}(${marker.properties.full_data})`,
+        );
         const el = document.createElement('div');
         let Marker1 = '';
 

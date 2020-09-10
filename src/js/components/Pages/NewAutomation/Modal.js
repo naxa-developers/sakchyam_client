@@ -119,7 +119,7 @@ const Modal = props => {
                   marginTop: '7vh',
                 }}
               >
-                <div style={{ flex: 8 }}>
+                <div className="modal-pie" style={{ flex: 8 }}>
                   {tabletsDeployed.total_branch === 0 ? (
                     0
                   ) : (

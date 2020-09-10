@@ -946,7 +946,13 @@
   }
 }
 
-#motivation-pie .apexcharts-tooltip {
+.motivation-pie .apexcharts-tooltip {
+  background: $white-color;
+  color: $white-color;
+  left: -6.7344px !important;
+  top: -3.875px !important;
+}
+.modal-pie .apexcharts-tooltip {
   background: $white-color;
   color: $white-color;
 }

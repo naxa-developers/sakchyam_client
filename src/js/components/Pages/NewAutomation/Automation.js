@@ -184,18 +184,21 @@ class MainAutomation extends Component {
           fillSeriesColor: false,
           fontColor: '#fff',
           style: {
-            fontSize: '12px',
+            fontSize: '1px',
             fontColor: '#fff',
           },
-          followCursor: false,
+          followCursor: true,
           fixed: {
             enabled: true,
-            position: 'topRight',
-            offsetX: 100,
-            offsetY: 100,
+            position: 'bottomRight',
+            offsetX: 50,
+            offsetY: 0,
           },
           marker: {
             show: false,
+          },
+          items: {
+            display: 'flex',
           },
         },
         dataLabels: {

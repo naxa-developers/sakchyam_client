@@ -324,7 +324,7 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedDistrict.map(fed => {
-                  return fed.code.toString();
+                  return fed.n_code.toString();
                 }),
               ],
             ]);
@@ -334,7 +334,7 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedDistrict.map(fed => {
-                  return fed.code.toString();
+                  return fed.n_code.toString();
                 }),
               ],
             ]);
@@ -378,7 +378,7 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.code.toString();
+                  return fed.n_code.toString();
                 }),
               ],
             ]);
@@ -388,7 +388,7 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.code.toString();
+                  return fed.n_code.toString();
                 }),
               ],
             ]);
@@ -728,7 +728,7 @@ class MainPartnership extends Component {
           const filteredMunFromDist = [];
           selectedDistrict.forEach(dist => {
             allMunicipalityList.forEach(mun => {
-              if (dist.code === mun.district_code) {
+              if (dist.n_code === mun.district_code) {
                 filteredMunFromDist.push(mun);
               }
             });
@@ -840,7 +840,7 @@ class MainPartnership extends Component {
           const combinedBbox = [];
           const getBboxValue = getCenterBboxDistrict(
             selectedDistrict.map(data => {
-              return data.code;
+              return data.n_code;
             }),
           );
           getBboxValue.map(data => {
@@ -851,7 +851,7 @@ class MainPartnership extends Component {
 
           const query = selectedDistrict
             .map(data => {
-              return `code=${data.code}`;
+              return `code=${data.n_code}`;
             })
             .join('&');
           if (map) {
@@ -863,7 +863,7 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedDistrict.map(fed => {
-                  return fed.code.toString();
+                  return fed.n_code.toString();
                 }),
               ],
             ]);
@@ -873,7 +873,7 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedDistrict.map(fed => {
-                  return fed.code.toString();
+                  return fed.n_code.toString();
                 }),
               ],
             ]);
@@ -924,7 +924,7 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.code.toString();
+                  return fed.n_code.toString();
                 }),
               ],
             ]);
@@ -934,7 +934,7 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.code.toString();
+                  return fed.n_code.toString();
                 }),
               ],
             ]);
