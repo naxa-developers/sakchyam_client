@@ -13,7 +13,7 @@ export default function divisionInfoPopUp(props) {
   const {
     propsdata, partners, mapViewDataBy
   } = props.data;
-  console.log(props.data,'data');
+  
   let partnerContent = null;
         // eslint-disable-next-line no-restricted-syntax
         const index=0

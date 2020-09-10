@@ -1878,7 +1878,7 @@ class MainPartnership extends Component {
                             this.setViewDataBy('allocated_budget');
                           }}
                           dataTitle="allocated_budget"
-                          icon="euro_symbol"
+                          icon="british"
                           title="Budget Allocated"
                         />
                         <FilterBadge
@@ -1886,6 +1886,7 @@ class MainPartnership extends Component {
                           onclick={() => {
                             this.setViewDataBy('Leverage');
                           }}
+                          icon="store"
                           dataTitle="Leverage"
                           title="Leverage"
                         />
@@ -1927,7 +1928,7 @@ class MainPartnership extends Component {
                           onclick={() => {
                             this.setMapViewDataBy('allocated_budget');
                           }}
-                          icon="euro_symbol"
+                          icon="british"
                           dataTitle="allocated_budget"
                           title="Allocated Budget"
                         />

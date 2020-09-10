@@ -9,7 +9,18 @@ const OutreachTab = ({ title, iconTitle, number }) => {
       </div>
       <div className="widget-icon">
         <span>
-          <i className="material-icons">{iconTitle}</i>
+          <i
+            className={
+              iconTitle === 'british'
+                ? 'fas fa-pound-sign'
+                : 'material-icons'
+            }
+            style={
+              iconTitle === 'british' ? { fontSize: '20px' } : {}
+            }
+          >
+            {iconTitle !== 'british' && iconTitle}
+          </i>
         </span>
       </div>
     </li>

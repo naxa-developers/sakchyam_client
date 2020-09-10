@@ -1,4 +1,5 @@
 import React from 'react';
+import British from '../../../../../Icons/british.png';
 
 const FilterBadge = ({
   viewDataBy,
@@ -20,7 +21,18 @@ const FilterBadge = ({
       tabIndex="-1"
     >
       <a>
-        <i className="material-icons">{icon ? icon : 'store'}</i>
+        <i
+          className={
+            icon === 'british'
+              ? 'fas fa-pound-sign'
+              : 'material-icons'
+          }
+        >
+          {icon !== 'british' && icon}
+        </i>
+        {/* <i className="material-icons">
+          <img src={British} alt="british-pound" />
+        </i> */}
         <span>{title}</span>
       </a>
       {/* <a>{title}</a> */}

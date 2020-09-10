@@ -607,6 +607,8 @@ const getProductProcessList = (state, action) => {
 const filterBarPopup = (state, action) => {
   const { firstClicked, secondHover } = action.payload;
   const { allData } = state;
+  console.log(firstClicked, 'firstClicked');
+  console.log(secondHover, 'secondHover');
   const innovationFilter = allData.filter(data => {
     return data.innovation_area === firstClicked;
   });
@@ -619,12 +621,28 @@ const filterBarPopup = (state, action) => {
 
   function formatPopupData(partnerFilter) {
     const arr = [];
+    // eslint-disable-next-line consistent-return
     partnerFilter.forEach(d => {
-      if (arr.find(x => x.partner_name === d.partner_name)) {
+      if (
+        arr.find(
+          x =>
+            x.partner_name === d.partner_name &&
+            x.product_name === d.product_name,
+        )
+      ) {
+        return true;
+      }
+      if (
+        arr.find(
+          x =>
+            x.partner_name === d.partner_name &&
+            x.product_name !== d.product_name,
+        )
+      ) {
         const index = arr.findIndex(
           x => x.partner_name === d.partner_name,
         );
-        arr[index].count += arr[index].count + 1;
+        arr[index].count += 1;
       } else {
         d.count = 1;
         arr.push(d);

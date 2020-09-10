@@ -336,7 +336,7 @@ class MiddleChartSection extends Component {
               }}
               showBarof={showBarof}
               handleShowBarOf={handleShowBarOf}
-              cardTitle="Federal Wise Budget & Beneficiaries Count"
+              cardTitle="Province/District Wise Budget & Beneficiaries Count"
               cardClass="col-xl-6"
               cardChartId="groupedChart"
               handleModal={this.handleModal}
