@@ -11,6 +11,7 @@ import {
   FILTER_PARTNER_NAME_LIST,
   FILTER_ALL_CHART_PP,
   RESET_ALL_CHART_PP,
+  FILTER_BAR_POPUP,
 } from '../actions/index.actions';
 
 const initialState = {
@@ -24,7 +25,7 @@ const initialState = {
   marketFailureList: [],
   loading: false,
   filteredData: [],
-
+  hoveredPopupData: [],
   overviewData: [],
 };
 
@@ -603,7 +604,42 @@ const getProductProcessList = (state, action) => {
     loading: false,
   };
 };
+const filterBarPopup = (state, action) => {
+  const { firstClicked, secondHover } = action.payload;
+  const { allData } = state;
+  const innovationFilter = allData.filter(data => {
+    return data.innovation_area === firstClicked;
+  });
+  const partnerFilter = innovationFilter.filter(data => {
+    return data.partner_type === secondHover;
+  });
+  // const unique = [
+  //   ...new Set(partnerFilter.map(item => item.partner_name)),
+  // ]; // [ 'A', 'B']
 
+  function formatPopupData(partnerFilter) {
+    const arr = [];
+    partnerFilter.forEach(d => {
+      if (arr.find(x => x.partner_name === d.partner_name)) {
+        const index = arr.findIndex(
+          x => x.partner_name === d.partner_name,
+        );
+        arr[index].count += arr[index].count + 1;
+      } else {
+        d.count = 1;
+        arr.push(d);
+      }
+    });
+    // console.log(arr, 'arr');
+    return arr;
+  }
+  console.log(formatPopupData(partnerFilter), 'formatPopupData');
+  // console.log(secondHover, 'secondHover');
+  return {
+    ...state,
+    hoveredPopupData: formatPopupData(partnerFilter),
+  };
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCT_PROCESS_DATA:
@@ -620,6 +656,8 @@ export default function(state = initialState, action) {
       return filterAllChartPP(state, action);
     case RESET_ALL_CHART_PP:
       return resetAllChartPP(state, action);
+    case FILTER_BAR_POPUP:
+      return filterBarPopup(state, action);
 
     default:
       return state;

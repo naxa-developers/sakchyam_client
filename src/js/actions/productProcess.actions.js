@@ -8,6 +8,7 @@ import {
   FILTER_PARTNER_NAME_LIST,
   FILTER_ALL_CHART_PP,
   RESET_ALL_CHART_PP,
+  FILTER_BAR_POPUP,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 
@@ -93,5 +94,14 @@ export const resetAllChartPP = () => dispatch => {
   return dispatch({
     type: RESET_ALL_CHART_PP,
     payload: {},
+  });
+};
+export const filterBarPopup = (
+  firstClicked,
+  secondHover,
+) => dispatch => {
+  return dispatch({
+    type: FILTER_BAR_POPUP,
+    payload: { firstClicked, secondHover },
   });
 };

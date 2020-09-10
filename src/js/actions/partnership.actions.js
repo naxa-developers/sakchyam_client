@@ -1759,7 +1759,7 @@ export const filterMapChoropleth = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.code;
+            return dist.n_code;
           },
         )}`
       : selectedFederalList &&
@@ -1809,7 +1809,7 @@ export const filterMapDataOfChoroplethByFederal = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.code;
+            return dist.n_code;
           },
         )}`
       : selectedFederalList &&
@@ -2206,7 +2206,7 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.code;
+            return dist.n_code;
           },
         )}`
       : selectedFederalList &&

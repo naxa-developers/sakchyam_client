@@ -108,7 +108,7 @@ const CardTab = ({
       : '';
   return (
     <div className={cardClass}>
-      <div className="card" id={cardChartId}>
+      <div className="card">
         <div className="card-header">
           <h5>{cardTitle}</h5>
           <div className="header-icons">

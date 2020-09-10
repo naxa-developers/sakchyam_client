@@ -757,6 +757,12 @@ class Choropleth extends Component {
     // const radius = scale(props.point_count - 10);
     // const circleRadius = radius - thickness;
     // const circleRadius = radiusValue;
+    const tooltip2nd = d3
+      .select(div)
+      .append('div')
+      .attr('class', 'pie-mapbox-popup')
+      .style('opacity', 0);
+    tooltip2nd.append('div').attr('class', 'popup-div');
     const svg = d3
       .select(div)
       .append('svg')
@@ -823,11 +829,6 @@ class Choropleth extends Component {
       .style('opacity', 0);
 
     tooltip.append('div').attr('class', 'popup-div');
-    const tooltip2nd = d3
-      .select(div)
-      .append('div')
-      .attr('class', 'pie-mapbox-popup')
-      .style('opacity', 0);
 
     const path = g
       .selectAll('path')
@@ -974,7 +975,14 @@ class Choropleth extends Component {
         // tooltip.style('opacity', 2);
       })
       .on('mouseover', function(d) {
-        tooltip2nd.append('div').attr('class', 'popup-div');
+        svg.selectAll('path').sort(function(a, b) {
+          console.log(a, 'a');
+          console.log(d, 'd');
+          // select the parent and sort the path's
+          if (a.id !== d.id) return -1;
+          // a is not the hovered element, send "a" to the back
+          return 1; // a is the hovered element, bring "a" to the front
+        });
         d3.select(this)
           .transition()
           .duration('50')
@@ -1278,6 +1286,7 @@ class Choropleth extends Component {
         };
 
         e.preventDefault();
+        console.log(e, 'e');
         const federalCode = e.features[0].properties.code;
 
         if (that.props.mapViewBy === 'province') {
@@ -1299,15 +1308,16 @@ class Choropleth extends Component {
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
-        //
+        console.log(e);
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
             return (
-              parseInt(data.code, 10) ===
+              parseInt(data.id, 10) ===
               parseInt(e.features[0].properties.code, 10)
             );
           },
         );
+        console.log(filteredCodeData, 'filter');
         setLeftPopupData({
           name: e.features[0].properties.name,
           code: e.features[0].properties.code,

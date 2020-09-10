@@ -3,7 +3,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import { getProductProcessList } from '../../../../../actions/productProcess.actions';
+import {
+  getProductProcessList,
+  filterBarPopup,
+} from '../../../../../actions/productProcess.actions';
 
 function convertLabelName(name) {
   const nameArr = name.split(' ');
@@ -36,8 +39,22 @@ class BarChart extends Component {
       options: {},
       isBarChartClicked: false,
       chartData2: {},
+      firstClickedState: '',
+      secondClickedState: '',
     };
   }
+
+  setFirstClickedState = clicked => {
+    this.setState({
+      firstClickedState: clicked,
+    });
+  };
+
+  setSecondClickedState = clicked => {
+    this.setState({
+      secondClickedState: clicked,
+    });
+  };
 
   generateBarChartData = id => {
     const clickedInnovation = this.state.options.xaxis.categories[id];
@@ -90,6 +107,7 @@ class BarChart extends Component {
   };
 
   plotChart = () => {
+    const that = this;
     const options = {
       colors: ['#E11D3F'],
       chart: {
@@ -101,11 +119,17 @@ class BarChart extends Component {
             chartContext,
             { seriesIndex, dataPointIndex, config },
           ) {
+            // console.log(seriesIndex, 'seriesIndex');
+            // console.log(dataPointIndex, 'dataPointIndex');
+            // console.log(config, 'config');
             if (
               !this.state.isBarChartClicked &&
               dataPointIndex >= 0
             ) {
+              const selectedData =
+                config.xaxis.categories[dataPointIndex];
               this.generateBarChartData(dataPointIndex);
+              this.setFirstClickedState(selectedData);
             }
           }.bind(this),
         },
@@ -187,15 +211,24 @@ class BarChart extends Component {
           show: false,
         },
         custom({ series, seriesIndex, dataPointIndex, w }) {
-          console.log(series, 'series');
-          console.log(seriesIndex, 'seriesIndex');
-          console.log(dataPointIndex, 'dataPointIndex');
-          console.log(w, 'w');
+          const { firstClickedState } = that.state;
+          const {
+            hoveredPopupData,
+          } = that.props.productProcessReducer;
+          const hoveredText =
+            w.config.xaxis.categories[dataPointIndex];
+          const filteredText = `${hoveredText[0]} ${hoveredText[1]}`;
+          that.props.filterBarPopup(firstClickedState, filteredText);
+          const partnerList = hoveredPopupData
+            .map(data => {
+              return `<div><p>${data.partner_name}</p><p>${data.count}</p></div>`;
+            })
+            .join('');
           return ` <div
           class="apexcharts-tooltip-title"
           style="font-family: Helvetica, Arial, sans-serif; font-size: 12px"
         >
-          ${w.config.xaxis.categories[dataPointIndex]}
+          ${hoveredText}
         </div>
         <div
           class="apexcharts-tooltip-series-group apexcharts-active"
@@ -213,11 +246,10 @@ class BarChart extends Component {
               <span class="apexcharts-tooltip-text-label">${w.config.yaxis[0].title.text}: </span
               ><span class="apexcharts-tooltip-text-value">${series[seriesIndex][dataPointIndex]}</span>
             </div>
-            
           </div>
-          
-        </div>`;
+          </div>`;
         },
+        // ${partnerList}
       },
       //   <div class="partner-list-apexchart">
       //   <ul>
@@ -275,6 +307,7 @@ class BarChart extends Component {
   handleBarChartBackBtn = () => {
     this.setState(prevState => ({
       isBarChartClicked: !prevState.isBarChartClicked,
+      firstClickedState: '',
     }));
   };
 
@@ -284,6 +317,8 @@ class BarChart extends Component {
       series,
       isBarChartClicked,
       chartData2,
+      firstClickedState,
+      secondClickedState,
     } = this.state;
 
     const {
@@ -482,4 +517,5 @@ const mapStateToProps = ({ productProcessReducer }) => ({
 
 export default connect(mapStateToProps, {
   getProductProcessList,
+  filterBarPopup,
 })(BarChart);
