@@ -159,7 +159,7 @@
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   border-radius: 5px;
-  min-width: 270px;
+  min-width: unset;
   margin: 0px;
   padding-left: 0.8125rem;
 }
@@ -393,6 +393,8 @@
     &:hover {
       background-color: #fce495;
     }
+    width: 23px;
+    height: 21px;
     border: 2px solid blue;
   }
 }
@@ -806,4 +808,29 @@
 
 time{
   font-family: 'Avenir Heavy';
+}
+.product-bartooltip{
+  h5{
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.timeline-date{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+.mapbox-popup-content.center{
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 }

@@ -209,15 +209,17 @@ class PlotVector extends Component {
           10,
           '#f28cb1',
         ],
-        'circle-radius': [
-          'step',
-          ['get', 'point_count'],
-          20,
-          5,
-          30,
-          10,
-          40,
-        ],
+        'circle-radius': 15,
+        // [
+        //   'step',
+        //   ['get', 'point_count'],
+        //   20,
+        //   5,
+        //   30,
+        //   10,
+        //   40,
+        // ],
+        'circle-opacity': 0.6,
       },
     });
 
@@ -577,7 +579,7 @@ class PlotVector extends Component {
           );
         }
         hoveredStateId = null;
-        that.props.setOnHoveredDivisionId(0);
+        // that.props.setOnHoveredDivisionId(0);
       });
     });
 

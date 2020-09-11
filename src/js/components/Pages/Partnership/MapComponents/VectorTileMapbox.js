@@ -1110,7 +1110,7 @@ class Choropleth extends Component {
       <>
         <Loading loaderState={!loading} />
         <div className="map-legend newmap-legend">
-          <div className="color-list">
+          <div className="color-list partnership-legend">
             <h6>Number of Projects</h6>
             <ul id="state-legend" className="color-legend">
               {this.state.grade &&

@@ -226,7 +226,7 @@ class BarChart extends Component {
           that.props.filterBarPopup(firstClickedState, filteredText);
           const partnerList = hoveredPopupData
             .map(data => {
-              return `<div><p>${data.partner_name}</p><p>${data.count}</p></div>`;
+              return `<li><b>${data.partner_name}</b><span>${data.count}</span></li>`;
             })
             .join('');
           return ` <div
@@ -236,25 +236,36 @@ class BarChart extends Component {
           ${hoveredText}
         </div>
         <div
-          class="apexcharts-tooltip-series-group apexcharts-active"
-          style="display: flex"
+          class="apexcharts-tooltip-series-group apexcharts-active product-bartooltip"
+          style="display: block"
         >
           <span
             class="apexcharts-tooltip-marker"
             style="background-color: rgb(225, 29, 63)"
           ></span>
-          <div
-            class="apexcharts-tooltip-text"
-            style="font-family: Helvetica, Arial, sans-serif; font-size: 12px"
-          >
-            <div class="apexcharts-tooltip-y-group">
-              <span class="apexcharts-tooltip-text-label">${w.config.yaxis[0].title.text}: </span
-              ><span class="apexcharts-tooltip-text-value">${series[seriesIndex][dataPointIndex]}</span>
-            </div>
-          </div>
+          
+              <h5 class="apexcharts-tooltip-text-label">${
+                w.config.yaxis[0].title.text
+              }:<span class="apexcharts-tooltip-text-value">${
+            series[seriesIndex][dataPointIndex]
+          }</span> </h5
+              >
+              ${
+                partnerList.length > 0
+                  ? `<h5
+                    className="apexcharts-tooltip-text-label"
+                    style="justify-content: center"
+                  >
+                    Partner List
+                  </h5>`
+                  : ''
+              }
+              <ul>
+                ${partnerList}
+              </ul>
+          
           </div>`;
         },
-        // ${partnerList}
       },
       //   <div class="partner-list-apexchart">
       //   <ul>

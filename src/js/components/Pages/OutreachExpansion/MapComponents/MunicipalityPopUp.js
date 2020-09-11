@@ -60,7 +60,6 @@ export default function MunicipalityPopUp(props) {
                 <p>Yearly Central Government Funding</p>
                 <b>Rs. {numberWithCommas(data.yearly_fund)}</b>
               </li>
-
               <li>
                 <p>Social Security Recipients</p>
                 <b>
@@ -77,7 +76,15 @@ export default function MunicipalityPopUp(props) {
                 </b>
               </li>
               <li>
-                <p>Nearest Road Distance</p>
+                <p>Nearest Road Access(Location Name)</p>
+                <b>
+                  {data.nearest_road_location_name === -1
+                    ? 'N/A'
+                    : data.nearest_road_location_name}
+                </b>
+              </li>
+              <li>
+                <p>Nearest Road Access(Distance)</p>
                 <b>
                   {data.nearest_road_distance === -1
                     ? 'N/A'
@@ -85,7 +92,23 @@ export default function MunicipalityPopUp(props) {
                 </b>
               </li>
               <li>
-                <p>Nearest Police Presence</p>
+                <p>Nearest Road Access(Type of Roads)</p>
+                <b>
+                  {data.nearest_road_type === 0
+                    ? 'N/A'
+                    : data.nearest_road_type}
+                </b>
+              </li>
+              <li>
+                <p>Nearest Police Presence(Location Name)</p>
+                <b>
+                  {data.nearest_police_location_name === -1
+                    ? 'N/A'
+                    : data.nearest_police_location_name}
+                </b>
+              </li>
+              <li>
+                <p>Nearest Police Presence(Distance)</p>
                 <b>
                   {data.nearest_police_distance === -1
                     ? 'N/A'

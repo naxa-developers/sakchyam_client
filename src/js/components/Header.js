@@ -197,7 +197,10 @@ class Header extends Component {
                   </Link>
                 </li>
                 <li>
-                  <a href="#/" className="span_heavy_15">
+                  <a
+                    href="https://sakchyam.com.np/contact-us/"
+                    className="span_heavy_15"
+                  >
                     Contact
                   </a>
                 </li>

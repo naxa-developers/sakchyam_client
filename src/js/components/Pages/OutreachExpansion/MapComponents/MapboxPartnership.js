@@ -497,7 +497,12 @@ class MapboxPartnership extends Component {
       hoveredId,
       popUpData,
     } = this.state;
-    const { map, loading, mapViewDataBy } = this.props;
+    const {
+      map,
+      loading,
+      mapViewDataBy,
+      localOutreachSelected,
+    } = this.props;
 
     const choroplethData = filteredMapData;
     return (
@@ -522,6 +527,7 @@ class MapboxPartnership extends Component {
                 <LocalUnitNamePopUp
                   data={popUpData}
                   mapViewDataBy={mapViewDataBy}
+                  selectedDropdown={localOutreachSelected}
                 />
               )}
               {hoveredMunicipalityId !== 0 && localPopUp && (

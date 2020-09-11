@@ -269,6 +269,7 @@ export const filterPlanned2ndPieChart = selectedMilestone => dispatch => {
 export const filterIndicatorGraphDataWithDate = (
   activeLayer,
   activeDate,
+  output14,
   activeDataType,
 ) => dispatch => {
   // false is Number //true is Percent

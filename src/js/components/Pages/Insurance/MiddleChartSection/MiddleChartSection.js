@@ -389,7 +389,7 @@ class MiddleChartSection extends Component {
 
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
-              cardTitle="Sankey chart based on number of insurance policies sold"
+              cardTitle="Number of insurance policies sold"
               cardClass="col-xl-12"
               cardChartId="insurance-sankey"
               handleModal={this.handleModal}
