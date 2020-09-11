@@ -421,6 +421,35 @@
         margin-left: 1rem;
       }
     }
+    .color-list.partnership-legend {
+      @include flex(0 0 233px);
+      max-width: 233px;
+      background-color: $white-color;
+      padding: 0.6125rem;
+      ul {
+        border: none;
+        padding: 0;
+        li {
+          @include flex(0 0 52px);
+          max-width: 52px;
+          width: 100%;
+          span {
+            font-size: 0.6125rem;
+          }
+          .color {
+            height: 10px;
+          }
+        }
+      }
+      &.marker-legend {
+        max-width: initial;
+        flex: initial;
+        padding: 10px 15px;
+      }
+      &:not(:first-child) {
+        margin-left: 1rem;
+      }
+    }
     .overlay-data {
       background-color: $white-color;
       padding: 0.6125rem 0.6125rem 0 0.6125rem;

@@ -57,7 +57,7 @@ export default function DivisionInfoPopUpLeft(props) {
   //       }
   //
   return name && name ? (
-    <div className="mapbox-popup-content right-content">
+    <div className="mapbox-popup-content right-content center">
       <div
         className="map-popup-view"
         style={{

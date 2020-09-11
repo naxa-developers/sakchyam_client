@@ -1915,6 +1915,7 @@ class MiddleChartSection extends Component {
                         >
                           Cumulative
                         </li>
+                        {activeLayer !== 'Output Indicator 1.4' && activeLayer !=='Outcome Indicator 4' &&
                         <li
                           // className={
                           //   {activeDataType === 'Individual'
@@ -1941,7 +1942,7 @@ class MiddleChartSection extends Component {
                           }}
                         >
                           Individual
-                        </li>
+                        </li>}
                       </ul>
                     </div>
                   </div>

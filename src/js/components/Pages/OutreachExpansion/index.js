@@ -147,6 +147,7 @@ class MainPartnership extends Component {
     }
 
     if (prevState.mapViewBy !== mapViewBy) {
+      this.resetFilters();
       if (mapViewDataBy === 'general_outreach') {
         this.handleStateLevel();
       }

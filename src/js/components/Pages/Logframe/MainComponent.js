@@ -586,9 +586,30 @@ class MainComponent extends Component {
       if (activeDate.length === 0) {
         //
         this.props.filterIndicatorGraphData(activeLayer);
+      } else if (
+        activeDataType === 'Individual' &&
+        activeLayer === 'Output Indicator 1.4'
+      ) {
+        // alert('output');
+        this.setState({ activeDataType: 'Cummulative' });
+        this.props.filterIndicatorGraphDataWithDate(
+          activeLayer,
+          activeDate,
+          output14firstState,
+          'Cummulative',
+        );
+      } else if (
+        activeDataType === 'Individual' &&
+        activeLayer === 'Outcome Indicator 4'
+      ) {
+        // alert('outcome');
+        this.setState({ activeDataType: 'Cummulative' });
+        this.props.getIndicatorsGraphData(
+          activeLayer,
+          activeDate,
+          output14firstState,
+        );
       } else {
-        //
-
         this.props.filterIndicatorGraphDataWithDate(
           activeLayer,
           activeDate,
@@ -641,7 +662,12 @@ class MainComponent extends Component {
       // });
       //
 
-      if (activeDataType === 'Individual') {
+      if (
+        activeDataType === 'Individual' &&
+        activeLayer !== 'Output Indicator 1.4' &&
+        activeDataType === 'Individual' &&
+        activeLayer !== 'Outcome Indicator 4'
+      ) {
         if (activeDate.length === 0) {
           this.props.getIndicatorsGraphDataIndividual(
             activeLayer,
