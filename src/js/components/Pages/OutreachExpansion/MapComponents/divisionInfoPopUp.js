@@ -119,7 +119,7 @@ export default function divisionInfoPopUp(props) {
                       />
                       <span style={{ paddingLeft: '5px' }}>
                         {' '}
-                        Other Institution Branch
+                        Branch
                       </span>
                     </>
                     <div className="icon-list">
@@ -149,9 +149,7 @@ export default function divisionInfoPopUp(props) {
                         width="17px"
                         // style={{ paddingRight: '5px' }}
                       />
-                      <span style={{ paddingLeft: '5px' }}>
-                        Commerical Bank Blb
-                      </span>
+                      <span style={{ paddingLeft: '5px' }}>BLB</span>
                     </>
                     <div className="icon-list">
                       <div className="icons">

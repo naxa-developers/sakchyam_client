@@ -90,7 +90,7 @@ class RightSideBar extends Component {
               {!overviewData.investment_focus ? (
                 <OverviewLoader />
               ) : (
-                <div className="widget-body" id="download-id">
+                <div className="widget-body bg-clr" id="download-id">
                   <ul className="widget-list">
                     <OutreachTab
                       title="Investment Focus"
@@ -119,7 +119,7 @@ class RightSideBar extends Component {
                       number={numberWithCommas(
                         Math.round(overviewData.total_budget),
                       )}
-                      iconTitle="british"
+                      iconTitle="£"
                     />
                     <OutreachTab
                       title="New Physical Branches Established"

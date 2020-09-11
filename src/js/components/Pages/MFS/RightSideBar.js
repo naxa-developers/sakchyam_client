@@ -57,13 +57,16 @@ class RightSideBar extends Component {
             <h5>Overview</h5>
             <span
               className="download-span"
+              style={{ cursor: 'pointer' }}
               onClick={() => {
+                this.props.notificationHandler();
                 downloadOverviewSection(
                   '.overview-section',
                   'Partnership Overview',
                 );
               }}
               onKeyDown={() => {
+                this.props.notificationHandler();
                 downloadOverviewSection(
                   '.overview-section',
                   'MFS Overview',
@@ -105,7 +108,7 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget overview-section">
-              <div className="widget-body">
+              <div className="widget-body bg-clr">
                 <ul className="widget-list">
                   <OutreachTab
                     title="Key Innovations"
