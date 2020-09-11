@@ -1081,3 +1081,17 @@ body{
         }
 }
 }
+.multiple-bar{
+    button{
+        &.common-button.is-border{
+            border-color:#e2e2e2;
+            background-color:$white-color;
+            font-family: $avenir-heavy;
+            text-transform: capitalize;
+            @include radius(20px);
+            &:not(:last-child){
+                margin-right: 1rem;
+            }
+        }
+    }
+}
