@@ -1612,6 +1612,7 @@ class MainMFS extends Component {
             selectedInnovation={selectedInnovation}
             setActiveOverview={this.setActiveOverview}
             setActiveView={this.setActiveView}
+            notificationHandler={this.notificationHandler}
           />
         </div>
         {/* <MapboxPartnership /> */}

@@ -1928,7 +1928,7 @@ class MainPartnership extends Component {
                           onclick={() => {
                             this.setMapViewDataBy('allocated_budget');
                           }}
-                          icon="british"
+                          icon="£"
                           dataTitle="allocated_budget"
                           title="Allocated Budget"
                         />

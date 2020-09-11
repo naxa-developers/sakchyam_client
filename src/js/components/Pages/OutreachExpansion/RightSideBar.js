@@ -246,7 +246,10 @@ class RightSideBar extends Component {
                 {dataReceived ? (
                   <ResponsiveLoader />
                 ) : (
-                  <div className="widget-body" id="download-id">
+                  <div
+                    className="widget-body bg-clr"
+                    id="download-id"
+                  >
                     <ul className="widget-list">
                       <li>
                         <div className="widget-content">
@@ -299,7 +302,7 @@ class RightSideBar extends Component {
                     <OutreachTab
                       title="Yearly Central Government Funding"
                       number={numberWithCommas(totalFunding)}
-                      iconTitle="monetization_on"
+                      iconTitle="रू"
                     />
                     <OutreachTab
                       title="Social Security Payment Recipients"
@@ -311,7 +314,7 @@ class RightSideBar extends Component {
                       number={numberWithCommas(
                         totalPayments.toFixed(2),
                       )}
-                      iconTitle="monetization_on"
+                      iconTitle="रू"
                     />
                   </ul>
                 </div>
