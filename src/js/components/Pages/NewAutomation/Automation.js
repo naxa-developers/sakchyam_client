@@ -1063,9 +1063,9 @@ class MainAutomation extends Component {
       provinceList: provinceLists(),
       districtList: districtLists(),
       municipalityList: municipalityLists(),
-      selectedProvince: provinceLists(),
+      selectedProvince: [],
       selectedDistrict: [],
-      selectedMunicipality: municipalityLists(),
+      selectedMunicipality: [],
     });
 
     setTimeout(() => {

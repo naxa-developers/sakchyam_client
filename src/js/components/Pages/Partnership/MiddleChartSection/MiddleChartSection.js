@@ -200,7 +200,7 @@ class MiddleChartSection extends Component {
             <LeverageStackedBar
               isLeverageBarClicked={isLeverageBarClicked}
               handleLeverageBarClicked={handleLeverageBarClicked}
-              cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
+              cardTitle="S-CF Funds & Leverage By Investment Focus"
               viewDataBy={viewDataBy}
               activeModal={activeModal}
               investmentFocusSelection={investmentFocusSelection}

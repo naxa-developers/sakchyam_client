@@ -13,6 +13,11 @@ const downloadPng = (chartid, imageTitle) => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'none';
   });
+  document.querySelectorAll('.apexcharts-title-text').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'block';
+  });
+
   document.querySelectorAll('.expand-span').forEach(el => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'none';
@@ -50,6 +55,12 @@ const downloadPng = (chartid, imageTitle) => {
         // eslint-disable-next-line no-param-reassign
         el.style.display = 'block';
       });
+      document
+        .querySelectorAll('.apexcharts-title-text')
+        .forEach(el => {
+          // eslint-disable-next-line no-param-reassign
+          el.style.display = 'none';
+        });
     });
   }, 500);
 

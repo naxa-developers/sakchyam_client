@@ -356,7 +356,7 @@ class MainMFS extends Component {
       // props: {},
     } = this;
     switch (contentType) {
-      case 'mfsBar':
+      case 'stacked_chart':
         return (
           <div
             id="scroller_card"
@@ -376,6 +376,7 @@ class MainMFS extends Component {
             }
           >
             <StackedBarWithAllFederal
+              setClickedBarDistrict={this.setClickedBarDistrict}
               barData={barData}
               showBarChartBy={showBarChartBy}
               mapViewBy={mapViewBy}
@@ -1496,8 +1497,13 @@ class MainMFS extends Component {
                       }}
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
-                      cardTitle="Province/District Wise Achievement Type"
+                      cardTitle={
+                        showBarChartBy === 'Federal'
+                          ? 'Province/District Wise Achievement Type'
+                          : 'Partner Wise Achievement Type'
+                      }
                       showBarChartBy={showBarChartBy}
+                      showBarof={showBarof}
                       setShowBarChartBy={this.setShowBarChartBy}
                       cardClass="col-xl-12"
                       cardChartId="stacked_chart"

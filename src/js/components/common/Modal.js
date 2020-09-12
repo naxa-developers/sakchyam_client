@@ -101,8 +101,8 @@ const Modal = props => {
       ? 'stackedWithInvestment'
       : selectedModal === 'logframe'
       ? 'logframe-chart'
-      : selectedModal === 'mfsBar'
-      ? 'scroller_card'
+      : selectedModal === 'stacked_chart'
+      ? 'stacked_chart'
       : '';
   const modalHeader =
     selectedModal === 'sunburst'
@@ -121,8 +121,12 @@ const Modal = props => {
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
       : selectedModal === 'logframe'
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
-      : selectedModal === 'mfsBar'
-      ? `${showBarChartBy} Wise Achievement Type`
+      : selectedModal === 'stacked_chart'
+      ? `${
+          showBarChartBy === 'Federal'
+            ? 'Province/District'
+            : 'Partner'
+        } Wise Achievement Type`
       : '';
   return (
     <div
@@ -299,6 +303,7 @@ const Modal = props => {
                 border: '1px solid #F0F0F0',
                 // borderColor: 'lightgrey',
                 cursor: 'pointer',
+                zIndex: 9999,
               }}
               onClick={
                 () => {

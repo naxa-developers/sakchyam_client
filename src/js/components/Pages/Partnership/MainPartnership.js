@@ -1384,15 +1384,15 @@ class MainPartnership extends Component {
       map,
     } = this.state;
     if (activeView === 'visualization') {
-      // this.props.filterFinancialDataWithAllFiltersAndFederal(
-      //   { selectedMunicipality, selectedDistrict, selectedProvince },
-      //   investmentFocusSelection,
-      //   viewDataBy,
-      //   partnerType,
-      //   partnerSelection,
-      //   projectSelection,
-      //   projectStatus,
-      // );
+      this.props.filterFinancialDataWithAllFiltersAndFederal(
+        { selectedMunicipality, selectedDistrict, selectedProvince },
+        investmentFocusSelection,
+        viewDataBy,
+        partnerType,
+        partnerSelection,
+        projectSelection,
+        projectStatus,
+      );
       this.props.filterOverviewData(
         investmentFocusSelection,
         projectSelection,
@@ -1928,7 +1928,7 @@ class MainPartnership extends Component {
                           onclick={() => {
                             this.setMapViewDataBy('allocated_budget');
                           }}
-                          icon="£"
+                          icon="british"
                           dataTitle="allocated_budget"
                           title="Allocated Budget"
                         />
