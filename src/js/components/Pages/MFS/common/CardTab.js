@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent-props */
+/* eslint-disable react/jsx-indent */
 import React from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
@@ -6,12 +8,18 @@ import DownloadIcon from '../../../../../img/get_app.png';
 import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import { resetBarDatas } from '../../../../actions/partnership.actions';
 import FilterTab from './FilterTab';
+import FilterBadge from './FilterBadge';
 
 const downloadPng = (chartid, imageTitle) => {
   document.querySelectorAll('.download-span').forEach(el => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'none';
   });
+  document.querySelectorAll('.apexcharts-title-text').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'block';
+  });
+
   document.querySelectorAll('.expand-span').forEach(el => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'none';
@@ -49,6 +57,12 @@ const downloadPng = (chartid, imageTitle) => {
         // eslint-disable-next-line no-param-reassign
         el.style.display = 'block';
       });
+      document
+        .querySelectorAll('.apexcharts-title-text')
+        .forEach(el => {
+          // eslint-disable-next-line no-param-reassign
+          el.style.display = 'none';
+        });
     });
   }, 500);
 
@@ -119,7 +133,28 @@ const CardTab = ({
                       </label>
                       <small>ON</small>
                     </div> */}
-
+            {badgeProp && (
+              <div className="partnership-tab" id="bar-tab-insurance">
+                <ul>
+                  <FilterBadge
+                    viewDataBy={showBarChartBy}
+                    onclick={() => {
+                      setShowBarChartBy(badgeProp[0]);
+                    }}
+                    dataTitle={badgeProp[0]}
+                    title={badgeProp[0]}
+                  />
+                  <FilterBadge
+                    viewDataBy={showBarChartBy}
+                    onclick={() => {
+                      setShowBarChartBy(badgeProp[1]);
+                    }}
+                    dataTitle={badgeProp[1]}
+                    title={badgeProp[1]}
+                  />
+                </ul>
+              </div>
+            )}
             {radioBtn && (
               <div className="card-switcher">
                 <small>{radioBtnProps[0]}</small>
@@ -189,7 +224,8 @@ const CardTab = ({
                   Reset
                 </button>
               )
-            ) : cardChartId === 'mfsBar' ? (
+            ) : cardChartId === 'stacked_chart' &&
+              showBarof === 'Districts' ? (
               <button
                 // id="chart-reset"
                 type="button"
@@ -238,11 +274,7 @@ const CardTab = ({
             )}
           </div>
         </div>
-        <div
-          className="card-body"
-          style={style}
-          id={cardChartId === 'stacked_chart' ? '' : cardChartId}
-        >
+        <div className="card-body" style={style} id={cardChartId}>
           {renderChartComponent()}
         </div>
       </div>

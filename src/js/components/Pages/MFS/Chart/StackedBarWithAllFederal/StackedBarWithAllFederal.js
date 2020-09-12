@@ -163,19 +163,21 @@ class StackedBarWithAllFederal extends Component {
   };
 
   componentDidMount() {
-    this.plotChart();
-    this.props.filterMfsMapChartDataByPartner(
-      'district',
-      [],
-      [],
-      [],
-      [],
-    );
     const { activeModal } = this.props;
+    this.plotChart();
     if (activeModal) {
       // this.plotChart();
       this.updateBarChart();
       // this.props.filterMfsMapChartDataByPartner();
+    } else {
+      // this.plotChart();
+      this.props.filterMfsMapChartDataByPartner(
+        'district',
+        [],
+        [],
+        [],
+        [],
+      );
     }
     // this.updateBarChart();
   }
