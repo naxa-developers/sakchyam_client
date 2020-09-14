@@ -579,7 +579,7 @@ class PlotVector extends Component {
           );
         }
         hoveredStateId = null;
-        // that.props.setOnHoveredDivisionId(0);
+        that.props.setOnHoveredDivisionId(0);
       });
     });
 

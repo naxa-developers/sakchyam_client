@@ -842,3 +842,9 @@ time{
 .apexcharts-title-text{
   display: none;
 }
+
+.motivation-pie{
+  .apexcharts-tooltip{
+    background-color: #fff !important;
+  }
+}
