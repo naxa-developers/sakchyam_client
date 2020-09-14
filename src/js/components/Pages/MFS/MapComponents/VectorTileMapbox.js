@@ -804,14 +804,18 @@ class Choropleth extends Component {
       .style('opacity', 0);
 
     tooltip.append('div').attr('class', 'popup-div');
+    // const tooltip2nd = d3
+    //   .select(div)
+    //   .append('div')
+    //   .attr('class', 'pie-mapbox-popup')
+    //   .style('opacity', 0);
+
+    // tooltip2nd.append('div').attr('class', 'popup-div');
     const tooltip2nd = d3
-      .select(div)
-      .append('div')
-      .attr('class', 'pie-mapbox-popup')
+      .select(this.props.markerPiePopupRef.current)
+      // .append('div')
+      // .attr('class', 'pie-mapbox-popup')
       .style('opacity', 0);
-
-    tooltip2nd.append('div').attr('class', 'popup-div');
-
     // tooltip
     //   .select('.popup-div')
     //   .append('ul')
@@ -843,143 +847,6 @@ class Choropleth extends Component {
       .on('click', function() {
         d3.event.stopPropagation();
         that.props.setPopupData({ fulldata: { props }, popupData });
-        // d.stopPropagation();
-        // document
-        //   .querySelectorAll('.pie-mapbox-popup')
-        //   .forEach(function(el) {
-        //     // eslint-disable-next-line no-param-reassign
-        //     el.style.display = 'none';
-        //     // a.remove();
-        //   });
-        // // const that = this;
-
-        // //
-        // // if (document.querySelector('.federal-popup')) {
-        // //   document.querySelector('.federal-popup').style.display =
-        // //     'none';
-        // // }
-        // // popup.remove();
-        // /* <div className="icons">
-        // <i className="material-icons">tablet_mac</i>
-        // <b>4</b></div> */
-        // // <div className="icon-list">
-        // //             </div>
-        // // document
-        // //   .querySelectorAll('.pie-mapbox-popup')
-        // //   .forEach(function(el) {
-        // //     // eslint-disable-next-line no-param-reassign
-        // //     el.style.display = 'none';
-        // //     // a.remove();
-        // //   });
-        // let partnerContent = null;
-        // // partnerList =
-        // // eslint-disable-next-line no-restricted-syntax
-        //
-        // partnerContent = popupData
-        //   .map((partnerData, index) => {
-        //     const partnerList = partnerData.achievementType
-        //       .map(singlepartner => {
-        //         return `
-        //         <li>
-        //           <a>${singlepartner.name}</a>
-        //           <label>${singlepartner.count}</label>
-        //         </li>
-        //         `;
-        //       })
-        //       .join('');
-        //     return `
-        //   <div class="acc-list ${
-        //     index === 0 ? 'active' : ''
-        //   }" onclick="this.classList.toggle('active');">
-        //     <div class="acc-header">
-        //       <h5>${partnerData.partner_name}</h5>
-        //     </div>
-        //     <div class="acc-body">
-        //       <ul>
-        //       ${partnerList}
-        //       </ul>
-        //     </div>
-        //   </div>
-        // `;
-        //   })
-        //   .join('');
-
-        // // <h6>${props.federal_name}</h6>
-        // // ${
-        // //   partnerContent !== undefined &&
-        // //   mapViewDataBy === 'investment_focus'
-        // //     ? partnerContent
-        // //     : ''
-        // // }
-        // // ${FullnameList.map(el => {
-        // //   return `<label>${el.type}</label>
-        // //   <div class="icons">
-        // //       <i class="material-icons">payments</i><b>${el.count}</b>
-        // //     </div>`;
-        // // }).join('')}
-        // tooltip.select('.popup-div').html(
-        //   `<div class="leaflet-popup-content" style="width: 100px;">
-        //     <div class="map-popup-view" style="${
-        //       mapViewDataBy === 'investment_focus'
-        //         ? 'height: 302px;'
-        //         : 'height: 10px'
-        //     }overflow-y: scroll;">
-        //       <div class="map-popup-view-header">
-        //           <h5>${props.federal_name}</h5>
-        //           <div class="icons">
-        //             <i class="material-icons">${
-        //               mapViewDataBy === 'allocated_beneficiary'
-        //                 ? 'people'
-        //                 : mapViewDataBy === 'allocated_budget'
-        //                 ? 'monetization_on'
-        //                 : 'payments'
-        //             }</i><b>${props.count}</b>
-        //           </div>
-        //       </div>
-        //       <div class="acc is-after is-border">
-        //           </div>
-
-        //       <div class="map-view-footer">
-        //       ${partnerContent !== undefined ? partnerContent : ''}
-        //       </div>
-        //     </div>
-        //   </div>` /* eslint-disable-line */
-        // );
-
-        // // const t = document.querySelector('.acc-header');
-        // // t.addEventListener('click', function(e) {
-        // //   //
-        // //   e.stopPropagation();
-        // //   alert('function');
-        // // });
-        // const mapPopup = document.querySelector('.map-popup-view');
-        // mapPopup.addEventListener('click', function(e) {
-        //   //
-        //   e.stopPropagation();
-        //   // alert('function');
-        // });
-        // const Popupscroll = document.querySelector('.map-popup-view');
-        // Popupscroll.addEventListener('wheel', function(e) {
-        //   e.stopPropagation();
-        // });
-        // // const accList = document.querySelector('.acc-list');
-        // // accList.addEventListener('click', function(e) {
-        // //
-        // //   // if (e.target.classList.includes('active')) {
-        // //   this.classList.remove('active');
-        // //   // } else {
-        // //   // e.target.classList.add('active');
-        // //   // }
-        // //   // e.stopPropagation();
-        // //   // alert('function');
-        // // });
-        // // .style('color', 'black');
-        // // .style('background-color', 'white');
-        // // tooltip.select('.count').html('Test');
-        // // tooltip.select('.percent').html(`${34}%`);
-
-        // tooltip.style('display', 'block');
-        // tooltip.style('opacity', 2);
       })
       .on('mouseover', function(d) {
         // d3.event.stopPropagation();
@@ -997,7 +864,7 @@ class Choropleth extends Component {
           );
         tooltip2nd.style('display', 'block');
         tooltip2nd.style('opacity', 1);
-        tooltip2nd.select('.popup-div').html(
+        tooltip2nd.html(
           `<div class="leaflet-popup-content" style="width: 100px;">
             <div class="map-popup-view">
               <div class="map-popup-view-header" style="width: max-content;">
@@ -1019,8 +886,8 @@ class Choropleth extends Component {
       })
       .on('mousemove', function() {
         tooltip2nd
-          .style('top', `${d3.event.offsetY + 20 - 90}px`)
-          .style('left', `${d3.event.offsetX + 20 - 42}px`);
+          .style('top', `${d3.event.pageY - 160}px`)
+          .style('left', `${d3.event.pageX - 380}px`);
         tooltip
           .style('top', `${d3.event.offsetY + 20}px`)
           .style('left', `${d3.event.offsetX + 20}px`);

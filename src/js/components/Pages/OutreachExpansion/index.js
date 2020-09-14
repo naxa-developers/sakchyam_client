@@ -147,7 +147,6 @@ class MainPartnership extends Component {
     }
 
     if (prevState.mapViewBy !== mapViewBy) {
-      this.resetFilters();
       if (mapViewDataBy === 'general_outreach') {
         this.handleStateLevel();
       }
@@ -223,9 +222,10 @@ class MainPartnership extends Component {
 
   setMapViewDataBy = selectedView => {
     const { map } = this.state;
+    // this.resetFilters();
     this.setState({
       mapViewDataBy: selectedView,
-      selectedProvince: provinceLists(),
+      selectedProvince: [],
       selectedDistrict: [],
       selectedMunicipality: [],
     });
@@ -936,11 +936,7 @@ class MainPartnership extends Component {
 
   resetFilters = () => {
     const { mapViewDataBy, map } = this.state;
-    this.setState({
-      selectedDistrict: [],
-      selectedMunicipality: [],
-      selectedProvince: provinceLists(),
-    });
+
     const { primaryData } = this.props.outreachReducer;
 
     if (mapViewDataBy === 'outreach_local_units') {
@@ -973,6 +969,14 @@ class MainPartnership extends Component {
       });
       this.resetLeftSideBarSelection();
     }
+    this.setState({
+      selectedDistrict: [],
+      selectedMunicipality: [],
+      selectedProvince: provinceLists(),
+      provinceList: provinceLists(),
+      districtList: districtLists(),
+      municipalityList: municipalityLists(),
+    });
   };
 
   loadingHandler = value => {
@@ -1084,6 +1088,7 @@ class MainPartnership extends Component {
                         <div className="form-group">
                           <Select
                             withCheckbox
+                            inputClassname="province_check"
                             name="Select Province"
                             selectedItem={selectedProvince}
                             options={provinceList && provinceList}

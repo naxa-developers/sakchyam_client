@@ -18,6 +18,7 @@ class MapboxPartnership extends Component {
     this.keyRef = React.createRef();
     this.circleLegendRef = React.createRef();
     this.pieSquareLegend = React.createRef();
+    this.markerPiePopupRef = React.createRef();
   }
 
   // addMap = () => {
@@ -77,8 +78,13 @@ class MapboxPartnership extends Component {
         >
           {map && (
             <div>
+              <div
+                className="pie-mapbox-popup"
+                ref={this.markerPiePopupRef}
+              />
               <VectorTileMapbox
                 keyRef={this.keyRef}
+                markerPiePopupRef={this.markerPiePopupRef}
                 handleProvinceClick={this.props.handleProvinceClick}
                 handleFederalClickOnMap={
                   this.props.handleFederalClickOnMap
