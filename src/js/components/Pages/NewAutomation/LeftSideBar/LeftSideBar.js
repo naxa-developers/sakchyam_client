@@ -51,135 +51,135 @@ class LeftSideBar extends Component {
     } = this.props;
     const { count, finalList, partnersByDivision } = this.state;
 
-    if (
-      automationTableData !==
-      prevProps.automationReducer.automationTableData
-    ) {
-      if (selectedProvince.length > 0) {
-        const codes = getCodes(selectedProvince);
-        const filteredList = [];
-        const partnerList = [];
+    // if (
+    //   automationTableData !==
+    //   prevProps.automationReducer.automationTableData
+    // ) {
+    //   if (selectedProvince.length > 0) {
+    //     const codes = getCodes(selectedProvince);
+    //     const filteredList = [];
+    //     const partnerList = [];
 
-        codes.forEach(province => {
-          automationTableData.forEach(partner => {
-            if (
-              parseInt(province) === parseInt(partner.province_code)
-            ) {
-              filteredList.push(partner);
-            }
-          });
-        });
+    //     codes.forEach(province => {
+    //       automationTableData.forEach(partner => {
+    //         if (
+    //           parseInt(province) === parseInt(partner.province_code)
+    //         ) {
+    //           filteredList.push(partner);
+    //         }
+    //       });
+    //     });
 
-        const uniquePartners = removeDuplicates(
-          filteredList,
-          'partner_id',
-        );
+    //     const uniquePartners = removeDuplicates(
+    //       filteredList,
+    //       'partner_id',
+    //     );
 
-        uniquePartners.forEach(parts => {
-          finalList.forEach(fParts => {
-            if (
-              parseInt(parts.partner_id) ===
-              parseInt(fParts.partner_id)
-            ) {
-              partnerList.push(fParts);
-            }
-          });
-        });
+    //     uniquePartners.forEach(parts => {
+    //       finalList.forEach(fParts => {
+    //         if (
+    //           parseInt(parts.partner_id) ===
+    //           parseInt(fParts.partner_id)
+    //         ) {
+    //           partnerList.push(fParts);
+    //         }
+    //       });
+    //     });
 
-        this.setState({
-          partnerList,
-          partnersByDivision: partnerList,
-        });
+    //     this.setState({
+    //       partnerList,
+    //       partnersByDivision: partnerList,
+    //     });
 
-        // console.log('automation tablet data', automationTableData);
-      }
+    //     // console.log('automation tablet data', automationTableData);
+    //   }
 
-      if (selectedDistrict.length > 0) {
-        const codes = getCodes(selectedDistrict);
-        const filteredList = [];
-        const partnerList = [];
+    //   if (selectedDistrict.length > 0) {
+    //     const codes = getCodes(selectedDistrict);
+    //     const filteredList = [];
+    //     const partnerList = [];
 
-        codes.forEach(province => {
-          automationTableData.forEach(partner => {
-            if (
-              parseInt(province) === parseInt(partner.district_code)
-            ) {
-              filteredList.push(partner);
-            }
-          });
-        });
+    //     codes.forEach(province => {
+    //       automationTableData.forEach(partner => {
+    //         if (
+    //           parseInt(province) === parseInt(partner.district_code)
+    //         ) {
+    //           filteredList.push(partner);
+    //         }
+    //       });
+    //     });
 
-        const uniquePartners = removeDuplicates(
-          filteredList,
-          'partner_id',
-        );
+    //     const uniquePartners = removeDuplicates(
+    //       filteredList,
+    //       'partner_id',
+    //     );
 
-        uniquePartners.forEach(parts => {
-          finalList.forEach(fParts => {
-            if (
-              parseInt(parts.partner_id) ===
-              parseInt(fParts.partner_id)
-            ) {
-              partnerList.push(fParts);
-            }
-          });
-        });
+    //     uniquePartners.forEach(parts => {
+    //       finalList.forEach(fParts => {
+    //         if (
+    //           parseInt(parts.partner_id) ===
+    //           parseInt(fParts.partner_id)
+    //         ) {
+    //           partnerList.push(fParts);
+    //         }
+    //       });
+    //     });
 
-        this.setState({
-          partnerList,
-          partnersByDivision: partnerList,
-        });
-      }
+    //     this.setState({
+    //       partnerList,
+    //       partnersByDivision: partnerList,
+    //     });
+    //   }
 
-      if (selectedMunicipality.length > 0) {
-        const codes = getCodes(selectedMunicipality);
-        const filteredList = [];
-        const partnerList = [];
+    //   if (selectedMunicipality.length > 0) {
+    //     const codes = getCodes(selectedMunicipality);
+    //     const filteredList = [];
+    //     const partnerList = [];
 
-        codes.forEach(province => {
-          automationTableData.forEach(partner => {
-            if (
-              parseInt(province) ===
-              parseInt(partner.municipality_code)
-            ) {
-              filteredList.push(partner);
-            }
-          });
-        });
+    //     codes.forEach(province => {
+    //       automationTableData.forEach(partner => {
+    //         if (
+    //           parseInt(province) ===
+    //           parseInt(partner.municipality_code)
+    //         ) {
+    //           filteredList.push(partner);
+    //         }
+    //       });
+    //     });
 
-        const uniquePartners = removeDuplicates(
-          filteredList,
-          'partner_id',
-        );
+    //     const uniquePartners = removeDuplicates(
+    //       filteredList,
+    //       'partner_id',
+    //     );
 
-        uniquePartners.forEach(parts => {
-          finalList.forEach(fParts => {
-            if (
-              parseInt(parts.partner_id) ===
-              parseInt(fParts.partner_id)
-            ) {
-              partnerList.push(fParts);
-            }
-          });
-        });
+    //     uniquePartners.forEach(parts => {
+    //       finalList.forEach(fParts => {
+    //         if (
+    //           parseInt(parts.partner_id) ===
+    //           parseInt(fParts.partner_id)
+    //         ) {
+    //           partnerList.push(fParts);
+    //         }
+    //       });
+    //     });
 
-        this.setState({
-          partnerList,
-          partnersByDivision: partnerList,
-        });
-      }
+    //     this.setState({
+    //       partnerList,
+    //       partnersByDivision: partnerList,
+    //     });
+    //   }
 
-      if (
-        selectedDistrict.length === 0 &&
-        selectedMunicipality.length === 0 &&
-        selectedProvince.length === 0
-      ) {
-        this.setState({
-          partnerList: finalList,
-          partnersByDivision: '',
-        });
-      }
-    }
+    //   if (
+    //     selectedDistrict.length === 0 &&
+    //     selectedMunicipality.length === 0 &&
+    //     selectedProvince.length === 0
+    //   ) {
+    //     this.setState({
+    //       partnerList: finalList,
+    //       partnersByDivision: '',
+    //     });
+    //   }
+    // }
 
     if (
       automationReducer.automationRightSidePartnerData !==
