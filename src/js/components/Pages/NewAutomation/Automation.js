@@ -693,9 +693,9 @@ class MainAutomation extends Component {
       activeClickPartners,
       mapViewBy,
     );
-    // setTimeout(() => {
-    //   this.handleStateLevel();
-    // }, 100);
+    setTimeout(() => {
+      this.handleStateLevel();
+    }, 100);
   };
 
   handleStateLevel = () => {
