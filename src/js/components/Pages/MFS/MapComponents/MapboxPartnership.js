@@ -6,12 +6,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import VectorTileMapbox from './VectorTileMapbox';
 import PopUp from '../common/divisionInfoPopUp';
+import DivisionInfoPopUpLeft from '../../Partnership/common/divisionInfoPopupLeft';
 
 class MapboxPartnership extends Component {
   constructor(props) {
     super(props);
     this.state = {
       popupData: [],
+      leftPopupData: [],
       // map: null,
     };
     this.markerRef = React.createRef();
@@ -52,6 +54,10 @@ class MapboxPartnership extends Component {
     this.setState({ popupData: data });
   };
 
+  setLeftPopupData = data => {
+    this.setState({ leftPopupData: data });
+  };
+
   render() {
     const { mapViewBy, setMapViewBy } = this.props;
     const inputDivisions =
@@ -61,7 +67,7 @@ class MapboxPartnership extends Component {
     const {
       // state: {  },
       props: { vectorTileUrl, mapViewDataBy, map },
-      state: { popupData },
+      state: { popupData, leftPopupData },
     } = this;
     const { mfsChoroplethData, mfsPieData } = this.props.mfsReducer;
     return (
@@ -83,6 +89,7 @@ class MapboxPartnership extends Component {
                 ref={this.markerPiePopupRef}
               />
               <VectorTileMapbox
+                setLeftPopupData={this.setLeftPopupData}
                 keyRef={this.keyRef}
                 markerPiePopupRef={this.markerPiePopupRef}
                 handleProvinceClick={this.props.handleProvinceClick}
@@ -131,6 +138,8 @@ class MapboxPartnership extends Component {
                 </div>
               </div>
               <PopUp data={popupData} mapViewBy={mapViewBy} />
+              <DivisionInfoPopUpLeft data={leftPopupData} />
+
               {/* )} */}
               {/* <MarkerCluster
               filteredByPartner={filteredByPartner}

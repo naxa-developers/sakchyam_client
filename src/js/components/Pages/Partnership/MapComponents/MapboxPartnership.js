@@ -30,21 +30,6 @@ class MapboxPartnership extends Component {
     this.markerPiePopupRef = React.createRef();
   }
 
-  // addMap = () => {
-  //   mapboxgl.accessToken =
-  //     'pk.eyJ1IjoiZ2VvbWF0dXBlbiIsImEiOiJja2E5bDFwb2swdHNyMnNvenZxa2Vpeml2In0.fCStqdwmFYFP-cUvb5vMCw';
-  //   const map = new mapboxgl.Map({
-  //     container: 'map',
-  //     style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-  //     center: [84.0, 27.5], // starting position [lng, lat]
-  //     zoom: 7, // starting zoom
-  //   });
-  //   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-
-  //   //
-  //   this.setState({ map });
-  // };
-
   componentDidMount() {
     this.props.getMapDataByProvince('investment');
     this.props.getMapDataByDistrict('investment');

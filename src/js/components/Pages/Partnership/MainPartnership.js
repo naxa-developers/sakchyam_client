@@ -1152,6 +1152,14 @@ class MainPartnership extends Component {
     }
   };
 
+  handleProjectSelection = code => {
+    if (!this.state.projectSelection.includes(code)) {
+      this.setState(prevState => ({
+        projectSelection: [...prevState.projectSelection, code],
+      }));
+    }
+  };
+
   handleProjectSelectionCheckbox = e => {
     const {
       state: { projectSelection, isAllPartnerSelected },
@@ -1219,6 +1227,14 @@ class MainPartnership extends Component {
     }
   };
 
+  handlePartnerSelection = code => {
+    if (!this.state.partnerSelection.includes(code)) {
+      this.setState(prevState => ({
+        partnerSelection: [...prevState.partnerSelection, code],
+      }));
+    }
+  };
+
   handlePartnerSelectionCheckbox = e => {
     const {
       state: { partnerSelection, isAllPartnerSelected },
@@ -1271,7 +1287,7 @@ class MainPartnership extends Component {
     }
   };
 
-  applyBtnClick = () => {
+  applyBtnClick = radialClick => {
     const {
       viewDataBy,
       partnerSelection,
@@ -1324,14 +1340,16 @@ class MainPartnership extends Component {
         projectStatus,
         investmentFocusSelection,
       );
-      this.props.filterRadialData(
-        viewDataBy,
-        investmentFocusSelection,
-        projectSelection,
-        partnerType,
-        partnerSelection,
-        projectStatus,
-      );
+      if (radialClick) {
+        this.props.filterRadialData(
+          viewDataBy,
+          investmentFocusSelection,
+          projectSelection,
+          partnerType,
+          partnerSelection,
+          projectStatus,
+        );
+      }
       // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
       //   return data.
       // })
@@ -2046,6 +2064,8 @@ class MainPartnership extends Component {
               </div>
               <div className="literacy-tab-content">
                 <MiddleChartSection
+                  handlePartnerSelection={this.handlePartnerSelection}
+                  handleProjectSelection={this.handleProjectSelection}
                   resetLeftSideBarSelection={
                     this.resetLeftSideBarSelection
                   }

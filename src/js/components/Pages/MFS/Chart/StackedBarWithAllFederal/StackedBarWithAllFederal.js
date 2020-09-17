@@ -427,6 +427,7 @@ class StackedBarWithAllFederal extends Component {
         id="stacked_chart"
         style={
           mapViewBy === 'district' &&
+          showBarChartBy === 'Federal' &&
           Fedseries &&
           Fedseries[0] &&
           Fedseries[0].data.length > 10

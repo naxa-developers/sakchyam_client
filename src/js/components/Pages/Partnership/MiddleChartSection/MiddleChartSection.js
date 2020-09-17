@@ -60,6 +60,22 @@ class MiddleChartSection extends Component {
     });
   };
 
+  getCheckboxId = (status, name) => {
+    const {
+      partnersList,
+      projectLists,
+    } = this.props.partnershipReducer;
+    let output;
+    if (status === 'partner') {
+      const selectedItem = partnersList.filter(d => d.name === name);
+      output = selectedItem[0].id;
+    } else if (status === 'project') {
+      const selectedItem = projectLists.filter(d => d.name === name);
+      output = selectedItem[0].id;
+    }
+    return output;
+  };
+
   handleSunburstClick = e => {
     const {
       partnersList,
@@ -67,7 +83,67 @@ class MiddleChartSection extends Component {
       projectLists,
     } = this.props.partnershipReducer;
     // const that = this;
+    this.props.resetLeftSideBarSelection();
+
+    console.log(e, 'e');
     const clickedName = e.data.name;
+    const iterate = obj => {
+      if (obj) {
+        Object.keys(obj).forEach(key => {
+          // console.log(obj[key]);
+          if (obj[key] && obj[key].name) {
+            const element = document.querySelector(
+              `[data-label='${obj[key].name}`,
+            );
+            // console.log(this.getCheckboxId('project', obj[key].name));
+            if (element) {
+              if (element.className === 'investment_checkbox') {
+                console.log(obj[key].name);
+                document
+                  .querySelector(`[data-label='${obj[key].name}']`)
+                  .click();
+              }
+              setTimeout(() => {
+                if (element.className === 'project_checkbox') {
+                  console.log(
+                    this.getCheckboxId('project', obj[key].name),
+                  );
+                  this.props.handleProjectSelection(
+                    this.getCheckboxId('project', obj[key].name),
+                  );
+                }
+                if (element.className === 'partner_checkbox') {
+                  console.log(
+                    this.getCheckboxId('partner', obj[key].name),
+                  );
+                  this.props.handlePartnerSelection(
+                    this.getCheckboxId('partner', obj[key].name),
+                  );
+                }
+              }, 1000);
+              console.log(element.className);
+
+              if (
+                element.className.replace(' ', '') ===
+                'partnerType_badge'
+              ) {
+                document
+                  .querySelector(`[data-label='${obj[key].name}']`)
+                  .click();
+                console.log(obj[key].name);
+              }
+              // document
+              //   .querySelector(`[data-label='${obj[key].name}']`)
+              //   .click();
+            }
+          }
+          if (key === 'parent') {
+            iterate(obj[key]);
+          }
+        });
+      }
+    };
+
     // this.props.resetLeftSideBarSelection();
     //
     // console.log(
@@ -86,11 +162,12 @@ class MiddleChartSection extends Component {
       this.props.resetRadialData();
       this.props.resetFilters();
     } else {
-      document
-        .querySelectorAll(`[data-label='${clickedName}']`)[0]
-        .click();
+      iterate(e);
+      // document
+      //   .querySelectorAll(`[data-label='${clickedName}']`)[0]
+      //   .click();
       // document.getElementsByName(clickedName)[0].click();
-      this.props.applyBtnClick();
+      this.props.applyBtnClick(false);
     }
     // }
     //
@@ -482,7 +559,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               notificationHandler={notificationHandler}
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
@@ -505,7 +582,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

@@ -211,9 +211,9 @@ class LeftSideBar extends Component {
                       return (
                         <a
                           data-label={data}
-                          className={
+                          className={`partnerType_badge ${
                             partnerType.includes(data) ? 'active' : ''
-                          }
+                          }`}
                           role="tab"
                           tabIndex="-1"
                           onClick={() => {
