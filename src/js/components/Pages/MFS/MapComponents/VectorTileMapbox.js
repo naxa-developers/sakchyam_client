@@ -1182,22 +1182,29 @@ class Choropleth extends Component {
             );
           },
         );
+
+        // that.props.setLeftPopupData({
+        //   name: e.features[0].properties.name,
+        //   code: e.features[0].properties.code,
+        //   id: e.features[0].properties.id,
+        //   count: filteredCodeData[0].count,
+        // });
         // <h5>Code:${e.features[0].properties.code}</h5>
         // <h5>ID:${e.features[0].properties.id}</h5>
-        popup.setLngLat(e.lngLat).setHTML(
-          `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
-              <div class="map-popup-view">
-                  <div class="map-popup-view-header">
-                      <h5>${e.features[0].properties.name}</h5>
-                      <div class="icons">
-                      <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
-                      </div>
-                  </div>
-                  <div class="map-view-footer">
-                  </div>
-                      </div>
-                  </div>`,
-        );
+        // popup.setLngLat(e.lngLat).setHTML(
+        //   `<div class="leaflet-popup-content federal-popup" style="width: 100px;">
+        //       <div class="map-popup-view">
+        //           <div class="map-popup-view-header">
+        //               <h5>${e.features[0].properties.name}</h5>
+        //               <div class="icons">
+        //               <i class="material-icons">tablet_mac</i><b>${filteredCodeData[0].count}</b>
+        //               </div>
+        //           </div>
+        //           <div class="map-view-footer">
+        //           </div>
+        //               </div>
+        //           </div>`,
+        // );
         // .addTo(map);
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
