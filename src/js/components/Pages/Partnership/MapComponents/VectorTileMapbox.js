@@ -347,7 +347,6 @@ class Choropleth extends Component {
       };
       if (data.properties.pie) {
         data.properties.pie.forEach(piedata => {
-          //
           singleData2nd[`${piedata.investment_primary}`] =
             piedata[`${viewBy}`];
           singleData2nd.point_count += piedata[`${viewBy}`];
@@ -379,7 +378,8 @@ class Choropleth extends Component {
     const min = Math.min.apply(null, totalSumList);
     const max = Math.max.apply(null, totalSumList);
     FinalGeojson.features.forEach(data => {
-      //
+      const totalPartners = [];
+
       partnerList = [];
       singleData = {
         point_count: 0,
@@ -387,7 +387,9 @@ class Choropleth extends Component {
       };
       if (data.properties.pie) {
         data.properties.pie.forEach(piedata => {
-          //
+          piedata.partner_list.forEach(d => {
+            totalPartners.push(d);
+          });
           singleData[`${piedata.investment_primary}`] =
             piedata[`${viewBy}`];
           if (piedata.partner_list) {
@@ -404,12 +406,14 @@ class Choropleth extends Component {
         });
       }
       total.push(singleData.point_count);
+      // eslint-disable-next-line no-param-reassign
+
       const radiusRange =
         // eslint-disable-next-line prettier/prettier
         ((data.total_sum - min) / (max - min)) * (30 - 10) + 10;
       const testElMain = document.createElement('div');
       testElMain.className = 'marker';
-
+      const totalUniquePartner = [...new Set(totalPartners)];
       //
       // const props = data.properties;
       // eslint-disable-next-line no-use-before-define
@@ -420,6 +424,7 @@ class Choropleth extends Component {
         partnerList,
         mapViewDataBy,
         data.total_sum,
+        totalUniquePartner,
       );
       const marker = new mapboxgl.Marker({ element: testEl })
         .setLngLat(data.geometry.coordinates)
@@ -512,6 +517,7 @@ class Choropleth extends Component {
     partners,
     mapViewDataBy,
     totalSum,
+    totalUniquePartner,
   ) => {
     const that = this;
     const legendDataArray = [];
@@ -529,7 +535,6 @@ class Choropleth extends Component {
 
     const data = legendDataArray;
     const thickness = 10;
-
     const radius = radiusValue ? radiusValue : 30;
 
     const tooltip2nd = d3
@@ -581,6 +586,7 @@ class Choropleth extends Component {
           propsdata: props,
           partners,
           mapViewDataBy,
+          totalUniquePartner,
         });
       })
       .on('mouseover', function(d) {
@@ -619,7 +625,7 @@ class Choropleth extends Component {
               ? 'people'
               : mapViewDataBy === 'allocated_budget'
               ? ''
-              : 'payments'
+              : ''
           }</i><b>${numberWithCommas(Math.round(d.data.count))}</b>
                   </div>
               </div>

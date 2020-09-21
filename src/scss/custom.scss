@@ -679,6 +679,10 @@
   }
 }
 .mfs-wrapper {
+  .mapbox-popup-content.is-middle {
+    width: auto;
+    height: auto;
+  }
   .mapbox-popup-content {
     width: 253px !important;
     height: 230px;

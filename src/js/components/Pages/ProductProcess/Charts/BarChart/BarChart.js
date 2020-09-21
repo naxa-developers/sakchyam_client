@@ -63,7 +63,7 @@ class BarChart extends Component {
     } = this.props;
 
     const data = filteredData.length === 0 ? allData : filteredData;
-
+    console.log(filteredData, 'filteredData');
     const partnerType = [
       ...new Set(data.map(item => item.partner_type)),
     ];
@@ -128,6 +128,10 @@ class BarChart extends Component {
             ) {
               const selectedData =
                 config.xaxis.categories[dataPointIndex];
+
+              // console.log(selected, 'selected');
+              // const selectedData = selected.join(' ');
+              // console.log(selectedData);
               this.generateBarChartData(dataPointIndex);
               this.setFirstClickedState(selectedData);
             }
@@ -154,6 +158,19 @@ class BarChart extends Component {
         labels: {
           trim: true,
           hideOverlappingLabels: false,
+          formatter(value) {
+            if (typeof value === 'object') {
+              console.log(value);
+              console.log(value.join(' '));
+              return value.join(' ');
+            }
+            console.log(value);
+            console.log(typeof value);
+            if (typeof value !== 'string') {
+              return value.join(' ');
+            }
+            return value;
+          },
         },
       },
       yaxis: {
