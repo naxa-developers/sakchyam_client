@@ -29,6 +29,7 @@ import {
   filterMfsMapPieData,
   filterMfsMapChartDataByPartner,
   filterMfsChartDataByDistrict,
+  filterMfsMapChartDataByPartnerWithInnovation,
 } from '../../../actions/mfs.action';
 import {
   filterDistrictListFromProvince,
@@ -1642,4 +1643,5 @@ export default connect(mapStateToProps, {
   filterMfsMapChartDataByPartner,
   filterMfsMapPieData,
   filterMfsChartDataByDistrict,
+  filterMfsMapChartDataByPartnerWithInnovation,
 })(MainMFS);

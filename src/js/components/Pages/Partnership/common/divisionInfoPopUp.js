@@ -4,6 +4,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
+import { numberWithCommas } from '../../../common/utilFunctions';
 
 // function clickHandler() {
 //   
@@ -37,7 +38,7 @@ export default function divisionInfoPopUp(props) {
                 (<h5>{data.partnerName}</h5>):(
                   <div>
                     <label>{data.partnerName}</label>
-                    <label>{Math.round(data.totalCount)}</label>
+                    <label>{numberWithCommas(Math.round(data.totalCount))}</label>
                   </div>)}
               </div>
               <div className="acc-body">
@@ -56,6 +57,10 @@ export default function divisionInfoPopUp(props) {
         });
       }
   // 
+  const classValue =
+  mapViewDataBy === 'allocated_budget'
+  ? `${'fas fa-pound-sign'}` // eslint-disable-line prettier/prettier
+      : 'material-icons';
   return propsdata && propsdata ? (
     <div className="mapbox-popup-content">
       <div
@@ -66,14 +71,14 @@ export default function divisionInfoPopUp(props) {
         <div className="map-popup-view-header">
           <h5>{propsdata.federal_name}</h5>
           <div className="icons">
-            <i className="material-icons">{
+            <i className={classValue}>{
                       mapViewDataBy === 'allocated_beneficiary'
                         ? 'people'
                         : mapViewDataBy === 'allocated_budget'
-                        ? 'payments'
+                        ? ''
                         : 'payments'
                     }
-            </i><b>{Math.round(propsdata.point_count)}</b>
+            </i><b>{mapViewDataBy === 'investment_focus'?numberWithCommas(Math.round(props.data.totalUniquePartner.length)):numberWithCommas(Math.round(propsdata.point_count))}</b>
           </div>
         </div>
         <div className="acc is-after is-border">

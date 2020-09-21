@@ -1182,7 +1182,12 @@ class Choropleth extends Component {
             );
           },
         );
-
+        that.props.setLeftPopupData({
+          name: e.features[0].properties.name,
+          code: e.features[0].properties.code,
+          id: e.features[0].properties.id,
+          count: filteredCodeData[0].count,
+        });
         // that.props.setLeftPopupData({
         //   name: e.features[0].properties.name,
         //   code: e.features[0].properties.code,
@@ -1255,6 +1260,7 @@ class Choropleth extends Component {
         // }
         // hoveredStateId = null;
         popup.remove();
+        that.props.setLeftPopupData({});
       });
 
       // fullGeojsonProvince.features.forEach((item, index) => {

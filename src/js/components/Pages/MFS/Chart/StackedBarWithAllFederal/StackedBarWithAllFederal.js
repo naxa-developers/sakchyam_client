@@ -143,14 +143,14 @@ class StackedBarWithAllFederal extends Component {
       grid: {
         show: false,
       },
-      // tooltip: {
-      //   fixed: {
-      //     enabled: true,
-      //     position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
-      //     // offsetY: 30,
-      //     // offsetX: 60,
-      //   },
-      // },
+      tooltip: {
+        fixed: {
+          enabled: true,
+          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+          // offsetY: 30,
+          // offsetX: 60,
+        },
+      },
       legend: {
         horizontalAlign: 'left',
         offsetX: 40,
@@ -213,8 +213,8 @@ class StackedBarWithAllFederal extends Component {
               showBarPartnerChartOf,
             } = that.props;
             const clicked = config.xaxis.categories[dataPointIndex];
-            if (that.props.showBarChartBy === 'Federal') {
-              if (clicked !== undefined) {
+            if (clicked !== undefined) {
+              if (that.props.showBarChartBy === 'Federal') {
                 if (showBarof === 'Provinces') {
                   const filteredProvinceId = that.props.provinceList.filter(
                     data => {
@@ -258,19 +258,21 @@ class StackedBarWithAllFederal extends Component {
                   );
                 }
               }
-            }
-            if (that.props.showBarChartBy === 'Partner') {
-              if (showBarPartnerChartOf === 'Partner') {
-                that.props.filterMfsMapChartDataByPartnerWithInnovation(
-                  mapViewBy,
-                  selectedPartner,
-                  selectedInnovation,
-                  selectedAchievement,
-                  [],
-                  [],
-                  clicked,
-                );
-                that.props.handleShowBarPartnerChartOf('Innovation');
+              if (that.props.showBarChartBy === 'Partner') {
+                if (showBarPartnerChartOf === 'Partner') {
+                  that.props.filterMfsMapChartDataByPartnerWithInnovation(
+                    mapViewBy,
+                    selectedPartner,
+                    selectedInnovation,
+                    selectedAchievement,
+                    [],
+                    [],
+                    clicked,
+                  );
+                  that.props.handleShowBarPartnerChartOf(
+                    'Innovation',
+                  );
+                }
               }
             }
           },
@@ -329,6 +331,12 @@ class StackedBarWithAllFederal extends Component {
         y: {
           show: true,
           formatter: data => `${numberWithCommas(data)}`,
+        },
+        fixed: {
+          enabled: true,
+          position: 'topRight',
+          offsetX: 0,
+          offsetY: 0,
         },
       },
       legend: {

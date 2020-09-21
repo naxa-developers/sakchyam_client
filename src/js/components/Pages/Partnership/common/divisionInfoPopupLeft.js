@@ -4,6 +4,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
+import { numberWithCommas } from '../../../common/utilFunctions';
 
 // function clickHandler() {
 //
@@ -57,7 +58,7 @@ export default function DivisionInfoPopUpLeft(props) {
   //       }
   //
   return name && name ? (
-    <div className="mapbox-popup-content right-content center">
+    <div className="mapbox-popup-content right-content center is-middle">
       <div
         className="map-popup-view"
         style={{
@@ -66,7 +67,11 @@ export default function DivisionInfoPopUpLeft(props) {
       >
         <div className="map-popup-view-header">
           <h5>{name}</h5>
-          <h5>{count}</h5>
+          
+          <h5>
+            {/* <i className="material-icons">assignment</i> */}
+            {numberWithCommas(count)}
+          </h5>
         </div>
       </div>
     </div>
