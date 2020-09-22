@@ -1615,6 +1615,7 @@ class MainPartnership extends Component {
           className={`automation-wrapper literacy-wrapper ${
             activeOverview ? 'expand-right-sidebar' : ''
           }`}
+          // style={{ filter: 'blur(4px)', webkitFilter: 'blur(4px)' }}
         >
           <LeftSideBar
             resetFilters={this.resetFilters}
