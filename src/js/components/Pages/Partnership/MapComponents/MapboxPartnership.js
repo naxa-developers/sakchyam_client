@@ -104,11 +104,11 @@ class MapboxPartnership extends Component {
     const { mapViewBy, setMapViewBy } = this.props;
     const inputDivisions =
       mapViewBy === 'province'
-        ? [1, 14, 26, 39, 51]
+        ? [0, 14, 26, 39, 51]
         : mapViewBy === 'district'
-        ? [1, 9, 17, 24, 32]
+        ? [0, 9, 17, 24, 32]
         : mapViewBy === 'municipality'
-        ? [1, 7, 12, 18, 23]
+        ? [0, 7, 12, 18, 23]
         : [0, 2, 4, 6, 8, 10, 12, 14, 20];
     const {
       state: { popupData, leftPopupData },

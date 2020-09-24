@@ -238,7 +238,7 @@ class Choropleth extends Component {
 
     //
     const max = Math.max.apply(null, Object.values(data));
-    const min = 1; // Math.min(...data);
+    const min = 0; // Math.min(...data);
     //
     //
     range =
