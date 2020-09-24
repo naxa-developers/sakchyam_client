@@ -21,7 +21,11 @@ import PaymentSystems from './Pages/PaymentSystems/PaymentSystems';
 import MainMFS from './Pages/MFS/MainMFS';
 import InsuranceModule from './Pages/Insurance';
 import Header from './Header';
+import Loading from './common/Loading';
 
+// const MainPartnership = React.lazy(() =>
+//   import('../components/Pages/Partnership/MainPartnership'),
+// );
 class App extends Component {
   constructor(props) {
     super(props);
@@ -31,9 +35,11 @@ class App extends Component {
   render() {
     console.log(this.props);
     return (
-      // <Suspense fallback={<div>Loading...</div>}>
       <>
         {this.props.location.pathname !== '/login' && <Header />}
+        {/* <Suspense
+          fallback={<Loading loaderState top="50%" left="46%" />}
+        > */}
         {/* <Header disableScroll /> */}
         <Switch>
           <Route path="/login" component={Login} />
@@ -76,6 +82,7 @@ class App extends Component {
           <Route path="/" component={Landing} />
           <Route component={Landing} />
         </Switch>
+        {/* </Suspense> */}
       </>
     );
   }
