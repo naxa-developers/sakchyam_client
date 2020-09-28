@@ -195,7 +195,7 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
 };
 // added w in this function
 
-export const getFilteredPartnersByFederalWithClickedPartnersw = (
+export const getFilteredPartnersByFederalWithClickedPartners = (
   federalSelect,
   clickedPartner,
 ) => dispatch => {

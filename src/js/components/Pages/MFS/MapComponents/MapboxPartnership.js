@@ -82,6 +82,20 @@ class MapboxPartnership extends Component {
             width: '100%',
           }}
         >
+          <h5
+            className="chart-label"
+            style={{
+              display: 'none',
+              fontFamily: 'Avenir Book',
+              color: '#C2002F',
+              fontSize: '1.25rem',
+              textAlign: 'center',
+              position: 'relative',
+              zIndex: '1',
+            }}
+          >
+            Province/District Wise Achievement Type
+          </h5>
           {map && (
             <div>
               <div

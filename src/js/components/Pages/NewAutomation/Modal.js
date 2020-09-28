@@ -108,6 +108,8 @@ const Modal = props => {
               marginBottom: '3vh',
             }}
           >
+            {/* <div className="modal-label"> */}
+            {/* </div> */}
             {modalType === 'tablets' && (
               <div
                 style={{
@@ -119,6 +121,12 @@ const Modal = props => {
                   marginTop: '7vh',
                 }}
               >
+                <div
+                  className="chart-label"
+                  style={{ display: 'none' }}
+                >
+                  <h5>Automation Partner Infographics</h5>
+                </div>
                 <div className="modal-pie" style={{ flex: 8 }}>
                   {tabletsDeployed.total_branch === 0 ? (
                     0
@@ -158,6 +166,12 @@ const Modal = props => {
                   paddingBottom: '1vh',
                 }}
               >
+                <div
+                  className="chart-label"
+                  style={{ display: 'none' }}
+                >
+                  <h5>Automation Branch Count</h5>
+                </div>
                 <div className="widget-body">
                   <div className="branch-list">
                     {allPartners.map((data, i) => {
