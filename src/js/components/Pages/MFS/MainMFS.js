@@ -1558,6 +1558,11 @@ class MainMFS extends Component {
                               handleShowBarPartnerChartOf={
                                 this.handleShowBarPartnerChartOf
                               }
+                              showBarChartByTitle={
+                                showBarChartBy === 'Federal'
+                                  ? 'Province/District Wise Achievement Type'
+                                  : 'Partner Wise Achievement Type'
+                              }
                             />
                           </div>
                           // <StackedBarWithProvince

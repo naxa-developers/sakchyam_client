@@ -103,13 +103,15 @@ export const aggregateCounts = array => {
 };
 
 export const downloadPng = (chartid, filename) => {
-  console.log('called');
+  // console.log('called');
+  document.querySelector('.chart-label').style.display = 'block';
   setTimeout(() => {
     html2canvas(document.querySelector(`#${chartid}`), {}).then(
       canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${filename}.png`);
         });
+        document.querySelector('.chart-label').style.display = 'none';
       },
     );
   }, 10);

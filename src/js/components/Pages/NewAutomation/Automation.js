@@ -829,14 +829,14 @@ class MainAutomation extends Component {
         ) {
           this.props.filterPartnerSelect(activeClickPartners);
         } else {
-          this.props.getFilteredPartnersByFederalWithClickedPartners(
-            {
-              municipality: this.getCodes(selectedMunicipality),
-              district: this.getCodes(selectedDistrict),
-              province: this.getCodes(selectedProvince),
-            },
-            activeClickPartners,
-          );
+          // this.props.getFilteredPartnersByFederalWithClickedPartners(
+          //   {
+          //     municipality: this.getCodes(selectedMunicipality),
+          //     district: this.getCodes(selectedDistrict),
+          //     province: this.getCodes(selectedProvince),
+          //   },
+          //   activeClickPartners,
+          // );
         }
       } else {
         if (

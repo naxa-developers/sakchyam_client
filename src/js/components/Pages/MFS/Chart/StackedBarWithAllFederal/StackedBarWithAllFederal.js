@@ -30,7 +30,7 @@ class StackedBarWithAllFederal extends Component {
   plotChart = () => {
     //
     const that = this;
-    const { showBarChartBy } = this.props;
+    const { showBarChartBy, showBarChartByTitle } = this.props;
     // const {
     //   mfsReducer: {
     //     mfsChartData: { series, labels },
@@ -155,9 +155,10 @@ class StackedBarWithAllFederal extends Component {
         horizontalAlign: 'left',
         offsetX: 40,
       },
-      title: {
-        text: 'Province/District Wise Achievement Type',
-      },
+      // title: {
+      //   show: false,
+      //   text: showBarChartByTitle,
+      // },
     };
     this.setState({ options, Fedseries: series });
   };
@@ -187,6 +188,7 @@ class StackedBarWithAllFederal extends Component {
     const {
       mfsReducer: { mfsChartData, mfsChartDataByPartner },
       showBarChartBy,
+      showBarChartByTitle,
     } = this.props;
     const { mapViewBy } = this.props;
     const options = {
@@ -343,10 +345,11 @@ class StackedBarWithAllFederal extends Component {
         horizontalAlign: 'left',
         offsetX: 40,
       },
-      title: {
-        text: 'Province/District Wise Achievement Type',
-        align: 'center  ',
-      },
+      // title: {
+      //   show: false,
+      //   text: showBarChartByTitle,
+      //   align: 'center  ',
+      // },
     };
     //
     this.setState({
@@ -424,6 +427,7 @@ class StackedBarWithAllFederal extends Component {
     const { activeModal, mapViewBy, showBarChartBy } = this.props;
     const {
       mfsReducer: { mfsChartDataByPartner, mfsChartData },
+      showBarChartByTitle,
     } = this.props;
     console.log(Partnerseries, 'partnerSeries');
     console.log(
@@ -443,6 +447,18 @@ class StackedBarWithAllFederal extends Component {
             : {}
         }
       >
+        <h5
+          className="chart-label"
+          style={{
+            display: 'none',
+            fontFamily: 'Avenir Book',
+            color: '#C2002F',
+            fontSize: '1.25rem',
+            textAlign: 'center',
+          }}
+        >
+          {showBarChartByTitle}
+        </h5>
         {showBarChartBy === 'Partner' ? (
           <Achart
             // key={Partnerseries}

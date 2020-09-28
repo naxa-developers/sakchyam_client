@@ -24,6 +24,10 @@ const downloadPng = (chartid, imageTitle) => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'none';
   });
+  document.querySelectorAll('.chart-label').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'block';
+  });
   // document
   //   .querySelector('.download-dropdown')
   //   .classList.remove('active');
@@ -56,6 +60,10 @@ const downloadPng = (chartid, imageTitle) => {
       document.querySelectorAll('.expand-span').forEach(el => {
         // eslint-disable-next-line no-param-reassign
         el.style.display = 'block';
+      });
+      document.querySelectorAll('.chart-label').forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.style.display = 'none';
       });
       document
         .querySelectorAll('.apexcharts-title-text')
@@ -106,6 +114,8 @@ const CardTab = ({
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
       : cardChartId === 'mfsBar'
       ? 'Federal Wise Achievement Type'
+      : cardChartId === 'stacked_chart'
+      ? cardTitle
       : '';
   const selectedChartId =
     cardChartId === 'groupedChart'

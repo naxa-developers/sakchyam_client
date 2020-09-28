@@ -19,7 +19,7 @@ export default function divisionInfoPopUp(props) {
           )}
         </div>
         {code.uniqueData && (
-          <ul style={{ height: '100%', fontSize: '10px' }}>
+          <ul style={{ height: '100%', fontSize: '11px' }}>
             {code.uniqueData &&
               code.uniqueData.map(data => {
                 return (
