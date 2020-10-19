@@ -48,6 +48,7 @@ class LeftSideBar extends Component {
       selectedDistrict,
       selectedMunicipality,
       automationReducer: { automationTableData },
+      activeClickPartners,
     } = this.props;
     const { count, finalList, partnersByDivision } = this.state;
 
@@ -223,7 +224,9 @@ class LeftSideBar extends Component {
 
   render() {
     const { partnerList, dataLoading } = this.state;
-
+    const {
+      automationLeftSidePartnerData,
+    } = this.props.automationReducer;
     const {
       activeClickPartners,
       handleActiveClickPartners,
@@ -303,11 +306,12 @@ class LeftSideBar extends Component {
               </>
             ) : (
               <ul className="table-ranking-list">
-                {partnerList && partnerList.length < 1 ? (
+                {automationLeftSidePartnerData &&
+                automationLeftSidePartnerData.length < 1 ? (
                   <h4 style={{ margin: '103px' }}>No Data</h4>
                 ) : (
-                  partnerList &&
-                  partnerList.map((data, i) => {
+                  automationLeftSidePartnerData &&
+                  automationLeftSidePartnerData.map((data, i) => {
                     let initials =
                       data.partner_name.match(/\b\w/g) || [];
                     initials = (

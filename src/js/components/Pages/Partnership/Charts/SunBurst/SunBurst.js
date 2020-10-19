@@ -282,45 +282,46 @@ class Sunburst extends React.Component {
 
       //added block start
       if (this.props.isLegend) {
-        this.legend = el.append('svg');
-        //
-        data[0].children && data[0].children.sort();
-        //
-        this.legend
-          .attr('class', 'sunbrust-legend')
-          .attr('x', '100px');
+        // this.legend = el.append('svg');
+        // //
+        // data[0].children && data[0].children.sort();
+        // console.log(data,'data');
+        // //
+        // this.legend
+        //   .attr('class', 'sunbrust-legend')
+        //   .attr('x', '100px');
         // .style("width", "359px")
         // .style("transform", "translate(447px, -287px)") // small screen
         // .style("transform", "translate(119px, 84px)") //big screen
         // .style("position", "absolute")
         // .style("height", "186px");
-        var legendEntries = this.legend
-          .selectAll('g')
-          .data(data[0].children ? data[0].children.sort() : [])
-          .enter()
-          .append('g');
-        legendEntries.exit().remove();
-        legendEntries
-          .append('rect')
-          .attr('x', 0)
-          .attr('y', (_, i) => 2 + i * 20)
-          .attr('width', 15)
-          .attr('height', 12)
-          .style('padding', '20px')
-          .attr('fill', d => this._colorize(d));
-        legendEntries
-          .append('text')
-          .attr('x', 18)
-          .attr('y', (_, i) => 10 + i * 20)
-          .text(d => d.data.name)
-          .attr('text-anchor', 'left')
-          .style('alignment-baseline', 'middle')
-          .attr(
-            'fill',
-            this.props.colorizeLegendText
-              ? d => this._colorize(d)
-              : '#000',
-          );
+        // var legendEntries = this.legend
+        //   .selectAll('g')
+        //   .data(data[0].children ? data[0].children.sort() : [])
+        //   .enter()
+        //   .append('g');
+        // legendEntries.exit().remove();
+        // legendEntries
+        //   .append('rect')
+        //   .attr('x', 0)
+        //   .attr('y', (_, i) => 2 + i * 20)
+        //   .attr('width', 15)
+        //   .attr('height', 12)
+        //   .style('padding', '20px')
+        //   .attr('fill', d => this._colorize(d));
+        // legendEntries
+        //   .append('text')
+        //   .attr('x', 18)
+        //   .attr('y', (_, i) => 10 + i * 20)
+        //   .text(d => d.data.name)
+        //   .attr('text-anchor', 'left')
+        //   .style('alignment-baseline', 'middle')
+        //   .attr(
+        //     'fill',
+        //     this.props.colorizeLegendText
+        //       ? d => this._colorize(d)
+        //       : '#000',
+        //   );
       }
       //added block end
 
@@ -402,6 +403,9 @@ class Sunburst extends React.Component {
   }
 
   _update(d, i, a) {
+    // console.log(d,'d');
+    // console.log(i,'i');
+    // console.log(a,'a');
     this.props._debug &&
       this.props._log('Sunburst: _update(d, i, a)');
 
@@ -439,6 +443,7 @@ class Sunburst extends React.Component {
     transition
       .selectAll('path.sunburst-main-arc')
       .attrTween('d', d => () => {
+        // console.log(d,'attrTween D');
         const arc = this.arc(d);
         return arc;
       })
@@ -459,6 +464,54 @@ class Sunburst extends React.Component {
             return text;
           });
       });
+      this.legend && this.legend.remove();
+
+      const el = d3Select(`#${this.domId}`);
+ this.legend = el.append('svg');
+        //
+        // data[0].children && data[0].children.sort();
+        // console.log(data,'data');
+        //
+        this.legend
+          .attr('class', 'sunbrust-legend')
+          .attr('x', '100px');
+      const data = d;
+      console.log(data);
+      // let x =0;
+      var legendEntries = this.legend
+          .selectAll('g')
+          .data(data.children ? data.children.sort() : data)
+          .enter()
+          .append('g');
+        
+        // legendEntries='';
+        // if(x<=1){
+        legendEntries
+          .append('rect')
+          .attr('x', 0)
+          .attr('y', (_, i) => 2 + i * 20)
+          .attr('width', 15)
+          .attr('height', 12)
+          .style('padding', '20px')
+          .attr('fill', d => this._colorize(d));
+        legendEntries
+          .append('text')
+          .attr('x', 18)
+          .attr('y', (_, i) => 10 + i * 20)
+          .text(d => {console.log(d) 
+            return d.data.name})
+          .attr('text-anchor', 'left')
+          .style('alignment-baseline', 'middle')
+          .attr(
+            'fill',
+            this.props.colorizeLegendText
+              ? d => this._colorize(d)
+              : '#000',
+          );
+          legendEntries.exit().remove();
+        // }
+        // x+=1
+      // console.log(this.legend,'legend');
   }
 
   _textFits(d, label) {

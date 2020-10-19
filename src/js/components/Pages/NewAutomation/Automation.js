@@ -25,11 +25,12 @@ import {
   getFilteredPartnersByFederal,
   getBranchesTableData,
   getTableDataByPartnerSelect,
-  // getFilteredPartnersByFederalWithClickedPartners,
+  getFilteredPartnersByFederalWithClickedPartners,
   partnerSelectWithOutreach,
   getTimelineData,
   getAllDataForTimeline,
   setLegendValues,
+  filterPartnerByFederalClickedException,
 } from '../../../actions/automation.actions';
 import {
   provinceLists,
@@ -596,7 +597,7 @@ class MainAutomation extends Component {
 
     if (prevState.activeClickPartners !== activeClickPartners) {
       if (activeClickPartners.length === 0) {
-        this.props.filterPartnerSelect(activeClickPartners);
+        // this.props.filterPartnerSelect(activeClickPartners);
         this.setState({ migrationArray: '' });
       }
     }
@@ -829,14 +830,19 @@ class MainAutomation extends Component {
         ) {
           this.props.filterPartnerSelect(activeClickPartners);
         } else {
-          // this.props.getFilteredPartnersByFederalWithClickedPartners(
-          //   {
-          //     municipality: this.getCodes(selectedMunicipality),
-          //     district: this.getCodes(selectedDistrict),
-          //     province: this.getCodes(selectedProvince),
-          //   },
-          //   activeClickPartners,
-          // );
+          this.props.filterPartnerByFederalClickedException({
+            municipality: this.getCodes(selectedMunicipality),
+            district: this.getCodes(selectedDistrict),
+            province: this.getCodes(selectedProvince),
+          });
+          this.props.getFilteredPartnersByFederalWithClickedPartners(
+            {
+              municipality: this.getCodes(selectedMunicipality),
+              district: this.getCodes(selectedDistrict),
+              province: this.getCodes(selectedProvince),
+            },
+            activeClickPartners,
+          );
         }
       } else {
         if (
@@ -1143,6 +1149,7 @@ class MainAutomation extends Component {
           } ${activeTableView ? 'active' : ''}`}
         >
           <LeftSideBar
+            // activeClickPartners={activeClickPartners}
             activeTableView={activeTableView}
             searchText={searchText}
             activeOutreachButton={activeOutreachButton}
@@ -1330,9 +1337,10 @@ export default connect(mapStateToProps, {
   getFilteredPartnersByFederal,
   getBranchesTableData,
   getTableDataByPartnerSelect,
-  // getFilteredPartnersByFederalWithClickedPartners,
+  getFilteredPartnersByFederalWithClickedPartners,
   partnerSelectWithOutreach,
   getTimelineData,
   getAllDataForTimeline,
   setLegendValues,
+  filterPartnerByFederalClickedException,
 })(MainAutomation);

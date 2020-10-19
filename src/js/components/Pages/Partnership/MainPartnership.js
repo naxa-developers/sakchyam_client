@@ -206,6 +206,10 @@ class MainPartnership extends Component {
       // );
     }
     if (prevState.viewDataBy !== viewDataBy) {
+      setTimeout(() => {
+        this.resetFilters();
+      }, 1000);
+
       // this.props.getMapDataByProvince(viewDataBy);
       // this.props.filterFinancialDataWithAllFilters(
       //   'province',mapbox-popup-content
@@ -234,6 +238,7 @@ class MainPartnership extends Component {
         //   projectStatus,
         // );
       }
+      // this.resetFilters();
     }
     if (prevState.partnerType !== partnerType) {
       this.props.filterPartnerListByPartnerType(partnerType);

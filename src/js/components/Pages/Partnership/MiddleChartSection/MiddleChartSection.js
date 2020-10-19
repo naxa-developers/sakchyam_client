@@ -130,7 +130,7 @@ class MiddleChartSection extends Component {
                 document
                   .querySelector(`[data-label='${obj[key].name}']`)
                   .click();
-                console.log(obj[key].name);
+                // console.log(obj[key].name);
               }
               // document
               //   .querySelector(`[data-label='${obj[key].name}']`)
@@ -167,7 +167,9 @@ class MiddleChartSection extends Component {
       //   .querySelectorAll(`[data-label='${clickedName}']`)[0]
       //   .click();
       // document.getElementsByName(clickedName)[0].click();
-      this.props.applyBtnClick(false);
+      setTimeout(() => {
+        this.props.applyBtnClick(false);
+      }, 1000);
     }
     // }
     //
@@ -559,7 +561,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            <CardTab
+            {/* <CardTab
               notificationHandler={notificationHandler}
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
@@ -582,7 +584,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            />
+            /> */}
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"

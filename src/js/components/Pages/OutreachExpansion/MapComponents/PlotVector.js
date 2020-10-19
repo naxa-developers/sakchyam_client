@@ -721,21 +721,21 @@ class PlotVector extends Component {
               >
                 <li>
                   <div>
+                    <img src={Bbank} />
+                  </div>
+                  <p>Commercial Bank Branch</p>
+                </li>
+                <li>
+                  <div>
                     <img src={Branch} />
                   </div>
-                  <p>Branch</p>
+                  <p>MFI/Other FIs Branches</p>
                 </li>
                 <li>
                   <div>
                     <img src={Others} />
                   </div>
                   <p>BLB</p>
-                </li>
-                <li>
-                  <div>
-                    <img src={Bbank} />
-                  </div>
-                  <p>Commercial Bank Branch</p>
                 </li>
               </ul>
             </div>

@@ -119,7 +119,7 @@ export default function divisionInfoPopUp(props) {
                       />
                       <span style={{ paddingLeft: '5px' }}>
                         {' '}
-                        Branch
+                        MFI/Other FIs branches
                       </span>
                     </>
                     <div className="icon-list">
