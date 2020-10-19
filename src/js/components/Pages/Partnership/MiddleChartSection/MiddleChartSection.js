@@ -561,7 +561,7 @@ class MiddleChartSection extends Component {
                 return <CirclePackChart />;
               }}
             /> */}
-            {/* <CardTab
+            <CardTab
               notificationHandler={notificationHandler}
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={
@@ -584,7 +584,7 @@ class MiddleChartSection extends Component {
                   />
                 );
               }}
-            /> */}
+            />
             {/* <CardTab
               cardTitle="Projects Timeline"
               cardClass="col-xl-12"
