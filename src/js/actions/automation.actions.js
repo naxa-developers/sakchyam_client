@@ -20,6 +20,7 @@ import {
   TIMELINE_FILTER,
   FILTER_AUTOMATION_BY_PROVINCE,
   GET_AUTOMATION_DATA_FOR_TIMELINE,
+  FILTER_PARTNERS_BY_FEDERAL_CLICKED_EXCEPTION,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -185,6 +186,91 @@ export const getFilteredPartnersByFederal = federalSelect => dispatch => {
         .then(function(result) {
           return dispatch({
             type: FILTER_PARTNERS_BY_FEDERAL,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
+export const filterPartnerByFederalClickedException = federalSelect => dispatch => {
+  const provinceSelect = `province=${federalSelect.province}`;
+  const districtSelect = `district=${federalSelect.district}`;
+  const municipalitySelect = `municipality=${federalSelect.municipality}`;
+  // const provinceSelect = federalSelect.province
+  //   .map(data => {
+  //     return `province=${data}`;
+  //   })
+  //   .join('&');
+
+  // const districtSelect = federalSelect.district
+  //   .map(data => {
+  //     return `district=${data}`;
+  //   })
+  //   .join('&');
+
+  // const municipalitySelect = federalSelect.municipality
+  //   .map(data => {
+  //     return `municipality=${data}`;
+  //   })
+  //   .join('&');
+
+  if (federalSelect.municipality.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-partner/?filter_type=fed&${municipalitySelect}`,
+        )
+        .then(function(result) {
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL_CLICKED_EXCEPTION,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (federalSelect.district.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-partner/?filter_type=fed&${districtSelect}`,
+        )
+        .then(function(result) {
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL_CLICKED_EXCEPTION,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (federalSelect.province.length > 0) {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-partner/?filter_type=fed&${provinceSelect}`,
+        )
+        .then(function(result) {
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL_CLICKED_EXCEPTION,
+            payload: result.data,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      const response = axiosInstance
+        .get(
+          `api/v1/automation/automation-partner/?filter_type=fed&province=1&province=2&province=3&province=4&province=5&province=6&province=7`,
+          // `api/v1/automation/automation-partner/?filter_type=fed&province=0,`,
+        )
+        .then(function(result) {
+          return dispatch({
+            type: FILTER_PARTNERS_BY_FEDERAL_CLICKED_EXCEPTION,
             payload: result.data,
           });
         });

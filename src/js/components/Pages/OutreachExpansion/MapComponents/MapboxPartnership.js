@@ -341,11 +341,13 @@ class MapboxPartnership extends Component {
 
   setOnHoveredDivisionId = id => {
     const { filteredMapData } = this.state;
-    const {
-      mapViewBy,
-      outreachReducer: { primaryData },
-    } = this.props;
-    console.log('in hover id', primaryData);
+    // const {
+    //   mapViewBy,
+    //   outreachReducer: { primaryData },
+    // } = this.props;
+    const { mapViewBy, primaryData } = this.props;
+    console.log('primaryData', primaryData);
+    console.log('filteredMapData', filteredMapData);
     let data;
     if (id !== 0) {
       this.setState({ hoveredId: id });
@@ -381,6 +383,7 @@ class MapboxPartnership extends Component {
           };
         }
 
+        console.log(data, 'popupdata');
         this.setState({ popUpData: data });
       }
       if (mapViewBy === 'district') {

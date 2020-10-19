@@ -27,6 +27,7 @@ import {
   AUTOMATION_MUNICIPALITY_LEGEND,
   AUTOMATION_PROVINCE_LEGEND,
   AUTOMATION_DISTRICT_LEGEND,
+  FILTER_PARTNERS_BY_FEDERAL_CLICKED_EXCEPTION,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -431,6 +432,51 @@ const filterPartnerByFederal = (state, action) => {
     },
   };
 };
+const filterPartnerByFederalClickedException = (state, action) => {
+  const leftsideData = action.payload[0].partner_data;
+  // const choroplethData = action.payload.map(data => {
+  //   allData.push({ id: data.id, count: data.num_tablet_deployed });
+  //   return true;
+  // });
+  leftsideData.sort(function(a, b) {
+    const nameA = a.partner_name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.partner_name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+  let partnerData = action.payload[0].partner_data.map(data => {
+    return data.tablets_deployed;
+  });
+  const partnerName = action.payload[0].partner_data.map(data => {
+    return data.partner_name;
+  });
+  const partnerColor = action.payload[0].partner_data.map(data => {
+    return getPartnerColor(data.id);
+  });
+  if (action.payload[0].partner_data.length < 1) {
+    partnerData = [0];
+  }
+  return {
+    ...state,
+    // automationAllDataByPartner: action.payload,
+    automationLeftSidePartnerData: leftsideData,
+    // automationRightSidePartnerData: {
+    //   0: {
+    //     ...action.payload[0],
+    //     tabletsGraphData: partnerData,
+    //     tabletsGraphLabel: partnerName,
+    //     tabletsGraphColor: partnerColor,
+    //   },
+    // },
+  };
+};
 const getAutomationDataForTable = (state, action) => {
   return {
     ...state,
@@ -619,6 +665,8 @@ export default function(state = initialState, action) {
       return filterPartnerSelect(state, action);
     case FILTER_PARTNERS_BY_FEDERAL:
       return filterPartnerByFederal(state, action);
+    case FILTER_PARTNERS_BY_FEDERAL_CLICKED_EXCEPTION:
+      return filterPartnerByFederalClickedException(state, action);
     case FILTER_PARTNERS_BY_FEDERAL_WITH_CLICKEDPARTNERS:
       return filterPartnerByFederalwithClickedPartners(state, action);
 

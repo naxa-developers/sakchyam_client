@@ -1658,6 +1658,11 @@ export const filterOverviewData = (
   selectedPartnerId,
   selectedFederalList,
 ) => dispatch => {
+  console.log(selectedInvestmentFocus, 'invF');
+  console.log(selectedProjectId, 'projecId');
+  console.log(selectedPartnerType, 'partType');
+  console.log(selectedPartnerId, 'partnerId');
+  console.log(selectedFederalList, 'selectedFederalList');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
       ? `investment_filter=${selectedInvestmentFocus}`
