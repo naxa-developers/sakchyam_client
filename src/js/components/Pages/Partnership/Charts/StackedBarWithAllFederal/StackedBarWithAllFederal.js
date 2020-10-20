@@ -378,8 +378,8 @@ class StackedBarWithAllFederal extends Component {
                   that.props.viewDataBy,
                   districtIdList,
                   investmentFocusSelection,
-                  partnerSelection,
                   partnerTypeSelection,
+                  partnerSelection,
                   projectSelection,
                   projectStatus,
                 );
@@ -417,8 +417,8 @@ class StackedBarWithAllFederal extends Component {
                   that.props.viewDataBy,
                   districtIdList,
                   investmentFocusSelection,
-                  partnerSelection,
                   partnerTypeSelection,
+                  partnerSelection,
                   projectSelection,
                   projectStatus,
                 );
@@ -643,7 +643,7 @@ class StackedBarWithAllFederal extends Component {
     const { activeModal, cardView, cardTitle } = this.props;
     return (
       <div id="stacked_chart">
-        <h5>{cardTitle}</h5>
+        <h5 className="graph-title">{cardTitle}</h5>
         <ReactApexChart
           key={series}
           options={options}

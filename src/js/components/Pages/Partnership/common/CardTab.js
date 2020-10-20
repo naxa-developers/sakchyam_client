@@ -17,6 +17,10 @@ const downloadPng = (chartid, imageTitle) => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'block';
   });
+  // document.querySelectorAll('.graph-title').forEach(el => {
+  //   // eslint-disable-next-line no-param-reassign
+  //   el.style.display = 'block';
+  // });
 
   document.querySelectorAll('.expand-span').forEach(el => {
     // eslint-disable-next-line no-param-reassign
@@ -55,6 +59,10 @@ const downloadPng = (chartid, imageTitle) => {
         // eslint-disable-next-line no-param-reassign
         el.style.display = 'block';
       });
+      // document.querySelectorAll('.graph-title').forEach(el => {
+      //   // eslint-disable-next-line no-param-reassign
+      //   el.style.display = 'none';
+      // });
       document
         .querySelectorAll('.apexcharts-title-text')
         .forEach(el => {
@@ -91,7 +99,7 @@ const CardTab = ({
     cardChartId === 'sunburst'
       ? 'Sakchyam Investment Focus'
       : cardChartId === 'groupedChart'
-      ? 'Province Wise Programme Results'
+      ? 'Province/District/Municipality Wise Budget & Beneficiaries Count'
       : cardChartId === 'leverageChart'
       ? 'S-CF Funds & Leverage By Investment Focus'
       : cardChartId === 'radar'

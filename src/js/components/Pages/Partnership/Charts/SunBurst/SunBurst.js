@@ -661,6 +661,7 @@ class Sunburst extends React.Component {
     this.props._debug && this.props._log('Sunburst: render()');
     return (
       <div className="sunburst-wrapper" id={this.domId}>
+        <h5 class="graph-title" style={{display:"none",textAlign:"center"}}>Sakchyam Investment Focus</h5>
         {/* <ul>
         <li>
           <i>material</i>

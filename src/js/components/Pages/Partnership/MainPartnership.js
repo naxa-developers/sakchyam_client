@@ -172,7 +172,10 @@ class MainPartnership extends Component {
       this.props.getProjectListData(investmentFocusSelection);
       this.props.filterPartnerListByPartnerType(partnerType);
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ isAllProjectSelected: false });
+      this.setState({
+        isAllProjectSelected: false,
+        projectSelection: [],
+      });
     }
     if (prevState.mapViewDataBy !== mapViewDataBy) {
       let view = 'investment';
@@ -242,6 +245,8 @@ class MainPartnership extends Component {
     }
     if (prevState.partnerType !== partnerType) {
       this.props.filterPartnerListByPartnerType(partnerType);
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ partnerSelection: [] });
     }
     if (prevState.selectedProvince !== selectedProvince) {
       this.props.filterDistrictListFromProvince(selectedProvince);
@@ -1497,6 +1502,9 @@ class MainPartnership extends Component {
     this.props.getProvinceData();
 
     if (activeView === 'visualization') {
+      setTimeout(() => {
+        this.props.resetRadialData();
+      }, 500);
       this.props.resetRadialData();
       this.props.resetSankeyChartData();
       this.props.resetOverviewData();
