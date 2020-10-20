@@ -7,7 +7,9 @@ import {
   GET_MAP_DATA_BY_DISTRICT,
   GET_MAP_DATA_BY_MUNICIPALITY,
   GET_FILTERED_MAP_DATA,
-  GET_RADIAL_DATA,
+  GET_RADIAL_DATA_REQUEST,
+  GET_RADIAL_DATA_SUCCESS,
+  GET_RADIAL_DATA_FAILED,
   GET_PARTNERSHIP_PARTNERS_LIST,
   FILTER_PARTNERSHIP_PARTNERS_LIST_BY_PARTNER_TYPE,
   FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE,
@@ -699,6 +701,12 @@ const filterMapDataOfCircleMarkerWithViewDataBy = (state, action) => {
 //   };
 // });
 
+const getRadialDataRequest = (state, action) => {
+  return {
+    ...state,
+    isDataFetched: false,
+  };
+};
 const getRadialData = (state, action) => {
   //
   // eslint-disable-next-line array-callback-return
@@ -717,6 +725,12 @@ const getRadialData = (state, action) => {
     ...state,
     radialData: action.payload,
     defaultRadialData: action.payload,
+    isDataFetched: true,
+  };
+};
+const getRadialDataFailed = (state, action) => {
+  return {
+    ...state,
   };
 };
 const filterRadialData = (state, action) => {
@@ -1269,7 +1283,7 @@ const getMunicipalityData = (state, action) => {
   return {
     ...state,
     allMunicipalityList: municipalityList,
-    isDataFetched: true,
+    // isDataFetched: true,
   };
 };
 
@@ -1353,7 +1367,7 @@ const filterMunListFromDistrict = (state, action) => {
   return {
     ...state,
     allMunicipalityList: municipalityList,
-    isDataFetched: true,
+    // isDataFetched: true,
   };
 };
 const getLeverageData = (state, action) => {
@@ -1674,8 +1688,12 @@ export default function(state = initialState, action) {
       );
     case FILTER_BARDATA_BY_INVESTMENTFOCUS:
       return filterBarDataByInvestmentFocus(state, action);
-    case GET_RADIAL_DATA:
+    case GET_RADIAL_DATA_REQUEST:
+      return getRadialDataRequest(state, action);
+    case GET_RADIAL_DATA_SUCCESS:
       return getRadialData(state, action);
+    case GET_RADIAL_DATA_FAILED:
+      return getRadialDataFailed(state, action);
     case FILTER_RADIAL_DATA:
       return filterRadialData(state, action);
     case GET_SPIDERCHART_DATA:

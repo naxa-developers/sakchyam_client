@@ -2,8 +2,13 @@ function convert(x) {
   // eslint-disable-next-line no-restricted-globals
   if (isNaN(x)) return x;
 
-  if (x < 9999) {
+  if (x < 999) {
+    // console.log(`${Math.round(x / 1000)}K`);
     return x;
+  }
+  if (x < 9999) {
+    // console.log(`${Math.round(x / 1000)}K`);
+    return `${Math.round(x / 1000)}K`;
   }
 
   if (x < 1000000) {

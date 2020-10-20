@@ -96,7 +96,7 @@ class FilterTab extends Component {
       }
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        selectedMunicipality: '',
+        selectedMunicipality: [],
         municipalityList: municipality,
       });
     }
@@ -224,6 +224,8 @@ class FilterTab extends Component {
               <div className="filter-list">
                 <div className="form-group province">
                   <Select
+                    inputClassname="province_check"
+                    selectedItem={selectedProvince}
                     withCheckbox
                     name="Select Province"
                     options={provinceList && provinceList}
@@ -237,6 +239,8 @@ class FilterTab extends Component {
                 </div>
                 <div className="form-group district">
                   <Select
+                    inputClassname="district_check"
+                    selectedItem={selectedDistrict}
                     withCheckbox
                     name="Select District"
                     options={districtList && districtList}
@@ -251,6 +255,8 @@ class FilterTab extends Component {
 
                 <div className="form-group municipality">
                   <Select
+                    inputClassname="mun_check"
+                    selectedItem={selectedMunicipality}
                     withCheckbox
                     name="Select Municipality"
                     options={municipalityList && municipalityList}

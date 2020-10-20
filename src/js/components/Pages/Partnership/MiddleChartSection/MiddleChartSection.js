@@ -210,7 +210,7 @@ class MiddleChartSection extends Component {
           <SunburstContainer
             domId="test1"
             data={radialData}
-            height={window.innerWidth < 1400 ? 410 : 700}
+            height={window.innerWidth < 1400 ? 460 : 700}
             width={900}
             count_member="size"
             activeModal={activeModal}
@@ -237,7 +237,7 @@ class MiddleChartSection extends Component {
         return (
           <div id="barContainer" style={{ width: '1900px' }}>
             <StackedBarWithAllFederal
-              cardTitle="Federal Wise Budget & Beneficiaries Count"
+              cardTitle="Province/District/Municipality Wise Budget & Beneficiaries Count"
               viewDataBy={viewDataBy}
               activeModal={activeModal}
               investmentFocusSelection={investmentFocusSelection}
@@ -415,7 +415,7 @@ class MiddleChartSection extends Component {
               }}
               showBarof={showBarof}
               handleShowBarOf={handleShowBarOf}
-              cardTitle="Province/District Wise Budget & Beneficiaries Count"
+              cardTitle="Province/District/Municipality Budget & Beneficiaries Count"
               cardClass="col-xl-6"
               cardChartId="groupedChart"
               handleModal={this.handleModal}

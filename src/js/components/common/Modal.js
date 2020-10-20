@@ -23,6 +23,10 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'none';
   });
+  document.querySelectorAll('.graph-title').forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'block';
+  });
   const downloadDropdown = document.querySelector(
     '.download-dropdown',
   );
@@ -67,6 +71,10 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
           // eslint-disable-next-line no-param-reassign
           el.style.display = 'block';
         });
+      document.querySelectorAll('.graph-title').forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.style.display = 'none';
+      });
     });
   }, 500);
 
@@ -108,7 +116,7 @@ const Modal = props => {
     selectedModal === 'sunburst'
       ? 'Sakchyam Investment Focus'
       : selectedModal === 'groupedChart'
-      ? `Federal Wise Budget & Beneficiaries Count`
+      ? `Province/District/Municipality Wise Budget & Beneficiaries Count`
       : selectedModal === 'leverageChart'
       ? 'S-CF Fund & Leverage By Investment Focus'
       : selectedModal === 'radar'

@@ -8,7 +8,9 @@ import {
   GET_MAP_DATA_BY_DISTRICT,
   GET_MAP_DATA_BY_MUNICIPALITY,
   GET_FILTERED_MAP_DATA,
-  GET_RADIAL_DATA,
+  GET_RADIAL_DATA_REQUEST,
+  GET_RADIAL_DATA_SUCCESS,
+  GET_RADIAL_DATA_FAILED,
   FILTER_PARTNERSHIP_PARTNERS_LIST_BY_PARTNER_TYPE,
   FILTER_FINANCIALDATA_OF_DISTRICT_FROM_PROVINCE,
   FILTER_FINANCIALDATA_WITH_ALL_FILTERS,
@@ -568,16 +570,24 @@ export const getRadialData = viewDataBy => dispatch => {
   // ) {
   //   data = [];
   // }
+  dispatch({
+    type: GET_RADIAL_DATA_REQUEST,
+    // payload: result.data,
+  });
   try {
     axiosInstance
       .get(`/api/v1/partnership/radial/?view=${viewDataBy}`)
       .then(function(result) {
         return dispatch({
-          type: GET_RADIAL_DATA,
+          type: GET_RADIAL_DATA_SUCCESS,
           payload: result.data,
         });
       });
   } catch (err) {
+    dispatch({
+      type: GET_RADIAL_DATA_FAILED,
+      // payload: result.data,
+    });
     console.error(err);
   }
 };
@@ -825,18 +835,31 @@ export const filterFinancialDataOfDistrictFromProvince = (
 export const filterFinancialDataOfMunicipalityFromDistrict = (
   selectedDataView,
   districtIndex,
+  investmentFocusSelection,
   selectedPartnerType,
   selectedPartnerId,
   selectedProjectId,
   selectedStatus,
 ) => dispatch => {
+  console.log(selectedDataView, 'selectedDataView');
+  console.log(districtIndex, 'districtIndex');
+  console.log(selectedPartnerType, 'selectedPartnerType');
+  console.log(selectedPartnerId, 'selectedPartnerId');
+  console.log(selectedProjectId, 'selectedProjectId');
+  console.log(selectedStatus, 'selectedStatus');
   //
   //
   const data = selectedDataView;
   let partnerId = [];
   let partnerType = [];
   let projectId = [];
+  let investmentSelection = [];
   let statusSelected = '';
+  if (investmentFocusSelection.length === 0) {
+    investmentSelection = [];
+  } else {
+    investmentSelection = investmentFocusSelection;
+  }
   if (selectedPartnerId.length === 0) {
     partnerId = [0];
   } else {
@@ -874,7 +897,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'total_beneficiary',
         municipality_id: districtIndex,
         investment: [],
-        investment_filter: [],
+        investment_filter: investmentSelection,
         investment_project: [],
         investment_province: [],
         investment_district: [],
@@ -893,7 +916,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'female_beneficiary',
         municipality_id: districtIndex,
         investment: [],
-        investment_filter: [],
+        investment_filter: investmentSelection,
         investment_project: [],
         investment_province: [],
         investment_district: [],
@@ -912,7 +935,7 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
         view: 'allocated_budget',
         municipality_id: districtIndex,
         investment: [],
-        investment_filter: [],
+        investment_filter: investmentSelection,
         investment_project: [],
         investment_province: [],
         investment_district: [],
