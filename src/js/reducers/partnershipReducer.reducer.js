@@ -25,7 +25,7 @@ import {
   GET_MAP_DATA,
   FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
   FILTER_DISTRICTLIST_FROM_PROVINCE,
-  FILTER_MUNLIST_FROM_DISTRICT,
+  // FILTER_MUNLIST_FROM_DISTRICT,
   FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
   GET_LEVERAGE_DATA,
   GET_PARTNERSHIP_ALL_DATA,
@@ -46,6 +46,9 @@ import {
   GET_PARTNERSHIP_PARTNERSTYPE_LIST,
   GET_PARTNERSHIP_TIMELINE_DATA_API,
   FILTER_RADIAL_DATA,
+  FILTER_MUNLIST_FROM_DISTRICT_SUCCESS,
+  FILTER_MUNLIST_FROM_DISTRICT_REQUEST,
+  FILTER_MUNLIST_FROM_DISTRICT_FAILED,
 } from '../actions/index.actions';
 import province from '../../data/province.json';
 import district from '../../data/district.json';
@@ -1354,6 +1357,12 @@ const filterDistrictFromProvince = (state, action) => {
     allDistrictList: districtList,
   };
 };
+const filterMunListFromDistrictRequest = (state, action) => {
+  return {
+    ...state,
+    isDataFetched: false,
+  };
+};
 const filterMunListFromDistrict = (state, action) => {
   const municipalityList = [];
   municipalityList.push({ label: 'All Municipality', value: 'all' });
@@ -1367,7 +1376,12 @@ const filterMunListFromDistrict = (state, action) => {
   return {
     ...state,
     allMunicipalityList: municipalityList,
-    // isDataFetched: true,
+    isDataFetched: true,
+  };
+};
+const filterMunListFromDistrictFailed = (state, action) => {
+  return {
+    ...state,
   };
 };
 const getLeverageData = (state, action) => {
@@ -1710,8 +1724,12 @@ export default function(state = initialState, action) {
       return getMunicipalityData(state, action);
     case FILTER_DISTRICTLIST_FROM_PROVINCE:
       return filterDistrictFromProvince(state, action);
-    case FILTER_MUNLIST_FROM_DISTRICT:
+    case FILTER_MUNLIST_FROM_DISTRICT_REQUEST:
+      return filterMunListFromDistrictRequest(state, action);
+    case FILTER_MUNLIST_FROM_DISTRICT_SUCCESS:
       return filterMunListFromDistrict(state, action);
+    case FILTER_MUNLIST_FROM_DISTRICT_FAILED:
+      return filterMunListFromDistrictFailed(state, action);
     case GET_OVERVIEW_DATA:
       return getOverviewData(state, action);
     case FILTER_OVERVIEW_DATA:

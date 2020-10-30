@@ -26,6 +26,16 @@
                 @include radius(100%);
                 
             }
+            &.is-between{
+                @include display-flex(flex); 
+                @include align-items-center; 
+                @include justify-content-between;
+            }
+            &.no-pseudo {
+                &::after,&::before {
+                    display: none;
+                }
+            }
 
             
             .custom-checkbox {

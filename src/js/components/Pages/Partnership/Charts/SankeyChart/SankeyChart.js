@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ResponsiveSankey } from '@nivo/sankey';
 import { connect } from 'react-redux';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 import sankeyData from './sankeyData';
 import { getSankeyChartData } from '../../../../../actions/partnership.actions';
 
@@ -25,6 +27,33 @@ class SankeyChart extends Component {
       randomKey: 1,
     };
   }
+
+  printPng = () => {
+    setTimeout(() => {
+      // document
+      //   .querySelector(`.${chartid}`)
+      //   .append(<label>Varun</label>);
+      html2canvas(document.querySelector(`#sankey_chart`), {
+        // logging: true,
+        // letterRendering: 1,
+        scale: 5,
+        allowTaint: true,
+        // scale: window.devicePixelRatio,
+        // windowWidth: window.innerWidth,
+        // windowHeight: window.innerHeight + 120,
+        // x: 20,
+        // y: 70,
+        // width: window.innerWidth + 40,
+        // height: window.innerHeight + 40,
+        // foreignObjectRendering: true,
+        // useCORS: true,
+      }).then(canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, `sankey_chart.png`);
+        });
+      });
+    });
+  };
 
   //   // eslint-disable-next-line camelcase
   //   UNSAFE_componentWillReceiveProps({ someProp }) {
@@ -69,6 +98,7 @@ class SankeyChart extends Component {
         {sankeyChartData.nodes && (
           <ResponsiveSankey
             key={Math.random()}
+            onClick={this.printPng}
             data={sankeyChartData}
             margin={{ top: 40, right: 20, bottom: 40, left: 20 }}
             width={

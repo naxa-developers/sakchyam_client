@@ -69,7 +69,7 @@ export default function DivisionInfoPopUpLeft(props) {
           <h5>{name}</h5>
           
           <h5>
-            {/* <i className="material-icons">assignment</i> */}
+            <i className="material-icons">assignment</i>
             {numberWithCommas(count)}
           </h5>
         </div>

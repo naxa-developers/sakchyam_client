@@ -3,7 +3,7 @@
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
+import React, { useRef } from 'react';
 import { numberWithCommas } from '../../../common/utilFunctions';
 
 // function clickHandler() {
@@ -11,10 +11,10 @@ import { numberWithCommas } from '../../../common/utilFunctions';
 //   // e.target.classList.toggle('active');
 // }
 export default function divisionInfoPopUp(props) {
+  const accheader = useRef(null);
   const {
     propsdata, partners, mapViewDataBy
   } = props.data;
-  
   let partnerContent = null;
         // eslint-disable-next-line no-restricted-syntax
         const index=0
@@ -28,18 +28,17 @@ export default function divisionInfoPopUp(props) {
           });
           return (
             <div
+              ref={accheader}
               className={`acc-list ${index === 0 ? 'active' : ''}`}
-              // onClick={(e)=>{}}
-              // onKeyUp={(e)=>{e.classList.toggle('active')}}
-              // onKeyDown={()=>{this.classList.toggle('active')}}
             >
-              <div className="acc-header">
+              <div className={`acc-header is-between ${mapViewDataBy === 'investment_focus'?"":"no-pseudo"}`}>
                 {mapViewDataBy === 'investment_focus'?
-                (<h5>{data.partnerName}</h5>):(
-                  <div>
-                    <label>{data.partnerName}</label>
+                (<h5>{data.partnerName}</h5>):
+                (
+                  <>
+                    <label style={{ fontFamily: 'Avenir Book',fontSize: ".875rem"}}>{data.partnerName}</label>
                     <label>{numberWithCommas(Math.round(data.totalCount))}</label>
-                  </div>)}
+                  </>)}
               </div>
               <div className="acc-body">
                 <ul>
@@ -49,12 +48,14 @@ export default function divisionInfoPopUp(props) {
             </div>
           )
         })
-        const accList = document.querySelector('.acc-list');
+        const accList = document.querySelectorAll('.acc-list');
         if(accList){ 
-        accList.addEventListener('click', function(e) {
-          // e.stopPropagation();
-          e.target.classList.toggle("active");
-        });
+        accList.forEach(data=>{
+          data.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+          });
+        })
       }
   // 
   const classValue =

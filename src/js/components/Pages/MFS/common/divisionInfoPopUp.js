@@ -19,7 +19,15 @@ export default function divisionInfoPopUp(props) {
   const {
     data: { popupData, fulldata },
   } = props;
-
+  const accList = document.querySelectorAll('.acc-list');
+  if (accList) {
+    accList.forEach(data => {
+      data.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('active');
+      });
+    });
+  }
   return fulldata && fulldata.props ? (
     <div className="mapbox-popup-content">
       <div

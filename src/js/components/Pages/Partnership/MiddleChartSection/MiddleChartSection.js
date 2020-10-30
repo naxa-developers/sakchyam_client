@@ -32,6 +32,7 @@ function formatData(fulldata) {
     datum.size = Math.round(datum.size);
   });
 }
+let sankeyTitle = '';
 class MiddleChartSection extends Component {
   constructor(props) {
     super(props);
@@ -254,7 +255,11 @@ class MiddleChartSection extends Component {
         return (
           <div id="barContainer" style={{ width: '1900px' }}>
             <StackedBarWithInvestment
-              cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
+              cardTitle={`${
+                showBarofInvestmentBudgetBenef === 'investmentFocus'
+                  ? 'Investment Focus'
+                  : 'Project'
+              } Wise Budget & Beneficiaries Count`}
               viewDataBy={viewDataBy}
               activeModal={activeModal}
               investmentFocusSelection={investmentFocusSelection}
@@ -346,6 +351,12 @@ class MiddleChartSection extends Component {
     //   'radialData',
     // );
     //
+
+    if (viewDataBy === 'allocated_budget') {
+      sankeyTitle = 'Budget Allocated';
+    } else if (viewDataBy === 'allocated_beneficiary') {
+      sankeyTitle = 'Beneficiary Reached';
+    }
     return (
       <div
         className="literacy-tab-item"
@@ -468,7 +479,11 @@ class MiddleChartSection extends Component {
                 handleShowBarOf={
                   handleShowBarOfInvestmentBudgetBenefBar
                 }
-                cardTitle="Investment Focus Wise Budget & Beneficiaries Count"
+                cardTitle={`${
+                  showBarofInvestmentBudgetBenef === 'investmentFocus'
+                    ? 'Investment Focus'
+                    : 'Project'
+                } Wise Budget & Beneficiaries Count`}
                 cardClass="col-xl-6"
                 cardChartId="stackedWithInvestment"
                 handleModal={this.handleModal}
@@ -564,11 +579,7 @@ class MiddleChartSection extends Component {
             <CardTab
               notificationHandler={notificationHandler}
               resetFunction={this.props.resetSankeyChartData}
-              cardTitle={
-                viewDataBy === 'allocated_budget'
-                  ? 'Budget Reached'
-                  : 'Beneficiary Reached'
-              }
+              cardTitle={sankeyTitle}
               cardClass="col-xl-12"
               cardChartId="sankeyChart"
               handleModal={this.handleModal}
