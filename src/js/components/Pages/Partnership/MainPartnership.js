@@ -1033,9 +1033,11 @@ class MainPartnership extends Component {
   handleProvinceClick = (code, name) => {
     //
     const { mapViewBy } = this.state;
+    console.log(mapViewBy);
     if (mapViewBy === 'municipality') {
       document.querySelector(`.municipality .check_${code}`).click();
     } else if (mapViewBy === 'district') {
+      console.log(document.querySelector(`.district .check_${code}`));
       document.querySelector(`.district .check_${code}`).click();
     } else if (mapViewBy === 'province') {
       document.querySelector(`.province .check_${code}`).click();
@@ -2052,6 +2054,7 @@ class MainPartnership extends Component {
                       }}
                       role="tab"
                       tabIndex="0"
+                      href="#map"
                     >
                       View on map
                     </a>
@@ -2070,6 +2073,7 @@ class MainPartnership extends Component {
                       // }}
                       role="tab"
                       tabIndex="0"
+                      // href="#map"
                     >
                       Back to Visualisation
                     </a>

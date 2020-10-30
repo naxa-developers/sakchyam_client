@@ -54,10 +54,14 @@ class StackedBarWithInvestment extends Component {
             //
             const clickedBar =
               config.xaxis.categories[dataPointIndex];
-
             // alert(clickedBar);
             if (clickedBar !== undefined) {
+              document
+                .querySelector(`[data-label='${clickedBar}']`)
+                .click();
               //
+              // console.log(`[data-label='${clickedBar}']`);
+              // document.querySelector(`.apply-btn`).click();
               if (
                 that.props.showBarofInvestmentBudgetBenef ===
                 'investmentFocus'
@@ -228,14 +232,14 @@ class StackedBarWithInvestment extends Component {
     const { activeModal } = this.props;
     if (activeModal) {
       // this.plotChart();
-      this.updateBarChart();
+      this.updateBarChart(activeModal);
     }
     if (
       Object.keys(this.props.partnershipReducer.barDatasByInvestment)
         .length > 0
     ) {
       // alert('run');
-      this.updateBarChart();
+      this.updateBarChart(activeModal);
     }
     // if (this.state.update === true) {
     //   this.updateBarChart();
@@ -248,6 +252,7 @@ class StackedBarWithInvestment extends Component {
     const {
       partnershipReducer: { barDatasByInvestment },
       projectSelection,
+      activeModal,
     } = this.props;
     const newArray = barDatasByInvestment.series[0].data.map(
       (e, i) => e + barDatasByInvestment.series[1].data[i],
@@ -297,6 +302,7 @@ class StackedBarWithInvestment extends Component {
             //
             const clickedBar =
               config.xaxis.categories[dataPointIndex];
+            // alert(clickedBar);
 
             if (clickedBar !== undefined) {
               //
@@ -304,11 +310,17 @@ class StackedBarWithInvestment extends Component {
                 that.props.showBarofInvestmentBudgetBenef ===
                 'investmentFocus'
               ) {
+                document
+                  .querySelector(`[data-label='${clickedBar}']`)
+                  .click();
                 // alert(clickedBar);
-                that.props.filterBenefBudgetDataForBarClick(
-                  clickedBar,
-                  projectSelection,
-                );
+                setTimeout(() => {
+                  that.props.filterBenefBudgetDataForBarClick(
+                    clickedBar,
+                    projectSelection,
+                  );
+                }, 1000);
+                document.querySelector(`.apply-btn`).click();
               }
               that.props.handleShowBarOfInvestmentBudgetBenefBar(
                 'projects',
@@ -400,7 +412,7 @@ class StackedBarWithInvestment extends Component {
       colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         labels: {
-          trim: true,
+          trim: activeModal ? false : true,
           hideOverlappingLabels: false,
         },
         categories: barDatasByInvestment.labels,
@@ -576,7 +588,8 @@ class StackedBarWithInvestment extends Component {
         },
       },
       legend: {
-        horizontalAlign: 'left',
+        position: 'top',
+        horizontalAlign: 'center',
         offsetX: 40,
       },
     };
@@ -584,6 +597,7 @@ class StackedBarWithInvestment extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const { activeModal } = this.props;
     const {
       partnershipReducer: { barDatasByInvestment },
     } = this.props;
@@ -591,7 +605,7 @@ class StackedBarWithInvestment extends Component {
       prevProps.partnershipReducer.barDatasByInvestment !==
       barDatasByInvestment
     ) {
-      this.updateBarChart();
+      this.updateBarChart(activeModal);
     }
     //
     //
@@ -599,7 +613,7 @@ class StackedBarWithInvestment extends Component {
       // alert('test');
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ update: true });
-      this.updateBarChart();
+      this.updateBarChart(activeModal);
     }
   }
 
@@ -621,7 +635,7 @@ class StackedBarWithInvestment extends Component {
         //     : { display: 'none' }
         // }
       >
-        <h5>{cardTitle}</h5>
+        <h5 className="graph-title">{cardTitle}</h5>
         <ReactApexChart
           options={options}
           series={series}

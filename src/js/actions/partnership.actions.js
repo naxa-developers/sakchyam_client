@@ -27,7 +27,7 @@ import {
   GET_BARDATA_BY_BENEF_BUDGET,
   FILTER_FINANCIALDATA_OF_MUNICIPALITY_FROM_DISTRICT,
   FILTER_DISTRICTLIST_FROM_PROVINCE,
-  FILTER_MUNLIST_FROM_DISTRICT,
+  // FILTER_MUNLIST_FROM_DISTRICT,
   FILTER_MAPDATA_OF_CIRCLE_MARKER_WITH_VIEW_DATABY,
   GET_LEVERAGE_DATA,
   GET_PARTNERSHIP_ALL_DATA,
@@ -49,6 +49,9 @@ import {
   GET_PARTNERSHIP_PARTNERSTYPE_LIST,
   GET_PARTNERSHIP_TIMELINE_DATA_API,
   FILTER_RADIAL_DATA,
+  FILTER_MUNLIST_FROM_DISTRICT_REQUEST,
+  FILTER_MUNLIST_FROM_DISTRICT_SUCCESS,
+  FILTER_MUNLIST_FROM_DISTRICT_FAILED,
 } from './index.actions';
 import axiosInstance from '../axiosApi';
 import { districtLists } from '../components/common/adminList';
@@ -1982,6 +1985,10 @@ export const filterDistrictListFromProvince = provinceId => dispatch => {
 };
 
 export const filterMunListFromDistrict = districtId => dispatch => {
+  dispatch({
+    type: FILTER_MUNLIST_FROM_DISTRICT_REQUEST,
+    // payload: result.data,
+  });
   try {
     //
     const formdata = new FormData();
@@ -2000,11 +2007,15 @@ export const filterMunListFromDistrict = districtId => dispatch => {
       .post(`/api/v1/adminlevel/municipality/`, formdata)
       .then(function(result) {
         return dispatch({
-          type: FILTER_MUNLIST_FROM_DISTRICT,
+          type: FILTER_MUNLIST_FROM_DISTRICT_SUCCESS,
           payload: result.data,
         });
       });
   } catch (err) {
+    dispatch({
+      type: FILTER_MUNLIST_FROM_DISTRICT_FAILED,
+      // payload: result.data,
+    });
     console.error(err);
   }
 };

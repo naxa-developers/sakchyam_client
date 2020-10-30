@@ -612,22 +612,38 @@ class Choropleth extends Component {
         tooltip2nd.style('opacity', 1);
         const classValue =
           mapViewDataBy === 'allocated_budget'
-        ? `${'fas fa-pound-sign'}` // eslint-disable-line prettier/prettier
+        ? '' // eslint-disable-line prettier/prettier
             : 'material-icons';
         tooltip2nd.html(
           `<div class="leaflet-popup-content" style="width: 100px;">
             <div class="map-popup-view">
               <div class="map-popup-view-header">
                   <h5>${d.data.type}</h5>
-                  <div class="icons">
+                  ${
+                    classValue !== ''
+                      ? `<div class="icons">
                     <i class=${classValue}>${
-            mapViewDataBy === 'allocated_beneficiary'
-              ? 'people'
-              : mapViewDataBy === 'allocated_budget'
-              ? ''
-              : ''
-          }</i><b>${numberWithCommas(Math.round(d.data.count))}</b>
-                  </div>
+                          mapViewDataBy === 'allocated_beneficiary'
+                            ? 'people'
+                            : mapViewDataBy === 'allocated_budget'
+                            ? ''
+                            : 'payments'
+                        }</i><b>${numberWithCommas(
+                          Math.round(d.data.count),
+                        )}</b>
+                  </div>`
+                      : `<div class="icons">
+                    <i class='fas fa-pound-sign'>${
+                      mapViewDataBy === 'allocated_beneficiary'
+                        ? 'people'
+                        : mapViewDataBy === 'allocated_budget'
+                        ? ''
+                        : 'payments'
+                    }</i><b>${numberWithCommas(
+                          Math.round(d.data.count),
+                        )}</b>
+                  </div>`
+                  }
               </div>
             </div>
           </div>` /* eslint-disable-line */,
@@ -791,8 +807,8 @@ class Choropleth extends Component {
       // });
       map.on('click', 'vector-tile-fill', function(e) {
         const filterMapChoroplethPie = (getBbox, federalCode) => {
-          map.fitBounds(getBbox.bbox);
           that.props.handleProvinceClick(parseInt(federalCode, 10));
+          map.fitBounds(getBbox.bbox);
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
@@ -811,19 +827,23 @@ class Choropleth extends Component {
 
         if (that.props.mapViewBy === 'province') {
           //
+          // that.props.handleProvinceClick(parseInt(federalCode, 10));
           const getBbox = getCenterBboxProvince(federalCode);
           filterMapChoroplethPie(getBbox, federalCode);
+          that.props.setMapViewBy('district');
         } else if (that.props.mapViewBy === 'district') {
+          // that.props.handleProvinceClick(parseInt(federalCode, 10));
           const getBbox = getCenterBboxDistrict(
             parseInt(federalCode, 10),
           );
-          that.props.handleProvinceClick(parseInt(federalCode, 10));
+          // that.props.handleProvinceClick(parseInt(federalCode, 10));
           filterMapChoroplethPie(getBbox, federalCode);
+          that.props.setMapViewBy('municipality');
         } else if (that.props.mapViewBy === 'municipality') {
           const getBbox = getCenterBboxMunicipality(
             parseInt(federalCode, 10),
           );
-          that.props.handleProvinceClick(parseInt(federalCode, 10));
+          // that.props.handleProvinceClick(parseInt(federalCode, 10));
           filterMapChoroplethPie(getBbox, federalCode);
         }
       });
@@ -903,13 +923,17 @@ class Choropleth extends Component {
         hoveredStateId = null;
       });
       map.on('mouseleave', 'vector-tile-fill', function() {
-        // if (hoveredStateId) {
-        // map.setFeatureState(
-        // { source: 'municipality', sourceLayer: 'default', id: hoveredStateId },
-        // { hover: false }
-        // );
-        // }
-        // hoveredStateId = null;
+        if (hoveredStateId) {
+          map.setFeatureState(
+            {
+              source: 'municipality',
+              sourceLayer: 'default',
+              id: hoveredStateId,
+            },
+            { hover: false },
+          );
+        }
+        hoveredStateId = null;
         popup.remove();
         setLeftPopupData({});
       });
