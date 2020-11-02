@@ -334,7 +334,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedDistrict.map(fed => {
-                  return fed.n_code.toString();
+                  if (fed.n_code) {
+                    return fed.n_code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -344,7 +347,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedDistrict.map(fed => {
-                  return fed.n_code.toString();
+                  if (fed.n_code) {
+                    return fed.n_code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -388,7 +394,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.n_code.toString();
+                  if (fed.n_code) {
+                    return fed.n_code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -398,7 +407,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.n_code.toString();
+                  if (fed.n_code) {
+                    return fed.n_code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -420,57 +432,7 @@ class MainPartnership extends Component {
             //
           }
         } else if (mapViewBy === 'municipality') {
-          if (selectedProvince && selectedProvince.length > 0) {
-            // eslint-disable-next-line array-callback-return
-            selectedProvince.map(province => {
-              //
-              // eslint-disable-next-line array-callback-return
-              allMunicipalityList.map(district => {
-                //
-                if (province.code === district.province_code) {
-                  //
-                  filteredList.push(district);
-                }
-              });
-            });
-            //
-            //
-            map.setFilter('vector-tile-fill', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                filteredList.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            map.setFilter('vector-tile-outline', [
-              'in',
-              ['get', 'code'],
-              [
-                'literal',
-                filteredList.map(fed => {
-                  return fed.code.toString();
-                }),
-              ],
-            ]);
-            let view = 'investment';
-            if (mapViewDataBy === 'allocated_beneficiary') {
-              view = 'total_beneficiary';
-            } else if (mapViewDataBy === 'allocated_budget') {
-              view = 'total_beneficiary';
-            }
-            this.props.filterMapDataOfCircleMarkerWithViewDataBy(
-              view,
-              mapViewBy,
-              {
-                selectedMunicipality: filteredList,
-                selectedDistrict: [],
-                selectedProvince: [],
-              },
-            );
-          }
+          console.log(selectedDistrict, 'selectedDist');
           if (selectedDistrict && selectedDistrict.length > 0) {
             //
             // let filtered = null;
@@ -496,7 +458,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -506,7 +471,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -525,8 +493,67 @@ class MainPartnership extends Component {
                 selectedProvince: [],
               },
             );
-
+            // return;
             //
+          } else if (
+            selectedProvince &&
+            selectedProvince.length > 0
+          ) {
+            // eslint-disable-next-line array-callback-return
+            selectedProvince.map(province => {
+              //
+              // eslint-disable-next-line array-callback-return
+              allMunicipalityList.map(district => {
+                //
+                if (province.code === district.province_code) {
+                  //
+                  filteredList.push(district);
+                }
+              });
+            });
+            //
+            //
+            map.setFilter('vector-tile-fill', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                filteredList.map(fed => {
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
+                }),
+              ],
+            ]);
+            map.setFilter('vector-tile-outline', [
+              'in',
+              ['get', 'code'],
+              [
+                'literal',
+                filteredList.map(fed => {
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
+                }),
+              ],
+            ]);
+            let view = 'investment';
+            if (mapViewDataBy === 'allocated_beneficiary') {
+              view = 'total_beneficiary';
+            } else if (mapViewDataBy === 'allocated_budget') {
+              view = 'total_beneficiary';
+            }
+            this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+              view,
+              mapViewBy,
+              {
+                selectedMunicipality: filteredList,
+                selectedDistrict: [],
+                selectedProvince: [],
+              },
+            );
           }
         }
       }
@@ -692,7 +719,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedMunicipality.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -702,7 +732,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedMunicipality.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -752,7 +785,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredMunFromDist.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -762,7 +798,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredMunFromDist.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -814,7 +853,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -824,7 +866,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -873,7 +918,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedDistrict.map(fed => {
-                  return fed.n_code.toString();
+                  if (fed.n_code) {
+                    return fed.n_code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -883,7 +931,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedDistrict.map(fed => {
-                  return fed.n_code.toString();
+                  if (fed.n_code) {
+                    return fed.n_code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -934,7 +985,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.n_code.toString();
+                  if (fed.n_code) {
+                    return fed.n_code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -944,7 +998,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 filteredList.map(fed => {
-                  return fed.n_code.toString();
+                  if (fed.n_code) {
+                    return fed.n_code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -995,7 +1052,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedProvince.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -1005,7 +1065,10 @@ class MainPartnership extends Component {
               [
                 'literal',
                 selectedProvince.map(fed => {
-                  return fed.code.toString();
+                  if (fed.code) {
+                    return fed.code.toString();
+                  }
+                  return '0';
                 }),
               ],
             ]);
@@ -2054,7 +2117,7 @@ class MainPartnership extends Component {
                       }}
                       role="tab"
                       tabIndex="0"
-                      href="#map"
+                      // href="#map"
                     >
                       View on map
                     </a>
@@ -2147,6 +2210,7 @@ class MainPartnership extends Component {
                       mapViewBy={mapViewBy}
                       mapViewDataBy={mapViewDataBy}
                       setMapViewBy={this.setMapViewBy}
+                      isDataFetched={isDataFetched}
                     />
                   )}
                   {/* </div> */}

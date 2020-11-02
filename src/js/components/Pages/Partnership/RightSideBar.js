@@ -91,6 +91,9 @@ class RightSideBar extends Component {
                 <OverviewLoader />
               ) : (
                 <div className="widget-body bg-clr" id="download-id">
+                  <h5 className="chart-label">
+                    Partnership Overview
+                  </h5>
                   <ul className="widget-list">
                     <OutreachTab
                       title="Investment Focus"

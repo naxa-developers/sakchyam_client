@@ -646,7 +646,10 @@ export const filterRadialData = (
     selectedFederalList.selectedMunicipality.length > 0
       ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
           mun => {
-            return mun.code;
+            if (mun.code) {
+              return mun.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -654,7 +657,10 @@ export const filterRadialData = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.code;
+            if (dist.code) {
+              return dist.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -662,7 +668,10 @@ export const filterRadialData = (
         selectedFederalList.selectedProvince.length > 0
       ? `province_id=${selectedFederalList.selectedProvince.map(
           prov => {
-            return prov.code;
+            if (prov.code) {
+              return prov.code;
+            }
+            return '0';
           },
         )}`
       : '';
@@ -1301,7 +1310,10 @@ export const filterBarDataByInvestment = (
     selectedFederalList.selectedMunicipality &&
     selectedFederalList.selectedMunicipality.length > 0
       ? selectedFederalList.selectedMunicipality.map(mun => {
-          return mun.code;
+          if (mun.code) {
+            return mun.code;
+          }
+          return '0';
         })
       : [];
   const distList =
@@ -1309,7 +1321,10 @@ export const filterBarDataByInvestment = (
     selectedFederalList.selectedDistrict &&
     selectedFederalList.selectedDistrict.length > 0
       ? selectedFederalList.selectedDistrict.map(dist => {
-          return dist.code;
+          if (dist.code) {
+            return dist.code;
+          }
+          return '0';
         })
       : [];
   const provList =
@@ -1317,7 +1332,10 @@ export const filterBarDataByInvestment = (
     selectedFederalList.selectedProvince &&
     selectedFederalList.selectedProvince.length > 0
       ? selectedFederalList.selectedProvince.map(prov => {
-          return prov.code;
+          if (prov.code) {
+            return prov.code;
+          }
+          return '0';
         })
       : [];
   // if(munList)
@@ -1626,7 +1644,10 @@ export const filterSankeyChartData = (
     selectedFederalList.selectedMunicipality.length > 0
       ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
           mun => {
-            return mun.code;
+            if (mun.code) {
+              return mun.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -1634,7 +1655,10 @@ export const filterSankeyChartData = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.code;
+            if (dist.code) {
+              return dist.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -1642,7 +1666,10 @@ export const filterSankeyChartData = (
         selectedFederalList.selectedProvince.length > 0
       ? `province_id=${selectedFederalList.selectedProvince.map(
           prov => {
-            return prov.code;
+            if (prov.code) {
+              return prov.code;
+            }
+            return '0';
           },
         )}`
       : '';
@@ -1711,7 +1738,10 @@ export const filterOverviewData = (
     selectedFederalList.selectedMunicipality.length > 0
       ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
           mun => {
-            return mun.code;
+            if (mun.code) {
+              return mun.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -1719,7 +1749,10 @@ export const filterOverviewData = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.code;
+            if (dist.code) {
+              return dist.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -1727,7 +1760,10 @@ export const filterOverviewData = (
         selectedFederalList.selectedProvince.length > 0
       ? `province_id=${selectedFederalList.selectedProvince.map(
           prov => {
-            return prov.code;
+            if (prov.code) {
+              return prov.code;
+            }
+            return '0';
           },
         )}`
       : '';
@@ -1782,7 +1818,10 @@ export const filterMapChoropleth = (
     selectedFederalList.selectedMunicipality.length > 0
       ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
           mun => {
-            return mun.code;
+            if (mun.code) {
+              return mun.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -1790,7 +1829,10 @@ export const filterMapChoropleth = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.n_code;
+            if (dist.code) {
+              return dist.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -1798,7 +1840,10 @@ export const filterMapChoropleth = (
         selectedFederalList.selectedProvince.length > 0
       ? `province_id=${selectedFederalList.selectedProvince.map(
           prov => {
-            return prov.code;
+            if (prov.code) {
+              return prov.code;
+            }
+            return '0';
           },
         )}`
       : mapViewBy === 'province'
@@ -1832,7 +1877,10 @@ export const filterMapDataOfChoroplethByFederal = (
     selectedFederalList.selectedMunicipality.length > 0
       ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
           mun => {
-            return mun.code;
+            if (mun.code) {
+              return mun.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -1840,7 +1888,10 @@ export const filterMapDataOfChoroplethByFederal = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.n_code;
+            if (dist.code) {
+              return dist.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -1848,7 +1899,10 @@ export const filterMapDataOfChoroplethByFederal = (
         selectedFederalList.selectedProvince.length > 0
       ? `province_id=${selectedFederalList.selectedProvince.map(
           prov => {
-            return prov.code;
+            if (prov.code) {
+              return prov.code;
+            }
+            return '0';
           },
         )}`
       : '';
@@ -2237,7 +2291,10 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
     selectedFederalList.selectedMunicipality.length > 0
       ? `municipality_id=${selectedFederalList.selectedMunicipality.map(
           mun => {
-            return mun.code;
+            if (mun.code) {
+              return mun.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -2245,7 +2302,10 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
         selectedFederalList.selectedDistrict.length > 0
       ? `district_id=${selectedFederalList.selectedDistrict.map(
           dist => {
-            return dist.n_code;
+            if (dist.code) {
+              return dist.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalList &&
@@ -2253,7 +2313,10 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
         selectedFederalList.selectedProvince.length > 0
       ? `province_id=${selectedFederalList.selectedProvince.map(
           prov => {
-            return prov.code;
+            if (prov.code) {
+              return prov.code;
+            }
+            return '0';
           },
         )}`
       : selectedFederalType === 'province'
