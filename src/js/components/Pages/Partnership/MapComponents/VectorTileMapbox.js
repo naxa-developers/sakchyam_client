@@ -809,6 +809,7 @@ class Choropleth extends Component {
         const filterMapChoroplethPie = (getBbox, federalCode) => {
           that.props.handleProvinceClick(parseInt(federalCode, 10));
           map.fitBounds(getBbox.bbox);
+          console.log(federalCode, 'fedCOde');
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
@@ -1124,7 +1125,7 @@ class Choropleth extends Component {
   };
 
   render() {
-    const { mapViewBy } = this.props;
+    const { mapViewBy, isDataFetched } = this.props;
     const {
       choroplethLegend,
       legendColors,
@@ -1138,7 +1139,7 @@ class Choropleth extends Component {
     } = this.state;
     return (
       <>
-        <Loading loaderState={!loading} />
+        {isDataFetched && <Loading loaderState={!loading} />}
         <div className="map-legend newmap-legend">
           <div className="color-list partnership-legend">
             <h6>Number of Projects</h6>

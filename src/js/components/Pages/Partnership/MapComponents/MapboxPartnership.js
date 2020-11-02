@@ -101,7 +101,7 @@ class MapboxPartnership extends Component {
   };
 
   render() {
-    const { mapViewBy, setMapViewBy } = this.props;
+    const { mapViewBy, setMapViewBy, isDataFetched } = this.props;
     const inputDivisions =
       mapViewBy === 'province'
         ? [0, 14, 26, 39, 51]
@@ -129,6 +129,7 @@ class MapboxPartnership extends Component {
                 ref={this.markerPiePopupRef}
               />
               <VectorTileMapbox
+                isDataFetched={isDataFetched}
                 markerPiePopupRef={this.markerPiePopupRef}
                 keyRef={this.keyRef}
                 circleLegendRef={this.circleLegendRef}

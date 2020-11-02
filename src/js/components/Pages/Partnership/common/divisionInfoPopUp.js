@@ -37,7 +37,7 @@ export default function divisionInfoPopUp(props) {
                 (
                   <>
                     <label style={{ fontFamily: 'Avenir Book',fontSize: ".875rem"}}>{data.partnerName}</label>
-                    <label>{numberWithCommas(Math.round(data.totalCount))}</label>
+                    <label>{mapViewDataBy === 'allocated_budget'&& <i className="fas fa-pound-sign" />}{numberWithCommas(Math.round(data.totalCount))}</label>
                   </>)}
               </div>
               <div className="acc-body">
