@@ -229,7 +229,7 @@ class MiddleChartSection extends Component {
         );
 
       case 'sankey':
-        return <SankeyChart activeModal />;
+        return <SankeyChart activeModal cardTitle={sankeyTitle} />;
       case 'radar':
         return <RadarChart activeModal />;
       case 'circle':
@@ -359,6 +359,7 @@ class MiddleChartSection extends Component {
     }
     return (
       <div
+        id="literacy-tab-items"
         className="literacy-tab-item"
         style={
           activeView === 'visualization'
@@ -589,6 +590,7 @@ class MiddleChartSection extends Component {
               renderChartComponent={() => {
                 return (
                   <SankeyChart
+                    cardTitle={sankeyTitle}
                     cardWidth={sankeyChartwidth}
                     activeModal={activeModal}
                     activeOverview={activeOverview}

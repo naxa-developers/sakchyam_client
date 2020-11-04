@@ -5,6 +5,15 @@ import { active } from 'd3';
 import { filterBenefBudgetDataForBarClick } from '../../../../../actions/partnership.actions';
 import convert from '../../../../utils/convertNumbers';
 
+function shorten(text, max) {
+  return text && text.length > max
+    ? `${text
+        .slice(0, max)
+        .split(' ')
+        .slice(0, -1)
+        .join(' ')}...`
+    : text;
+}
 class StackedBarWithInvestment extends Component {
   constructor(props) {
     super(props);
@@ -56,9 +65,15 @@ class StackedBarWithInvestment extends Component {
               config.xaxis.categories[dataPointIndex];
             // alert(clickedBar);
             if (clickedBar !== undefined) {
-              document
-                .querySelector(`[data-label='${clickedBar}']`)
-                .click();
+              if (
+                !document.querySelector(
+                  `[data-label='${clickedBar}']`,
+                ).checked
+              ) {
+                document
+                  .querySelector(`[data-label='${clickedBar}']`)
+                  .click();
+              }
               //
               // console.log(`[data-label='${clickedBar}']`);
               // document.querySelector(`.apply-btn`).click();
@@ -100,6 +115,15 @@ class StackedBarWithInvestment extends Component {
       // colors: ['#84A59D', '#932F6D', '#43B929'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+        label: {
+          fontSize: '10px',
+          // formatter: value => {
+          //   if (value.length > 19) {
+          //     return value.split(' ');
+          //   }
+          //   return value;
+          // },
+        },
       },
 
       grid: {
@@ -310,9 +334,15 @@ class StackedBarWithInvestment extends Component {
                 that.props.showBarofInvestmentBudgetBenef ===
                 'investmentFocus'
               ) {
-                document
-                  .querySelector(`[data-label='${clickedBar}']`)
-                  .click();
+                if (
+                  document.querySelector(
+                    `[data-label='${clickedBar}']`,
+                  ).checked === false
+                ) {
+                  document
+                    .querySelector(`[data-label='${clickedBar}']`)
+                    .click();
+                }
                 // alert(clickedBar);
                 setTimeout(() => {
                   that.props.filterBenefBudgetDataForBarClick(
@@ -412,6 +442,35 @@ class StackedBarWithInvestment extends Component {
       colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         labels: {
+          style: {
+            // colors: [],
+            fontSize: '10px',
+          },
+          // formatter: value => {
+          //   // const a = 'abc def ghi jkl mno pqr';
+          //   if (value.length > 19) {
+          //     const splited = value.split(' ');
+          //     const combined = [];
+          //     for (let i = 0; i < splited.length; i += 2) {
+          //       combined.push(`${splited[i]} ${splited[i + 1]}`);
+          //     }
+          //     return combined;
+          //   }
+          //   return value;
+          // },
+          // formatter: value => {
+          //   if (value.length > 19) {
+          //     return value.split(' ');
+          //   }
+          //   return value;
+          // },
+
+          // formatter: value => {
+          //   if (value.length > 19) {
+          //     return shorten(value, 19);
+          //   }
+          //   return value;
+          // },
           trim: activeModal ? false : true,
           hideOverlappingLabels: false,
         },
@@ -645,9 +704,10 @@ class StackedBarWithInvestment extends Component {
             !activeModal
               ? 350
               : activeModal && window.innerWidth < 1400
-              ? 400 // modal on and arjun screen size perfect
-              : 620
+              ? 500 // modal on and arjun screen size perfect
+              : 780
           }
+          // width={activeModal ? '290%' : '100%'}
 
           // width={activeModal === true ? 1600 : '100%'}
         />

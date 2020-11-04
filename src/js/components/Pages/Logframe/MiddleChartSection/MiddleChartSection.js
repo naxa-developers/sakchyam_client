@@ -1434,7 +1434,6 @@ class MiddleChartSection extends Component {
       html2canvas(popupEl, {
         scale: 5,
         allowTaint: true,
-      
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${imageTitle}.png`);
@@ -1668,6 +1667,7 @@ class MiddleChartSection extends Component {
             filteredDynamicData[0].sub_category.title
           }
           downloadFn={this.downloadPng}
+          notificationHandler={this.props.notificationHandler}
           // handleShowBarOf={handleShowBarOf}
           // resetFilters={resetFilters}
           selectedModal="logframe"
@@ -1915,34 +1915,36 @@ class MiddleChartSection extends Component {
                         >
                           Cumulative
                         </li>
-                        {activeLayer !== 'Output Indicator 1.4' && activeLayer !=='Outcome Indicator 4' &&
-                        <li
-                          // className={
-                          //   {activeDataType === 'Individual'
-                          //     ? 'li-active'
-                          //     : ''}
-                          //     activeLayer === 'Output Indicator 2.1' ? 'disabled':''
-                          // }
-                          className={`${
-                            activeDataType === 'Individual'
-                              ? 'li-active'
-                              : ''
-                          } ${
-                            activeLayer === 'Output Indicator 2.1'
-                              ? 'disabled'
-                              : ''
-                          }`}
-                          role="tab"
-                          // style={activeLayer === 'Output Indicator 2.1'? ''}}
-                          onClick={() => {
-                            handleSelectedDataType('Individual');
-                          }}
-                          onKeyDown={() => {
-                            handleSelectedDataType('Individual');
-                          }}
-                        >
-                          Individual
-                        </li>}
+                        {activeLayer !== 'Output Indicator 1.4' &&
+                          activeLayer !== 'Outcome Indicator 4' && (
+                            <li
+                              // className={
+                              //   {activeDataType === 'Individual'
+                              //     ? 'li-active'
+                              //     : ''}
+                              //     activeLayer === 'Output Indicator 2.1' ? 'disabled':''
+                              // }
+                              className={`${
+                                activeDataType === 'Individual'
+                                  ? 'li-active'
+                                  : ''
+                              } ${
+                                activeLayer === 'Output Indicator 2.1'
+                                  ? 'disabled'
+                                  : ''
+                              }`}
+                              role="tab"
+                              // style={activeLayer === 'Output Indicator 2.1'? ''}}
+                              onClick={() => {
+                                handleSelectedDataType('Individual');
+                              }}
+                              onKeyDown={() => {
+                                handleSelectedDataType('Individual');
+                              }}
+                            >
+                              Individual
+                            </li>
+                          )}
                       </ul>
                     </div>
                   </div>
@@ -2016,7 +2018,10 @@ class MiddleChartSection extends Component {
                   );
                 }}
                 type="button"
-                className="first-btn common-button is-border"
+                tabIndex="-1"
+                className={`first-btn common-button ${
+                  output14firstState ? 'is-bg' : 'is-border'
+                }`}
               >
                 Milestone Year 15-18 Percent
               </button>
@@ -2030,7 +2035,10 @@ class MiddleChartSection extends Component {
                   );
                 }}
                 type="button"
-                className="second-btn common-button is-border"
+                tabIndex="-1"
+                className={`second-btn common-button ${
+                  output14firstState ? 'is-border' : 'is-bg'
+                }`}
               >
                 Milestone Year 19-so on Number
               </button>

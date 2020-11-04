@@ -237,6 +237,8 @@ class LeftSideBar extends Component {
       activeTableView,
       searchText,
     } = this.props;
+    const dynamicPartner =
+      searchText !== '' ? partnerList : automationLeftSidePartnerData;
 
     console.log('partners list', partnerList);
 
@@ -310,8 +312,8 @@ class LeftSideBar extends Component {
                 automationLeftSidePartnerData.length < 1 ? (
                   <h4 style={{ margin: '103px' }}>No Data</h4>
                 ) : (
-                  automationLeftSidePartnerData &&
-                  automationLeftSidePartnerData.map((data, i) => {
+                  dynamicPartner &&
+                  dynamicPartner.map((data, i) => {
                     let initials =
                       data.partner_name.match(/\b\w/g) || [];
                     initials = (

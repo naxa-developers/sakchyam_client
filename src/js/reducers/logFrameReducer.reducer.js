@@ -567,7 +567,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   if (dataType !== undefined && dataType !== null) {
     if (dataType === 'Percent') {
       type = '%';
-    } else if (dataUnit === 'GBP') {
+    } else if (dataUnit === 'GBP' || dataUnit === 'pound') {
       unit = '£';
     } else if (dataUnit === 'NPR') {
       unit = 'Rs';
@@ -865,7 +865,7 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
   //
   if (dataType === 'Percent') {
     type = '%';
-  } else if (dataUnit === 'GBP') {
+  } else if (dataUnit === 'GBP' || dataUnit === 'pound') {
     unit = '£';
   } else if (dataUnit === 'NPR') {
     unit = 'Rs';

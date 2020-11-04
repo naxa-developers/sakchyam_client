@@ -482,10 +482,10 @@
                     visibility: hidden;
                     opacity: 0;
                     top: 13%;
-                    @include transition(all .4s ease-in-out);
+                    // @include transition(all .4s ease-in-out);
                     li{
                         padding: 4px 20px;
-                        @include transition(all .4s linear);
+                        // @include transition(all .4s linear);
                         a{
                             font-size: .875rem;
                             color: #757575;
@@ -501,7 +501,7 @@
                             a{
                                 color: $primary-color;
                                 transform: scale(1.05); 
-                                @include transition(all .4s linear);
+                                // @include transition(all .4s linear);
                             }
                         }
                         &.list-active{
@@ -509,12 +509,12 @@
                             a{
                                 color: $primary-color;
                                 transform: scale(1.05); 
-                                @include transition(all .4s linear);
+                                // @include transition(all .4s linear);
                             }
                         }
                     }
                     &.active{
-                        @include transition(all .4s ease-in-out);
+                        // @include transition(all .4s ease-in-out);
                         visibility: visible;
                         opacity: 1;
                         top: 0%;
