@@ -268,7 +268,7 @@ class Sunburst extends React.Component {
       const h = this.props.height;
       const el = d3Select(`#${this.domId}`);
 
-      this.svg = el.append('svg').attr('class', 'sunburst-svg');
+      this.svg = el.append('svg').attr('class', 'sunburst-svg').attr('id', 'sunburst-svg');
       this.svg
         .style('class', 'sunburst-svg')
         .style('width', w + 'px')

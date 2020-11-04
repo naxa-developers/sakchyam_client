@@ -5,13 +5,16 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useRef } from 'react';
 import { numberWithCommas } from '../../../common/utilFunctions';
+import AccordionCard from './AccordionCard';
 
 // function clickHandler() {
 //   
 //   // e.target.classList.toggle('active');
 // }
 export default function divisionInfoPopUp(props) {
-  const accheader = useRef(null);
+  
+  
+  // const accheader = useRef(null);
   const {
     propsdata, partners, mapViewDataBy
   } = props.data;
@@ -19,6 +22,7 @@ export default function divisionInfoPopUp(props) {
         // eslint-disable-next-line no-restricted-syntax
         const index=0
         partnerContent = partners && partners.map(data=>{
+          console.log(data,'data');
           const partnerList= data && data.partnerlist && data.partnerlist.map(partner=>{
             return (
               <li>
@@ -27,37 +31,16 @@ export default function divisionInfoPopUp(props) {
             )
           });
           return (
-            <div
-              ref={accheader}
-              className={`acc-list ${index === 0 ? 'active' : ''}`}
-            >
-              <div className={`acc-header is-between ${mapViewDataBy === 'investment_focus'?"":"no-pseudo"}`}>
-                {mapViewDataBy === 'investment_focus'?
-                (<h5>{data.partnerName}</h5>):
-                (
-                  <>
-                    <label style={{ fontFamily: 'Avenir Book',fontSize: ".875rem"}}>{data.partnerName}</label>
-                    <label>{mapViewDataBy === 'allocated_budget'&& <i className="fas fa-pound-sign" />}{numberWithCommas(Math.round(data.totalCount))}</label>
-                  </>)}
-              </div>
-              <div className="acc-body">
-                <ul>
-                  {partnerList}
-                </ul>
-              </div>
-            </div>
+            <AccordionCard
+              index={index}
+              mapViewDataBy={mapViewDataBy}
+              data={data}
+              partnerList={partnerList}
+            />
           )
-        })
-        const accList = document.querySelectorAll('.acc-list');
-        if(accList){ 
-        accList.forEach(data=>{
-          data.addEventListener('click', function(e) {
-            e.stopPropagation();
-            this.classList.toggle('active');
-          });
-        })
-      }
-  // 
+        }
+        )
+      
   const classValue =
   mapViewDataBy === 'allocated_budget'
   ? `${'fas fa-pound-sign'}` // eslint-disable-line prettier/prettier

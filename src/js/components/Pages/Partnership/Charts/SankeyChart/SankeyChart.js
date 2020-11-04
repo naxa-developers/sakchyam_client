@@ -29,6 +29,10 @@ class SankeyChart extends Component {
   }
 
   printPng = () => {
+    document.querySelectorAll('.graph-title').forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.style.display = 'block';
+    });
     setTimeout(() => {
       // document
       //   .querySelector(`.${chartid}`)
@@ -50,6 +54,10 @@ class SankeyChart extends Component {
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `sankey_chart.png`);
+        });
+        document.querySelectorAll('.graph-title').forEach(el => {
+          // eslint-disable-next-line no-param-reassign
+          el.style.display = 'none';
         });
       });
     });
@@ -78,7 +86,7 @@ class SankeyChart extends Component {
   render() {
     const {
       state: { overView, randomKey },
-      props: { activeOverview, cardWidth, activeModal },
+      props: { activeOverview, cardWidth, activeModal, cardTitle },
     } = this;
     const {
       partnershipReducer: { sankeyChartData },
@@ -95,6 +103,8 @@ class SankeyChart extends Component {
             : { height: '580px' }
         }
       >
+        <h5 className="graph-title">{cardTitle}</h5>
+
         {sankeyChartData.nodes && (
           <ResponsiveSankey
             key={Math.random()}

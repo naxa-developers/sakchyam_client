@@ -36,7 +36,7 @@ const downloadPng = (chartid, imageTitle) => {
     html2canvas(document.querySelector(`#${chartid}`), {
       // logging: true,
       // letterRendering: 1,
-      scale: 5,
+      scale: 2,
       allowTaint: true,
       // scale: window.devicePixelRatio,
       // windowWidth: window.innerWidth,
@@ -242,23 +242,23 @@ const CardTab = ({
                 Reset
               </button>
             ) : null}
-            {cardChartId !== 'sunburst' && (
-              <span
-                className="download-span"
-                onClick={() => {
-                  notificationHandler();
-                  downloadPng(cardChartId, modalHeader);
-                }}
-                onKeyDown={() => {
-                  notificationHandler();
-                  downloadPng(cardChartId, modalHeader);
-                }}
-                role="button"
-                tabIndex="-1"
-              >
-                <img src={DownloadIcon} alt="open" />
-              </span>
-            )}
+            {/* {cardChartId !== 'sunburst' && ( */}
+            <span
+              className="download-span"
+              onClick={() => {
+                notificationHandler();
+                downloadPng(cardChartId, modalHeader);
+              }}
+              onKeyDown={() => {
+                notificationHandler();
+                downloadPng(cardChartId, modalHeader);
+              }}
+              role="button"
+              tabIndex="-1"
+            >
+              <img src={DownloadIcon} alt="open" />
+            </span>
+            {/* )} */}
             {!disableExpand && (
               <span
                 role="tab"

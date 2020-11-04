@@ -128,7 +128,7 @@ const Modal = props => {
       : selectedModal === 'stackedWithInvestment'
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
       : selectedModal === 'logframe'
-      ? 'Investment Focus Wise Budget & Beneficiaries Count'
+      ? headerTitle
       : selectedModal === 'stacked_chart'
       ? `${
           showBarChartBy === 'Federal'

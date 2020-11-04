@@ -97,7 +97,7 @@ class MainPartnership extends Component {
       activeOverview: false,
       viewDataBy: 'allocated_beneficiary',
       mapViewDataBy: '',
-      activeView: 'visualization',
+      activeView: localStorage.getItem('activeView'),
       // resetSunburst: false,
       // map Section
       map: null,
@@ -649,6 +649,7 @@ class MainPartnership extends Component {
   };
 
   setActiveView = selectedView => {
+    localStorage.setItem('activeView', selectedView);
     this.setState({
       activeView: selectedView,
       selectedProvince: [],
@@ -1387,6 +1388,7 @@ class MainPartnership extends Component {
         projectSelection,
         partnerType,
         partnerSelection,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
       );
       this.props.filterFinancialDataWithAllFiltersAndFederal(
         { selectedMunicipality, selectedDistrict, selectedProvince },
@@ -1414,6 +1416,7 @@ class MainPartnership extends Component {
         projectSelection,
         projectStatus,
         investmentFocusSelection,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
       );
       if (radialClick) {
         this.props.filterRadialData(
@@ -1423,6 +1426,11 @@ class MainPartnership extends Component {
           partnerType,
           partnerSelection,
           projectStatus,
+          {
+            selectedMunicipality,
+            selectedDistrict,
+            selectedProvince,
+          },
         );
       }
       // const investmentSpaceReduced= investmentFocusSelection.map(data=>{
@@ -1435,6 +1443,7 @@ class MainPartnership extends Component {
         partnerType,
         partnerSelection,
         projectStatus,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
       );
 
       this.props.filterLeverageData(
@@ -1447,6 +1456,7 @@ class MainPartnership extends Component {
         projectSelection,
         partnerType,
         partnerSelection,
+        { selectedMunicipality, selectedDistrict, selectedProvince },
       );
       this.props.filterMapChoropleth(
         investmentFocusSelection,
@@ -1559,6 +1569,7 @@ class MainPartnership extends Component {
       selectedDistrict: [],
       selectedMunicipality: [],
       partnerType: [],
+      showBarofInvestmentBudgetBenef: 'investmentFocus',
     });
     document.querySelectorAll('.fed_checkbox').forEach(el => {
       // eslint-disable-next-line no-param-reassign
@@ -1580,11 +1591,11 @@ class MainPartnership extends Component {
     } else {
       this.props.resetOverviewData();
       this.setMapViewBy(mapViewBy);
-      this.setState({
-        selectedProvince: [],
-        selectedDistrict: [],
-        selectedMunicipality: [],
-      });
+      // this.setState({
+      //   selectedProvince: [],
+      //   selectedDistrict: [],
+      //   selectedMunicipality: [],
+      // });
       let view = 'investment';
       if (this.state.mapViewDataBy === 'allocated_beneficiary') {
         view = 'total_beneficiary';

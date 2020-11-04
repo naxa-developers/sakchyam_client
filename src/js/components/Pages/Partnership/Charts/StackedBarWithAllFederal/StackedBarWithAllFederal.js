@@ -619,7 +619,8 @@ class StackedBarWithAllFederal extends Component {
         },
       },
       legend: {
-        horizontalAlign: 'left',
+        position: 'top',
+        horizontalAlign: 'center',
         offsetX: 40,
       },
     };
@@ -653,8 +654,8 @@ class StackedBarWithAllFederal extends Component {
             cardView && !activeModal
               ? 350
               : activeModal && window.innerWidth < 1400
-              ? 300 // modal on and arjun screen size
-              : 590
+              ? 400 // modal on and arjun screen size
+              : 690
           }
           // width={activeModal === true ? 1600 : '100%'}
         />

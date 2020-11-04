@@ -261,6 +261,7 @@ class StackedBar extends Component {
       partnershipReducer: { barDataByLeverage },
       isLeverageBarClicked,
       handleLeverageBarClicked,
+      activeModal,
     } = this.props;
     const series = [
       barDataByLeverage.scf.series[0],
@@ -400,7 +401,7 @@ class StackedBar extends Component {
         categories: barDataByLeverage.scf.labels,
         labels: {
           // show: false,
-          trim: true,
+          trim: activeModal ? false : true,
           hideOverlappingLabels: false,
         },
       },
@@ -540,7 +541,7 @@ class StackedBar extends Component {
         //     : { display: 'none' }
         // }
       >
-        <h6>{cardTitle}</h6>
+        <h5 className="graph-title">{cardTitle}</h5>
         <ReactApexChart
           options={options}
           series={series}

@@ -105,21 +105,36 @@ export const aggregateCounts = array => {
 export const downloadPng = (chartid, filename) => {
   // console.log('called');
   const chartLabel = document.querySelector('.chart-label');
+  const icons = document.querySelectorAll('.widget-icon');
+
+  if (icons) {
+    icons.forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.style.display = 'none';
+    });
+  }
 
   if (chartLabel) {
     chartLabel.style.display = 'block';
   }
   setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {}).then(
-      canvas => {
-        canvas.toBlob(function(blob) {
-          saveAs(blob, `${filename}.png`);
+    html2canvas(document.querySelector(`#${chartid}`), {
+      scale: 5,
+      allowTaint: true,
+    }).then(canvas => {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, `${filename}.png`);
+      });
+      if (chartLabel) {
+        chartLabel.style.display = 'none';
+      }
+      if (icons) {
+        icons.forEach(el => {
+          // eslint-disable-next-line no-param-reassign
+          el.style.display = 'block';
         });
-        if (chartLabel) {
-          chartLabel.style.display = 'none';
-        }
-      },
-    );
+      }
+    });
   }, 10);
 };
 
