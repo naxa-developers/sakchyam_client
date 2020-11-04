@@ -97,7 +97,8 @@ class MainPartnership extends Component {
       activeOverview: false,
       viewDataBy: 'allocated_beneficiary',
       mapViewDataBy: '',
-      activeView: localStorage.getItem('activeView'),
+      activeView:
+        localStorage.getItem('activeView') || 'visualization',
       // resetSunburst: false,
       // map Section
       map: null,
