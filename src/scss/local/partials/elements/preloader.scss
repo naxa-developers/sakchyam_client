@@ -12,8 +12,11 @@
     @include display-flex(flex);
     @include justify-content-center;
     @include align-items-center;
+    @include flex-direction-column(column);
     img{
         max-width: 120px;
+        margin:0 auto;
+        margin-bottom: 1rem;
     }
 
     .spinner {
