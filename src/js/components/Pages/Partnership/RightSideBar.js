@@ -87,7 +87,7 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget overview-section">
-              {!overviewData.investment_focus ? (
+              {!overviewData ? (
                 <OverviewLoader />
               ) : (
                 <div className="widget-body bg-clr" id="download-id">
