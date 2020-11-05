@@ -1,0 +1,142 @@
+/*--------------------------------------------------------------
+# Preloader
+--------------------------------------------------------------*/
+#sakchyam-preloader {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: $white-color;
+    z-index: 99999999;
+    top: 0;
+    left: 0;
+    @include display-flex(flex);
+    @include justify-content-center;
+    @include align-items-center;
+    img{
+        max-width: 120px;
+    }
+
+    .spinner {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        .spinnerhalf {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 200%;
+                height: 100%;
+                border: 4px solid transparent;
+                border-top-color: rgba($red-color, 1);
+                border-left-color: rgba($red-color, 1);
+                border-radius: 50%;
+                @include transform(rotate(-45deg));
+            }
+        }
+        .spinnerhalf--left {
+            float: left;
+            &::after {
+                -webkit-animation: spin-left 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+                animation: spin-left 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            }
+        }
+        .spinnerhalf--right {
+            float: right;
+            @include transform(rotate(180deg));
+            &::after {
+                -webkit-animation: spin-right 2s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
+                animation: spin-right 2s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
+            }
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 4px solid rgba(64, 64, 64, .2);
+            border-radius: 50%;
+        }
+    }
+}
+
+
+@-webkit-keyframes spin-left {
+
+    0%,
+    25% {
+        visibility: hidden;
+        @include transform(rotate(-225deg));
+    }
+
+    50%,
+    75% {
+        @include transform(rotate(-45deg));
+    }
+
+    100% {
+        @include transform(rotate(135deg));
+    }
+}
+
+@keyframes spin-left {
+
+    0%,
+    25% {
+        @include transform(rotate(-225deg));
+        visibility: hidden;
+    }
+
+    50%,
+    75% {
+        @include transform(rotate(-45deg));
+    }
+
+    100% {
+        @include transform(rotate(135deg));
+    }
+}
+
+@-webkit-keyframes spin-right {
+    0% {
+        @include transform(rotate(-225deg));
+    }
+
+    25%,
+    50% {
+        @include transform(rotate(-45deg));
+    }
+
+    75%,
+    100% {
+        @include transform(rotate(135deg));
+        visibility: hidden;
+    }
+}
+
+@keyframes spin-right {
+    0% {
+        @include transform(rotate(-225deg));
+    }
+
+    25%,
+    50% {
+        @include transform(rotate(-45deg));
+    }
+
+    75%,
+    100% {
+        @include transform(rotate(135deg));
+        visibility: hidden;
+    }
+}
