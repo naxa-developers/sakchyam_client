@@ -2127,7 +2127,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   ) {
     selectedFederalTypes.selectedMunicipality.forEach(mun => {
       if (mun.value !== 'all') {
-        return municipality.push(mun.value);
+        return municipality.push(mun.code);
       }
     });
   } else if (
@@ -2136,7 +2136,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   ) {
     selectedFederalTypes.selectedDistrict.forEach(dist => {
       if (dist.value !== 'all') {
-        return district.push(dist.value);
+        return district.push(dist.code);
       }
     });
   } else if (
@@ -2145,7 +2145,7 @@ export const filterFinancialDataWithAllFiltersAndFederal = (
   ) {
     selectedFederalTypes.selectedProvince.forEach(prov => {
       if (prov.value !== 'all') {
-        return province.push(prov.value);
+        return province.push(prov.code);
       }
     });
   } else {

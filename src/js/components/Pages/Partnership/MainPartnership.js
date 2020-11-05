@@ -1571,6 +1571,7 @@ class MainPartnership extends Component {
       selectedMunicipality: [],
       partnerType: [],
       showBarofInvestmentBudgetBenef: 'investmentFocus',
+      showBarof: 'Provinces',
     });
     document.querySelectorAll('.fed_checkbox').forEach(el => {
       // eslint-disable-next-line no-param-reassign
