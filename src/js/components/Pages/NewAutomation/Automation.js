@@ -641,11 +641,11 @@ class MainAutomation extends Component {
     }));
   };
 
-  setFilterTab = () => {
-    this.setState(prevState => ({
-      activeFilter: !prevState.activeFilter,
-    }));
-  };
+  // setFilterTab = () => {
+  //   this.setState(prevState => ({
+  //     activeFilter: !prevState.activeFilter,
+  //   }));
+  // };
 
   toggleOutreachButton = () => {
     // if (this.state.activeOutreachButton) {

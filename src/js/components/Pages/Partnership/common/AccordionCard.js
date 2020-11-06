@@ -37,9 +37,12 @@ export default function AccordionCard({
             >
               {data.partnerName}
             </label>
-            <label>
+            <label style={{ display: 'flex', alignItems: 'center' }}>
               {mapViewDataBy === 'allocated_budget' && (
-                <i className="fas fa-pound-sign" />
+                <i
+                  style={{ paddingRight: '3px' }}
+                  className="fas fa-pound-sign"
+                />
               )}
               {numberWithCommas(Math.round(data.totalCount))}
             </label>
