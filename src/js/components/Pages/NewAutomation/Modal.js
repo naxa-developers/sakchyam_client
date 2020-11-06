@@ -91,10 +91,7 @@ const Modal = props => {
                 notifyHandler(
                   'The infographics will be downloaded shortly.',
                 );
-                downloadPng(
-                  'pie-content',
-                  'Automation Partner Infographics',
-                );
+                downloadPng('pie-content', modalHeader);
               }}
             >
               <img src={DownloadIcon} alt="open" />
@@ -125,7 +122,7 @@ const Modal = props => {
                   className="chart-label"
                   style={{ display: 'none' }}
                 >
-                  <h5>Automation Partner Infographics</h5>
+                  <h5>Automation (Tablets Deployed)</h5>
                 </div>
                 <div className="modal-pie" style={{ flex: 8 }}>
                   {tabletsDeployed.total_branch === 0 ? (

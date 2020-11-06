@@ -167,6 +167,9 @@ class RightSideBar extends Component {
           </div>
           <div className="aside-body">
             <div className="sidebar-widget" id="download-id">
+              <h5 className="chart-label">
+                Product Process Overview
+              </h5>
               <div
                 className="widget-body"
                 style={{ backgroundColor: '#f7f7f7' }}

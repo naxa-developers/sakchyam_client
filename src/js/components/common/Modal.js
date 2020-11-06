@@ -33,6 +33,10 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
   if (downloadDropdown) {
     downloadDropdown.classList.remove('active');
   }
+  const milestoneBtn = document.querySelector('.multiple-bar');
+  if (milestoneBtn) {
+    milestoneBtn.style.display = 'none';
+  }
   // const titleEl = document.createElement('h6');
   // popupEl.appendChild(titleEl).textContent = 'spaghetti';
   // titleEl.setAttribute('class', 'popup_title');
@@ -65,6 +69,9 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
       if (infoHeader) {
         infoHeader.style.display = 'block';
       }
+      // if (milestoneBtn) {
+      //   milestoneBtn.style.display = 'block';
+      // }
       document
         .querySelectorAll('.download-icon-image')
         .forEach(el => {
