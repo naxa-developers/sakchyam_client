@@ -57,9 +57,10 @@ class StackedBarWithAllFederal extends Component {
     const options = {
       chart: {
         height: 350,
-        width: 2000,
+        // width: 2000,
         type: 'bar',
         stacked: true,
+        redrawOnParentResize: true,
         events: {
           click(
             event,
@@ -194,9 +195,10 @@ class StackedBarWithAllFederal extends Component {
     const options = {
       chart: {
         height: 350,
-        width: 2000,
+        // width: 2000,
         type: 'bar',
         stacked: true,
+        redrawOnParentResize: true,
         toolbar: {
           show: false,
           // download: false,
@@ -428,6 +430,7 @@ class StackedBarWithAllFederal extends Component {
     const {
       mfsReducer: { mfsChartDataByPartner, mfsChartData },
       showBarChartByTitle,
+      activeOverview,
     } = this.props;
     console.log(Partnerseries, 'partnerSeries');
     console.log(
@@ -437,15 +440,15 @@ class StackedBarWithAllFederal extends Component {
     return (
       <div
         id="stacked_chart"
-        style={
-          mapViewBy === 'district' &&
-          showBarChartBy === 'Federal' &&
-          Fedseries &&
-          Fedseries[0] &&
-          Fedseries[0].data.length > 10
-            ? { width: '2500px' }
-            : {}
-        }
+        // style={
+        //   mapViewBy === 'district' &&
+        //   showBarChartBy === 'Federal' &&
+        //   Fedseries &&
+        //   Fedseries[0] &&
+        //   Fedseries[0].data.length > 10
+        //     ? { width: '2500px' }
+        //     : {}
+        // }
       >
         <h5
           className="chart-label"
@@ -468,6 +471,21 @@ class StackedBarWithAllFederal extends Component {
             height={
               activeModal && window.innerWidth < 1400 ? 450 : 500
             }
+            width={
+              this.props.activeModal && window.innerWidth > 1400
+                ? 1400
+                : this.props.activeModal && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth > 1400
+                ? 1100
+                : activeOverview && window.innerWidth > 1400
+                ? 1500
+                : activeOverview && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth < 1400
+                ? 750
+                : 800
+            }
             // width={
             //   activeModal && window.innerWidth < 1400 ? 2000 : 2000
             // }
@@ -481,6 +499,21 @@ class StackedBarWithAllFederal extends Component {
             type="bar"
             height={
               activeModal && window.innerWidth < 1400 ? 450 : 500
+            }
+            width={
+              this.props.activeModal && window.innerWidth > 1400
+                ? 1400
+                : this.props.activeModal && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth > 1400
+                ? 1100
+                : activeOverview && window.innerWidth > 1400
+                ? 1500
+                : activeOverview && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth < 1400
+                ? 750
+                : 800
             }
             // width={
             //   activeModal && window.innerWidth < 1400 ? 2000 : 2000

@@ -13,7 +13,7 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
   const popupEl = document.querySelector(
     selectedModal === 'logframe'
       ? `.info-content-wrap`
-      : `#${chartid}`,
+      : `#popup-body`,
   );
   const infoHeader = document.querySelector('.info-header-bottom');
   if (infoHeader) {
@@ -40,6 +40,8 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
   // const titleEl = document.createElement('h6');
   // popupEl.appendChild(titleEl).textContent = 'spaghetti';
   // titleEl.setAttribute('class', 'popup_title');
+  const useWidth = popupEl.scrollWidth;
+
   setTimeout(() => {
     const options =
       chartid === 'test2'
@@ -49,6 +51,7 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
             // letterRendering: 1,
             scale: 5,
             allowTaint: true,
+            // width: useWidth,
             // scale: window.devicePixelRatio,
             // windowWidth: window.innerWidth,
             // windowHeight: window.innerHeight + 120,

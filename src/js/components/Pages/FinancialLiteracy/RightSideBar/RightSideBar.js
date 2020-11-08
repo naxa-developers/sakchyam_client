@@ -606,6 +606,7 @@ class RightSideBar extends Component {
                   className="widget-body"
                   style={{ backgroundColor: '#f7f7f7' }}
                 >
+                  <h5>Financial Literacy Overview</h5>
                   {loading ? (
                     <WidgetCardLoader />
                   ) : (

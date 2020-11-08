@@ -131,12 +131,15 @@ export const filterPartnersByType = selectedPartnerType => dispatch => {
     payload: selectedPartnerType,
   });
 };
-export const filterTableDataByPartner = selectedPartners => dispatch => {
+export const filterTableDataByPartner = (
+  selectedPartners,
+  selectedPartnerType,
+) => dispatch => {
   // console.log(selectedPartners, 'selectedPartners');
   // console.log(selectedProgram, 'selectedProgram');
   return dispatch({
     type: FILTER_TABLE_BY_PARTNER,
-    payload: selectedPartners,
+    payload: { selectedPartners, selectedPartnerType },
   });
 };
 export const getSearchedDataOnTable = searchedKeyword => dispatch => {

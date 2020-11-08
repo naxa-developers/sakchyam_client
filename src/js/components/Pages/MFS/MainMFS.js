@@ -1563,6 +1563,7 @@ class MainMFS extends Component {
                                   ? 'Province/District Wise Achievement Type'
                                   : 'Partner Wise Achievement Type'
                               }
+                              activeOverview={activeOverview}
                             />
                           </div>
                           // <StackedBarWithProvince

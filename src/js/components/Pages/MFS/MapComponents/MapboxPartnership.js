@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import VectorTileMapbox from './VectorTileMapbox';
 import PopUp from '../common/divisionInfoPopUp';
-import DivisionInfoPopUpLeft from '../../Partnership/common/divisionInfoPopupLeft';
+import DivisionInfoPopUpLeft from '../common/divisionInfoPopupLeft';
 
 class MapboxPartnership extends Component {
   constructor(props) {
