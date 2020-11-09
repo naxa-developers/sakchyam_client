@@ -792,11 +792,11 @@
     align-items: flex-start;
   }
 }
-#markerPieLegend {
+#markerPieLegend{
   z-index: 999;
   position: relative;
 }
-.mapboxgl-marker {
+.mapboxgl-marker{
   z-index: 99;
 }
 
@@ -805,65 +805,62 @@
   z-index: 1200;
   // max-width: 234px;
 }
-.right-content {
+.right-content{
   top: 66px;
   left: 2px;
 }
 
-time {
+time{
   font-family: 'Avenir Heavy';
 }
-.product-bartooltip {
-  h5 {
+.product-bartooltip{
+  h5{
     display: flex !important;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
   }
-  li {
+  li{
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 }
 
-.timeline-date {
+.timeline-date{
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
 }
-.mapbox-popup-content.center {
+.mapbox-popup-content.center{
   left: 0;
   right: 0;
   margin: 0 auto;
 }
 
-.widget-body.bg-clr {
-  background-color: rgb(247, 247, 247) !important;
+.widget-body.bg-clr{
+  background-color:rgb(247, 247, 247) !important;
+
 }
-.apexcharts-title-text {
+.apexcharts-title-text{
   display: none;
 }
 
-.motivation-pie {
-  .apexcharts-tooltip {
+.motivation-pie{
+  .apexcharts-tooltip{
     background-color: #fff !important;
   }
 }
-.modal-pie {
-  .apexcharts-tooltip {
+.modal-pie{
+  .apexcharts-tooltip{
     background-color: #fff !important;
   }
 }
 
-.chart-label {
-  display: none;
+.chart-label{
+  display:none;
 }
-.graph-title {
-  display: none;
-}
-.html2canvas-container {
-  width: 3000px !important;
-  height: 3000px !important;
+.graph-title{
+  display:none;
 }

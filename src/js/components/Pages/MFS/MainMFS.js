@@ -1459,7 +1459,7 @@ class MainMFS extends Component {
                       cardTitle="Province/District Wise Achievement Type"
                       style={{ position: 'relative' }}
                       cardClass="col-xl-12"
-                      cardChartId="mfsMap"
+                      cardChartId="groupedChart"
                       handleModal={this.handleModal}
                       handleSelectedModal={() => {
                         this.handleSelectedModal('groupedChart');
@@ -1563,7 +1563,6 @@ class MainMFS extends Component {
                                   ? 'Province/District Wise Achievement Type'
                                   : 'Partner Wise Achievement Type'
                               }
-                              activeOverview={activeOverview}
                             />
                           </div>
                           // <StackedBarWithProvince

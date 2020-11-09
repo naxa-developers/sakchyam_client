@@ -345,8 +345,6 @@ class HeatmapChart extends React.Component {
           // show: false,
           // trim: true,
           hideOverlappingLabels: false,
-          minHeight: 180,
-          maxHeight: 400,
         },
       },
       legend: {
@@ -446,8 +444,7 @@ class HeatmapChart extends React.Component {
               ? 650
               : activeModal && window.innerWidth < 1400
               ? 600
-              : 750
-            // ? 500
+              : 800
           }
           // width={
           //   activeModal && window.innerWidth < 1600
@@ -466,7 +463,7 @@ class HeatmapChart extends React.Component {
             activeModal && window.innerWidth < 1600
               ? 1200
               : activeModal && window.innerWidth > 1600
-              ? 1700
+              ? 1800
               : showRightSidebar && window.innerWidth < 1600
               ? 780
               : showRightSidebar && window.innerWidth > 1600

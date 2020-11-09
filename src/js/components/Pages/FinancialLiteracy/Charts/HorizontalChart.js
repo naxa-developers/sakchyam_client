@@ -343,7 +343,6 @@ class HorizontalChart extends Component {
         // tooltip: {
         //   enabled: true,
         // },
-        decimalsInFloat: 2,
         title: {
           text: 'No. of Beneficiaries',
           offsetX: 5,
@@ -375,7 +374,7 @@ class HorizontalChart extends Component {
           // },
           // show: false,
           // formatter: val => numberWithCommas(val),
-          formatter: val => convert(val.toFixed(2)),
+          formatter: val => convert(val),
         },
       },
       tooltip: {
@@ -780,9 +779,8 @@ class HorizontalChart extends Component {
           style={activeModal && { backgroundColor: '#fff' }}
         >
           {!activeModal && <h5>{title}</h5>}
-          {/* {!activeModal && <h5>{title}</h5>} */}
           {!isDownloading && (
-            <div className="header-icons" data-html2canvas-ignore>
+            <div className="header-icons">
               {!isBarChartClicked && (
                 <div className="card-switcher">
                   <small>Single Count</small>

@@ -11,13 +11,9 @@ const downloadPng = (chartid, filename) => {
   const downloadIcon = document.querySelector('#download-icon-popup');
   downloadIcon.style.display = 'none';
 
-  const chartEl = document.querySelector(`#${chartid}`);
-  const useWidth = chartEl.scrollWidth;
   setTimeout(() => {
     html2canvas(document.querySelector(`#${chartid}`), {
       scale: 5,
-      allowTaint: true,
-      width: useWidth,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${filename}.png`);

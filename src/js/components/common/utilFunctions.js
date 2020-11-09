@@ -117,13 +117,10 @@ export const downloadPng = (chartid, filename) => {
   if (chartLabel) {
     chartLabel.style.display = 'block';
   }
-  const chartEl = document.querySelector(`#${chartid}`);
-  const useWidth = chartEl.scrollWidth;
   setTimeout(() => {
-    html2canvas(chartEl, {
+    html2canvas(document.querySelector(`#${chartid}`), {
       scale: 5,
       allowTaint: true,
-      width: useWidth,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${filename}.png`);

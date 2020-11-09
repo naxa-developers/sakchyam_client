@@ -257,13 +257,10 @@ class MiddleChartSection extends Component {
     const barTab = document.querySelector('#bar-tab-insurance');
     barTab.style.display = 'none';
 
-    const chartEl = document.querySelector(`#${chartid}`);
-    const useWidth = chartEl.scrollWidth;
     setTimeout(() => {
-      html2canvas(chartEl, {
+      html2canvas(document.querySelector(`#${chartid}`), {
         allowTaint: true,
         scale: 5,
-        width: useWidth,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${name}.png`);

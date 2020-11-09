@@ -37,7 +37,7 @@ export default function divisionInfoPopUp(props) {
         <div className="map-popup-view-header">
           <h5>{fulldata && fulldata.props.federal_name}</h5>
           <div className="icons">
-            <i className="material-icons">poll</i>
+            <i className="material-icons">payments</i>
             <b>
               {fulldata && numberWithCommas(fulldata.props.count)}
             </b>

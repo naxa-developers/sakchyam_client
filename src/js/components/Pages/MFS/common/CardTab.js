@@ -31,20 +31,15 @@ const downloadPng = (chartid, imageTitle) => {
   // document
   //   .querySelector('.download-dropdown')
   //   .classList.remove('active');
-  const chartEl = document.querySelector(`#${chartid}`);
-  const useWidth = chartEl.clientWidth;
-  const useHeight = chartEl.clientHeight;
   setTimeout(() => {
     // document
     //   .querySelector(`.${chartid}`)
     //   .append(<label>Varun</label>);
-    html2canvas(chartEl, {
+    html2canvas(document.querySelector(`#${chartid}`), {
       // logging: true,
       // letterRendering: 1,
       scale: 5,
       allowTaint: true,
-      width: useWidth,
-      // height: useHeight,
       // scale: window.devicePixelRatio,
       // windowWidth: window.innerWidth,
       // windowHeight: window.innerHeight + 120,
@@ -119,8 +114,6 @@ const CardTab = ({
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
       : cardChartId === 'mfsBar'
       ? 'Federal Wise Achievement Type'
-      : cardChartId === 'mfsMap'
-      ? 'Province/District Wise Achievement Type'
       : cardChartId === 'stacked_chart'
       ? cardTitle
       : '';
@@ -138,7 +131,7 @@ const CardTab = ({
       : '';
   return (
     <div className={cardClass}>
-      <div className="card" id={cardChartId}>
+      <div className="card">
         <div className="card-header">
           <h5>{cardTitle}</h5>
           <div className="header-icons">
@@ -291,8 +284,7 @@ const CardTab = ({
             )}
           </div>
         </div>
-        <div className="card-body" style={style}>
-          {/* <div className="card-body" style={style} id={cardChartId}> */}
+        <div className="card-body" style={style} id={cardChartId}>
           {renderChartComponent()}
         </div>
       </div>

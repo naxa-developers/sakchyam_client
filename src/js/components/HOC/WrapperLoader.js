@@ -29,21 +29,24 @@ export default WrappedComponent => {
 
     render = () => (
       <>
-        <div
-          id="sakchyam-preloader"
-          style={
-            this.state.isLoading
-              ? { display: 'flex' }
-              : { display: 'none' }
-          }
-        >
-          <img alt="sakchyam-logo" src={Logo} />
-          <div className="spinner">
-            <div className="spinnerhalf spinnerhalf--left" />
-            <div className="spinnerhalf spinnerhalf--right" />
+        {/* <Header /> */}
+        <>
+          <div
+            id="sakchyam-preloader"
+            style={
+              this.state.isLoading
+                ? { display: 'flex' }
+                : { display: 'none' }
+            }
+          >
+            <img alt="sakchyam-logo" src={Logo} />
+            <div className="spinner">
+              <div className="spinnerhalf spinnerhalf--left" />
+              <div className="spinnerhalf spinnerhalf--right" />
+            </div>
           </div>
-        </div>
-        <WrappedComponent {...this.props} />
+          <WrappedComponent {...this.props} />
+        </>
       </>
     );
   }

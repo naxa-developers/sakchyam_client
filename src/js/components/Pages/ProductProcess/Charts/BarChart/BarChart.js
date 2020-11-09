@@ -156,37 +156,21 @@ class BarChart extends Component {
       xaxis: {
         categories: [],
         labels: {
-          // minHeight: 10,
-          // maxHeight: 400,
-          // trim: true,
+          trim: true,
           hideOverlappingLabels: false,
           formatter(value) {
-            // const a = 'abc def ghi jkl mno pqr';
-            if (value.length > 19) {
-              const splited = value.split(' ');
-              const combined = [];
-              for (let i = 0; i < splited.length; i += 2) {
-                combined.push(
-                  `${splited[i]} ${
-                    splited[i + 1] !== undefined ? splited[i + 1] : ''
-                  }`,
-                );
-              }
-              return combined;
+            if (typeof value === 'object') {
+              console.log(value);
+              console.log(value.join(' '));
+              return value.join(' ');
+            }
+            console.log(value);
+            console.log(typeof value);
+            if (typeof value !== 'string') {
+              return value.join(' ');
             }
             return value;
           },
-          // if (typeof value === 'object') {
-          //   console.log(value);
-          //   console.log(value.join(' '));
-          //   return value.join(' ');
-          // }
-          // console.log(value);
-          // console.log(typeof value);
-          // if (typeof value !== 'string') {
-          //   return value.join(' ');
-          // }
-          // return value;
         },
       },
       yaxis: {
@@ -212,7 +196,7 @@ class BarChart extends Component {
           show: true,
         },
         labels: {
-          minWidth: 80,
+          minWidth: 45,
           maxWidth: 300,
           formatter(value) {
             if (value < 2 && value !== 0) {
