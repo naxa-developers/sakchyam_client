@@ -119,6 +119,8 @@ const CardTab = ({
       ? 'Investment Focus Wise Budget & Beneficiaries Count'
       : cardChartId === 'mfsBar'
       ? 'Federal Wise Achievement Type'
+      : cardChartId === 'mfsMap'
+      ? 'Province/District Wise Achievement Type'
       : cardChartId === 'stacked_chart'
       ? cardTitle
       : '';
