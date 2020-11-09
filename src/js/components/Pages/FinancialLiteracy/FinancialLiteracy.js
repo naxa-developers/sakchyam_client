@@ -474,10 +474,14 @@ class FinancialLiteracy extends Component {
     this.notificationHandler();
     this.setState({ isDownloading: true });
     const name = filename ? filename : 'chart';
+    const chartEl = document.querySelector(`#${chartid}`);
+    const useWidth = chartEl.scrollWidth;
+
     setTimeout(() => {
-      html2canvas(document.querySelector(`#${chartid}`), {
+      html2canvas(chartEl, {
         allowTaint: true,
         scale: 5,
+        width:useWidth
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${name}.png`);
@@ -505,9 +509,13 @@ class FinancialLiteracy extends Component {
       isAllPartnerSelected: false,
       selectedProgram: [],
       selectedProgram1: [],
+      isBarChartClicked: false,
+      clickedPartnerName: '',
+      isBarChartToggled:false,
     });
     this.handleUnCheck();
     this.props.getFinancialData();
+    // this.handleBarChartReset();
   };
 
   applyClick = () => {
@@ -526,7 +534,7 @@ class FinancialLiteracy extends Component {
       checkedPartnerItems1: checkedPartnerItems,
       selectedProgram1: selectedProgram,
     });
-    this.props.filterTableDataByPartner(checkedPartnerItems);
+    this.props.filterTableDataByPartner(checkedPartnerItems,partnerType);
   };
 
   handleScrollToSankey = () => {
@@ -693,6 +701,7 @@ class FinancialLiteracy extends Component {
                     </a>
                   </li>
                 </ul>
+                {visualizationType === 'Visualisation' &&
                 <div
                   className="goto-sankey"
                   onClick={this.handleScrollToSankey}
@@ -701,7 +710,7 @@ class FinancialLiteracy extends Component {
                   <span className="goto-sankey-text">
                     Go to Sankey
                   </span>
-                </div>
+                </div>}
               </div>
 
               <div

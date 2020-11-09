@@ -1116,12 +1116,16 @@ class MiddleChartSection extends Component {
     const popupEl = document.querySelector(
       chartid ? chartid : '.info-content-wrap',
     );
-    const useWidth = document.querySelector(
-      chartid ? chartid : '.info-content-wrap',
-    ).style.width;
-    const useHeight = document.querySelector(
-      chartid ? chartid : '.info-content-wrap',
-    ).style.height;
+    // const useWidth = document.querySelector(
+    //   chartid ? chartid : '.info-content-wrap',
+    // ).style.width;
+    // const useHeight = document.querySelector(
+    //   chartid ? chartid : '.info-content-wrap',
+    // ).style.height;
+    // const useWidth = popupEl.scrollWidth;
+    const useWidth = popupEl.offsetWidth;
+    console.log(useWidth, 'useWidht');
+
     setTimeout(() => {
       // document
       //   .querySelector(`.${chartid}`)
@@ -1129,6 +1133,8 @@ class MiddleChartSection extends Component {
       html2canvas(popupEl, {
         scale: 5,
         allowTaint: true,
+        width: useWidth,
+        // y:"100px"
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${imageTitle}.png`);
@@ -1225,12 +1231,15 @@ class MiddleChartSection extends Component {
     //   .querySelector('.download-dropdown')
     //   .classList.remove('active');
     const popupEl = document.querySelector('.info-content-wrap');
-    console.log(popupEl, 'popupel');
+    // console.log(popupEl, 'popupel');
     //   const useWidth = document.querySelector('.info-content-wrap').style.width;
     //   const useHeight = document.querySelector('.info-content-wrap').style.height;
     // const titleEl = document.createElement('h6');
     // popupEl.appendChild(titleEl).textContent = 'spaghetti';
     // titleEl.setAttribute('class', 'popup_title');
+
+    // const chartEl = document.querySelector(`#${chartid}`);
+    const useWidth = popupEl.scrollWidth;
     setTimeout(() => {
       // document
       //   .querySelector(`.${chartid}`)
@@ -1239,6 +1248,8 @@ class MiddleChartSection extends Component {
         // logging: true,
         // letterRendering: 1,
         allowTaint: true,
+        scale: 5,
+        width: useWidth,
         // scale: window.devicePixelRatio,
         // windowWidth: window.innerWidth+120,
         // windowHeight: window.innerHeight + 120,
@@ -1862,22 +1873,26 @@ class MiddleChartSection extends Component {
               /> */}
               {activeLayer === 'Outcome Indicator 4' && (
                 <>
-                  <div className="card">
+                  <div className="card" id="outcome14-1stpie">
                     {/* <div className="card-header"></div> */}
                     <div className="card-body">
                       <div className="row">
-                        {/* <a
-                    role="tab"
-                    tabIndex="0"
-                    id="downloadDropdown"
-                    className="download-icon-image"
-                    // onClick={this.downloadPng}
-                    onClick={this.downloadPng}
-                    onKeyPress={this.downloadPng}
-                    style={{ right: '37px' }}
-                  >
-                    <img src={saveAlt} alt="" />
-                  </a> */}
+                        <a
+                          role="tab"
+                          tabIndex="0"
+                          id="downloadDropdown"
+                          className="download-icon-image"
+                          // onClick={this.downloadPng}
+                          onClick={() => {
+                            this.downloadPng('#outcome14-1stpie',"Planned & Achieved Distribution");
+                          }}
+                          onKeyPress={() => {
+                            this.downloadPng('#outcome14-1stpie',"Planned & Achieved Distribution");
+                          }}
+                          style={{ right: '37px' }}
+                        >
+                          <img src={saveAlt} alt="" />
+                        </a>
                         <div className="col-lg-6">
                           <label>Planned</label>
                           <DonutChart reducerDataProps="planned1stPieData" />
@@ -1889,7 +1904,7 @@ class MiddleChartSection extends Component {
                       </div>
                     </div>
                   </div>
-                  <div className="card mt-5">
+                  <div className="card mt-5" id="outcome14-2ndpie">
                     <div
                       className="card-header"
                       style={{ display: 'flex' }}
@@ -1910,6 +1925,22 @@ class MiddleChartSection extends Component {
                         Ratio of men and women getting new access to
                         financial Services
                       </h5>
+                      <a
+                          role="tab"
+                          tabIndex="0"
+                          id="downloadDropdown"
+                          className="download-icon-image"
+                          // onClick={this.downloadPng}
+                          onClick={() => {
+                            this.downloadPng('#outcome14-2ndpie',"Ratio of men and women getting new access to financial Services");
+                          }}
+                          onKeyPress={() => {
+                            this.downloadPng('#outcome14-2ndpie',"Ratio of men and women getting new access to financial Services");
+                          }}
+                          style={{ right: '37px' }}
+                        >
+                          <img src={saveAlt} alt="" />
+                        </a>
                       {/* <a
                       role="tab"
                       tabIndex="0"

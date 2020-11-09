@@ -9,10 +9,38 @@ const downloadPng = (chartid, imageTitle) => {
   const downloadIcon = document.querySelector('#download-icon-popup');
   downloadIcon.style.display = 'none';
 
+  const chartEl = document.querySelector(`#${chartid}`);
+  const useWidth = chartEl.scrollWidth;
+  // const useWidth = document.querySelector(`#${chartid}`).scrollWidth;
+  // const useHeight = document.querySelector(`#${chartid}`)
+  //   .scrollHeight;
+  // alert(useWidth, 'useWidht');
+  // console.log(useWidth, 'useWidht');
   setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {
+    // const useWidth = $('#wrapper').prop('scrollWidth'); // document.getElementById("primary").style.width;
+    // const useHeight = $('#wrapper').prop('scrollHeight'); // document.getElementById("primary").style.height;
+
+    // html2canvas(document.querySelector(`#${chartid}`), {
+    //   width: useWidth,
+    //   // height: useHeight,
+    //   screen: 5,
+    // }).then(function(canvas) {
+    //   // document.body.appendChild(canvas);
+
+    //   const image = canvas
+    //     .toDataURL('image/png')
+    //     .replace('image/png', 'image/octet-stream'); // here is the most important part because if you dont replace you will get a DOM 18 exception.
+    //   // var image = canvas.toDataURL("image/png");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+    //   window.location.href = image; // it will save locally
+    // });
+    html2canvas(chartEl, {
       allowTaint: true,
       scale: 5,
+      width: useWidth,
+      // height: useHeight,
+      // height: document.querySelector(`#${chartid}`).clientHeight,
+      // windowHeight: document.querySelector(`#${chartid}`)
+      //   .clientHeight,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);

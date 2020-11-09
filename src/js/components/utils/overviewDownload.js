@@ -11,11 +11,16 @@ const downloadOverviewSection = (
       document.querySelector(el).style.display = 'none';
     });
   }
+
+  const chartEl = document.querySelector(`#${chartid}`);
+  const useWidth = chartEl.scrollWidth;
   setTimeout(() => {
     html2canvas(document.querySelector(chartid), {
       // logging: true,
       // letterRendering: 1,
       allowTaint: true,
+      scale: 5,
+      width: useWidth,
       // scale: window.devicePixelRatio,
       // windowWidth: window.innerWidth,
       // windowHeight: window.innerHeight + 120,

@@ -494,12 +494,14 @@ const getFinancialData = (state, action) => {
   });
   const groupedObjForLabel = {};
   allData.forEach(function(c) {
+    console.log(c, 'c Table Data Item');
     if (groupedObjForLabel[c.partner_id]) {
       groupedObjForLabel[c.partner_id].names.push(c);
     } else {
       groupedObjForLabel[c.partner_id] = {
         partner_id: c.partner_id,
         partner_name: c.partner_name,
+        partner_type: c.partner_type,
         names: [c],
       };
     }
@@ -1323,17 +1325,30 @@ const filterPartnersByType = (state, action) => {
   };
 };
 const filterTableDataByPartner = (state, action) => {
-  const selectedPartners = action.payload;
+  const { selectedPartners, selectedPartnerType } = action.payload;
   const { allTableData } = state;
-  let filteredTableDataByPartners = allTableData.filter(data => {
-    return selectedPartners.includes(data.partner_id);
-  });
-  if (selectedPartners.length === 0) {
-    filteredTableDataByPartners = allTableData;
+  console.log(allTableData, 'allTableData');
+  let tableData = allTableData;
+  if (selectedPartners.length > 0) {
+    tableData = tableData.filter(data => {
+      return selectedPartners.includes(data.partner_id);
+    });
+  }
+  if (selectedPartnerType.length > 0) {
+    tableData = tableData.filter(data => {
+      return selectedPartnerType.includes(data.partner_type);
+    });
+  }
+  // console.log(filteredTableDataByPartnersByPartnerId, 'test');
+  if (
+    selectedPartners.length === 0 &&
+    selectedPartnerType.length === 0
+  ) {
+    tableData = allTableData;
   }
   return {
     ...state,
-    filteredTableData: filteredTableDataByPartners,
+    filteredTableData: tableData,
   };
 };
 const searchedDataOnTable = (state, action) => {

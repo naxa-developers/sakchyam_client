@@ -9,6 +9,7 @@ export default function Achart(props) {
       series={props.series}
       type={props.type}
       height={props.height}
+      width={props.width}
     />
   );
 }
