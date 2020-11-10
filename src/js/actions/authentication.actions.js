@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { LOGIN_USER, USER_PERMISSIONS } from './index.actions';
+import {
+  LOGIN_USER,
+  LOGIN_USER_FAILED,
+  LOGIN_USER_REQUEST,
+  USER_PERMISSIONS,
+} from './index.actions';
 import axiosInstance from '../axiosApi';
 
 // import { successToast, errorToast } from '../utils/toastHandler';
@@ -7,6 +12,10 @@ import axiosInstance from '../axiosApi';
 // eslint-disable-next-line consistent-return
 export const loginUser = data => dispatch => {
   try {
+    dispatch({
+      type: LOGIN_USER_REQUEST,
+      // payload: result.data,
+    });
     const response = axiosInstance
       .post('/api/v1/token/login/', data)
       .then(function(result) {
@@ -38,18 +47,31 @@ export const loginUser = data => dispatch => {
               type: USER_PERMISSIONS,
               payload: res.data,
             });
+            return dispatch({
+              type: LOGIN_USER,
+              payload: result.data,
+            });
           })
-          .catch(() => {});
-        return dispatch({
-          type: LOGIN_USER,
-          payload: result.data,
-        });
+          .catch(() => {
+            return dispatch({
+              type: LOGIN_USER_FAILED,
+              // payload: result.data,
+            });
+          });
       })
       .catch(() => {
         alert('login error');
+        return dispatch({
+          type: LOGIN_USER_FAILED,
+          // payload: result.data,
+        });
       });
   } catch (err) {
     console.error(err);
+    return dispatch({
+      type: LOGIN_USER_FAILED,
+      // payload: result.data,
+    });
   }
   // axios
   //   .post(`${process.env.PUBLIC_URL}/api/v1/token/login/`, data, {

@@ -12,7 +12,6 @@ class MapboxPartnership extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      popupData: [],
       leftPopupData: [],
       // map: null,
     };
@@ -50,10 +49,6 @@ class MapboxPartnership extends Component {
     } = this.props;
   }
 
-  setPopupData = data => {
-    this.setState({ popupData: data });
-  };
-
   setLeftPopupData = data => {
     this.setState({ leftPopupData: data });
   };
@@ -66,8 +61,14 @@ class MapboxPartnership extends Component {
         : [0, 2, 4, 6, 8, 10, 12, 14, 20];
     const {
       // state: {  },
-      props: { vectorTileUrl, mapViewDataBy, map },
-      state: { popupData, leftPopupData },
+      props: {
+        vectorTileUrl,
+        mapViewDataBy,
+        map,
+        popupData,
+        setPopupData,
+      },
+      state: { leftPopupData },
     } = this;
     const { mfsChoroplethData, mfsPieData } = this.props.mfsReducer;
     return (
@@ -122,7 +123,7 @@ class MapboxPartnership extends Component {
                 pieSquareLegend={this.pieSquareLegend}
                 label
                 color="#5014e4"
-                setPopupData={this.setPopupData}
+                setPopupData={setPopupData}
               />
               {/* <div
                 // id="bargraph"
