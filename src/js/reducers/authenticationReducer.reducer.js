@@ -1,5 +1,7 @@
 import {
   LOGIN_USER,
+  LOGIN_USER_REQUEST,
+  LOGIN_USER_FAILED,
   USER_PERMISSIONS,
 } from '../actions/index.actions';
 
@@ -25,6 +27,22 @@ export default function(state = initialState, action) {
         ...state,
         login: action.payload,
         isLoggedIn: true,
+        // logDataGraph: action.payload,
+      };
+    case LOGIN_USER_REQUEST:
+      // console.log(action.payload);
+      return {
+        ...state,
+        // login: action.payload,
+        isLoggedIn: false,
+        // logDataGraph: action.payload,
+      };
+    case LOGIN_USER_FAILED:
+      // console.log(action.payload);
+      return {
+        ...state,
+        // login: action.payload,
+        isLoggedIn: !state.isLoggedIn,
         // logDataGraph: action.payload,
       };
     case USER_PERMISSIONS:

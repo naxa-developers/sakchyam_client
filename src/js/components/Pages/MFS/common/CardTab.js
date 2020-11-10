@@ -101,6 +101,7 @@ const CardTab = ({
   resetFilters,
   badgeProp,
   notificationHandler,
+  showBarPartnerChartOf,
 }) => {
   const modalHeader =
     cardChartId === 'sunburst'
@@ -243,6 +244,18 @@ const CardTab = ({
               )
             ) : cardChartId === 'stacked_chart' &&
               showBarof === 'Districts' ? (
+              <button
+                // id="chart-reset"
+                type="button"
+                onClick={() => {
+                  resetFunction();
+                }}
+                className="is-border common-button chart-reset download-span"
+              >
+                Reset
+              </button>
+            ) : cardChartId === 'stacked_chart' &&
+              showBarPartnerChartOf === 'Innovation' ? (
               <button
                 // id="chart-reset"
                 type="button"

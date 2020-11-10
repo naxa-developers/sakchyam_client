@@ -81,8 +81,15 @@ class StackedBarWithAllFederal extends Component {
               projectSelection,
               projectStatus,
               showBarOf,
+              showBarPartnerChartOf,
+              mapViewBy,
+              selectedPartner,
+              selectedInnovation,
+              selectedAchievement,
             } = that.props;
             const clicked = config.xaxis.categories[dataPointIndex];
+            console.log(clicked, 'clicked');
+
             if (showBarChartBy === 'Federal') {
               // if (showBarOf === 'Provinces') {
               const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
@@ -114,6 +121,20 @@ class StackedBarWithAllFederal extends Component {
                 projectStatus,
               );
             }
+            if (that.props.showBarChartBy === 'Partner') {
+              if (showBarPartnerChartOf === 'Partner') {
+                that.props.filterMfsMapChartDataByPartnerWithInnovation(
+                  mapViewBy,
+                  selectedPartner,
+                  selectedInnovation,
+                  selectedAchievement,
+                  [],
+                  [],
+                  clicked,
+                );
+                that.props.handleShowBarPartnerChartOf('Innovation');
+              }
+            }
             // if (showBarChartBy === 'Partner') {
             // }
           },
@@ -140,7 +161,19 @@ class StackedBarWithAllFederal extends Component {
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
       },
-
+      yaxis: {
+        opposite: true,
+        forceNiceScale: true,
+        title: {
+          text: 'Achieved Number',
+        },
+        labels: {
+          // show: true,
+          // align: 'right',
+          minWidth: 100,
+          maxWidth: 200,
+        },
+      },
       grid: {
         show: false,
       },
@@ -215,8 +248,11 @@ class StackedBarWithAllFederal extends Component {
               selectedAchievement,
               showBarof,
               showBarPartnerChartOf,
+              selectedProvince,
+              selectedDistrict,
             } = that.props;
             const clicked = config.xaxis.categories[dataPointIndex];
+            console.log(clicked, 'clicked');
             if (clicked !== undefined) {
               if (that.props.showBarChartBy === 'Federal') {
                 if (showBarof === 'Provinces') {
@@ -269,8 +305,8 @@ class StackedBarWithAllFederal extends Component {
                     selectedPartner,
                     selectedInnovation,
                     selectedAchievement,
-                    [],
-                    [],
+                    selectedDistrict,
+                    selectedProvince,
                     clicked,
                   );
                   that.props.handleShowBarPartnerChartOf(
@@ -319,6 +355,21 @@ class StackedBarWithAllFederal extends Component {
         // title: {
         //   text: 'Provinces',
         // },
+      },
+      yaxis: {
+        // min: 1,
+        // tickAmount: 8,
+        // forceNiceScale: true,
+        // logarithmic: true,
+        title: {
+          text: 'Achieved Number',
+        },
+        labels: {
+          // show: true,
+          // align: 'right',
+          minWidth: 100,
+          maxWidth: 200,
+        },
       },
       grid: {
         show: false,
@@ -450,7 +501,7 @@ class StackedBarWithAllFederal extends Component {
         //     : {}
         // }
       >
-        <h5
+        {/* <h5
           className="chart-label"
           style={{
             display: 'none',
@@ -461,7 +512,7 @@ class StackedBarWithAllFederal extends Component {
           }}
         >
           {showBarChartByTitle}
-        </h5>
+        </h5> */}
         {showBarChartBy === 'Partner' ? (
           <Achart
             // key={Partnerseries}

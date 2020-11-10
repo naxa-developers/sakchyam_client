@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/jsx-indent-props */
 import React from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
@@ -105,6 +107,7 @@ const Modal = props => {
     showBarChartBy,
     handleShowBarOfInvestmentBudgetBenefBar,
     notificationHandler,
+    showBarPartnerChartOf,
   } = props;
   const selectedChartId =
     selectedModal === 'groupedChart'
@@ -168,7 +171,79 @@ const Modal = props => {
 
           <div className="popup-header no-flex">
             <h3>{modalHeader}</h3>
-            {selectedModal === 'sunburst' ? (
+            {selectedModal === 'stacked_chart' &&
+            showBarPartnerChartOf === 'Innovation' ? (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '142px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
+                }}
+                // onClick={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                // onKeyDown={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                role="button"
+                tabIndex="-1"
+              >
+                <button
+                  // id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    resetFilters();
+                    // props.resetRadialData();
+                    // resetFunction();
+                  }}
+                  className="is-border common-button chart-reset "
+                >
+                  Reset
+                </button>
+              </span>
+            ) : selectedModal === 'stacked_chart' &&
+              showBarof === 'Districts' ? (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '142px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
+                }}
+                // onClick={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                // onKeyDown={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                role="button"
+                tabIndex="-1"
+              >
+                <button
+                  // id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    resetFilters();
+                    // props.resetRadialData();
+                    // resetFunction();
+                  }}
+                  className="is-border common-button chart-reset "
+                >
+                  Reset
+                </button>
+              </span>
+            ) : selectedModal === 'sunburst' ? (
               <span
                 style={{
                   position: 'absolute',

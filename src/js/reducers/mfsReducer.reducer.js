@@ -284,7 +284,7 @@ const filterMfsChoroplethData = (state, action) => {
   } = action.payload;
 
   const mfsData = [...state.mfsListAllData];
-  let filteredData = [];
+  let filteredData = mfsData;
   if (selectedAchievement.length > 0) {
     filteredData = mfsData.filter(data => {
       return selectedAchievement.includes(data.achievement_type);
@@ -299,8 +299,6 @@ const filterMfsChoroplethData = (state, action) => {
     filteredData = mfsData.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
-  } else {
-    filteredData = mfsData;
   }
   let filteredFederal = filteredData;
 
@@ -378,23 +376,21 @@ const filterMfsChartDataByAchievement = (state, action) => {
     showBarPartnerChartOf,
   } = action.payload;
   const mfsData = [...state.mfsListAllData];
-  let filteredDatas = [];
+  let filteredDatas = mfsData;
   if (selectedAchievement.length > 0) {
-    filteredDatas = mfsData.filter(data => {
+    filteredDatas = filteredDatas.filter(data => {
       return selectedAchievement.includes(data.achievement_type);
     });
   }
   if (selectedInnovation.length > 0) {
-    filteredDatas = mfsData.filter(data => {
+    filteredDatas = filteredDatas.filter(data => {
       return selectedInnovation.includes(data.key_innovation);
     });
   }
   if (selectedPartner.length > 0) {
-    filteredDatas = mfsData.filter(data => {
+    filteredDatas = filteredDatas.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
-  } else {
-    filteredDatas = mfsData;
   }
   // const filteredFederal = filteredData;
   const data = filteredDatas;
@@ -515,23 +511,21 @@ const filterMfsChartDataByPartner = (state, action) => {
   console.log(selectedDistrict, 'selectedDistrict');
   console.log(selectedProvince, 'selectedProvince');
   const mfsData = [...state.mfsListAllData];
-  let filteredData = [];
+  let filteredData = mfsData;
   if (selectedAchievement.length > 0) {
-    filteredData = mfsData.filter(data => {
+    filteredData = filteredData.filter(data => {
       return selectedAchievement.includes(data.achievement_type);
     });
   }
   if (selectedInnovation.length > 0) {
-    filteredData = mfsData.filter(data => {
+    filteredData = filteredData.filter(data => {
       return selectedInnovation.includes(data.key_innovation);
     });
   }
   if (selectedPartner.length > 0) {
-    filteredData = mfsData.filter(data => {
+    filteredData = filteredData.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
-  } else {
-    filteredData = mfsData;
   }
   let filteredFederal = filteredData;
   console.log(filteredFederal, 'before Federal Filter');
@@ -624,7 +618,8 @@ const filterMfsChartDataByPartnerWithInnovation = (state, action) => {
     filteredData = filteredData.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
-  } else {
+  }
+  if (clickedPartner) {
     filteredData = filteredData.filter(data => {
       return clickedPartner === data.partner_name;
     });
@@ -702,23 +697,21 @@ const filterMfsChartDataByDistrict = (state, action) => {
   } = action.payload;
 
   const mfsData = [...state.mfsListAllData];
-  let filteredDatas = [];
+  let filteredDatas = mfsData;
   if (selectedAchievement.length > 0) {
-    filteredDatas = mfsData.filter(data => {
+    filteredDatas = filteredDatas.filter(data => {
       return selectedAchievement.includes(data.achievement_type);
     });
   }
   if (selectedInnovation.length > 0) {
-    filteredDatas = mfsData.filter(data => {
+    filteredDatas = filteredDatas.filter(data => {
       return selectedInnovation.includes(data.key_innovation);
     });
   }
   if (selectedPartner.length > 0) {
-    filteredDatas = mfsData.filter(data => {
+    filteredDatas = filteredDatas.filter(data => {
       return selectedPartner.includes(data.partner_name);
     });
-  } else {
-    filteredDatas = mfsData;
   }
   const anotherArray = [...filteredDatas];
   const federalKey =
