@@ -172,10 +172,12 @@ class RightSideBar extends Component {
   calculateProgramCount = selectedProgram => {
     const { financialData } = this.props.financialReducer;
     let programCount;
-
+    console.log(selectedProgram);
+    console.log(financialData, 'filteredData');
     if (selectedProgram.length !== 0) {
       programCount = selectedProgram.length;
     } else {
+      console.log(selectedProgram, 'selectedProgram Lsit');
       const arr = [];
       financialData.map(item => {
         const obj = arr.find(x => x.program_id === item.program_id);
@@ -545,6 +547,7 @@ class RightSideBar extends Component {
       financialProgram,
       financialData,
       loading,
+      filteredData: finalData,
     } = this.props.financialReducer;
 
     const {
@@ -563,7 +566,17 @@ class RightSideBar extends Component {
       maxValue,
       timelineData,
     } = this.state;
-
+    const overviewCount =
+      finalData && finalData.filter(data => data.value !== 0);
+    const programLength = [
+      ...new Set(overviewCount.map(item => item.program_id)),
+    ].length;
+    const partnerLength = [
+      ...new Set(overviewCount.map(item => item.partner_id)),
+    ].length;
+    // console.log(overviewCount, 'overView');
+    // console.log(programLength, 'programLength');
+    // console.log(partnerLength, 'partnerLength');
     return (
       <aside className="sidebar right-sidebar literacy-right-sidebar">
         <div className="sidebar-in">
@@ -627,7 +640,12 @@ class RightSideBar extends Component {
                       <li>
                         <div className="widget-content">
                           <h6>Partner Institutions</h6>
-                          <span>{partnerCount}</span>
+                          {/* <span>{partnerCount}</span> */}
+                          <span>
+                            {partnerLength === 0
+                              ? partnerCount
+                              : partnerLength}
+                          </span>
                         </div>
                         <div className="widget-icon">
                           <span>
@@ -640,7 +658,12 @@ class RightSideBar extends Component {
                       <li>
                         <div className="widget-content">
                           <h6>Financial Literacy Initiative</h6>
-                          <span>{programCount}</span>
+                          {/* <span>{programCount}</span> */}
+                          <span>
+                            {programLength === 0
+                              ? programCount
+                              : programLength}
+                          </span>
                         </div>
                         <div className="widget-icon">
                           <span>

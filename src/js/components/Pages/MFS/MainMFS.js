@@ -1050,6 +1050,8 @@ class MainMFS extends Component {
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     );
     if (clickedBarDistrict.length > 0) {
       this.props.filterMfsChartDataByDistrict(
@@ -1065,6 +1067,8 @@ class MainMFS extends Component {
         selectedPartner,
         selectedInnovation,
         selectedAchievement,
+        selectedDistrict,
+        selectedProvince,
       );
     }
     this.props.filterMfsMapChartDataByPartner(
@@ -1072,20 +1076,24 @@ class MainMFS extends Component {
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     );
     this.props.filterOverViewData(
       mapViewBy,
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     );
     this.props.filterMfsMapPieData(
       mapViewBy,
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
-      // selectedDistrict,
-      // selectedProvince,
+      selectedDistrict,
+      selectedProvince,
     );
     this.setState({
       popupData: {},
@@ -1209,10 +1217,12 @@ class MainMFS extends Component {
       clickedBarDistrict: [],
       popupData: {},
     });
-    document.querySelectorAll('.fed_checkbox').forEach(el => {
-      // eslint-disable-next-line no-param-reassign
-      el.checked = false;
-    });
+    setTimeout(() => {
+      document.querySelectorAll('.fed_checkbox').forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.checked = false;
+      });
+    }, 1000);
 
     this.handleShowBarOf('Provinces');
     this.handleShowBarPartnerChartOf('Partner');
