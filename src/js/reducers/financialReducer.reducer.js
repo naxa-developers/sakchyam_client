@@ -120,6 +120,7 @@ const initialState = {
   treeMapData: {},
   pieData: [],
   loading: false,
+  filteredData: [],
 };
 
 // FUNCTION TO FILTER TREEMAP DATA
@@ -738,6 +739,7 @@ const filterFinancialDataForGraph = (state, action) => {
   let newProgramWiseData;
   let newPartnerWiseData;
 
+  let filterdFinalData = [];
   if (selectedPartners.length < 1 && selectedProgram.length < 1) {
     filteredLabel = state.filteredByProgramDefault.label;
     filteredSeries = state.filteredByProgramDefault.series;
@@ -808,6 +810,7 @@ const filterFinancialDataForGraph = (state, action) => {
       newData,
       'single_count',
     );
+    filterdFinalData = newData;
   } else if (
     // Partner is selected and Program is not selected
     selectedPartners.length > 0 &&
@@ -933,6 +936,7 @@ const filterFinancialDataForGraph = (state, action) => {
       filteredData,
       'single_count',
     );
+    filterdFinalData = filteredData;
   } else if (
     // Program is selected and Partner is not selected
     selectedPartners.length < 1 &&
@@ -1061,6 +1065,7 @@ const filterFinancialDataForGraph = (state, action) => {
       newFilteredData,
       'value',
     );
+    filterdFinalData = newFilteredData;
   } else if (
     // both Partners and Programs selected
     selectedPartners.length > 0 &&
@@ -1188,6 +1193,7 @@ const filterFinancialDataForGraph = (state, action) => {
       filteredDataSankey,
       'value',
     );
+    filterdFinalData = filteredDataSankey;
   }
 
   // const { selectedPartners, selectedProgram } = action.payload;
@@ -1273,7 +1279,7 @@ const filterFinancialDataForGraph = (state, action) => {
   const totalMicroBenef = filteredMicroFinance.reduce(function(x, b) {
     return x + b.single_count;
   }, 0);
-
+  console.log(filterdFinalData, 'filteredData', '/c');
   return {
     ...state,
     filteredByProgramDefault: {
@@ -1299,6 +1305,7 @@ const filterFinancialDataForGraph = (state, action) => {
     // },
     sankeyData: newSankeyData,
     treeMapData: newTreeMapData,
+    filteredData: filterdFinalData,
     // financialProgram: action.payload,
   };
 };

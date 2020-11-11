@@ -1156,12 +1156,14 @@ class Choropleth extends Component {
           //
           const getBbox = getCenterBboxProvince(federalCode);
           filterMapChoroplethPie(getBbox, federalCode);
+          that.props.setMapViewBy('district');
         } else if (that.props.mapViewBy === 'district') {
           const getBbox = getCenterBboxDistrict(
             parseInt(federalCode, 10),
           );
           that.props.handleProvinceClick(parseInt(federalCode, 10));
           filterMapChoroplethPie(getBbox, federalCode);
+          // that.props.setMapViewBy('municipality');
         } else if (that.props.mapViewBy === 'municipality') {
           const getBbox = getCenterBboxMunicipality(
             parseInt(federalCode, 10),

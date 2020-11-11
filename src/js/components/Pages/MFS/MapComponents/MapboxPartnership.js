@@ -119,7 +119,7 @@ class MapboxPartnership extends Component {
                 vectorTileUrl={vectorTileUrl}
                 map={map}
                 circleMarkerData={mfsPieData}
-                // divisions={inputDivisions}
+                divisions={[1, 57762, 115524, 173285, 231046]}
                 pieSquareLegend={this.pieSquareLegend}
                 label
                 color="#5014e4"
