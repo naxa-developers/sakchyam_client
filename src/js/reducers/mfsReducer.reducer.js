@@ -796,7 +796,7 @@ const filterMfsMapPieData = (state, action) => {
     selectedProvince,
     selectedDistrict,
   } = action.payload;
-  //
+  console.log(selectedDistrict, 'selectedDist Reducer');
   //
   const mfsData = [...state.mfsListAllData];
   const federalKey =
@@ -819,8 +819,8 @@ const filterMfsMapPieData = (state, action) => {
   }
   let filteredFederal = dataFilter;
 
-  if (selectedDistrict && selectedDistrict.lengh > 0) {
-    //
+  if (selectedDistrict && selectedDistrict.length > 0) {
+    console.log(dataFilter, 'dataFilter Reducer');
     filteredFederal = dataFilter.filter(
       elem =>
         selectedDistrict.find(

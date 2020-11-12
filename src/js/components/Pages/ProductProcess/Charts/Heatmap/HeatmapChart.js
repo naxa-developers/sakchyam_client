@@ -445,8 +445,8 @@ class HeatmapChart extends React.Component {
             !activeModal
               ? 650
               : activeModal && window.innerWidth < 1400
-              ? 600
-              : 750
+              ? 500
+              : 550
             // ? 500
           }
           // width={
