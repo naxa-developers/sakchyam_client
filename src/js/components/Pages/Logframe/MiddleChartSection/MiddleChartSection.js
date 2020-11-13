@@ -292,12 +292,12 @@ class MiddleChartSection extends Component {
           // floating: true,
           // align: 'center',
           // minWidth: '200',
-          maxWidth: '200',
+          // maxWidth: '200',
           labels: {
             show: true,
             align: 'right',
             minWidth: 0,
-            maxWidth: 160,
+          maxWidth: 160,
             style: {
               fontSize: '12px',
               fontFamily: 'Helvetica, Arial, sans-serif',

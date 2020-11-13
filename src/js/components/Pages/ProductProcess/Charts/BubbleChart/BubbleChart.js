@@ -201,16 +201,27 @@ class BubbleChart extends React.Component {
                     </>
                   ) : (
                     this.state.tooltipData.map(item => {
+                      // console.log(item, 'item Product Process');
                       if (id === item.product)
                         // return `${id} Partner: (${item.partner})`;
                         return (
                           <strong>
                             {/* `${id}${'\n'} Partner: ${item.partner}` */}
                             {id} <br />
-                            <span style={{ background: 'pink' }}>
+                            <span
+                              style={{
+                                color: 'red',
+                                display: 'flex',
+                                justifyContent: 'center',
+                              }}
+                            >
                               Partner:
                             </span>
-                            {item.partner}
+                            <ul>
+                              {item.partner.map(data => (
+                                <li>{data}</li>
+                              ))}
+                            </ul>
                           </strong>
                         );
                       return true;
