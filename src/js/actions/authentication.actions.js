@@ -16,8 +16,8 @@ export const loginUser = data => dispatch => {
       type: LOGIN_USER_REQUEST,
       // payload: result.data,
     });
-    const response = axios
-      .post(`${process.env.PUBLIC_URL}/api/v1/token/login/`, data)
+    const response = axiosInstance
+      .post('/api/v1/token/login/', data)
       .then(function(result) {
         const expireTime = new Date();
         expireTime.setHours(expireTime.getHours() + 24);
