@@ -27,6 +27,7 @@ class StackedBarWithInvestment extends Component {
   plotChart = () => {
     //
     const that = this;
+    const { activeModal } = this.props;
     const series = [
       // {
       //   name: 'Income',
@@ -116,6 +117,8 @@ class StackedBarWithInvestment extends Component {
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
         label: {
+          minHeight: activeModal ? 100 : undefined,
+          // maxHeight: 400,
           fontSize: '10px',
           // formatter: value => {
           //   if (value.length > 19) {
@@ -446,18 +449,24 @@ class StackedBarWithInvestment extends Component {
             // colors: [],
             fontSize: '10px',
           },
-          // formatter: value => {
-          //   // const a = 'abc def ghi jkl mno pqr';
-          //   if (value.length > 19) {
-          //     const splited = value.split(' ');
-          //     const combined = [];
-          //     for (let i = 0; i < splited.length; i += 2) {
-          //       combined.push(`${splited[i]} ${splited[i + 1]}`);
-          //     }
-          //     return combined;
-          //   }
-          //   return value;
-          // },
+          formatter: value => {
+            // const a = 'abc def ghi jkl mno pqr';
+            if (activeModal) {
+              if (value.length > 19) {
+                const splited = value.split(' ');
+                const combined = [];
+                for (let i = 0; i < splited.length; i += 2) {
+                  combined.push(
+                    `${splited[i]} ${
+                      splited[i + 1] ? splited[i + 1] : ''
+                    }`,
+                  );
+                }
+                return combined;
+              }
+            }
+            return value;
+          },
           // formatter: value => {
           //   if (value.length > 19) {
           //     return value.split(' ');
@@ -471,6 +480,8 @@ class StackedBarWithInvestment extends Component {
           //   }
           //   return value;
           // },
+          minHeight: activeModal ? 100 : undefined,
+          // maxHeight: 400,
           trim: activeModal ? false : true,
           hideOverlappingLabels: false,
         },
@@ -672,6 +683,12 @@ class StackedBarWithInvestment extends Component {
       // alert('test');
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ update: true });
+      this.updateBarChart(activeModal);
+    }
+    if (prevProps.activeModal !== this.props.activeModal) {
+      // alert('test');
+      // eslint-disable-next-line react/no-did-update-set-state
+      // this.setState({ update: true });
       this.updateBarChart(activeModal);
     }
   }

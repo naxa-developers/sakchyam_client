@@ -651,6 +651,9 @@ class MainPartnership extends Component {
 
   setActiveView = selectedView => {
     localStorage.setItem('activeView', selectedView);
+    setTimeout(() => {
+      this.applyBtnClick();
+    }, 2000);
     this.setState({
       activeView: selectedView,
       selectedProvince: [],

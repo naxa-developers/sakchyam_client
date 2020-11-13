@@ -180,7 +180,7 @@ class BubbleChart extends React.Component {
               motionStiffness={90}
               motionDamping={12}
               tooltip={({ id, value, color }) => (
-                <span style={{ display: 'flex' }}>
+                <span style={{ display: 'flex', padding: '15px' }}>
                   {/* <strong> */}
                   {/* {id}: {value} */}
                   {color !== '#de2693' ? (
@@ -207,6 +207,18 @@ class BubbleChart extends React.Component {
                         return (
                           <strong>
                             {/* `${id}${'\n'} Partner: ${item.partner}` */}
+                            <span
+                              style={{
+                                position: 'absolute',
+                                left: 0,
+                                right: 0,
+                                textAlign: 'center',
+                                color: 'red',
+                              }}
+                            >
+                              Product Name
+                            </span>
+                            <br />
                             {id} <br />
                             <span
                               style={{
@@ -217,7 +229,7 @@ class BubbleChart extends React.Component {
                             >
                               Partner:
                             </span>
-                            <ul>
+                            <ul style={{ listStyle: 'disc' }}>
                               {item.partner.map(data => (
                                 <li>{data}</li>
                               ))}

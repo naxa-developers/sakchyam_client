@@ -50,7 +50,7 @@ class RightSideBar extends Component {
     return (
       <aside
         className="sidebar right-sidebar literacy-right-sidebar"
-        style={{ maxWidth: '345px' }}
+        style={{ maxWidth: '314px' }}
       >
         <div className="sidebar-in">
           <div className="right-sidebar-header">
