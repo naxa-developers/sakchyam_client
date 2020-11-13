@@ -5,6 +5,7 @@ const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const APP_DIR = path.resolve(__dirname, '../src');
 const OUTPUT_DIR = path.resolve(__dirname, '../dist');
@@ -76,6 +77,7 @@ module.exports = env => {
         ],
       },
       plugins: [
+        new Dotenv(),
         new HtmlWebpackPlugin({
           title: 'Sakchyam',
           template: './src/index.html',
@@ -98,7 +100,6 @@ module.exports = env => {
         }),
         new CopyWebpackPlugin([{ from: 'src/static/' }]),
         // new DashboardPlugin(),
-        // new Dotenv(),
       ],
       // devServer: {
       //   inline: true,
