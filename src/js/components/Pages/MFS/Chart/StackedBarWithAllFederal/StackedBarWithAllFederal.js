@@ -483,11 +483,11 @@ class StackedBarWithAllFederal extends Component {
       showBarChartByTitle,
       activeOverview,
     } = this.props;
-    console.log(Partnerseries, 'partnerSeries');
-    console.log(
-      Fedseries && Fedseries[0] && Fedseries[0].data.length,
-      'Fedseries',
-    );
+    // console.log(Partnerseries, 'partnerSeries');
+    // console.log(
+    //   Fedseries && Fedseries[0] && Fedseries[0].data.length,
+    //   'Fedseries',
+    // );
     return (
       <div
         id="stacked_chart"
