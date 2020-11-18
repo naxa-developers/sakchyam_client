@@ -483,11 +483,11 @@ class StackedBarWithAllFederal extends Component {
       showBarChartByTitle,
       activeOverview,
     } = this.props;
-    console.log(Partnerseries, 'partnerSeries');
-    console.log(
-      Fedseries && Fedseries[0] && Fedseries[0].data.length,
-      'Fedseries',
-    );
+    // console.log(Partnerseries, 'partnerSeries');
+    // console.log(
+    //   Fedseries && Fedseries[0] && Fedseries[0].data.length,
+    //   'Fedseries',
+    // );
     return (
       <div
         id="stacked_chart"
@@ -524,11 +524,11 @@ class StackedBarWithAllFederal extends Component {
             }
             width={
               this.props.activeModal && window.innerWidth > 1400
-                ? 1400
+                ? 1600
                 : this.props.activeModal && window.innerWidth < 1400
                 ? 1000
                 : !activeOverview && window.innerWidth > 1400
-                ? 1100
+                ? 1200
                 : activeOverview && window.innerWidth > 1400
                 ? 1500
                 : activeOverview && window.innerWidth < 1400
@@ -553,11 +553,11 @@ class StackedBarWithAllFederal extends Component {
             }
             width={
               this.props.activeModal && window.innerWidth > 1400
-                ? 1400
+                ? 1800
                 : this.props.activeModal && window.innerWidth < 1400
-                ? 1000
+                ? 1300
                 : !activeOverview && window.innerWidth > 1400
-                ? 1100
+                ? 1200
                 : activeOverview && window.innerWidth > 1400
                 ? 1500
                 : activeOverview && window.innerWidth < 1400

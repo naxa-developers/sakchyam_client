@@ -91,7 +91,7 @@ const Modal = props => {
                 notifyHandler(
                   'The infographics will be downloaded shortly.',
                 );
-                downloadPng('pie-content', modalHeader);
+                downloadPng('popup-body', modalHeader);
               }}
             >
               <img src={DownloadIcon} alt="open" />
