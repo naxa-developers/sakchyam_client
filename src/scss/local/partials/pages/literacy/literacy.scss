@@ -62,7 +62,12 @@
           left: initial;
           .filter-content {
             min-width: 520px;
+            &.is-right {
+              left: auto;
+              right: 0;
+            }
           }
+          
         }
         &.is-position {
           position: absolute;
@@ -70,6 +75,9 @@
           left: 0;
           right: 0;
           z-index: 999;
+        }
+        &.is-right {
+          @include justify-content-end;
         }
       }
       .leaflet-container,
@@ -583,6 +591,7 @@
     visibility: hidden;
     opacity: 0;
     @include transition(all 500ms ease);
+   
     top: 120%;
     left: 0;
     right: auto;
@@ -597,6 +606,7 @@
     @include radius(5px);
     margin: 0;
     padding: 1rem;
+    
     .filter-row {
       @include display-flex(flex);
       @include justify-content-start;
@@ -702,6 +712,7 @@
         }
       }
     }
+    
   }
   &.active {
     .filter-content {
@@ -713,6 +724,10 @@
       -webkit-transition: -webkit-transform 0.3s ease,
         opacity 0.2s ease 0.1s;
       visibility: visible;
+      &.is-right{
+        left: auto !important;
+        right: 0 !important;
+      }
     }
   }
 }

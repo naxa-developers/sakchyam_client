@@ -377,7 +377,7 @@ class MainMFS extends Component {
                 : mapViewBy === 'district' && window.innerWidth < 1400
                 ? {
                     width: '1350px',
-                    overflowX: 'scroll',
+                    // overflowX: 'scroll',
                   }
                 : {}
             }

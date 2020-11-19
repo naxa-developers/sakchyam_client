@@ -64,7 +64,7 @@ const Modal = props => {
     <div className="popup open" id="graph-modal">
       <div className="popup-container full-popup">
         <div className="popup-body" id="popup-body">
-          <span className="close-icon">
+          <span data-html2canvas-ignore className="close-icon">
             <i
               className="material-icons"
               role="button"
@@ -78,6 +78,7 @@ const Modal = props => {
           <div className="popup-header no-flex">
             <h3 style={{ color: '#C2002F' }}>{modalHeader}</h3>
             <span
+              data-html2canvas-ignore
               style={{
                 position: 'absolute',
                 right: '90px',
@@ -226,7 +227,7 @@ const Modal = props => {
                     <div
                       key={data.id}
                       className="branch"
-                      style={{ height: '4vh' }}
+                      // style={{ height: '4vh' }}
                     >
                       <div
                         className={`branch-icon ${getClassName(

@@ -26,8 +26,13 @@ class StackedBarWithInvestment extends Component {
 
   plotChart = () => {
     //
+    const {
+      partnershipReducer: { barDatasByInvestment },
+      projectSelection,
+      activeModal,
+    } = this.props;
     const that = this;
-    const { activeModal } = this.props;
+    // const { activeModal } = this.props;
     const series = [
       // {
       //   name: 'Income',
@@ -84,6 +89,7 @@ class StackedBarWithInvestment extends Component {
               ) {
                 that.props.filterBenefBudgetDataForBarClick(
                   clickedBar,
+                  projectSelection,
                 );
               }
               that.props.handleShowBarOfInvestmentBudgetBenefBar(
@@ -281,6 +287,7 @@ class StackedBarWithInvestment extends Component {
       projectSelection,
       activeModal,
     } = this.props;
+    console.log(projectSelection, 'projectSele');
     const newArray = barDatasByInvestment.series[0].data.map(
       (e, i) => e + barDatasByInvestment.series[1].data[i],
     );

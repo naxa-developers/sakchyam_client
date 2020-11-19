@@ -147,15 +147,19 @@ class FilterTab extends Component {
           allDistrictList,
           allMunicipalityList,
         },
+        isRight,
       },
     } = this;
     return (
       <div
+        data-html2canvas-ignore
         className={`partnership-filter ${
           activeView === 'map' ? 'is-position' : ''
-        }`}
+        } ${isRight ? 'is-right' : ''}`}
       >
-        <div className={`filter-bar ${activeFilter ? 'active' : ''}`}>
+        <div
+          className={`filter-bar ${activeFilter ? 'active' : ''} `}
+        >
           <button
             type="button"
             onClick={this.setActiveFilter}
@@ -164,7 +168,9 @@ class FilterTab extends Component {
             <i className="material-icons">filter_list</i>
             <span>Filters</span>
           </button>
-          <div className="filter-content">
+          <div
+            className={`filter-content ${isRight ? 'is-right' : ''}`}
+          >
             {/* <div className="view-list">
               <span>view by</span>
               <ul className="tab-list">

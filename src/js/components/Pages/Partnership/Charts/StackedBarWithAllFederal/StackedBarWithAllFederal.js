@@ -665,7 +665,14 @@ class StackedBarWithAllFederal extends Component {
               ? 500 // modal on and arjun screen size
               : 690
           }
-          // width={activeModal === true ? 1600 : '100%'}
+          // width={
+          //   cardView && !activeModal
+          //     ? null
+          //     : activeModal && window.innerWidth < 1400
+          //     ? 1250 // modal on and arjun screen size
+          //     : 690
+          // }
+          // width={activeModal === true ? 1600 -+: '100%'}
         />
       </div>
     );

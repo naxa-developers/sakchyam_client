@@ -549,6 +549,7 @@ class RightSideBar extends Component {
       loading,
       filteredData: finalData,
     } = this.props.financialReducer;
+    const { selectedProgram, checkedPartnerItems } = this.props;
 
     const {
       showRightSidebar,
@@ -568,6 +569,13 @@ class RightSideBar extends Component {
     } = this.state;
     const overviewCount =
       finalData && finalData.filter(data => data.value !== 0);
+    console.log(overviewCount, 'overViewCount');
+    const benefCount =
+      overviewCount &&
+      overviewCount.reduce((a, b) => {
+        return a + b.value;
+      }, 0);
+    console.log(benefCount);
     const programLength = [
       ...new Set(overviewCount.map(item => item.program_id)),
     ].length;
@@ -628,7 +636,10 @@ class RightSideBar extends Component {
                         <div className="widget-content">
                           <h6>Total Beneficiaries</h6>
                           <span>
-                            {numberWithCommas(totalBeneficiaries)}
+                            {checkedPartnerItems.length === 0 &&
+                            selectedProgram.length === 0
+                              ? numberWithCommas(totalBeneficiaries)
+                              : numberWithCommas(benefCount)}
                           </span>
                         </div>
                         <div className="widget-icon">

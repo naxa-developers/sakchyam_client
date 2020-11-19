@@ -157,7 +157,7 @@ const Modal = props => {
     >
       <div className="popup-container full-popup">
         <div className="popup-body" id="popup-body">
-          <span className="close-icon">
+          <span data-html2canvas-ignore className="close-icon">
             <i
               className="material-icons"
               role="button"
@@ -171,9 +171,16 @@ const Modal = props => {
 
           <div className="popup-header no-flex">
             <h3>{modalHeader}</h3>
+            {selectedModal === 'groupedChart' && (
+              <FilterTab
+                groupedStackData={groupedStackData}
+                isRight
+              />
+            )}
             {selectedModal === 'stacked_chart' &&
             showBarPartnerChartOf === 'Innovation' ? (
               <span
+                data-html2canvas-ignore
                 style={{
                   position: 'absolute',
                   right: '142px',
@@ -210,6 +217,7 @@ const Modal = props => {
             ) : selectedModal === 'stacked_chart' &&
               showBarof === 'Districts' ? (
               <span
+                data-html2canvas-ignore
                 style={{
                   position: 'absolute',
                   right: '142px',
@@ -245,6 +253,7 @@ const Modal = props => {
               </span>
             ) : selectedModal === 'sunburst' ? (
               <span
+                data-html2canvas-ignore
                 style={{
                   position: 'absolute',
                   right: '142px',
@@ -281,6 +290,7 @@ const Modal = props => {
             ) : // </span>
             selectedModal === 'groupedChart' ? (
               <span
+                data-html2canvas-ignore
                 style={{
                   position: 'absolute',
                   right: '142px',
@@ -317,6 +327,7 @@ const Modal = props => {
             ) : // </span>
             selectedModal === 'stackedWithInvestment' ? (
               <span
+                data-html2canvas-ignore
                 style={{
                   position: 'absolute',
                   right: '142px',
@@ -354,6 +365,7 @@ const Modal = props => {
                 </button>
               </span>
             ) : null}
+
             {/* <span
               style={{
                 position: 'absolute',
@@ -388,6 +400,7 @@ const Modal = props => {
             </span> */}
 
             <span
+              data-html2canvas-ignore
               style={{
                 position: 'absolute',
                 right: '90px',
@@ -429,9 +442,7 @@ const Modal = props => {
           </div>
           <div className="popup-content" id="modal-content">
             {/* <label>Test</label> */}
-            {selectedModal === 'groupedChart' && (
-              <FilterTab groupedStackData={groupedStackData} />
-            )}
+
             {component()}
           </div>
           {/* <div className="popup-footer buttons is-end"> */}

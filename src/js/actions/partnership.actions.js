@@ -2502,6 +2502,7 @@ export const filterBenefBudgetDataForBarClick = (
   clicked,
   projectSelection,
 ) => dispatch => {
+  console.log(projectSelection, 'projectSelection');
   const selectedProject =
     projectSelection.length > 0 ? projectSelection : [0];
   // const data = selectedDataView;

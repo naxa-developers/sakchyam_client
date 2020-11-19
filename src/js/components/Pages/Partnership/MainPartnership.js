@@ -175,7 +175,7 @@ class MainPartnership extends Component {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         isAllProjectSelected: false,
-        projectSelection: [],
+        // projectSelection: [],
       });
     }
     if (prevState.mapViewDataBy !== mapViewDataBy) {
@@ -652,7 +652,7 @@ class MainPartnership extends Component {
   setActiveView = selectedView => {
     localStorage.setItem('activeView', selectedView);
     setTimeout(() => {
-      this.applyBtnClick();
+      this.applyBtnClick(true);
     }, 2000);
     this.setState({
       activeView: selectedView,
@@ -1163,11 +1163,25 @@ class MainPartnership extends Component {
 
   handleInvestmentFocusCheckbox = e => {
     const {
-      state: { investmentFocusSelection },
+      state: { investmentFocusSelection, projectSelection },
+      props: {
+        partnershipReducer: { projectLists },
+      },
     } = this;
+    // console.log(projectLists.filter(data=), 'project');
     const {
       target: { name, checked, value },
     } = e;
+    const projectFilter = projectLists.filter(
+      data => data.investment_primary === name,
+    );
+    let a = false;
+    projectSelection.forEach(el => {
+      if (projectFilter.find(x => x.id === el)) {
+        a = true;
+      }
+    });
+    // const projectIncludes = projectFilter.includes();
 
     this.setState(preState => {
       if (checked) {
@@ -1176,7 +1190,7 @@ class MainPartnership extends Component {
             ...preState.investmentFocusSelection,
             name,
           ],
-          projectSelection: [],
+          projectSelection: a ? preState.projectSelection : [],
         };
       }
       if (!checked) {
