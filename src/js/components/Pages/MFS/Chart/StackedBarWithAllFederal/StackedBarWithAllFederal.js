@@ -223,6 +223,7 @@ class StackedBarWithAllFederal extends Component {
       mfsReducer: { mfsChartData, mfsChartDataByPartner },
       showBarChartBy,
       showBarChartByTitle,
+      activeModal,
     } = this.props;
     const { mapViewBy } = this.props;
     const options = {
@@ -352,6 +353,9 @@ class StackedBarWithAllFederal extends Component {
           showBarChartBy === 'Partner'
             ? mfsChartDataByPartner.labels
             : mfsChartData.labels,
+        labels: {
+          hideOverlappingLabels: activeModal ? false : true,
+        },
         // title: {
         //   text: 'Provinces',
         // },
@@ -555,7 +559,7 @@ class StackedBarWithAllFederal extends Component {
               this.props.activeModal && window.innerWidth > 1400
                 ? 1800
                 : this.props.activeModal && window.innerWidth < 1400
-                ? 1300
+                ? 2000
                 : !activeOverview && window.innerWidth > 1400
                 ? 1200
                 : activeOverview && window.innerWidth > 1400

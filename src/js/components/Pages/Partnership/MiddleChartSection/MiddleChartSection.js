@@ -236,7 +236,7 @@ class MiddleChartSection extends Component {
         return <CirclePackChart activeModal />;
       case 'groupedChart':
         return (
-          <div id="barContainer" style={{ width: '1900px' }}>
+          <div id="barContainer">
             <StackedBarWithAllFederal
               cardTitle="Province/District/Municipality Wise Budget & Beneficiaries Count"
               viewDataBy={viewDataBy}
