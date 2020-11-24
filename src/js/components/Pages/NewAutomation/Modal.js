@@ -119,12 +119,12 @@ const Modal = props => {
                   marginTop: '7vh',
                 }}
               >
-                <div
+                {/* <div
                   className="chart-label"
                   style={{ display: 'none' }}
                 >
                   <h5>Automation (Tablets Deployed)</h5>
-                </div>
+                </div> */}
                 <div className="modal-pie" style={{ flex: 8 }}>
                   {tabletsDeployed.total_branch === 0 ? (
                     0
