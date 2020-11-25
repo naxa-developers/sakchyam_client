@@ -62,7 +62,7 @@ const Modal = props => {
       : 'Automation(Branch Count)';
   return (
     <div className="popup open" id="graph-modal">
-      <div className="popup-container full-popup">
+      <div className="popup-container full-popup" id="testc">
         <div className="popup-body" id="popup-body">
           <span data-html2canvas-ignore className="close-icon">
             <i
@@ -92,7 +92,7 @@ const Modal = props => {
                 notifyHandler(
                   'The infographics will be downloaded shortly.',
                 );
-                downloadPng('popup-body', modalHeader);
+                downloadPng('testc', modalHeader);
               }}
             >
               <img src={DownloadIcon} alt="open" />

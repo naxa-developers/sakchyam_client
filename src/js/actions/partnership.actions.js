@@ -1583,6 +1583,7 @@ export const getSankeyChartData = selectedView => dispatch => {
     selectedView === 'allocated_budget'
       ? 'allocated_budget'
       : 'allocated_beneficiary';
+  // console.log(selectedView, 'selectedView');
   // let data = selectedInvestmentFocus;
   // if (
   //   selectedInvestmentFocus === undefined ||
@@ -1592,7 +1593,7 @@ export const getSankeyChartData = selectedView => dispatch => {
   // }
   try {
     axiosInstance
-      .get(`/api/v1/partnership/sankey/?view=${selected}`)
+      .get(`/api/v1/partnership/sankey/?view=${selectedView}`)
       .then(function(result) {
         return dispatch({
           type: GET_SANKEY_CHART_DATA,
@@ -2279,12 +2280,32 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
   selectedViewDataBy,
   selectedFederalType,
   selectedFederalList,
+  selectedInvestmentFocus,
+  selectedProjectId,
+  selectedPartnerType,
+  selectedPartnerId,
+  selectedProjectStatus,
 ) => dispatch => {
-  //
-  //
-  //
-  //
-
+  const investmentFilter =
+    selectedInvestmentFocus && selectedInvestmentFocus.length > 0
+      ? `investment_filter=${selectedInvestmentFocus}`
+      : '';
+  const projectIdFilter =
+    selectedProjectId && selectedProjectId.length > 0
+      ? `project_filter=${selectedProjectId}`
+      : '';
+  const partnerTypeFilter =
+    selectedPartnerType && selectedPartnerType.length > 0
+      ? `partner_type_filter=${selectedPartnerType}`
+      : '';
+  const projectStatusFilter =
+    selectedProjectStatus && selectedProjectStatus.length > 0
+      ? `status=${selectedProjectStatus}`
+      : [];
+  const partnerIdFilter =
+    selectedPartnerId && selectedPartnerId.length > 0
+      ? `partner_filter=${selectedPartnerId}`
+      : '';
   const federalFilter =
     selectedFederalList &&
     selectedFederalList.selectedMunicipality &&
@@ -2338,7 +2359,7 @@ export const filterMapDataOfCircleMarkerWithViewDataBy = (
   try {
     axiosInstance
       .get(
-        `/api/v1/partnership/map-data/?${federalFilter}&pie=${selectedViewDataBy}`,
+        `/api/v1/partnership/map-data/?${investmentFilter}&${projectStatusFilter}&${projectIdFilter}&${partnerTypeFilter}&${partnerIdFilter}&${federalFilter}&pie=${selectedViewDataBy}`,
       )
       .then(function(result) {
         return dispatch({

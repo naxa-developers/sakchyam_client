@@ -308,6 +308,7 @@ class Choropleth extends Component {
       map,
       mapViewDataBy,
     } = that.props;
+    console.log(circleMarkerData, 'cirlceMarkerData');
     const FederalData =
       mapViewBy === 'municipality'
         ? fullGeojsonMunicipality

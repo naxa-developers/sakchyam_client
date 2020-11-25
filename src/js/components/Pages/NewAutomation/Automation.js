@@ -621,6 +621,7 @@ class MainAutomation extends Component {
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v10',
       center: [84, 28.5],
+      preserveDrawingBuffer: true,
       zoom: 5.8,
     });
     this.setState({ map });

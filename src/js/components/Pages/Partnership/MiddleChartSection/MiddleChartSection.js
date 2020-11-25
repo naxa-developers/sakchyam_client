@@ -466,7 +466,7 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
-            {viewDataBy !== 'Leverage' && (
+            {viewDataBy !== 'leverage' && (
               <CardTab
                 notificationHandler={notificationHandler}
                 resetFunction={() => {
@@ -516,7 +516,7 @@ class MiddleChartSection extends Component {
                 }}
               />
             )}
-            {viewDataBy === 'Leverage' && (
+            {viewDataBy === 'leverage' && (
               <CardTab
                 notificationHandler={notificationHandler}
                 resetFunction={() => {
