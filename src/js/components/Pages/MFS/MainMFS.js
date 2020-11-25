@@ -1502,7 +1502,11 @@ class MainMFS extends Component {
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
                       cardTitle="Province/District Wise Achievement Type"
-                      style={{ position: 'relative' }}
+                      style={{
+                        position: 'relative',
+                        // height: "calc('100vh' - '30vh')",
+                        // height: `calc(100vh - 30vh)`,
+                      }}
                       cardClass="col-xl-12"
                       cardChartId="mfsMap"
                       handleModal={this.handleModal}

@@ -155,6 +155,20 @@ class RightSideBar extends Component {
             </div>
           </div>
         </div>
+        <div className="expand-button" style={{ left: '-77px' }}>
+          <button
+            type="button"
+            onClick={() => {
+              downloadPng('map', 'Partnership Map');
+            }}
+            onKeyPress={() => {
+              downloadPng('map', 'Partnership Map');
+            }}
+            className="common-button is-clear close-all"
+          >
+            <i className="material-icons">download</i>
+          </button>
+        </div>
         <div
           className={`expand-button ${
             activeOverview ? 'active' : ''

@@ -122,7 +122,7 @@ export const downloadPng = (chartid, filename) => {
   // const useHeight = chartEl.scrollHeight;
   setTimeout(() => {
     html2canvas(chartEl, {
-      // scale: 5,
+      scale: 5,
       allowTaint: true,
       width: useWidth,
       // height: useHeight,
