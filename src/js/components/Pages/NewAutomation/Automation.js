@@ -236,6 +236,11 @@ class MainAutomation extends Component {
             '#34ede1',
           ],
         },
+        yaxis: {
+          crosshairs: {
+            show: false,
+          },
+        },
       },
       areaChartOptions: {
         series: [
@@ -264,6 +269,11 @@ class MainAutomation extends Component {
             '2018-09-19T05:30:00.000Z',
             '2018-09-19T06:30:00.000Z',
           ],
+        },
+        yaxis: {
+          crosshairs: {
+            show: false,
+          },
         },
         fill: {
           opacity: 1,
@@ -490,6 +500,11 @@ class MainAutomation extends Component {
                 '#9ff035',
                 '#34ede1',
               ],
+            },
+            yaxis: {
+              crosshairs: {
+                show: false,
+              },
             },
           },
           rightSideBarLoader: false,

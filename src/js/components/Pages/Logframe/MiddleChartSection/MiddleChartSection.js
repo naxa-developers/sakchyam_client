@@ -323,6 +323,9 @@ class MiddleChartSection extends Component {
               return convert(value);
             },
           },
+          crosshairs: {
+            show: false,
+          },
           min: 0,
           forceNiceScale: true,
           // axisBorder: {

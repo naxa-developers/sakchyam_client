@@ -61,6 +61,11 @@ class DonutChartInsurance extends Component {
         '#72B095',
         '#a1bd93',
       ],
+      yaxis: {
+        crosshairs: {
+          show: false,
+        },
+      },
       // fill: {
       //   colors: ['#E11D3F', '#13A8BE', '#FF6D00'],
       // },
@@ -138,6 +143,11 @@ class DonutChartInsurance extends Component {
           },
         },
       },
+      // yaxis: {
+      //   crosshairs: {
+      //     show: false,
+      //   },
+      // },
       tooltip: {
         marker: { show: false },
         fillSeriesColor: false,

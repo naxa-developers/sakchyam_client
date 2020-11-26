@@ -142,14 +142,19 @@ class StackedBarWithAllFederal extends Component {
       },
       plotOptions: {
         bar: {
-          columnWidth: '20%',
+          // columnWidth: '20%',
         },
       },
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        width: [1],
+        show: true,
+        curve: 'smooth',
+        lineCap: 'butt',
+        colors: undefined,
+        width: 2,
+        dashArray: 0,
       },
       // title: {
       //   text: 'XYZ - Stock Analysis (2009 - 2016)',
@@ -172,6 +177,9 @@ class StackedBarWithAllFederal extends Component {
           // align: 'right',
           minWidth: 100,
           maxWidth: 200,
+        },
+        crosshairs: {
+          show: false,
         },
       },
       grid: {
@@ -322,14 +330,19 @@ class StackedBarWithAllFederal extends Component {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '20%',
+          // columnWidth: '20%',
         },
       },
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        width: [0],
+        show: true,
+        curve: 'smooth',
+        lineCap: 'butt',
+        colors: undefined,
+        width: 2,
+        dashArray: 0,
       },
       // title: {
       //   text: 'XYZ - Stock Analysis (2009 - 2016)',
@@ -373,6 +386,9 @@ class StackedBarWithAllFederal extends Component {
           // align: 'right',
           minWidth: 100,
           maxWidth: 200,
+        },
+        crosshairs: {
+          show: false,
         },
       },
       grid: {

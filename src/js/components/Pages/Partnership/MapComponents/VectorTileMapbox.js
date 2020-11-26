@@ -116,6 +116,7 @@ province.map(data => {
     },
   });
 });
+console.log(fullGeojsonProvince, 'fullgeojson');
 const fullGeojsonDistrict = {
   type: 'FeatureCollection',
   features: [],
@@ -273,8 +274,9 @@ class Choropleth extends Component {
     //
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
+      // console.log(value, 'value');
       const color = this.getLegendColor(value.count);
-      expression.push(value.id.toString(), color);
+      expression.push(value.code.toString(), color);
     });
 
     // const data = this.props.choroplethData;
@@ -853,16 +855,17 @@ class Choropleth extends Component {
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
             return (
-              parseInt(data.id, 10) ===
+              parseInt(data.code, 10) ===
               parseInt(e.features[0].properties.code, 10)
             );
           },
         );
+        console.log(filteredCodeData, 'codeData ');
 
         setLeftPopupData({
           name: e.features[0].properties.name,
           code: e.features[0].properties.code,
-          id: e.features[0].properties.id,
+          id: e.features[0].properties.code,
           count: filteredCodeData[0].count,
         });
         // popup

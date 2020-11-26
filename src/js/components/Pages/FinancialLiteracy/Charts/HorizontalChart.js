@@ -377,6 +377,9 @@ class HorizontalChart extends Component {
           // formatter: val => numberWithCommas(val),
           formatter: val => convert(val.toFixed(2)),
         },
+        crosshairs: {
+          show: false,
+        },
       },
       tooltip: {
         marker: {
