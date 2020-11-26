@@ -141,6 +141,9 @@ class HeatmapChart extends React.Component {
           offsetY: 0,
           rotate: 0,
         },
+        crosshairs: {
+          show: false,
+        },
       },
       xaxis: {
         labels: {
@@ -338,6 +341,9 @@ class HeatmapChart extends React.Component {
           offsetX: 0,
           offsetY: 0,
           rotate: 0,
+        },
+        crosshairs: {
+          show: false,
         },
       },
       xaxis: {

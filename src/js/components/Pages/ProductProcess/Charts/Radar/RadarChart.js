@@ -63,6 +63,9 @@ class RadarChart extends React.Component {
         //     return val.toFixed(0);
         //   },
         // },
+        crosshairs: {
+          show: false,
+        },
       },
       legend: {
         show: true,

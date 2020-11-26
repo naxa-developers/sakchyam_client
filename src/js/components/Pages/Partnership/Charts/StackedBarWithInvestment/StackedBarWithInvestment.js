@@ -559,6 +559,9 @@ class StackedBarWithInvestment extends Component {
               color: '#008FFB',
             },
           },
+          crosshairs: {
+            show: false,
+          },
           // tooltip: {
           //   enabled: true,
           // },
@@ -600,6 +603,9 @@ class StackedBarWithInvestment extends Component {
               return convert(Math.trunc(value.toFixed(0)));
             },
           },
+          crosshairs: {
+            show: false,
+          },
           //   title: {
           //     text: 'Operating Cashflow (thousand crores)',
           //     style: {
@@ -633,6 +639,9 @@ class StackedBarWithInvestment extends Component {
             style: {
               color: '#f7bc48',
             },
+          },
+          crosshairs: {
+            show: false,
           },
           // tooltip: {
           //   enabled: true,

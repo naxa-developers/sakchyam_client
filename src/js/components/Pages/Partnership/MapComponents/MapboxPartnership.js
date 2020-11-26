@@ -118,6 +118,7 @@ class MapboxPartnership extends Component {
       filteredMapData,
       mapDataForCircleMarker,
     } = this.props.partnershipReducer;
+    console.log(filteredMapData, 'filteredMapData');
     return (
       <>
         <div id="key" ref={this.keyRef} />

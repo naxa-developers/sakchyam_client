@@ -124,6 +124,9 @@ class GroupedBar extends Component {
         title: {
           text: 'Beneficiaries',
         },
+        crosshairs: {
+          show: false,
+        },
       },
       fill: {
         opacity: 1,
@@ -198,6 +201,9 @@ class GroupedBar extends Component {
       yaxis: {
         title: {
           text: '$ (thousands)',
+        },
+        crosshairs: {
+          show: false,
         },
       },
       fill: {

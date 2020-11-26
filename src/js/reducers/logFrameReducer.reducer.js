@@ -790,6 +790,9 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
             return convert(value);
           },
         },
+        crosshairs: {
+          show: false,
+        },
         title: {
           text: `${
             dataType !== null && dataType !== undefined
@@ -1012,6 +1015,9 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
             fontFamily: 'Avenir Heavy',
             fontSize: '15px',
           },
+        },
+        crosshairs: {
+          show: false,
         },
       },
       tooltip: {

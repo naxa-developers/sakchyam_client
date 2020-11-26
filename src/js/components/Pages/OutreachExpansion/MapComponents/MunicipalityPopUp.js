@@ -7,7 +7,7 @@ import { numberWithCommas } from '../../../common/utilFunctions';
 
 export default function MunicipalityPopUp(props) {
   const data = props.selectedMuni;
-  console.log('data===>', data);
+  // console.log('data===>', data);
 
   const mobileChceck =
     data.communication_mobile === 'Yes' ? true : false;

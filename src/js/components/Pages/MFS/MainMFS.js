@@ -1261,6 +1261,24 @@ class MainMFS extends Component {
     map.setFilter('vector-tile-outline', null);
   };
 
+  resetChartResetOnly = () => {
+    const { mapViewBy, activeView, map } = this.state;
+    this.setState({
+      clickedBarDistrict: [],
+    });
+    this.handleShowBarOf('Provinces');
+    this.handleShowBarPartnerChartOf('Partner');
+    this.props.filterMfsChartData(mapViewBy, [], [], [], [], []);
+    this.props.filterMfsMapChartDataByPartner(
+      'district',
+      [],
+      [],
+      [],
+      [],
+      [],
+    );
+  };
+
   render() {
     const {
       state: {
@@ -1545,7 +1563,7 @@ class MainMFS extends Component {
                     {/* </div> */}
                     <CardTab
                       resetFunction={() => {
-                        this.resetFilters();
+                        this.resetChartResetOnly();
                       }}
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}

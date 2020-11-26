@@ -146,6 +146,11 @@ class DonutChart extends Component {
         offsetY: 0,
         // height: 230,
       },
+      yaxis: {
+        crosshairs: {
+          show: false,
+        },
+      },
       fill: {
         opacity: 1,
         colors: [

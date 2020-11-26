@@ -9,6 +9,7 @@ import {
 } from '../../../../../actions/productProcess.actions';
 
 function convertLabelName(name) {
+  console.log(name, 'name');
   const nameArr = name.split(' ');
   let firstElement;
   let rest;
@@ -84,10 +85,11 @@ class BarChart extends Component {
     partnerType.forEach((i, index) => {
       arr[index] = getCount(i);
     });
-
-    const categories = partnerType.map(item =>
-      convertLabelName(item),
-    );
+    console.log(partnerType, 'partnerType');
+    const categories = partnerType.map(item => {
+      console.log(item, 'item');
+      return convertLabelName(item);
+    });
 
     this.setState(prevState => ({
       chartData2: {
@@ -223,6 +225,9 @@ class BarChart extends Component {
             }
             return value;
           },
+        },
+        crosshairs: {
+          show: false,
         },
       },
       grid: {

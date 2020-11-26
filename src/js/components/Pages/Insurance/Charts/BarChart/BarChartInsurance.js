@@ -195,6 +195,9 @@ class BarChartInsurance extends Component {
           //   cssClass: 'apexcharts-yaxis-label',
           // },
         },
+        crosshairs: {
+          show: false,
+        },
       },
       // {
       //   opposite: true,

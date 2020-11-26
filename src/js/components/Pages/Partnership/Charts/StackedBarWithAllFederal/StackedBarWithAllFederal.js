@@ -511,6 +511,9 @@ class StackedBarWithAllFederal extends Component {
               color: '#008FFB',
             },
           },
+          crosshairs: {
+            show: false,
+          },
           // tooltip: {
           //   enabled: true,
           // },
@@ -562,6 +565,9 @@ class StackedBarWithAllFederal extends Component {
               return convert(value, true);
             },
           },
+          crosshairs: {
+            show: false,
+          },
           //   title: {
           //     text: 'Operating Cashflow (thousand crores)',
           //     style: {
@@ -595,6 +601,9 @@ class StackedBarWithAllFederal extends Component {
             style: {
               color: '#FEB019',
             },
+          },
+          crosshairs: {
+            show: false,
           },
           // tooltip: {
           //   enabled: true,
