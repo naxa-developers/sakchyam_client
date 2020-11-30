@@ -26,6 +26,8 @@ jobs:
     - uses: actions/setup-node@v2-beta
       with:
         node-version: '12'
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
     - run: npm install
     - run: npm run prebuild
     - run: echo "::set-output name=action_fruit::strawberry"    
@@ -41,7 +43,7 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         message: |
-          ![deploy](https://user-images.githubusercontent.com/37866666/90683831-e4c78f00-e286-11ea-8611-97fbe86fd7ab.png)Your App is Successfully Deployed to http://pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh ✔️ @varun2948
+          ![deploy](https://user-images.githubusercontent.com/37866666/90683831-e4c78f00-e286-11ea-8611-97fbe86fd7ab.png)Your App is Successfully Deployed to http://pr-${{env.PULL_NUMBER}}-sakchyam-naxa.surge.sh ✔️ @varun2948 @${{env.GITHUB_ACTOR}}
 
 #       if: contains(github.event.comment.body, '/deploy')
       env:
