@@ -253,18 +253,19 @@ class LeftSideBar extends Component {
                     <ul className="checkbox-list">
                       {filteredPartnerList &&
                         filteredPartnerList.map(partner => {
+                          console.log(partner, 'partner');
                           return (
                             <CheckBox
                               id={partner.id}
                               className="partner_checkbox"
                               key={partner.id}
                               label={partner.name}
-                              name={partner.code}
+                              name={partner.id}
                               changeHandler={
                                 handlePartnerSelectionCheckbox
                               }
                               checked={partnerSelection.includes(
-                                partner.code,
+                                partner.id,
                               )}
                             />
                           );

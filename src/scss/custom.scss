@@ -687,7 +687,7 @@
   .mapbox-popup-content {
     width: 253px !important;
     height: 230px;
-    overflow-y: hidden;
+    overflow-y: scroll;
   }
   .apexcharts-tooltip {
     // transform: translate(10px, -62px);

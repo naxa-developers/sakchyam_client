@@ -42,6 +42,9 @@ class DonutChart extends Component {
             // customScale: 0.8,
             // size: 200,
             // size: '5%',
+            dataLabels: {
+              enabled: true,
+            },
             labels: {
               show: true,
               name: {

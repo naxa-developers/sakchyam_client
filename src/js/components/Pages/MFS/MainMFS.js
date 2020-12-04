@@ -1587,55 +1587,57 @@ class MainMFS extends Component {
                       renderChartComponent={() => {
                         return (
                           // <label>Test</label>
-                          // <div
-                          //   className="scroller_card"
-                          //   style={
-                          //     mapViewBy === 'district' &&
-                          //     window.innerWidth > 1400
-                          //       ? {
-                          //           width: '1200px',
-                          //           overflowX: 'scroll',
-                          //         }
-                          //       : mapViewBy === 'district' &&
-                          //         window.innerWidth < 1400
-                          //       ? {
-                          //           width: '800px',
-                          //           overflowX: 'scroll',
-                          //         }
-                          //       : {}
-                          //   }
-                          // >
-                          <StackedBarWithAllFederal
-                            setClickedBarDistrict={
-                              this.setClickedBarDistrict
+                          <div
+                            className="scroller_card"
+                            style={
+                              mapViewBy === 'district' &&
+                              window.innerWidth > 1400
+                                ? {
+                                    width: '1200px',
+                                    overflowX: 'scroll',
+                                  }
+                                : mapViewBy === 'district' &&
+                                  window.innerWidth < 1400
+                                ? {
+                                    width: '800px',
+                                    overflowX: 'scroll',
+                                  }
+                                : {}
                             }
-                            handleStateLevel={this.setMapViewBy}
-                            barData={barData}
-                            showBarChartBy={showBarChartBy}
-                            mapViewBy={mapViewBy}
-                            selectedPartner={selectedPartner}
-                            selectedInnovation={selectedInnovation}
-                            selectedAchievement={selectedAchievement}
-                            selectedProvince={selectedProvince}
-                            selectedDistrict={selectedDistrict}
-                            provinceList={provinceList}
-                            districtList={districtList}
-                            showBarof={showBarof}
-                            handleShowBarOf={this.handleShowBarOf}
-                            showBarPartnerChartOf={
-                              showBarPartnerChartOf
-                            }
-                            handleShowBarPartnerChartOf={
-                              this.handleShowBarPartnerChartOf
-                            }
-                            showBarChartByTitle={
-                              showBarChartBy === 'Federal'
-                                ? 'Province/District Wise Achievement Type'
-                                : 'Partner Wise Achievement Type'
-                            }
-                            activeOverview={activeOverview}
-                          />
-                          // </div>
+                          >
+                            <StackedBarWithAllFederal
+                              setClickedBarDistrict={
+                                this.setClickedBarDistrict
+                              }
+                              handleStateLevel={this.setMapViewBy}
+                              barData={barData}
+                              showBarChartBy={showBarChartBy}
+                              mapViewBy={mapViewBy}
+                              selectedPartner={selectedPartner}
+                              selectedInnovation={selectedInnovation}
+                              selectedAchievement={
+                                selectedAchievement
+                              }
+                              selectedProvince={selectedProvince}
+                              selectedDistrict={selectedDistrict}
+                              provinceList={provinceList}
+                              districtList={districtList}
+                              showBarof={showBarof}
+                              handleShowBarOf={this.handleShowBarOf}
+                              showBarPartnerChartOf={
+                                showBarPartnerChartOf
+                              }
+                              handleShowBarPartnerChartOf={
+                                this.handleShowBarPartnerChartOf
+                              }
+                              showBarChartByTitle={
+                                showBarChartBy === 'Federal'
+                                  ? 'Province/District Wise Achievement Type'
+                                  : 'Partner Wise Achievement Type'
+                              }
+                              activeOverview={activeOverview}
+                            />
+                          </div>
                           // <StackedBarWithProvince
                           //   viewDataBy={viewDataBy}
                           //   activeModal={activeModal}

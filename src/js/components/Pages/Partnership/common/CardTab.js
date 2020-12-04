@@ -29,6 +29,7 @@ const downloadPng = (chartid, imageTitle) => {
   // document
   //   .querySelector('.download-dropdown')
   //   .classList.remove('active');
+  const clone = document.getElementById(chartid).cloneNode(true);
 
   const chartEl = document.querySelector(`#${chartid}`);
   const useWidth = chartEl.clientWidth;
@@ -36,7 +37,7 @@ const downloadPng = (chartid, imageTitle) => {
     // document
     //   .querySelector(`.${chartid}`)
     //   .append(<label>Varun</label>);
-    html2canvas(chartEl, {
+    html2canvas(clone, {
       // logging: true,
       // letterRendering: 1,
       scale: 5,
@@ -286,7 +287,8 @@ const CardTab = ({
             )}
           </div>
         </div>
-        <div className="card-body" style={style} id={cardChartId}>
+        {/* <div className="card-body" style={style} id={cardChartId}> */}
+        <div className="card-body" style={style}>
           {renderChartComponent()}
         </div>
       </div>

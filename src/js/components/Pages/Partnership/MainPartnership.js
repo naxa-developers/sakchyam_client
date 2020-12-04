@@ -651,15 +651,27 @@ class MainPartnership extends Component {
   };
 
   setActiveView = selectedView => {
+    const {
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
+    } = this.state;
     localStorage.setItem('activeView', selectedView);
     setTimeout(() => {
       this.applyBtnClick(true);
+      if (
+        selectedProvince.length > 0 ||
+        selectedDistrict.length > 0 ||
+        selectedMunicipality.length > 0
+      ) {
+        this.handleApplyFederalFilter();
+      }
     }, 2000);
     this.setState({
       activeView: selectedView,
-      selectedProvince: [],
-      selectedDistrict: [],
-      selectedMunicipality: [],
+      // selectedProvince: [],
+      // selectedDistrict: [],
+      // selectedMunicipality: [],
     });
   };
 
