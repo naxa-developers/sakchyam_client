@@ -382,8 +382,10 @@ class HorizontalChart extends Component {
         },
       },
       tooltip: {
+        shared: true,
+        intersect: false,
         marker: {
-          show: false,
+          show: true,
         },
         // x: { formatter: val => numberWithCommas(`${val} hello`) },
         y: { formatter: val => numberWithCommas(`${val}`) },
@@ -768,7 +770,7 @@ class HorizontalChart extends Component {
     const {
       financialReducer: { filteredByProgram },
     } = this.props;
-    const { showRightSidebar } = this.props;
+    const { showRightSidebar, clickedPartnerName } = this.props;
 
     const height = activeModal ? 500 : 400;
 
@@ -861,7 +863,15 @@ class HorizontalChart extends Component {
             //   // width: '1400px',
             // }}
           >
-            {/* <label>Bar Area</label> */}
+            <label
+              style={{
+                display: 'flex',
+                alignContent: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {clickedPartnerName}
+            </label>
             {/* <div id="horizontal-chart"> */}
             {!isToggled &&
             !isBarChartClicked &&

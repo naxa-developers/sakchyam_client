@@ -101,6 +101,12 @@ class MapboxPartnership extends Component {
             <div>
               <div
                 className="pie-mapbox-popup"
+                style={{
+                  top: '47px',
+                  left: 0,
+                  right: 0,
+                  margin: '0 auto',
+                }}
                 ref={this.markerPiePopupRef}
               />
               <VectorTileMapbox

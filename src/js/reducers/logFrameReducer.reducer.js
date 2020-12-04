@@ -204,7 +204,7 @@ const initialState = {
       labels: {
         show: true,
         align: 'left',
-        minWidth: 0,
+        minWidth: 100,
         maxWidth: 160,
         style: {
           colors: [],
@@ -754,7 +754,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
         labels: {
           show: true,
           align: 'left',
-          minWidth: 0,
+          minWidth: 100,
           maxWidth: 300,
           style: {
             colors: [],
