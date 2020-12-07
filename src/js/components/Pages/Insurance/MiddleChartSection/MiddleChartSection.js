@@ -343,30 +343,6 @@ class MiddleChartSection extends Component {
         )}
         <div className="graph-view">
           <div className="row">
-            <div className="col-xl-12">
-              <div className="card" id="bar-chart">
-                <BarChartInsurance
-                  loading={loading}
-                  insuranceData={insuranceData}
-                  showRightSidebar={!activeOverview}
-                  activeModal={activeModal}
-                  barTitle={barTitle}
-                  DownloadIcon={DownloadIcon}
-                  ExpandIcon={ExpandIcon}
-                  downloadPng={this.downloadPng}
-                  handleModal={this.handleModal}
-                  handleSelectedModal={this.handleSelectedModal}
-                  selectedTabBar={selectedTabBar}
-                  setSelectedTabBar={this.setSelectedTabBar}
-                  isBarChartClicked={isBarChartClicked}
-                  handleBarChartClick={this.handleBarChartClick}
-                  resetBarChartClick={this.resetBarChartClick}
-                  generateBarChartData2={this.generateBarChartData2}
-                  chartData2={this.state.chartData2}
-                />
-              </div>
-            </div>
-
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={donutTitle}
@@ -410,6 +386,29 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
+            <div className="col-xl-12">
+              <div className="card" id="bar-chart">
+                <BarChartInsurance
+                  loading={loading}
+                  insuranceData={insuranceData}
+                  showRightSidebar={!activeOverview}
+                  activeModal={activeModal}
+                  barTitle={barTitle}
+                  DownloadIcon={DownloadIcon}
+                  ExpandIcon={ExpandIcon}
+                  downloadPng={this.downloadPng}
+                  handleModal={this.handleModal}
+                  handleSelectedModal={this.handleSelectedModal}
+                  selectedTabBar={selectedTabBar}
+                  setSelectedTabBar={this.setSelectedTabBar}
+                  isBarChartClicked={isBarChartClicked}
+                  handleBarChartClick={this.handleBarChartClick}
+                  resetBarChartClick={this.resetBarChartClick}
+                  generateBarChartData2={this.generateBarChartData2}
+                  chartData2={this.state.chartData2}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

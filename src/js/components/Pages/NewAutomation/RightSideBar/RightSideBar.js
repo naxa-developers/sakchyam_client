@@ -124,7 +124,7 @@ class RightSideBar extends Component {
       <aside className="sidebar right-sidebar">
         <div className="sidebar-in">
           <div className="right-sidebar-header">
-            <h5>Result</h5>
+            <h5>Overview</h5>
             {!loading && (
               <a
                 style={{
@@ -342,15 +342,21 @@ class RightSideBar extends Component {
                             </div>
                             <div className="orgnization-info">
                               <a>
-                                Province
+                                {data.province_covered > 1
+                                  ? 'Provinces'
+                                  : 'Province'}
                                 <span>{data.province_covered}</span>
                               </a>
                               <a>
-                                District
+                                {data.district_covered > 1
+                                  ? 'Districts'
+                                  : 'District'}
                                 <span>{data.district_covered}</span>
                               </a>
                               <a>
-                                Local units
+                                {data.municipality_covered > 1
+                                  ? 'Municipalities'
+                                  : 'Municipality'}
                                 <span>
                                   {data.municipality_covered}
                                 </span>

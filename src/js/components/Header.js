@@ -5,6 +5,7 @@ import UKAidWhiteLogo from '../../img/uk-aid-white.png';
 import Logo from '../../img/logo.png';
 import WhiteLogo from '../../img/logo-white.png';
 import UkaidLogo from '../../img/ukaid.png';
+import SakchyamLogo from '../../img/sakchyam-logo.png';
 import PpImage from '../../img/pp.jpg';
 
 class Header extends Component {
@@ -145,7 +146,8 @@ class Header extends Component {
             <li>
               <Link to="/" className="logo">
                 <img
-                  src={headerTransparent ? WhiteLogo : Logo}
+                  width="72px"
+                  src={SakchyamLogo}
                   alt="sakchyam logo"
                 />
               </Link>

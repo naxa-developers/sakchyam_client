@@ -254,7 +254,7 @@ class LeftSideBar extends Component {
         return 0;
       });
     }
-    console.log('partners list', partnerList);
+    // console.log('partners list', partnerList);
 
     return (
       <aside className="sidebar left-sidebar">
