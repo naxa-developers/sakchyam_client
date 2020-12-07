@@ -1732,7 +1732,7 @@ class MiddleChartSection extends Component {
                   output14firstState ? 'is-bg' : 'is-border'
                 }`}
               >
-                Milestone Year 15-18 Percent
+                Milestone Year 2015-2018 in Percentage
               </button>
               <button
                 onClick={() => {
@@ -1749,7 +1749,7 @@ class MiddleChartSection extends Component {
                   output14firstState ? 'is-border' : 'is-bg'
                 }`}
               >
-                Milestone Year 19-so on Number
+                Milestone Year 2019 Onwards in Absolute Value
               </button>
             </div>
           )}
@@ -2044,7 +2044,7 @@ class MiddleChartSection extends Component {
               </div>
             </div>
           </div>
-          {filteredDynamicData &&
+          {/* {filteredDynamicData &&
             filteredDynamicData[0] &&
             !filteredDynamicData[0].sub_category.name.includes(
               'Output',
@@ -2060,7 +2060,6 @@ class MiddleChartSection extends Component {
                     filteredDynamicData[0] &&
                     filteredDynamicData[0].sub_category.description}
                 </p>
-                {/* eslint-disable-next-line */}
                 <a
                   className="more span_heavy_15"
                   role="button"
@@ -2076,9 +2075,9 @@ class MiddleChartSection extends Component {
                   className="more"
                 >
                   more
-                </a> */}
+                </a> 
               </div>
-            )}
+            )} */}
         </div>
       </div>
     );

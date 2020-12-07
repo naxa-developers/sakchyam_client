@@ -265,10 +265,10 @@ class Login extends Component {
                     Data Visualization Port
                     <span className="abbr">(DVP)</span>
                   </h1>
-                  <p className="span_book_18">
+                  {/* <p className="span_book_18">
                     A Small Leap towards Application of Open Data on
                     Aid and Budget in Nepal.
-                  </p>
+                  </p> */}
                 </div>
                 <div className="row align-items-center">
                   <div className="col-xl-7">
@@ -347,7 +347,11 @@ class Login extends Component {
                         </div>
                       </form>
                       <div className="login-footer">
-                        <img src={SakLogo} alt="sakchyam_logo" />
+                        <img
+                          style={{ marginRight: '20px' }}
+                          src={SakLogo}
+                          alt="sakchyam_logo"
+                        />
                         <img src={UkAid} alt="UKaid_logo" />
                       </div>
                     </div>

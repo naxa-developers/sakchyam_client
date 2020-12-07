@@ -212,11 +212,11 @@ class PlotVector extends Component {
           'circle-color': [
             'step',
             ['get', 'point_count'],
-            '#51bbd6',
+            '#f1f075',
             5,
             '#f1f075',
             10,
-            '#f28cb1',
+            '#f1f075',
           ],
           'circle-radius': 15,
           // [
