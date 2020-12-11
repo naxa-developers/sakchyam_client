@@ -22,7 +22,7 @@ export default function divisionInfoPopUp(props) {
         // eslint-disable-next-line no-restricted-syntax
         const index=0
         partnerContent = partners && partners.map(data=>{
-          console.log(data,'data');
+          // console.log(data,'data');
           const partnerList= data && data.partnerlist && data.partnerlist.map(partner=>{
             return (
               <li>

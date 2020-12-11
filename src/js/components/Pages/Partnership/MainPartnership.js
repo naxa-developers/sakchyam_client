@@ -56,6 +56,7 @@ import { getCenterBboxProvince } from './common/ProvinceFunction';
 import { getCenterBboxDistrict } from './common/DistrictFunction';
 import { getCenterBboxMunicipality } from './common/MunicipalityFunction';
 import { extendBounds } from '../../common/extendBbox';
+import { sortArrayByAnyKey } from '../../utils/utilities';
 
 global.markerList = [];
 function removeMarker() {
@@ -433,7 +434,7 @@ class MainPartnership extends Component {
             //
           }
         } else if (mapViewBy === 'municipality') {
-          console.log(selectedDistrict, 'selectedDist');
+          // console.log(selectedDistrict, 'selectedDist');
           if (selectedDistrict && selectedDistrict.length > 0) {
             //
             // let filtered = null;
@@ -1114,11 +1115,11 @@ class MainPartnership extends Component {
   handleProvinceClick = (code, name) => {
     //
     const { mapViewBy } = this.state;
-    console.log(mapViewBy);
+    // console.log(mapViewBy);
     if (mapViewBy === 'municipality') {
       document.querySelector(`.municipality .check_${code}`).click();
     } else if (mapViewBy === 'district') {
-      console.log(document.querySelector(`.district .check_${code}`));
+      // console.log(document.querySelector(`.district .check_${code}`));
       document.querySelector(`.district .check_${code}`).click();
     } else if (mapViewBy === 'province') {
       document.querySelector(`.province .check_${code}`).click();
@@ -1750,6 +1751,12 @@ class MainPartnership extends Component {
       document.getElementById('sankeyChart') &&
       document.getElementById('sankeyChart').offsetWidth;
 
+    // if (allDistrictList) {
+    //   sortArrayByAnyKey(allDistrictList, 'name');
+    // }
+    // if (allMunicipalityList) {
+    //   sortArrayByAnyKey(allMunicipalityList, 'name');
+    // }
     return (
       <>
         {/* <Headers /> */}

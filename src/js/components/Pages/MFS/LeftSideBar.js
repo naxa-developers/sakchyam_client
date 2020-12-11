@@ -6,6 +6,7 @@ import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
 import FilterChip from './common/FilterChip';
 import BadgeLoader from './SkeletonLoader/BadgeLoader';
 import SelectList from '../../common/SelectList';
+import { sortArrayByAnyKey } from '../../utils/utilities';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -45,6 +46,15 @@ class LeftSideBar extends Component {
       partnerList,
       mfsListLoading,
     } = this.props.mfsReducer;
+    if (partnerList) {
+      sortArrayByAnyKey(partnerList, 'partner_name');
+    }
+    if (innovationList) {
+      sortArrayByAnyKey(innovationList);
+    }
+    if (achievementList) {
+      sortArrayByAnyKey(achievementList);
+    }
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">

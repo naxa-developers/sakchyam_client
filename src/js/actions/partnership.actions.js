@@ -132,11 +132,11 @@ export const filterPartnerListByPartnerType = partnerType => dispatch => {
     axiosInstance
       .get(`/api/v1/partner/partner/`)
       .then(function(result) {
-        console.log(result.data, 'result');
+        // console.log(result.data, 'result');
         const filteredPartners = result.data.filter(data =>
           partnerType.includes(data.partnership),
         );
-        console.log(filteredPartners, 'filtered');
+        // console.log(filteredPartners, 'filtered');
         const unique = [
           ...new Set(filteredPartners.map(item => item)),
         ]; // [ 'A', 'B']
@@ -853,12 +853,12 @@ export const filterFinancialDataOfMunicipalityFromDistrict = (
   selectedProjectId,
   selectedStatus,
 ) => dispatch => {
-  console.log(selectedDataView, 'selectedDataView');
-  console.log(districtIndex, 'districtIndex');
-  console.log(selectedPartnerType, 'selectedPartnerType');
-  console.log(selectedPartnerId, 'selectedPartnerId');
-  console.log(selectedProjectId, 'selectedProjectId');
-  console.log(selectedStatus, 'selectedStatus');
+  // console.log(selectedDataView, 'selectedDataView');
+  // console.log(districtIndex, 'districtIndex');
+  // console.log(selectedPartnerType, 'selectedPartnerType');
+  // console.log(selectedPartnerId, 'selectedPartnerId');
+  // console.log(selectedProjectId, 'selectedProjectId');
+  // console.log(selectedStatus, 'selectedStatus');
   //
   //
   const data = selectedDataView;
@@ -1712,11 +1712,11 @@ export const filterOverviewData = (
   selectedPartnerId,
   selectedFederalList,
 ) => dispatch => {
-  console.log(selectedInvestmentFocus, 'invF');
-  console.log(selectedProjectId, 'projecId');
-  console.log(selectedPartnerType, 'partType');
-  console.log(selectedPartnerId, 'partnerId');
-  console.log(selectedFederalList, 'selectedFederalList');
+  // console.log(selectedInvestmentFocus, 'invF');
+  // console.log(selectedProjectId, 'projecId');
+  // console.log(selectedPartnerType, 'partType');
+  // console.log(selectedPartnerId, 'partnerId');
+  // console.log(selectedFederalList, 'selectedFederalList');
   const investmentFilter =
     selectedInvestmentFocus.length > 0
       ? `investment_filter=${selectedInvestmentFocus}`
@@ -2044,35 +2044,39 @@ export const filterMunListFromDistrict = districtId => dispatch => {
     type: FILTER_MUNLIST_FROM_DISTRICT_REQUEST,
     // payload: result.data,
   });
-  try {
-    //
-    const formdata = new FormData();
-    if (districtId.length > 0) {
-      districtId.map(data => {
-        if (data.value !== 'all') {
-          return formdata.append('id', `${data.value}`);
-        }
-        return true;
-      });
-    } else {
-      formdata.append('id', '0');
-    }
-    // formdata.append('id', '0');
-    const response = axiosInstance
-      .post(`/api/v1/adminlevel/municipality/`, formdata)
-      .then(function(result) {
-        return dispatch({
-          type: FILTER_MUNLIST_FROM_DISTRICT_SUCCESS,
-          payload: result.data,
-        });
-      });
-  } catch (err) {
-    dispatch({
-      type: FILTER_MUNLIST_FROM_DISTRICT_FAILED,
-      // payload: result.data,
-    });
-    console.error(err);
-  }
+  dispatch({
+    type: FILTER_MUNLIST_FROM_DISTRICT_SUCCESS,
+    payload: districtId,
+  });
+  // try {
+  //   //
+  //   const formdata = new FormData();
+  //   if (districtId.length > 0) {
+  //     districtId.map(data => {
+  //       if (data.value !== 'all') {
+  //         return formdata.append('id', `${data.value}`);
+  //       }
+  //       return true;
+  //     });
+  //   } else {
+  //     formdata.append('id', '0');
+  //   }
+  //   // formdata.append('id', '0');
+  //   const response = axiosInstance
+  //     .post(`/api/v1/adminlevel/municipality/`, formdata)
+  //     .then(function(result) {
+  //       return dispatch({
+  //         type: FILTER_MUNLIST_FROM_DISTRICT_SUCCESS,
+  //         payload: result.data,
+  //       });
+  //     });
+  // } catch (err) {
+  //   dispatch({
+  //     type: FILTER_MUNLIST_FROM_DISTRICT_FAILED,
+  //     // payload: result.data,
+  //   });
+  //   console.error(err);
+  // }
 };
 export const filterFinancialDataWithAllFiltersAndFederal = (
   selectedFederalTypes,
@@ -2523,7 +2527,7 @@ export const filterBenefBudgetDataForBarClick = (
   clicked,
   projectSelection,
 ) => dispatch => {
-  console.log(projectSelection, 'projectSelection');
+  // console.log(projectSelection, 'projectSelection');
   const selectedProject =
     projectSelection.length > 0 ? projectSelection : [0];
   // const data = selectedDataView;

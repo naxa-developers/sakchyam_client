@@ -38,6 +38,7 @@ import {
 import CardTab from './common/CardTab';
 import StackedBarWithAllFederal from './Chart/StackedBarWithAllFederal/StackedBarWithAllFederal';
 import Modal from '../../common/Modal';
+import { sortArrayByAnyKey } from '../../utils/utilities';
 
 global.markerList = [];
 function removeMarker() {
@@ -1322,7 +1323,12 @@ class MainMFS extends Component {
     const sankeyChartwidth =
       document.getElementById('sankeyChart') &&
       document.getElementById('sankeyChart').offsetWidth;
-
+    if (provinceList) {
+      sortArrayByAnyKey(provinceList, 'code');
+    }
+    if (districtList) {
+      sortArrayByAnyKey(districtList, 'name');
+    }
     return (
       <>
         {/* <Headers /> */}

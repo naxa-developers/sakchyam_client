@@ -116,7 +116,7 @@ province.map(data => {
     },
   });
 });
-console.log(fullGeojsonProvince, 'fullgeojson');
+// console.log(fullGeojsonProvince, 'fullgeojson');
 const fullGeojsonDistrict = {
   type: 'FeatureCollection',
   features: [],
@@ -310,7 +310,7 @@ class Choropleth extends Component {
       map,
       mapViewDataBy,
     } = that.props;
-    console.log(circleMarkerData, 'cirlceMarkerData');
+    // console.log(circleMarkerData, 'cirlceMarkerData');
     const FederalData =
       mapViewBy === 'municipality'
         ? fullGeojsonMunicipality
@@ -812,7 +812,7 @@ class Choropleth extends Component {
         const filterMapChoroplethPie = (getBbox, federalCode) => {
           that.props.handleProvinceClick(parseInt(federalCode, 10));
           map.fitBounds(getBbox.bbox);
-          console.log(federalCode, 'fedCOde');
+          // console.log(federalCode, 'fedCOde');
           map.setFilter('vector-tile-fill', [
             'in',
             ['get', 'code'],
@@ -860,7 +860,7 @@ class Choropleth extends Component {
             );
           },
         );
-        console.log(filteredCodeData, 'codeData ');
+        // console.log(filteredCodeData, 'codeData ');
 
         setLeftPopupData({
           name: e.features[0].properties.name,

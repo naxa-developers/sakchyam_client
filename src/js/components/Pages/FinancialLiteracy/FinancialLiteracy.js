@@ -127,7 +127,7 @@ class FinancialLiteracy extends Component {
   };
 
   generateTreeMapData = id => {
-    console.log(id, 'generateTreeMapData');
+    // console.log(id, 'generateTreeMapData');
     const arr = [];
     const {
       financialReducer: { financialData },
@@ -755,7 +755,7 @@ class FinancialLiteracy extends Component {
                           <div className="card-header">
                             <h5>
                               Financial Literacy Beneficiaries Mix by
-                              Partner Type
+                              Partner Types
                             </h5>
                             {!isDownloading && (
                               <div className="header-icons">

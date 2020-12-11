@@ -287,7 +287,7 @@ class StackedBarWithInvestment extends Component {
       projectSelection,
       activeModal,
     } = this.props;
-    console.log(projectSelection, 'projectSele');
+    // console.log(projectSelection, 'projectSele');
     const newArray = barDatasByInvestment.series[0].data.map(
       (e, i) => e + barDatasByInvestment.series[1].data[i],
     );
