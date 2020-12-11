@@ -144,7 +144,7 @@ export const getIndicatorsGraphDataIndividual = (
   activeDate,
   activeDataTypeFor14,
 ) => dispatch => {
-  console.log(activeDataTypeFor14, 'dataTYpe');
+  // console.log(activeDataTypeFor14, 'dataTYpe');
   // const token = localStorage.getItem('userToken');
   try {
     const response = axiosInstance

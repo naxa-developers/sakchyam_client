@@ -397,7 +397,7 @@ class PlotVector extends Component {
 
     const markerCollection = [];
     tempActive.features.forEach(function(marker) {
-      console.log(marker, 'marekr ');
+      // console.log(marker, 'marekr ');
       const popup = new mapboxgl.Popup({
         offset: 25,
         closeButton: false,

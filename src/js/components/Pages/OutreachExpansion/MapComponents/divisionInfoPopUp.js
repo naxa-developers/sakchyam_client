@@ -7,7 +7,7 @@ import { numberWithCommas } from '../../../common/utilFunctions';
 
 export default function divisionInfoPopUp(props) {
   const code = props.data;
-  console.log(props, 'props');
+  // console.log(props, 'props');
   let popupHtml = (
     <div className="icons">
       <b>

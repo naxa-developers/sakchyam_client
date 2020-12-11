@@ -270,7 +270,7 @@ const generateRadarChartData = data => {
           item.partner_type === partner_type &&
           item.innovation_area === innovation_area,
       )
-      .map(item => item.partner_name);
+      .map(item => item.product_name);
     const count = [...new Set(arr)].length;
     return count;
   }
@@ -607,8 +607,8 @@ const getProductProcessList = (state, action) => {
 const filterBarPopup = (state, action) => {
   const { firstClicked, secondHover } = action.payload;
   const { allData } = state;
-  console.log(firstClicked, 'firstClicked');
-  console.log(secondHover, 'secondHover');
+  // console.log(firstClicked, 'firstClicked');
+  // console.log(secondHover, 'secondHover');
   const innovationFilter = allData.filter(data => {
     return data.innovation_area === firstClicked;
   });
@@ -651,7 +651,7 @@ const filterBarPopup = (state, action) => {
     // console.log(arr, 'arr');
     return arr;
   }
-  console.log(formatPopupData(partnerFilter), 'formatPopupData');
+  // console.log(formatPopupData(partnerFilter), 'formatPopupData');
   // console.log(secondHover, 'secondHover');
   return {
     ...state,

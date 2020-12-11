@@ -150,7 +150,11 @@ class RightSideBar extends Component {
                 ) : (
                   <ul className="widget-list">
                     <OverviewTab
-                      title="Partner Institution"
+                      title={
+                        partners > 1
+                          ? 'Partner Institutions'
+                          : 'Partner Institution'
+                      }
                       number={partners}
                       iconTitle="location_city"
                       // iconTitle="payments"

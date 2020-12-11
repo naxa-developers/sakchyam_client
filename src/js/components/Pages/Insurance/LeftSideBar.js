@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
 import { removeDuplicates } from '../../common/utilFunctions';
+import { sortArrayByAnyKey } from '../../utils/utilities';
 import BoxLoader from './Charts/Loader/Loader';
 
 class LeftSideBar extends Component {
@@ -61,6 +62,15 @@ class LeftSideBar extends Component {
       },
       state: { partnerList, innovationList, productList },
     } = this;
+    if (partnerList) {
+      sortArrayByAnyKey(partnerList, 'partner_name');
+    }
+    if (innovationList) {
+      sortArrayByAnyKey(innovationList, 'innovation');
+    }
+    if (productList) {
+      sortArrayByAnyKey(productList, 'product');
+    }
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">

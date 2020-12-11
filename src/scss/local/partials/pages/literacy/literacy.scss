@@ -83,9 +83,13 @@
       .leaflet-container,
       #map {
         // height: calc(100vh - 170px);
-        // height: calc(100vh - 74px);
-        height:600px;
-        @media only screen and (min-width: 1560px){ height: 700px;}
+        height: calc(100vh - 74px);
+        // height:600px;
+        @media only screen and (min-width: 1560px){ 
+          height: calc(100vh - 74px);
+          max-height: calc(100vh - 74px);
+          // height: 700px;
+        }
       }
     }
   }

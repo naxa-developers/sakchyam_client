@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import CheckBox from '../../common/Checkbox';
 import { removeDuplicates } from '../../common/utilFunctions';
 import { ResponsiveLoader } from '../../common/Loaders';
+import { sortArrayByAnyKey } from '../../utils/utilities';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -73,6 +74,15 @@ class LeftSideBar extends Component {
         outreachReducer: { dataReceived },
       },
     } = this;
+    if (expansionList) {
+      sortArrayByAnyKey(expansionList, 'expansion_driven_by');
+    }
+    if (partnerList) {
+      sortArrayByAnyKey(partnerList, 'partner');
+    }
+    if (expansionList) {
+      sortArrayByAnyKey(expansionList, 'expansion_driven_by');
+    }
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -161,6 +171,24 @@ class LeftSideBar extends Component {
                         <span>Commercial Bank</span>
                       </a>
                       <a
+                        data-label="Commercial Bank and Other Partners"
+                        className={
+                          partnerSelection.includes('Cooperative')
+                            ? 'active'
+                            : ''
+                        }
+                        role="tab"
+                        tabIndex="-1"
+                        onClick={() => {
+                          handelMultiChoice('Cooperative', 4);
+                        }}
+                        onKeyUp={() => {
+                          handelMultiChoice('Cooperative', 4);
+                        }}
+                      >
+                        <span>Cooperative</span>
+                      </a>
+                      <a
                         data-label="Microfinance Institutions/Cooperatives"
                         className={
                           partnerSelection.includes(
@@ -179,24 +207,6 @@ class LeftSideBar extends Component {
                         }}
                       >
                         <span>Apex Organization</span>
-                      </a>
-                      <a
-                        data-label="Commercial Bank and Other Partners"
-                        className={
-                          partnerSelection.includes('Cooperative')
-                            ? 'active'
-                            : ''
-                        }
-                        role="tab"
-                        tabIndex="-1"
-                        onClick={() => {
-                          handelMultiChoice('Cooperative', 4);
-                        }}
-                        onKeyUp={() => {
-                          handelMultiChoice('Cooperative', 4);
-                        }}
-                      >
-                        <span>Cooperative</span>
                       </a>
                     </div>
                   </div>
@@ -258,22 +268,6 @@ class LeftSideBar extends Component {
                 <div className="widget-body">
                   <div className="widget-tag partner-tag">
                     <a
-                      data-label="Microfinance Institutions/Cooperatives"
-                      className={
-                        serviceType.includes('Branch') ? 'active' : ''
-                      }
-                      role="tab"
-                      tabIndex="-1"
-                      onClick={() => {
-                        handelMultiChoice('Branch', 1);
-                      }}
-                      onKeyUp={() => {
-                        handelMultiChoice('Branch', 1);
-                      }}
-                    >
-                      <span>Branch</span>
-                    </a>
-                    <a
                       data-label="Commercial Bank and Other Partners"
                       className={
                         serviceType.includes('BLB') ? 'active' : ''
@@ -288,6 +282,22 @@ class LeftSideBar extends Component {
                       }}
                     >
                       <span>BLB</span>
+                    </a>
+                    <a
+                      data-label="Microfinance Institutions/Cooperatives"
+                      className={
+                        serviceType.includes('Branch') ? 'active' : ''
+                      }
+                      role="tab"
+                      tabIndex="-1"
+                      onClick={() => {
+                        handelMultiChoice('Branch', 1);
+                      }}
+                      onKeyUp={() => {
+                        handelMultiChoice('Branch', 1);
+                      }}
+                    >
+                      <span>Branch</span>
                     </a>
                   </div>
                 </div>

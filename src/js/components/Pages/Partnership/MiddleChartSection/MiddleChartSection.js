@@ -86,7 +86,7 @@ class MiddleChartSection extends Component {
     // const that = this;
     this.props.resetLeftSideBarSelection();
 
-    console.log(e, 'e');
+    // console.log(e, 'e');
     const clickedName = e.data.name;
     const iterate = obj => {
       if (obj) {
@@ -99,30 +99,30 @@ class MiddleChartSection extends Component {
             // console.log(this.getCheckboxId('project', obj[key].name));
             if (element) {
               if (element.className === 'investment_checkbox') {
-                console.log(obj[key].name);
+                // console.log(obj[key].name);
                 document
                   .querySelector(`[data-label='${obj[key].name}']`)
                   .click();
               }
               setTimeout(() => {
                 if (element.className === 'project_checkbox') {
-                  console.log(
-                    this.getCheckboxId('project', obj[key].name),
-                  );
+                  // console.log(
+                  //   this.getCheckboxId('project', obj[key].name),
+                  // );
                   this.props.handleProjectSelection(
                     this.getCheckboxId('project', obj[key].name),
                   );
                 }
                 if (element.className === 'partner_checkbox') {
-                  console.log(
-                    this.getCheckboxId('partner', obj[key].name),
-                  );
+                  // console.log(
+                  //   this.getCheckboxId('partner', obj[key].name),
+                  // );
                   this.props.handlePartnerSelection(
                     this.getCheckboxId('partner', obj[key].name),
                   );
                 }
               }, 1000);
-              console.log(element.className);
+              // console.log(element.className);
 
               if (
                 element.className.replace(' ', '') ===
@@ -355,7 +355,7 @@ class MiddleChartSection extends Component {
     if (viewDataBy === 'allocated_budget') {
       sankeyTitle = 'Budget Allocated';
     } else if (viewDataBy === 'allocated_beneficiary') {
-      sankeyTitle = 'Beneficiary Reached';
+      sankeyTitle = 'Beneficiaries Reached';
     }
     return (
       <div
@@ -396,25 +396,30 @@ class MiddleChartSection extends Component {
               }}
               cardTitle="Sakchyam Investment Focus"
               cardClass="col-xl-12"
-              cardChartId="sunburst"
+              cardChartId="sunburst-test"
               handleModal={this.handleModal}
               handleSelectedModal={() => {
                 this.handleSelectedModal('sunburst');
               }}
               renderChartComponent={() => {
                 return (
-                  <SunburstContainer
-                    domId="test2"
-                    data={radialData}
-                    height={400}
-                    width={690}
-                    count_member="size"
-                    onClick={this.handleSunburstClick}
-                    // labelFunc={node => node.data.name}
-                    // colorFunc={node => 'red'}
+                  <div
+                    id="test"
+                    style={{ width: '800px', height: '100%' }}
+                  >
+                    <SunburstContainer
+                      domId="test2"
+                      data={radialData}
+                      height={400}
+                      width={600}
+                      count_member="size"
+                      onClick={this.handleSunburstClick}
+                      // labelFunc={node => node.data.name}
+                      // colorFunc={node => 'red'}
 
-                    // reset={this.props.resetSunburst}
-                  />
+                      // reset={this.props.resetSunburst}
+                    />
+                  </div>
                 );
               }}
             />

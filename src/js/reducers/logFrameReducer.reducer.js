@@ -512,9 +512,9 @@ const filterIndicatorGraphData = (state, action) => {
 // };
 const filterIndicatorGraphDataWithDate = (state, action) => {
   const { activeLayer, activeDate, activeDataType } = action.payload;
-  console.log(activeLayer, 'activeLayer');
-  console.log(activeDate, 'activeDate');
-  console.log(activeDataType, 'activeDataType');
+  // console.log(activeLayer, 'activeLayer');
+  // console.log(activeDate, 'activeDate');
+  // console.log(activeDataType, 'activeDataType');
   //
   //
   const activeDateClone = activeDate;

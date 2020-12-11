@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { sortArrayByAnyKey } from '../../../utils/utilities';
 import colorPicker from '../colorUtils';
 import LeftSidebarLoaderFL from '../Loader/LeftSidebarLoaderFL';
 
@@ -55,7 +56,12 @@ class LeftSideBar extends Component {
         checkedPartnerItems,
       },
     } = this;
-
+    if (filteredPartnersList) {
+      sortArrayByAnyKey(filteredPartnersList, 'partner_name');
+    }
+    if (financialProgram) {
+      sortArrayByAnyKey(financialProgram, 'name');
+    }
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         {loading ? (
@@ -72,25 +78,6 @@ class LeftSideBar extends Component {
                 <h6 className="title">Partner Type</h6>
                 <div className="widget-body">
                   <div className="widget-tag partner-tag">
-                    <a
-                      onClick={() => {
-                        handlePartnerType('Microfinance/Cooperative');
-                      }}
-                      onKeyDown={() => {
-                        handlePartnerType('Microfinance/Cooperative');
-                      }}
-                      className={
-                        partnerType.includes(
-                          'Microfinance/Cooperative',
-                        )
-                          ? 'active'
-                          : ''
-                      }
-                      role="tab"
-                      tabIndex="0"
-                    >
-                      <span>Microfinance/Cooperative</span>
-                    </a>
                     <a
                       onClick={() => {
                         handlePartnerType(
@@ -115,6 +102,25 @@ class LeftSideBar extends Component {
                       <span style={{ textTransform: 'none' }}>
                         Commercial Banks and Mobile Network Operators
                       </span>
+                    </a>
+                    <a
+                      onClick={() => {
+                        handlePartnerType('Microfinance/Cooperative');
+                      }}
+                      onKeyDown={() => {
+                        handlePartnerType('Microfinance/Cooperative');
+                      }}
+                      className={
+                        partnerType.includes(
+                          'Microfinance/Cooperative',
+                        )
+                          ? 'active'
+                          : ''
+                      }
+                      role="tab"
+                      tabIndex="0"
+                    >
+                      <span>Microfinance/Cooperative</span>
                     </a>
                   </div>
                 </div>

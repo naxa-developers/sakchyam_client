@@ -271,8 +271,8 @@ class Sunburst extends React.Component {
       this.svg = el.append('svg').attr('class', 'sunburst-svg').attr('id', 'sunburst-svg');
       this.svg
         .style('class', 'sunburst-svg')
-        .style('width', w + 'px')
-        .style('height', h + 'px')
+        .attr('width', w)
+        .attr('height', h)
         .style('transform', 'translate(-61px, 0px)')
         .attr('viewBox', `${-w / 2} ${-h / 2} ${w} ${h}`);
       // .append("circle")
@@ -360,7 +360,7 @@ class Sunburst extends React.Component {
             //
             var resources = node.Resources;
             // console.log(resources,'res');
-            console.log(node, 'node');
+            // console.log(node, 'node');
             // console.log(typeof node,'node');
             // console.log(JSON.stringify(node),'node');
             // Object.entries(node).forEach(([key, value]) => {
@@ -474,9 +474,13 @@ class Sunburst extends React.Component {
         //
         this.legend
           .attr('class', 'sunbrust-legend')
-          .attr('x', '100px');
+          .attr('x', '100px')
+          // .attr('width',10)
+          // .attr('height',5)
+          // .attr('viewBox', `${-30 / 2} ${-20 / 2} ${-30} ${-20}`);
+
       const data = d;
-      console.log(data);
+      // console.log(data);
       // let x =0;
       var legendEntries = this.legend
           .selectAll('g')
@@ -661,7 +665,7 @@ class Sunburst extends React.Component {
     this.props._debug && this.props._log('Sunburst: render()');
     return (
       <div className="sunburst-wrapper" id={this.domId}>
-        <h5 class="graph-title" style={{display:"none",textAlign:"center"}}>Sakchyam Investment Focus</h5>
+        {/* <h5 class="graph-title" style={{display:"none",textAlign:"center"}}>Sakchyam Investment Focus</h5> */}
         {/* <ul>
         <li>
           <i>material</i>

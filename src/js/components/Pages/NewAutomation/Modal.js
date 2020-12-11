@@ -37,7 +37,7 @@ const Modal = props => {
     notifyHandler,
   } = props;
 
-  console.log('chart data', allPartners);
+  // console.log('chart data', allPartners);
 
   const a =
     allPartners &&

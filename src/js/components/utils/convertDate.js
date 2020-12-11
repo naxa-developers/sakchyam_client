@@ -10,7 +10,7 @@ const convertDate = isoData => {
   if (month < 10) {
     month = `0${month}`;
   }
-  console.log(`${year}-${month}-${dt}`);
+  // console.log(`${year}-${month}-${dt}`);
   return `${year}-${month}-${dt}`;
 };
 export default convertDate;

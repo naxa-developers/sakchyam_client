@@ -1100,7 +1100,7 @@ class MainAutomation extends Component {
   };
 
   modalHandler = type => {
-    console.log('pressed');
+    // console.log('pressed');
     this.setState(prevState => ({
       activeModal: !prevState.activeModal,
       modalType: type,
@@ -1114,7 +1114,7 @@ class MainAutomation extends Component {
   };
 
   notifyHandler = message => {
-    console.log('message is', message);
+    // console.log('message is', message);
     this.setState({
       message,
     });
