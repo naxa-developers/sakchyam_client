@@ -173,12 +173,12 @@ class RightSideBar extends Component {
   calculateProgramCount = selectedProgram => {
     const { financialData } = this.props.financialReducer;
     let programCount;
-    console.log(selectedProgram);
-    console.log(financialData, 'filteredData');
+    // console.log(selectedProgram);
+    // console.log(financialData, 'filteredData');
     if (selectedProgram.length !== 0) {
       programCount = selectedProgram.length;
     } else {
-      console.log(selectedProgram, 'selectedProgram Lsit');
+      // console.log(selectedProgram, 'selectedProgram Lsit');
       const arr = [];
       financialData.map(item => {
         const obj = arr.find(x => x.program_id === item.program_id);
@@ -309,7 +309,7 @@ class RightSideBar extends Component {
       );
 
       if (!obj) {
-        console.log('this runs', item);
+        // console.log('this runs', item);
         filteredData.push({
           program_code: item.program_code,
           program_id: item.program_id,
@@ -570,19 +570,22 @@ class RightSideBar extends Component {
     } = this.state;
     const overviewCount =
       finalData && finalData.filter(data => data.value !== 0);
-    console.log(overviewCount, 'overViewCount');
+    // console.log(overviewCount, 'overViewCount');
     const benefCount =
       overviewCount &&
       overviewCount.reduce((a, b) => {
         return a + b.value;
       }, 0);
-    console.log(benefCount);
+    // console.log(benefCount);
     const programLength = [
       ...new Set(overviewCount.map(item => item.program_id)),
     ].length;
     const partnerLength = [
       ...new Set(overviewCount.map(item => item.partner_id)),
     ].length;
+
+    const initiative =
+      programLength === 0 ? programCount : programLength;
     // console.log(overviewCount, 'overView');
     // console.log(programLength, 'programLength');
     // console.log(partnerLength, 'partnerLength');
@@ -669,12 +672,17 @@ class RightSideBar extends Component {
                       </li>
                       <li>
                         <div className="widget-content">
-                          <h6>Financial Literacy Initiative</h6>
+                          <h6>
+                            {initiative > 1
+                              ? 'Finanical Literacy Initiatives'
+                              : 'Finanical Literacy Initiative'}
+                          </h6>
                           {/* <span>{programCount}</span> */}
                           <span>
-                            {programLength === 0
+                            {initiative}
+                            {/* {programLength === 0
                               ? programCount
-                              : programLength}
+                              : programLength} */}
                           </span>
                         </div>
                         <div className="widget-icon">

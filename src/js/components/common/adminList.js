@@ -11,7 +11,12 @@ export const provinceLists = () => {
     label: p.prov_name,
     value: p.FIRST_PROV,
   }));
-  tempList.unshift({ label: 'All Province', value: 'all' });
+  tempList.unshift({
+    label: 'All Province',
+    name: 'A',
+    code: '0',
+    value: 'all',
+  });
   return tempList;
 };
 
@@ -25,7 +30,11 @@ export const districtLists = () => {
     code: p.districtid,
     value: p.districtid,
   }));
-  tempList1.unshift({ label: 'All District', value: 'all' });
+  tempList1.unshift({
+    label: 'All District',
+    name: 'A',
+    value: 'all',
+  });
   return tempList1;
 };
 
@@ -46,7 +55,11 @@ export const municipalityLists = () => {
     return textA < textB ? -1 : textA > textB ? 1 : 0;
   });
 
-  tempList5.unshift({ label: 'All Municipality', value: 'all' });
+  tempList5.unshift({
+    label: 'All Municipality',
+    name: 'A',
+    value: 'all',
+  });
 
   return tempList5;
 };
@@ -67,7 +80,11 @@ export const districtListByProvince = (provinces, districts) => {
     return true;
   });
 
-  filteredDistricts.unshift({ label: 'All District', value: 'all' });
+  filteredDistricts.unshift({
+    label: 'All District',
+    name: 'A',
+    value: 'all',
+  });
   return filteredDistricts;
 };
 
@@ -88,6 +105,10 @@ export const muniByDistrict = (districts, munis) => {
       return true;
     });
 
-  filteredMunis.unshift({ label: 'All Municipality', value: 'all' });
+  filteredMunis.unshift({
+    label: 'All Municipality',
+    name: 'A',
+    value: 'all',
+  });
   return filteredMunis;
 };

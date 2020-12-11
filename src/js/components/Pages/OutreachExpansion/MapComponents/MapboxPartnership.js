@@ -426,7 +426,7 @@ class MapboxPartnership extends Component {
         const filteredProvince = filteredMapData.filter(
           pro => pro.id === parseInt(id),
         );
-        console.log(filteredProvince, 'filtProv');
+        // console.log(filteredProvince, 'filtProv');
         const withSameId = primaryData.filter(
           item => item.municipality_code === parseInt(id),
         );

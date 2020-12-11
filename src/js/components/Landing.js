@@ -75,7 +75,7 @@ class Landing extends Component {
 
   render() {
     const { permissions } = this.state;
-    console.log(permissions,'permission')
+    // console.log(permissions,'permission')
     if(permissions === null){
       return <Redirect to="/login" />
     }

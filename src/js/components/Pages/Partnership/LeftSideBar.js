@@ -5,6 +5,7 @@ import FinancialLeftCard from '../../common/FinancialLeftCard';
 import GroupCheckedbox from '../../common/GroupedCheckbox/GroupedCheckbox';
 import BadgeLoader from '../MFS/SkeletonLoader/BadgeLoader';
 import BadgesLoader from '../../common/SkeletonLoader/BadgesLoader';
+import { sortArrayByAnyKey } from '../../utils/utilities';
 
 class LeftSideBar extends Component {
   constructor(props) {
@@ -48,6 +49,22 @@ class LeftSideBar extends Component {
       partnerTypeList,
       filteredPartnerList,
     } = this.props.partnershipReducer;
+    if (partnershipInvestmentFocus) {
+      sortArrayByAnyKey(
+        partnershipInvestmentFocus,
+        'investment_primary',
+      );
+    }
+    if (projectLists) {
+      sortArrayByAnyKey(projectLists, 'name');
+    }
+    if (partnerTypeList) {
+      sortArrayByAnyKey(partnerTypeList);
+    }
+    if (filteredPartnerList) {
+      sortArrayByAnyKey(filteredPartnerList, 'name');
+    }
+
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">
@@ -253,7 +270,7 @@ class LeftSideBar extends Component {
                     <ul className="checkbox-list">
                       {filteredPartnerList &&
                         filteredPartnerList.map(partner => {
-                          console.log(partner, 'partner');
+                          // console.log(partner, 'partner');
                           return (
                             <CheckBox
                               id={partner.id}

@@ -1279,7 +1279,7 @@ const filterFinancialDataForGraph = (state, action) => {
   const totalMicroBenef = filteredMicroFinance.reduce(function(x, b) {
     return x + b.single_count;
   }, 0);
-  console.log(filterdFinalData, 'filteredData', '/c');
+  // console.log(filterdFinalData, 'filteredData', '/c');
   return {
     ...state,
     filteredByProgramDefault: {
@@ -1334,7 +1334,7 @@ const filterPartnersByType = (state, action) => {
 const filterTableDataByPartner = (state, action) => {
   const { selectedPartners, selectedPartnerType } = action.payload;
   const { allTableData } = state;
-  console.log(allTableData, 'allTableData');
+  // console.log(allTableData, 'allTableData');
   let tableData = allTableData;
   if (selectedPartners.length > 0) {
     tableData = tableData.filter(data => {

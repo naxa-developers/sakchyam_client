@@ -19,11 +19,17 @@ class BubbleChart extends React.Component {
   generateTooltipData(data) {
     const arr = [];
     data.forEach(item => {
-      const obj = arr.some(x => x.product === item.product_name);
+      // const obj = arr.some(x => x.product === item.product_name);
+      const obj = arr.some(
+        x =>
+          x.product === item.product_name &&
+          x.partner_type === item.partner_type,
+      );
       if (!obj)
         arr.push({
           product: item.product_name,
           partner: [item.partner_name],
+          partner_type: item.partner_type,
         });
       else {
         const objIndex = arr.findIndex(
@@ -179,67 +185,80 @@ class BubbleChart extends React.Component {
               animate
               motionStiffness={90}
               motionDamping={12}
-              tooltip={({ id, value, color }) => (
-                <span style={{ display: 'flex', padding: '15px' }}>
-                  {/* <strong> */}
-                  {/* {id}: {value} */}
-                  {color !== '#de2693' ? (
-                    <>
-                      <div
-                        style={{
-                          margin: '1px',
-                          marginRight: '5px',
-                          marginTop: '5px',
-                          height: '15px',
-                          width: '15px',
-                          backgroundColor: color,
-                        }}
-                      />
-                      <strong>
-                        {id}: {value}
-                      </strong>
-                    </>
-                  ) : (
-                    this.state.tooltipData.map(item => {
-                      // console.log(item, 'item Product Process');
-                      if (id === item.product)
-                        // return `${id} Partner: (${item.partner})`;
-                        return (
-                          <strong>
-                            {/* `${id}${'\n'} Partner: ${item.partner}` */}
-                            <span
-                              style={{
-                                position: 'absolute',
-                                left: 0,
-                                right: 0,
-                                textAlign: 'center',
-                                color: 'red',
-                              }}
-                            >
-                              Product Name
-                            </span>
-                            <br />
-                            {id} <br />
-                            <span
-                              style={{
-                                color: 'red',
-                                display: 'flex',
-                                justifyContent: 'center',
-                              }}
-                            >
-                              Partner:
-                            </span>
-                            <ul style={{ listStyle: 'disc' }}>
-                              {item.partner.map(data => (
-                                <li>{data}</li>
-                              ))}
-                            </ul>
-                          </strong>
-                        );
-                      return true;
-                    })
-                  )}
-                  {/* {this.state.tooltipData.map(item => {
+              // tooltip={props => {
+              //   console.log(props);
+              //   // console.log(id, 'id');
+              //   // console.log(value, 'value');
+              //   // console.log(color, 'color');
+              //   // console.log(y, 'y');
+              // }}
+              tooltip={props => {
+                console.log(props);
+                const { id, value, color } = props;
+                return (
+                  <span style={{ display: 'flex', padding: '15px' }}>
+                    {/* <strong> */}
+                    {/* {id}: {value} */}
+                    {color !== '#de2693' ? (
+                      <>
+                        <div
+                          style={{
+                            margin: '1px',
+                            marginRight: '5px',
+                            marginTop: '5px',
+                            height: '15px',
+                            width: '15px',
+                            backgroundColor: color,
+                          }}
+                        />
+                        <strong>
+                          {id}: {value}
+                        </strong>
+                      </>
+                    ) : (
+                      this.state.tooltipData.map(item => {
+                        // console.log(item, 'item Product Process');
+                        if (
+                          id === item.product &&
+                          props.parent.id === item.partner_type
+                        )
+                          // return `${id} Partner: (${item.partner})`;
+                          return (
+                            <strong>
+                              {/* `${id}${'\n'} Partner: ${item.partner}` */}
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  left: 0,
+                                  right: 0,
+                                  textAlign: 'center',
+                                  color: 'red',
+                                }}
+                              >
+                                Product Name
+                              </span>
+                              <br />
+                              {id} <br />
+                              <span
+                                style={{
+                                  color: 'red',
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                Partner:
+                              </span>
+                              <ul style={{ listStyle: 'disc' }}>
+                                {item.partner.map(data => (
+                                  <li>{data}</li>
+                                ))}
+                              </ul>
+                            </strong>
+                          );
+                        return true;
+                      })
+                    )}
+                    {/* {this.state.tooltipData.map(item => {
                       let a;
                       if (id !== item.product) {
                         a = true;
@@ -250,9 +269,10 @@ class BubbleChart extends React.Component {
                     })
                       ? `${id}: ${value}`
                       : 'hi'} */}
-                  {/* </strong> */}
-                </span>
-              )}
+                    {/* </strong> */}
+                  </span>
+                );
+              }}
               theme={{
                 tooltip: {
                   container: {

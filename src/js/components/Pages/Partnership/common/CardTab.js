@@ -29,15 +29,20 @@ const downloadPng = (chartid, imageTitle) => {
   // document
   //   .querySelector('.download-dropdown')
   //   .classList.remove('active');
-  const clone = document.getElementById(chartid).cloneNode(true);
+  // const clone = document.getElementById(chartid).cloneNode(true);
 
   const chartEl = document.querySelector(`#${chartid}`);
+  // chartEl.querySelector('svg').setAttribute('width', '400');
+  // chartEl.querySelector('svg').setAttribute('height', '400');
+  // chartEl
+  //   .querySelector('#container')
+  //   .setAttribute('transform', 'translate(200,200)');
   const useWidth = chartEl.clientWidth;
   setTimeout(() => {
     // document
     //   .querySelector(`.${chartid}`)
     //   .append(<label>Varun</label>);
-    html2canvas(clone, {
+    html2canvas(chartEl, {
       // logging: true,
       // letterRendering: 1,
       scale: 5,

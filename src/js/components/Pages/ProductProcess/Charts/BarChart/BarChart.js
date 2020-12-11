@@ -9,7 +9,7 @@ import {
 } from '../../../../../actions/productProcess.actions';
 
 function convertLabelName(name) {
-  console.log(name, 'name');
+  // console.log(name, 'name');
   const nameArr = name.split(' ');
   let firstElement;
   let rest;
@@ -64,7 +64,7 @@ class BarChart extends Component {
     } = this.props;
 
     const data = filteredData.length === 0 ? allData : filteredData;
-    console.log(filteredData, 'filteredData');
+    // console.log(filteredData, 'filteredData');
     const partnerType = [
       ...new Set(data.map(item => item.partner_type)),
     ];
@@ -85,9 +85,9 @@ class BarChart extends Component {
     partnerType.forEach((i, index) => {
       arr[index] = getCount(i);
     });
-    console.log(partnerType, 'partnerType');
+    // console.log(partnerType, 'partnerType');
     const categories = partnerType.map(item => {
-      console.log(item, 'item');
+      // console.log(item, 'item');
       return convertLabelName(item);
     });
 

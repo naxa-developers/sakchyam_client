@@ -217,12 +217,12 @@ const filterBeneficiaryBarChart = datas => {
     return data.female_beneficiary;
   });
   const finaleMaleBeneficiary = {
-    name: 'Male Beneficiary',
+    name: 'Male Beneficiaries',
     type: 'column',
     data: maleBeneficiary,
   };
   const finaleFemaleBeneficiary = {
-    name: 'Female Beneficiary',
+    name: 'Female Beneficiaries',
     type: 'column',
     data: femaleBeneficiary,
   };
@@ -249,12 +249,12 @@ const filterBeneficiaryBarChartForProvinceOnly = datas => {
     return data.female_beneficiary;
   });
   const finaleMaleBeneficiary = {
-    name: 'Male Beneficiary',
+    name: 'Male Beneficiaries',
     type: 'column',
     data: maleBeneficiary,
   };
   const finaleFemaleBeneficiary = {
-    name: 'Female Beneficiary',
+    name: 'Female Beneficiaries',
     type: 'column',
     data: femaleBeneficiary,
   };
@@ -285,12 +285,12 @@ const filterBeneficiaryBarChartForInvestment = datas => {
     return data.female;
   });
   const finaleMaleBeneficiary = {
-    name: 'Male Beneficiary',
+    name: 'Male Beneficiaries',
     type: 'column',
     data: maleBeneficiary,
   };
   const finaleFemaleBeneficiary = {
-    name: 'Female Beneficiary',
+    name: 'Female Beneficiaries',
     type: 'column',
     data: femaleBeneficiary,
   };
@@ -1259,8 +1259,21 @@ const getProvinceData = (state, action) => {
   };
 };
 const getDistrictData = (state, action) => {
+  function GetSortOrder(prop) {
+    return function(a, b) {
+      if (a[prop] > b[prop]) {
+        return 1;
+      }
+      if (a[prop] < b[prop]) {
+        return -1;
+      }
+      return 0;
+    };
+  }
+  action.payload.sort(GetSortOrder('name'));
+
   const districtList = [];
-  districtList.push({ label: 'All District', value: 'all' });
+  districtList.push({ label: 'All District', code: 0, value: 'all' });
   action.payload.map(data => {
     return districtList.push({
       ...data,
@@ -1275,7 +1288,11 @@ const getDistrictData = (state, action) => {
 };
 const getMunicipalityData = (state, action) => {
   const municipalityList = [];
-  municipalityList.push({ label: 'All Municipality', value: 'all' });
+  municipalityList.push({
+    label: 'All Municipality',
+    code: 0,
+    value: 'all',
+  });
   action.payload.map(data => {
     return municipalityList.push({
       ...data,
@@ -1286,6 +1303,7 @@ const getMunicipalityData = (state, action) => {
   return {
     ...state,
     allMunicipalityList: municipalityList,
+    defaultMunicipalityList: municipalityList,
     // isDataFetched: true,
   };
 };
@@ -1343,8 +1361,20 @@ const getMapDataByMunicipality = (state, action) => {
   };
 };
 const filterDistrictFromProvince = (state, action) => {
+  function GetSortOrder(prop) {
+    return function(a, b) {
+      if (a[prop] > b[prop]) {
+        return 1;
+      }
+      if (a[prop] < b[prop]) {
+        return -1;
+      }
+      return 0;
+    };
+  }
+  action.payload.sort(GetSortOrder('name'));
   const districtList = [];
-  districtList.push({ label: 'All District', value: 'all' });
+  districtList.push({ label: 'All District', code: 0, value: 'all' });
   action.payload.map(data => {
     return districtList.push({
       ...data,
@@ -1364,18 +1394,44 @@ const filterMunListFromDistrictRequest = (state, action) => {
   };
 };
 const filterMunListFromDistrict = (state, action) => {
+  const { defaultMunicipalityList } = state;
+  const { payload } = action;
   const municipalityList = [];
-  municipalityList.push({ label: 'All Municipality', value: 'all' });
-  action.payload.map(data => {
-    return municipalityList.push({
-      ...data,
-      label: data.name,
-      value: data.code,
+  // console.log(defaultMunicipalityList, 'defmuN');
+  // console.log(payload, 'payload');
+  const districtCodes = payload.map(dist => dist.code);
+  let result = defaultMunicipalityList.filter(mun =>
+    districtCodes.includes(mun.district_code),
+  );
+  if (result.length < 1) {
+    result = defaultMunicipalityList;
+  } else {
+    result.unshift({
+      label: 'All Municipality',
+      code: 0,
+      value: 'all',
     });
-  });
+  }
+  // const test = defaultMunicipalityList.filter(
+  //   mun => mun.district_code === 27,
+  // );
+  // console.log(test, 'testMun');
+  // console.log(result, 'result');
+  // console.log(result, 'result');
+  // const x = defaultMunicipalityList.filter(
+  //   mun => (mun.code = action),
+  // );
+
+  // action.payload.map(data => {
+  //   return municipalityList.push({
+  //     ...data,
+  //     label: data.name,
+  //     value: data.code,
+  //   });
+  // });
   return {
     ...state,
-    allMunicipalityList: municipalityList,
+    allMunicipalityList: result,
     isDataFetched: true,
   };
 };
@@ -1551,7 +1607,7 @@ const filterTimelineData = (state, action) => {
       count: getPartnerCount({ id, type: 'province_id' }),
     }));
   }
-  console.log(fedData, 'filteredTimelineData');
+  // console.log(fedData, 'filteredTimelineData');
   return {
     ...state,
     filteredMapData: fedData,

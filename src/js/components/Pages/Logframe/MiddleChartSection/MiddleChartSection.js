@@ -1127,7 +1127,7 @@ class MiddleChartSection extends Component {
     // ).style.height;
     // const useWidth = popupEl.scrollWidth;
     const useWidth = popupEl.offsetWidth;
-    console.log(useWidth, 'useWidht');
+    // console.log(useWidth, 'useWidht');
 
     setTimeout(() => {
       // document
@@ -1862,6 +1862,33 @@ class MiddleChartSection extends Component {
                   this.chartRef = arg;
                 }}
               />
+              {activeLayer === 'Output Indicator 2.3' &&(
+                <>
+              <CustomChart
+                activeModal={activeModal}
+                activeDateValues={activeDateValues}
+                activeLayer={activeLayer}
+                activeDate={activeDate}
+                updateChart={updateChart}
+                series={series}
+                options={options}
+                chartRef={arg => {
+                  this.chartRef = arg;
+                }}
+              />
+              <CustomChart
+                activeModal={activeModal}
+                activeDateValues={activeDateValues}
+                activeLayer={activeLayer}
+                activeDate={activeDate}
+                updateChart={updateChart}
+                series={series}
+                options={options}
+                chartRef={arg => {
+                  this.chartRef = arg;
+                }}
+              />
+              </>)}
               {/* <CustomChart
                 activeModal={activeModal}
                 activeDateValues={activeDateValues}

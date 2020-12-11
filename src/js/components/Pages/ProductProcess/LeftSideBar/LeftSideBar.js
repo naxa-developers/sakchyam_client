@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CheckBox from '../../../common/Checkbox';
+import { sortArrayByAnyKey } from '../../../utils/utilities';
 import LeftSidebarLoaderPP from '../Loader/LeftSidebarLoaderPP';
 
 class LeftSideBar extends Component {
@@ -43,7 +44,24 @@ class LeftSideBar extends Component {
     } = this.props;
 
     const { loading } = this.props.productProcessReducer;
-
+    if (innovationArea) {
+      sortArrayByAnyKey(innovationArea, 'name');
+    }
+    if (productCategory) {
+      sortArrayByAnyKey(productCategory, 'name');
+    }
+    if (productName) {
+      sortArrayByAnyKey(productName, 'name');
+    }
+    if (partnerType) {
+      sortArrayByAnyKey(partnerType, 'name');
+    }
+    if (partnerName) {
+      sortArrayByAnyKey(partnerName, 'name');
+    }
+    if (marketFailure) {
+      sortArrayByAnyKey(marketFailure, 'name');
+    }
     return (
       <aside className="sidebar left-sidebar literacy-sidebar">
         <div className="sidebar-in">

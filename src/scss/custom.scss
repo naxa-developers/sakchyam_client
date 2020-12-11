@@ -708,6 +708,7 @@
   }
 }
 .marker-outreach-branch {
+  z-index: 100;
   background-image: url('../img/Group5085.svg');
   background-size: cover;
   width: 25px;
@@ -738,6 +739,8 @@
 }
 
 .marker-outreach-inactive {
+  // display: none;
+  z-index: 1;
   background-image: url('../img/inactive.png');
   background-size: cover;
   width: 25px;
@@ -798,7 +801,7 @@
   position: relative;
 }
 .mapboxgl-marker {
-  z-index: 99;
+  // z-index: 99;
 }
 
 .pie-mapbox-popup {

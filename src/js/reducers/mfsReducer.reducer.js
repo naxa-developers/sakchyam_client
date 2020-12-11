@@ -508,8 +508,8 @@ const filterMfsChartDataByPartner = (state, action) => {
     selectedDistrict,
     selectedProvince,
   } = action.payload;
-  console.log(selectedDistrict, 'selectedDistrict');
-  console.log(selectedProvince, 'selectedProvince');
+  // console.log(selectedDistrict, 'selectedDistrict');
+  // console.log(selectedProvince, 'selectedProvince');
   const mfsData = [...state.mfsListAllData];
   let filteredData = mfsData;
   if (selectedAchievement.length > 0) {
@@ -528,7 +528,7 @@ const filterMfsChartDataByPartner = (state, action) => {
     });
   }
   let filteredFederal = filteredData;
-  console.log(filteredFederal, 'before Federal Filter');
+  // console.log(filteredFederal, 'before Federal Filter');
 
   if (selectedDistrict && selectedDistrict.length > 0) {
     //
@@ -549,7 +549,7 @@ const filterMfsChartDataByPartner = (state, action) => {
         ) && elem,
     );
   }
-  console.log(filteredFederal, 'after Federal Filter');
+  // console.log(filteredFederal, 'after Federal Filter');
   const anotherArray = [...filteredFederal];
   function generateStackedBarData(data) {
     const achievementType = [
@@ -796,7 +796,7 @@ const filterMfsMapPieData = (state, action) => {
     selectedProvince,
     selectedDistrict,
   } = action.payload;
-  console.log(selectedDistrict, 'selectedDist Reducer');
+  // console.log(selectedDistrict, 'selectedDist Reducer');
   //
   const mfsData = [...state.mfsListAllData];
   const federalKey =
@@ -820,7 +820,7 @@ const filterMfsMapPieData = (state, action) => {
   let filteredFederal = dataFilter;
 
   if (selectedDistrict && selectedDistrict.length > 0) {
-    console.log(dataFilter, 'dataFilter Reducer');
+    // console.log(dataFilter, 'dataFilter Reducer');
     filteredFederal = dataFilter.filter(
       elem =>
         selectedDistrict.find(

@@ -88,7 +88,7 @@ class StackedBarWithAllFederal extends Component {
               selectedAchievement,
             } = that.props;
             const clicked = config.xaxis.categories[dataPointIndex];
-            console.log(clicked, 'clicked');
+            // console.log(clicked, 'clicked');
 
             if (showBarChartBy === 'Federal') {
               // if (showBarOf === 'Provinces') {
@@ -261,7 +261,7 @@ class StackedBarWithAllFederal extends Component {
               selectedDistrict,
             } = that.props;
             const clicked = config.xaxis.categories[dataPointIndex];
-            console.log(clicked, 'clicked');
+            // console.log(clicked, 'clicked');
             if (clicked !== undefined) {
               if (that.props.showBarChartBy === 'Federal') {
                 if (showBarof === 'Provinces') {
@@ -279,10 +279,10 @@ class StackedBarWithAllFederal extends Component {
                       );
                     },
                   );
-                  console.log(
-                    filteredProvinceId,
-                    'filteredProvinceId',
-                  );
+                  // console.log(
+                  //   filteredProvinceId,
+                  //   'filteredProvinceId',
+                  // );
                   const finalDistrictId = that.props.districtList.filter(
                     data => {
                       return (

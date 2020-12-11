@@ -258,11 +258,14 @@ class Login extends Component {
 
               <div className="container">
                 <div className="banner-header">
-                  <h1 className="banner-title">
+                  <h1
+                    className="banner-title"
+                    style={{ fontSize: '45px' }}
+                  >
                     Welcome
                     <span className="small"> To</span>
                     <br />
-                    Data Visualization Port
+                    Sakchyam Data Visualisation Port
                     <span className="abbr">(DVP)</span>
                   </h1>
                   {/* <p className="span_book_18">

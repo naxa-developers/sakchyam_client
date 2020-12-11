@@ -48,10 +48,10 @@ class GroupedBar extends Component {
             //
             //
             //
-            console.log(
-              config.xaxis.categories[dataPointIndex],
-              'dataPointIndex Calc',
-            );
+            // console.log(
+            //   config.xaxis.categories[dataPointIndex],
+            //   'dataPointIndex Calc',
+            // );
             const {
               partnerSelection,
               projectSelection,
