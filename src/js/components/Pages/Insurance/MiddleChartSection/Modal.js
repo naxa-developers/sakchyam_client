@@ -13,10 +13,13 @@ const downloadPng = (chartid, imageTitle) => {
   const pieTab = document.querySelector('#donut-tab-insurance');
   pieTab.style.display = 'none';
 
+  const chartEl = document.querySelector(`#${chartid}`);
+  const useWidth = chartEl.scrollWidth;
   setTimeout(() => {
-    html2canvas(document.querySelector(`#${chartid}`), {
+    html2canvas(chartEl, {
       allowTaint: true,
       scale: 5,
+      width: useWidth,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);

@@ -141,6 +141,9 @@ class HeatmapChart extends React.Component {
           offsetY: 0,
           rotate: 0,
         },
+        crosshairs: {
+          show: false,
+        },
       },
       xaxis: {
         labels: {
@@ -339,12 +342,17 @@ class HeatmapChart extends React.Component {
           offsetY: 0,
           rotate: 0,
         },
+        crosshairs: {
+          show: false,
+        },
       },
       xaxis: {
         labels: {
           // show: false,
           // trim: true,
           hideOverlappingLabels: false,
+          minHeight: 180,
+          maxHeight: 400,
         },
       },
       legend: {
@@ -444,7 +452,8 @@ class HeatmapChart extends React.Component {
               ? 650
               : activeModal && window.innerWidth < 1400
               ? 600
-              : 800
+              : 550
+            // ? 500
           }
           // width={
           //   activeModal && window.innerWidth < 1600
@@ -463,7 +472,7 @@ class HeatmapChart extends React.Component {
             activeModal && window.innerWidth < 1600
               ? 1200
               : activeModal && window.innerWidth > 1600
-              ? 1800
+              ? 1700
               : showRightSidebar && window.innerWidth < 1600
               ? 780
               : showRightSidebar && window.innerWidth > 1600

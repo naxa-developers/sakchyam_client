@@ -199,7 +199,7 @@ class MapboxPartnership extends Component {
             const filteredByHDI = data.map(muni => ({
               id: muni.municipality_code,
               code: muni.municipality_code,
-              count: muni.hdi * 100,
+              count: muni.hdi,
             }));
             choroplethData = filteredByHDI;
             break;
@@ -346,8 +346,8 @@ class MapboxPartnership extends Component {
     //   outreachReducer: { primaryData },
     // } = this.props;
     const { mapViewBy, primaryData } = this.props;
-    console.log('primaryData', primaryData);
-    console.log('filteredMapData', filteredMapData);
+    // console.log('primaryData', primaryData);
+    // console.log('filteredMapData', filteredMapData);
     let data;
     if (id !== 0) {
       this.setState({ hoveredId: id });
@@ -367,7 +367,7 @@ class MapboxPartnership extends Component {
         );
 
         const values = this.getAllInstitutionCount(withSameId, id);
-        console.log('in hover id', values);
+        // console.log('in hover id', values);
 
         if (filteredProvince.length > 0) {
           data = {
@@ -383,7 +383,7 @@ class MapboxPartnership extends Component {
           };
         }
 
-        console.log(data, 'popupdata');
+        // console.log(data, 'popupdata');
         this.setState({ popUpData: data });
       }
       if (mapViewBy === 'district') {
@@ -426,7 +426,7 @@ class MapboxPartnership extends Component {
         const filteredProvince = filteredMapData.filter(
           pro => pro.id === parseInt(id),
         );
-
+        console.log(filteredProvince, 'filtProv');
         const withSameId = primaryData.filter(
           item => item.municipality_code === parseInt(id),
         );

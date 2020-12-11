@@ -236,6 +236,11 @@ class MainAutomation extends Component {
             '#34ede1',
           ],
         },
+        yaxis: {
+          crosshairs: {
+            show: false,
+          },
+        },
       },
       areaChartOptions: {
         series: [
@@ -264,6 +269,11 @@ class MainAutomation extends Component {
             '2018-09-19T05:30:00.000Z',
             '2018-09-19T06:30:00.000Z',
           ],
+        },
+        yaxis: {
+          crosshairs: {
+            show: false,
+          },
         },
         fill: {
           opacity: 1,
@@ -491,6 +501,11 @@ class MainAutomation extends Component {
                 '#34ede1',
               ],
             },
+            yaxis: {
+              crosshairs: {
+                show: false,
+              },
+            },
           },
           rightSideBarLoader: false,
         });
@@ -621,6 +636,7 @@ class MainAutomation extends Component {
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v10',
       center: [84, 28.5],
+      preserveDrawingBuffer: true,
       zoom: 5.8,
     });
     this.setState({ map });
@@ -641,11 +657,11 @@ class MainAutomation extends Component {
     }));
   };
 
-  setFilterTab = () => {
-    this.setState(prevState => ({
-      activeFilter: !prevState.activeFilter,
-    }));
-  };
+  // setFilterTab = () => {
+  //   this.setState(prevState => ({
+  //     activeFilter: !prevState.activeFilter,
+  //   }));
+  // };
 
   toggleOutreachButton = () => {
     // if (this.state.activeOutreachButton) {

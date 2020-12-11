@@ -176,7 +176,7 @@ class BarChartInsurance extends Component {
             // formatter: val => 'hello',
             that.props.selectedTabBar === 'insurance-premium'
               ? 'Amount of Insurance Premium (NPR)'
-              : 'Amount of Sum Insuranced',
+              : 'Amount of Sum Insured',
         },
         axisTicks: { show: true },
         axisBorder: { show: true },
@@ -194,6 +194,9 @@ class BarChartInsurance extends Component {
           //   fontWeight: 400,
           //   cssClass: 'apexcharts-yaxis-label',
           // },
+        },
+        crosshairs: {
+          show: false,
         },
       },
       // {
@@ -268,7 +271,7 @@ class BarChartInsurance extends Component {
               text:
                 selectedTabBar === 'insurance-premium'
                   ? 'Amount of Insurance Premium (NPR)'
-                  : 'Amount of Sum Insuranced',
+                  : 'Amount of Sum Insured',
             },
           },
         },
@@ -310,11 +313,11 @@ class BarChartInsurance extends Component {
     const series2 = [];
 
     series1.push({
-      name: 'Amount of Insurance (NPR)',
+      name: 'Amount of Insurance Premium (NPR)',
       data: amountInsurance,
     });
     series2.push({
-      name: 'Amount of Sum Insuranced',
+      name: 'Amount of Sum Insured',
       data: sumInsuranced,
     });
 

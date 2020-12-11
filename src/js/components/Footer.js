@@ -16,18 +16,18 @@ class Footer extends Component {
           <div className="footer-info">
             <div className="info-logo">
               <img className="main-logo" src={Logo} alt="" />
-              <span className="span_book_15">
+              {/* <span className="span_book_15">
                 A Small Leap towards Application of Open Data on Aid
                 and Budget in Nepal.
-              </span>
-              <div className="logo-wrap">
+              </span> */}
+              {/* <div className="logo-wrap">
                 <div className="logo-img">
                   <img src={SakLogo} alt="" />
                 </div>
                 <div className="logo-img">
                   <img src={UkAid} alt="" />
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="info-points">

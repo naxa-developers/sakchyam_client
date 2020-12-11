@@ -134,7 +134,7 @@ class MainPartnership extends Component {
     // this.props.getSankeyChartData();
     this.props.getBarDataByBenefBudget(viewDataBy);
     this.props.getBarDataByInvestmentFocus(viewDataBy);
-    this.props.getSankeyChartData();
+    this.props.getSankeyChartData(viewDataBy);
     //
     this.props.getRadialData(viewDataBy);
 
@@ -175,7 +175,7 @@ class MainPartnership extends Component {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         isAllProjectSelected: false,
-        projectSelection: [],
+        // projectSelection: [],
       });
     }
     if (prevState.mapViewDataBy !== mapViewDataBy) {
@@ -222,7 +222,7 @@ class MainPartnership extends Component {
       //   projectSelection,
       //   projectStatus,
       // );
-      if (viewDataBy !== 'Leverage') {
+      if (viewDataBy) {
         this.props.getSankeyChartData(viewDataBy);
         // this.props.filterSankeyChartData(
         //   investmentFocusSelection,
@@ -594,6 +594,7 @@ class MainPartnership extends Component {
       // style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
       style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
       center: [84.0, 27.5], // starting position [lng, lat]
+      preserveDrawingBuffer: true,
       zoom: 5.8,
       // starting zoom
     });
@@ -650,12 +651,27 @@ class MainPartnership extends Component {
   };
 
   setActiveView = selectedView => {
+    const {
+      selectedProvince,
+      selectedDistrict,
+      selectedMunicipality,
+    } = this.state;
     localStorage.setItem('activeView', selectedView);
+    setTimeout(() => {
+      this.applyBtnClick(true);
+      if (
+        selectedProvince.length > 0 ||
+        selectedDistrict.length > 0 ||
+        selectedMunicipality.length > 0
+      ) {
+        this.handleApplyFederalFilter();
+      }
+    }, 2000);
     this.setState({
       activeView: selectedView,
-      selectedProvince: [],
-      selectedDistrict: [],
-      selectedMunicipality: [],
+      // selectedProvince: [],
+      // selectedDistrict: [],
+      // selectedMunicipality: [],
     });
   };
 
@@ -1160,11 +1176,25 @@ class MainPartnership extends Component {
 
   handleInvestmentFocusCheckbox = e => {
     const {
-      state: { investmentFocusSelection },
+      state: { investmentFocusSelection, projectSelection },
+      props: {
+        partnershipReducer: { projectLists },
+      },
     } = this;
+    // console.log(projectLists.filter(data=), 'project');
     const {
       target: { name, checked, value },
     } = e;
+    const projectFilter = projectLists.filter(
+      data => data.investment_primary === name,
+    );
+    let a = false;
+    projectSelection.forEach(el => {
+      if (projectFilter.find(x => x.id === el)) {
+        a = true;
+      }
+    });
+    // const projectIncludes = projectFilter.includes();
 
     this.setState(preState => {
       if (checked) {
@@ -1173,7 +1203,7 @@ class MainPartnership extends Component {
             ...preState.investmentFocusSelection,
             name,
           ],
-          projectSelection: [],
+          projectSelection: a ? preState.projectSelection : [],
         };
       }
       if (!checked) {
@@ -1377,6 +1407,7 @@ class MainPartnership extends Component {
       selectedDistrict,
       selectedProvince,
       mapViewBy,
+      mapViewDataBy,
     } = this.state;
     if (activeView === 'visualization') {
       this.handleShowBarOf('Provinces');
@@ -1452,6 +1483,26 @@ class MainPartnership extends Component {
         projectSelection,
       );
     } else {
+      let view = 'investment';
+      if (mapViewDataBy === 'allocated_beneficiary') {
+        view = 'total_beneficiary';
+      } else if (mapViewDataBy === 'allocated_budget') {
+        view = 'total_beneficiary';
+      }
+      this.props.filterMapDataOfCircleMarkerWithViewDataBy(
+        view,
+        mapViewBy,
+        {
+          selectedMunicipality: [],
+          selectedDistrict: [],
+          selectedProvince,
+        },
+        investmentFocusSelection,
+        projectSelection,
+        partnerType,
+        partnerSelection,
+        projectStatus,
+      );
       this.props.filterOverviewData(
         investmentFocusSelection,
         projectSelection,
@@ -1994,11 +2045,11 @@ class MainPartnership extends Component {
                         <FilterBadge
                           viewDataBy={viewDataBy}
                           onclick={() => {
-                            this.setViewDataBy('Leverage');
+                            this.setViewDataBy('leverage');
                           }}
                           icon="store"
-                          dataTitle="Leverage"
-                          title="Leverage"
+                          dataTitle="leverage"
+                          title="leverage"
                         />
                       </>
                     ) : (

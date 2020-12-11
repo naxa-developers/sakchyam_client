@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/jsx-indent-props */
 import React from 'react';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
@@ -13,7 +15,7 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
   const popupEl = document.querySelector(
     selectedModal === 'logframe'
       ? `.info-content-wrap`
-      : `#${chartid}`,
+      : `#popup-body`,
   );
   const infoHeader = document.querySelector('.info-header-bottom');
   if (infoHeader) {
@@ -33,9 +35,15 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
   if (downloadDropdown) {
     downloadDropdown.classList.remove('active');
   }
+  const milestoneBtn = document.querySelector('.multiple-bar');
+  if (milestoneBtn) {
+    milestoneBtn.style.display = 'none';
+  }
   // const titleEl = document.createElement('h6');
   // popupEl.appendChild(titleEl).textContent = 'spaghetti';
   // titleEl.setAttribute('class', 'popup_title');
+  const useWidth = popupEl.scrollWidth;
+
   setTimeout(() => {
     const options =
       chartid === 'test2'
@@ -45,6 +53,7 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
             // letterRendering: 1,
             scale: 5,
             allowTaint: true,
+            // width: useWidth,
             // scale: window.devicePixelRatio,
             // windowWidth: window.innerWidth,
             // windowHeight: window.innerHeight + 120,
@@ -65,6 +74,9 @@ const downloadPng = (chartid, imageTitle, selectedModal) => {
       if (infoHeader) {
         infoHeader.style.display = 'block';
       }
+      // if (milestoneBtn) {
+      //   milestoneBtn.style.display = 'block';
+      // }
       document
         .querySelectorAll('.download-icon-image')
         .forEach(el => {
@@ -95,6 +107,7 @@ const Modal = props => {
     showBarChartBy,
     handleShowBarOfInvestmentBudgetBenefBar,
     notificationHandler,
+    showBarPartnerChartOf,
   } = props;
   const selectedChartId =
     selectedModal === 'groupedChart'
@@ -144,7 +157,7 @@ const Modal = props => {
     >
       <div className="popup-container full-popup">
         <div className="popup-body" id="popup-body">
-          <span className="close-icon">
+          <span data-html2canvas-ignore className="close-icon">
             <i
               className="material-icons"
               role="button"
@@ -158,8 +171,89 @@ const Modal = props => {
 
           <div className="popup-header no-flex">
             <h3>{modalHeader}</h3>
-            {selectedModal === 'sunburst' ? (
+            {selectedModal === 'groupedChart' && (
+              <FilterTab
+                groupedStackData={groupedStackData}
+                isRight
+              />
+            )}
+            {selectedModal === 'stacked_chart' &&
+            showBarPartnerChartOf === 'Innovation' ? (
               <span
+                data-html2canvas-ignore
+                style={{
+                  position: 'absolute',
+                  right: '142px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
+                }}
+                // onClick={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                // onKeyDown={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                role="button"
+                tabIndex="-1"
+              >
+                <button
+                  // id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    resetFilters();
+                    // props.resetRadialData();
+                    // resetFunction();
+                  }}
+                  className="is-border common-button chart-reset "
+                >
+                  Reset
+                </button>
+              </span>
+            ) : selectedModal === 'stacked_chart' &&
+              showBarof === 'Districts' ? (
+              <span
+                data-html2canvas-ignore
+                style={{
+                  position: 'absolute',
+                  right: '142px',
+                  top: '30px',
+                  padding: '5px 6px',
+                  // border: '1px solid #F0F0F0',
+                  // borderColor: 'lightgrey',
+                  cursor: 'pointer',
+                }}
+                // onClick={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                // onKeyDown={
+                //   () => downloadPng(selectedChartId, modalHeader)
+                //   // eslint-disable-next-line react/jsx-curly-newline
+                // }
+                role="button"
+                tabIndex="-1"
+              >
+                <button
+                  // id="chart-reset"
+                  type="button"
+                  onClick={() => {
+                    resetFilters();
+                    // props.resetRadialData();
+                    // resetFunction();
+                  }}
+                  className="is-border common-button chart-reset "
+                >
+                  Reset
+                </button>
+              </span>
+            ) : selectedModal === 'sunburst' ? (
+              <span
+                data-html2canvas-ignore
                 style={{
                   position: 'absolute',
                   right: '142px',
@@ -196,6 +290,7 @@ const Modal = props => {
             ) : // </span>
             selectedModal === 'groupedChart' ? (
               <span
+                data-html2canvas-ignore
                 style={{
                   position: 'absolute',
                   right: '142px',
@@ -232,6 +327,7 @@ const Modal = props => {
             ) : // </span>
             selectedModal === 'stackedWithInvestment' ? (
               <span
+                data-html2canvas-ignore
                 style={{
                   position: 'absolute',
                   right: '142px',
@@ -269,6 +365,7 @@ const Modal = props => {
                 </button>
               </span>
             ) : null}
+
             {/* <span
               style={{
                 position: 'absolute',
@@ -303,6 +400,7 @@ const Modal = props => {
             </span> */}
 
             <span
+              data-html2canvas-ignore
               style={{
                 position: 'absolute',
                 right: '90px',
@@ -344,9 +442,7 @@ const Modal = props => {
           </div>
           <div className="popup-content" id="modal-content">
             {/* <label>Test</label> */}
-            {selectedModal === 'groupedChart' && (
-              <FilterTab groupedStackData={groupedStackData} />
-            )}
+
             {component()}
           </div>
           {/* <div className="popup-footer buttons is-end"> */}

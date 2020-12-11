@@ -9,10 +9,10 @@ import FilterTab from './FilterTab';
 import FilterBadge from '../../MFS/common/FilterBadge';
 
 const downloadPng = (chartid, imageTitle) => {
-  document.querySelectorAll('.download-span').forEach(el => {
-    // eslint-disable-next-line no-param-reassign
-    el.style.display = 'none';
-  });
+  // document.querySelectorAll('.download-span').forEach(el => {
+  //   // eslint-disable-next-line no-param-reassign
+  //   el.style.display = 'none';
+  // });
   document.querySelectorAll('.apexcharts-title-text').forEach(el => {
     // eslint-disable-next-line no-param-reassign
     el.style.display = 'block';
@@ -22,22 +22,27 @@ const downloadPng = (chartid, imageTitle) => {
   //   el.style.display = 'block';
   // });
 
-  document.querySelectorAll('.expand-span').forEach(el => {
-    // eslint-disable-next-line no-param-reassign
-    el.style.display = 'none';
-  });
+  // document.querySelectorAll('.expand-span').forEach(el => {
+  //   // eslint-disable-next-line no-param-reassign
+  //   el.style.display = 'none';
+  // });
   // document
   //   .querySelector('.download-dropdown')
   //   .classList.remove('active');
+  const clone = document.getElementById(chartid).cloneNode(true);
+
+  const chartEl = document.querySelector(`#${chartid}`);
+  const useWidth = chartEl.clientWidth;
   setTimeout(() => {
     // document
     //   .querySelector(`.${chartid}`)
     //   .append(<label>Varun</label>);
-    html2canvas(document.querySelector(`#${chartid}`), {
+    html2canvas(clone, {
       // logging: true,
       // letterRendering: 1,
-      scale: 2,
+      scale: 5,
       allowTaint: true,
+      width: useWidth,
       // scale: window.devicePixelRatio,
       // windowWidth: window.innerWidth,
       // windowHeight: window.innerHeight + 120,
@@ -51,14 +56,14 @@ const downloadPng = (chartid, imageTitle) => {
       canvas.toBlob(function(blob) {
         saveAs(blob, `${imageTitle}.png`);
       });
-      document.querySelectorAll('.download-span').forEach(el => {
-        // eslint-disable-next-line no-param-reassign
-        el.style.display = 'block';
-      });
-      document.querySelectorAll('.expand-span').forEach(el => {
-        // eslint-disable-next-line no-param-reassign
-        el.style.display = 'block';
-      });
+      // document.querySelectorAll('.download-span').forEach(el => {
+      //   // eslint-disable-next-line no-param-reassign
+      //   el.style.display = 'block';
+      // });
+      // document.querySelectorAll('.expand-span').forEach(el => {
+      //   // eslint-disable-next-line no-param-reassign
+      //   el.style.display = 'block';
+      // });
       // document.querySelectorAll('.graph-title').forEach(el => {
       //   // eslint-disable-next-line no-param-reassign
       //   el.style.display = 'none';
@@ -130,7 +135,10 @@ const CardTab = ({
       <div className="card" id={cardChartId}>
         <div className="card-header">
           <h5>{cardTitle}</h5>
-          <div className="header-icons">
+          <div
+            className="header-icons"
+            data-html2canvas-ignore="true"
+          >
             {/* <div className="card-switcher">
                       <small>OFF</small>
                       <label className="switch">
@@ -279,7 +287,8 @@ const CardTab = ({
             )}
           </div>
         </div>
-        <div className="card-body" style={style} id={cardChartId}>
+        {/* <div className="card-body" style={style} id={cardChartId}> */}
+        <div className="card-body" style={style}>
           {renderChartComponent()}
         </div>
       </div>

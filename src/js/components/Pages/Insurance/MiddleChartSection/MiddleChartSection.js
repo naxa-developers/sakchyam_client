@@ -257,10 +257,13 @@ class MiddleChartSection extends Component {
     const barTab = document.querySelector('#bar-tab-insurance');
     barTab.style.display = 'none';
 
+    const chartEl = document.querySelector(`#${chartid}`);
+    const useWidth = chartEl.scrollWidth;
     setTimeout(() => {
-      html2canvas(document.querySelector(`#${chartid}`), {
+      html2canvas(chartEl, {
         allowTaint: true,
         scale: 5,
+        width: useWidth,
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${name}.png`);
@@ -340,30 +343,6 @@ class MiddleChartSection extends Component {
         )}
         <div className="graph-view">
           <div className="row">
-            <div className="col-xl-12">
-              <div className="card" id="bar-chart">
-                <BarChartInsurance
-                  loading={loading}
-                  insuranceData={insuranceData}
-                  showRightSidebar={!activeOverview}
-                  activeModal={activeModal}
-                  barTitle={barTitle}
-                  DownloadIcon={DownloadIcon}
-                  ExpandIcon={ExpandIcon}
-                  downloadPng={this.downloadPng}
-                  handleModal={this.handleModal}
-                  handleSelectedModal={this.handleSelectedModal}
-                  selectedTabBar={selectedTabBar}
-                  setSelectedTabBar={this.setSelectedTabBar}
-                  isBarChartClicked={isBarChartClicked}
-                  handleBarChartClick={this.handleBarChartClick}
-                  resetBarChartClick={this.resetBarChartClick}
-                  generateBarChartData2={this.generateBarChartData2}
-                  chartData2={this.state.chartData2}
-                />
-              </div>
-            </div>
-
             <CardTab
               resetFunction={this.props.resetSankeyChartData}
               cardTitle={donutTitle}
@@ -407,6 +386,29 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
+            <div className="col-xl-12">
+              <div className="card" id="bar-chart">
+                <BarChartInsurance
+                  loading={loading}
+                  insuranceData={insuranceData}
+                  showRightSidebar={!activeOverview}
+                  activeModal={activeModal}
+                  barTitle={barTitle}
+                  DownloadIcon={DownloadIcon}
+                  ExpandIcon={ExpandIcon}
+                  downloadPng={this.downloadPng}
+                  handleModal={this.handleModal}
+                  handleSelectedModal={this.handleSelectedModal}
+                  selectedTabBar={selectedTabBar}
+                  setSelectedTabBar={this.setSelectedTabBar}
+                  isBarChartClicked={isBarChartClicked}
+                  handleBarChartClick={this.handleBarChartClick}
+                  resetBarChartClick={this.resetBarChartClick}
+                  generateBarChartData2={this.generateBarChartData2}
+                  chartData2={this.state.chartData2}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

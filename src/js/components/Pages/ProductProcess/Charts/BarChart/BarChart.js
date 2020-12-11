@@ -9,6 +9,7 @@ import {
 } from '../../../../../actions/productProcess.actions';
 
 function convertLabelName(name) {
+  console.log(name, 'name');
   const nameArr = name.split(' ');
   let firstElement;
   let rest;
@@ -84,10 +85,11 @@ class BarChart extends Component {
     partnerType.forEach((i, index) => {
       arr[index] = getCount(i);
     });
-
-    const categories = partnerType.map(item =>
-      convertLabelName(item),
-    );
+    console.log(partnerType, 'partnerType');
+    const categories = partnerType.map(item => {
+      console.log(item, 'item');
+      return convertLabelName(item);
+    });
 
     this.setState(prevState => ({
       chartData2: {
@@ -156,21 +158,37 @@ class BarChart extends Component {
       xaxis: {
         categories: [],
         labels: {
-          trim: true,
+          // minHeight: 10,
+          // maxHeight: 400,
+          // trim: true,
           hideOverlappingLabels: false,
           formatter(value) {
-            if (typeof value === 'object') {
-              console.log(value);
-              console.log(value.join(' '));
-              return value.join(' ');
-            }
-            console.log(value);
-            console.log(typeof value);
-            if (typeof value !== 'string') {
-              return value.join(' ');
+            // const a = 'abc def ghi jkl mno pqr';
+            if (value.length > 19) {
+              const splited = value.split(' ');
+              const combined = [];
+              for (let i = 0; i < splited.length; i += 2) {
+                combined.push(
+                  `${splited[i]} ${
+                    splited[i + 1] !== undefined ? splited[i + 1] : ''
+                  }`,
+                );
+              }
+              return combined;
             }
             return value;
           },
+          // if (typeof value === 'object') {
+          //   console.log(value);
+          //   console.log(value.join(' '));
+          //   return value.join(' ');
+          // }
+          // console.log(value);
+          // console.log(typeof value);
+          // if (typeof value !== 'string') {
+          //   return value.join(' ');
+          // }
+          // return value;
         },
       },
       yaxis: {
@@ -196,7 +214,7 @@ class BarChart extends Component {
           show: true,
         },
         labels: {
-          minWidth: 45,
+          minWidth: 80,
           maxWidth: 300,
           formatter(value) {
             if (value < 2 && value !== 0) {
@@ -207,6 +225,9 @@ class BarChart extends Component {
             }
             return value;
           },
+        },
+        crosshairs: {
+          show: false,
         },
       },
       grid: {

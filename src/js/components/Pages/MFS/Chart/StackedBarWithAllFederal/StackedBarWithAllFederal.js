@@ -57,9 +57,10 @@ class StackedBarWithAllFederal extends Component {
     const options = {
       chart: {
         height: 350,
-        width: 2000,
+        // width: 2000,
         type: 'bar',
         stacked: true,
+        redrawOnParentResize: true,
         events: {
           click(
             event,
@@ -80,8 +81,15 @@ class StackedBarWithAllFederal extends Component {
               projectSelection,
               projectStatus,
               showBarOf,
+              showBarPartnerChartOf,
+              mapViewBy,
+              selectedPartner,
+              selectedInnovation,
+              selectedAchievement,
             } = that.props;
             const clicked = config.xaxis.categories[dataPointIndex];
+            console.log(clicked, 'clicked');
+
             if (showBarChartBy === 'Federal') {
               // if (showBarOf === 'Provinces') {
               const filteredProvinceId = that.props.partnershipReducer.allProvinceList.filter(
@@ -113,6 +121,20 @@ class StackedBarWithAllFederal extends Component {
                 projectStatus,
               );
             }
+            if (that.props.showBarChartBy === 'Partner') {
+              if (showBarPartnerChartOf === 'Partner') {
+                that.props.filterMfsMapChartDataByPartnerWithInnovation(
+                  mapViewBy,
+                  selectedPartner,
+                  selectedInnovation,
+                  selectedAchievement,
+                  [],
+                  [],
+                  clicked,
+                );
+                that.props.handleShowBarPartnerChartOf('Innovation');
+              }
+            }
             // if (showBarChartBy === 'Partner') {
             // }
           },
@@ -120,14 +142,19 @@ class StackedBarWithAllFederal extends Component {
       },
       plotOptions: {
         bar: {
-          columnWidth: '20%',
+          // columnWidth: '20%',
         },
       },
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        width: [1],
+        show: true,
+        curve: 'smooth',
+        lineCap: 'butt',
+        colors: undefined,
+        width: 2,
+        dashArray: 0,
       },
       // title: {
       //   text: 'XYZ - Stock Analysis (2009 - 2016)',
@@ -139,7 +166,22 @@ class StackedBarWithAllFederal extends Component {
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
       },
-
+      yaxis: {
+        opposite: true,
+        forceNiceScale: true,
+        title: {
+          text: 'Achieved Number',
+        },
+        labels: {
+          // show: true,
+          // align: 'right',
+          minWidth: 100,
+          maxWidth: 200,
+        },
+        crosshairs: {
+          show: false,
+        },
+      },
       grid: {
         show: false,
       },
@@ -189,14 +231,16 @@ class StackedBarWithAllFederal extends Component {
       mfsReducer: { mfsChartData, mfsChartDataByPartner },
       showBarChartBy,
       showBarChartByTitle,
+      activeModal,
     } = this.props;
     const { mapViewBy } = this.props;
     const options = {
       chart: {
         height: 350,
-        width: 2000,
+        // width: 2000,
         type: 'bar',
         stacked: true,
+        redrawOnParentResize: true,
         toolbar: {
           show: false,
           // download: false,
@@ -213,8 +257,11 @@ class StackedBarWithAllFederal extends Component {
               selectedAchievement,
               showBarof,
               showBarPartnerChartOf,
+              selectedProvince,
+              selectedDistrict,
             } = that.props;
             const clicked = config.xaxis.categories[dataPointIndex];
+            console.log(clicked, 'clicked');
             if (clicked !== undefined) {
               if (that.props.showBarChartBy === 'Federal') {
                 if (showBarof === 'Provinces') {
@@ -267,8 +314,8 @@ class StackedBarWithAllFederal extends Component {
                     selectedPartner,
                     selectedInnovation,
                     selectedAchievement,
-                    [],
-                    [],
+                    selectedDistrict,
+                    selectedProvince,
                     clicked,
                   );
                   that.props.handleShowBarPartnerChartOf(
@@ -283,14 +330,19 @@ class StackedBarWithAllFederal extends Component {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '20%',
+          // columnWidth: '20%',
         },
       },
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        width: [0],
+        show: true,
+        curve: 'smooth',
+        lineCap: 'butt',
+        colors: undefined,
+        width: 2,
+        dashArray: 0,
       },
       // title: {
       //   text: 'XYZ - Stock Analysis (2009 - 2016)',
@@ -314,9 +366,30 @@ class StackedBarWithAllFederal extends Component {
           showBarChartBy === 'Partner'
             ? mfsChartDataByPartner.labels
             : mfsChartData.labels,
+        labels: {
+          hideOverlappingLabels: activeModal ? false : true,
+        },
         // title: {
         //   text: 'Provinces',
         // },
+      },
+      yaxis: {
+        // min: 1,
+        // tickAmount: 8,
+        // forceNiceScale: true,
+        // logarithmic: true,
+        title: {
+          text: 'Achieved Number',
+        },
+        labels: {
+          // show: true,
+          // align: 'right',
+          minWidth: 100,
+          maxWidth: 200,
+        },
+        crosshairs: {
+          show: false,
+        },
       },
       grid: {
         show: false,
@@ -428,26 +501,27 @@ class StackedBarWithAllFederal extends Component {
     const {
       mfsReducer: { mfsChartDataByPartner, mfsChartData },
       showBarChartByTitle,
+      activeOverview,
     } = this.props;
-    console.log(Partnerseries, 'partnerSeries');
-    console.log(
-      Fedseries && Fedseries[0] && Fedseries[0].data.length,
-      'Fedseries',
-    );
+    // console.log(Partnerseries, 'partnerSeries');
+    // console.log(
+    //   Fedseries && Fedseries[0] && Fedseries[0].data.length,
+    //   'Fedseries',
+    // );
     return (
       <div
         id="stacked_chart"
-        style={
-          mapViewBy === 'district' &&
-          showBarChartBy === 'Federal' &&
-          Fedseries &&
-          Fedseries[0] &&
-          Fedseries[0].data.length > 10
-            ? { width: '2500px' }
-            : {}
-        }
+        // style={
+        //   mapViewBy === 'district' &&
+        //   showBarChartBy === 'Federal' &&
+        //   Fedseries &&
+        //   Fedseries[0] &&
+        //   Fedseries[0].data.length > 10
+        //     ? { width: '2500px' }
+        //     : {}
+        // }
       >
-        <h5
+        {/* <h5
           className="chart-label"
           style={{
             display: 'none',
@@ -458,7 +532,7 @@ class StackedBarWithAllFederal extends Component {
           }}
         >
           {showBarChartByTitle}
-        </h5>
+        </h5> */}
         {showBarChartBy === 'Partner' ? (
           <Achart
             // key={Partnerseries}
@@ -467,6 +541,21 @@ class StackedBarWithAllFederal extends Component {
             type="bar"
             height={
               activeModal && window.innerWidth < 1400 ? 450 : 500
+            }
+            width={
+              this.props.activeModal && window.innerWidth > 1400
+                ? 1600
+                : this.props.activeModal && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth > 1400
+                ? 1200
+                : activeOverview && window.innerWidth > 1400
+                ? 1500
+                : activeOverview && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth < 1400
+                ? 750
+                : 800
             }
             // width={
             //   activeModal && window.innerWidth < 1400 ? 2000 : 2000
@@ -481,6 +570,21 @@ class StackedBarWithAllFederal extends Component {
             type="bar"
             height={
               activeModal && window.innerWidth < 1400 ? 450 : 500
+            }
+            width={
+              this.props.activeModal && window.innerWidth > 1400
+                ? 1800
+                : this.props.activeModal && window.innerWidth < 1400
+                ? 2000
+                : !activeOverview && window.innerWidth > 1400
+                ? 1200
+                : activeOverview && window.innerWidth > 1400
+                ? 1500
+                : activeOverview && window.innerWidth < 1400
+                ? 1000
+                : !activeOverview && window.innerWidth < 1400
+                ? 750
+                : 800
             }
             // width={
             //   activeModal && window.innerWidth < 1400 ? 2000 : 2000

@@ -93,10 +93,15 @@ class ProductProcess extends React.Component {
   downloadPng = (chartid, imageTitle) => {
     this.notificationHandler();
     this.setState({ isDownloading: true });
+    // console.log(document.querySelector(`#${chartid}`).clientWidth);
+
+    const chartEl = document.querySelector(`#${chartid}`);
+    const useWidth = chartEl.scrollWidth;
     setTimeout(() => {
-      html2canvas(document.querySelector(`#${chartid}`), {
+      html2canvas(chartEl, {
         allowTaint: true,
         scale: 5,
+        width:useWidth
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${imageTitle}.png`);

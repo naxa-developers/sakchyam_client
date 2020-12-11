@@ -15,31 +15,32 @@ import {
   downloadPng,
 } from '../../../common/utilFunctions';
 import DownloadIcon from '../../../../../img/get_app.png';
+import colorPicker from '../colorUtils';
 
-function colorPicker(i) {
-  if (i % 20 === 0) return '#91664E';
-  if (i % 20 === 1) return '#13A8BE';
-  if (i % 20 === 2) return '#13A8BE'; // #FF6D00
-  if (i % 20 === 3) return '#DE2693';
-  if (i % 20 === 4) return '#B1B424';
-  if (i % 20 === 5) return '#2196F3';
-  if (i % 20 === 6) return '#B1B424'; // #4CE2A7
-  if (i % 20 === 7) return '#1967A0';
-  if (i % 20 === 8) return '#00C853';
-  if (i % 20 === 9) return '#E11D3F'; // #651FFF
-  if (i % 20 === 10) return '#FF6D00'; // #B71DE1
-  if (i % 20 === 11) return '#DE2693'; // #FFCD00
-  if (i % 20 === 12) return '#1F8AE4'; // #E11D3F
-  if (i % 20 === 13) return '#FF1500';
-  if (i % 20 === 14) return '#C5E11D';
-  if (i % 20 === 15) return '#CDACF2';
-  if (i % 20 === 16) return 'AFDE0E';
-  if (i % 20 === 17) return '#FF5576';
-  if (i % 20 === 18) return '#BFEDF5';
-  if (i % 20 === 19) return '#E0CBAB';
-  if (i % 20 === 20) return '#FF5E00';
-  return '#FFD400';
-}
+// function colorPicker(i) {
+//   if (i % 20 === 0) return '#91664E';
+//   if (i % 20 === 1) return '#13A8BE';
+//   if (i % 20 === 2) return '#13A8BE'; // #FF6D00
+//   if (i % 20 === 3) return '#DE2693';
+//   if (i % 20 === 4) return '#B1B424';
+//   if (i % 20 === 5) return '#2196F3';
+//   if (i % 20 === 6) return '#B1B424'; // #4CE2A7
+//   if (i % 20 === 7) return '#1967A0';
+//   if (i % 20 === 8) return '#00C853';
+//   if (i % 20 === 9) return '#E11D3F'; // #651FFF
+//   if (i % 20 === 10) return '#FF6D00'; // #B71DE1
+//   if (i % 20 === 11) return '#DE2693'; // #FFCD00
+//   if (i % 20 === 12) return '#1F8AE4'; // #E11D3F
+//   if (i % 20 === 13) return '#FF1500';
+//   if (i % 20 === 14) return '#C5E11D';
+//   if (i % 20 === 15) return '#CDACF2';
+//   if (i % 20 === 16) return 'AFDE0E';
+//   if (i % 20 === 17) return '#FF5576';
+//   if (i % 20 === 18) return '#BFEDF5';
+//   if (i % 20 === 19) return '#E0CBAB';
+//   if (i % 20 === 20) return '#FF5E00';
+//   return '#FFD400';
+// }
 
 class RightSideBar extends Component {
   constructor(props) {
@@ -172,10 +173,12 @@ class RightSideBar extends Component {
   calculateProgramCount = selectedProgram => {
     const { financialData } = this.props.financialReducer;
     let programCount;
-
+    console.log(selectedProgram);
+    console.log(financialData, 'filteredData');
     if (selectedProgram.length !== 0) {
       programCount = selectedProgram.length;
     } else {
+      console.log(selectedProgram, 'selectedProgram Lsit');
       const arr = [];
       financialData.map(item => {
         const obj = arr.find(x => x.program_id === item.program_id);
@@ -545,7 +548,9 @@ class RightSideBar extends Component {
       financialProgram,
       financialData,
       loading,
+      filteredData: finalData,
     } = this.props.financialReducer;
+    const { selectedProgram, checkedPartnerItems } = this.props;
 
     const {
       showRightSidebar,
@@ -563,7 +568,24 @@ class RightSideBar extends Component {
       maxValue,
       timelineData,
     } = this.state;
-
+    const overviewCount =
+      finalData && finalData.filter(data => data.value !== 0);
+    console.log(overviewCount, 'overViewCount');
+    const benefCount =
+      overviewCount &&
+      overviewCount.reduce((a, b) => {
+        return a + b.value;
+      }, 0);
+    console.log(benefCount);
+    const programLength = [
+      ...new Set(overviewCount.map(item => item.program_id)),
+    ].length;
+    const partnerLength = [
+      ...new Set(overviewCount.map(item => item.partner_id)),
+    ].length;
+    // console.log(overviewCount, 'overView');
+    // console.log(programLength, 'programLength');
+    // console.log(partnerLength, 'partnerLength');
     return (
       <aside className="sidebar right-sidebar literacy-right-sidebar">
         <div className="sidebar-in">
@@ -606,6 +628,7 @@ class RightSideBar extends Component {
                   className="widget-body"
                   style={{ backgroundColor: '#f7f7f7' }}
                 >
+                  <h5>Financial Literacy Overview</h5>
                   {loading ? (
                     <WidgetCardLoader />
                   ) : (
@@ -614,7 +637,10 @@ class RightSideBar extends Component {
                         <div className="widget-content">
                           <h6>Total Beneficiaries</h6>
                           <span>
-                            {numberWithCommas(totalBeneficiaries)}
+                            {checkedPartnerItems.length === 0 &&
+                            selectedProgram.length === 0
+                              ? numberWithCommas(totalBeneficiaries)
+                              : numberWithCommas(benefCount)}
                           </span>
                         </div>
                         <div className="widget-icon">
@@ -626,7 +652,12 @@ class RightSideBar extends Component {
                       <li>
                         <div className="widget-content">
                           <h6>Partner Institutions</h6>
-                          <span>{partnerCount}</span>
+                          {/* <span>{partnerCount}</span> */}
+                          <span>
+                            {partnerLength === 0
+                              ? partnerCount
+                              : partnerLength}
+                          </span>
                         </div>
                         <div className="widget-icon">
                           <span>
@@ -639,7 +670,12 @@ class RightSideBar extends Component {
                       <li>
                         <div className="widget-content">
                           <h6>Financial Literacy Initiative</h6>
-                          <span>{programCount}</span>
+                          {/* <span>{programCount}</span> */}
+                          <span>
+                            {programLength === 0
+                              ? programCount
+                              : programLength}
+                          </span>
                         </div>
                         <div className="widget-icon">
                           <span>

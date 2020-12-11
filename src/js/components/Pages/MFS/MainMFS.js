@@ -89,6 +89,7 @@ class MainMFS extends Component {
       selectedModal: '',
       showBarPartnerChartOf: 'Partner',
       alertMessage: '',
+      popupData: [],
     };
   }
 
@@ -312,6 +313,10 @@ class MainMFS extends Component {
     }
   }
 
+  setPopupData = data => {
+    this.setState({ popupData: data });
+  };
+
   notificationHandler = () => {
     this.setState({
       alertMessage: 'The infographics will be downloaded shortly.',
@@ -353,6 +358,7 @@ class MainMFS extends Component {
         showBarChartBy,
         activeModal,
         barData,
+        showBarPartnerChartOf,
       },
       // props: {},
     } = this;
@@ -371,7 +377,7 @@ class MainMFS extends Component {
                 : mapViewBy === 'district' && window.innerWidth < 1400
                 ? {
                     width: '1350px',
-                    overflowX: 'scroll',
+                    // overflowX: 'scroll',
                   }
                 : {}
             }
@@ -389,6 +395,16 @@ class MainMFS extends Component {
               showBarof={showBarof}
               handleShowBarOf={this.handleShowBarOf}
               activeModal={activeModal}
+              handleStateLevel={this.setMapViewBy}
+              showBarPartnerChartOf={showBarPartnerChartOf}
+              handleShowBarPartnerChartOf={
+                this.handleShowBarPartnerChartOf
+              }
+              showBarChartByTitle={
+                showBarChartBy === 'Federal'
+                  ? 'Province/District Wise Achievement Type'
+                  : 'Partner Wise Achievement Type'
+              }
             />
           </div>
         );
@@ -1034,6 +1050,8 @@ class MainMFS extends Component {
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     );
     if (clickedBarDistrict.length > 0) {
       this.props.filterMfsChartDataByDistrict(
@@ -1049,6 +1067,8 @@ class MainMFS extends Component {
         selectedPartner,
         selectedInnovation,
         selectedAchievement,
+        selectedDistrict,
+        selectedProvince,
       );
     }
     this.props.filterMfsMapChartDataByPartner(
@@ -1056,21 +1076,30 @@ class MainMFS extends Component {
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     );
     this.props.filterOverViewData(
       mapViewBy,
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
+      selectedDistrict,
+      selectedProvince,
     );
     this.props.filterMfsMapPieData(
       mapViewBy,
       selectedPartner,
       selectedInnovation,
       selectedAchievement,
-      // selectedDistrict,
-      // selectedProvince,
+      selectedDistrict,
+      selectedProvince,
     );
+    this.setState({
+      popupData: {},
+      showBarof: 'Provinces',
+      showBarPartnerChartOf: 'Partner',
+    });
     // }
     // this.props.filterMapChoropleth(
     //   investmentFocusSelection,
@@ -1154,6 +1183,11 @@ class MainMFS extends Component {
       selectedProvince,
     );
     this.handleStateLevel(mapViewBy);
+    this.setState({
+      popupData: {},
+      showBarof: 'Provinces',
+      showBarPartnerChartOf: 'Partner',
+    });
     // }
   };
 
@@ -1164,6 +1198,7 @@ class MainMFS extends Component {
       selectedAchievement: [],
       isAllAchievementSelected: false,
       isAllInnovationSelected: false,
+      popupData: {},
     });
     document.querySelectorAll('.allCheckbox').forEach(el => {
       // eslint-disable-next-line no-param-reassign
@@ -1179,12 +1214,17 @@ class MainMFS extends Component {
       selectedProvince: [],
       selectedDistrict: [],
       selectedMunicipality: [],
+      provinceList: provinceLists(),
+      districtList: districtLists(),
       clickedBarDistrict: [],
+      popupData: {},
     });
-    document.querySelectorAll('.fed_checkbox').forEach(el => {
-      // eslint-disable-next-line no-param-reassign
-      el.checked = false;
-    });
+    setTimeout(() => {
+      document.querySelectorAll('.fed_checkbox').forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.checked = false;
+      });
+    }, 1000);
 
     this.handleShowBarOf('Provinces');
     this.handleShowBarPartnerChartOf('Partner');
@@ -1219,6 +1259,24 @@ class MainMFS extends Component {
     map.fitBounds(extendedValue);
     map.setFilter('vector-tile-fill', null);
     map.setFilter('vector-tile-outline', null);
+  };
+
+  resetChartResetOnly = () => {
+    const { mapViewBy, activeView, map } = this.state;
+    this.setState({
+      clickedBarDistrict: [],
+    });
+    this.handleShowBarOf('Provinces');
+    this.handleShowBarPartnerChartOf('Partner');
+    this.props.filterMfsChartData(mapViewBy, [], [], [], [], []);
+    this.props.filterMfsMapChartDataByPartner(
+      'district',
+      [],
+      [],
+      [],
+      [],
+      [],
+    );
   };
 
   render() {
@@ -1256,6 +1314,7 @@ class MainMFS extends Component {
         showBarPartnerChartOf,
         alertMessage,
         clickedBarDistrict,
+        popupData,
       },
       // props: {},
     } = this;
@@ -1286,6 +1345,10 @@ class MainMFS extends Component {
               handleModal={this.handleModal}
               component={() => this.getModalContent(selectedModal)}
               notificationHandler={this.notificationHandler}
+              resetFilters={() => {
+                this.resetFilters();
+              }}
+              showBarPartnerChartOf={showBarPartnerChartOf}
             />
           )}
           <LeftSideBar
@@ -1457,9 +1520,13 @@ class MainMFS extends Component {
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
                       cardTitle="Province/District Wise Achievement Type"
-                      style={{ position: 'relative' }}
+                      style={{
+                        position: 'relative',
+                        // height: "calc('100vh' - '30vh')",
+                        // height: `calc(100vh - 30vh)`,
+                      }}
                       cardClass="col-xl-12"
-                      cardChartId="groupedChart"
+                      cardChartId="mfsMap"
                       handleModal={this.handleModal}
                       handleSelectedModal={() => {
                         this.handleSelectedModal('groupedChart');
@@ -1487,6 +1554,8 @@ class MainMFS extends Component {
                             mapViewBy={mapViewBy}
                             mapViewDataBy={mapViewDataBy}
                             setMapViewBy={this.setMapViewBy}
+                            popupData={popupData}
+                            setPopupData={this.setPopupData}
                           />
                         );
                       }}
@@ -1494,7 +1563,7 @@ class MainMFS extends Component {
                     {/* </div> */}
                     <CardTab
                       resetFunction={() => {
-                        this.resetFilters();
+                        this.resetChartResetOnly();
                       }}
                       // showBarof={showBarof}
                       // handleShowBarOf={handleShowBarOf}
@@ -1506,6 +1575,7 @@ class MainMFS extends Component {
                       showBarChartBy={showBarChartBy}
                       showBarof={showBarof}
                       setShowBarChartBy={this.setShowBarChartBy}
+                      showBarPartnerChartOf={showBarPartnerChartOf}
                       cardClass="col-xl-12"
                       cardChartId="stacked_chart"
                       handleModal={this.handleModal}
@@ -1548,6 +1618,8 @@ class MainMFS extends Component {
                               selectedAchievement={
                                 selectedAchievement
                               }
+                              selectedProvince={selectedProvince}
+                              selectedDistrict={selectedDistrict}
                               provinceList={provinceList}
                               districtList={districtList}
                               showBarof={showBarof}
@@ -1563,6 +1635,7 @@ class MainMFS extends Component {
                                   ? 'Province/District Wise Achievement Type'
                                   : 'Partner Wise Achievement Type'
                               }
+                              activeOverview={activeOverview}
                             />
                           </div>
                           // <StackedBarWithProvince

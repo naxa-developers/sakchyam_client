@@ -62,9 +62,9 @@ const Modal = props => {
       : 'Automation(Branch Count)';
   return (
     <div className="popup open" id="graph-modal">
-      <div className="popup-container full-popup">
+      <div className="popup-container full-popup" id="testc">
         <div className="popup-body" id="popup-body">
-          <span className="close-icon">
+          <span data-html2canvas-ignore className="close-icon">
             <i
               className="material-icons"
               role="button"
@@ -78,6 +78,7 @@ const Modal = props => {
           <div className="popup-header no-flex">
             <h3 style={{ color: '#C2002F' }}>{modalHeader}</h3>
             <span
+              data-html2canvas-ignore
               style={{
                 position: 'absolute',
                 right: '90px',
@@ -91,10 +92,7 @@ const Modal = props => {
                 notifyHandler(
                   'The infographics will be downloaded shortly.',
                 );
-                downloadPng(
-                  'pie-content',
-                  'Automation Partner Infographics',
-                );
+                downloadPng('testc', modalHeader);
               }}
             >
               <img src={DownloadIcon} alt="open" />
@@ -121,12 +119,12 @@ const Modal = props => {
                   marginTop: '7vh',
                 }}
               >
-                <div
+                {/* <div
                   className="chart-label"
                   style={{ display: 'none' }}
                 >
-                  <h5>Automation Partner Infographics</h5>
-                </div>
+                  <h5>Automation (Tablets Deployed)</h5>
+                </div> */}
                 <div className="modal-pie" style={{ flex: 8 }}>
                   {tabletsDeployed.total_branch === 0 ? (
                     0
@@ -229,7 +227,7 @@ const Modal = props => {
                     <div
                       key={data.id}
                       className="branch"
-                      style={{ height: '4vh' }}
+                      // style={{ height: '4vh' }}
                     >
                       <div
                         className={`branch-icon ${getClassName(

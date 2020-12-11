@@ -3,6 +3,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
+import AccordionCard from './AccordionCard';
 
 function numberWithCommas(x) {
   if (x !== null) {
@@ -19,15 +20,15 @@ export default function divisionInfoPopUp(props) {
   const {
     data: { popupData, fulldata },
   } = props;
-  const accList = document.querySelectorAll('.acc-list');
-  if (accList) {
-    accList.forEach(data => {
-      data.addEventListener('click', function(e) {
-        e.stopPropagation();
-        this.classList.toggle('active');
-      });
-    });
-  }
+  // const accList = document.querySelectorAll('.acc-list');
+  // if (accList) {
+  //   accList.forEach(data => {
+  //     data.addEventListener('click', function(e) {
+  //       e.stopPropagation();
+  //       this.classList.toggle('active');
+  //     });
+  //   });
+  // }
   return fulldata && fulldata.props ? (
     <div className="mapbox-popup-content">
       <div
@@ -37,7 +38,7 @@ export default function divisionInfoPopUp(props) {
         <div className="map-popup-view-header">
           <h5>{fulldata && fulldata.props.federal_name}</h5>
           <div className="icons">
-            <i className="material-icons">payments</i>
+            <i className="material-icons">poll</i>
             <b>
               {fulldata && numberWithCommas(fulldata.props.count)}
             </b>
@@ -47,33 +48,17 @@ export default function divisionInfoPopUp(props) {
           {popupData &&
             popupData.map(data => {
               return (
-                <div
-                  className="acc-list active"
-                  onClick={e => {
-                    clickHandler(e);
-                  }}
-                  onKeyDown={e => {
-                    clickHandler(e);
-                  }}
-                >
-                  <div className="acc-header">
-                    <h5>{data.partner_name}</h5>
-                  </div>
-                  <div className="acc-body">
-                    <ul>
-                      {data.achievementType.map(achievement => {
-                        return (
-                          <li>
-                            <a>{achievement.name}</a>
-                            <a>
-                              {numberWithCommas(achievement.count)}
-                            </a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
+                // <div
+                //   className="acc-list active"
+                //   onClick={e => {
+                //     clickHandler(e);
+                //   }}
+                //   onKeyDown={e => {
+                //     clickHandler(e);
+                //   }}
+                // >
+                <AccordionCard data={data} />
+                // </div>
               );
             })}
         </div>

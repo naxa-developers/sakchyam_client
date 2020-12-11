@@ -4,6 +4,6 @@ import axiosI from '../axiosApi';
 export const getInsuranceDAta = () => {
   return axiosI({
     method: 'get',
-    url: `https://sakchyam.naxa.com.np/api/v1/insurance/insurance-data/`,
+    url: `${process.env.PUBLIC_URL}/api/v1/insurance/insurance-data/`,
   });
 };

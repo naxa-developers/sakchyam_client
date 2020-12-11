@@ -5,6 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const Visualizer = require('webpack-visualizer-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const baseConfig = require('./webpack.dev.config');
 
@@ -16,6 +17,7 @@ const prodConfiguration = env => {
       },
 
       plugins: [
+        new Dotenv(),
         new MiniCssExtractPlugin(),
         new OptimizeCssAssetsPlugin(),
         new Visualizer({ filename: './statistics.html' }),

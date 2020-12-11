@@ -204,7 +204,7 @@ const initialState = {
       labels: {
         show: true,
         align: 'left',
-        minWidth: 0,
+        minWidth: 100,
         maxWidth: 160,
         style: {
           colors: [],
@@ -214,8 +214,8 @@ const initialState = {
           cssClass: 'apexcharts-yaxis-label',
         },
         // offsetX: -50,
-        offsetY: -5,
-        rotate: 0,
+        // offsetY: -5,
+        // rotate: 0,
         formatter: value => {
           // if (value === 0) {
           //   return value;
@@ -754,8 +754,8 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
         labels: {
           show: true,
           align: 'left',
-          minWidth: 0,
-          maxWidth: 160,
+          minWidth: 100,
+          maxWidth: 300,
           style: {
             colors: [],
             fontSize: '12px',
@@ -764,8 +764,8 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
             cssClass: 'apexcharts-yaxis-label',
           },
           // offsetX: -50,
-          offsetY: -5,
-          rotate: 0,
+          // offsetY: -5,
+          // rotate: 0,
           formatter: value => {
             if (value === 0) {
               return value;
@@ -789,6 +789,9 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
             }
             return convert(value);
           },
+        },
+        crosshairs: {
+          show: false,
         },
         title: {
           text: `${
@@ -954,8 +957,8 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
         labels: {
           show: true,
           align: 'left',
-          minWidth: 0,
-          maxWidth: 160,
+          minWidth: 160,
+          maxWidth: 300,
           style: {
             colors: [],
             fontSize: '12px',
@@ -964,8 +967,8 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
             cssClass: 'apexcharts-yaxis-label',
           },
           // offsetX: -50,
-          offsetY: -5,
-          rotate: 0,
+          // offsetY: -5,
+          // rotate: 0,
           formatter: value => {
             if (value === 0) {
               return value;
@@ -1012,6 +1015,9 @@ const filterOutputIndicatorForPercentOrNumber = (state, action) => {
             fontFamily: 'Avenir Heavy',
             fontSize: '15px',
           },
+        },
+        crosshairs: {
+          show: false,
         },
       },
       tooltip: {

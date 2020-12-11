@@ -117,6 +117,10 @@ class StackedBarWithAllFederal extends Component {
       colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+        labels: {
+          hideOverlappingLabels: false,
+          trim: true,
+        },
       },
 
       grid: {
@@ -446,6 +450,10 @@ class StackedBarWithAllFederal extends Component {
       colors: ['#13A8BE', '#E11D3F', '#f7bc48'],
       xaxis: {
         categories: barDatas.labels,
+        labels: {
+          hideOverlappingLabels: false,
+          trim: true,
+        },
         // title: {
         //   text: 'Provinces',
         // },
@@ -503,6 +511,9 @@ class StackedBarWithAllFederal extends Component {
               color: '#008FFB',
             },
           },
+          crosshairs: {
+            show: false,
+          },
           // tooltip: {
           //   enabled: true,
           // },
@@ -551,8 +562,11 @@ class StackedBarWithAllFederal extends Component {
               if (value % 1 !== 0) {
                 return convert(value.toFixed(0));
               }
-              return convert(value);
+              return convert(value, true);
             },
+          },
+          crosshairs: {
+            show: false,
           },
           //   title: {
           //     text: 'Operating Cashflow (thousand crores)',
@@ -587,6 +601,9 @@ class StackedBarWithAllFederal extends Component {
             style: {
               color: '#FEB019',
             },
+          },
+          crosshairs: {
+            show: false,
           },
           // tooltip: {
           //   enabled: true,
@@ -654,10 +671,17 @@ class StackedBarWithAllFederal extends Component {
             cardView && !activeModal
               ? 350
               : activeModal && window.innerWidth < 1400
-              ? 400 // modal on and arjun screen size
+              ? 500 // modal on and arjun screen size
               : 690
           }
-          // width={activeModal === true ? 1600 : '100%'}
+          // width={
+          //   cardView && !activeModal
+          //     ? null
+          //     : activeModal && window.innerWidth < 1400
+          //     ? 1250 // modal on and arjun screen size
+          //     : 690
+          // }
+          // width={activeModal === true ? 1600 -+: '100%'}
         />
       </div>
     );

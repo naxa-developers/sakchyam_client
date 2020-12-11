@@ -6,13 +6,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import VectorTileMapbox from './VectorTileMapbox';
 import PopUp from '../common/divisionInfoPopUp';
-import DivisionInfoPopUpLeft from '../../Partnership/common/divisionInfoPopupLeft';
+import DivisionInfoPopUpLeft from '../common/divisionInfoPopupLeft';
 
 class MapboxPartnership extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      popupData: [],
       leftPopupData: [],
       // map: null,
     };
@@ -50,10 +49,6 @@ class MapboxPartnership extends Component {
     } = this.props;
   }
 
-  setPopupData = data => {
-    this.setState({ popupData: data });
-  };
-
   setLeftPopupData = data => {
     this.setState({ leftPopupData: data });
   };
@@ -66,8 +61,14 @@ class MapboxPartnership extends Component {
         : [0, 2, 4, 6, 8, 10, 12, 14, 20];
     const {
       // state: {  },
-      props: { vectorTileUrl, mapViewDataBy, map },
-      state: { popupData, leftPopupData },
+      props: {
+        vectorTileUrl,
+        mapViewDataBy,
+        map,
+        popupData,
+        setPopupData,
+      },
+      state: { leftPopupData },
     } = this;
     const { mfsChoroplethData, mfsPieData } = this.props.mfsReducer;
     return (
@@ -100,6 +101,12 @@ class MapboxPartnership extends Component {
             <div>
               <div
                 className="pie-mapbox-popup"
+                style={{
+                  top: '47px',
+                  left: 0,
+                  right: 0,
+                  margin: '0 auto',
+                }}
                 ref={this.markerPiePopupRef}
               />
               <VectorTileMapbox
@@ -118,11 +125,11 @@ class MapboxPartnership extends Component {
                 vectorTileUrl={vectorTileUrl}
                 map={map}
                 circleMarkerData={mfsPieData}
-                // divisions={inputDivisions}
+                divisions={[1, 57762, 115524, 173285, 231046]}
                 pieSquareLegend={this.pieSquareLegend}
                 label
                 color="#5014e4"
-                setPopupData={this.setPopupData}
+                setPopupData={setPopupData}
               />
               {/* <div
                 // id="bargraph"

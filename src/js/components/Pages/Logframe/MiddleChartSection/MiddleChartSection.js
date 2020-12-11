@@ -50,312 +50,7 @@ import StackedBarWithProvince from '../TestChart';
 
 //   return '1T+';
 // }
-// eslint-disable-next-line
-var Canvas2Image = (function() {
-  // check if support sth.
-  var $support = (function() {
-    var canvas = document.createElement('canvas'),
-      ctx = canvas.getContext('2d');
 
-    return {
-      canvas: !!ctx,
-      imageData: !!ctx.getImageData,
-      dataURL: !!canvas.toDataURL,
-      btoa: !!window.btoa,
-    };
-  })();
-
-  var downloadMime = 'image/octet-stream';
-
-  function scaleCanvas(canvas, width, height) {
-    var w = canvas.width,
-      h = canvas.height;
-    if (width == undefined) {
-      width = w;
-    }
-    if (height == undefined) {
-      height = h;
-    }
-
-    var retCanvas = document.createElement('canvas');
-    var retCtx = retCanvas.getContext('2d');
-    retCanvas.width = width;
-    retCanvas.height = height;
-    retCtx.drawImage(canvas, 0, 0, w, h, 0, 0, width, height);
-    return retCanvas;
-  }
-
-  function getDataURL(canvas, type, width, height) {
-    canvas = scaleCanvas(canvas, width, height);
-    return canvas.toDataURL(type);
-  }
-
-  function saveFile(strData) {
-    document.location.href = strData;
-  }
-
-  function genImage(strData) {
-    var img = document.createElement('img');
-    img.src = strData;
-    return img;
-  }
-  function fixType(type) {
-    type = type.toLowerCase().replace(/jpg/i, 'jpeg');
-    var r = type.match(/png|jpeg|bmp|gif/)[0];
-    return 'image/' + r;
-  }
-  function encodeData(data) {
-    if (!window.btoa) {
-      throw 'btoa undefined';
-    }
-    var str = '';
-    if (typeof data == 'string') {
-      str = data;
-    } else {
-      for (var i = 0; i < data.length; i++) {
-        str += String.fromCharCode(data[i]);
-      }
-    }
-
-    return btoa(str);
-  }
-  function getImageData(canvas) {
-    var w = canvas.width,
-      h = canvas.height;
-    return canvas.getContext('2d').getImageData(0, 0, w, h);
-  }
-  function makeURI(strData, type) {
-    return 'data:' + type + ';base64,' + strData;
-  }
-
-  /**
-   * create bitmap image
-   * 按照规则生成图片响应头和响应体
-   */
-  var genBitmapImage = function(oData) {
-    //
-    // BITMAPFILEHEADER: http://msdn.microsoft.com/en-us/library/windows/desktop/dd183374(v=vs.85).aspx
-    // BITMAPINFOHEADER: http://msdn.microsoft.com/en-us/library/dd183376.aspx
-    //
-
-    var biWidth = oData.width;
-    var biHeight = oData.height;
-    var biSizeImage = biWidth * biHeight * 3;
-    var bfSize = biSizeImage + 54; // total header size = 54 bytes
-
-    //
-    //  typedef struct tagBITMAPFILEHEADER {
-    //  	WORD bfType;
-    //  	DWORD bfSize;
-    //  	WORD bfReserved1;
-    //  	WORD bfReserved2;
-    //  	DWORD bfOffBits;
-    //  } BITMAPFILEHEADER;
-    //
-    var BITMAPFILEHEADER = [
-      // WORD bfType -- The file type signature; must be "BM"
-      0x42,
-      0x4d,
-      // DWORD bfSize -- The size, in bytes, of the bitmap file
-      bfSize & 0xff,
-      (bfSize >> 8) & 0xff,
-      (bfSize >> 16) & 0xff,
-      (bfSize >> 24) & 0xff,
-      // WORD bfReserved1 -- Reserved; must be zero
-      0,
-      0,
-      // WORD bfReserved2 -- Reserved; must be zero
-      0,
-      0,
-      // DWORD bfOffBits -- The offset, in bytes, from the beginning of the BITMAPFILEHEADER structure to the bitmap bits.
-      54,
-      0,
-      0,
-      0,
-    ];
-
-    //
-    //  typedef struct tagBITMAPINFOHEADER {
-    //  	DWORD biSize;
-    //  	LONG  biWidth;
-    //  	LONG  biHeight;
-    //  	WORD  biPlanes;
-    //  	WORD  biBitCount;
-    //  	DWORD biCompression;
-    //  	DWORD biSizeImage;
-    //  	LONG  biXPelsPerMeter;
-    //  	LONG  biYPelsPerMeter;
-    //  	DWORD biClrUsed;
-    //  	DWORD biClrImportant;
-    //  } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
-    //
-    var BITMAPINFOHEADER = [
-      // DWORD biSize -- The number of bytes required by the structure
-      40,
-      0,
-      0,
-      0,
-      // LONG biWidth -- The width of the bitmap, in pixels
-      biWidth & 0xff,
-      (biWidth >> 8) & 0xff,
-      (biWidth >> 16) & 0xff,
-      (biWidth >> 24) & 0xff,
-      // LONG biHeight -- The height of the bitmap, in pixels
-      biHeight & 0xff,
-      (biHeight >> 8) & 0xff,
-      (biHeight >> 16) & 0xff,
-      (biHeight >> 24) & 0xff,
-      // WORD biPlanes -- The number of planes for the target device. This value must be set to 1
-      1,
-      0,
-      // WORD biBitCount -- The number of bits-per-pixel, 24 bits-per-pixel -- the bitmap
-      // has a maximum of 2^24 colors (16777216, Truecolor)
-      24,
-      0,
-      // DWORD biCompression -- The type of compression, BI_RGB (code 0) -- uncompressed
-      0,
-      0,
-      0,
-      0,
-      // DWORD biSizeImage -- The size, in bytes, of the image. This may be set to zero for BI_RGB bitmaps
-      biSizeImage & 0xff,
-      (biSizeImage >> 8) & 0xff,
-      (biSizeImage >> 16) & 0xff,
-      (biSizeImage >> 24) & 0xff,
-      // LONG biXPelsPerMeter, unused
-      0,
-      0,
-      0,
-      0,
-      // LONG biYPelsPerMeter, unused
-      0,
-      0,
-      0,
-      0,
-      // DWORD biClrUsed, the number of color indexes of palette, unused
-      0,
-      0,
-      0,
-      0,
-      // DWORD biClrImportant, unused
-      0,
-      0,
-      0,
-      0,
-    ];
-
-    var iPadding = (4 - ((biWidth * 3) % 4)) % 4;
-
-    var aImgData = oData.data;
-
-    var strPixelData = '';
-    var biWidth4 = biWidth << 2;
-    var y = biHeight;
-    var fromCharCode = String.fromCharCode;
-
-    do {
-      var iOffsetY = biWidth4 * (y - 1);
-      var strPixelRow = '';
-      for (var x = 0; x < biWidth; x++) {
-        var iOffsetX = x << 2;
-        strPixelRow +=
-          fromCharCode(aImgData[iOffsetY + iOffsetX + 2]) +
-          fromCharCode(aImgData[iOffsetY + iOffsetX + 1]) +
-          fromCharCode(aImgData[iOffsetY + iOffsetX]);
-      }
-
-      for (var c = 0; c < iPadding; c++) {
-        strPixelRow += String.fromCharCode(0);
-      }
-
-      strPixelData += strPixelRow;
-    } while (--y);
-
-    var strEncoded =
-      encodeData(BITMAPFILEHEADER.concat(BITMAPINFOHEADER)) +
-      encodeData(strPixelData);
-
-    return strEncoded;
-  };
-
-  /**
-   * saveAsImage
-   * @param canvasElement
-   * @param {String} image type
-   * @param {Number} [optional] png width
-   * @param {Number} [optional] png height
-   */
-  var saveAsImage = function(canvas, width, height, type) {
-    if ($support.canvas && $support.dataURL) {
-      if (typeof canvas == 'string') {
-        canvas = document.getElementById(canvas);
-      }
-      if (type == undefined) {
-        type = 'png';
-      }
-      type = fixType(type);
-      if (/bmp/.test(type)) {
-        var data = getImageData(scaleCanvas(canvas, width, height));
-        var strData = genBitmapImage(data);
-        saveFile(makeURI(strData, downloadMime));
-      } else {
-        var strData = getDataURL(canvas, type, width, height);
-        saveFile(strData.replace(type, downloadMime));
-      }
-    }
-  };
-
-  var convertToImage = function(canvas, width, height, type) {
-    if ($support.canvas && $support.dataURL) {
-      if (typeof canvas == 'string') {
-        canvas = document.getElementById(canvas);
-      }
-      if (type == undefined) {
-        type = 'png';
-      }
-      type = fixType(type);
-
-      if (/bmp/.test(type)) {
-        var data = getImageData(scaleCanvas(canvas, width, height));
-        var strData = genBitmapImage(data);
-        return genImage(makeURI(strData, 'image/bmp'));
-      } else {
-        var strData = getDataURL(canvas, type, width, height);
-        return genImage(strData);
-      }
-    }
-  };
-
-  return {
-    saveAsImage: saveAsImage,
-    saveAsPNG: function(canvas, width, height) {
-      return saveAsImage(canvas, width, height, 'png');
-    },
-    saveAsJPEG: function(canvas, width, height) {
-      return saveAsImage(canvas, width, height, 'jpeg');
-    },
-    saveAsGIF: function(canvas, width, height) {
-      return saveAsImage(canvas, width, height, 'gif');
-    },
-    saveAsBMP: function(canvas, width, height) {
-      return saveAsImage(canvas, width, height, 'bmp');
-    },
-
-    convertToImage: convertToImage,
-    convertToPNG: function(canvas, width, height) {
-      return convertToImage(canvas, width, height, 'png');
-    },
-    convertToJPEG: function(canvas, width, height) {
-      return convertToImage(canvas, width, height, 'jpeg');
-    },
-    convertToGIF: function(canvas, width, height) {
-      return convertToImage(canvas, width, height, 'gif');
-    },
-    convertToBMP: function(canvas, width, height) {
-      return convertToImage(canvas, width, height, 'bmp');
-    },
-  };
-})();
 function convert(labelValue) {
   // Nine Zeroes for Billions
   return Math.abs(Number(labelValue)) >= 1.0e9
@@ -597,12 +292,12 @@ class MiddleChartSection extends Component {
           // floating: true,
           // align: 'center',
           // minWidth: '200',
-          maxWidth: '200',
+          // maxWidth: '200',
           labels: {
             show: true,
             align: 'right',
             minWidth: 0,
-            maxWidth: 160,
+          maxWidth: 160,
             style: {
               fontSize: '12px',
               fontFamily: 'Helvetica, Arial, sans-serif',
@@ -627,6 +322,9 @@ class MiddleChartSection extends Component {
 
               return convert(value);
             },
+          },
+          crosshairs: {
+            show: false,
           },
           min: 0,
           forceNiceScale: true,
@@ -1346,59 +1044,59 @@ class MiddleChartSection extends Component {
     //   // console.log(`Option selected:`, this.state.selectedOption),
     // );
   };
-  downloadPngs = (chartid, imageTitle, selectedModal) => {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
+  // downloadPngs = (chartid, imageTitle, selectedModal) => {
+  //   var canvas = document.getElementById('canvas');
+  //   var ctx = canvas.getContext('2d');
 
-    var data =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
-      '<foreignObject width="100%" height="100%">' +
-      '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">' +
-      '<em>I</em> like ' +
-      '<span style="color:white; text-shadow:0 0 2px blue;">' +
-      'cheese</span>' +
-      '</div>' +
-      '</foreignObject>' +
-      '</svg>';
+  //   var data =
+  //     '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
+  //     '<foreignObject width="100%" height="100%">' +
+  //     '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">' +
+  //     '<em>I</em> like ' +
+  //     '<span style="color:white; text-shadow:0 0 2px blue;">' +
+  //     'cheese</span>' +
+  //     '</div>' +
+  //     '</foreignObject>' +
+  //     '</svg>';
 
-    data = encodeURIComponent(data);
-    var img = new Image();
+  //   data = encodeURIComponent(data);
+  //   var img = new Image();
 
-    img.onload = function() {
-      ctx.drawImage(img, 0, 0);
-      console.log(canvas.toDataURL());
-      // const pdfUrl = URL.createObjectURL(
-      //   new Blob([canvas.toDataURL()], { type: 'application/pdf' })
-      // );
-      // const link = document.createElement('a');
-      // link.href = pdfUrl;
-      // link.target = '_blank';
-      // document.body.appendChild(link);
-      // link.click();
-      // link.remove();
+  //   img.onload = function() {
+  //     ctx.drawImage(img, 0, 0);
+  //     console.log(canvas.toDataURL());
+  //     // const pdfUrl = URL.createObjectURL(
+  //     //   new Blob([canvas.toDataURL()], { type: 'application/pdf' })
+  //     // );
+  //     // const link = document.createElement('a');
+  //     // link.href = pdfUrl;
+  //     // link.target = '_blank';
+  //     // document.body.appendChild(link);
+  //     // link.click();
+  //     // link.remove();
 
-      canvas.toBlob(function(blob) {
-        var newImg = document.createElement('img'),
-          url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+  //     canvas.toBlob(function(blob) {
+  //       var newImg = document.createElement('img'),
+  //         url = URL.createObjectURL(blob);
+  //       const link = document.createElement('a');
+  //       link.href = url;
+  //       link.target = '_blank';
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       link.remove();
 
-        newImg.onload = function() {
-          // no longer need to read the blob so it's revoked
-          URL.revokeObjectURL(url);
-        };
+  //       newImg.onload = function() {
+  //         // no longer need to read the blob so it's revoked
+  //         URL.revokeObjectURL(url);
+  //       };
 
-        newImg.src = url;
-        document.body.appendChild(newImg);
-      });
-    };
+  //       newImg.src = url;
+  //       document.body.appendChild(newImg);
+  //     });
+  //   };
 
-    img.src = 'data:image/svg+xml,' + data;
-  };
+  //   img.src = 'data:image/svg+xml,' + data;
+  // };
   downloadPng = (chartid, imageTitle, selectedModal) => {
     // document.querySelector('.info-header-bottom').style.display =
     //   'none';
@@ -1421,12 +1119,16 @@ class MiddleChartSection extends Component {
     const popupEl = document.querySelector(
       chartid ? chartid : '.info-content-wrap',
     );
-    const useWidth = document.querySelector(
-      chartid ? chartid : '.info-content-wrap',
-    ).style.width;
-    const useHeight = document.querySelector(
-      chartid ? chartid : '.info-content-wrap',
-    ).style.height;
+    // const useWidth = document.querySelector(
+    //   chartid ? chartid : '.info-content-wrap',
+    // ).style.width;
+    // const useHeight = document.querySelector(
+    //   chartid ? chartid : '.info-content-wrap',
+    // ).style.height;
+    // const useWidth = popupEl.scrollWidth;
+    const useWidth = popupEl.offsetWidth;
+    console.log(useWidth, 'useWidht');
+
     setTimeout(() => {
       // document
       //   .querySelector(`.${chartid}`)
@@ -1434,6 +1136,8 @@ class MiddleChartSection extends Component {
       html2canvas(popupEl, {
         scale: 5,
         allowTaint: true,
+        width: useWidth,
+        // y:"100px"
       }).then(canvas => {
         canvas.toBlob(function(blob) {
           saveAs(blob, `${imageTitle}.png`);
@@ -1530,12 +1234,15 @@ class MiddleChartSection extends Component {
     //   .querySelector('.download-dropdown')
     //   .classList.remove('active');
     const popupEl = document.querySelector('.info-content-wrap');
-    console.log(popupEl, 'popupel');
+    // console.log(popupEl, 'popupel');
     //   const useWidth = document.querySelector('.info-content-wrap').style.width;
     //   const useHeight = document.querySelector('.info-content-wrap').style.height;
     // const titleEl = document.createElement('h6');
     // popupEl.appendChild(titleEl).textContent = 'spaghetti';
     // titleEl.setAttribute('class', 'popup_title');
+
+    // const chartEl = document.querySelector(`#${chartid}`);
+    const useWidth = popupEl.scrollWidth;
     setTimeout(() => {
       // document
       //   .querySelector(`.${chartid}`)
@@ -1544,6 +1251,8 @@ class MiddleChartSection extends Component {
         // logging: true,
         // letterRendering: 1,
         allowTaint: true,
+        scale: 5,
+        width: useWidth,
         // scale: window.devicePixelRatio,
         // windowWidth: window.innerWidth+120,
         // windowHeight: window.innerHeight + 120,
@@ -2023,7 +1732,7 @@ class MiddleChartSection extends Component {
                   output14firstState ? 'is-bg' : 'is-border'
                 }`}
               >
-                Milestone Year 15-18 Percent
+                Milestone Year 2015-2018 in Percentage
               </button>
               <button
                 onClick={() => {
@@ -2040,7 +1749,7 @@ class MiddleChartSection extends Component {
                   output14firstState ? 'is-border' : 'is-bg'
                 }`}
               >
-                Milestone Year 19-so on Number
+                Milestone Year 2019 Onwards in Absolute Value
               </button>
             </div>
           )}
@@ -2092,7 +1801,7 @@ class MiddleChartSection extends Component {
                       '.info-content-wrap',
                       filteredDynamicData &&
                         filteredDynamicData[0] &&
-                        filteredDynamicData[0].category.title,
+                        filteredDynamicData[0].sub_category.title,
                     );
                   }}
                   onKeyPress={() => {
@@ -2100,7 +1809,7 @@ class MiddleChartSection extends Component {
                       '.info-content-wrap',
                       filteredDynamicData &&
                         filteredDynamicData[0] &&
-                        filteredDynamicData[0].category.title,
+                        filteredDynamicData[0].sub_category.title,
                     );
                   }}
                   role="button"
@@ -2167,22 +1876,26 @@ class MiddleChartSection extends Component {
               /> */}
               {activeLayer === 'Outcome Indicator 4' && (
                 <>
-                  <div className="card">
+                  <div className="card" id="outcome14-1stpie">
                     {/* <div className="card-header"></div> */}
                     <div className="card-body">
                       <div className="row">
-                        {/* <a
-                    role="tab"
-                    tabIndex="0"
-                    id="downloadDropdown"
-                    className="download-icon-image"
-                    // onClick={this.downloadPng}
-                    onClick={this.downloadPng}
-                    onKeyPress={this.downloadPng}
-                    style={{ right: '37px' }}
-                  >
-                    <img src={saveAlt} alt="" />
-                  </a> */}
+                        <a
+                          role="tab"
+                          tabIndex="0"
+                          id="downloadDropdown"
+                          className="download-icon-image"
+                          // onClick={this.downloadPng}
+                          onClick={() => {
+                            this.downloadPng('#outcome14-1stpie',"Planned & Achieved Distribution");
+                          }}
+                          onKeyPress={() => {
+                            this.downloadPng('#outcome14-1stpie',"Planned & Achieved Distribution");
+                          }}
+                          style={{ right: '37px' }}
+                        >
+                          <img src={saveAlt} alt="" />
+                        </a>
                         <div className="col-lg-6">
                           <label>Planned</label>
                           <DonutChart reducerDataProps="planned1stPieData" />
@@ -2194,7 +1907,7 @@ class MiddleChartSection extends Component {
                       </div>
                     </div>
                   </div>
-                  <div className="card mt-5">
+                  <div className="card mt-5" id="outcome14-2ndpie">
                     <div
                       className="card-header"
                       style={{ display: 'flex' }}
@@ -2215,6 +1928,22 @@ class MiddleChartSection extends Component {
                         Ratio of men and women getting new access to
                         financial Services
                       </h5>
+                      <a
+                          role="tab"
+                          tabIndex="0"
+                          id="downloadDropdown"
+                          className="download-icon-image"
+                          // onClick={this.downloadPng}
+                          onClick={() => {
+                            this.downloadPng('#outcome14-2ndpie',"Ratio of men and women getting new access to financial Services");
+                          }}
+                          onKeyPress={() => {
+                            this.downloadPng('#outcome14-2ndpie',"Ratio of men and women getting new access to financial Services");
+                          }}
+                          style={{ right: '37px' }}
+                        >
+                          <img src={saveAlt} alt="" />
+                        </a>
                       {/* <a
                       role="tab"
                       tabIndex="0"
@@ -2315,7 +2044,7 @@ class MiddleChartSection extends Component {
               </div>
             </div>
           </div>
-          {filteredDynamicData &&
+          {/* {filteredDynamicData &&
             filteredDynamicData[0] &&
             !filteredDynamicData[0].sub_category.name.includes(
               'Output',
@@ -2331,7 +2060,6 @@ class MiddleChartSection extends Component {
                     filteredDynamicData[0] &&
                     filteredDynamicData[0].sub_category.description}
                 </p>
-                {/* eslint-disable-next-line */}
                 <a
                   className="more span_heavy_15"
                   role="button"
@@ -2347,9 +2075,9 @@ class MiddleChartSection extends Component {
                   className="more"
                 >
                   more
-                </a> */}
+                </a> 
               </div>
-            )}
+            )} */}
         </div>
       </div>
     );

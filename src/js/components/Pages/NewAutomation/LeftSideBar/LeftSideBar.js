@@ -239,8 +239,22 @@ class LeftSideBar extends Component {
     } = this.props;
     const dynamicPartner =
       searchText !== '' ? partnerList : automationLeftSidePartnerData;
+    if (dynamicPartner) {
+      dynamicPartner.sort(function(a, b) {
+        const nameA = a.partner_name.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.partner_name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
 
-    console.log('partners list', partnerList);
+        // names must be equal
+        return 0;
+      });
+    }
+    // console.log('partners list', partnerList);
 
     return (
       <aside className="sidebar left-sidebar">

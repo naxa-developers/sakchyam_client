@@ -236,7 +236,7 @@ class MiddleChartSection extends Component {
         return <CirclePackChart activeModal />;
       case 'groupedChart':
         return (
-          <div id="barContainer" style={{ width: '1900px' }}>
+          <div id="barContainer">
             <StackedBarWithAllFederal
               cardTitle="Province/District/Municipality Wise Budget & Beneficiaries Count"
               viewDataBy={viewDataBy}
@@ -466,7 +466,7 @@ class MiddleChartSection extends Component {
                 );
               }}
             />
-            {viewDataBy !== 'Leverage' && (
+            {viewDataBy !== 'leverage' && (
               <CardTab
                 notificationHandler={notificationHandler}
                 resetFunction={() => {
@@ -516,7 +516,7 @@ class MiddleChartSection extends Component {
                 }}
               />
             )}
-            {viewDataBy === 'Leverage' && (
+            {viewDataBy === 'leverage' && (
               <CardTab
                 notificationHandler={notificationHandler}
                 resetFunction={() => {

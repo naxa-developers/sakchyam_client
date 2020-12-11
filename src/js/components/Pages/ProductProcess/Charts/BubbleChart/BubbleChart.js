@@ -180,7 +180,7 @@ class BubbleChart extends React.Component {
               motionStiffness={90}
               motionDamping={12}
               tooltip={({ id, value, color }) => (
-                <span style={{ display: 'flex' }}>
+                <span style={{ display: 'flex', padding: '15px' }}>
                   {/* <strong> */}
                   {/* {id}: {value} */}
                   {color !== '#de2693' ? (
@@ -201,16 +201,39 @@ class BubbleChart extends React.Component {
                     </>
                   ) : (
                     this.state.tooltipData.map(item => {
+                      // console.log(item, 'item Product Process');
                       if (id === item.product)
                         // return `${id} Partner: (${item.partner})`;
                         return (
                           <strong>
                             {/* `${id}${'\n'} Partner: ${item.partner}` */}
+                            <span
+                              style={{
+                                position: 'absolute',
+                                left: 0,
+                                right: 0,
+                                textAlign: 'center',
+                                color: 'red',
+                              }}
+                            >
+                              Product Name
+                            </span>
+                            <br />
                             {id} <br />
-                            <span style={{ background: 'pink' }}>
+                            <span
+                              style={{
+                                color: 'red',
+                                display: 'flex',
+                                justifyContent: 'center',
+                              }}
+                            >
                               Partner:
                             </span>
-                            {item.partner}
+                            <ul style={{ listStyle: 'disc' }}>
+                              {item.partner.map(data => (
+                                <li>{data}</li>
+                              ))}
+                            </ul>
                           </strong>
                         );
                       return true;

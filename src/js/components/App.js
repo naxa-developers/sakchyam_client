@@ -89,7 +89,7 @@ class App extends Component {
             component={WrapperLoader(InsuranceModule)}
           />
           <Route path="/login" component={Login} />
-          <Route path="/" component={WrapperLoader(Landing)} />
+          <Route path="/" component={Landing} />
           <Route component={Landing} />
         </Switch>
         {/* </Suspense> */}

@@ -55,7 +55,11 @@ class Login extends Component {
       // const { history } = this.props.location.state;
       // history.push(this.props.location.pathname);
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ loginLoading: false });
+      setTimeout(() => {
+        this.setState({
+          loginLoading: false,
+        });
+      }, 2000);
       // const { afterLogin } = this.props.location.state;
     }
   }
@@ -118,11 +122,23 @@ class Login extends Component {
     return (
       <>
         <div className="login-page">
-          <Loading
+          {/* <Loading
             left="65%"
             loaderState={loginLoading}
             text="Signing In...Please Wait"
-          />
+          /> */}
+          <div
+            id="sakchyam-preloader"
+            style={
+              loginLoading ? { display: 'flex' } : { display: 'none' }
+            }
+          >
+            <img alt="sakchyam-logo" src={SakLogo} />
+            <div className="spinner">
+              <div className="spinnerhalf spinnerhalf--left" />
+              <div className="spinnerhalf spinnerhalf--right" />
+            </div>
+          </div>
           <div className="container-fluid p-0">
             <div
               className="login-wrapper"
@@ -249,10 +265,10 @@ class Login extends Component {
                     Data Visualization Port
                     <span className="abbr">(DVP)</span>
                   </h1>
-                  <p className="span_book_18">
+                  {/* <p className="span_book_18">
                     A Small Leap towards Application of Open Data on
                     Aid and Budget in Nepal.
-                  </p>
+                  </p> */}
                 </div>
                 <div className="row align-items-center">
                   <div className="col-xl-7">
@@ -331,7 +347,11 @@ class Login extends Component {
                         </div>
                       </form>
                       <div className="login-footer">
-                        <img src={SakLogo} alt="sakchyam_logo" />
+                        <img
+                          style={{ marginRight: '20px' }}
+                          src={SakLogo}
+                          alt="sakchyam_logo"
+                        />
                         <img src={UkAid} alt="UKaid_logo" />
                       </div>
                     </div>

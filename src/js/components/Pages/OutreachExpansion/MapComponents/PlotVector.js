@@ -115,7 +115,15 @@ class PlotVector extends Component {
         }, 100);
       }
     }
-
+    if (prevProps.mapViewDataBy !== mapViewDataBy) {
+      // console.log('primary data different');
+      if (mapViewDataBy === 'general_outreach') {
+        this.removeMarkers();
+        setTimeout(() => {
+          this.setCluster(that);
+        }, 100);
+      }
+    }
     if (prevState.loading !== loading) {
       if (loading === false) {
         this.removeMarkers();
@@ -194,110 +202,118 @@ class PlotVector extends Component {
       clusterRadius: 20,
     });
 
-    map.addLayer({
-      id: 'clusters',
-      type: 'circle',
-      source: 'earthquakes',
-      filter: ['has', 'point_count'],
-      paint: {
-        'circle-color': [
-          'step',
-          ['get', 'point_count'],
-          '#51bbd6',
-          5,
-          '#f1f075',
-          10,
-          '#f28cb1',
+    setTimeout(() => {
+      map.addLayer({
+        id: 'clusters',
+        type: 'circle',
+        source: 'earthquakes',
+        filter: ['has', 'point_count'],
+        paint: {
+          'circle-color': [
+            'step',
+            ['get', 'point_count'],
+            '#f1f075',
+            5,
+            '#f1f075',
+            10,
+            '#f1f075',
+          ],
+          'circle-radius': 15,
+          // [
+          //   'step',
+          //   ['get', 'point_count'],
+          //   20,
+          //   5,
+          //   30,
+          //   10,
+          //   40,
+          // ],
+          'circle-opacity': 1,
+        },
+      });
+
+      map.addLayer({
+        id: 'cluster-count',
+        type: 'symbol',
+        source: 'earthquakes',
+        filter: ['has', 'point_count'],
+        layout: {
+          'text-field': '{point_count_abbreviated}',
+          'text-font': [
+            'DIN Offc Pro Medium',
+            'Arial Unicode MS Bold',
+          ],
+          'text-size': 12,
+        },
+        paint: {
+          'text-color': 'black',
+        },
+      });
+
+      map.loadImage(Bbank, function(error, image) {
+        if (error) throw error;
+        map.addImage('custom-marker-bank', image);
+      });
+
+      map.addLayer({
+        id: 'unclustered-point-bank',
+        source: 'earthquakes',
+        filter: [
+          'all',
+          ['!has', 'point_count'],
+          ['==', 'point_service', 'Branch'],
+          ['==', 'partner_type', 'Commercial Bank'],
         ],
-        'circle-radius': 15,
-        // [
-        //   'step',
-        //   ['get', 'point_count'],
-        //   20,
-        //   5,
-        //   30,
-        //   10,
-        //   40,
-        // ],
-        'circle-opacity': 0.6,
-      },
-    });
+        type: 'symbol',
+        layout: {
+          'icon-image': 'custom-marker-bank',
+          'icon-size': 0.8,
+          'icon-allow-overlap': true,
+        },
+      });
 
-    map.addLayer({
-      id: 'cluster-count',
-      type: 'symbol',
-      source: 'earthquakes',
-      filter: ['has', 'point_count'],
-      layout: {
-        'text-field': '{point_count_abbreviated}',
-        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 12,
-      },
-    });
+      map.loadImage(Bblb, function(error, image) {
+        if (error) throw error;
+        map.addImage('custom-marker-blb', image);
+      });
 
-    map.loadImage(Bbank, function(error, image) {
-      if (error) throw error;
-      map.addImage('custom-marker-bank', image);
-    });
+      map.addLayer({
+        id: 'unclustered-point-blb',
+        source: 'earthquakes',
+        filter: [
+          'all',
+          ['!has', 'point_count'],
+          ['==', 'point_service', 'BLB'],
+        ],
+        type: 'symbol',
+        layout: {
+          'icon-image': 'custom-marker-blb',
+          'icon-size': 0.8,
+          'icon-allow-overlap': true,
+        },
+      });
 
-    map.addLayer({
-      id: 'unclustered-point-bank',
-      source: 'earthquakes',
-      filter: [
-        'all',
-        ['!has', 'point_count'],
-        ['==', 'point_service', 'Branch'],
-        ['==', 'partner_type', 'Commercial Bank'],
-      ],
-      type: 'symbol',
-      layout: {
-        'icon-image': 'custom-marker-bank',
-        'icon-size': 0.8,
-        'icon-allow-overlap': true,
-      },
-    });
+      map.loadImage(Bother, function(error, image) {
+        if (error) throw error;
+        map.addImage('custom-marker-other', image);
+      });
 
-    map.loadImage(Bblb, function(error, image) {
-      if (error) throw error;
-      map.addImage('custom-marker-blb', image);
-    });
-
-    map.addLayer({
-      id: 'unclustered-point-blb',
-      source: 'earthquakes',
-      filter: [
-        'all',
-        ['!has', 'point_count'],
-        ['==', 'point_service', 'BLB'],
-      ],
-      type: 'symbol',
-      layout: {
-        'icon-image': 'custom-marker-blb',
-        'icon-size': 0.8,
-        'icon-allow-overlap': true,
-      },
-    });
-
-    map.loadImage(Bother, function(error, image) {
-      if (error) throw error;
-      map.addImage('custom-marker-other', image);
-    });
-
-    map.addLayer({
-      id: 'unclustered-point-others',
-      source: 'earthquakes',
-      filter: [
-        'all',
-        ['!has', 'point_count'],
-        ['!=', 'partner_type', 'Commercial Bank'],
-      ],
-      type: 'symbol',
-      layout: {
-        'icon-image': 'custom-marker-other',
-        'icon-size': 0.8,
-        'icon-allow-overlap': true,
-      },
-    });
+      map.addLayer({
+        id: 'unclustered-point-others',
+        source: 'earthquakes',
+        filter: [
+          'all',
+          ['!has', 'point_count'],
+          ['!=', 'partner_type', 'Commercial Bank'],
+        ],
+        type: 'symbol',
+        layout: {
+          'icon-image': 'custom-marker-other',
+          'icon-size': 0.8,
+          'icon-allow-overlap': true,
+        },
+      });
+    }, 1000);
 
     map.on('click', 'clusters', function(e) {
       const features = map.queryRenderedFeatures(e.point, {

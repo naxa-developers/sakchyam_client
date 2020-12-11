@@ -885,9 +885,11 @@ class Choropleth extends Component {
         popup.remove();
       })
       .on('mousemove', function() {
-        tooltip2nd
-          .style('top', `${d3.event.pageY - 160}px`)
-          .style('left', `${d3.event.pageX - 380}px`);
+        //     top: 45px;
+        // left: 354px;
+        // tooltip2nd
+        //   .style('top', `${d3.event.pageY - 160}px`)
+        //   .style('left', `${d3.event.pageX - 380}px`);
         tooltip
           .style('top', `${d3.event.offsetY + 20}px`)
           .style('left', `${d3.event.offsetX + 20}px`);
@@ -1156,12 +1158,14 @@ class Choropleth extends Component {
           //
           const getBbox = getCenterBboxProvince(federalCode);
           filterMapChoroplethPie(getBbox, federalCode);
+          that.props.setMapViewBy('district');
         } else if (that.props.mapViewBy === 'district') {
           const getBbox = getCenterBboxDistrict(
             parseInt(federalCode, 10),
           );
           that.props.handleProvinceClick(parseInt(federalCode, 10));
           filterMapChoroplethPie(getBbox, federalCode);
+          // that.props.setMapViewBy('municipality');
         } else if (that.props.mapViewBy === 'municipality') {
           const getBbox = getCenterBboxMunicipality(
             parseInt(federalCode, 10),
@@ -1434,6 +1438,17 @@ class Choropleth extends Component {
     //     // Do something when the source has finished loading
     //   }
     // });
+    map.on('zoom', function() {
+      // console.log(map.getZoom(), 'getZoom');
+      // this.filterPieCharts(this.props.mapViewBy, map.getZoom() + 20);
+      // if (map.getZoom() > zoomThreshold) {
+      //   stateLegendEl.style.display = 'none';
+      //   countyLegendEl.style.display = 'block';
+      // } else {
+      //   stateLegendEl.style.display = 'block';
+      //   countyLegendEl.style.display = 'none';
+      // }
+    });
   };
 
   componentDidMount() {
