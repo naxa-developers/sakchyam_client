@@ -12,6 +12,7 @@ import domtoimage from 'dom-to-image';
 import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import saveAlt from '../../../../../img/save_alt.svg';
 import CustomChart from '../CustomChart';
+import MixedChart from '../Charts/MixedChart';
 import {
   getIndicatorsGraphData,
   getIndicatorsGraphDataIndividual,
@@ -249,15 +250,15 @@ class MiddleChartSection extends Component {
             },
           },
           categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
+            // 'Jan',
+            // 'Feb',
+            // 'Mar',
+            // 'Apr',
+            // 'May',
+            // 'Jun',
+            // 'Jul',
+            // 'Aug',
+            // 'Sep',
           ],
           type: 'category',
           tickPlacement: 'between',
@@ -618,7 +619,8 @@ class MiddleChartSection extends Component {
   };
 
   changeChart = () => {
-    this.checkTooltip();
+    // this.checkTooltip();
+    
     if (this.props.activeBar1) {
       // setTimeout(() => {
       //   document
@@ -634,10 +636,12 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
+      console.log(this.chartRef.chart, 'modalRef');
+      console.log(this.mixedChartRef.chart, 'modalRef');
+      // console.log(this.chartRef.current, 'modalRef');
       this.chartRef.chart.showSeries('Target');
-      console.log(this.chartRef, 'modalRef');
-      console.log(this.chartModalRef, 'modalRef');
-      this.chartModalRef.chart.showSeries('Target');
+      this.mixedChartRef.chart.showSeries('Target');
+      // this.chartModalRef.chart.showSeries('Target');
     } else {
       // setTimeout(() => {
       //   document
@@ -654,8 +658,9 @@ class MiddleChartSection extends Component {
       //     .classList.remove('none');
       // }, 2000);
       this.chartRef.chart.hideSeries('Target');
+      this.mixedChartRef.chart.hideSeries('Target');
 
-      this.chartModalRef.chart.hideSeries('Target');
+      // this.chartModalRef.chart.hideSeries('Target');
     }
     if (this.props.activeBar2) {
       // setTimeout(() => {
@@ -666,8 +671,9 @@ class MiddleChartSection extends Component {
       //     .classList.remove('none');
       // }, 2000);
       this.chartRef.chart.showSeries('Achievement ');
+      this.mixedChartRef.chart.showSeries('Achievement ');
 
-      this.chartModalRef.chart.showSeries('Achievement ');
+      // this.chartModalRef.chart.showSeries('Achievement ');
     } else {
       // setTimeout(() => {
       //   document
@@ -677,8 +683,9 @@ class MiddleChartSection extends Component {
       //     .classList.add('none');
       // }, 2000);
       this.chartRef.chart.hideSeries('Achievement ');
+      this.mixedChartRef.chart.hideSeries('Achievement ');
 
-      this.chartModalRef.chart.hideSeries('Achievement ');
+      // this.chartModalRef.chart.hideSeries('Achievement ');
     }
     if (this.props.activeLine1) {
       // setTimeout(() => {
@@ -689,8 +696,9 @@ class MiddleChartSection extends Component {
       //     .classList.remove('none');
       // }, 2000);
       this.chartRef.chart.showSeries('Target ');
+      this.mixedChartRef.chart.showSeries('Target ');
 
-      this.chartModalRef.chart.showSeries('Target ');
+      // this.chartModalRef.chart.showSeries('Target ');
     } else {
       // setTimeout(() => {
       //   document
@@ -700,8 +708,9 @@ class MiddleChartSection extends Component {
       //     .classList.add('none');
       // }, 2000);
       this.chartRef.chart.hideSeries('Target ');
+      this.mixedChartRef.chart.hideSeries('Target ');
 
-      this.chartModalRef.chart.hideSeries('Target ');
+      // this.chartModalRef.chart.hideSeries('Target ');
     }
     if (this.props.activeLine2) {
       // setTimeout(() => {
@@ -712,8 +721,9 @@ class MiddleChartSection extends Component {
       //     .classList.remove('none');
       // }, 2000);
       this.chartRef.chart.showSeries('Achievement');
+      this.mixedChartRef.chart.showSeries('Achievement');
 
-      this.chartModalRef.chart.showSeries('Achievement');
+      // this.chartModalRef.chart.showSeries('Achievement');
     } else {
       // setTimeout(() => {
       //   document
@@ -723,8 +733,9 @@ class MiddleChartSection extends Component {
       //     .classList.add('none');
       // }, 2000);
       this.chartRef.chart.hideSeries('Achievement');
+      this.mixedChartRef.chart.hideSeries('Achievement');
 
-      this.chartModalRef.chart.hideSeries('Achievement');
+      // this.chartModalRef.chart.hideSeries('Achievement');
     }
   };
 
@@ -850,8 +861,11 @@ class MiddleChartSection extends Component {
       prevProps.logFrameReducer.series !==
       this.props.logFrameReducer.series
     ) {
-      // this.plotChart();
-      this.changeChart();
+      this.plotChart();
+      // this.changeChart();
+      // setTimeout(() => {
+      //   this.changeChart();
+      // }, 1000); 
     }
     // console.log(this.props.chartRef, 'chartref');
     if (
@@ -862,6 +876,9 @@ class MiddleChartSection extends Component {
     ) {
       // setTimeout(() => {
       this.changeChart();
+      // setTimeout(() => {
+      //   this.changeChart();
+      // }, 1000);
     }
     const {
       props: {
@@ -1286,6 +1303,8 @@ class MiddleChartSection extends Component {
   };
 
   render() {
+    console.log(this.chartRef &&this.chartRef.chart, 'modalRef');
+    console.log(this.mixedChartRef && this.mixedChartRef.chart, 'modalRef');
     const optionsd = [
       { label: 'Thing 1', value: 1 },
       { label: 'Thing 2', value: 2 },
@@ -1862,6 +1881,19 @@ class MiddleChartSection extends Component {
                   this.chartRef = arg;
                 }}
               />
+              <MixedChart
+              chartRef={arg => {
+                this.mixedChartRef = arg;
+              }} 
+                // chartRef={this.mixedChartRef}
+                activeModal={activeModal}
+                activeDateValues={activeDateValues}
+                activeLayer={activeLayer}
+                activeDate={activeDate}
+                updateChart={updateChart}
+                series={series}
+                optionsState={options}
+                />
               {activeLayer === 'Output Indicator 2.3' &&(
                 <>
               <CustomChart

@@ -156,15 +156,15 @@ const initialState = {
         },
       },
       categories: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
+        // 'Jan',
+        // 'Feb',
+        // 'Mar',
+        // 'Apr',
+        // 'May',
+        // 'Jun',
+        // 'Jul',
+        // 'Aug',
+        // 'Sep',
       ],
       type: 'category',
     },
@@ -303,6 +303,7 @@ const filterIndicatorGraphData = (state, action) => {
     //
     return el.year.name;
   });
+  console.log(category, 'category');
   const totalDateList = filtered.map(el => {
     //
     return el.year;
@@ -642,7 +643,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     //
     return [el.year.range];
   });
-
+  console.log(category, 'category');
   const returnedFormat = (x, y) => {
     let Output41 = '';
     if (
