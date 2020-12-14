@@ -298,7 +298,7 @@ class MiddleChartSection extends Component {
             show: true,
             align: 'right',
             minWidth: 0,
-          maxWidth: 160,
+            maxWidth: 160,
             style: {
               fontSize: '12px',
               fontFamily: 'Helvetica, Arial, sans-serif',
@@ -620,7 +620,7 @@ class MiddleChartSection extends Component {
 
   changeChart = () => {
     // this.checkTooltip();
-    
+
     if (this.props.activeBar1) {
       // setTimeout(() => {
       //   document
@@ -636,11 +636,13 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
-      console.log(this.chartRef.chart, 'modalRef');
+      // console.log(this.chartRef.chart, 'modalRef');
       console.log(this.mixedChartRef.chart, 'modalRef');
       // console.log(this.chartRef.current, 'modalRef');
-      this.chartRef.chart.showSeries('Target');
-      this.mixedChartRef.chart.showSeries('Target');
+      setTimeout(() => {
+        this.mixedChartRef.chart.showSeries('Target');
+      }, 1000);
+      // this.chartRef.chart.showSeries('Target');
       // this.chartModalRef.chart.showSeries('Target');
     } else {
       // setTimeout(() => {
@@ -657,8 +659,11 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries('Target');
-      this.mixedChartRef.chart.hideSeries('Target');
+      setTimeout(() => {
+        this.mixedChartRef.chart.hideSeries('Target');
+      }, 1000);
+      // this.chartRef.chart.hideSeries('Target');
+      // this.mixedChartRef.chart.hideSeries('Target');
 
       // this.chartModalRef.chart.hideSeries('Target');
     }
@@ -670,8 +675,11 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries('Achievement ');
-      this.mixedChartRef.chart.showSeries('Achievement ');
+      setTimeout(() => {
+        this.mixedChartRef.chart.showSeries('Achievement ');
+      }, 1000);
+      // this.chartRef.chart.showSeries('Achievement ');
+      // this.mixedChartRef.chart.showSeries('Achievement ');
 
       // this.chartModalRef.chart.showSeries('Achievement ');
     } else {
@@ -682,8 +690,10 @@ class MiddleChartSection extends Component {
       //     )[2]
       //     .classList.add('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries('Achievement ');
-      this.mixedChartRef.chart.hideSeries('Achievement ');
+      setTimeout(() => {
+        this.mixedChartRef.chart.hideSeries('Achievement ');
+      }, 1000);
+      // this.chartRef.chart.hideSeries('Achievement ');
 
       // this.chartModalRef.chart.hideSeries('Achievement ');
     }
@@ -695,8 +705,12 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries('Target ');
-      this.mixedChartRef.chart.showSeries('Target ');
+      setTimeout(() => {
+        this.mixedChartRef.chart.showSeries('Target ');
+      }, 1000);
+      // if(this.mixedChartRef.chart){
+      // }
+      // this.chartRef.chart.showSeries('Target ');
 
       // this.chartModalRef.chart.showSeries('Target ');
     } else {
@@ -707,8 +721,11 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.add('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries('Target ');
-      this.mixedChartRef.chart.hideSeries('Target ');
+      setTimeout(() => {
+        this.mixedChartRef.chart.hideSeries('Target ');
+      }, 1200);
+      // this.chartRef.chart.hideSeries('Target ');
+      // this.mixedChartRef.chart.hideSeries('Target ');
 
       // this.chartModalRef.chart.hideSeries('Target ');
     }
@@ -720,8 +737,11 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.remove('none');
       // }, 2000);
-      this.chartRef.chart.showSeries('Achievement');
-      this.mixedChartRef.chart.showSeries('Achievement');
+      setTimeout(() => {
+        this.mixedChartRef.chart.showSeries('Achievement');
+      }, 1000);
+      // this.chartRef.chart.showSeries('Achievement');
+      // this.mixedChartRef.chart.showSeries('Achievement');
 
       // this.chartModalRef.chart.showSeries('Achievement');
     } else {
@@ -732,8 +752,10 @@ class MiddleChartSection extends Component {
       //     )[1]
       //     .classList.add('none');
       // }, 2000);
-      this.chartRef.chart.hideSeries('Achievement');
-      this.mixedChartRef.chart.hideSeries('Achievement');
+      // this.chartRef.chart.hideSeries('Achievement');
+      setTimeout(() => {
+        this.mixedChartRef.chart.hideSeries('Achievement');
+      }, 1000);
 
       // this.chartModalRef.chart.hideSeries('Achievement');
     }
@@ -861,11 +883,11 @@ class MiddleChartSection extends Component {
       prevProps.logFrameReducer.series !==
       this.props.logFrameReducer.series
     ) {
-      this.plotChart();
-      // this.changeChart();
+      // this.plotChart();
+      this.changeChart();
       // setTimeout(() => {
       //   this.changeChart();
-      // }, 1000); 
+      // }, 1000);
     }
     // console.log(this.props.chartRef, 'chartref');
     if (
@@ -1025,35 +1047,35 @@ class MiddleChartSection extends Component {
     }));
   };
 
-  changedElementCssBar = () => {
-    document
-      .getElementsByClassName('apexcharts-tooltip-series-group')[0]
-      .classList.add('flex');
-    document
-      .getElementsByClassName('apexcharts-tooltip-series-group')[1]
-      .classList.add('none');
-    document
-      .getElementsByClassName('apexcharts-tooltip-series-group')[2]
-      .classList.add('none');
-    document
-      .getElementsByClassName('apexcharts-tooltip-series-group')[3]
-      .classList.add('flex');
-  };
+  // changedElementCssBar = () => {
+  //   document
+  //     .getElementsByClassName('apexcharts-tooltip-series-group')[0]
+  //     .classList.add('flex');
+  //   document
+  //     .getElementsByClassName('apexcharts-tooltip-series-group')[1]
+  //     .classList.add('none');
+  //   document
+  //     .getElementsByClassName('apexcharts-tooltip-series-group')[2]
+  //     .classList.add('none');
+  //   document
+  //     .getElementsByClassName('apexcharts-tooltip-series-group')[3]
+  //     .classList.add('flex');
+  // };
 
-  changedElementCssTime = () => {
-    document
-      .getElementsByClassName('apexcharts-tooltip-series-group')[0]
-      .classList.add('flex');
-    document
-      .getElementsByClassName('apexcharts-tooltip-series-group')[1]
-      .classList.add('flex');
-    document
-      .getElementsByClassName('apexcharts-tooltip-series-group')[2]
-      .classList.add('none');
-    document
-      .getElementsByClassName('apexcharts-tooltip-series-group')[3]
-      .classList.add('flex');
-  };
+  // changedElementCssTime = () => {
+  //   document
+  //     .getElementsByClassName('apexcharts-tooltip-series-group')[0]
+  //     .classList.add('flex');
+  //   document
+  //     .getElementsByClassName('apexcharts-tooltip-series-group')[1]
+  //     .classList.add('flex');
+  //   document
+  //     .getElementsByClassName('apexcharts-tooltip-series-group')[2]
+  //     .classList.add('none');
+  //   document
+  //     .getElementsByClassName('apexcharts-tooltip-series-group')[3]
+  //     .classList.add('flex');
+  // };
 
   handleChange = selectedOption => {
     // console.log('selectedOption', selectedOption);
@@ -1303,8 +1325,11 @@ class MiddleChartSection extends Component {
   };
 
   render() {
-    console.log(this.chartRef &&this.chartRef.chart, 'modalRef');
-    console.log(this.mixedChartRef && this.mixedChartRef.chart, 'modalRef');
+    console.log(this.chartRef && this.chartRef.chart, 'modalRef');
+    console.log(
+      this.mixedChartRef && this.mixedChartRef.chart,
+      'modalRef',
+    );
     const optionsd = [
       { label: 'Thing 1', value: 1 },
       { label: 'Thing 2', value: 2 },
@@ -1371,6 +1396,10 @@ class MiddleChartSection extends Component {
       props: {
         logFrameReducer: {
           series,
+          series2_3a,
+          series2_3b,
+          subCategoryTitle2_3a,
+          subCategoryTitle2_3b,
           dateRange,
           filteredDynamicData,
           isDataFetched,
@@ -1387,38 +1416,27 @@ class MiddleChartSection extends Component {
       <div className="info-content">
         {/* <canvas id="canvas" style={{border:"2px solid black", width:"200", height:"200"}}>
       </canvas> */}
-        <Modal
-          // visible={selectedModal === 'bar' ? true : false}
-          headerTitle={
-            filteredDynamicData &&
-            filteredDynamicData[0] &&
-            filteredDynamicData[0].sub_category.title
-          }
-          downloadFn={this.downloadPng}
-          notificationHandler={this.props.notificationHandler}
-          // handleShowBarOf={handleShowBarOf}
-          // resetFilters={resetFilters}
-          selectedModal="logframe"
-          handleModal={this.handleModal}
-          activeModal={activeModal}
-          component={
-            () => {
-              // eslint-disable-next-line no-unused-expressions
-              return (
-                <>
-                  <ModalChart
-                    activeModal={activeModal}
-                    activeDateValues={activeDateValues}
-                    activeLayer={activeLayer}
-                    activeDate={activeDate}
-                    updateChart={updateChart}
-                    series={series}
-                    options={options}
-                    chartModalRef={arg => {
-                      this.chartModalRef = arg;
-                    }}
-                  />
-                  {/* <CustomChart
+        {activeModal && (
+          <Modal
+            // visible={selectedModal === 'bar' ? true : false}
+            headerTitle={
+              filteredDynamicData &&
+              filteredDynamicData[0] &&
+              filteredDynamicData[0].sub_category.title
+            }
+            downloadFn={this.downloadPng}
+            notificationHandler={this.props.notificationHandler}
+            // handleShowBarOf={handleShowBarOf}
+            // resetFilters={resetFilters}
+            selectedModal="logframe"
+            handleModal={this.handleModal}
+            activeModal={activeModal}
+            component={
+              () => {
+                // eslint-disable-next-line no-unused-expressions
+                return (
+                  <>
+                    {/* <ModalChart
                     activeModal={activeModal}
                     activeDateValues={activeDateValues}
                     activeLayer={activeLayer}
@@ -1430,8 +1448,33 @@ class MiddleChartSection extends Component {
                       this.chartModalRef = arg;
                     }}
                   /> */}
-                  {/* <StackedBarWithProvince /> */}
-                  {/* <CustomChart
+                    <MixedChart
+                      chartRef={arg => {
+                        this.chartModalRef = arg;
+                      }}
+                      // chartRef={this.mixedChartRef}
+                      activeModal={activeModal}
+                      activeDateValues={activeDateValues}
+                      activeLayer={activeLayer}
+                      activeDate={activeDate}
+                      updateChart={updateChart}
+                      series={series}
+                      optionsState={options}
+                    />
+                    {/* <CustomChart
+                    activeModal={activeModal}
+                    activeDateValues={activeDateValues}
+                    activeLayer={activeLayer}
+                    activeDate={activeDate}
+                    updateChart={updateChart}
+                    series={series}
+                    options={options}
+                    chartModalRef={arg => {
+                      this.chartModalRef = arg;
+                    }}
+                  /> */}
+                    {/* <StackedBarWithProvince /> */}
+                    {/* <CustomChart
                     activeBar1={activeBar1}
                     activeLine1={activeLine1}
                     activeModal
@@ -1445,12 +1488,13 @@ class MiddleChartSection extends Component {
                     //   this.chartRef = arg;
                     // }}
                   /> */}
-                </>
-              );
+                  </>
+                );
+              }
+              // eslint-disable-next-line react/jsx-curly-newline
             }
-            // eslint-disable-next-line react/jsx-curly-newline
-          }
-        />
+          />
+        )}
 
         <a className="toggle_button">
           <i className="material-icons">keyboard_backspace</i>
@@ -1869,22 +1913,11 @@ class MiddleChartSection extends Component {
                 {' '}
                 Previous
               </button>
-              <CustomChart
-                activeModal={activeModal}
-                activeDateValues={activeDateValues}
-                activeLayer={activeLayer}
-                activeDate={activeDate}
-                updateChart={updateChart}
-                series={series}
-                options={options}
-                chartRef={arg => {
-                  this.chartRef = arg;
-                }}
-              />
+
               <MixedChart
-              chartRef={arg => {
-                this.mixedChartRef = arg;
-              }} 
+                chartRef={arg => {
+                  this.mixedChartRef = arg;
+                }}
                 // chartRef={this.mixedChartRef}
                 activeModal={activeModal}
                 activeDateValues={activeDateValues}
@@ -1893,34 +1926,267 @@ class MiddleChartSection extends Component {
                 updateChart={updateChart}
                 series={series}
                 optionsState={options}
-                />
-              {activeLayer === 'Output Indicator 2.3' &&(
+              />
+              {/* <CustomChart
+                activeModal={activeModal}
+                activeDateValues={activeDateValues}
+                activeLayer={activeLayer}
+                activeDate={activeDate}
+                updateChart={updateChart}
+                series={series}
+                options={options}
+                chartRef={arg => {
+                  this.chartRef = arg;
+                }}
+              /> */}
+              {activeLayer === 'Output Indicator 2.3' && (
                 <>
-              <CustomChart
-                activeModal={activeModal}
-                activeDateValues={activeDateValues}
-                activeLayer={activeLayer}
-                activeDate={activeDate}
-                updateChart={updateChart}
-                series={series}
-                options={options}
-                chartRef={arg => {
-                  this.chartRef = arg;
-                }}
-              />
-              <CustomChart
-                activeModal={activeModal}
-                activeDateValues={activeDateValues}
-                activeLayer={activeLayer}
-                activeDate={activeDate}
-                updateChart={updateChart}
-                series={series}
-                options={options}
-                chartRef={arg => {
-                  this.chartRef = arg;
-                }}
-              />
-              </>)}
+                  <div className="info-content-wrap" id="output2_3a">
+          <div className="info-content-header">
+            {/* <h5>Logical framework</h5> */}
+            <h3>
+            2.3a {filteredDynamicData &&
+                filteredDynamicData[0] &&
+                filteredDynamicData[0].category.title}
+            </h3>
+            <div className="info-header-top">
+              <h3 className="h3-red">
+                {subCategoryTitle2_3a && subCategoryTitle2_3a}
+              </h3>
+              {/* <span className="span_black_15">{activeLayer}</span> */}
+            </div>
+            </div>
+            
+            <div className="info-slider" >
+            <a
+              role="tab"
+              tabIndex="0"
+              id="downloadDropdown1"
+              className="download-icon-image"
+              // onClick={this.downloadPng}
+              onClick={() => {
+                this.downloadPng(
+                  '#output2_3a',
+                  subCategoryTitle2_3a && subCategoryTitle2_3a,
+                );
+              }}
+              onKeyPress={() => {
+                this.downloadPng(
+                  '#output2_3a',
+                  subCategoryTitle2_3a && subCategoryTitle2_3a,
+                );
+              }}
+              style={{ right: '37px' }}
+            >
+              {/* <label>Download</label> */}
+              <img src={saveAlt} alt="" />
+              {/* <i className="fa fa-download" aria-hidden="true" /> */}
+            </a>
+            {/* <a
+              role="tab"
+              tabIndex="0"
+              // id="downloadDropdown"
+              className="download-icon-image"
+              onClick={this.handleModal}
+              onKeyPress={this.handleModal}
+              // onClick={this.toggleDownloadDropdown}
+              // onKeyPress={this.toggleDownloadDropdown}
+            >
+              <img src={ExpandIcon} alt="open" />
+            </a> */}
+
+            {/* <a
+              href="#/"
+              className={`download-icon-image ${downloadActive}`}
+              onClick={this.toggleDownloadDropdown}
+            >
+              <img src="../../save_alts.svg" alt="" />
+            </a> */}
+
+            <ul
+              className={`download-dropdown ${
+                downloadActive ? 'active' : ''
+              }`}
+            >
+              <li>
+                <a
+                  onClick={() => {
+                    this.downloadPng(
+                      '.info-content-wrap',
+                      subCategoryTitle2_3a && subCategoryTitle2_3a,
+                    );
+                  }}
+                  onKeyPress={() => {
+                    this.downloadPng(
+                      '.info-content-wrap',
+                      subCategoryTitle2_3a && subCategoryTitle2_3a,
+                    );
+                  }}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Download .PNG
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    document
+                      .getElementsByClassName('exportCSV')[0]
+                      .click();
+                  }}
+                  onKeyPress={() => {
+                    document
+                      .getElementsByClassName('exportCSV')[0]
+                      .click();
+                  }}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Download .CSV
+                </a>
+              </li>
+            </ul>
+                  <MixedChart
+                    // chartRef={arg => {
+                    //   this.mixedChartRef = arg;
+                    // }}
+                    // chartRef={this.mixedChartRef}
+                    activeModal={activeModal}
+                    activeDateValues={activeDateValues}
+                    activeLayer={activeLayer}
+                    activeDate={activeDate}
+                    updateChart={updateChart}
+                    series={series2_3a}
+                    optionsState={options}
+                    />
+                    </div>
+
+            </div>
+                  <div className="info-content-wrap" id="output2_3b">
+          <div className="info-content-header" >
+            {/* <h5>Logical framework</h5> */}
+            <h3>
+            2.3b {filteredDynamicData &&
+                filteredDynamicData[0] &&
+                filteredDynamicData[0].category.title}
+            </h3>
+            <div className="info-header-top">
+              <h3 className="h3-red">
+                {subCategoryTitle2_3b && subCategoryTitle2_3b}
+              </h3>
+              {/* <span className="span_black_15">{activeLayer}</span> */}
+            </div>
+            </div>
+            <div className="info-slider">
+            <a
+              role="tab"
+              tabIndex="0"
+              // id="downloadDropdown"
+              className="download-icon-image"
+              // onClick={this.downloadPng}
+              onClick={() => {
+                this.downloadPng(
+                  '#output2_3b',
+                  subCategoryTitle2_3b && subCategoryTitle2_3b,
+                );
+              }}
+              onKeyPress={() => {
+                this.downloadPng(
+                  '#output2_3b',
+                  subCategoryTitle2_3b && subCategoryTitle2_3b,
+                );
+              }}
+              style={{ right: '37px' }}
+            >
+              {/* <label>Download</label> */}
+              <img src={saveAlt} alt="" />
+              {/* <i className="fa fa-download" aria-hidden="true" /> */}
+            </a>
+            {/* <a
+              role="tab"
+              tabIndex="0"
+              // id="downloadDropdown"
+              className="download-icon-image"
+              onClick={this.handleModal}
+              onKeyPress={this.handleModal}
+              // onClick={this.toggleDownloadDropdown}
+              // onKeyPress={this.toggleDownloadDropdown}
+            >
+              <img src={ExpandIcon} alt="open" />
+            </a> */}
+
+            {/* <a
+              href="#/"
+              className={`download-icon-image ${downloadActive}`}
+              onClick={this.toggleDownloadDropdown}
+            >
+              <img src="../../save_alts.svg" alt="" />
+            </a> */}
+
+            <ul
+              className={`download-dropdown ${
+                downloadActive ? 'active' : ''
+              }`}
+            >
+              <li>
+                <a
+                  onClick={() => {
+                    this.downloadPng(
+                      '#output2_3b',
+                      subCategoryTitle2_3b && subCategoryTitle2_3b,
+                    );
+                  }}
+                  onKeyPress={() => {
+                    this.downloadPng(
+                      '#output2_3b',
+                      subCategoryTitle2_3b && subCategoryTitle2_3b,
+                    );
+                  }}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Download .PNG
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    document
+                      .getElementsByClassName('exportCSV')[0]
+                      .click();
+                  }}
+                  onKeyPress={() => {
+                    document
+                      .getElementsByClassName('exportCSV')[0]
+                      .click();
+                  }}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Download .CSV
+                </a>
+              </li>
+            </ul>
+                  <MixedChart
+                    // chartRef={arg => {
+                    //   this.mixedChartRef = arg;
+                    // }}
+                    // chartRef={this.mixedChartRef}
+                    activeModal={activeModal}
+                    activeDateValues={activeDateValues}
+                    activeLayer={activeLayer}
+                    activeDate={activeDate}
+                    updateChart={updateChart}
+                    series={series2_3b}
+                    optionsState={options}
+                  />
+            </div>
+
+            </div>
+                </>
+
+              )}
               {/* <CustomChart
                 activeModal={activeModal}
                 activeDateValues={activeDateValues}
@@ -1946,10 +2212,16 @@ class MiddleChartSection extends Component {
                           className="download-icon-image"
                           // onClick={this.downloadPng}
                           onClick={() => {
-                            this.downloadPng('#outcome14-1stpie',"Planned & Achieved Distribution");
+                            this.downloadPng(
+                              '#outcome14-1stpie',
+                              'Planned & Achieved Distribution',
+                            );
                           }}
                           onKeyPress={() => {
-                            this.downloadPng('#outcome14-1stpie',"Planned & Achieved Distribution");
+                            this.downloadPng(
+                              '#outcome14-1stpie',
+                              'Planned & Achieved Distribution',
+                            );
                           }}
                           style={{ right: '37px' }}
                         >
@@ -1988,21 +2260,27 @@ class MiddleChartSection extends Component {
                         financial Services
                       </h5>
                       <a
-                          role="tab"
-                          tabIndex="0"
-                          id="downloadDropdown"
-                          className="download-icon-image"
-                          // onClick={this.downloadPng}
-                          onClick={() => {
-                            this.downloadPng('#outcome14-2ndpie',"Ratio of men and women getting new access to financial Services");
-                          }}
-                          onKeyPress={() => {
-                            this.downloadPng('#outcome14-2ndpie',"Ratio of men and women getting new access to financial Services");
-                          }}
-                          style={{ right: '37px' }}
-                        >
-                          <img src={saveAlt} alt="" />
-                        </a>
+                        role="tab"
+                        tabIndex="0"
+                        id="downloadDropdown"
+                        className="download-icon-image"
+                        // onClick={this.downloadPng}
+                        onClick={() => {
+                          this.downloadPng(
+                            '#outcome14-2ndpie',
+                            'Ratio of men and women getting new access to financial Services',
+                          );
+                        }}
+                        onKeyPress={() => {
+                          this.downloadPng(
+                            '#outcome14-2ndpie',
+                            'Ratio of men and women getting new access to financial Services',
+                          );
+                        }}
+                        style={{ right: '37px' }}
+                      >
+                        <img src={saveAlt} alt="" />
+                      </a>
                       {/* <a
                       role="tab"
                       tabIndex="0"

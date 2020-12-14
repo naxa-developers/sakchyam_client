@@ -28,10 +28,22 @@ class MixedChart extends Component {
     };
   }
 
+  componentDidMount() {
+    this.plotChart();
+    this.updateBarChart();
+
+    const { activeModal } = this.props;
+    if (activeModal) {
+      // this.plotChart();
+      this.updateBarChart();
+    }
+    // this.updateBarChart();
+  }
+
   plotChart = () => {
     //
     const that = this;
-    const { series, optionsState } = this.props;
+    const { series, optionsState, activeModal } = this.props;
     // const series = [
     //   {
     //     name: 'Income',
@@ -155,6 +167,8 @@ class MixedChart extends Component {
         labels: {
           show: true,
           align: 'right',
+          minWidth: activeModal ? 200 : 100,
+          maxWidth: activeModal ? 260 : 160,
           //   minWidth: 0,
           //   maxWidth: 160,
           style: {
@@ -268,10 +282,11 @@ class MixedChart extends Component {
           },
         },
       },
-      //   legend: {
-      //     horizontalAlign: 'left',
-      //     offsetX: 40,
-      //   },
+      legend: {
+        show: false,
+        horizontalAlign: 'left',
+        offsetX: 40,
+      },
     };
     this.setState({ options: optionsVar, series });
   };
@@ -281,6 +296,7 @@ class MixedChart extends Component {
     const {
       series,
       optionsState,
+      activeModal,
       //   partnershipReducer: { barDatas },
       cardView,
     } = this.props;
@@ -311,6 +327,25 @@ class MixedChart extends Component {
         height: 350,
         type: 'line',
         stacked: false,
+        toolbar: {
+          show: false,
+          // offsetX: 0,
+          // offsetY: 0,
+          tools: {
+            // download: `<a href="#/" class="download-icon-image"><img src=${DownloadIcon} alt=""></a>`,
+            download: `<i class="fa fa-download" aria-hidden="true"></i>`,
+            // download: false,
+            selection: false,
+            zoom: false,
+            zoomin: false,
+            zoomout: false,
+            pan: false,
+            reset: false,
+            //   // reset: true | '<img src="/static/icons/reset.png" width="20">',
+            //   // customIcons: []
+          },
+          // autoSelected: 'zoom',
+        },
       },
       dataLabels: {
         enabled: false,
@@ -375,6 +410,7 @@ class MixedChart extends Component {
       },
 
       yaxis: {
+        decimalsInFloat: 2,
         tickPlacement: 'between',
         // axisTicks: {
         //   show: true,
@@ -402,31 +438,9 @@ class MixedChart extends Component {
           offsetX: 0,
           offsetY: 0,
           rotate: 0,
-          formatter: value => {
-            // if (value <= 1) {
-            //   return value.toFixed(1);
-            // }
-            // console.log(value, 'v');
-            // const roundNumber = Math.round(value);
-            // console.log(convert(roundNumber));
-            //   console.log(convert(roundNumber));
-            // console.log(activeLayer, 'activeLayer');
-            // if (activeLayer === 'Output Indicator 1.4') {
-            //   return value;
-            // }
-
-            return convert(value);
-          },
+          formatter: optionsState.yaxis.labels.formatter,
         },
-        title: {
-          text: 'Income (thousand crores)',
-          style: {
-            color: 'rgb(243, 123, 46)',
-            fontSize: '12px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            // cssClass: 'apexcharts-yaxis-title',
-          },
-        },
+        title: optionsState.yaxis.title,
       },
       // {
       //   seriesName: 'Income',
@@ -499,6 +513,11 @@ class MixedChart extends Component {
           optionsState.tooltip &&
           optionsState.tooltip.y,
       },
+      legend: {
+        show: false,
+        horizontalAlign: 'left',
+        offsetX: 40,
+      },
       //   legend: {
       //     horizontalAlign: 'left',
       //     offsetX: 40,
@@ -507,18 +526,6 @@ class MixedChart extends Component {
     //
     this.setState({ options: optionsVar, series });
   };
-
-  componentDidMount() {
-    this.plotChart();
-    this.updateBarChart();
-
-    const { activeModal } = this.props;
-    if (activeModal) {
-      // this.plotChart();
-      this.updateBarChart();
-    }
-    // this.updateBarChart();
-  }
 
   componentDidUpdate(prevProps, prevState) {
     const { series, optionsState, activeDate } = this.props;
