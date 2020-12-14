@@ -1449,6 +1449,19 @@ class Choropleth extends Component {
       //   countyLegendEl.style.display = 'none';
       // }
     });
+    map.on('zoom', () => {
+      global.markerList.forEach(marker => {
+        let scalePercent = 1 + (map.getZoom() - 8) * 3;
+        // console.log(scalePercent, 'scalePercent');
+        if (scalePercent < 0) {
+          scalePercent = 1;
+        }
+        // console.log(scalePercent, 'After scalePercent');
+        const svgElement = marker.getElement().children[0];
+        svgElement.style.transform = `scale(${scalePercent})`;
+        svgElement.style.transformOrigin = 'bottom';
+      });
+    });
   };
 
   componentDidMount() {
