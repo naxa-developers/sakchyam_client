@@ -120,6 +120,12 @@ class LeftSidebarMain extends Component {
                   const indicatorNumber =
                     data.name.includes('Indicator') &&
                     data.name.split('Indicator')[1].split(' ')[1];
+                  if (
+                    indicatorNumber === '2.3a' ||
+                    indicatorNumber === '2.3b'
+                  ) {
+                    return console.log('error');
+                  }
                   return (
                     <li
                       className={

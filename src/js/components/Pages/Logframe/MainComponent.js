@@ -731,8 +731,14 @@ class MainComponent extends Component {
         sensitivity: 'base',
       });
       b.sort(collator.compare);
+      const filtered23ab = b.filter(
+        subcat =>
+          subcat !== 'Output Indicator 2.3a' &&
+          subcat !== 'Output Indicator 2.3b',
+      );
       //
-      this.allIndicatorCategorySetState(b);
+      console.log(filtered23ab, 'b');
+      this.allIndicatorCategorySetState(filtered23ab);
       // this.props.filterIndicatorGraphData(activeLayer);
     }
   }
@@ -799,6 +805,11 @@ class MainComponent extends Component {
   };
 
   allIndicatorCategorySetState = array => {
+    // const filtered23ab = array.filter(
+    //   subcat =>
+    //     subcat !== 'Output Indicator 2.3a' ||
+    //     subcat !== 'Output Indicator 2.3b',
+    // );
     this.setState({ allIndicatorCategory: array });
   };
 

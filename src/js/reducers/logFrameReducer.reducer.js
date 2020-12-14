@@ -103,6 +103,9 @@ const initialState = {
   indicatorCategory: [],
   logDataGraph: [],
   planned1stPieData: {},
+  subCategoryTitle2_3a: '',
+  subCategoryTitle2_3b: '',
+  // subTitle2_3b: '',
   series: [
     {
       name: 'Achievement',
@@ -126,6 +129,9 @@ const initialState = {
       data: [],
     },
   ],
+  series2_3a: [],
+  series2_3b: [],
+
   options: {
     filteredDynamicData: null,
     labels: [
@@ -156,15 +162,15 @@ const initialState = {
         },
       },
       categories: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
+        // 'Jan',
+        // 'Feb',
+        // 'Mar',
+        // 'Apr',
+        // 'May',
+        // 'Jun',
+        // 'Jul',
+        // 'Aug',
+        // 'Sep',
       ],
       type: 'category',
     },
@@ -303,6 +309,7 @@ const filterIndicatorGraphData = (state, action) => {
     //
     return el.year.name;
   });
+  console.log(category, 'category');
   const totalDateList = filtered.map(el => {
     //
     return el.year;
@@ -541,6 +548,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
   }
 
   const filtered = [];
+  console.log(state.logDataGraph, 'logdatagraph');
   // eslint-disable-next-line array-callback-return
   activeDates.map(date => {
     // eslint-disable-next-line array-callback-return
@@ -642,7 +650,7 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     //
     return [el.year.range];
   });
-
+  console.log(category, 'category');
   const returnedFormat = (x, y) => {
     let Output41 = '';
     if (
@@ -694,6 +702,99 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     }
     return y;
   };
+
+  let series2_3a = [];
+  let series2_3b = [];
+  // let title2_3a;
+  let subTitle2_3a = '';
+  // let title2_3b;
+  let subTitle2_3b = '';
+  if (activeLayer === 'Output Indicator 2.3') {
+    const filtered2_3a = [];
+    const filtered2_3b = [];
+    // console.log(state.logDataGraph, 'logdatagraph');
+    // eslint-disable-next-line array-callback-return
+    activeDates.forEach(date => {
+      // eslint-disable-next-line array-callback-return
+      state.logDataGraph.forEach(data => {
+        if (
+          data.year.range === date &&
+          data.sub_category.name === 'Output Indicator 2.3a'
+        ) {
+          filtered2_3a.push(data);
+          if (subTitle2_3a === '') {
+            subTitle2_3a = data.sub_category.title;
+          }
+        }
+        if (
+          data.year.range === date &&
+          data.sub_category.name === 'Output Indicator 2.3b'
+        ) {
+          filtered2_3b.push(data);
+
+          if (subTitle2_3b === '') {
+            subTitle2_3b = data.sub_category.title;
+          }
+        }
+      });
+    });
+    const planned2_3a = filtered2_3a.map(el => {
+      return `${el.planned_afp}`;
+    });
+    const planned2_3b = filtered2_3b.map(el => {
+      return `${el.planned_afp}`;
+    });
+    const achieved2_3a = filtered2_3a.map(el => {
+      return `${el.achieved}`;
+    });
+    const achieved2_3b = filtered2_3b.map(el => {
+      return `${el.achieved}`;
+    });
+    series2_3a = [
+      {
+        name: 'Target',
+        type: 'column',
+        data: planned2_3a,
+      },
+      {
+        name: 'Achievement ',
+        type: 'column',
+        data: achieved2_3a,
+      },
+      {
+        name: 'Target ',
+        type: 'area',
+        data: planned2_3a,
+      },
+      {
+        name: 'Achievement',
+        type: 'area',
+        data: achieved2_3a,
+      },
+    ];
+    series2_3b = [
+      {
+        name: 'Target',
+        type: 'column',
+        data: planned2_3b,
+      },
+      {
+        name: 'Achievement ',
+        type: 'column',
+        data: achieved2_3b,
+      },
+      {
+        name: 'Target ',
+        type: 'area',
+        data: planned2_3b,
+      },
+      {
+        name: 'Achievement',
+        type: 'area',
+        data: achieved2_3b,
+      },
+    ];
+  }
   //
   //
   //
@@ -728,6 +829,12 @@ const filterIndicatorGraphDataWithDate = (state, action) => {
     ...state,
     filteredDynamicData: filtered,
     series,
+    series2_3a,
+    series2_3b,
+    // title2_3a,
+    subCategoryTitle2_3a: subTitle2_3a ? subTitle2_3a : '',
+    // title2_3b,
+    subCategoryTitle2_3b: subTitle2_3b ? subTitle2_3b : '',
     dateRange:
       activeLayer === 'Output Indicator 1.4'
         ? state.dateRange
