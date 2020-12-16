@@ -753,15 +753,15 @@ class PlotVector extends Component {
                   </div>
                   <p>BLB</p>
                 </li>
-                <li>
+                <li style={{ alignItems: 'start' }}>
                   <div>
                     <div
                       className="circle"
                       style={{
                         background: 'rgb(241 241 117)',
                         border: '1px solid black',
-                        width: '35px',
-                        height: '35px',
+                        width: '30px',
+                        height: '30px',
                       }}
                     >
                       <span>20</span>

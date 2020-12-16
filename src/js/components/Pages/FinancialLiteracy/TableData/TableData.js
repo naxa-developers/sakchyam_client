@@ -228,7 +228,8 @@ class TableData extends Component {
                               <div className="table-head">
                                 <span>
                                   {programList.name !==
-                                  'Other Initiatives'
+                                  'Other Initiatives' && programList.name !==
+                                  'IVR' && programList.name !=="PGT" && programList.name !=="Tab"
                                     ? programList.name
                                     : `${programList.name}*`}
                                 </span>
