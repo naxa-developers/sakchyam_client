@@ -594,9 +594,9 @@ class MainPartnership extends Component {
       container: 'map',
       // style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
       style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
-      center: [84.0, 27.5], // starting position [lng, lat]
+      center: [84.0, 28.5], // starting position [lng, lat]
       preserveDrawingBuffer: true,
-      zoom: 5.8,
+      zoom: 8,
       // starting zoom
     });
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
