@@ -1,6 +1,6 @@
 .goto-sankey {
   position: absolute;
-  top: 0;
+  top: 15px;
   right: 50%;
   cursor: pointer;
 }

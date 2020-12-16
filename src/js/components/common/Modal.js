@@ -108,6 +108,7 @@ const Modal = props => {
     handleShowBarOfInvestmentBudgetBenefBar,
     notificationHandler,
     showBarPartnerChartOf,
+    downloadFn,
   } = props;
   const selectedChartId =
     selectedModal === 'groupedChart'
@@ -411,27 +412,32 @@ const Modal = props => {
                 cursor: 'pointer',
                 zIndex: 9999,
               }}
-              onClick={
-                () => {
-                  notificationHandler();
+              onClick={() => {
+                notificationHandler();
+                if (downloadFn) {
+                  downloadFn();
+                } else {
                   downloadPng(
                     selectedChartId,
                     modalHeader,
                     selectedModal,
                   );
                 }
-
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
+              }}
               onKeyDown={
                 () => {
                   notificationHandler();
-                  downloadPng(
-                    selectedChartId,
-                    modalHeader,
-                    selectedModal,
-                  );
+                  if (downloadFn) {
+                    downloadFn();
+                  } else {
+                    downloadPng(
+                      selectedChartId,
+                      modalHeader,
+                      selectedModal,
+                    );
+                  }
                 }
+
                 // eslint-disable-next-line react/jsx-curly-newline
               }
               role="button"

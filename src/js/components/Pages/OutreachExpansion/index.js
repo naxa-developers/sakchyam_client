@@ -188,6 +188,7 @@ class MainPartnership extends Component {
       style: 'mapbox://styles/mapbox/light-v10',
       center: [84.5, 28.5],
       zoom: 5.8,
+      preserveDrawingBuffer: true,
     });
     this.setState({ map });
   };

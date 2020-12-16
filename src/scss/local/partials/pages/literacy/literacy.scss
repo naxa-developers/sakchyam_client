@@ -218,11 +218,17 @@
   @media screen and (max-width: 1600px) {
     padding-left: 1rem;
 
-    span {
+    span.is-partnership {
       margin-right: 0.6125rem;
       @include flex(0 0 100%);
       max-width: 100%;
       margin-bottom: .5rem;
+    }
+
+    span {
+      margin-right: 0.6125rem;
+      max-width: 100%;
+      // margin-bottom: .5rem;
     }
 
     ul {

@@ -80,6 +80,7 @@ class MiddleChartSection extends Component {
       options: null,
       activeModal: false,
       secondPieChartFilter: 'Milestone Year 1',
+      secondModalState:'',
     };
   }
 
@@ -1152,9 +1153,9 @@ class MiddleChartSection extends Component {
       // eslint-disable-next-line no-param-reassign
       el.style.display = 'none';
     });
-    document
-      .querySelector('.download-dropdown')
-      .classList.remove('active');
+    // document
+    //   .querySelector('.download-dropdown')
+    //   .classList.remove('active');
     const popupEl = document.querySelector(
       chartid ? chartid : '.info-content-wrap',
     );
@@ -1323,7 +1324,9 @@ class MiddleChartSection extends Component {
     // console.log(e.target, 'e');
     this.setState({ secondPieChartFilter: e.target.value });
   };
-
+  openModal=(modalState)=>{
+    this.setState({secondModalState:modalState});
+  }
   render() {
     console.log(this.chartRef && this.chartRef.chart, 'modalRef');
     console.log(
@@ -1352,7 +1355,7 @@ class MiddleChartSection extends Component {
       // activeLine2,
       downloadActive,
       activeModal,
-      secondPieChartFilter,
+      secondPieChartFilter,secondModalState
       // dateRange,
     } = this.state;
     // const settings = {
@@ -1488,6 +1491,65 @@ class MiddleChartSection extends Component {
                     //   this.chartRef = arg;
                     // }}
                   /> */}
+                  </>
+                );
+              }
+              // eslint-disable-next-line react/jsx-curly-newline
+            }
+          />
+        )}
+        {secondModalState !== "" && (
+          <Modal
+            // visible={selectedModal === 'bar' ? true : false}
+            headerTitle={
+              secondModalState === 'output2_3a'?subCategoryTitle2_3a:secondModalState === 'output2_3b'?subCategoryTitle2_3b:""
+            }
+            downloadFn={()=>{secondModalState === 'output2_3a' ? this.downloadPng(
+              '#output2_3a',
+              subCategoryTitle2_3a && subCategoryTitle2_3a,
+            ): secondModalState === 'output2_3b' ? this.downloadPng(
+              '#output2_3b',
+              subCategoryTitle2_3b && subCategoryTitle2_3b,
+            ): this.downloadPng(
+              '#output2_3a',
+              subCategoryTitle2_3a && subCategoryTitle2_3a,
+            )}}
+            notificationHandler={this.props.notificationHandler}
+            // handleShowBarOf={handleShowBarOf}
+            // resetFilters={resetFilters}
+            selectedModal="logframe"
+            handleModal={()=>{this.openModal("")}}
+            activeModal={secondModalState !== ""?true:false}
+            component={
+              () => {
+                // eslint-disable-next-line no-unused-expressions
+                return (
+                  <>
+                    {/* <ModalChart
+                    activeModal={activeModal}
+                    activeDateValues={activeDateValues}
+                    activeLayer={activeLayer}
+                    activeDate={activeDate}
+                    updateChart={updateChart}
+                    series={series}
+                    options={options}
+                    chartModalRef={arg => {
+                      this.chartModalRef = arg;
+                    }}
+                  /> */}
+                    <MixedChart
+                      chartRef={arg => {
+                        this.chartModalRef = arg;
+                      }}
+                      // chartRef={this.mixedChartRef}
+                      activeModal={activeModal}
+                      activeDateValues={activeDateValues}
+                      activeLayer={activeLayer}
+                      activeDate={activeDate}
+                      updateChart={updateChart}
+                      series={secondModalState === 'output2_3a'?series2_3a:secondModalState === 'output2_3b'?series2_3b:series}
+                      optionsState={options}
+                    />
                   </>
                 );
               }
@@ -1823,9 +1885,26 @@ class MiddleChartSection extends Component {
               id="downloadDropdown"
               className="download-icon-image"
               // onClick={this.downloadPng}
-              onClick={this.toggleDownloadDropdown}
-              onKeyPress={this.toggleDownloadDropdown}
+              // onClick={this.toggleDownloadDropdown}
+              // onKeyPress={this.toggleDownloadDropdown}
+              onClick={() => {
+                this.downloadPng(
+                  '.info-content-wrap',
+                  filteredDynamicData &&
+                    filteredDynamicData[0] &&
+                    filteredDynamicData[0].sub_category.title,
+                );
+              }}
+              onKeyPress={() => {
+                this.downloadPng(
+                  '.info-content-wrap',
+                  filteredDynamicData &&
+                    filteredDynamicData[0] &&
+                    filteredDynamicData[0].sub_category.title,
+                );
+              }}
               style={{ right: '37px' }}
+
             >
               {/* <label>Download</label> */}
               <img src={saveAlt} alt="" />
@@ -1852,7 +1931,7 @@ class MiddleChartSection extends Component {
               <img src="../../save_alts.svg" alt="" />
             </a> */}
 
-            <ul
+            {/* <ul
               className={`download-dropdown ${
                 downloadActive ? 'active' : ''
               }`}
@@ -1899,7 +1978,7 @@ class MiddleChartSection extends Component {
                   Download .CSV
                 </a>
               </li>
-            </ul>
+            </ul> */}
             <div className="slider-container">
               {/* <div id="chart" /> */}
               {/* <Slider {...settings}> */}
@@ -1982,18 +2061,18 @@ class MiddleChartSection extends Component {
               <img src={saveAlt} alt="" />
               {/* <i className="fa fa-download" aria-hidden="true" /> */}
             </a>
-            {/* <a
+            <a
               role="tab"
               tabIndex="0"
               // id="downloadDropdown"
               className="download-icon-image"
-              onClick={this.handleModal}
-              onKeyPress={this.handleModal}
+              onClick={()=>{this.openModal('output2_3a')}}
+              onKeyPress={()=>{this.openModal('output2_3a')}}
               // onClick={this.toggleDownloadDropdown}
               // onKeyPress={this.toggleDownloadDropdown}
             >
               <img src={ExpandIcon} alt="open" />
-            </a> */}
+            </a>
 
             {/* <a
               href="#/"
@@ -2103,18 +2182,19 @@ class MiddleChartSection extends Component {
               <img src={saveAlt} alt="" />
               {/* <i className="fa fa-download" aria-hidden="true" /> */}
             </a>
-            {/* <a
+            <a
               role="tab"
               tabIndex="0"
               // id="downloadDropdown"
               className="download-icon-image"
-              onClick={this.handleModal}
-              onKeyPress={this.handleModal}
+              onClick={()=>{this.openModal('output2_3b')}}
+              onKeyPress={()=>{this.openModal('output2_3b')}}
+              // onKeyPress={this.handleModal}
               // onClick={this.toggleDownloadDropdown}
               // onKeyPress={this.toggleDownloadDropdown}
             >
               <img src={ExpandIcon} alt="open" />
-            </a> */}
+            </a>
 
             {/* <a
               href="#/"

@@ -559,7 +559,7 @@ class TableData extends Component {
               <hr />
               {/* <br /> */}
 
-              <p
+              <label
                 className="description"
                 style={{
                   padding: '0px 16px',
@@ -573,7 +573,40 @@ class TableData extends Component {
                 initiatives. Dedicated financial literacy event, door
                 to door campaign, financial literacy conducted in
                 school/college are some examples.
-              </p>
+                
+              </label> 
+              {' '}
+              <label
+                className="description"
+                style={{
+                  padding: '0px 16px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                }}
+              >
+                * IVR: Interactive Voice Response
+              </label> 
+              <label
+                className="description"
+                style={{
+                  padding: '0px 16px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                }}
+              >
+                * PGT: Pregroup Training
+              </label>
+              <label
+                className="description"
+                style={{
+                  padding: '0px 16px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                }}
+              >
+                * Tab: Tablet based literacy
+              </label>
+              
             </div>
           </div>
         </div>
