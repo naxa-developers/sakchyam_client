@@ -760,8 +760,8 @@ class PlotVector extends Component {
                       style={{
                         background: 'rgb(241 241 117)',
                         border: '1px solid black',
-                        width: '30px',
-                        height: '30px',
+                        width: '25px',
+                        height: '25px',
                       }}
                     >
                       <span>20</span>

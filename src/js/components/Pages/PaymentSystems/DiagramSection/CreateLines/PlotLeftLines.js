@@ -6,7 +6,7 @@ const PlotLeftLines = ({
   // dimension: { height, width },
 }) => {
   return (
-    <svg height="100%" width="100%">
+    <svg height="700" width="700">
       <defs>
         <marker
           id="arrowhead"

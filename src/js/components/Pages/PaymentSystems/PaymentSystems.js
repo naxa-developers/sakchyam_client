@@ -19,11 +19,15 @@ const downloadPng = chartid => {
   );
   downloadIcon.style.display = 'none';
   LeftCardZIndex.style.zIndex = '-1';
-
+  const element = document.querySelector(`.${chartid}`);
+  const useWidth = element.offsetWidth;
+  const useHeight = element.offsetHeight;
   setTimeout(() => {
-    html2canvas(document.querySelector(`.${chartid}`), {
+    html2canvas(element, {
       allowTaint: true,
-      scale: 5,
+      scale: 1,
+      // width: useWidth,
+      height: useHeight,
     }).then(canvas => {
       canvas.toBlob(function(blob) {
         saveAs(blob, 'payment_systems.png');
