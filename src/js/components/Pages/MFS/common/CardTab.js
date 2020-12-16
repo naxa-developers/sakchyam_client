@@ -10,6 +10,49 @@ import { resetBarDatas } from '../../../../actions/partnership.actions';
 import FilterTab from './FilterTab';
 import FilterBadge from './FilterBadge';
 
+const downloadPngMap = (chartid, filename) => {
+  // console.log('called');
+  const chartLabel = document.querySelector('.chart-label');
+  const icons = document.querySelectorAll('.widget-icon');
+
+  if (icons) {
+    icons.forEach(el => {
+      // eslint-disable-next-line no-param-reassign
+      el.style.display = 'none';
+    });
+  }
+
+  if (chartLabel) {
+    chartLabel.style.display = 'block';
+  }
+  const chartEl = document.querySelector(`#${chartid}`);
+  const actualCalHeightOfMap = 'calc(100vh - 74px)';
+  chartEl.style.height = '1200px';
+  const useWidth = chartEl.scrollWidth;
+  // const useHeight = chartEl.scrollHeight;
+  setTimeout(() => {
+    html2canvas(chartEl, {
+      scale: 3,
+      allowTaint: true,
+      width: useWidth,
+      // height: useHeight,
+    }).then(canvas => {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, `${filename}.png`);
+      });
+      chartEl.style.height = actualCalHeightOfMap;
+      if (chartLabel) {
+        chartLabel.style.display = 'none';
+      }
+      if (icons) {
+        icons.forEach(el => {
+          // eslint-disable-next-line no-param-reassign
+          el.style.display = 'block';
+        });
+      }
+    });
+  }, 10);
+};
 const downloadPng = (chartid, imageTitle) => {
   document.querySelectorAll('.download-span').forEach(el => {
     // eslint-disable-next-line no-param-reassign
@@ -272,11 +315,11 @@ const CardTab = ({
                 className="download-span"
                 onClick={() => {
                   notificationHandler();
-                  downloadPng(cardChartId, modalHeader);
+                  downloadPngMap(cardChartId, modalHeader);
                 }}
                 onKeyDown={() => {
                   notificationHandler();
-                  downloadPng(cardChartId, modalHeader);
+                  downloadPngMap(cardChartId, modalHeader);
                 }}
                 role="button"
                 tabIndex="-1"

@@ -753,6 +753,23 @@ class PlotVector extends Component {
                   </div>
                   <p>BLB</p>
                 </li>
+                <li>
+                  <div>
+                    <div
+                      className="circle"
+                      style={{
+                        background: 'rgb(241 241 117)',
+                        border: '1px solid black',
+                        width: '35px',
+                        height: '35px',
+                      }}
+                    >
+                      <span>20</span>
+                    </div>
+                    {/* <img src={Others} /> */}
+                  </div>
+                  <p>Point of Service (Clusters)</p>
+                </li>
               </ul>
             </div>
           )}

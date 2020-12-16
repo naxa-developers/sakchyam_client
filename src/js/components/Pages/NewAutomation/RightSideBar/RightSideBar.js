@@ -6,6 +6,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 import ExpandIcon from '../../../../../img/open_in_full-black-18dp.png';
 import DownloadIcon from '../../../../../img/get_app.png';
 import {
@@ -70,6 +72,50 @@ class RightSideBar extends Component {
       }
     }
   }
+
+  downloadPngMap = (chartid, filename) => {
+    // console.log('called');
+    const chartLabel = document.querySelector('.chart-label');
+    const icons = document.querySelectorAll('.widget-icon');
+
+    if (icons) {
+      icons.forEach(el => {
+        // eslint-disable-next-line no-param-reassign
+        el.style.display = 'none';
+      });
+    }
+
+    if (chartLabel) {
+      chartLabel.style.display = 'block';
+    }
+    const chartEl = document.querySelector(`#${chartid}`);
+    const actualCalHeightOfMap = 'calc(100vh - 74px)';
+    chartEl.style.height = '800px';
+    const useWidth = chartEl.scrollWidth;
+    // const useHeight = chartEl.scrollHeight;
+    setTimeout(() => {
+      html2canvas(chartEl, {
+        scale: 5,
+        allowTaint: true,
+        width: useWidth,
+        // height: useHeight,
+      }).then(canvas => {
+        canvas.toBlob(function(blob) {
+          saveAs(blob, `${filename}.png`);
+        });
+        chartEl.style.height = actualCalHeightOfMap;
+        if (chartLabel) {
+          chartLabel.style.display = 'none';
+        }
+        if (icons) {
+          icons.forEach(el => {
+            // eslint-disable-next-line no-param-reassign
+            el.style.display = 'block';
+          });
+        }
+      });
+    }, 10);
+  };
 
   render() {
     const {
@@ -476,10 +522,10 @@ class RightSideBar extends Component {
           <button
             type="button"
             onClick={() => {
-              downloadPng('map', 'Automation Map');
+              this.downloadPngMap('map', 'Automation Map');
             }}
             onKeyPress={() => {
-              downloadPng('map', 'Automation Map');
+              this.downloadPngMap('map', 'Automation Map');
             }}
             className="common-button is-clear close-all"
           >

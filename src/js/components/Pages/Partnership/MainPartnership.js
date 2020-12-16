@@ -2025,7 +2025,7 @@ class MainPartnership extends Component {
                   </div>
                 </div>
                 <div className="partnership-tab">
-                  <span>view data by</span>
+                  <span className="is-partnership">view data by</span>
                   <ul>
                     {activeView === 'visualization' ? (
                       <>
