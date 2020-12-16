@@ -437,6 +437,10 @@
         }
 
         .table-card-body {
+          #view_automation_table{
+            max-height: calc(100vh - 195px);
+            overflow-y: auto;
+          }
           .automation-table {
             background-color: $white-color;
             position: relative;
