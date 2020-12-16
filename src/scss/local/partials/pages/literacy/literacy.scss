@@ -498,8 +498,15 @@
       }
 
       &:not(:first-child) {
-        margin-left: 1rem;
+        // margin-left: 1rem;
+        margin-top: 5px;
       }
+      @media screen and (min-width: 1400px) {
+        &:not(:first-child) {
+          margin-left: 1rem;
+          // margin-top: 5px;
+        }
+    }
     }
 
     .color-list.partnership-legend {

@@ -226,7 +226,7 @@ class TableData extends Component {
                               }}
                             >
                               <div className="table-head">
-                                <span>
+                                <span style={programList.name === 'PGT'? {width: "46px"}:{ }}>
                                   {programList.name !==
                                   'Other Initiatives' && programList.name !==
                                   'IVR' && programList.name !=="PGT" && programList.name !=="Tab"
