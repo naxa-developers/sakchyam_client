@@ -337,7 +337,10 @@ class TableViewComponent extends Component {
           </div>
         </div>
         <div className="table-card-body">
-          <div className="table-responsive automation-table">
+          <div
+            className="table-responsive automation-table"
+            id="view_automation_table"
+          >
             <table className="table" id="table_id">
               <thead>
                 <tr>
