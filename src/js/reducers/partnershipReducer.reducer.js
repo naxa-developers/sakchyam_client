@@ -1566,6 +1566,7 @@ const filterTimelineData = (state, action) => {
   const timelineData = allData.filter(
     item => item.date > min && item.date < max,
   );
+  // console.log(timelineData, 'timelineData');
   function getPartnerCount({ id, type }) {
     const filteredData = timelineData
       .filter(item => item[type] === id)
@@ -1606,6 +1607,7 @@ const filterTimelineData = (state, action) => {
       name,
       count: getPartnerCount({ id, type: 'province_id' }),
     }));
+    // console.log(fedData, 'fedData');
   }
   // console.log(fedData, 'filteredTimelineData');
   return {
