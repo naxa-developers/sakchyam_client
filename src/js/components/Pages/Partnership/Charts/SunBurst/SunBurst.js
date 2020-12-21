@@ -370,7 +370,7 @@ class Sunburst extends React.Component {
             // });
 
             // node.forEach(d=>{console.log(d)});
-            console.log(i, 'i');
+            // console.log(i, 'i');
             this._onClick(node);
             this.props.onClick && this.props.onClick(node);
             this._update(node);
@@ -502,7 +502,7 @@ class Sunburst extends React.Component {
           .append('text')
           .attr('x', 18)
           .attr('y', (_, i) => 10 + i * 20)
-          .text(d => {console.log(d) 
+          .text(d => { 
             return d.data.name})
           .attr('text-anchor', 'left')
           .style('alignment-baseline', 'middle')

@@ -130,7 +130,7 @@ district.map(data => {
     },
     properties: {
       name: data.name,
-      id: data.gid,
+      id: data.districtid,
       code: data.districtid,
     },
   });
@@ -148,7 +148,7 @@ municipality.map(data => {
     },
     properties: {
       name: data.lu_name,
-      id: data.gid,
+      id: data.munid,
       code: data.munid,
       allocated_beneficiary: 0,
       allocated_budget: 0,
@@ -272,11 +272,16 @@ class Choropleth extends Component {
   setChoroplethStyle(values) {
     //
     //
+    // console.log(values, 'values');
     const expression = ['match', ['get', 'code']];
     values.forEach(value => {
       // console.log(value, 'value');
       const color = this.getLegendColor(value.count);
-      expression.push(value.code.toString(), color);
+      if (value.code) {
+        expression.push(value.code.toString(), color);
+      } else {
+        expression.push(value.id.toString(), color);
+      }
     });
 
     // const data = this.props.choroplethData;
@@ -852,10 +857,19 @@ class Choropleth extends Component {
         }
       });
       map.on('mousemove', 'vector-tile-fill', function(e) {
+        // console.log(that.props.choroplethData);
+        // console.log(e.features[0].properties.id);
+
         const filteredCodeData = that.props.choroplethData.filter(
           data => {
+            if (data.code) {
+              return (
+                parseInt(data.code, 10) ===
+                parseInt(e.features[0].properties.code, 10)
+              );
+            }
             return (
-              parseInt(data.code, 10) ===
+              parseInt(data.id, 10) ===
               parseInt(e.features[0].properties.code, 10)
             );
           },
