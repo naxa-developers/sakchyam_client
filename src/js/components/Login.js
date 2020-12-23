@@ -284,8 +284,8 @@ class Login extends Component {
                       <div className="login-header">
                         <h2>Log in</h2>
                         <span className="span_book_15">
-                          Please log in to your account using email &
-                          password.
+                          Please log in to your account using Username
+                          & Password.
                         </span>
                       </div>
 
@@ -298,7 +298,7 @@ class Login extends Component {
                             htmlFor="inputEmail"
                             className="span_heavy_15"
                           >
-                            Email
+                            Username
                           </label>
                           <input
                             type="text"

@@ -60,7 +60,7 @@ export const loginUser = data => dispatch => {
           });
       })
       .catch(() => {
-        alert('login error');
+        alert('Provided Username or Password is Incorrect.');
         return dispatch({
           type: LOGIN_USER_FAILED,
           // payload: result.data,
