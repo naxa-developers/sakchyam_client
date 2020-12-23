@@ -206,6 +206,7 @@ class Header extends Component {
                     Contact
                   </a>
                 </li>
+
                 {permissions && permissions[0].email ? (
                   ''
                 ) : (
@@ -220,6 +221,7 @@ class Header extends Component {
                 <div
                   className="profile-img dropdown"
                   id="profile_dropdown"
+                  style={{ textAlign: 'center' }}
                 >
                   <a
                     className="log-out dropdown_toggle"
@@ -237,6 +239,11 @@ class Header extends Component {
                       <img src={PpImage} alt="ppimage" />
                     )}
                   </a>
+                  <li>
+                    <span style={{ color: '#D9002A' }}>
+                      {permissions && permissions[0].name}
+                    </span>
+                  </li>
                   <ul
                     className={`dropdown_menu ${
                       activeProfileDropdown ? 'active' : ''
