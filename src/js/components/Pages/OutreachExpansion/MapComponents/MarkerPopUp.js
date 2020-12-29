@@ -63,7 +63,7 @@ export default function MunicipalityPopUp(props) {
           </div>
           <div className="map-popup-footer">
             <ul className="communication">
-              <li>
+              {/* <li>
                 <i
                   className={
                     dEffect
@@ -74,7 +74,7 @@ export default function MunicipalityPopUp(props) {
                   {dEffect ? 'check_circle' : 'cancel'}
                 </i>
                 <span>Demonstration Effect</span>
-              </li>
+              </li> */}
               <li>
                 <i
                   className={
