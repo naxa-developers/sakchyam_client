@@ -232,8 +232,8 @@ class Header extends Component {
                   >
                     {permissions[0].image ? (
                       <img
-                        width="35px"
-                        src={`https://sakchyam.naxa.com.np${permissions[0].image}`}
+                        width="34px"
+                        src={`${process.env.PUBLIC_URL}${permissions[0].image}`}
                         alt="ppimage"
                       />
                     ) : (
