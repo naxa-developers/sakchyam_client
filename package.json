@@ -89,7 +89,7 @@
     "@nivo/sankey": "^0.62.0",
     "@nivo/treemap": "^0.62.0",
     "apexcharts": "^3.19.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "canvas2image": "^1.0.5",
     "core-js": "^2.5.7",
