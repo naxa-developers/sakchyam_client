@@ -101,7 +101,7 @@
     "html2canvas": "^1.0.0-rc.1",
     "html2canvas-render-offscreen": "0.0.3",
     "html2canvasNew": "npm:html2canvas@^1.0.0-rc.7",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "mapbox-gl": "^1.10.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
